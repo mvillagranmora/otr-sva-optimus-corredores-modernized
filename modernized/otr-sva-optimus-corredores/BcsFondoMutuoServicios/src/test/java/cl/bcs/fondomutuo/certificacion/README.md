@@ -81,3 +81,63 @@ py -3 -I canary_cer.py nuevo <copia-del-modulo>     # mutaciones de la implement
   insercion; HANA no lo garantiza.
 * El comportamiento real de los colaboradores no portados (custodia, cuenta de inversion, Tesoreria, Spot, Facturacion, notificaciones): solo dobles registrados con respuestas benignas.
 * La parte de F-C / F-D / F-J que decide el primer colaborador y el rechazo por saldo esta reescrita en `CerCostura` solo para LEER la costura; T2..T5 la implementan y la fijan.
+
+---
+
+# Tanda T2 (F3 W3, Step 1: rojo antes de codigo): frentes F-C (aportes) y F-D (rescates: custodia y costos)
+
+Mismas reglas de la seccion 12 de `RULES_FONDOMUTUO_F3_B.md`: **F-C** = FM-CER-21, 22, 24..28 (saldo de la cuenta de inversion PAC / no PAC, costo UF de la reinversion, custodia de ingreso, cartera y rentabilidad real; el formato
+FM-CER-23 de los aportes se ve justo despues del saldo) y **F-D** = FM-CER-31..41 (custodia disponible, rescate total, GeneraSpot, traspaso, retencion APV, comision, retiro de custodia, rescate sin cartera, costo UF / spread /
+rentabilidad). Defectos D-F3B-01/03/05/06/08/09/10/11 y el nuevo D-F3B-37 (notas, "F3 W3 T2 (pruebas)"). La API que suponen las pruebas esta en `API_ASSUMED_T2.md`; T1 (`API_ASSUMED.md`) no se toco.
+**No hay codigo de produccion de T2 en `src/main`**: las pruebas COMPILAN (las clases nuevas se alcanzan por reflexion en `ApiT2`) y FALLAN con `T2 not implemented: the production class ... does not exist yet`.
+
+## La costura de T2
+
+El gancho de T1 (`CertificarAporteRescateFasesPosteriores`, justo despues de F-B) no cambia. El arnes (`CasoCerT2`) corre la fachada de T1 REAL y, en el gancho, ejecuta los CINCO pasos de F-C y F-D sobre el
+`CertificarAporteRescateContexto` (`validarSaldo`, `prepararRescates`, `recalcularCostoUF`, `ingresarCustodia`, `retirarCustodiaYCostear`: el orden del legacy, que intercala los dos frentes y deja entre el tercero y el
+cuarto la cuenta de inversion de los aportes, frente E) y despues lanza `ParadaT2`. Los colaboradores no portados (`SaldoFlujoCaja`, `CalculaCustodiaRescate`, `ProcesarCustodiaFondoMutuo`) quedan detras de puertos (los dos
+ultimos nuevos, sin implementacion de produccion: compuerta `G-CUS` cerrada) y los responde el guion del caso, como los dobles registrados del oraculo.
+
+| Tipo de caso | Que grabo el legacy (sin modificar, sobre H2) | Que compara la prueba |
+|---|---|---|
+| `T2-costura:completo` | la corrida entera con colaboradores benignos despues de F-D | las llamadas a los colaboradores de F-C / F-D (nombre, argumentos COMPLETOS, respuesta, orden; numeros por valor), la salida (estado, codigo, descripcion, contador, mensajes), las columnas del UPDATE a CRT y el pojo que copian Tesoreria / Spot (GeneraSpot, RelacionTraspaso, retencion, montos con decimales exactos) |
+| `T2-costura:excepcion` | el legacy LANZA dentro de F-C / F-D (NPE del legacy, un colaborador que falla) | la misma clase de excepcion (el mensaje si es `Exception` simple) tras las mismas llamadas |
+| `T2-costura:excepcion-posterior` | termina F-C / F-D y lanza en un frente posterior (UPDATE, Tesoreria) | F-C / F-D terminan sin error y hacen las mismas llamadas |
+
+## Archivos nuevos
+
+| Archivo | Papel |
+|---|---|
+| `ApiT2` | el UNICO sitio que conoce los nombres de la API de produccion (reflexion); falla con "T2 not implemented" |
+| `CasoCerT2` | arma el H2 del caso (`fondomutuo-cer/cases-t2/`), corre T1 + los cinco pasos y devuelve contexto, llamadas y tablas |
+| `ParadaT2` | la parada conocida de la costura T2 |
+| `CerCosturaT2` | la comparacion de un caso contra su golden (el lente descrito arriba) |
+| `CerT2EquivalenciaTest` | los casos contra su golden; imprime `equivalence cases executed: N of M` y falla si N = 0 o si algun caso no se comparo |
+| `CerT2DeterminismoTest` | N = 20 corridas (`-Dcer.corridas=N`) de los casos con varias solicitudes |
+| `CerT2ReglasTest` | cada tarjeta y defecto con valores LITERALES leidos del golden (una linea marca las pocas reglas que el golden no muestra) |
+| `CerT2CompuertaTest` | puertos de un solo metodo, sin implementacion de produccion, G3 / G-CUS cerradas por defecto, unidades sin escritura ni estado, integridad de la evidencia (proveniencia, matriz, etiquetas, numeracion, RULE-076) |
+| `API_ASSUMED_T2.md` | la API de produccion supuesta y la definicion de la costura |
+
+## Como correrlas y como re-grabar el oraculo (desde `analysis/otr-sva-optimus-corredores/equivalence/BcsFondoMutuoServicios/`)
+
+```
+mvn -o test -Dtest='CerT2*Test'                     # 4 clases; hoy en rojo por ausencia de implementacion
+py -3 -I make_cases_cer_t2.py                       # escribe cases-cer-t2/FMM-CER-199_slug/{case.json,seed.sql} y seed/base-cer-t2.sql (NUNCA los goldens)
+legacy-oracle/record_cer_t2.sh FMM-CER              # graba expected.json con el legacy sin modificar, 20 corridas por caso (determinism-cer-t2.txt); un caso inestable queda SIN golden (salida 4)
+py -3 -I legacy-oracle/check_cer_t2.py              # la etiqueta de cada caso concuerda con su golden; todos estables
+py -3 -I legacy-oracle/sync_cer_t2.py               # copia casos, semilla y reporte a src/test/resources/fondomutuo-cer/
+```
+Un caso nuevo = una llamada `caso("slug", ["FM-CER-nn", "D-F3B-nn", "matriz:Cnn"], entrada([3001, ...]), seed=[...], custodia=..., saldo=..., calcula=..., paridad=[...], colaboradores=..., excepcion=False|True|"posterior",
+front="F-C"|"F-D")` en `cases_cer_t2_c.py` / `cases_cer_t2_d.py` (los ayudantes `ap`, `reinv`, `origen`, `mov`, `err`, `resp_custodia`, `res_custodia`, `calcula_custodia`, `saldo_por_uso`, `paridad_uf`, `paridad_utm`,
+`paridad_comision` estan en `cases_cer_t2.py`). Los casos nuevos se agregan AL FINAL para no renumerar.
+
+## Lo que no se puede probar aqui (limites declarados, ademas de los de T1)
+
+* `Spread` y `ParidadFechaCertificacion`: H2 tipa como INTEGER el parametro de `CASE ... THEN :Spread ELSE 0` / `COALESCE(:Paridad, 0)` y los redondea al escribir el UPDATE; HANA los conserva. La prueba compara el `Spread` del UPDATE con
+  tolerancia de 0,5 y el EXACTO en el pojo que reciben Tesoreria / Spot (por eso los rescates de los casos de F-D se pagan por un medio distinto de `CIN`).
+* El centinela de fecha `0001-01-01` (`FechaOriginalInversion`) se lee en H2 como `0001-01-03` (cambio de calendario juliano / gregoriano): la comparacion del legacy con `"0001-01-01"` no lo reconoce bajo H2; HANA depende del driver.
+  Dos casos fijan ambas ramas (el segundo siembra `0000-12-30`, que H2 imprime como `0001-01-01`).
+* El comportamiento real de `CalculaCustodiaRescate` y `ProcesarCustodiaFondoMutuo` (custodia), `SaldoFlujoCaja`, `CalcularParidad`: solo dobles con respuestas guionadas por caso.
+* `parallelStream` del legacy sobre una misma conexion (D-F3B-06): el orden lo fija cada elemento y los 20 repeticiones salieron identicas; la carrera de la conexion compartida no es reproducible aqui.
+* Lo que el golden no muestra en ninguna llamada ni columna del UPDATE (p. ej. `TieneMontoRetencion` de un rescate que se paga a la cuenta de inversion, `RelacionTraspaso` de un rescate rechazado por custodia): `CerT2ReglasTest` lo fija con el
+  valor de la regla y lo marca "(rule; the golden does not show it)".

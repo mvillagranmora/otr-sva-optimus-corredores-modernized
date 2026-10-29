@@ -1,0 +1,252 @@
+{
+  "servicio": "CertificarSolicitudAporteRescate",
+  "ref": [
+    "FM-CER-37",
+    "FM-CER-35",
+    "D-COM-1",
+    "matriz:C23",
+    "front:F-D",
+    "T2-costura:completo"
+  ],
+  "esquemasExtra": [
+    "schema-cer.sql",
+    "seed/base-cer.sql",
+    "seed/base-cer-t2.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "N",
+    "p_FechaCertificacion": "2026-03-02",
+    "p_Solicitudes": [
+      {
+        "IdSolicitudAporteRescate": 3001
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.LogCertificacionAporteRescate",
+      "orden": "\"IdLogCertificacionAporteRescate\""
+    }
+  ],
+  "colaboradores": {
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 3001,
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FM",
+            "IdInstrumento": 900,
+            "Nemotecnico": "FM001A",
+            "Precio": 1500.1234,
+            "CodigoFuente": "OTR",
+            "FechaFuente": "2026-03-02 00:00:00.000",
+            "IdMoneda": "CLP"
+          }
+        ]
+      }
+    },
+    "ProcesarCustodiaFondoMutuo": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_Movimientos.0.IdTipoOperacion": "APORFM"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_MOVIMIENTOS": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_Movimientos.0.IdRegimenTributario": ""
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_MOVIMIENTOS": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_Movimientos.0.IdTipoOperacion": "RESCFM"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_MOVIMIENTOS": [
+              {
+                "IdGenerarMovimientoCustodia": 3001,
+                "TablaOrigen": "CUS.Cartera",
+                "FolioCustodia": 8001,
+                "IdCustodia": 12001,
+                "Cantidad": 1,
+                "CostoInversionEnFactorAjusteARetirar": 10.5,
+                "ValorFactorAjusteaFechaCurseARetirar": 39000.5,
+                "CostoInversionEnFactorAjusteOriginal": 10.5,
+                "CostoInversionEnFactorAjusteActual": 10.5,
+                "ValorFactorOriginal": 39000.5,
+                "ValorFactorARetirar": 39000.5,
+                "MontoCompraFactorOriginal": 2.5,
+                "MontoCompraFactorARetirar": 2.5,
+                "MontoCompraFactorActual": 2.5
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_MOVIMIENTOS": []
+      }
+    },
+    "CalculaCustodiaRescate": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADO": [
+          {
+            "IdSolicitudAporteRescate": 3001,
+            "Estado": "APD",
+            "CantidadDisponible": 1000000
+          }
+        ]
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1,
+            "0.p_CalculosEntrada.0.IdInterno": 15006
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 15006,
+                "MontoDestino": 19998,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 15007,
+                "MontoDestino": 19998,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 15008,
+                "MontoDestino": 1,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 15009,
+                "MontoDestino": 1,
+                "Resultado": "OK"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 1,
+                "MontoDestino": 66000,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 2,
+                "MontoDestino": 66000,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 3,
+                "MontoDestino": 66000,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 4,
+                "MontoDestino": 66000,
+                "Resultado": "OK"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 12005,
+                "MontoDestino": 1000000.0,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 12006,
+                "MontoDestino": 25.6407,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 12007,
+                "FactorOrigenDestino": 39000.5,
+                "MontoDestino": 39000.5,
+                "Resultado": "OK"
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    },
+    "SaldoFlujoCaja": {
+      "defecto": {
+        "P_OUT_FLUJOCAJA": []
+      }
+    },
+    "ConsultarFlujoCustodia": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "p_out_FlujoDetallado": [
+          {
+            "IdCliente": 100,
+            "IdPortafolio": 500,
+            "IdInstrumento": 900,
+            "Cantidad": 5000,
+            "PrecioCompra": 1500,
+            "IdConcepto": "APORFM",
+            "FechaOrigenCompra": "2026-02-10 00:00:00.000",
+            "FechaOperacion": "2026-02-09 00:00:00.000"
+          }
+        ]
+      }
+    }
+  }
+}
