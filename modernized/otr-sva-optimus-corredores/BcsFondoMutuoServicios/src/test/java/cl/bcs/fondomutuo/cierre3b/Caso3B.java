@@ -146,7 +146,7 @@ public final class Caso3B {
         Path base = base();
         JsonObject caso = leer(dir.resolve("case.json"));
         String url = "jdbc:h2:mem:n3b" + UUID.randomUUID().toString().replace("-", "") + ";MODE=LEGACY;DB_CLOSE_DELAY=-1";
-        try (Connection raw = DriverManager.getConnection(url, "sa", "")) {
+        try (Connection raw = cl.bcs.fondomutuo.BdEfimeraH2.abrir(url)) {
             for (String f : new String[] { "schema-types.sql", "schema-fmm.sql", "schema-keys.sql", "schema-session.sql", "seed/base-fmm.sql" }) {
                 script(raw, base.resolve(f));
             }

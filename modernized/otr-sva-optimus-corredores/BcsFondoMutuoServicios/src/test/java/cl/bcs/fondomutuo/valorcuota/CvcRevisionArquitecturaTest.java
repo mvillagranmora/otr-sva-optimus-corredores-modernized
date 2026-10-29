@@ -99,7 +99,7 @@ class CvcRevisionArquitecturaTest {
     @AfterEach
     void cerrar() throws SQLException {
         servicioLog.detachAppender(appender);
-        lector.close();
+        cl.bcs.fondomutuo.BdEfimeraH2.cerrar(lector);
     }
 
     private DataSource ds() {

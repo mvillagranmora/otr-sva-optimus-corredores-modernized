@@ -76,7 +76,7 @@ class CvcAnfitrionTest {
 
     @AfterEach
     void cerrar() throws SQLException {
-        lector.close();
+        cl.bcs.fondomutuo.BdEfimeraH2.cerrar(lector);
     }
 
     /** Every connection of the pool is the same H2 database seen through the HANA emulation of the harness (CURRENT_UTCTIMESTAMP, sequences); commit / rollback are real. */

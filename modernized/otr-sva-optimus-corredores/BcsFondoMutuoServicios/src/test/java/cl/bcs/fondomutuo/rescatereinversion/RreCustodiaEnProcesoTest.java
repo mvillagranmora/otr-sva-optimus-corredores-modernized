@@ -84,7 +84,7 @@ class RreCustodiaEnProcesoTest {
         Path base = CasoRre.recursos();
         JsonObject caso = CasoRre.leer(dir.resolve("case.json"));
         String url = "jdbc:h2:mem:rrecus" + UUID.randomUUID().toString().replace("-", "") + ";MODE=LEGACY;DB_CLOSE_DELAY=-1";
-        try (Connection raw = DriverManager.getConnection(url, "sa", "")) {
+        try (Connection raw = cl.bcs.fondomutuo.BdEfimeraH2.abrir(url)) {
             for (String f : ESQUEMA) CasoRre.script(raw, Files.readString(base.getParent().resolve("fondomutuo-3a").resolve(f), StandardCharsets.UTF_8));
             for (JsonElement e : caso.getAsJsonArray("esquemasExtra")) CasoRre.script(raw, Files.readString(base.resolve(e.getAsString()), StandardCharsets.UTF_8));
             EsquemaCustodiaFusionado.aplicar(raw);

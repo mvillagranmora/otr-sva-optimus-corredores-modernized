@@ -168,7 +168,7 @@ public final class CasoSfm {
         JsonObject caso = leer(dir.resolve("case.json"));
         String servicio = caso.get("servicio").getAsString();
         String url = "jdbc:h2:mem:sfm" + UUID.randomUUID().toString().replace("-", "") + ";MODE=LEGACY;DB_CLOSE_DELAY=-1";
-        try (Connection raw = DriverManager.getConnection(url, "sa", "")) {
+        try (Connection raw = cl.bcs.fondomutuo.BdEfimeraH2.abrir(url)) {
             esquema(raw, caso);
             if (Files.exists(dir.resolve("seed.sql"))) script(raw, Files.readString(dir.resolve("seed.sql"), StandardCharsets.UTF_8));
             raw.commit();

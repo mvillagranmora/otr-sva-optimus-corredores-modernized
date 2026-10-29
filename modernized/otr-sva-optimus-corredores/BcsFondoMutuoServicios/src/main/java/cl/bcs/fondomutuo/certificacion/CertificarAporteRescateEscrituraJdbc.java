@@ -3,11 +3,19 @@ package cl.bcs.fondomutuo.certificacion;
 import java.util.List;
 
 import cl.bcs.fondomutuo.adapter.out.jdbc.ConexionUnidadDeTrabajo;
+import cl.bcs.fondomutuo.adapter.out.jdbc.SqlRecursos;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.LogFila;
+import cl.bcs.fondomutuo.requisitos.SqlLote;
 
-/* RED SKELETON (F3 W3, T1 CER): the compiling shape the characterization tests expect (API_ASSUMED.md). The behaviour is NOT written yet: every entry point
- * fails closed with UnsupportedOperationException, so the CER tests are red until Step 2 replaces this body. Not registered as a bean, no handler, no list. */
+/**
+ * {@link CertificarAporteRescateEscritura} over the legacy INSERT of the log. The SQL file is the legacy one byte for byte; only in memory the single sequence
+ * token is replaced by the parameter that carries the id taken from the sequence port.
+ */
 public class CertificarAporteRescateEscrituraJdbc implements CertificarAporteRescateEscritura {
+
+    private static final String TOKEN_SECUENCIA = "\"BSCL.FondoMutuo.BD.Secuencias::LogCertificacionAporteRescate\".NEXTVAL";
+    private static final String SQL_INSERT_LOG = SqlRecursos.modulo("AgregarLogCertificacionAporteRescate_InsertLogCertificacion.sql")
+            .replace(TOKEN_SECUENCIA, ":IdLogCertificacionAporteRescate");
 
     private final ConexionUnidadDeTrabajo conexion;
 
@@ -17,6 +25,9 @@ public class CertificarAporteRescateEscrituraJdbc implements CertificarAporteRes
 
     @Override
     public void insertarLog(List<LogFila> filas) {
-        throw new UnsupportedOperationException("CertificarAporteRescateEscrituraJdbc.insertarLog: not written yet (F3 W3 T1, Step 2)");
+        if (filas.isEmpty()) {
+            return;
+        }
+        conexion.usar(con -> SqlLote.ejecutar(con, SQL_INSERT_LOG, filas));
     }
 }

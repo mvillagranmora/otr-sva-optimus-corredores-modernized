@@ -137,7 +137,7 @@ final class EntornoCustodia implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        otraSesion.close();
+        cl.bcs.fondomutuo.BdEfimeraH2.cerrar(otraSesion);
     }
 
     static JsonObject entrada(Path caso) {

@@ -1,8 +1,12 @@
 package cl.bcs.fondomutuo.certificacion;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cl.bcs.fondomutuo.adapter.out.jdbc.ConexionUnidadDeTrabajo;
+import cl.bcs.fondomutuo.adapter.out.jdbc.SqlNombrado;
+import cl.bcs.fondomutuo.adapter.out.jdbc.SqlRecursos;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.ComprobanteNoLiquidado;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Estado;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.IndicadorPortafolio;
@@ -11,9 +15,17 @@ import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Persona;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.SolicitudProceso;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Traspaso;
 
-/* RED SKELETON (F3 W3, T1 CER): the compiling shape the characterization tests expect (API_ASSUMED.md). The behaviour is NOT written yet: every entry point
- * fails closed with UnsupportedOperationException, so the CER tests are red until Step 2 replaces this body. Not registered as a bean, no handler, no list. */
+/** {@link CertificarAporteRescateDatos} (no bean until T5) over the legacy SQL, verbatim (no ORDER BY added: the row order is the engine's). */
 public class CertificarAporteRescateDatosJdbc implements CertificarAporteRescateDatos {
+
+    private static final String SQL_SELECT_SOLICITUDES = SqlRecursos.modulo("CertificarSolicitudAporteRescate_SelectSolicitudes.sql");
+    private static final String SQL_SELECT_ESTADOS = SqlRecursos.modulo("CertificarSolicitudAporteRescate_SelectEstados.sql");
+    private static final String SQL_SELECT_COMPROBANTES_NO_LIQUIDADOS = SqlRecursos.modulo("CertificarSolicitudAporteRescate_SelectComprobantesNoLiquidados.sql");
+    private static final String SQL_SELECT_TRASPASO_APV_ASOCIADO = SqlRecursos.modulo("CertificarSolicitudAporteRescate_ConsultaTraspasoAPVAsociado.sql");
+    private static final String SQL_SELECT_TRASPASO_NO_APV_ASOCIADO = SqlRecursos.modulo("CertificarSolicitudAporteRescate_ConsultaTraspasoNoAPVAsociado.sql");
+    private static final String SQL_SELECT_PERSONA = SqlRecursos.modulo("CertificarSolicitudAporteRescate_SelectPersonaPreferenciaPagoTGR.sql");
+    private static final String SQL_SELECT_INDICADORES_PORTAFOLIO_FFMM = SqlRecursos.modulo("ComunesSolicitudes_SelectIndicadoresPortafolioFFMM.sql");
+    private static final String SQL_SELECT_PARAMETRO_OPERA_CON_SALDO_NEGATIVO = SqlRecursos.modulo("CrearSolicitudAporteRescateNormal_SelectParametroOperaConSaldoNegativo.sql");
 
     private final ConexionUnidadDeTrabajo conexion;
 
@@ -21,47 +33,61 @@ public class CertificarAporteRescateDatosJdbc implements CertificarAporteRescate
         this.conexion = conexion;
     }
 
-    private static UnsupportedOperationException pendiente(String metodo) {
-        return new UnsupportedOperationException("CertificarAporteRescateDatosJdbc." + metodo + ": not written yet (F3 W3 T1, Step 2)");
+    private <T> List<T> consultar(String sql, Map<String, Object> params, Class<T> tipo) {
+        return conexion.usar(con -> SqlNombrado.consultar(con, sql, params, tipo));
+    }
+
+    private static Map<String, Object> porIdSolicitudes(List<Long> idSolicitudes) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("IdSolicitudAporteRescate", idSolicitudes);
+        return params;
     }
 
     @Override
     public List<SolicitudProceso> solicitudes(Long idEmpresa, List<Long> idSolicitudes) {
-        throw pendiente("solicitudes");
+        Map<String, Object> params = porIdSolicitudes(idSolicitudes);
+        params.put("IdEmpresa", idEmpresa);
+        return consultar(SQL_SELECT_SOLICITUDES, params, SolicitudProceso.class);
     }
 
     @Override
     public List<Estado> estados() {
-        throw pendiente("estados");
+        return consultar(SQL_SELECT_ESTADOS, new HashMap<>(), Estado.class);
     }
 
     @Override
     public List<ComprobanteNoLiquidado> comprobantesNoLiquidados(List<Long> idSolicitudes) {
-        throw pendiente("comprobantesNoLiquidados");
+        return consultar(SQL_SELECT_COMPROBANTES_NO_LIQUIDADOS, porIdSolicitudes(idSolicitudes), ComprobanteNoLiquidado.class);
     }
 
     @Override
     public List<Traspaso> traspasosApv(List<Long> idSolicitudes) {
-        throw pendiente("traspasosApv");
+        return consultar(SQL_SELECT_TRASPASO_APV_ASOCIADO, porIdSolicitudes(idSolicitudes), Traspaso.class);
     }
 
     @Override
     public List<Traspaso> traspasosNoApv(List<Long> idSolicitudes) {
-        throw pendiente("traspasosNoApv");
+        return consultar(SQL_SELECT_TRASPASO_NO_APV_ASOCIADO, porIdSolicitudes(idSolicitudes), Traspaso.class);
     }
 
     @Override
     public List<Persona> personasPorDocumento(String documentoIdentidad) {
-        throw pendiente("personasPorDocumento");
+        Map<String, Object> params = new HashMap<>();
+        params.put("DocumentoIdentidad", documentoIdentidad);
+        return consultar(SQL_SELECT_PERSONA, params, Persona.class);
     }
 
     @Override
     public List<IndicadorPortafolio> indicadoresPortafolio(List<Long> idPortafolios) {
-        throw pendiente("indicadoresPortafolio");
+        Map<String, Object> params = new HashMap<>();
+        params.put("IdPortafolio", idPortafolios);
+        return consultar(SQL_SELECT_INDICADORES_PORTAFOLIO_FFMM, params, IndicadorPortafolio.class);
     }
 
     @Override
     public List<ParametroOperaCSN> parametrosOperaConSaldoNegativo(List<Long> idPortafolios) {
-        throw pendiente("parametrosOperaConSaldoNegativo");
+        Map<String, Object> params = new HashMap<>();
+        params.put("IdPortafolio", idPortafolios);
+        return consultar(SQL_SELECT_PARAMETRO_OPERA_CON_SALDO_NEGATIVO, params, ParametroOperaCSN.class);
     }
 }

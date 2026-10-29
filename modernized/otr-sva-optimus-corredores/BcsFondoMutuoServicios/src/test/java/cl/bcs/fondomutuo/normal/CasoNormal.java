@@ -119,7 +119,7 @@ public final class CasoNormal {
         Path base = recursos();
         JsonObject caso = leer(dir.resolve("case.json"));
         String url = "jdbc:h2:mem:nor" + UUID.randomUUID().toString().replace("-", "") + ";MODE=LEGACY;DB_CLOSE_DELAY=-1";
-        try (Connection raw = DriverManager.getConnection(url, "sa", "")) {
+        try (Connection raw = cl.bcs.fondomutuo.BdEfimeraH2.abrir(url)) {
             for (String f : ESQUEMA) script(raw, Files.readString(base.getParent().resolve("fondomutuo-3a").resolve(f), StandardCharsets.UTF_8));
             // F2 W1B: extra schema/seed of the layer-2 cases (Tesoreria objects), from fondomutuo-3a/ like the base; the aliases of Tesoreria's dialect bridge
             // name its family-A class, here the module's copy

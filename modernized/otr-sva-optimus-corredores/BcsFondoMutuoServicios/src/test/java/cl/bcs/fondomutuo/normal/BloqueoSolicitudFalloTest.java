@@ -61,7 +61,7 @@ class BloqueoSolicitudFalloTest {
 
     @AfterEach
     void cerrar() throws Exception {
-        raw.close();
+        cl.bcs.fondomutuo.BdEfimeraH2.cerrar(raw);
     }
 
     private static Bloqueo fila(String id) {

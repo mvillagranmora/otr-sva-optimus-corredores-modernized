@@ -163,7 +163,9 @@ class SinCambiosDeEsquemaTest {
             Map.entry("CargarValorCuota_UpdateValorCuotaUltimaCarga.sql", "UPDATE \"BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico\""),
             Map.entry("CargarValorCuota_InsertValorCuotaHistorico.sql", "INSERT \"BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico\""),
             Map.entry("CargarValorCuota_DeleteValorCuota.sql", "DELETE \"BSCL.FondoMutuo.BD::FMM.ValorCuota\""),
-            Map.entry("CargarValorCuota_InsertValorCuota.sql", "INSERT \"BSCL.FondoMutuo.BD::FMM.ValorCuota\""));
+            Map.entry("CargarValorCuota_InsertValorCuota.sql", "INSERT \"BSCL.FondoMutuo.BD::FMM.ValorCuota\""),
+            // F3 W3 T1 CER (CertificarAporteRescate): the log INSERT of the early exit (FM-CER-14), a legitimate documented write
+            Map.entry("AgregarLogCertificacionAporteRescate_InsertLogCertificacion.sql", "INSERT \"BSCL.FondoMutuo.BD::FMM.LogCertificacionAporteRescate\""));
 
     @Test
     void lasEscriturasDelCodigoActivoSonExactamenteLasAceptadas_F2W1() throws IOException {

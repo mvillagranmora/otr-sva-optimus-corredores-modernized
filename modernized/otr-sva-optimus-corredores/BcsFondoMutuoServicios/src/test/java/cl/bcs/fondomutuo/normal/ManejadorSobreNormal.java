@@ -63,7 +63,7 @@ final class ManejadorSobreNormal {
 
     private static JsonObject ejecutar(CasoMan c) throws Exception {
         String url = "jdbc:h2:mem:man" + UUID.randomUUID().toString().replace("-", "") + ";MODE=LEGACY;DB_CLOSE_DELAY=-1";
-        try (Connection raw = DriverManager.getConnection(url, "sa", "")) {
+        try (Connection raw = cl.bcs.fondomutuo.BdEfimeraH2.abrir(url)) {
             for (String f : new String[] { "schema-types.sql", "schema-fmm.sql", "schema-keys.sql", "schema-session.sql", "seed/base-fmm.sql" }) {
                 script(raw, recurso("fondomutuo-3a/" + f));
             }

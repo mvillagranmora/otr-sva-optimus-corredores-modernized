@@ -10,8 +10,6 @@ import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Persona;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.SolicitudProceso;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Traspaso;
 
-/* RED SKELETON (F3 W3, T1 CER): the compiling shape the characterization tests expect (API_ASSUMED.md). The behaviour is NOT written yet: every entry point
- * fails closed with UnsupportedOperationException, so the CER tests are red until Step 2 replaces this body. Not registered as a bean, no handler, no list. */
 /** Read port of the SELECTs of F-A / F-B, verbatim SQL. */
 public interface CertificarAporteRescateDatos {
 

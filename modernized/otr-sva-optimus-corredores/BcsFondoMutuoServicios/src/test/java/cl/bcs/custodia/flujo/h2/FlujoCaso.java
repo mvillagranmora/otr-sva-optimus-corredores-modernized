@@ -68,7 +68,7 @@ public final class FlujoCaso {
         res.addProperty("_provenance", proveniencia);
         res.addProperty("caso", caso.getFileName().toString());
         res.add("reglas", def.has("reglas") ? def.get("reglas") : new JsonArray());
-        try (Connection raw = DriverManager.getConnection(url, "sa", "")) {
+        try (Connection raw = cl.bcs.fondomutuo.BdEfimeraH2.abrir(url)) {
             for (String f : new String[] { "schema-flujo.sql", "schema-session.sql", "seed/base.sql" }) runScript(raw, base.resolve(f));
             if (Files.exists(caso.resolve("seed.sql"))) runScript(raw, caso.resolve("seed.sql"));
             raw.commit();
