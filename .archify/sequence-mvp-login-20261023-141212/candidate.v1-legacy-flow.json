@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "MVP_LOGIN: flujo de login (CrearSesion)",
+    "locale": "es",
+    "output": "analysis/otr-sva-optimus-corredores/MVP_LOGIN.html",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1085,
+      700
+    ]
+  },
+  "participants": [
+    {
+      "id": "cliente",
+      "type": "frontend",
+      "label": "Cliente",
+      "sublabel": "front o WS"
+    },
+    {
+      "id": "gateway",
+      "type": "security",
+      "label": "BcsGateway",
+      "sublabel": "modernizado"
+    },
+    {
+      "id": "filtros",
+      "type": "security",
+      "label": "Filtros TomEE",
+      "sublabel": "Sesion+Service"
+    },
+    {
+      "id": "crear",
+      "type": "backend",
+      "label": "CrearSesion",
+      "sublabel": "servlet legacy"
+    },
+    {
+      "id": "utils",
+      "type": "backend",
+      "label": "BcsUtils",
+      "sublabel": "Sesion·AgregarLog"
+    },
+    {
+      "id": "usuario",
+      "type": "database",
+      "label": "ACC.Usuario",
+      "sublabel": "+PLA.Configuracion"
+    },
+    {
+      "id": "socio",
+      "type": "database",
+      "label": "EMP·PER·CLI",
+      "sublabel": "SocioNegocio.BD"
+    },
+    {
+      "id": "sesion",
+      "type": "database",
+      "label": "ACC.Sesion",
+      "sublabel": "token de sesión"
+    },
+    {
+      "id": "log",
+      "type": "database",
+      "label": "PLA.Log",
+      "sublabel": "+ PLA.DetalleLog"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 233,
+      "label": "1 · Entrada"
+    },
+    {
+      "from": 240,
+      "to": 320,
+      "label": "2 · Usuario, clave y entidad"
+    },
+    {
+      "from": 327,
+      "to": 436,
+      "label": "3 · Token"
+    },
+    {
+      "from": 443,
+      "to": 581,
+      "label": "4 · Auditoría y respuesta"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m-post",
+      "from": "cliente",
+      "to": "gateway",
+      "y": 165,
+      "label": "POST /PLA/CrearSesion",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m-fallback",
+      "from": "gateway",
+      "to": "filtros",
+      "y": 194,
+      "label": "fallback a TomEE",
+      "variant": "dashed"
+    },
+    {
+      "id": "m-noauth",
+      "from": "filtros",
+      "to": "crear",
+      "y": 223,
+      "label": "pasa sin token (noAuthURLs)",
+      "variant": "default"
+    },
+    {
+      "id": "m-q-usuario",
+      "from": "crear",
+      "to": "usuario",
+      "y": 252,
+      "label": "SELECT usuario + parámetros",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m-intentos",
+      "from": "crear",
+      "to": "usuario",
+      "y": 281,
+      "label": "UPDATE IntentosConexion / bloqueo",
+      "variant": "security"
+    },
+    {
+      "id": "m-q-socio",
+      "from": "crear",
+      "to": "socio",
+      "y": 310,
+      "label": "SELECT estado de la entidad",
+      "variant": "default"
+    },
+    {
+      "id": "m-ws",
+      "from": "crear",
+      "to": "sesion",
+      "y": 339,
+      "label": "WS: reutiliza o invalida token",
+      "variant": "dashed"
+    },
+    {
+      "id": "m-insertar",
+      "from": "crear",
+      "to": "utils",
+      "y": 368,
+      "label": "Sesion.insertarSesion",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m-unica",
+      "from": "utils",
+      "to": "sesion",
+      "y": 397,
+      "label": "UPDATE TokenValido='N' (sesión única)",
+      "variant": "security"
+    },
+    {
+      "id": "m-insert",
+      "from": "utils",
+      "to": "sesion",
+      "y": 426,
+      "label": "INSERT ACC.Sesion TokenValido='S'",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m-audit",
+      "from": "crear",
+      "to": "utils",
+      "y": 455,
+      "label": "agregarLogSesion → AgregarLog",
+      "variant": "dashed"
+    },
+    {
+      "id": "m-log",
+      "from": "utils",
+      "to": "log",
+      "y": 484,
+      "label": "secuencias + INSERT PLA.Log / DetalleLog",
+      "variant": "dashed"
+    },
+    {
+      "id": "m-reset",
+      "from": "crear",
+      "to": "usuario",
+      "y": 513,
+      "label": "UPDATE IntentosConexion = 0",
+      "variant": "default"
+    },
+    {
+      "id": "m-200",
+      "from": "crear",
+      "to": "gateway",
+      "y": 542,
+      "label": "200 {P_OUT_TOKEN, contadores}",
+      "variant": "return"
+    },
+    {
+      "id": "m-fin",
+      "from": "gateway",
+      "to": "cliente",
+      "y": 571,
+      "label": "token (X-SESSION-TOKEN)",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "gateway",
+      "from": 160,
+      "to": 576,
+      "type": "security"
+    },
+    {
+      "participant": "crear",
+      "from": 218,
+      "to": 547,
+      "type": "backend"
+    },
+    {
+      "participant": "utils",
+      "from": 363,
+      "to": 431,
+      "type": "backend"
+    },
+    {
+      "participant": "utils",
+      "from": 450,
+      "to": 489,
+      "type": "backend"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "Detalle por paso",
+      "items": [
+        "1 · Body JSON: p_IdEmpresa, p_NombreUsuario, p_ClaveUsuario, p_IdCanal (COR | AGE | CLI | WS). Ninguna ruta del gateway cubre /PLA/CrearSesion y todas están enabled=false",
+        "2 · ACC.Usuario por CodigoUsuario en mayúsculas, con PLA.FechaSistema, PLA.ClaveUsuarioIntentos y PLA.ClaveUsuarioTiempoBloqueo. Responde 401 USUARIO_CLAVE_INCORRECTA si el usuario no existe, tiene FechaBloqueoTemporal vigente, IdEstado=BLO, EsAutorizado=P o FechaVigencia vencida (la fila vuelve a CrearSesion, que aplica estos chequeos)",
+        "2 · Clave: SHA-256 en mayúsculas. Si no coincide: IntentosConexion+1 y, al llegar al máximo, FechaBloqueoTemporal = ahora + TiempoBloqueo min",
+        "2 · Entidad: EMP.Empleado (COR/AGE/WS), PER.Persona (CLI) o CLI.Cliente (WS/CLI); exige ACT (CLI también acepta BLO)",
+        "3 · SesionUtils (BcsUtils): SELECT CURRENT_UTCTIMESTAMP FROM DUMMY y PLA.IdleMaxTimeWS/CLI/AGE en PLA.Configuracion (si no, 1800000 ms); se lee antes del paso WS",
+        "3 · Solo WS: reutiliza el token TokenValido='S'; si lleva inactivo más que IdleMaxTime, UPDATE TokenValido='N' y crea otro",
+        "3 · Sesión única: UPDATE TokenValido='N' de los tokens del usuario en el canal si PLA.SesionUnicaUsuario='S' y el canal está en PLA.CanalesSesionUnica",
+        "4 · Log INFORMATIVO, módulo PLA, tipo SESION, acción INICIO SESION EXITOSA. IntentosConexion vuelve a 0 y la conexión hace commit"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Objetos HANA que toca el login",
+      "items": [
+        "Lectura: ACC.Usuario, PLA.Configuracion, EMP.Empleado, PER.Persona, CLI.Cliente, ACC.Sesion, DUMMY",
+        "Escritura: ACC.Usuario (IntentosConexion, FechaBloqueoTemporal), ACC.Sesion (INSERT y UPDATE TokenValido), PLA.Log, PLA.DetalleLog",
+        "Secuencias: BSCL.Plataforma.BD.Secuencias::Log y ::DetalleLog",
+        "Sin procedimientos almacenados (todo es SQL directo por JDBC jdbc/hanaDB) y sin MongoDB"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Llamadas posteriores al login",
+      "items": [
+        "SesionFilter exige el header X-SESSION-TOKEN y lo valida contra ACC.Sesion (TokenValido='S'); si no, 400 o 401",
+        "ServiceFilter controla el acceso por servicio: PLA.Servicio.ValidaAccesoServicio, PLA.Configuracion y ACC.Usuario vía ACC.Sesion",
+        "Luego CallServlet despacha /call?t=<IdServicio> según el registro PLA.Servicio"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Core modernizado: qué existe",
+      "items": [
+        "BcsPlataformaWeb (:8117) CrearSesionController + CrearSesionService: usuario, bloqueo, vigencia, intentos, WS y INSERT ACC.Sesion sobre las mismas tablas HANA",
+        "Clave validada con HybridPasswordEncoder (BcsUtils): SHA-256 legacy o BCrypt",
+        "BcsFilters (:8116) trae otro LoginController /PLA/CrearSesion con contrato distinto ({codigo, clave} → {token}) y tablas no HANA (ACC_USUARIO, PLA_SERVICIO)",
+        "Ambos módulos PARTLY PROVEN (VERIFICATION.md 2026-10-20); rutas del gateway enabled=false"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Brechas para el MVP de login",
+      "items": [
+        "Gateway: falta ruta para /PLA/CrearSesion (bcs-plataforma-web solo cubre /plataforma/**, /call, /CallBatch, /bootstrap/**)",
+        "CrearSesionService no consulta EMP/PER/CLI: solo mira los flags del usuario",
+        "Canal WS: reutiliza el token sin comparar con IdleMaxTime",
+        "Falta la sesión única (UPDATE TokenValido='N' por PLA.SesionUnicaUsuario / PLA.CanalesSesionUnica)",
+        "Falta la auditoría AgregarLog (PLA.Log / PLA.DetalleLog)",
+        "Token generado sin empresa ni usuario (formato distinto) e INSERT sin IdEntidadSSO",
+        "Elegir un solo login: BcsPlataformaWeb (contrato legacy) o BcsFilters"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Evidencia (legacy/otr-sva-optimus-corredores/BSCL/Plataforma/JAVA)",
+      "items": [
+        "BcsPlataformaWeb/src/cl/bcs/plataforma/services/CrearSesion.java:107-140 entrada, :180-225 SQL, :255-392 lógica, :495 401",
+        "BcsUtils/src/cl/bcs/utils/Sesion.java:143-200 updateSesion, insertSesion, closeSesion, insertarSesion",
+        "BcsUtils/src/cl/bcs/utils/SesionUtils.java:42-76 IdleMaxTime; AgregarLog.java:25-26, :205-279",
+        "BcsFilters/src/cl/bcs/filters/SesionFilter.java:43-118; ServiceFilter.java:32-212",
+        "Modernizado: BcsGateway application.yml:22-37; BcsPlataformaWeb service/CrearSesionService.java; BcsFilters controller/LoginController.java"
+      ]
+    }
+  ]
+}

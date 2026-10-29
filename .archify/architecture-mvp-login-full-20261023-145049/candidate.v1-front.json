@@ -1,0 +1,354 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "MVP_LOGIN: componentes para el login sin TomEE",
+    "locale": "es",
+    "output": "analysis/otr-sva-optimus-corredores/MVP_LOGIN_CAJAS.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "entries": {
+        "backend": {
+          "label": "verde: ya existe en el modernizado"
+        },
+        "security": {
+          "label": "rojo: falta construir para el MVP"
+        },
+        "database": {
+          "label": "SAP HANA existente (sin cambios)"
+        },
+        "external": {
+          "label": "navegador del usuario"
+        }
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "nav",
+      "type": "external",
+      "label": "Navegador",
+      "sublabel": "SPA AngularJS",
+      "pos": [
+        40,
+        216
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "front",
+      "type": "security",
+      "label": "Front web",
+      "sublabel": "nginx: UI + /GWJAVA",
+      "pos": [
+        230,
+        216
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "falta",
+      "icon": "failure"
+    },
+    {
+      "id": "gateway",
+      "type": "backend",
+      "label": "BcsGateway",
+      "sublabel": ":9090 sin fallback",
+      "pos": [
+        480,
+        216
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "tag": "ajustar",
+      "icon": "success"
+    },
+    {
+      "id": "filtro",
+      "type": "security",
+      "label": "Filtro de sesión",
+      "sublabel": "X-SESSION-TOKEN + ACL",
+      "pos": [
+        700,
+        60
+      ],
+      "size": [
+        140,
+        376
+      ],
+      "tag": "falta",
+      "icon": "failure"
+    },
+    {
+      "id": "sso",
+      "type": "backend",
+      "label": "SSO (opcional)",
+      "sublabel": "SSOInit · Logon · Logout",
+      "pos": [
+        900,
+        60
+      ],
+      "size": [
+        210,
+        56
+      ],
+      "tag": "existe",
+      "icon": "success"
+    },
+    {
+      "id": "crear",
+      "type": "backend",
+      "label": "CrearSesion",
+      "sublabel": "login usuario + clave",
+      "pos": [
+        900,
+        140
+      ],
+      "size": [
+        210,
+        56
+      ],
+      "tag": "existe · brechas",
+      "icon": "success"
+    },
+    {
+      "id": "clave",
+      "type": "backend",
+      "label": "Clave provisoria",
+      "sublabel": "Valida · ActualizarClave",
+      "pos": [
+        900,
+        220
+      ],
+      "size": [
+        210,
+        56
+      ],
+      "tag": "existe",
+      "icon": "success"
+    },
+    {
+      "id": "recupera",
+      "type": "security",
+      "label": "Recuperar clave",
+      "sublabel": "Solicitud · Recup. · Confirmar",
+      "pos": [
+        900,
+        300
+      ],
+      "size": [
+        210,
+        56
+      ],
+      "tag": "falta",
+      "icon": "failure"
+    },
+    {
+      "id": "bootstrap",
+      "type": "security",
+      "label": "Bootstrap",
+      "sublabel": "render login y home",
+      "pos": [
+        900,
+        380
+      ],
+      "size": [
+        210,
+        56
+      ],
+      "tag": "hoy placeholder",
+      "icon": "failure"
+    },
+    {
+      "id": "archivos",
+      "type": "security",
+      "label": "Archivos web",
+      "sublabel": "views + config_*.html",
+      "pos": [
+        900,
+        490
+      ],
+      "size": [
+        210,
+        56
+      ],
+      "tag": "falta montar",
+      "icon": "failure"
+    },
+    {
+      "id": "hana",
+      "type": "database",
+      "label": "SAP HANA",
+      "sublabel": "tablas, vistas y SP",
+      "pos": [
+        1240,
+        60
+      ],
+      "size": [
+        170,
+        376
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "BcsPlataformaWeb :8117 (+ BcsUtils)",
+      "wraps": [
+        "filtro",
+        "sso",
+        "crear",
+        "clave",
+        "recupera",
+        "bootstrap"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "v-nav",
+      "from": "nav",
+      "to": "front",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-front",
+      "from": "front",
+      "to": "gateway",
+      "label": "/PLA/*",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-gw",
+      "from": "gateway",
+      "to": "filtro",
+      "label": "proxy",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-sso",
+      "from": "filtro",
+      "to": "sso"
+    },
+    {
+      "id": "v-crear",
+      "from": "filtro",
+      "to": "crear",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-clave",
+      "from": "filtro",
+      "to": "clave"
+    },
+    {
+      "id": "v-recupera",
+      "from": "filtro",
+      "to": "recupera"
+    },
+    {
+      "id": "v-bootstrap",
+      "from": "filtro",
+      "to": "bootstrap",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-plantillas",
+      "from": "bootstrap",
+      "to": "archivos",
+      "label": "lee plantillas"
+    },
+    {
+      "id": "d-sso",
+      "from": "sso",
+      "to": "hana",
+      "label": "ACC.Sesion"
+    },
+    {
+      "id": "d-crear",
+      "from": "crear",
+      "to": "hana",
+      "label": "ACC · EMP · Log"
+    },
+    {
+      "id": "d-clave",
+      "from": "clave",
+      "to": "hana",
+      "label": "ACC.Usuario"
+    },
+    {
+      "id": "d-recupera",
+      "from": "recupera",
+      "to": "hana",
+      "label": "SP ACC.*Clave",
+      "variant": "security"
+    },
+    {
+      "id": "d-bootstrap",
+      "from": "bootstrap",
+      "to": "hana",
+      "label": "vistas + SP",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Rojo: falta construir",
+      "items": [
+        "Front web (nginx o similar): hoy solo existe en legacy/docker. Sirve /BSCL/Plataforma/UI, envía /BSCL/Plataforma/UI/optimus a /PLA/bootstrap y reescribe /BSCL/Plataforma/GWJAVA/PLA/* → /PLA/* hacia el gateway",
+        "Bootstrap real: hoy es un placeholder. LOGIN: empresas (PLA.ConsultarEmpresa) y logo (PLA.ConsultarImagen). HOME: sesión (Sesion.getSesionData), accesos, preferencias, menú, formatos, feriados y diccionario; SP ACC.ConsultarUsuarioAdmin y ConsultarFormatos",
+        "Recuperar clave: SolicitudRecuperacionClave (SP ACC.RecuperarClaveUsuario), RecuperacionClave y ConfirmarCambioClave (SP ACC.ConfirmarCambioClaveUsuario)",
+        "Filtro de sesión y acceso en BcsPlataformaWeb, equivalente a SesionFilter + ServiceFilter sobre las tablas HANA reales (lo de BcsFilters usa tablas inventadas)",
+        "Archivos web (RutaArchivosWeb) montados en BcsPlataformaWeb: el bootstrap arma login.html y home.html leyéndolos del disco"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Verde: existe, con ajustes",
+      "items": [
+        "BcsGateway: rutas /PLA/CrearSesion, /PLA/bootstrap, /PLA/ValidaClaveProvisoria, /PLA/ActualizarClave, /PLA/*RecuperacionClave, /PLA/ConfirmarCambioClave y /PLA/SSO* hacia bcs-plataforma-web; sin TomEE el fallback debe quedar apagado (503)",
+        "CrearSesion: cerrar las brechas de MVP_LOGIN (entidad EMP/PER/CLI, sesión única, expiración WS, AgregarLog, formato del token, una sola transacción)",
+        "Clave provisoria (ValidaClaveProvisoria, ActualizarClave) y SSO ya tienen endpoint",
+        "BcsUtils (HybridPasswordEncoder, SQL, sesión) viaja como librería dentro de BcsPlataformaWeb"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Para el MVP de login también",
+      "items": [
+        "Mapear las rutas con prefijo /PLA (context-path /PLA en BcsPlataformaWeb o reescritura en el gateway): hoy los controllers exponen /CrearSesion, /bootstrap…",
+        "El navegador ya envía la clave hasheada con SHA-256 (CryptoJS en login.html) y el servidor vuelve a aplicarle SHA-256: HANA guarda un doble SHA-256 (resuelve RULE-030)",
+        "El correo de recuperación lo dispara ACC.RecuperarClaveUsuario (el servlet solo enmascara P_OUT_MAIL): confirmar con el DBA cómo se envía",
+        "Despliegue con solo front + gateway + bcs-plataforma-web, secretos HANA por variables de entorno y verify PROVEN firmado"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Fuera del MVP de login",
+      "items": [
+        "Las opciones del menú del home llaman /PLA/call?t=<IdServicio> (CallServlet, hoy un stub 503) y cada una pertenece a otro módulo; sin TomEE el usuario aterriza en el home, pero los menús no responden",
+        "Guardar preferencias (call?t=1701, PLA.GuardarConfiguracionUsuario), CallWebsocket, reportes y descargas",
+        "BcsFilters, BcsPlataformaServicios, los Jobs y el resto de los 42 módulos; no hay MongoDB"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Evidencia",
+      "items": [
+        "legacy BSCL/Plataforma/UI/views/login.html:71-81, :109-160 (endpoints y SHA-256 en el navegador); UI/sesionapp.js:5-20",
+        "legacy JAVA/BcsPlataformaWeb/.../BootstrapServlet.java:36, :58-375, :655-776, :850-882; legacy docker/nginx-corredores.conf:29-66",
+        "modernized BcsPlataformaWeb .../BootstrapController.java:57-107 (placeholder); PasswordController.java:53, :95",
+        "modernized BcsGateway .../ProxyRouter.java:329-335; application.yml:22-37"
+      ]
+    }
+  ]
+}

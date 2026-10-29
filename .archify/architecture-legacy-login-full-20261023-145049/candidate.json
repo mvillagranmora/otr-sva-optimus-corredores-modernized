@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "LEGACY_LOGIN: componentes del login en TomEE",
+    "locale": "es",
+    "output": "analysis/otr-sva-optimus-corredores/LEGACY_LOGIN_CAJAS.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "nav",
+      "type": "external",
+      "label": "Navegador",
+      "sublabel": "SPA AngularJS",
+      "pos": [
+        40,
+        216
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "front",
+      "type": "cloud",
+      "label": "Apache httpd",
+      "sublabel": "UI + /GWJAVA → /PLA",
+      "pos": [
+        230,
+        216
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "nginx en Docker"
+    },
+    {
+      "id": "filtro",
+      "type": "security",
+      "label": "SesionFilter",
+      "sublabel": "+ ServiceFilter /PLA/*",
+      "pos": [
+        480,
+        60
+      ],
+      "size": [
+        140,
+        376
+      ],
+      "tag": "noAuthURLs"
+    },
+    {
+      "id": "sso",
+      "type": "backend",
+      "label": "SSO servlets",
+      "sublabel": "SSOInit · Logon · Logout",
+      "pos": [
+        680,
+        60
+      ],
+      "size": [
+        210,
+        56
+      ]
+    },
+    {
+      "id": "crear",
+      "type": "backend",
+      "label": "CrearSesion",
+      "sublabel": "login usuario + clave",
+      "pos": [
+        680,
+        140
+      ],
+      "size": [
+        210,
+        56
+      ]
+    },
+    {
+      "id": "clave",
+      "type": "backend",
+      "label": "Clave provisoria",
+      "sublabel": "Valida · ActualizarClave",
+      "pos": [
+        680,
+        220
+      ],
+      "size": [
+        210,
+        56
+      ]
+    },
+    {
+      "id": "recupera",
+      "type": "backend",
+      "label": "Recuperar clave",
+      "sublabel": "Solicitud · Recup. · Confirmar",
+      "pos": [
+        680,
+        300
+      ],
+      "size": [
+        210,
+        56
+      ]
+    },
+    {
+      "id": "bootstrap",
+      "type": "backend",
+      "label": "BootstrapServlet",
+      "sublabel": "render login y home",
+      "pos": [
+        680,
+        380
+      ],
+      "size": [
+        210,
+        56
+      ]
+    },
+    {
+      "id": "archivos",
+      "type": "frontend",
+      "label": "Archivos web",
+      "sublabel": "RutaArchivosWeb (disco)",
+      "pos": [
+        680,
+        490
+      ],
+      "size": [
+        210,
+        56
+      ]
+    },
+    {
+      "id": "hana",
+      "type": "database",
+      "label": "SAP HANA",
+      "sublabel": "jdbc/hanaDB",
+      "pos": [
+        1020,
+        60
+      ],
+      "size": [
+        170,
+        376
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "TomEE 8 · PLA.war (+ BcsUtils, PLUGIN_OPTIMUS)",
+      "wraps": [
+        "filtro",
+        "sso",
+        "crear",
+        "clave",
+        "recupera",
+        "bootstrap"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "l-nav",
+      "from": "nav",
+      "to": "front",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "l-front",
+      "from": "front",
+      "to": "filtro",
+      "label": "/PLA/*",
+      "variant": "emphasis"
+    },
+    {
+      "id": "l-sso",
+      "from": "filtro",
+      "to": "sso"
+    },
+    {
+      "id": "l-crear",
+      "from": "filtro",
+      "to": "crear",
+      "variant": "emphasis"
+    },
+    {
+      "id": "l-clave",
+      "from": "filtro",
+      "to": "clave"
+    },
+    {
+      "id": "l-recupera",
+      "from": "filtro",
+      "to": "recupera"
+    },
+    {
+      "id": "l-bootstrap",
+      "from": "filtro",
+      "to": "bootstrap",
+      "variant": "emphasis"
+    },
+    {
+      "id": "l-plantillas",
+      "from": "bootstrap",
+      "to": "archivos",
+      "label": "lee plantillas"
+    },
+    {
+      "id": "h-sso",
+      "from": "sso",
+      "to": "hana",
+      "label": "ACC.Sesion"
+    },
+    {
+      "id": "h-crear",
+      "from": "crear",
+      "to": "hana",
+      "label": "ACC · EMP · Log"
+    },
+    {
+      "id": "h-clave",
+      "from": "clave",
+      "to": "hana",
+      "label": "ACC.Usuario"
+    },
+    {
+      "id": "h-recupera",
+      "from": "recupera",
+      "to": "hana",
+      "label": "SP ACC.*Clave"
+    },
+    {
+      "id": "h-bootstrap",
+      "from": "bootstrap",
+      "to": "hana",
+      "label": "vistas + SP"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Cómo funciona",
+      "items": [
+        "Apache httpd (nginx en Docker) sirve la UI y reescribe /BSCL/Plataforma/GWJAVA/PLA/* → /PLA/* hacia TomEE",
+        "/PLA/bootstrap?p=login arma login.html con las empresas y el logo; tras el login, el form POST con X-SESSION-TOKEN vuelve a bootstrap y arma el home con todo embebido (sesión, accesos, menú, preferencias)",
+        "Los endpoints de login, clave, bootstrap y SSO están en noAuthURLs; el resto de /PLA/* exige X-SESSION-TOKEN válido en ACC.Sesion",
+        "Un solo WAR y un solo datasource JDBC a HANA; sin MongoDB"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Objetos HANA por componente",
+      "items": [
+        "CrearSesion: ACC.Usuario, PLA.Configuracion, EMP.Empleado / PER.Persona / CLI.Cliente, ACC.Sesion, PLA.Log, PLA.DetalleLog",
+        "Clave provisoria: ACC.Usuario, PLA.Configuracion, PLA.Diccionario",
+        "Recuperar clave: SP ACC.RecuperarClaveUsuario y ACC.ConfirmarCambioClaveUsuario; ACC.Usuario, PER.ConsultarPersona, CTT.ConsultarContratoDatosGenerales, PLA.Imagenes",
+        "Bootstrap: vistas PLA.ConsultarEmpresa, PLA.ConsultarImagen, ACC.ConsultarUsuarioAcceso, PLA.ConsultarConfiguracionUsuario/Grilla; PLA.Diccionario, REG.DiaFeriado, INS.TipoOperacion*; SP ACC.ConsultarUsuarioAdmin y ConsultarFormatos; sesión vía PLA.Empresa, PLA.ValorDefectoSistema, ACC.Sesion"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Evidencia (legacy/otr-sva-optimus-corredores)",
+      "items": [
+        "docker/nginx-corredores.conf:29-66; Dockerfile (PLA.war en contexto /PLA)",
+        "BSCL/Plataforma/UI/views/login.html:71-81; JAVA/BcsFilters/.../SesionFilter.java:43-118",
+        "JAVA/BcsPlataformaWeb/.../BootstrapServlet.java:36-882; CrearSesion.java:107-392",
+        "JAVA/BcsUtils/.../Sesion.java:130-200; Utils.java:459-462 (getWebStaticFile)"
+      ]
+    }
+  ]
+}

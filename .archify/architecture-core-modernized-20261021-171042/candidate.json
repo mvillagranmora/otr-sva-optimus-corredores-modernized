@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Core modernizado: servicios Spring Boot sobre el mismo SAP HANA",
+    "locale": "es",
+    "output": "analysis/otr-sva-optimus-corredores/ARCHIFY_CORE_MODERNIZED.html",
+    "quality_profile": "showcase"
+  },
+  "layout": { "mode": "grid", "origin": [40, 40], "cols": 5, "cellW": 172, "cellH": 66, "gapX": 66, "gapY": 34 },
+  "components": [
+    { "id": "usuarios", "type": "external", "label": "Usuarios", "sublabel": "Portal web", "row": 1, "col": 0 },
+    { "id": "consumidores", "type": "external", "label": "Consumidores", "sublabel": "REST y SOAP", "row": 3, "col": 0 },
+    { "id": "gateway", "type": "cloud", "label": "BcsGateway", "sublabel": "41 rutas, todas apagadas", "row": 2, "col": 1 },
+    { "id": "legacy", "type": "external", "label": "TomEE legacy", "sublabel": "Fases 3 a 5 aún", "row": 4, "col": 1 },
+    { "id": "plataformaweb", "type": "frontend", "label": "BcsPlataformaWeb", "sublabel": "Router y token interno", "row": 2, "col": 2 },
+    { "id": "plataformajobs", "type": "backend", "label": "BcsPlataformaJobs", "sublabel": "Motor de jobs: en diseño", "row": 0, "col": 2 },
+    { "id": "f1", "type": "backend", "label": "Fase 1", "sublabel": "Contabilidad: probada", "row": 0, "col": 3 },
+    { "id": "f2", "type": "backend", "label": "Fase 2", "sublabel": "Financiero: probada", "row": 1, "col": 3 },
+    { "id": "pend", "type": "backend", "label": "Fases 3 a 5", "sublabel": "Parcial: 33 módulos", "row": 2, "col": 3, "tag": "pendiente" },
+    { "id": "crystal", "type": "cloud", "label": "Crystal sidecar", "sublabel": "Java 11: probado", "row": 3, "col": 3 },
+    { "id": "hana", "type": "database", "label": "SAP HANA", "sublabel": "Sin cambios de BD", "row": 1, "col": 4, "tag": "la misma" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Núcleo modernizado: Spring Boot 4.1.1 / Java 25", "wraps": ["plataformaweb", "plataformajobs", "f1", "f2", "pend"] },
+    { "kind": "security-group", "label": "Cuarentena: Java 11", "wraps": ["crystal"] }
+  ],
+  "connections": [
+    { "id": "usuarios-gateway", "from": "usuarios", "to": "gateway", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "consumidores-gateway", "from": "consumidores", "to": "gateway", "label": "REST / SOAP" },
+    { "id": "gateway-web", "from": "gateway", "to": "plataformaweb", "label": "rutas activas" },
+    { "id": "gateway-legacy", "from": "gateway", "to": "legacy", "label": "fallback 503", "variant": "dashed" },
+    { "id": "web-f1", "from": "plataformaweb", "to": "f1", "label": "JavaCall" },
+    { "id": "web-f2", "from": "plataformaweb", "to": "f2" },
+    { "id": "web-pend", "from": "plataformaweb", "to": "pend" },
+    { "id": "web-crystal", "from": "plataformaweb", "to": "crystal", "label": "/report", "variant": "security" },
+    { "id": "jobs-f1", "from": "plataformajobs", "to": "f1", "label": "job-call", "variant": "dashed" },
+    { "id": "jobs-f2", "from": "plataformajobs", "to": "f2", "variant": "dashed" },
+    { "id": "f1-hana", "from": "f1", "to": "hana", "label": "JDBC" },
+    { "id": "f2-hana", "from": "f2", "to": "hana" },
+    { "id": "crystal-hana", "from": "crystal", "to": "hana", "label": "plantillas", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "emerald", "title": "Estado de las pruebas", "items": ["10 de 44 módulos probados y firmados: BcsUtils, Contabilidad, Tesorería, APV, CuentaInversión (Servicios y Jobs) y Crystal", "33 parcialmente probados, 3 no probados (Custodia y las dos librerías APV)", "Pruebas en H2, no en HANA"] },
+    { "dot": "cyan", "title": "Reglas del proyecto", "items": ["Sin cambios en la BD ni en el código legacy", "Comportamiento del legacy replicado, defectos incluidos", "Las rutas del gateway siguen apagadas: no hay tráfico real"] },
+    { "dot": "amber", "title": "Jobs", "items": ["Los jobs corren en proceso, como librerías de su Servicio", "Entrada: POST /internal/job-call con token interno", "BcsPlataformaJobs los disparará con su propio Nodo en BAT.Programa"] },
+    { "dot": "rose", "title": "Abiertos", "items": ["H-1: colaboradores por HTTP fuera de la transacción del job", "H4: parámetros desde BAT.Programa y reclamo por programa", "Visto bueno del experto sobre APV y redirección de los llamadores de Crystal"] }
+  ]
+}

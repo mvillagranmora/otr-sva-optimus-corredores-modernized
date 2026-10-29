@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "MVP_LOGIN: componentes del login modernizado",
+    "locale": "es",
+    "output": "analysis/otr-sva-optimus-corredores/MVP_LOGIN_CAJAS.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "entries": {
+        "cloud": {
+          "label": "infraestructura a configurar"
+        }
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "front",
+      "type": "frontend",
+      "label": "Front Optimus",
+      "sublabel": "sin cambios",
+      "pos": [
+        40,
+        240
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "lb",
+      "type": "cloud",
+      "label": "Entrada / LB",
+      "sublabel": "apunta al gateway",
+      "pos": [
+        230,
+        240
+      ],
+      "size": [
+        140,
+        64
+      ],
+      "tag": "a configurar"
+    },
+    {
+      "id": "gateway",
+      "type": "security",
+      "label": "BcsGateway",
+      "sublabel": ":9090 · fallback",
+      "pos": [
+        450,
+        240
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "ajustar ruta"
+    },
+    {
+      "id": "web",
+      "type": "backend",
+      "label": "BcsPlataformaWeb",
+      "sublabel": ":8117 · CrearSesion",
+      "pos": [
+        740,
+        240
+      ],
+      "size": [
+        180,
+        64
+      ],
+      "tag": "completar"
+    },
+    {
+      "id": "utils",
+      "type": "backend",
+      "label": "BcsUtils (lib)",
+      "sublabel": "HybridPasswordEncoder",
+      "pos": [
+        740,
+        80
+      ],
+      "size": [
+        180,
+        60
+      ],
+      "tag": "existe"
+    },
+    {
+      "id": "tomee",
+      "type": "backend",
+      "label": "TomEE legacy",
+      "sublabel": "resto de /PLA/* y front",
+      "pos": [
+        450,
+        420
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "se mantiene"
+    },
+    {
+      "id": "usuario",
+      "type": "database",
+      "label": "ACC.Usuario",
+      "sublabel": "+ PLA.Configuracion",
+      "pos": [
+        1040,
+        100
+      ],
+      "size": [
+        180,
+        56
+      ]
+    },
+    {
+      "id": "socio",
+      "type": "database",
+      "label": "EMP / PER / CLI",
+      "sublabel": "SocioNegocio.BD",
+      "pos": [
+        1040,
+        244
+      ],
+      "size": [
+        180,
+        56
+      ]
+    },
+    {
+      "id": "sesion",
+      "type": "database",
+      "label": "ACC.Sesion",
+      "sublabel": "compartida con TomEE",
+      "pos": [
+        1040,
+        424
+      ],
+      "size": [
+        180,
+        56
+      ]
+    },
+    {
+      "id": "log",
+      "type": "database",
+      "label": "PLA.Log",
+      "sublabel": "+ PLA.DetalleLog",
+      "pos": [
+        1040,
+        560
+      ],
+      "size": [
+        180,
+        56
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Core modernizado · Spring Boot 4.1 / Java 25",
+      "wraps": [
+        "gateway",
+        "web",
+        "utils"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "SAP HANA compartida · sin cambios de esquema",
+      "wraps": [
+        "usuario",
+        "socio",
+        "sesion",
+        "log"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "v-front",
+      "from": "front",
+      "to": "lb",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-lb",
+      "from": "lb",
+      "to": "gateway",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-login",
+      "from": "gateway",
+      "to": "web",
+      "label": "/PLA/CrearSesion",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-enc",
+      "from": "web",
+      "to": "utils",
+      "label": "matches()"
+    },
+    {
+      "id": "v-fallback",
+      "from": "gateway",
+      "to": "tomee",
+      "label": "resto o 503",
+      "variant": "dashed"
+    },
+    {
+      "id": "v-usuario",
+      "from": "web",
+      "to": "usuario",
+      "label": "SELECT/UPDATE"
+    },
+    {
+      "id": "v-socio",
+      "from": "web",
+      "to": "socio",
+      "label": "falta",
+      "variant": "security"
+    },
+    {
+      "id": "v-sesion",
+      "from": "web",
+      "to": "sesion",
+      "label": "INSERT token"
+    },
+    {
+      "id": "v-log",
+      "from": "web",
+      "to": "log",
+      "label": "falta",
+      "variant": "security"
+    },
+    {
+      "id": "v-valida",
+      "from": "tomee",
+      "to": "sesion",
+      "label": "valida X-SESSION-TOKEN"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Componentes necesarios para el MVP",
+      "items": [
+        "BcsPlataformaWeb (existe, completar): el login. Es el único servicio nuevo que recibe tráfico",
+        "BcsGateway (existe, ajustar): ruta /PLA/CrearSesion → bcs-plataforma-web habilitada; reenvía el path tal cual, así que el controller debe mapear /PLA/CrearSesion (hoy mapea /CrearSesion)",
+        "Entrada / LB (infra): el tráfico del front debe llegar al gateway en vez de directo a TomEE",
+        "TomEE legacy (se mantiene): sirve el front y todo lo demás de /PLA/*; acepta el token porque valida contra la misma ACC.Sesion",
+        "BcsUtils (librería, existe) y HANA (compartida, sin cambios de esquema)"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Qué completar en BcsPlataformaWeb",
+      "items": [
+        "Validar el estado de la entidad en EMP.Empleado / PER.Persona / CLI.Cliente",
+        "Sesión única (PLA.SesionUnicaUsuario / PLA.CanalesSesionUnica) y la expiración WS con PLA.IdleMaxTime<canal>",
+        "Auditoría AgregarLog en PLA.Log / PLA.DetalleLog con sus secuencias",
+        "Formato del token como el legacy, INSERT con IdEntidadSSO, y una sola transacción para todas las escrituras",
+        "No re-hashear a BCrypt durante la convivencia: TomEE compara SHA-256 y dejaría de autenticar a ese usuario"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Configuración y operación",
+      "items": [
+        "Compose o despliegue mínimo: gateway + bcs-plataforma-web (hoy el gateway depende de 12 servicios en docker-compose.yml)",
+        "Secretos HANA_URL / HANA_USER / HANA_PASSWORD por variables de entorno o un vault",
+        "Observabilidad equivalente al @Trace de Datadog del legacy",
+        "Verify PROVEN y firma de BcsPlataformaWeb antes de habilitar la ruta"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "No necesarios para el login",
+      "items": [
+        "BcsFilters: su login duplica el contrato con tablas no HANA; las llamadas posteriores las sigue validando TomEE",
+        "BcsPlataformaServicios, Jobs y el resto de los 42 módulos",
+        "MongoDB, colas o cachés: el legacy no los usa en el login"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Evidencia (modernized @ f43d20c9)",
+      "items": [
+        "BcsGateway/src/main/java/cl/bcs/gateway/config/ProxyRouter.java:100-135, :329-335 (path sin reescribir)",
+        "BcsGateway/src/main/resources/application.yml:22-37; docker-compose.yml:965-990",
+        "BcsPlataformaWeb .../adapter/in/CrearSesionController.java:42-71; .../service/CrearSesionService.java",
+        "BcsUtils .../security/HybridPasswordEncoder.java:14-53"
+      ]
+    }
+  ]
+}

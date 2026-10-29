@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Core legacy: monolito TomEE sobre SAP HANA",
+    "locale": "es",
+    "output": "analysis/otr-sva-optimus-corredores/ARCHIFY_CORE_LEGACY.html",
+    "quality_profile": "showcase"
+  },
+  "layout": { "mode": "grid", "origin": [40, 40], "cols": 5, "cellW": 172, "cellH": 66, "gapX": 66, "gapY": 34 },
+  "components": [
+    { "id": "usuarios", "type": "external", "label": "Usuarios", "sublabel": "Portal web", "row": 1, "col": 0 },
+    { "id": "consumidores", "type": "external", "label": "Consumidores", "sublabel": "REST y SOAP", "row": 3, "col": 0 },
+    { "id": "plataformaweb", "type": "frontend", "label": "BcsPlataformaWeb", "sublabel": "Servlets y sesión", "row": 2, "col": 1 },
+    { "id": "router", "type": "backend", "label": "Router JavaCall", "sublabel": "PLA.Servicio: 1.817+", "row": 2, "col": 2 },
+    { "id": "f1", "type": "backend", "label": "Fase 1", "sublabel": "Contabilidad: 18.390", "row": 0, "col": 3 },
+    { "id": "f2", "type": "backend", "label": "Fase 2", "sublabel": "Financiero: 74.436", "row": 1, "col": 3 },
+    { "id": "f3", "type": "backend", "label": "Fase 3", "sublabel": "Trading: 133.115", "row": 2, "col": 3 },
+    { "id": "f4", "type": "backend", "label": "Fase 4", "sublabel": "Core negocio: 244.955", "row": 3, "col": 3 },
+    { "id": "f5", "type": "backend", "label": "Fase 5", "sublabel": "Regulatorio: 317.948", "row": 4, "col": 3 },
+    { "id": "reportes", "type": "backend", "label": "Crystal embebido", "sublabel": "ReportDocument", "row": 4, "col": 2 },
+    { "id": "jobmanager", "type": "backend", "label": "Job Manager", "sublabel": "BcsJob y Quartz", "row": 5, "col": 3 },
+    { "id": "hana", "type": "database", "label": "SAP HANA", "sublabel": "1,01 M líneas SQL", "row": 2, "col": 4, "tag": "una BD" },
+    { "id": "externos", "type": "external", "label": "Externos", "sublabel": "SAP, SII, DCV, SFTP", "row": 0, "col": 4 }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "TomEE 8 / Java 8: un solo despliegue (monolito)", "wraps": ["plataformaweb", "router", "f1", "f2", "f3", "f4", "f5", "reportes", "jobmanager"] }
+  ],
+  "connections": [
+    { "id": "usuarios-web", "from": "usuarios", "to": "plataformaweb", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "consumidores-web", "from": "consumidores", "to": "plataformaweb", "label": "REST / SOAP" },
+    { "id": "web-router", "from": "plataformaweb", "to": "router", "label": "JSON" },
+    { "id": "router-f1", "from": "router", "to": "f1" },
+    { "id": "router-f2", "from": "router", "to": "f2" },
+    { "id": "router-f3", "from": "router", "to": "f3" },
+    { "id": "router-f4", "from": "router", "to": "f4" },
+    { "id": "router-f5", "from": "router", "to": "f5" },
+    { "id": "f5-reportes", "from": "f5", "to": "reportes", "label": "en proceso", "variant": "dashed" },
+    { "id": "f1-externos", "from": "f1", "to": "externos", "label": "SAP, SOAP", "variant": "dashed" },
+    { "id": "f2-hana", "from": "f2", "to": "hana", "label": "JDBC" },
+    { "id": "f3-hana", "from": "f3", "to": "hana" },
+    { "id": "f4-hana", "from": "f4", "to": "hana" },
+    { "id": "jobmanager-hana", "from": "jobmanager", "to": "hana", "label": "BAT.Programa", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "amber", "title": "Escala (líneas de código)", "items": ["Java: 793.585 líneas en 3.622 archivos", "SQL: 1.011.780 líneas (188.823 embebidas en los módulos)", "45 módulos Java en 14 dominios (42 en el plan); las cifras por fase son aproximadas"] },
+    { "dot": "cyan", "title": "Fases del plan", "items": ["1 Contabilidad · 2 Tesorería, APV, CuentaInversión", "3 Orden, Mesa, Portafolio, Valo2, BECB, SURA", "4 Custodia, SocioNegocio, Facturación, Replica", "5 Normativa, FondoMutuo, Cartolas, Tributario, Plataforma"] },
+    { "dot": "violet", "title": "Acoplamiento", "items": ["Los módulos se llaman en proceso con logica(con, ...) y comparten conexión y transacción", "Cada job corre en una sola transacción (BcsJob)", "Crystal Reports corre dentro del mismo proceso"] },
+    { "dot": "rose", "title": "Riesgos conocidos", "items": ["Credenciales en código y contraseñas con SHA-256 sin sal (RULE-076, RULE-030)", "Java 8 y TomEE 8 sin soporte moderno", "Lógica de negocio también dentro de HANA"] }
+  ]
+}

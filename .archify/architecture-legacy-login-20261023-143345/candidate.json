@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "LEGACY_LOGIN: componentes del login en TomEE",
+    "locale": "es",
+    "output": "analysis/otr-sva-optimus-corredores/LEGACY_LOGIN_CAJAS.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "front",
+      "type": "frontend",
+      "label": "Front Optimus",
+      "sublabel": "COR / AGE / CLI / WS",
+      "pos": [
+        40,
+        220
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "call",
+      "type": "backend",
+      "label": "CallServlet",
+      "sublabel": "/call (post login)",
+      "pos": [
+        300,
+        60
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "filtros",
+      "type": "security",
+      "label": "SesionFilter",
+      "sublabel": "+ ServiceFilter /PLA/*",
+      "pos": [
+        300,
+        220
+      ],
+      "size": [
+        170,
+        60
+      ],
+      "tag": "noAuthURLs"
+    },
+    {
+      "id": "crear",
+      "type": "backend",
+      "label": "CrearSesion",
+      "sublabel": "servlet /PLA/CrearSesion",
+      "pos": [
+        580,
+        220
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "utils",
+      "type": "backend",
+      "label": "BcsUtils.jar",
+      "sublabel": "SesionUtils · Sesion · AgregarLog",
+      "pos": [
+        580,
+        400
+      ],
+      "size": [
+        190,
+        60
+      ]
+    },
+    {
+      "id": "usuario",
+      "type": "database",
+      "label": "ACC.Usuario",
+      "sublabel": "+ PLA.Configuracion",
+      "pos": [
+        900,
+        100
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "socio",
+      "type": "database",
+      "label": "EMP / PER / CLI",
+      "sublabel": "BSCL.SocioNegocio.BD",
+      "pos": [
+        900,
+        222
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "sesion",
+      "type": "database",
+      "label": "ACC.Sesion",
+      "sublabel": "token de sesión",
+      "pos": [
+        900,
+        340
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "log",
+      "type": "database",
+      "label": "PLA.Log",
+      "sublabel": "+ PLA.DetalleLog",
+      "pos": [
+        900,
+        460
+      ],
+      "size": [
+        190,
+        56
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "TomEE 8 · BcsPlataformaWeb (WAR)",
+      "wraps": [
+        "call",
+        "filtros",
+        "crear",
+        "utils"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "SAP HANA · jdbc/hanaDB",
+      "wraps": [
+        "usuario",
+        "socio",
+        "sesion",
+        "log"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c-front",
+      "from": "front",
+      "to": "filtros",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c-noauth",
+      "from": "filtros",
+      "to": "crear",
+      "label": "sin token",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c-call",
+      "from": "filtros",
+      "to": "call",
+      "label": "X-SESSION-TOKEN"
+    },
+    {
+      "id": "c-usuario",
+      "from": "crear",
+      "to": "usuario",
+      "label": "SELECT / UPDATE"
+    },
+    {
+      "id": "c-socio",
+      "from": "crear",
+      "to": "socio",
+      "label": "SELECT estado"
+    },
+    {
+      "id": "c-utils",
+      "from": "crear",
+      "to": "utils",
+      "label": "insertarSesion, log"
+    },
+    {
+      "id": "c-sesion",
+      "from": "utils",
+      "to": "sesion",
+      "label": "UPDATE / INSERT"
+    },
+    {
+      "id": "c-log",
+      "from": "utils",
+      "to": "log",
+      "label": "INSERT",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Cómo funciona",
+      "items": [
+        "Un único WAR en TomEE 8 atiende el login, los filtros y el resto de servicios (/call)",
+        "/PLA/CrearSesion está en noAuthURLs: entra sin X-SESSION-TOKEN",
+        "CrearSesion valida usuario, clave SHA-256, bloqueo y entidad, y delega en BcsUtils el token y la auditoría",
+        "Todo va por un solo datasource JDBC (jdbc/hanaDB): sin procedimientos almacenados y sin MongoDB"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Después del login",
+      "items": [
+        "SesionFilter valida X-SESSION-TOKEN contra ACC.Sesion (TokenValido='S')",
+        "ServiceFilter controla el acceso por servicio con PLA.Servicio, PLA.Configuracion y ACC.Usuario",
+        "CallServlet despacha /call?t=<IdServicio> según el registro PLA.Servicio"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Evidencia (legacy/.../BSCL/Plataforma)",
+      "items": [
+        "ANT/config/Plataforma.xml: filtros sobre /*",
+        "JAVA/BcsFilters/src/cl/bcs/filters/SesionFilter.java:43-118; ServiceFilter.java:32-212",
+        "JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/CrearSesion.java:107-140, :180-225, :255-392",
+        "JAVA/BcsUtils/src/cl/bcs/utils/Sesion.java:143-200; SesionUtils.java:42-76; AgregarLog.java:25-279"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,469 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "MVP_LOGIN: estado de construcción (actualizado 26-oct-2026, noche)",
+    "locale": "es",
+    "output": "analysis/otr-sva-optimus-corredores/MVP_LOGIN_CAJAS.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "entries": {
+        "backend": {
+          "label": "verde: listo (construido, pruebas H2 en verde)"
+        },
+        "frontend": {
+          "label": "azul: en proceso (construido, con pendientes antes de cerrar)"
+        },
+        "security": {
+          "label": "rojo: falta por construir"
+        },
+        "database": {
+          "label": "HANA existente (equipo HANA, sin cambios)"
+        },
+        "external": {
+          "label": "cliente y UI (equipo UI)"
+        }
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "ui",
+      "type": "external",
+      "label": "UI estática",
+      "sublabel": "SPA + loader (equipo UI)",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "nav",
+      "type": "external",
+      "label": "Navegador",
+      "sublabel": "sessionStorage Token",
+      "pos": [
+        40,
+        300
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "gateway",
+      "type": "backend",
+      "label": "BcsGateway",
+      "sublabel": "reescribe /GWJAVA/PLA · ruta login",
+      "pos": [
+        340,
+        300
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "listo · apagado hasta firma",
+      "icon": "success"
+    },
+    {
+      "id": "filtro",
+      "type": "backend",
+      "label": "Filtro de sesión",
+      "sublabel": "X-SESSION-TOKEN",
+      "pos": [
+        650,
+        60
+      ],
+      "size": [
+        150,
+        541
+      ],
+      "tag": "listo · cerrado por defecto",
+      "icon": "success"
+    },
+    {
+      "id": "sso",
+      "type": "backend",
+      "label": "SSO (opcional)",
+      "sublabel": "SSOInit · Logon · Logout",
+      "pos": [
+        880,
+        60
+      ],
+      "size": [
+        220,
+        56
+      ],
+      "tag": "existe · sin revisar (opcional)",
+      "icon": "success"
+    },
+    {
+      "id": "crear",
+      "type": "backend",
+      "label": "CrearSesion",
+      "sublabel": "login usuario + clave",
+      "pos": [
+        880,
+        150
+      ],
+      "size": [
+        220,
+        56
+      ],
+      "tag": "listo",
+      "icon": "success"
+    },
+    {
+      "id": "clave",
+      "type": "frontend",
+      "label": "Clave provisoria",
+      "sublabel": "Valida · ActualizarClave",
+      "pos": [
+        880,
+        240
+      ],
+      "size": [
+        220,
+        56
+      ],
+      "tag": "en proceso · falta decidir ActualizarClave",
+      "icon": "active"
+    },
+    {
+      "id": "recupera",
+      "type": "frontend",
+      "label": "Recuperar clave",
+      "sublabel": "Solicitud · Recup. · Confirmar",
+      "pos": [
+        880,
+        330
+      ],
+      "size": [
+        220,
+        56
+      ],
+      "tag": "en proceso · lectura ok, escrituras sin probar",
+      "icon": "active"
+    },
+    {
+      "id": "blogin",
+      "type": "backend",
+      "label": "Bootstrap login",
+      "sublabel": "GET JSON empresas + logo",
+      "pos": [
+        880,
+        420
+      ],
+      "size": [
+        220,
+        56
+      ],
+      "tag": "listo · igual al legacy (QA)",
+      "icon": "success"
+    },
+    {
+      "id": "bhome",
+      "type": "backend",
+      "label": "Bootstrap home",
+      "sublabel": "POST JSON sesión + catálogos",
+      "pos": [
+        880,
+        545
+      ],
+      "size": [
+        220,
+        56
+      ],
+      "tag": "listo · igual al legacy (lectura, QA)",
+      "icon": "success"
+    },
+    {
+      "id": "db-sso",
+      "type": "database",
+      "label": "ACC.ConfiguracionSSO · ACC.Usuario · ACC.Sesion",
+      "sublabel": "EMP.Empleado · PER.DireccionElectronica",
+      "pos": [
+        1210,
+        56
+      ],
+      "size": [
+        370,
+        64
+      ],
+      "tag": "PLA.Configuracion"
+    },
+    {
+      "id": "db-crear",
+      "type": "database",
+      "label": "ACC.Usuario · ACC.Sesion · PLA.Configuracion",
+      "sublabel": "EMP.Empleado · PER.Persona · CLI.Cliente",
+      "pos": [
+        1210,
+        146
+      ],
+      "size": [
+        370,
+        64
+      ],
+      "tag": "PLA.Log · PLA.DetalleLog + secuencias"
+    },
+    {
+      "id": "db-clave",
+      "type": "database",
+      "label": "ACC.Usuario · PLA.Configuracion",
+      "sublabel": "ACC.PasswordProhibidas · PLA.Diccionario",
+      "pos": [
+        1210,
+        236
+      ],
+      "size": [
+        370,
+        64
+      ]
+    },
+    {
+      "id": "db-recupera",
+      "type": "database",
+      "label": "SP ACC.RecuperarClaveUsuario · EVT.AgregarEvento",
+      "sublabel": "SP ACC.ConfirmarCambioClaveUsuario · ACC.Usuario",
+      "pos": [
+        1210,
+        326
+      ],
+      "size": [
+        370,
+        64
+      ],
+      "tag": "PLA.Imagenes · PER · CTT · SOC"
+    },
+    {
+      "id": "db-login",
+      "type": "database",
+      "label": "vista PLA.ConsultarEmpresa",
+      "sublabel": "vista PLA.ConsultarImagen (logo)",
+      "pos": [
+        1210,
+        416
+      ],
+      "size": [
+        370,
+        64
+      ]
+    },
+    {
+      "id": "db-sesion",
+      "type": "database",
+      "label": "ACC.Sesion · ACC.Usuario · PLA.Empresa",
+      "sublabel": "SOC.SocioDeNegocio · INS.Corredora · PLA.ValorDefecto…",
+      "pos": [
+        1210,
+        491
+      ],
+      "size": [
+        370,
+        64
+      ],
+      "tag": "vista ACC.ConsultarUsuarioAcceso"
+    },
+    {
+      "id": "db-catalogos",
+      "type": "database",
+      "label": "SP ACC.ConsultarUsuarioAdmin · ConsultarFormatos",
+      "sublabel": "PLA.ConsultarConfiguracionUsuario / Grilla · Diccionario",
+      "pos": [
+        1210,
+        581
+      ],
+      "size": [
+        370,
+        64
+      ],
+      "tag": "REG.DiaFeriado · INS.TipoOperacion* · FiltroInterfaz"
+    },
+    {
+      "id": "segw",
+      "type": "security",
+      "label": "Seguridad del gateway",
+      "sublabel": "cabeceras · CORS (T-02b)",
+      "pos": [
+        340,
+        430
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "falta",
+      "icon": "failure"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "BcsPlataformaWeb :8117 (+ BcsUtils)",
+      "wraps": [
+        "filtro",
+        "sso",
+        "crear",
+        "clave",
+        "recupera",
+        "blogin",
+        "bhome"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "SAP HANA (sin cambios)",
+      "wraps": [
+        "db-sso",
+        "db-crear",
+        "db-clave",
+        "db-recupera",
+        "db-login",
+        "db-sesion",
+        "db-catalogos"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "v-ui",
+      "from": "nav",
+      "to": "ui",
+      "label": "HTML / JS"
+    },
+    {
+      "id": "v-nav",
+      "from": "nav",
+      "to": "gateway",
+      "label": "/GWJAVA/PLA/*",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-gw",
+      "from": "gateway",
+      "to": "filtro",
+      "label": "/PLA/*",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-segw",
+      "from": "gateway",
+      "to": "segw"
+    },
+    {
+      "id": "v-sso",
+      "from": "filtro",
+      "to": "sso"
+    },
+    {
+      "id": "v-crear",
+      "from": "filtro",
+      "to": "crear",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-clave",
+      "from": "filtro",
+      "to": "clave"
+    },
+    {
+      "id": "v-recupera",
+      "from": "filtro",
+      "to": "recupera"
+    },
+    {
+      "id": "v-blogin",
+      "from": "filtro",
+      "to": "blogin",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v-bhome",
+      "from": "filtro",
+      "to": "bhome",
+      "variant": "emphasis"
+    },
+    {
+      "id": "d-db-sso",
+      "from": "sso",
+      "to": "db-sso"
+    },
+    {
+      "id": "d-db-crear",
+      "from": "crear",
+      "to": "db-crear"
+    },
+    {
+      "id": "d-db-clave",
+      "from": "clave",
+      "to": "db-clave"
+    },
+    {
+      "id": "d-db-recupera",
+      "from": "recupera",
+      "to": "db-recupera"
+    },
+    {
+      "id": "d-db-login",
+      "from": "blogin",
+      "to": "db-login"
+    },
+    {
+      "id": "d-db-sesion",
+      "from": "bhome",
+      "to": "db-sesion"
+    },
+    {
+      "id": "d-db-catalogos",
+      "from": "bhome",
+      "to": "db-catalogos"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Verde: listo",
+      "items": [
+        "BcsGateway: reescritura /BSCL/Plataforma/GWJAVA/PLA/* → /PLA/* y ruta del login sin fallback a TomEE; la ruta bcs-plataforma-web solo expone /plataforma/**, /PLA/call y /PLA/CallBatch; ruta del login apagada hasta firmar",
+        "Filtro de sesión: cerrado por defecto (decisión del 26-oct): todo pide X-SESSION-TOKEN salvo las rutas exentas del legacy, /internal, /actuator y /error",
+        "CrearSesion: sesión, intentos, bloqueo temporal y auditoría (pruebas H2); falta comparar su respuesta con el legacy real",
+        "Bootstrap login y home: sus constantes BCS_* en HANA QA son iguales a las de las páginas del legacy (solo lectura); falta acordar el contrato JSON con UI",
+        "SSO: existe de antes; opcional y sin revisar en este avance"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Azul: en proceso",
+      "items": [
+        "Clave provisoria: ActualizarClave sin sesión, como el legacy; falta aceptar el riesgo o exigir clave provisoria, y fijar el charset del hash",
+        "Recuperar clave: la parte de lectura corre en HANA QA (corrida en seco) y las firmas de procedimientos coinciden; no se ejecutó porque escribe (clave provisoria y correo): falta un usuario de prueba dedicado y la entrada de tablas del despachador sigue sin probarse en HANA",
+        "Todo el módulo: verify del 26-oct PARTLY PROVEN y sin firma; los cambios posteriores no están re-verificados"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Rojo: falta por construir",
+      "items": [
+        "Cabeceras de seguridad (X-Frame-Options, nosniff) y CORS del gateway (T-02b); X-Forwarded-For del cliente se copia tal cual",
+        "Compose mínimo para levantar gateway + servicio (T-02c)",
+        "Prueba de las escrituras (sesión, log, claves, recuperación) contra el legacy real: hoy solo H2; hace falta un usuario de prueba dedicado para clave incorrecta, bloqueo y recuperación"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Fuera del core (opción B)",
+      "items": [
+        "La UI estática la sirve el equipo UI: el legacy envía el token por formulario a /UI/optimus; el loader debe pedir el JSON del bootstrap y definir las variables BCS_* antes de arrancar Angular. Menús y ventanas (BCS_FULLMENU*, BCS_VENTANA) son de la UI",
+        "HANA: tablas, vistas y procedimientos existentes; el core solo los consume",
+        "Menú (/PLA/call), control por servicio y RULE-025 fuera del MVP de login"
+      ]
+    }
+  ]
+}
