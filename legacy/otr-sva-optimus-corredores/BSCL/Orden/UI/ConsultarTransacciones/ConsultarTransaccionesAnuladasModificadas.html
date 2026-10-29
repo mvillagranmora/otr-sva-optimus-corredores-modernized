@@ -1,0 +1,90 @@
+<div class="row" ng-controller='ConsultarTransaccionesAnuLModCtrl' bcs-enter="datosForm.buscarTransacciones()" tabindex="1">
+	<div class="row" >
+		<div class="row">
+			<div class="col-xs-11">
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="'combobox-clasificacion-tipo-instrumento'"
+							id-actual="datosBusqueda.IdClasificacionTipoInstrumento"
+							cascada-a="datosForm.filtrosTipoInstrumento.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-3">
+						<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos class="col-xs-8"						    
+							datos-instrumento="datosBusqueda.instrumento"
+							buscar-instrumento="datosBusqueda.setInstrumento"							
+							filtro-clasificacion="datosBusqueda.IdClasificacionTipoInstrumento"
+							filtro-tipo-instrumento="datosBusqueda.IdTipoInstrumento">
+						</bcs-input-instrumentos>
+					</div>
+					
+					<div class="col-xs-2">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base class="col-xs-8"
+						   id="TransAnuMod_Ctrl_UI_ESTADO"
+						   tipo="datosBusqueda.oConfiguracionEstadoTransAnuMod.tipo"
+						   configuracion= "datosBusqueda.oConfiguracionEstadoTransAnuMod.configuracion"
+						   id-actual="datosBusqueda.oConfiguracionEstadoTransAnuMod.idActual"
+						   seleccionado="datosBusqueda.oConfiguracionEstadoTransAnuMod.seleccionado"
+						   filtros="datosBusqueda.oConfiguracionEstadoTransAnuMod.filtros"
+						   todos = "'S'"
+						   item-post-filtro = "'1'"
+						   auto-cargar="'true'">
+					    </bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_TRANSACCION</label>
+						<bcs-input-date class="col-xs-3" k-ng-model="datosBusqueda.fechaDesde"></bcs-input-date>
+						<bcs-input-date class="col-xs-3" k-ng-model="datosBusqueda.fechaHasta"></bcs-input-date>
+					</div>
+			    </div>
+			</div>
+			
+			
+			
+			<div class="col-xs-1">
+			    <div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'default'"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true" 
+						bcs-clic="datosForm.buscarTransacciones()" >
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'default'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="true"  
+						bcs-clic="datosForm.limpiarFiltros()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<bcs-grid id="grid-transaccionesAnuMod"			
+			api = "datosForm.apiGridTransaccionesAnuMod"
+			fn-exportar-excel = "datosForm.exportarExcel"
+			seleccionado="datosForm.kNgModel"
+			configuracion="datosForm.defaultOptionsNew">
+		</bcs-grid>
+	</div>
+
+	<div class="row bcs-panel-comandos">	  
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="datosForm.exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+            <li ng-click="datosForm.seleccionarTodo()">{{'UI_SELECCIONAR_TODO' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

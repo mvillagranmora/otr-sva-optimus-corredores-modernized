@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Comprobante" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Comprobante_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="CHAR" id="FechaIngresoRegistro" length="27"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobante"/>
+        <viewAttribute datatype="CHAR" id="FechaComprobante" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoComprobante" length="7"/>
+        <viewAttribute datatype="NVARCHAR" id="IdConcepto" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreConcepto" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdCaja"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoCaja" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCaja" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3"/>
+        <viewAttribute datatype="BIGINT" id="DecimalesMoneda"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMoneda" length="100"/>
+        <viewAttribute datatype="DECIMAL" id="Monto" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoEgreso" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoIngreso" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoConSigno" length="26" scale="8"/>
+        <viewAttribute datatype="CHAR" id="FechaLiquidacion" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoPersonaTitular" length="3"/>
+        <viewAttribute datatype="BIGINT" id="IdPersonaTitular"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoDocumentoIdentidadTitular" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidadTitular" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePersonaTitular" length="302"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolioTitular"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolioPersona" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePortafolioPersona" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoPersona" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoPersona" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePersona" length="302"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoDocumentoIdentidadPersona" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidadPersona" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="SecuenciaAgrupacion" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="EsBilateral" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="ComprobanteNeteado" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="SeparadoPorConcepto" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEstado" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMedioDePago" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMedioDePago" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdModalidadDePago" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreModalidadDePago" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreUsuarioLiquidacion" length="302"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuarioAnulacion"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoUsuarioAnulacion" length="40"/>
+        <viewAttribute datatype="CHAR" id="FechaHoraAnulacion" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEmpresa" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuario"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoUsuario" length="40"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> &#xD;
+ /********* Begin Procedure Script ************/ &#xD;
+ BEGIN &#xD;
+ 	 var_out = &#xD;
+SELECT&#xD;
+      Comprobante.&quot;IdEmpresa&quot; ,&#xD;
+      CASE WHEN IFNULL(Comprobante.&quot;FechaIngresoRegistro&quot;,'')= '' THEN '0001-01-01 00:00:00' &#xD;
+					 	                              ELSE  &#xD;
+					 	                                  CASE WHEN  Comprobante.&quot;FechaIngresoRegistro&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' &#xD;
+					 	                                  	ELSE LEFT(TO_CHAR(ADD_SECONDS (Comprobante.&quot;FechaIngresoRegistro&quot;, CONFIGURACION.&quot;Valor&quot;)),27)&#xD;
+					 	                                  END &#xD;
+		END  AS &quot;FechaIngresoRegistro&quot;,&#xD;
+&#xD;
+      Comprobante.&quot;IdComprobante&quot; ,&#xD;
+      LEFT(TO_CHAR(IFNULL(Comprobante.&quot;FechaMovimiento&quot;,'0001-01-01')),10)  AS &quot;FechaComprobante&quot;,&#xD;
+            &#xD;
+      CASE WHEN Comprobante.&quot;IdTipoMovimiento&quot; = 'MOVING' THEN CAST('INGRESO' AS NVARCHAR(7)) ELSE CAST('EGRESO' AS NVARCHAR(7)) END AS &quot;TipoComprobante&quot;,&#xD;
+&#xD;
+&#xD;
+      CASE WHEN Comprobante.&quot;IdConcepto&quot; = '' THEN NULL ELSE Comprobante.&quot;IdConcepto&quot; END AS &quot;IdConcepto&quot;,&#xD;
+      CAST(Concepto.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreConcepto&quot; ,&#xD;
+&#xD;
+      CASE WHEN Comprobante.&quot;IdCaja&quot; = 0 THEN NULL ELSE Comprobante.&quot;IdCaja&quot; END AS &quot;IdCaja&quot;,&#xD;
+      CASE WHEN Caja.&quot;Codigo&quot; = '' THEN NULL ELSE CAST(Caja.&quot;Codigo&quot; AS NVARCHAR(40)) END AS &quot;CodigoCaja&quot; ,&#xD;
+      CAST(Caja.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreCaja&quot; ,&#xD;
+&#xD;
+      CASE WHEN Comprobante.&quot;IdMoneda&quot; = '' THEN NULL ELSE Comprobante.&quot;IdMoneda&quot; END AS &quot;IdMoneda&quot;,&#xD;
+      0                 AS &quot;DecimalesMoneda&quot;, --Comprobante.&quot;DecimalesMoneda&quot;&#xD;
+      CAST(Moneda.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreMoneda&quot; ,&#xD;
+      &#xD;
+      Comprobante.&quot;Monto&quot; ,&#xD;
+      CASE WHEN Comprobante.&quot;IdTipoMovimiento&quot; = 'MOVEGR' &#xD;
+      THEN Comprobante.&quot;Monto&quot; &#xD;
+            ELSE 0 &#xD;
+            END AS &quot;MontoEgreso&quot; ,&#xD;
+      CASE WHEN Comprobante.&quot;IdTipoMovimiento&quot; = 'MOVING' &#xD;
+            THEN Comprobante.&quot;Monto&quot; &#xD;
+            ELSE 0 &#xD;
+      END AS &quot;MontoIngreso&quot; ,&#xD;
+      CASE WHEN Comprobante.&quot;IdTipoMovimiento&quot; = 'MOVING' &#xD;
+            THEN Comprobante.&quot;Monto&quot; &#xD;
+            ELSE -1*Comprobante.&quot;Monto&quot; &#xD;
+      END AS &quot;MontoConSigno&quot; ,&#xD;
+      &#xD;
+      LEFT(TO_CHAR(IFNULL(Comprobante.&quot;FechaLiquidacion&quot;,'0001-01-01')),10) AS &quot;FechaLiquidacion&quot;,&#xD;
+&#xD;
+      CASE WHEN Comprobante.&quot;IdTipoPersonaTitularPago&quot; = '' THEN NULL ELSE CAST(Comprobante.&quot;IdTipoPersonaTitularPago&quot; AS NVARCHAR(3)) END AS &quot;IdTipoPersonaTitular&quot; ,&#xD;
+      CASE WHEN Comprobante.&quot;IdPersonaTitularPago&quot; = 0 THEN NULL ELSE Comprobante.&quot;IdPersonaTitularPago&quot; END AS &quot;IdPersonaTitular&quot;,&#xD;
+      '' AS &quot;IdTipoDocumentoIdentidadTitular&quot;, --Comprobante.&quot;IdTipoDocumentoIdentidadTitularPago&quot; AS &quot;IdTipoDocumentoIdentidadTitular&quot;,&#xD;
+      '' AS &quot;DocumentoIdentidadTitular&quot;, --      Comprobante.&quot;DocumentoIdentidadTitularPago&quot; AS &quot;DocumentoIdentidadTitular&quot;,&#xD;
+      CAST(Comprobante.&quot;NombrePersonaTitularPago&quot; AS NVARCHAR(302)) AS &quot;NombrePersonaTitular&quot;,&#xD;
+      CASE WHEN Comprobante.&quot;IdPortafolioTitularPago&quot; = 0 THEN NULL ELSE Comprobante.&quot;IdPortafolioTitularPago&quot; END AS &quot;IdPortafolioTitular&quot;,&#xD;
+      CAST(PortafolioTit.&quot;CodigoPortafolio&quot; AS NVARCHAR(100)) AS &quot;CodigoPortafolioPersona&quot; ,&#xD;
+      CAST(PortafolioTit.&quot;CodigoPortafolio&quot; ||' '|| PortafolioTit.&quot;Proposito&quot; AS NVARCHAR(100)) as &quot;NombrePortafolioPersona&quot; ,&#xD;
+&#xD;
+&#xD;
+      CASE WHEN Comprobante.&quot;IdPersona&quot; = 0 THEN NULL ELSE Comprobante.&quot;IdPersona&quot; END AS &quot;IdPersona&quot; ,&#xD;
+      CAST(Comprobante.&quot;IdTipoPersona&quot; AS NVARCHAR(3)) AS &quot;IdTipoPersona&quot; ,&#xD;
+      CAST(COALESCE(TSN.&quot;NombreTipoSocioDeNegocio&quot;,'') AS NVARCHAR(40)) AS &quot;TipoPersona&quot; ,&#xD;
+      CAST(Comprobante.&quot;NombrePersona&quot; AS NVARCHAR(302)) AS &quot;NombrePersona&quot; ,&#xD;
+      Comprobante.&quot;IdTipoDocumentoIdentidad&quot; AS &quot;IdTipoDocumentoIdentidadPersona&quot;,&#xD;
+      CAST(Comprobante.&quot;DocumentoIdentidad&quot; AS NVARCHAR(40))AS &quot;DocumentoIdentidadPersona&quot;,&#xD;
+      &#xD;
+      CAST(Comprobante.&quot;SecuenciaAgrupacion&quot; AS NVARCHAR(40)) AS &quot;SecuenciaAgrupacion&quot;,&#xD;
+      Comprobante.&quot;EsBilateral&quot; ,&#xD;
+      &#xD;
+      CASE WHEN TRIM(&quot;ComprobanteNeteado&quot;) IN ('N','') THEN 'N' ELSE 'S' END as &quot;ComprobanteNeteado&quot; ,&#xD;
+      CASE WHEN TRIM(&quot;SeparadoPorConcepto&quot;) IN ('N','') THEN 'N' ELSE 'S' END as &quot;SeparadoPorConcepto&quot; ,&#xD;
+&#xD;
+      CASE WHEN Comprobante.&quot;IdEstado&quot; = '' THEN NULL ELSE Comprobante.&quot;IdEstado&quot; END AS &quot;IdEstado&quot;,&#xD;
+      CAST(Estado.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreEstado&quot; ,&#xD;
+&#xD;
+      CASE WHEN FPMC.&quot;IdMedioDePago&quot; = '' THEN NULL ELSE FPMC.&quot;IdMedioDePago&quot; END AS &quot;IdMedioDePago&quot;,&#xD;
+      CAST(FPMC.&quot;NombreMedioDePago&quot; AS NVARCHAR(100)) AS &quot;NombreMedioDePago&quot;,&#xD;
+      CASE WHEN FPMC.&quot;IdModalidadDePago&quot; = '' THEN NULL ELSE CAST(FPMC.&quot;IdModalidadDePago&quot; AS NVARCHAR(6)) END AS &quot;IdModalidadDePago&quot;,&#xD;
+      CAST(FPMC.&quot;NombreModalidadDePago&quot; AS NVARCHAR(100)) AS &quot;NombreModalidadDePago&quot;,&#xD;
+&#xD;
+      CAST(UsuarioLiquidacion.&quot;NombreCompleto&quot; AS NVARCHAR(302)) AS &quot;NombreUsuarioLiquidacion&quot; ,&#xD;
+&#xD;
+      CASE WHEN Comprobante.&quot;IdUsuarioAnulacion&quot; = 0 THEN NULL ELSE Comprobante.&quot;IdUsuarioAnulacion&quot; END AS &quot;IdUsuarioAnulacion&quot;,&#xD;
+      CAST(UsuarioAnul.&quot;CodigoUsuario&quot; AS NVARCHAR(40)) AS &quot;CodigoUsuarioAnulacion&quot;,&#xD;
+      CASE WHEN IFNULL(Comprobante.&quot;FechaHoraAnulacion&quot;,'')= '' THEN '0001-01-01 00:00:00' &#xD;
+					 	                              ELSE  &#xD;
+					 	                                  CASE WHEN  Comprobante.&quot;FechaHoraAnulacion&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' &#xD;
+					 	                                  	ELSE LEFT(TO_CHAR(ADD_SECONDS (Comprobante.&quot;FechaHoraAnulacion&quot;, CONFIGURACION.&quot;Valor&quot;)),19)&#xD;
+					 	                                  END &#xD;
+	  END AS &quot;FechaHoraAnulacion&quot;,&#xD;
+	  &#xD;
+      CAST(Empresa.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreEmpresa&quot; ,&#xD;
+      CASE WHEN Comprobante.&quot;IdUsuario&quot; = 0 THEN NULL ELSE Comprobante.&quot;IdUsuario&quot; END AS &quot;IdUsuario&quot;,&#xD;
+      CAST(Usuario.&quot;CodigoUsuario&quot; AS NVARCHAR(40)) AS &quot;CodigoUsuario&quot;&#xD;
+&#xD;
+	FROM &quot;BSCL.Tesoreria.BD::TES.Comprobante&quot; AS Comprobante &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Estado&quot; AS Estado ON Comprobante.&quot;IdEstado&quot; = Estado.&quot;IdEstado&quot; &#xD;
+	CROSS JOIN (select top 1 &quot;Valor&quot; from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Configuracion&quot;&#xD;
+			            where &quot;CodigoParametro&quot; = 'PLA.SegundosZonaHoraria') AS CONFIGURACION &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD.Vistas::PLA.ConsultarTipoMovimiento&quot; AS TipoMovimiento ON (TipoMovimiento.&quot;IdModulo&quot; = 'TES' &#xD;
+	      and TipoMovimiento.&quot;IdTipoMovimiento&quot; = Comprobante.&quot;IdTipoMovimiento&quot;) &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Concepto&quot; AS Concepto ON (Concepto.&quot;IdConcepto&quot; = Comprobante.&quot;IdConcepto&quot;) &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Tesoreria.BD::TES.Caja&quot; AS Caja ON Caja.&quot;IdCaja&quot; = Comprobante.&quot;IdCaja&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Moneda&quot; AS Moneda ON (Moneda.&quot;IdMoneda&quot; = Comprobante.&quot;IdMoneda&quot;) &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Portafolio.BD.Vistas::ConsultarPortafolio&quot; AS PortafolioTit ON PortafolioTit.&quot;IdPortafolio&quot; = Comprobante.&quot;IdPortafolioTitularPago&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.SocioNegocio.BD.Vistas::SOC.ConsultarTipoSocioNegocio&quot; AS TSN ON (TSN.&quot;IdTipoSocioDeNegocio&quot; = Comprobante.&quot;IdTipoPersona&quot;) &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Empresa&quot; AS Empresa ON (Empresa.&quot;IdEmpresa&quot; = Comprobante.&quot;IdEmpresa&quot;) &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Tesoreria.BD.Vistas::ConsultarFormasDePagoMovimientoComprobante&quot; AS FPMC ON FPMC.&quot;IdInterno&quot; = Comprobante.&quot;IdComprobante&quot; AND FPMC.&quot;Tipo&quot; = 'Comprobante' &#xD;
+	LEFT OUTER JOIN &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::ACC.Usuario&quot; Usuario ON Usuario.&quot;IdUsuario&quot; = Comprobante.&quot;IdUsuario&quot;&#xD;
+	LEFT OUTER JOIN &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::ACC.Usuario&quot; UsuarioAnul ON UsuarioAnul.&quot;IdUsuario&quot; = Comprobante.&quot;IdUsuarioAnulacion&quot;&#xD;
+	LEFT OUTER JOIN ( SELECT&#xD;
+		  &quot;IdComprobante&quot; ,&#xD;
+	      MAX(&quot;NombreCompleto&quot;) AS &quot;NombreCompleto&quot; &#xD;
+	      FROM &quot;BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago&quot; FP &#xD;
+	      INNER JOIN &quot;BSCL.Plataforma.BD.Vistas::ACC.ConsultarUsuarioCompleto&quot; UC ON UC.&quot;IdUsuario&quot; = FP.&quot;IdUsuarioLiquidacion&quot; &#xD;
+	      WHERE FP.&quot;IdEstado&quot; = 'LIQ' &#xD;
+	      GROUP BY FP.&quot;IdComprobante&quot;,&#xD;
+	      FP.&quot;FechaHoraLiquidacion&quot; &#xD;
+	      ORDER BY FP.&quot;FechaHoraLiquidacion&quot; desc ) as UsuarioLiquidacion ON UsuarioLiquidacion.&quot;IdComprobante&quot; = Comprobante.&quot;IdComprobante&quot; &#xD;
+	      AND Comprobante.&quot;IdEstado&quot; IN ('LIQ') &#xD;
+	      WHERE Comprobante.&quot;IdEstado&quot; &lt;> 'MOD' ;&#xD;
+&#xD;
+END /********* End Procedure Script ************/&#xD;
+</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdEmpresa" order="1">
+        <descriptions defaultDescription="IdEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="FechaIngresoRegistro" order="2">
+        <descriptions defaultDescription="FechaIngresoRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaIngresoRegistro"/>
+      </attribute>
+      <attribute id="IdComprobante" order="3">
+        <descriptions defaultDescription="IdComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobante"/>
+      </attribute>
+      <attribute id="FechaComprobante" order="4">
+        <descriptions defaultDescription="FechaComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaComprobante"/>
+      </attribute>
+      <attribute id="TipoComprobante" order="5">
+        <descriptions defaultDescription="TipoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoComprobante"/>
+      </attribute>
+      <attribute id="IdConcepto" order="6">
+        <descriptions defaultDescription="IdConcepto"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdConcepto"/>
+      </attribute>
+      <attribute id="NombreConcepto" order="7">
+        <descriptions defaultDescription="NombreConcepto"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreConcepto"/>
+      </attribute>
+      <attribute id="IdCaja" order="8">
+        <descriptions defaultDescription="IdCaja"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCaja"/>
+      </attribute>
+      <attribute id="CodigoCaja" order="9">
+        <descriptions defaultDescription="CodigoCaja"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoCaja"/>
+      </attribute>
+      <attribute id="NombreCaja" order="10">
+        <descriptions defaultDescription="NombreCaja"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCaja"/>
+      </attribute>
+      <attribute id="IdMoneda" order="11">
+        <descriptions defaultDescription="IdMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="DecimalesMoneda" order="12">
+        <descriptions defaultDescription="DecimalesMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="DecimalesMoneda"/>
+      </attribute>
+      <attribute id="NombreMoneda" order="13">
+        <descriptions defaultDescription="NombreMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMoneda"/>
+      </attribute>
+      <attribute id="Monto" order="14">
+        <descriptions defaultDescription="Monto"/>
+        <keyMapping columnObjectName="Script_View" columnName="Monto"/>
+      </attribute>
+      <attribute id="MontoEgreso" order="15">
+        <descriptions defaultDescription="MontoEgreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoEgreso"/>
+      </attribute>
+      <attribute id="MontoIngreso" order="16">
+        <descriptions defaultDescription="MontoIngreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoIngreso"/>
+      </attribute>
+      <attribute id="MontoConSigno" order="17">
+        <descriptions defaultDescription="MontoConSigno"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoConSigno"/>
+      </attribute>
+      <attribute id="FechaLiquidacion" order="18">
+        <descriptions defaultDescription="FechaLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaLiquidacion"/>
+      </attribute>
+      <attribute id="IdTipoPersonaTitular" order="19">
+        <descriptions defaultDescription="IdTipoPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoPersonaTitular"/>
+      </attribute>
+      <attribute id="IdPersonaTitular" order="20">
+        <descriptions defaultDescription="IdPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersonaTitular"/>
+      </attribute>
+      <attribute id="IdTipoDocumentoIdentidadTitular" order="21">
+        <descriptions defaultDescription="IdTipoDocumentoIdentidadTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoDocumentoIdentidadTitular"/>
+      </attribute>
+      <attribute id="DocumentoIdentidadTitular" order="22">
+        <descriptions defaultDescription="DocumentoIdentidadTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidadTitular"/>
+      </attribute>
+      <attribute id="NombrePersonaTitular" order="23">
+        <descriptions defaultDescription="NombrePersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePersonaTitular"/>
+      </attribute>
+      <attribute id="IdPortafolioTitular" order="24">
+        <descriptions defaultDescription="IdPortafolioTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolioTitular"/>
+      </attribute>
+      <attribute id="CodigoPortafolioPersona" order="25">
+        <descriptions defaultDescription="CodigoPortafolioPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolioPersona"/>
+      </attribute>
+      <attribute id="NombrePortafolioPersona" order="26">
+        <descriptions defaultDescription="NombrePortafolioPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePortafolioPersona"/>
+      </attribute>
+      <attribute id="IdPersona" order="27">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="IdTipoPersona" order="28">
+        <descriptions defaultDescription="IdTipoPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoPersona"/>
+      </attribute>
+      <attribute id="TipoPersona" order="29">
+        <descriptions defaultDescription="TipoPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoPersona"/>
+      </attribute>
+      <attribute id="NombrePersona" order="30">
+        <descriptions defaultDescription="NombrePersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePersona"/>
+      </attribute>
+      <attribute id="IdTipoDocumentoIdentidadPersona" order="31">
+        <descriptions defaultDescription="IdTipoDocumentoIdentidadPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoDocumentoIdentidadPersona"/>
+      </attribute>
+      <attribute id="DocumentoIdentidadPersona" order="32">
+        <descriptions defaultDescription="DocumentoIdentidadPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidadPersona"/>
+      </attribute>
+      <attribute id="SecuenciaAgrupacion" order="33">
+        <descriptions defaultDescription="SecuenciaAgrupacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="SecuenciaAgrupacion"/>
+      </attribute>
+      <attribute id="EsBilateral" order="34">
+        <descriptions defaultDescription="EsBilateral"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsBilateral"/>
+      </attribute>
+      <attribute id="ComprobanteNeteado" order="35">
+        <descriptions defaultDescription="ComprobanteNeteado"/>
+        <keyMapping columnObjectName="Script_View" columnName="ComprobanteNeteado"/>
+      </attribute>
+      <attribute id="SeparadoPorConcepto" order="36">
+        <descriptions defaultDescription="SeparadoPorConcepto"/>
+        <keyMapping columnObjectName="Script_View" columnName="SeparadoPorConcepto"/>
+      </attribute>
+      <attribute id="IdEstado" order="37">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="NombreEstado" order="38">
+        <descriptions defaultDescription="NombreEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEstado"/>
+      </attribute>
+      <attribute id="IdMedioDePago" order="39">
+        <descriptions defaultDescription="IdMedioDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMedioDePago"/>
+      </attribute>
+      <attribute id="NombreMedioDePago" order="40">
+        <descriptions defaultDescription="NombreMedioDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMedioDePago"/>
+      </attribute>
+      <attribute id="IdModalidadDePago" order="41">
+        <descriptions defaultDescription="IdModalidadDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdModalidadDePago"/>
+      </attribute>
+      <attribute id="NombreModalidadDePago" order="42">
+        <descriptions defaultDescription="NombreModalidadDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreModalidadDePago"/>
+      </attribute>
+      <attribute id="NombreUsuarioLiquidacion" order="43">
+        <descriptions defaultDescription="NombreUsuarioLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreUsuarioLiquidacion"/>
+      </attribute>
+      <attribute id="IdUsuarioAnulacion" order="44">
+        <descriptions defaultDescription="IdUsuarioAnulacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuarioAnulacion"/>
+      </attribute>
+      <attribute id="CodigoUsuarioAnulacion" order="45">
+        <descriptions defaultDescription="CodigoUsuarioAnulacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoUsuarioAnulacion"/>
+      </attribute>
+      <attribute id="FechaHoraAnulacion" order="46">
+        <descriptions defaultDescription="FechaHoraAnulacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaHoraAnulacion"/>
+      </attribute>
+      <attribute id="NombreEmpresa" order="47">
+        <descriptions defaultDescription="NombreEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEmpresa"/>
+      </attribute>
+      <attribute id="IdUsuario" order="48">
+        <descriptions defaultDescription="IdUsuario"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuario"/>
+      </attribute>
+      <attribute id="CodigoUsuario" order="49">
+        <descriptions defaultDescription="CodigoUsuario"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoUsuario"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

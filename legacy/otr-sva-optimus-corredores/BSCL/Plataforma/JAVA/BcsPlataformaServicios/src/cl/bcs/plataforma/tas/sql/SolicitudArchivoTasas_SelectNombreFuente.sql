@@ -1,0 +1,1 @@
+SELECT "Codigo" || '-' || "Descripcion" as "codigoFuente", "Codigo" as "codigo", "IdFuente" as "idFuente" FROM "BSCL.Plataforma.BD::TAS.Fuente" WHERE "IdFuente" IN (:IdFuente);

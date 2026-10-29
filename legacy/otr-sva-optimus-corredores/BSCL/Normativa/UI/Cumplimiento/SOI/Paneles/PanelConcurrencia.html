@@ -1,0 +1,114 @@
+<div id="PanelConcurrencia" class="row" ng-controller="PanelConcurrenciaCtrl as pct">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecInicio"
+				></bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_HASTA</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecTermino"></bcs-input-date>
+			</div>
+		  	</div>
+		  	<div class="row">
+				<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TOLERANCIA_EXCESO_PORCENTAJE</label>
+						<bcs-input-numero
+							class="col-xs-8"
+							id="UI_TOLERANCIA"
+							bcs-requerido
+							bcs-mayor-que="'0'"
+							k-ng-model="pct.Tolerancia"
+							k-options ="pct.ToleranciaOptions"
+							ng-blur="win.blurConcurrencia()">
+						</bcs-input-numero>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_CLIENTE_HABITUAL</label>
+			  		<bcs-input-checkbox class="col-xs-3"
+					ng-model="pct.habitual">
+					</bcs-input-checkbox>
+					
+							
+				</div>
+		  
+		  
+		  	</div>
+		  	<div class="row">
+		  	<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pct.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pct.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pct.SocioDeNegocioObj">
+					</bcs-combobox-base>
+				</div>	 
+		  	</div>
+		  	
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<!-- configuracion="pct.grilla.Concurrencia" -->
+		<!--configuracion="pct.grillaCong" -->
+	<div class="row">
+		<bcs-grid
+			id="gridConcurrencia"
+			
+			configuracion="pct.grilla.Concurrencia"
+			
+			seleccionado="pct.grilla.ConcurrenciaSel"
+			fn-exportar-excel="excelConcurrencia"
+			api="gridApi">
+			<div bcs-grid-detail ng-non-bindable>
+			    <div class="row" style="min-height: 50px; width: 100%; text-align:left" >
+			    	<div class="row">
+				    	<div class="col-xs-11">
+							<label class="col-xs-4" translate>UI_TIPO_ORIGEN_FONDO</label>
+							<label class="col-xs-4" translate>UI_VALOR</label>
+						</div>
+					</div>
+					<div class="row">
+						<div style="overflow: auto; height: 120px; ">
+							<div ng-repeat="val in dataItem.detalleConcurrencia">
+								<div class="col-xs-11">
+									<label class="col-xs-4" translate>{{val.NombreTipoOrigenFondo}}</label>
+									<label class="col-xs-4" translate>{{val.Valor}}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</bcs-grid>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12" style="top:10px; padding-bottom: 10px;">
+		  
+				<bcs-menu 
+				class="col-xs-1 pull-right"
+				bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelConcurrencia('Concurrencia')">						  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+			</bcs-menu>	
+		</div>
+		
+	</div>
+	
+	
+	
+	
+</div>

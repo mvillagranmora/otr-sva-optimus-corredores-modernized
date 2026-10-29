@@ -1,0 +1,3 @@
+INSERT INTO "BSCL.FondoMutuo.BD::CSC.ContratoSuscripcionCuotas"
+    ("IdFolioCSC","FolioCSC","IdCliente","IdPortafolio","Hora","Fecha","MontoPesos","MontoUF","TipoPago","IdBanco","DomicilioSucursal","CodigoSucursal","NombreFuncionario","DocumentoIdentificacionFuncionario","FirmaFuncionario","DiaDescuento","AceptoCondiciones","Estado","Canal", "FolioRelacionado", "MLT", "MontoUSD")
+VALUES(:IdFolioCSC,:FolioCSC,:IdCliente,:IdPortafolio,:Hora,:Fecha,:MontoPesos,:MontoUF,:TipoPago,:IdBanco,:DomicilioSucursal,:CodigoSucursal,:NombreFuncionario,:DocumentoIdentificacionFuncionario,:FirmaFuncionario,:DiaDescuento,:AceptoCondiciones, :Estado, :Canal, :FolioRelacionado, :MLT, :MontoUSD);

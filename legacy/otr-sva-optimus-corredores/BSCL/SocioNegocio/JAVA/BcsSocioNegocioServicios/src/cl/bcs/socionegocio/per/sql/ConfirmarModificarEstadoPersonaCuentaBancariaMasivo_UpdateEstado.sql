@@ -1,0 +1,1 @@
+UPDATE "BSCL.SocioNegocio.BD::PER.CuentaBancaria" SET "IdEstado" = :p_IdEstado, "FechaModificacion" = CURRENT_UTCTIMESTAMP WHERE "IdCuentaBancaria" = :p_IdCuentaBancaria

@@ -1,0 +1,1 @@
+CREATE LOCAL TEMPORARY TABLE #CumpleRequisitosClienteIngresoOperacionRF_Resultado_Temp ("IdInterno" BIGINT,"IdResultado" BIGINT,"Codigo"NVARCHAR(100),"NombreParametro1" NVARCHAR(100),"ValorParametro1" NVARCHAR(621),"NombreParametro2" NVARCHAR(100),"ValorParametro2" NVARCHAR(621));

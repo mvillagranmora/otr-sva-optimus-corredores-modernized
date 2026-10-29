@@ -1,0 +1,24 @@
+INSERT INTO "BSCL.Orden.BD::ORD.ConfiguracionShortName" (
+    "IdConfiguracionShortName",
+	"ShortName",
+    "IdTipoInstrumento",
+	"AsignacionAuto",
+	"MovimientoFacturarAuto",
+	"ComprobanteAuto",
+    "FechaHoraCreacion",
+    "UsuarioCreador",
+    "FechaHoraModificacion",
+    "UsuarioModificador"
+    )
+VALUES(
+	"BSCL.Orden.BD.Secuencias::IdConfiguracionShortName".NEXTVAL,
+	:p_NewShortName,
+	:IdTipoInstrumento,
+	:AsignacionAuto,
+    :MovimientoFacturarAuto,
+    :ComprobanteAuto,
+	:p_FechaSistema,
+    :p_IdUsuario,
+    :p_FechaSistema,
+    :p_IdUsuario
+)

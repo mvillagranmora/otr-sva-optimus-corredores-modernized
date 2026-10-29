@@ -1,0 +1,85 @@
+<div class="row" ng-controller='ModificarMovimientoModalCtrl as bModifMvtoMod'>
+  <div class="row no-margin">
+    <div class="col-xs-12">
+      <!-- DATOS BASICOS -->
+	  <div class="row">
+		 <div class="row k-window-subtitle">
+		   <label class="col-xs-4" translate>UI_DATOS_BASICOS</label>																							
+		 </div>
+	  </div>
+	  
+	  <table class="table">
+		 <tr>
+		   <td><strong class="align_right" translate>UI_TIPO_COMPROBANTE</strong></td>
+		   <td><label class="">{{bModifMvtoMod.oMovimientoComprobante.NombreTipoComprobante}}</label></td>					
+		   <td><strong class="align_right" translate>UI_TIPO_OPERACION</strong></td>
+		   <td><label class="" >{{bModifMvtoMod.oMovimientoComprobante.NombreTipoOperacion}}</label></td>
+		   <td><strong class="align_right" translate>UI_INSTRUMENTO</strong></td>
+		   <td><label class="" >{{bModifMvtoMod.oMovimientoComprobante.NemotecnicoInstrumento}}</label></td>
+		 </tr>
+		 
+		 <tr>
+		   <td><strong class="align_right" translate>UI_CONDICION_LIQUIDACION_ABR</strong></td>
+		   <td><label class="">{{bModifMvtoMod.oMovimientoComprobante.NombreCondicionDeLiquidacion}}</label></td>
+		   <td><strong class="align_right" translate>UI_FECHA_VENCIMIENTO</strong></td>
+		   <td><label class="">{{bModifMvtoMod.oMovimientoComprobante.FechaVencimiento | kformat:'d'}}</label></td>
+		   <td><strong class="align_right" translate>UI_MONTO_LOCAL</strong></td>
+		   <td>
+		     <label class="" ng-if="bModifMvtoMod.oMovimientoComprobante.IdTipoComprobante !== 'FEE' && bModifMvtoMod.oMovimientoComprobante.IdTipoOperacion !== 'PRESTA' && bModifMvtoMod.oMovimientoComprobante.IdTipoOperacion !== 'ANTPRT' && !bModifMvtoMod.oMovimientoComprobante.validadorLocal">
+		     	{{bModifMvtoMod.oMovimientoComprobante.MontoMovimientoComprobante | kformat:'c':bModifMvtoMod.oMovimientoComprobante.IdMonedaMovimientoComprobante:'monto':'GEN'}}
+		     </label>
+		     <bcs-input-monetario ng-if="bModifMvtoMod.oMovimientoComprobante.IdTipoComprobante === 'FEE' && (bModifMvtoMod.oMovimientoComprobante.IdTipoOperacion === 'PRESTA' || bModifMvtoMod.oMovimientoComprobante.IdTipoOperacion === 'ANTPRT') && !bModifMvtoMod.oMovimientoComprobante.validadorLocal"
+		     	class="col-xs-10"
+		     	decimales = "0"
+		     	simbolo="bModifMvtoMod.oMovimientoComprobante.IdMonedaMovimientoComprobante"
+		     	k-ng-model="bModifMvtoMod.oMovimientoComprobante.MontoMovimientoComprobante">
+			</bcs-input-monetario>
+			<bcs-input-monetario ng-if="bModifMvtoMod.oMovimientoComprobante.validadorLocal"
+		     	class="col-xs-10"
+		     	decimales = "0"
+		     	simbolo="bModifMvtoMod.oMovimientoComprobante.IdMonedaMovimientoComprobante"
+		     	k-ng-model="bModifMvtoMod.oMovimientoComprobante.MontoMovimientoComprobante">
+			</bcs-input-monetario>
+		   </td>
+		 </tr>
+		 
+		 <tr>
+		   <td><strong class="align_right" translate>UI_CANTIDAD</strong></td>
+		   <td><label class="">{{bModifMvtoMod.oMovimientoComprobante.Cantidad | kformat:'n' :bModifMvtoMod.oMovimientoComprobante.IdMoneda:'cantidad':'GEN'}}</label></td>
+		   <td><strong class="align_right" translate>UI_PRECIO</strong></td>
+		   <td><label class="">{{bModifMvtoMod.oMovimientoComprobante.Precio | kformat:'n':bModifMvtoMod.oMovimientoComprobante.IdMoneda:'precio':'GEN':'':bModifMvtoMod.oMovimientoComprobante.IdTipoInstrumento}}</label></td>
+		   <td><strong class="align_right" translate>UI_TASA</strong></td>
+		   <td><label class="">{{bModifMvtoMod.oMovimientoComprobante.Tasa | kformat:'n':bModifMvtoMod.oMovimientoComprobante.IdMoneda:'tasa':'GEN':'':bModifMvtoMod.oMovimientoComprobante.IdTipoInstrumento}}</label></td>		   
+		 </tr>  		 							
+	  </table>      
+    </div>
+    
+	<div class="col-xs-12" style="margin-top:10px" ng-if="!bModifMvtoMod.oMovimientoComprobante.validadorLocal">
+	  <uib-tabset>
+	  
+	     <uib-tab heading="{{'UI_MODIFICAR_MOVIMIENTOS_GENERAL' | translate}}" ng-click="tabClick('gridModificarMovimientoComprobanteGeneral')">
+		    <div id="gridModificarMovimientoComprobanteGeneral"  style = "height:300px" 
+		         ng-include="'../../Facturacion/UI/MovimientosFacturar/ModificarMovimientoGeneralModal.html'">
+			</div>
+	     </uib-tab>
+	      			
+	     <uib-tab heading="{{'UI_MODIFICAR_MOVIMIENTOS_COBRO' | translate}}" ng-click="tabClick('gridModificarMovimientoComprobanteCobro')">
+		    <div id="gridModificarMovimientoComprobanteCobro"  style = "height:410px"
+		         ng-include="'../../Facturacion/UI/MovimientosFacturar/ModificarMovimientoCobroModal.html'">
+		 	</div>
+	     </uib-tab>
+	     
+	     
+	     <uib-tab heading="{{'UI_MODIFICAR_MOVIMIENTOS_FDEPAGO' | translate}}" ng-click="tabClick('gridModificarMovimientoComprobanteFormaDePago')">  		 
+		    <div id="gridModificarMovimientoComprobanteFormaDePago" style = "height:330px"
+		         ng-include="'../../Facturacion/UI/MovimientosFacturar/ModificarMovimientoFormasDePagoModal.html'">
+		 	</div>
+	     </uib-tab>
+	  </uib-tabset>
+    </div>
+	<div class="row bcs-panel-comandos">
+		<hr>
+		<bcs-button  class="col-xs-2 pull-right" style="padding-top: 10px;" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'true'"  bcs-texto="'GRABAR' | translate" bcs-habilitado="true"  bcs-clic="ajusteSencillo()" ng-show="bModifMvtoMod.oMovimientoComprobante.validadorLocal"></bcs-button>
+	</div>	
+  </div>	
+</div>

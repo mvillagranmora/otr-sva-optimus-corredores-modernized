@@ -1,0 +1,1 @@
+DELETE FROM "#ModificarComisionMovimientosPorDetallePerfilCobro_DetallePerfilCobro";

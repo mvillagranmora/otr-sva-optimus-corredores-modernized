@@ -1,0 +1,317 @@
+<div class="row" ng-controller="MovimientoFacturarCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base 
+							class="col-xs-10" 
+							id="MovimientoFacturarCtrl_UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							ng-style="{'width' : data.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oClientePortafolio.seleccionado  ? '81%' : '83.33333333%'}"
+							carga-cliente-automatico="'S'"  
+							tipo="data.oClientePortafolio.tipo"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio" 
+							id-actual="filtros.IdPortafolio"
+							configuracion="data.oClientePortafolio.configuracion"> 
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="MovimientoFacturarCtrl_UI_ESTADO" auto-cargar="'true'"
+							tipo="data.oConfiguracionEstadoMovimientoFactura.tipo"
+							configuracion="data.oConfiguracionEstadoMovimientoFactura.configuracion"
+							id-actual="data.oConfiguracionEstadoMovimientoFactura.idActual"
+							seleccionado="data.oConfiguracionEstadoMovimientoFactura.seleccionado"
+							filtros="data.oConfiguracionEstadoMovimientoFactura.filtros"
+							memoria="" todos="'S'" id-defecto="'ING'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_COMPROBANTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="MovimientoFacturarCtrl_UI_TIPO_COMPROBANTE"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionTipoComprobante.tipo"
+							configuracion="data.oConfiguracionTipoComprobante.configuracion"
+							id-actual="data.oConfiguracionTipoComprobante.idActual"
+							seleccionado="data.oConfiguracionTipoComprobante.seleccionado"
+							filtros="data.oConfiguracionTipoComprobante.filtros" todos="'S'"
+							id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-4">
+						<label class="col-xs-5" translate>UI_CONDICION_LIQUIDACION_ABR</label>
+						<bcs-combobox-base class="col-xs-7"
+							id="MovimientoFacturarCtrl_UI_CONDICION_LIQUIDACION_ABR"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionCondicionLiquidacion.tipo"
+							configuracion="data.oConfiguracionCondicionLiquidacion.configuracion"
+							id-actual="data.oConfiguracionCondicionLiquidacion.idActual"
+							seleccionado="data.oConfiguracionCondicionLiquidacion.seleccionado"
+							filtros="data.oConfiguracionCondicionLiquidacion.filtros"
+							todos="'S'" item-post-filtro="'1'" id-defecto="'0'" incluyeot="'S'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="MovimientoFacturarCtrl_UI_CLASIFICACION" auto-cargar="'true'"
+							tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+							configuracion="data.oConfiguracionClasificacionTipoInstrumento.configuracion"
+							seleccionado="data.oConfiguracionClasificacionTipoInstrumento.seleccionado"
+							filtros="data.oConfiguracionClasificacionTipoInstrumento.filtros"
+							id-actual="data.oConfiguracionClasificacionTipoInstrumento.idActual"
+							cascada-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'" todos="'S'"
+							id-defecto="'0'" item-post-filtro="'1'"> 
+						</bcs-combobox-base>
+					</div>
+					
+				</div>
+
+				<div class="row">
+					
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="MovimientoFacturarCtrl_UI_TIPO_INSTRUMENTO"
+							auto-cargar="'false'"
+							tipo="data.oConfiguracionTipoInstrumento.tipo"
+							configuracion="data.oConfiguracionTipoInstrumento.configuracion"
+							id-actual="data.oConfiguracionTipoInstrumento.idActual"
+							seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+							filtros="data.oConfiguracionTipoInstrumento.filtros" todos="'S'"
+							id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_OPERACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="MovimientoFacturarCtrl_UI_OPERACION" auto-cargar="'true'"
+							tipo="data.oConfiguracionOperacion.tipo"
+							configuracion="data.oConfiguracionOperacion.configuracion"
+							id-actual="data.oConfiguracionOperacion.idActual"
+							seleccionado="data.oConfiguracionOperacion.seleccionado"
+							filtros="data.oConfiguracionOperacion.filtros" todos="'S'"
+							item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos class="col-xs-8"
+							id="MovimientoFacturarCtrl_UI_INSTRUMENTO" name="uInstrumento"
+							datos-instrumento="instrumentoDatos"
+							buscar-instrumento="data.oConfiguracionInstrumento.buscar"
+							filtro-estado="'ACT'"
+							filtro-tipo-instrumento="data.oConfiguracionTipoInstrumento.seleccionado.IdTipoInstrumento">
+						</bcs-input-instrumentos>
+					</div>
+				</div>
+
+				<div class="row">
+					
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_MOVIMIENTO</label>
+						<bcs-input-date class="col-xs-4"
+							id="MovimientoFacturarCtrl_UI_FECHA_MOVIMIENTO_DESDE"
+							k-ng-model="data.oFechaMovimientoComprobanteDesde">
+						</bcs-input-date>
+						<bcs-input-date class="col-xs-4"
+							id="MovimientoFacturarCtrl_UI_FECHA_MOVIMIENTO_HASTA"
+							k-ng-model="data.oFechaMovimientoComprobanteHasta">
+						</bcs-input-date>
+					</div>
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_TRANSACCION</label>
+						<bcs-input-date class="col-xs-4"
+							id="MovimientoFacturarCtrl_UI_FECHA_TRANSACCION_DESDE"
+							k-ng-model="data.oFechaTransaccionDesde"> </bcs-input-date>
+						<bcs-input-date class="col-xs-4"
+							id="MovimientoFacturarCtrl_UI_FECHA_TRANSACCION_HASTA"
+							k-ng-model="data.oFechaTransaccionHasta"> </bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_VENTA_CORTA</label>
+						<bcs-input-checkbox id="MovimientoFacturarCtrl_UI_VENTA_CORTA"
+							class="col-xs-1" ng-model="data.oIndVentaCorta">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+
+				
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CANAL</label>
+						<bcs-combobox-base class="col-xs-8"
+							activado="inputsHabilitados"
+							todos = "'S'"
+							item-post-filtro = "'1'"
+							id-actual="data.IdTipoCanalIngreso"
+							tipo="'combobox-tipo-canal-ingreso'"
+							filtros = "data.filtrosCanalIngreso">
+						</bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_MARCA_ASIGNACION</label>
+						<bcs-input-texto
+							class="col-xs-8" 
+							id="EnvioFacturacionMasivo_MarcaAsignacion"
+							ng-model="data.MarcaAsignacion"
+							k-ng-model="data.MarcaAsignacion"
+							>
+						</bcs-input-texto>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_LIQUIDACION_COMISION_FACTURA</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="MovimientoFacturarCtrl_UI_TIPO_LIQUIDACION_COMISION_FACTURA"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionTipoLiquidacionFactura.tipo"
+							configuracion="data.oConfiguracionTipoLiquidacionFactura.configuracion"
+							id-actual="data.oConfiguracionTipoLiquidacionFactura.idActual"
+							seleccionado="data.oConfiguracionTipoLiquidacionFactura.seleccionado"
+							filtros="data.oConfiguracionTipoLiquidacionFactura.filtros"
+							todos="'S'" item-post-filtro="'1'" id-defecto="'0'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4"> 
+						<label class="col-xs-4" translate>UI_OPERADOR</label> 
+						<bcs-input-texto class="col-xs-8" ng-model="data.oCodigoOperador"></bcs-input-texto> 
+					</div> 
+				<div class="col-xs-4">
+                    <i id='toolMovimientoFacturar' class="glosa-icono"></i>
+                    <label translate>UI_GLOSA</label>
+                </div>						
+				</div>
+			</div>
+
+
+
+			<!-- FIN FILTROS -->
+
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true" bcs-clic="buscar()"> </bcs-button>
+				</div>
+
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="true" bcs-clic="limpiarFiltros()"> </bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+
+		<!-- INICIO SUB GRILLA DETALLE REGISTRO -->
+		<div class="row">
+			<bcs-grid id="grid-movimientos-facturar"
+				configuracion="confBasicaMovimientoFacturar"
+				seleccionado="seleccionMovimientoFacturar"
+				fn-doble-click="detalleMovimientoFacturar(seleccionMovimientoFacturar)"
+				fn-exportar-excel="exportarExcel" api="gridApiMovimientoFacturar">
+
+			<div bcs-grid-detail ng-non-bindable>
+				<div style="width: 830px;">
+					<uib-tabset> <uib-tab
+						heading="{{'UI_COBROS' | translate}}"> <bcs-grid
+						configuracion="confBasicaMovimientoCobros(dataItem)"
+						seleccionado="dataItem.seleccionMovimientoCobros"> </bcs-grid> </uib-tab> <uib-tab
+						heading="{{'UI_FORMA_DE_PAGO' | translate}}"> <bcs-grid
+						configuracion="confBasicaMovimientoFormasDePago(dataItem)"
+						seleccionado="dataItem.seleccionMovimientoFormasDePago">
+					</bcs-grid> </uib-tab> </uib-tabset>
+				</div>
+			</div>
+			</bcs-grid>
+		</div>
+		<!-- FIN SUB GRILLA DETALLE REGISTRO -->
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row" style="margin-top: -5px;">
+		<div class="col-xs-3 pull-right">
+			<label translate class="row">UI_SUMA_MONTO</label><label style="margin-right: 5px;">:</label>{{sumaMonto}}
+		</div>
+		<div class="col-xs-3 pull-right">
+			<label translate class="row">UI_SUMA_CANTIDAD</label><label style="margin-right: 5px;">:</label>{{sumaCantidad}}
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-1" style="width: 15%;"
+			id='BlotterFacturacion_btnGenerarComprobante' bcs-tipo="'bcs-button-primary'"
+			bcs-auto-desactivar="'true'"
+			bcs-texto="'UI_GENERAR_COMPROBANTE' | translate"
+			bcs-habilitado="data.btnActivos" bcs-clic="data.crearComprobante()"></bcs-button>
+		<bcs-button class="col-xs-1" id='BlotterFacturacion_btnBloquear' 
+			bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'true'"
+			bcs-texto="'UI_BLOQUEAR' | translate"
+			bcs-habilitado="data.btnActivos" bcs-clic="data.bloquearMovimiento()"></bcs-button>
+		<bcs-button class="col-xs-1" id='BlotterFacturacion_btnDesbloquear' style="width: 9%;"
+			bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'true'"
+			bcs-texto="'UI_DESBLOQUEAR' | translate"
+			bcs-habilitado="data.btnActivos"
+			bcs-clic="data.desbloquearMovimiento()"></bcs-button>
+		<bcs-button class="col-xs-2"
+			id='BlotterFacturacion_btnCrearOtrosConceptos' bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="'true'" style="width: 17%;"
+			bcs-texto="'UI_INGRESAR_OTROS_CONCEPTOS' | translate"
+			bcs-habilitado="data.btnActivos"
+			bcs-clic="data.crearMovimientoOtrosConceptos()"></bcs-button>		
+		<bcs-menu class="col-xs-1" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+			bcs-texto="'UI_MODIFICAR' | translate">
+		<li ng-click="data.modificarMovimiento(seleccionMovimientoFacturar)">{{'UI_MODIFICAR'
+			| translate}}</li>
+		<li ng-click="data.modificarPortafolioMovimientos(seleccionMovimientoFacturar)">{{'UI_MODIFICAR_PORTAFOLIO'
+			| translate}} </li>
+		<li ng-click="data.modificarMasivoComisiones()">{{'UI_MODIFICAR_MASIVO_COMISIONES'
+			| translate}} </li>
+		<li ng-click="data.modificarMontoLocal(seleccionMovimientoFacturar)">{{'UI_MODIFICAR_MONTO_LOCAL'
+			| translate}}</li>
+		</bcs-menu>
+		<bcs-button class="col-xs-1" id='BlotterFacturacion_btnAnular'
+			bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'true'"
+			bcs-texto="'UI_ANULAR' | translate" bcs-habilitado="data.btnActivos"
+			bcs-clic="data.anularMovimiento()"></bcs-button>
+		<bcs-button class="col-xs-1" id='BlotterFacturacion_btnCostos'
+			bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'true'"
+			bcs-texto="'UI_COSTOS' | translate" bcs-habilitado="data.btnActivos"
+			bcs-clic="data.costosMovimiento(seleccionMovimientoFacturar)"></bcs-button>
+		<bcs-button class="col-xs-2" style="width: 13%;" id='BlotterFacturacion_btnMapaRelaciones'
+			bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'true'"
+			bcs-texto="'UI_MAPA_DE_RELACIONES' | translate"
+			bcs-habilitado="data.btnActivos"
+			bcs-clic="data.verMapaRelaciones(seleccionMovimientoFacturar)"></bcs-button>
+
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+			bcs-texto="'UI_OPCIONES' | translate">
+		<li ng-click="data.seleccionarTodosMovimientos()">{{'UI_SELECCIONAR_TODO'
+			| translate}}</li>
+		<li ng-click="data.deseleccionarTodosMovimientos()">{{'UI_DESELECCIONAR_TODO'
+			| translate}}</li>
+		<li ng-click="data.anularMovimientosPorAsignacionMasivaModal()">{{'UI_ANULACION_MOVIMIENTOS_A_FACTURAR'
+			| translate}}</li>
+		</bcs-menu>
+	</div>
+	<!-- FIN PANEL COMANDOS -->
+
+</div>

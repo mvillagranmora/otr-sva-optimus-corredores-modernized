@@ -1,0 +1,712 @@
+<div ng-controller="IngresarOrdenRVCtrl as ordenRV " ng-init="resizeHeight()">	
+	<form ng-show="ordenRV.datosForm.modo === 'INGRESO'" name="IngresarOrdenRVForm">
+		<div class="row">
+			<div class="row"  id="ingresarOrden" style="min-height: 450px;">
+			   	<div class="row">
+					<!-- FILA 0 -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label translate class="col-xs-4">UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base 
+								id = "IngresarOrdenRVForm_comboPortafolio"
+							 	class="col-xs-8"
+							 	tipo="'combobox-cliente-portafolio'"
+							    filtros="ordenRV.datosForm.configuracionPortafolio.filtros"
+					            bcs-requerido
+							    muestra-enlace = "'S'"
+							    cascada-a="ordenRV.datosForm.configuracionPreferenciaPagoPortafolio.filtros.IdPortafolio"
+								cascada-valor="'IdPortafolio'"
+								cascada1-a="ordenRV.datosForm.configuracionAutorizadoDarOrdenes.filtros.IdPortafolio"
+								cascada1-valor="'IdPortafolio'"
+								cascada2-a="ordenRV.datosForm.configuracionCuentaCustodio.filtros.IdPortafolio"
+								cascada2-valor="'IdPortafolio'"
+								cascada3-a="ordenRV.datosForm.configuracionMecanismoCaptacion.filtros.IdEntidad"
+                                cascada3-valor="'IdPortafolio'"
+								id-actual = "ordenRV.datosForm.configuracionPortafolio.idActual"
+								seleccionado = "ordenRV.datosOrden.portafolioSeleccionado">
+							</bcs-combobox-base >
+						</div>
+						<div class="col-xs-1">
+						</div>
+						<!-- <div class="col-xs-5" ng-show="SesionLocale === 'CL' || (SesionLocale === 'PE' && ordenRV.modoVentana !== 'OFERTAPUBLICA')">
+							<label class="col-xs-4" translate>UI_INGRESO_RAPIDO</label>
+							<bcs-input-texto
+								placeholder="'C|V 999NEMO  o C|V 999NEMO$1000'" 
+								id="UI_INGRESO_RAPIDO"
+								bcs-enter="ordenRV.datosForm.ingresoRapido = ordenRV.datosForm.ingresoRapidoTemp;ordenRV.SW='S'"
+								bcs-tab="ordenRV.datosForm.ingresoRapido = ordenRV.datosForm.ingresoRapidoTemp;ordenRV.SW='S'"
+								class="col-xs-8" ng-class="ordenRV.datosForm.pensando ? 'col-xs-7' : 'col-xs-8'" ng-model="ordenRV.datosForm.ingresoRapidoTemp">
+							</bcs-input-texto>
+							<img class="pull-right" ng-show="ordenRV.datosForm.pensando"
+							 	style = "width : 5%" 
+							 	src="libs/K2015_3_1111/Fiori/loading-image.gif">
+						</div> -->
+						<div class="col-xs-5" ng-show="SesionLocale === 'PE' && ordenRV.modoVentana === 'OFERTAPUBLICA'">
+							<label class="col-xs-4" translate>UI_LIBRO_ORDENES</label>
+							<bcs-combobox-base class="col-xs-7"
+								tipo="'combobox-libro-orden'"
+								id-post-filtro 	= "ordenRV.datosForm.configuracionLibroOrdenes.idPostFiltro"
+								filtros			= "ordenRV.datosForm.configuracionLibroOrdenes.filtros"
+								seleccionado 	= "ordenRV.datosForm.configuracionLibroOrdenes.seleccionado">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					
+					<div class="row">
+
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_AUTORIZADOR</label>
+							<bcs-combobox-base
+								class="col-xs-8"
+								id-actual = "ordenRV.datosForm.configuracionAutorizadoDarOrdenes.idActual"
+								bcs-requerido ="ordenRV.datosOrden.portafolioSeleccionado.TipoPersona === 'J'"
+								tipo="'combobox-autorizado-dar-ordenes'"
+								usa-filtros-completos = "'S'"
+								seleccionado="ordenRV.datosOrden.autorizadoDarOrdenes"
+								filtros="ordenRV.datosForm.configuracionAutorizadoDarOrdenes.filtros">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-1"></div>
+
+						<div class="col-xs-5">
+							<label class="col-xs-4" translate>UI_MECANISMO_DE_CAPTACION</label>
+							<bcs-combobox-base class="col-xs-8"
+								bcs-requerido
+								id="IngresarOrdenRVForm_comboMecanismoCaptacion"
+								auto-cargar = "'false'"
+								tipo="'combobox-detalle-tipo-atributo-entidad-json'"
+								filtros="ordenRV.datosForm.configuracionMecanismoCaptacion.filtros"
+								auto-seleccion ="'true'"
+								seleccionado="ordenRV.datosOrden.mecanismoDeCaptacion">								
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<hr>
+					
+					<!-- FILA 1 -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_OPERACION</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboOperacion"
+								class="col-xs-5"
+								bcs-requerido
+								activado = "ordenRV.datosForm.configuracionCompraVenta.activado"
+								id-defecto = "ordenRV.datosForm.configuracionCompraVenta.defecto"
+								tipo="'combobox-compra-venta'"
+								seleccionado="ordenRV.datosOrden.OperacionSeleccionada"
+								id-actual="ordenRV.datosForm.AccionOrden">
+							</bcs-combobox-base>
+							<label class="col-xs-3">
+								<bcs-input-checkbox
+									id = "IngresarOrdenRVForm_checkVentaCorta" 
+									ng-disabled="ordenRV.datosForm.AccionOrden==='COMPRA'" 
+									ng-model="ordenRV.datosOrden.EsVentaCorta">
+								</bcs-input-checkbox>&nbsp;{{'UI_VENTA_CORTA' | translate}}
+							</label>
+							
+						</div>
+			
+					</div>
+					
+					<!-- FILA 3 -->
+					<div class="row" style="max-height: 18.5px;">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+							<bcs-input-instrumentos
+								id 						= "IngresarOrdenRVForm_inputInstrumentos"
+								k-ng-disabled			= "ordenRV.datosForm.instrumentoDeshabilitado" 
+								class					= "col-xs-8" 
+								bcs-requerido
+								buscar-instrumento		="ordenRV.datosForm.setInstrumento" 
+								datos-instrumento		="ordenRV.datosOrden.instrumento" 
+								muestra-precio 			= "'N'" 
+								consulta-precio 		= "'S'" 
+								filtro-estado 			= "'ACT'"
+								filtro-clasificacion	= "['RV','DV']"
+								modo					= "FLJORD"
+								filtro-flujo-custodia	= "FLUJO_ORDEN"
+								valida-flujo-custodia 	= "ordenRV.datosForm.validaFlujoCustodia"
+								fecha-flujo 			= "ordenRV.datosOrden.fechaLiquidacion"
+								id-portafolio			= "ordenRV.datosOrden.portafolioSeleccionado.IdPortafolio"
+								id-tipo-operacion		= "ordenRV.datosOrden.operacionSeleccionada.IdTipoOperacion"
+								id-boveda				= "ordenRV.datosOrden.bovedaSeleccionada.IdBoveda"
+								id-uso					= "ordenRV.datosForm.idUso">
+							</bcs-input-instrumentos>
+						</div>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-5" style="max-height: 18.5px;">
+								<label class="col-xs-4" translate>UI_INSTRUMENTO_NEGOCIACION</label>
+								<bcs-input-instrumentos
+									id 						= "IngresarOrdenRVForm_inputInstrumentosNegociacion"
+									k-ng-disabled			= "true" 
+									class					= "col-xs-8" 
+									buscar-instrumento		="ordenRV.datosForm.InstrumentoNegociacion.NemoInstrumentoNegociacion"
+									datos-instrumento		="ordenRV.datosOrden.InstrumentoNegociacion" 
+									muestra-precio 			= "'N'" 
+									consulta-precio 		= "'S'" 
+									filtro-estado 			= "'ACT'"
+									filtro-clasificacion	= "['RV','DV']"
+									filtro-moneda			= "ordenRV.datosForm.comboMonedaLiquidacionOrden.filtros.IdMonedaInstrumento.value"
+									modo					= "FLJORD"
+									filtro-flujo-custodia  = "FLUJO_ORDEN"
+									valida-flujo-custodia   = "ordenRV.datosForm.validaFlujoCustodia"
+									fecha-flujo       = "ordenRV.datosOrden.fechaLiquidacion"
+									id-portafolio      = "ordenRV.datosOrden.portafolioSeleccionado.IdPortafolio"
+									id-tipo-operacion    = "ordenRV.datosOrden.operacionSeleccionada.IdTipoOperacion"
+									id-boveda        = "ordenRV.datosOrden.bovedaSeleccionada.IdBoveda"
+									id-uso					= "ordenRV.datosForm.idUso"
+									filtro-instrumento-negociacion = "'S'"
+									filtro-condicion-de-liquidacion    = "ordenRV.datosOrden.condicionLiquidacionSeleccionada.IdCondicionDeLiquidacion">
+								</bcs-input-instrumentos>  
+						</div>      
+					</div>
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_MONEDA_ORDEN</label>
+							
+							<bcs-combobox-base class="col-xs-8"
+							 	id				= "IngresarOrdenRVForm_comboMonedaOrden"
+							 	bcs-requerido							 	
+								auto-cargar		= "'false'"
+							    tipo			= "'combobox-tipo-instrumento-moneda-orden'"
+							    filtros 		= "ordenRV.datosForm.comboMonedaOrden.filtros"
+								auto-seleccion  = "'true'"
+								id-defecto 		= "ordenRV.datosOrden.instrumento.IdMoneda"
+							    seleccionado	= "ordenRV.datosOrden.monedaNegociacion"							    
+							    >
+							</bcs-combobox-base>
+						</div>					
+						<div class="col-xs-5 col-xs-offset-1" ng-class="{'border-precios' : ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento}">
+							<span ng-show="ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento" class="col-xs-3 green-success-font " style="font-weight:bold">C {{ordenRV.datosOrden.InstrumentoNegociacion.PuntaCompra| kformat:'c':ordenRV.datosOrden.InstrumentoNegociacion.IdMoneda:'precio':'ORD':'N'}}</span>
+							<span ng-show="ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento" class="col-xs-3 green-success-font " style="font-weight:bold">QC {{ordenRV.datosOrden.InstrumentoNegociacion.CantidadPuntaCompra!=null ? ordenRV.datosOrden.InstrumentoNegociacion.CantidadPuntaCompra:0| kformat:'N'}}</span>
+							<span ng-show="ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento" class="col-xs-3 red-font" style="font-weight:bold">V {{ordenRV.datosOrden.InstrumentoNegociacion.PuntaVenta| kformat:'c':ordenRV.datosOrden.InstrumentoNegociacion.IdMoneda:'precio':'ORD':'N'}}</span>
+							<span ng-show="ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento" class="col-xs-3 red-font" style="font-weight:bold">QV {{ordenRV.datosOrden.InstrumentoNegociacion.CantidadPuntaVenta!=null? ordenRV.datosOrden.InstrumentoNegociacion.CantidadPuntaVenta:0| kformat:'N'}}</span>
+						</div>	
+					</div>
+					
+					
+					<!-- FILA 4 -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+							<bcs-input-condicion-liquidacion-integracion
+-								class = "col-xs-8"
+								id 		= "IngresarOrdenRVForm_inputCondicionLiquidacionIntegracion"
+								bcs-requerido
+								filtros 		= "ordenRV.datosForm.configuracionCondicionLiquidacion.filtros"
+								set-id-condicion-liquidacion = "ordenRV.datosForm.IdCondicionDeLiquidacion"
+								fecha-inicial = "ordenRV.datosForm.fechaInicial"
+								condicion-de-liquidacion = "ordenRV.datosOrden.condicionLiquidacionSeleccionada"
+								id-tipo-operacion = "ordenRV.datosOrden.operacionSeleccionada.IdTipoOperacion"
+								fecha-liquidacion = "ordenRV.datosOrden.fechaLiquidacion"
+								id-instrumento 	= "ordenRV.datosOrden.instrumento.IdInstrumento"
+								activado = "'true'">
+							</bcs-input-condicion-liquidacion-integracion>
+
+						</div>						
+
+						<div class="col-xs-1"></div>
+							<div class="col-xs-5 col-xs-offset-1" ng-class="{'border-precios' : ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento}">
+								<span ng-show="ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento" class="col-xs-3 orange-font" style="font-weight:bold">Volumen {{ordenRV.datosOrden.InstrumentoNegociacion.VolumenTransado| kformat:'N'}}</span>
+								<span ng-show="ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento" class="col-xs-3 orange-font " style="font-weight:bold">MM$ {{ordenRV.datosOrden.InstrumentoNegociacion.MontoTransado| kformat:'N'}}</span>
+								<span ng-show="ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento" class="col-xs-3" style="font-weight:bold">Mer {{ordenRV.datosOrden.InstrumentoNegociacion.PrecioMercado| kformat:'c':ordenRV.datosOrden.InstrumentoNegociacion.IdMoneda:'precio':'ORD':'N'}}</span>
+								<span ng-show="ordenRV.datosOrden.InstrumentoNegociacion.IdInstrumento" class="col-xs-3 blue-font" style="font-weight:bold">Var {{ordenRV.datosOrden.InstrumentoNegociacion.Variacion>0?'+':''}}{{ordenRV.datosOrden.InstrumentoNegociacion.Variacion| kformat:'N'}}%</span>
+							</div>
+						</div>
+					
+					<!-- FILA 4 -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_MONTO_TOTAL</label> 
+							<bcs-input-monetario
+								id = "IngresarOrdenRVForm_inputMonto" 
+								class="col-xs-8" 
+								decimales = "ordenRV.datosForm.decimalesMonto"
+								simbolo="ordenRV.datosOrden.monedaLiquidacionOrdenSeleccionada.IdMonedaLiquidacion" 
+								bcs-requerido = '!ordenRV.datosOrden.cantidadInicial'
+								k-ng-model="ordenRV.datosOrden.montoInicial">
+							</bcs-input-monetario>
+						</div>
+						<div class="col-xs-1"></div>
+						
+						<div class="col-xs-5 col-xs-offset-1">
+							<label class="col-xs-4" translate>UI_CANTIDAD</label>
+							<bcs-input-numero
+								id = "IngresarOrdenRVForm_inputCantidad" 
+								decimales = "ordenRV.datosForm.decimalesCantidad"
+								class="col-xs-8" 
+								bcs-requerido = '!ordenRV.datosOrden.montoInicial'
+								k-ng-model="ordenRV.datosOrden.cantidadInicial">
+							</bcs-input-numero>
+						</div>
+					</div>
+					
+					<!-- FILA 6 -->
+					<div class="row" ng-hide="!ordenRV.datosOrden.EsVentaCorta">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_PLAZO</label>
+							<bcs-input-plazo
+								id = "IngresarOrdenRVForm_inputPlazoVentaCorta"  
+								class="col-xs-8"
+								bcs-requerido = "ordenRV.datosOrden.EsVentaCorta"
+								bcs-mayor-que = "'0'"
+								fecha-inicial = "ordenRV.datosForm.vencimientoUsaFechaLiquidacion ? ordenRV.datosOrden.fechaLiquidacion : ordenRV.datosForm.fechaInicial"
+								fecha-vencimiento = "ordenRV.datosOrden.fechaVencimiento"
+								plazo = "ordenRV.datosOrden.plazoVentaCorta"
+								id-tipo-operacion = "ordenRV.datosOrden.operacionSeleccionada.IdTipoOperacion"
+								id-condicion-de-liquidacion="'T0'">
+							</bcs-input-plazo>
+						</div>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-5">
+							<label class="col-xs-4" translate>UI_TASA_MONTO_PLAZO</label>
+							<bcs-input-numero
+								id = "IngresarOrdenRVForm_inputTasa"  
+								class="col-xs-4"
+								decimales = "ordenRV.datosForm.decimalesTasaVentaCorta"
+								bcs-requerido = "ordenRV.datosOrden.EsVentaCorta"
+								bcs-mayor-que = "'0'"
+								k-ng-model="ordenRV.datosOrden.tasaVentaCorta">
+							</bcs-input-numero>
+							<bcs-input-monetario
+								id = "IngresarOrdenRVForm_inputMontoPlazo" 
+								class="col-xs-4" 
+								k-ng-disabled="'true'"
+								k-ng-model="ordenRV.datosOrden.montoPlazo"
+								decimales = "ordenRV.datosForm.decimalesMonto"
+								simbolo = "ordenRV.datosOrden.monedaLiquidacionOrdenSeleccionada.IdMonedaLiquidacion"
+							></bcs-input-monetario>
+						</div>
+					</div>
+					
+					<!-- FILA 7 -->
+					<div class="row" ng-hide="!ordenRV.datosOrden.EsVentaCorta">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_MONTO_PRIMA</label>
+							<bcs-input-numero
+								class="col-xs-8"
+								k-ng-disabled="'true'"
+								decimales = "ordenRV.datosForm.decimalesMonto"
+								simbolo = "ordenRV.datosOrden.monedaLiquidacionOrdenSeleccionada.IdMonedaLiquidacion"
+								k-ng-model="(ordenRV.datosOrden.montoPlazo - ordenRV.datosForm.operacionSalida[0].montoOperacionCalculado)">
+							</bcs-input-numero>
+						</div>
+					</div>
+					
+					<!-- FILA 8 -->
+					
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_PRECIO</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboTipoPrecio" 
+								class="col-xs-4"
+								bcs-requerido 
+								tipo="'combobox-tipo-precio'"
+								seleccionado="ordenRV.datosOrden.tipoPrecioSeleccionado"
+								id-actual="ordenRV.datosForm.idTipoPrecio"
+								filtros="ordenRV.datosForm.configuracionTipoPrecio.filtros"
+								id-defecto = "ordenRV.datosForm.configuracionTipoPrecio.defecto">
+							</bcs-combobox-base >
+							<bcs-input-monetario
+								id = "IngresarOrdenRVForm_inputPrecio" 
+								class="col-xs-4"
+								decimales = "ordenRV.datosForm.decimalesPrecio"
+								simbolo="ordenRV.datosOrden.IdMoneda" 
+								bcs-requerido
+								k-ng-model="ordenRV.datosOrden.precio" 
+								k-ng-disabled = "ordenRV.datosOrden.tipoPrecioSeleccionado.IdTipoPrecioOrden === 'M'">
+							</bcs-input-monetario>
+						</div>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-5">
+							<label class="col-xs-4" translate>UI_VIGENCIA</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboTipoVigencia" 
+								class="col-xs-4"
+								bcs-requerido
+								tipo="'combobox-tipo-fecha-vigencia-orden'"
+								seleccionado="ordenRV.datosOrden.tipoVigenciaSeleccionada"
+								filtros="ordenRV.datosForm.configuracionTipoVigencia.filtros"
+								id-defecto = "ordenRV.datosForm.configuracionTipoVigencia.defecto"
+								id-actual = "ordenRV.datosForm.configuracionTipoVigencia.IdActual">
+							</bcs-combobox-base >	
+							<bcs-input-date
+								id = "IngresarOrdenRVForm_inputFechaVigencia" 
+								class="col-xs-4"
+								k-ng-model="ordenRV.datosOrden.fechaVigencia" 
+								k-options="kOptFechaMax"
+								k-ng-disabled ="ordenRV.datosOrden.tipoVigenciaSeleccionada.IdTipoVigenciaOrden !== 'FF'">
+							</bcs-input-date>
+						</div>
+					</div>
+					
+					<!-- FILA 9 -->
+					<div class="row">
+    					<div class="col-xs-6">
+					        <div class="row">
+					            <label class="col-xs-4" translate>UI_BOLSA_DESTINO</label>
+					            <bcs-combobox-base
+					                id="IngresarOrdenRVForm_comboBolsa" 
+					                class="col-xs-8"
+					                bcs-requerido
+					                activado="ordenRV.datosOrden.bolsaActivada"
+					                tipo="'combobox-bolsa-instrumento'"
+					                usa-filtros-completos="'S'"
+					                id-defecto="ordenRV.datosForm.configuracionBolsa.defecto"
+					                todos="SesionLocale === 'PE'?'N':(ordenRV.datosOrden.instrumento.IdTipoInstrumento === 'MIL'?'N':'S')"
+					                seleccionado="ordenRV.datosOrden.bolsaSeleccionada" 
+					                id-actual="ordenRV.datosOrden.idBolsaSeleccionada" 
+					                filtros="ordenRV.datosForm.configuracionBolsa.filtros"
+					                cascada-a="ordenRV.datosForm.configuracionCanalDistribucion.filtros.IdBolsa"
+					                cascada-valor="'IdBolsa'"
+					                cascada1-a="ordenRV.datosForm.configuracionCorredorCorresponsal.filtros.IdPais"
+					                cascada1-valor="'IdPais'">
+					            </bcs-combobox-base>
+					            
+					            
+					        </div>
+					        
+					        
+					    </div>
+					    <div class="col-xs-1"></div>
+					    <div class="col-xs-5">
+									<label class="col-xs-4" translate>UI_MONEDA_LIQUIDACION</label>
+									<bcs-combobox-base class="col-xs-8"
+									 	id				= "IngresarOrdenRVForm_comboMonedaLiquidacion"
+									 	bcs-requerido							 	
+										auto-cargar		= "'false'"
+									    tipo			= "'combobox-tipo-instrumento-moneda-liquidacion'"
+									    filtros 		= "ordenRV.datosForm.comboMonedaLiquidacionOrden.filtros"
+										auto-seleccion  = "'true'"
+									    seleccionado	= "ordenRV.datosOrden.monedaLiquidacionOrdenSeleccionada"							    
+									    cascada2-a		= "ordenRV.datosForm.configuracionPreferenciaPagoPortafolio.filtros.IdMoneda"
+										cascada2-valor	= "'IdMonedaLiquidacion'">
+									</bcs-combobox-base >
+								</div>
+					</div>
+					
+				</div>
+					
+				<hr>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_SALDO_CAJA</label>
+					<bcs-saldo-cta-inversion
+						class="col-xs-4"
+						uso = "'ORDENES_DE_COMPRA'"
+						id-moneda = "ordenRV.datosOrden.monedaLiquidacionOrdenSeleccionada.IdMonedaLiquidacion"
+						id-portafolio = "ordenRV.datosOrden.portafolioSeleccionado.IdPortafolio"
+						fecha-saldo = "ordenRV.datosOrden.fechaLiquidacion">
+					</bcs-saldo-cta-inversion>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_SALDO_CUSTODIA</label>
+					<bcs-saldo-custodia
+						class="col-xs-3"
+						uso-flujo-custodia 		= "'FLJORD'"
+						filtro-flujo-custodia 	= "'FLUJO_ORDEN'"
+						id-boveda 				= "ordenRV.datosOrden.bovedaSeleccionada.IdBoveda"
+						id-instrumento 			= "ordenRV.datosOrden.instrumento.IdInstrumento"
+						id-portafolio 			= "ordenRV.datosOrden.portafolioSeleccionado.IdPortafolio"						
+						id-tipo-operacion 		= "ordenRV.datosOrden.operacionSeleccionada.IdTipoOperacion"						
+						fecha-saldo 			= "ordenRV.datosOrden.fechaLiquidacion">
+					</bcs-saldo-custodia>
+				</div>
+				
+			
+				<div class="row"  ng-if="ordenRV.datosOrden.OperacionSeleccionada.AccionOrden === 'VENTA'" >
+					<div class="col-xs-2"></div>
+					<div class="col-xs-3"></div>
+					<label class="col-xs-2 col-xs-offset-2" translate>UI_SALDO_VENTA_DESCUBIERTA</label>
+					<bcs-saldo-custodia
+						class="col-xs-3"
+						uso-flujo-custodia 		= "'VENDES'"
+						filtro-flujo-custodia 	= "'VENTA_DESCUBIERTA'"
+						id-boveda 				= "ordenRV.datosOrden.bovedaSeleccionada.IdBoveda"
+						id-instrumento 			= "ordenRV.datosOrden.instrumento.IdInstrumento"
+						id-portafolio 			= "ordenRV.datosOrden.portafolioSeleccionado.IdPortafolio"						
+						id-tipo-operacion 		= "ordenRV.datosOrden.operacionSeleccionada.IdTipoOperacion"						
+						fecha-saldo 			= "ordenRV.datosOrden.fechaLiquidacion">
+					</bcs-saldo-cta-inversion>
+				</div>				
+			
+				
+				<hr> 
+				<uib-tabset>
+					<uib-tab active="ordenRV.datosForm.tabResumenActive" heading="{{'UI_RESUMEN' | translate}}">
+						<div class="row" style="min-height: 120px; padding: 0px 10px 20px;" id="resumenOrden">
+							<bcs-resumen-orden
+								class = "col-xs-12"
+								valor-allin = "ordenRV.datosForm.valorAllin"
+								usa-allin = "ordenRV.datosForm.usaAllin"
+								cantidad = "ordenRV.datosForm.operacionSalida[0].cantidadCalculada"
+								monto-operacion = "ordenRV.datosForm.operacionSalida[0].montoOperacionCalculado"
+								monto-operacion-liquidacion = "ordenRV.datosForm.operacionSalida[0].montoLiquidacionCalculado"
+								total-cobros = "ordenRV.datosForm.operacionSalida[0].totalCobros"
+								porcentaje-cobros = "ordenRV.datosForm.operacionSalida[0].porcentajeCobros"
+								porcentaje-cobros-ultima-orden = "ordenRV.datosForm.operacionSalida[0].porcentajeCobrosUltimaOrden"
+								total-orden = "ordenRV.datosForm.operacionSalida[0].totalOrden"
+								id-moneda-liquidacion = "ordenRV.datosOrden.monedaLiquidacionOrdenSeleccionada.IdMonedaLiquidacion"
+								id-moneda-operacion = "ordenRV.datosOrden.monedaLiquidacionOrdenSeleccionada.IdMonedaLiquidacion">
+							</bcs-resumen-orden>
+						</div>						
+					</uib-tab>
+					
+					<uib-tab heading="{{'UI_COBROS' | translate}}">
+						<div class="row" style="min-height: 140px;">
+							<bcs-cobros-orden
+							class						= "col-xs-12 bcs-cobros-ordenes"
+							id-ventana					= "ordenRV.datosForm.idVentana"
+							api 						= "ordenRV.datosForm.apiCobros"
+							valor-allin 				= "ordenRV.datosForm.valorAllin"
+							usa-allin 					= "ordenRV.datosForm.usaAllin"
+							operaciones 				= "ordenRV.datosForm.operaciones"
+							operaciones-salida 			= "ordenRV.datosForm.operacionSalida"
+							calculando 					= "ordenRV.datosForm.calculandoAlgo"
+							matriz-cobros-modificados	= "ordenRV.datosOrden.cobrosModificados">
+						</bcs-cobros-orden>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'UI_MAS_DATOS' | translate}}">
+						<div class="row">
+							<label class="col-xs-2" translate>UI_PAGO_COBRO_CON_CTA_INVERSION</label>
+							<bcs-input-checkbox class="col-xs-1"
+								ng-disabled="ordenRV.datosForm.pagoCobroCuentaInversionDisabled" 
+								ng-model="ordenRV.datosOrden.pagoCobroCuentaInversion">
+							</bcs-input-checkbox>
+							<label class="col-xs-1" translate>UI_GENERA_SPOT</label>
+							<bcs-input-checkbox class="col-xs-1"
+								id = "IngresarOrdenRVForm_checkGeneraSpot" 
+								ng-disabled="!ordenRV.datosForm.ActivaGeneraSpot" 
+								ng-model= "ordenRV.datosOrden.GeneraSpot">
+							</bcs-input-checkbox>
+							<div class="col-xs-1"></div>
+							<label class="col-xs-2 col-xs-offset-1" translate>UI_FORMA_DE_PAGO_COBRO</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboFormaDePago" 
+								class="col-xs-3 ingOrdenesCustomwidth"
+								usa-filtros-completos = "'S'"
+								activado = "!ordenRV.datosOrden.pagoCobroCuentaInversion"
+								filtros = "ordenRV.datosForm.configuracionPreferenciaPagoPortafolio.filtros"
+								tipo="'combobox-preferencia-pago-portafolio'"
+								id-actual = "ordenRV.datosForm.IdPreferenciaPagoPortafolio"
+								id-post-filtro = "ordenRV.datosForm.configuracionPreferenciaPagoPortafolio.idPostFiltro"
+								autoSeleccion="'true'"
+								seleccionado="ordenRV.datosOrden.formaDePagoSeleccionada">
+							</bcs-combobox-base>
+						</div>	
+						<div class="row">
+							<label class="col-xs-2" translate>UI_CANAL_DISTRIBUCION</label>
+							<bcs-combobox-base class="col-xs-4"
+								ng-model="ordenRV.datosOrden.canalDistribucion"
+								tipo="'combobox-canal-distribucion'"
+								activado="ordenRV.PermiteRuteo && ordenRV.datosOrden.tipoPrecioSeleccionado.IdTipoPrecioOrden == 'L'"
+								id-defecto = "'MAN'"
+								bcs-requerido
+								envia-todos = "'S'"
+								filtros = "ordenRV.datosForm.configuracionCanalDistribucion.filtros"
+								id-actual="ordenRV.datosOrden.idTipoCanalDistribucion"
+								seleccionado="ordenRV.datosOrden.idTipoCanalDistribucionSeleccionada">
+							</bcs-combobox-base>
+							<label class="col-xs-2 col-xs-offset-1" translate>UI_VISIBILIDAD</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboVisibilidad" 
+								class="col-xs-3 ingOrdenesCustomwidth"
+								bcs-requerido 
+								id-defecto = "'1'"
+								tipo="'combobox-porcentaje-visibilidad-orden'"
+								seleccionado="ordenRV.datosOrden.porcentajeVisibilidadSeleccionada"
+								item-post-filtro = "'1'"
+								filtros="ordenRV.datosForm.configuracionPorcentajeVisibilidad.filtros">
+							</bcs-combobox-base >
+				 		</div>
+						<div class="row">
+							<label class="col-xs-2" translate>UI_FECHA_RECEPCION</label>
+							<bcs-input-datetime
+								id = "IngresarOrdenRVForm_inputFechaRecepcion"
+								class="col-xs-4" 
+								k-ng-model="ordenRV.datosOrden.fechaRecepcion" >
+							</bcs-input-datetime>
+							<label class="col-xs-2 col-xs-offset-1" translate>UI_COMENTARIO</label>
+							<bcs-input-texto class="col-xs-3 ingOrdenesCustomwidth" ng-model="ordenRV.datosOrden.comentario"  maxlength="50" ></bcs-input-texto>
+						</div>
+						<div class="row">
+							<label class="col-xs-2" translate>UI_TIPO_CAMBIO</label>
+							<bcs-input-monetario
+								id = "IngresarOrdenRVForm_inputTipoCambio"  
+								class="col-xs-4"
+								k-ng-disabled="!(ordenRV.datosOrden.instrumento.IdMoneda != ordenRV.MonedaSistema)"
+								decimales = "ordenRV.datosForm.decimalesMonto"
+								simbolo="SesionIdMonedaSistema" 
+								k-ng-model="ordenRV.datosOrden.tipoCambio">
+							</bcs-input-monetario>
+							<label class="col-xs-2 col-xs-offset-1" translate>UI_PARIDAD_REFERENCIA</label>
+							<bcs-input-texto
+								class="col-xs-3 ingOrdenesCustomwidth"
+								k-ng-disabled="'true'"
+								ng-model="ordenRV.datosForm.paridadReferencia">
+							</bcs-input-texto>			
+						</div>
+						<div class="row">
+				 			<label class="col-xs-2" translate>UI_CUENTA_CUSTODIO</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboCuentaCustodio" 
+								class="col-xs-4"
+								usa-filtros-completos = "'S'"
+								bcs-requerido = "SesionLocale === 'PE'"
+								tipo="'combobox-cuenta-custodio-portafolio'"
+								auto-seleccion = "'true'"
+								seleccionado = "ordenRV.datosOrden.cuentaCustodioSeleccionada"
+								filtros="ordenRV.datosForm.configuracionCuentaCustodio.filtros"
+								cascada-a="ordenRV.datosForm.configuracionBoveda.filtros.IdBoveda"
+								cascada-valor="'IdBoveda'">
+							</bcs-combobox-base>
+				 			<label class="col-xs-2 col-xs-offset-1" translate>UI_CORREDOR_CORRESPONSAL</label>
+							<bcs-combobox-base class="col-xs-3 ingOrdenesCustomwidth"
+								usa-filtros-completos = "'S'"
+								tipo			="'combobox-corredor-corresponsal'"
+								auto-seleccion  = "'true'"
+								bcs-requerido 	= "ordenRV.datosOrden.bolsaSeleccionada.EsExtranjera === 'S'"
+								activado 		= "ordenRV.datosOrden.bolsaSeleccionada.EsExtranjera === 'S'"
+								filtros 		= "ordenRV.datosForm.configuracionCorredorCorresponsal.filtros"
+								id-actual		= "ordenRV.datosOrden.idCorredorCorresponsal"
+								seleccionado	= "ordenRV.datosOrden.corredorCorresponsalSeleccionada">
+							</bcs-combobox-base>
+				 		</div>
+				 		<div class="row">
+							<label class="col-xs-2" translate>UI_BOVEDA</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboBoveda" 
+								class="col-xs-4"
+								activado = "SesionLocale === 'CL'"
+								bcs-requerido
+								auto-seleccion  = "'true'"
+								id-defecto = "ordenRV.datosForm.configuracionBoveda.defecto"
+								tipo="'combobox-boveda'"
+								seleccionado="ordenRV.datosOrden.bovedaSeleccionada"
+								filtros="ordenRV.datosForm.configuracionBoveda.filtros">
+							</bcs-combobox-base >
+							<label class="col-xs-2 col-xs-offset-1" translate>UI_FORMA_CUSTODIA</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboFormaCustodia" 
+								class="col-xs-3 ingOrdenesCustomwidth"
+								bcs-requerido
+								id-defecto = "'CUS'"
+								id-actual = "ordenRV.datosForm.configuracionFormaCustodia.idActual"
+								tipo="'combobox-forma-custodia-orden'"
+								seleccionado="ordenRV.datosOrden.formaCustodiaSeleccionada"
+								filtros="ordenRV.datosForm.configuracionFormaCustodia.filtros">
+							</bcs-combobox-base>
+						</div>
+				 		<div class="row" ng-show="ordenRV.datosForm.configuracionTipoLiquidacion.visible">
+							<label class="col-xs-2 col-xs-offset-7" translate>UI_LIQUIDACION_COMISION_FACTURA</label>
+							<bcs-combobox-base
+								id = "IngresarOrdenRVForm_comboTipoLiquidacion"
+								id-defecto = "'MEN'"
+								id-actual = "ordenRV.datosForm.configuracionTipoLiquidacion.idActual"
+								class="col-xs-3 ingOrdenesCustomwidth"
+								activado = "ordenRV.datosOrden.ModificaTipoLiquidacion"
+								tipo="'combobox-tipo-liquidacion-comision-factura'"
+								seleccionado="ordenRV.datosOrden.tipoLiquidacionSeleccionada"
+								filtros="ordenRV.datosForm.configuracionTipoLiquidacion.filtros">
+							</bcs-combobox-base >
+						</div>
+						<div class="row" ng-if="SesionLocale === 'PE'">
+							<label class="col-xs-2" translate>UI_ORDEN_ESPECIAL</label>
+							<bcs-input-checkbox class="col-xs-4"
+								ng-disabled="ordenRV.datosForm.ordenEspecialDisabled" 
+								ng-model="ordenRV.datosOrden.esOrdenEspecial">
+							</bcs-input-checkbox>
+							<label class="col-xs-2 col-xs-offset-1" translate>UI_PARA_CLIENTE_FINAL</label>
+							<bcs-input-checkbox class="col-xs-3 ingOrdenesCustomwidth"
+								ng-disabled="ordenRV.datosForm.paraClienteFinalDisabled" 
+								ng-model="ordenRV.datosOrden.esParaClienteFinal">
+							</bcs-input-checkbox>
+						</div>
+					</uib-tab>
+					<uib-tab disable="ordenRV.datosForm.tabLineasDisabled" active="ordenRV.datosForm.tabLineasActive" heading="{{'UI_LINEAS_Y_GARANTIAS' | translate}}">
+						<div class="row" style="min-height: 120px; height: 239px;">
+							<bcs-exigibilidad
+								class="col-xs-4"
+								operaciones = "ordenRV.datosForm.operacionesExigibilidad">
+							</bcs-exigibilidad>
+							<bcs-cobertura
+								class		= "col-xs-4"
+								operaciones = "ordenRV.datosForm.operacionesCobertura">
+							</bcs-cobertura>
+							<bcs-linea-riesgo
+								class		="col-xs-4"
+								operaciones = "ordenRV.datosForm.operacionesLineaRiesgo">
+							</bcs-linea-riesgo>
+						</div>
+					</uib-tab>
+					
+				</uib-tabset>
+				
+				<p>* Montos expresados en moneda de liquidación</p>
+		 	</div>
+			 <div class="row bcs-panel-comandos" ng-class="{'paddingRV' : !ordenRV.datosOrden.instrumento.IdInstrumento}">
+				<bcs-button id="UI_ACEPTAR" class="pull-right" style="display: inline-block; margin-left: 10px; min-width: 100px;" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="IngresarOrdenRVForm.$valid  && ordenRV.datosForm.calculandoAlgo === false && ordenRV.habilitarBoton === true" bcs-clic="ordenRV.datosForm.ingresarOrden('a')"></bcs-button>
+				<bcs-button id="UI_LIMPIAR" class="pull-right" style="display: inline-block; margin-left: 10px; min-width: 100px;" bcs-clic="ordenRV.datosForm.cleanData()" bcs-blur="formData.resetFoco()" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="'true'"></bcs-button>
+				<!-- <input style="background-color:rgba(0, 0, 0, 0);border:none" readonly type="text"/> -->
+			</div>
+			
+			
+			
+			
+			
+			
+	 	</div>
+	</form>
+	<form ng-show="ordenRV.datosForm.modo === 'RESUMEN'" name="ResumenIngresarOrdenRVForm">
+		<div class="row" style="min-height: 520px;">
+			<div class="row">
+				<label class="col-xs-2" translate>UI_FECHA_ORDEN</label>
+		 		<bcs-input-datetime k-ng-disabled="'true'" class="col-xs-3" k-ng-model="ordenRV.datosResumen.fechaOperacionOrden" ></bcs-input-datetime>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_SECUENCIA_ORDEN</label>
+		 		<bcs-input-texto k-ng-disabled="'true'" class="col-xs-3" ng-model="ordenRV.datosResumen.secuenciaOrden" ></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_OPERACION</label>
+		 		<bcs-input-texto ng-show="!ordenRV.datosResumen.esVentaCorta" k-ng-disabled="'true'" class="col-xs-3" ng-model="ordenRV.datosResumen.operacion" ></bcs-input-texto>
+		 		
+		 		<bcs-input-texto ng-show="ordenRV.datosResumen.esVentaCorta" k-ng-disabled="'true'" class="col-xs-2" ng-model="ordenRV.datosResumen.operacion" ></bcs-input-texto>
+		 		<label class="col-xs-2" ng-show="ordenRV.datosResumen.esVentaCorta">
+					<bcs-input-checkbox
+						ng-disabled="'true'" 
+						ng-model="ordenRV.datosResumen.esVentaCorta">
+					</bcs-input-checkbox>&nbsp;{{'UI_VENTA_CORTA' | translate}}
+				</label>
+		 		<label class="col-xs-2" ng-class = "{ 'col-xs-offset-1' :  !ordenRV.datosResumen.esVentaCorta }" translate>UI_INSTRUMENTO</label>
+		 		<bcs-input-texto k-ng-disabled="'true'" class="col-xs-3" ng-model="ordenRV.datosResumen.instrumento" ></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_PRECIO</label>
+				<div class="col-xs-3">
+		 			<bcs-input-monetario simbolo="ordenRV.datosResumen.idMonedaOrden" decimales="ordenRV.datosResumen.decimalesPrecio" k-ng-disabled="'true'" class="col-xs-6" k-ng-model="ordenRV.datosResumen.precio" ></bcs-input-monetario>
+		 			<bcs-input-texto k-ng-disabled="'true'" class="col-xs-6" ng-model="ordenRV.datosResumen.tipoPrecio" ></bcs-input-texto>
+		 		</div>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_CANTIDAD</label>
+				<bcs-input-numero class="col-xs-3" decimales="ordenRV.datosResumen.decimalesCantidad" k-ng-disabled="'true'" k-ng-model="ordenRV.datosResumen.cantidad"></bcs-input-monetario>
+		 	</div>
+		 	<div class="row">
+		 		<label class="col-xs-2" translate>UI_MONTO_OPERACION</label>
+		 		<bcs-input-monetario class="col-xs-3" simbolo="ordenRV.datosResumen.idMoneda" decimales="ordenRV.datosResumen.decimales" k-ng-disabled="'true'"  k-ng-model="ordenRV.datosResumen.montoOperacion" ></bcs-input-monetario>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_TOTAL_COBROS</label>
+		 		<bcs-input-monetario class="col-xs-3" simbolo="ordenRV.datosResumen.idMoneda" decimales="ordenRV.datosResumen.decimales" k-ng-disabled="'true'"  k-ng-model="ordenRV.datosResumen.totalCobros" ></bcs-input-monetario>
+		 	</div>
+		 	<div class="row">
+		 		<label class="col-xs-2" translate>UI_MONTO_TOTAL</label>
+		 		<bcs-input-monetario class="col-xs-3" simbolo="ordenRV.datosResumen.idMoneda" decimales="ordenRV.datosResumen.decimales" k-ng-disabled="'true'"  k-ng-model="ordenRV.datosResumen.montoTotal" ></bcs-input-monetario>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_EJECUTIVO_PORTAFOLIO</label>
+		 		<bcs-input-texto k-ng-disabled="'true'" class="col-xs-3" ng-model="ordenRV.datosResumen.nombreEjecutivoPortafolio" ></bcs-input-texto>
+		 	</div>
+		 	<hr>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<bcs-button id="UI_VER_COMPROBANTE" class="col-xs-2 bcs-options-footer pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_VER_COMPROBANTE' | translate"  bcs-habilitado="'true'" bcs-clic="ordenRV.datosForm.verComprobante()"></bcs-button>
+			<bcs-button id="UI_VER_DETALLE"  bcs-clic="ordenRV.datosForm.verDetalle()"  class="col-xs-2 bcs-options-footer pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_VER_DETALLE' | translate" bcs-habilitado="'true'"></bcs-button>			
+			<bcs-button id="UI_VOLVER"  bcs-clic="ordenRV.datosForm.volver()"  class="col-xs-1 bcs-options-footer pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_VOLVER' | translate" bcs-habilitado="'true'"></bcs-button>			
+		</div>
+	</form>
+
+</div>

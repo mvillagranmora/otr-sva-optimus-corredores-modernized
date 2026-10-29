@@ -1,0 +1,136 @@
+<div>
+	<div class="row" ng-if="modulo === 'SPOT'">
+		<div c ng-if="Paga">
+			<div class="col-xs-3">
+			<label  translate>UI_MONTO_ENTREGAMOS_TOTAL</label>
+			<label >{{montoOperacionMonedaPrincipal | kformat:'c':monedaAsignadaEntregamos:'monto':idUsoMonedaFormato }}</label>
+			</div>
+			<div class="col-xs-3">
+			<label  translate >UI_MONTO_DIFERENCIA </label>
+			<label >{{montoOperacionMonedaPrincipal - montoAsignadoEntregamos   | kformat:'c':monedaAsignadaEntregamos:'monto':idUsoMonedaFormato }}</label>
+			</div>
+		</div>
+
+		<div ng-if="Recibe">
+			<div class="col-xs-3">
+			<label  translate>UI_MONTO_RECIBIMOS_TOTAL</label>
+			<label >{{montoOperacionMonedaSecundaria   | kformat:'c':monedaAsignadaRecibimos:'monto':idUsoMonedaFormato  }}</label>
+			</div>
+			<div class="col-xs-3">
+			<label  translate>UI_MONTO_DIFERENCIA</label>
+			<label >{{montoOperacionMonedaSecundaria - montoAsignadoRecibimos  | kformat:'c':monedaAsignadaRecibimos:'monto':idUsoMonedaFormato }}</label>
+			</div>
+		</div>
+
+	</div>
+	<hr>
+		<div class="col-xs-12">
+		    <div class="col-xs-8"/>
+		    <div class="col-xs-4">
+                <input type="checkbox" ng-model="operaCuentaInversion" ng-disabled="operaCuentaInversionEnabled">{{'UI_PAGO_COBRO_CON_CTA_INVERSION' | translate}}
+            </div>
+		</div>
+		<br>
+		<div class="col-xs-12">
+		    <div class="col-xs-6" ng-if="!monedaPrincipal || !monedaSecundaria"/>
+		    <label class="col-xs-2" ng-if="monedaPrincipal" translate>{{idTipoOperacionPrincipal === 'COMFWD' || (idTipoOperacionPrincipal.substring(0, 3) === 'COM' && monedaSecundaria)?'UI_FORMA_PAGO_RECIBIMOS':'UI_FORMA_PAGO_ENTREGAMOS'}}</label>
+		    <bcs-combobox-base class="col-xs-4"  ng-if="monedaPrincipal"
+                auto-cargar="'false'"
+                tipo="oConfiguracionFormaPago1.tipo"
+                seleccionado="oConfiguracionFormaPago1.seleccionado"
+                filtros="oConfiguracionFormaPago1.filtros"
+                id-actual="oConfiguracionFormaPago1.idActual"
+                configuracion= "oConfiguracionFormaPago1.configuracion"
+                id-defecto="oConfiguracionFormaPago1.idDefecto"
+                id-post-filtro="oConfiguracionFormaPago1.idPostFiltro"
+                item-post-filtro="oConfiguracionFormaPago1.itemPostFiltro" 
+                activado = "!activado">
+            </bcs-combobox-base>
+            <label class="col-xs-2" ng-if="monedaSecundaria" translate>{{idTipoOperacionSecundaria.substring(0, 3) === 'VEN' && monedaPrincipal?'UI_FORMA_PAGO_ENTREGAMOS':'UI_FORMA_PAGO_RECIBIMOS'}}</label>
+            <bcs-combobox-base class="col-xs-4" ng-if="monedaSecundaria"
+                 auto-cargar="'false'"
+                 tipo="oConfiguracionFormaPago2.tipo"
+                 seleccionado="oConfiguracionFormaPago2.seleccionado"
+                 filtros="oConfiguracionFormaPago2.filtros"
+                 id-actual="oConfiguracionFormaPago2.idActual"
+                 configuracion= "oConfiguracionFormaPago2.configuracion"
+                 id-defecto="oConfiguracionFormaPago2.idDefecto"
+                 id-post-filtro="oConfiguracionFormaPago2.idPostFiltro"
+                 item-post-filtro="oConfiguracionFormaPago2.itemPostFiltro"
+                 activado = "!activado">
+             </bcs-combobox-base>
+             
+        </div>
+		
+ 	<!-- </div>-->
+ 	<hr>
+ 	<div class="row"  style="min-height:50px" ng-if="Paga">
+		<br>
+		<table class="table table-striped" >
+			<thead>
+				<tr>
+					<th width="8%" translate>UI_FORMA_PAGO_ENTREGAMOS</th>
+		 			<th width="8%" translate>UI_MONEDA</th>
+		 			<th width="8%" translate>UI_FECHA_LIQUIDACION</th>
+		 			<th width="8%" translate>UI_BANCO</th>
+		 			<th width="8%" translate>UI_CUENTA_BANCARIA</th>
+		       		<th width="8%" class="align_right">({{montoAsignadoEntregamos | kformat:'c':monedaAsignadaEntregamos:'monto':idUsoMonedaFormato}}) {{'UI_MONTO' | translate}}</th>
+     			</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="(keyItem, valItem) in matrizFormaPagoEntregamos">
+					
+					<td>{{valItem.NombreFormaPago || valItem.NombreFormaDePago}}</td>
+					<td>{{valItem.IdMoneda}}</td>
+					<td>{{valItem.FechaLiquidacion | kformat:'d'}}</td>
+					<td>{{valItem.NombreBancoCuentaBancaria}}</td>
+					<td>{{valItem.NumeroCuentaBancaria}}</td>
+					<td class="align_right"><bcs-input-monetario
+							id="txtEnt{{$index + 1}}"
+							bcs-requerido = "'false'" 
+							k-ng-model="formaDePagoEntregamos[keyItem]" 
+							simbolo="valItem.IdMoneda" 
+							decimales="cantDecmonedaAsignadaEntregamos"
+							k-options = " { min : 0 } "
+							k-ng-disabled = "activado">
+						</bcs-input-monetario></td>
+				</tr>
+			</tbody>
+ 		</table>
+ 	</div>
+ 	
+ 	<div class="row"  style="min-height:50px" ng-if="Recibe">
+ 		<br><br>
+		<table class="table table-striped" >
+			<thead>
+				<tr>
+					<th width="8%" translate>{{idTipoProducto === 'MERF' && idTipoOperacionSecundaria.substring(0, 3) === 'VEN' && monedaPrincipal?'UI_FORMA_PAGO_ENTREGAMOS':'UI_FORMA_PAGO_RECIBIMOS'}}</th>
+		 			<th width="8%" translate>UI_MONEDA</th>
+		 			<th width="8%" translate>UI_FECHA_LIQUIDACION</th>
+		 			<th width="8%" translate>UI_BANCO</th>
+		 			<th width="8%" translate>UI_CUENTA_BANCARIA</th>
+		       		<th width="8%" class="align_right">({{montoAsignadoRecibimos | kformat:'c':monedaAsignadaRecibimos:'monto':idUsoMonedaFormato}}) {{'UI_MONTO' | translate}}</th>
+     			</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="(keyItem, valItem) in matrizFormaPagoRecibimos">
+					
+					<td>{{valItem.NombreFormaPago || valItem.NombreFormaDePago}}</td>
+					<td>{{valItem.IdMoneda}}</td>
+					<td>{{valItem.FechaLiquidacion | kformat:'d'}}</td>
+					<td>{{valItem.NombreBancoCuentaBancaria}}</td>
+					<td>{{valItem.NumeroCuentaBancaria}}</td>
+					<td class="align_right"><bcs-input-monetario
+							id="txtRec{{$index + 1}}"
+							bcs-requerido = "'false'" 
+							k-ng-model="formaDePagoRecibimos[keyItem]" 
+							simbolo="valItem.IdMoneda" 
+							decimales="cantDecmonedaAsignadaRecibimos"
+							k-options = " { min : 0 } "
+							k-ng-disabled = "activado">
+						</bcs-input-monetario></td>
+				</tr>
+			</tbody>
+ 		</table>
+ 	</div>
+</div>

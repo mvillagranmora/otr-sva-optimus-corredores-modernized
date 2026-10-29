@@ -1,0 +1,86 @@
+<div id="ConsultaDiferenciaCobros" ng-controller='ConsultaDiferenciaCobrosCtrl'>
+	<div class="row no-margin">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" style="width: 14.5%;" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-9"
+						id="frmConsultaDiferenciaCobros_SOCIO_NEGOCIO"
+						auto-cargar="'false'" 
+						ng-style="{'width' : filtros.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && filtros.oClientePortafolio.seleccionado  ? '83%' : '85.5%'}"
+						id-actual="filtros.IdPortafolio"
+						tipo="filtros.oClientePortafolio.tipo"
+						seleccionado="filtros.oClientePortafolio.seleccionado"
+						configuracion="filtros.oClientePortafolio.configuracion"
+						filtros="filtrosPortafolio"
+						id-defecto="filtros.oClientePortafolio.idDefecto"
+						item-post-filtro="filtros.oClientePortafolio.itemPostFiltro">
+					</bcs-combobox-base>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-7">
+					<label class="col-xs-3" translate>UI_FECHA_MOVIMIENTO</label>
+					<bcs-input-date id="frmConsultaDiferenciaCobros_FechaConsultaDesde"
+						class="col-xs-4" bcs-requerido
+						k-ng-model="filtros.kngFechaConsultaDesde"
+						k-options="{max: filtros.kngFechaConsultaHasta}">
+					</bcs-input-date>
+					<bcs-input-date id="frmConsultaDiferenciaCobros_FechaConsultaHasta"
+						class="col-xs-4" bcs-requerido
+						k-ng-model="filtros.kngFechaConsultaHasta"
+						k-options="{min : filtros.kngFechaConsultaDesde}">
+					</bcs-input-date>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" id="frmCtaCliente_BUSCAR"
+					bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false"
+					bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"
+					bcs-clic="buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" id="frmCtaCliente_LIMPIAR"
+					bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+					bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"
+					bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" style="padding-top: 10px">
+		<bcs-grid 
+		    id="frmConsultaDiferenciaCobros_gridComprobanteDiferenciaCobros"
+			configuracion  = "grid.confComprobanteDiferenciaCobros"
+			seleccionado   = "grid.seleccionComprobanteDiferenciaCobros"
+			fn-doble-click = "detalleComprobanteFacturacion(grid.seleccionComprobanteDiferenciaCobros)"
+			fn-exportar-excel="exportarExcel">
+			
+		<div bcs-grid-detail ng-non-bindable>
+				<div style="width : 800px;">
+              	<uib-tabset>
+                  	<uib-tab heading="{{'UI_COBROS' | translate}}">
+                  		<bcs-grid 
+                  		    configuracion = "confBasicaCobroDiferencia(dataItem)"	                            
+                            seleccionado  = "seleccionCobroDiferencia">
+						</bcs-grid>                  		
+                  	</uib-tab>
+				</uib-tabset>
+				</div>
+			</div>
+					
+		 </bcs-grid>
+	</div>
+			
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'"
+		bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+		<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' |
+			translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

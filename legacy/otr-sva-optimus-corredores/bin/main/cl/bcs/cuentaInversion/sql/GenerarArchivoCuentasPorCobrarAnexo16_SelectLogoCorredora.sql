@@ -1,0 +1,1 @@
+SELECT TOP 1 "Binario" AS "imagen" FROM "BSCL.Plataforma.BD.Vistas::PLA.ConsultarImagen" WHERE "NombreImagen" = 'LOGO_CORREDOR' ORDER BY "Version" DESC;

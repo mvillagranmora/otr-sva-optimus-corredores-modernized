@@ -1,0 +1,1 @@
+SELECT TOP 1 "IdPersona" FROM "BSCL.SocioNegocio.BD::PER.Persona" ORDER BY "IdPersona" ASC;

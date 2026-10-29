@@ -1,0 +1,178 @@
+<div id="PanelDistribucion" ng-controller="PanelDistribucionCtrl as pDistr" >
+	<form name="formPanelDistribucion" class="filters-formulario">
+			<div class="row">
+			  	<strong class="col-xs-4" translate>UI_PERIODO_DE_DEPOSITO</strong>
+			</div>
+			<hr>
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row col-xs-12">
+	    		<div class="col-xs-4"> 
+			  		<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+					<bcs-input-date 
+						id="UI_FECHA_DESDE" 
+						class="col-xs-7" 
+						k-ng-model = "pDistr.kngFechaDesde"
+						k-options="kOptFechaSuscripcion">
+					</bcs-input-date>
+				</div>
+	    		<div class="col-xs-4"> 
+			  		<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+					<bcs-input-date 
+						id="UI_FECHA_HASTA" 
+						class="col-xs-7" 
+						k-ng-model = "pDistr.kngFechaHasta"
+						k-options="kOptFechaSuscripcion">
+					</bcs-input-date>
+				</div>
+	    		<div class="col-xs-4"> 
+			  		<label class="col-xs-4" translate>UI_FOLIO_RECAUDACION</label>
+					<bcs-combobox-base 
+						id="UI_FOLIO_RECAUDACION" 
+						auto-cargar="true"
+						cache="true"
+						class="col-xs-7"
+						tipo="'combobox-folio-recaudacion'"
+						id-actual="pDistr.folioContrato"
+						seleccionado="pDistr.tipoDepositoSeleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row col-xs-12">
+	    		<div class="col-xs-4"> 
+			  		<label class="col-xs-4" translate>UI_RUT_EMPLEADOR</label>
+					<bcs-combobox-base 
+						id="UI_RUT_EMPLEADOR" 
+						auto-cargar="true"
+						class="col-xs-7"
+						tipo="'combobox-empleador'"
+						id-actual="pDistr.idPersona"
+						seleccionado="pDistr.empleadorSeleccionado"
+						id-post-filtro="pDistr.idPersonaPostFiltro"
+						>
+					</bcs-combobox-base>
+				</div>
+	    		<div class="col-xs-4"> 
+			  		<label class="col-xs-4" translate>UI_RUT_CLIENTE</label>
+					<bcs-combobox-base 
+						id="UI_RUT_CLIENTE"  
+						auto-cargar="true"
+						class="col-xs-7"
+						tipo="'combobox-clientes'"
+						id-actual="pDistr.idCliente"
+						seleccionado="pDistr.clienteSeleccionado"
+						id-post-filtro="pDistr.idClientePostFiltro"
+						>
+					</bcs-combobox-base>
+				</div>
+	    		<div class="col-xs-4"> 
+			  		<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base 
+						id="UI_ESTADO" 
+						class="col-xs-7"
+						tipo="'combobox-estado-apv'"
+	                    filtros="pDistr.filtroEstado" 
+						id-actual="pDistr.oConfEstado.idActual"
+					    seleccionado="pDistr.oConfEstado.seleccionado"
+						>
+					</bcs-combobox-base>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-2">
+				<bcs-button 
+					class				= "col-xs-12"
+					bcs-tipo			= "'bcs-button-search'"
+					bcs-habilitado		= "'true'" 
+					bcs-auto-desactivar	= "false"
+					bcs-texto			= "'UI_BUSCAR' | translate" 
+					bcs-clic			= "pDistr.buscarRegistros()">
+				</bcs-button>
+		</div>
+	</div>
+			<br>
+			<div class="row">
+				<bcs-grid 
+					id					= "grid-distr-estados"
+					seleccionado		= "pDistr.recaudacionSeleccionada" 
+					configuracion		= "pDistr.gridRecaudacion" 
+					fn-doble-click		= "pDistr.abrirEstadosDistr(pDistr.recaudacionSeleccionada)"
+					api 				= "kwidget"
+					fn-exportar-excel	= excelGridDepositosPeriodo	>
+				</bcs-grid>
+			</div>
+			<div class="row">		
+					<bcs-button 
+						class				= "col-xs-2"
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-habilitado		= "'true'" 
+						bcs-auto-desactivar	= "false"
+						bcs-texto			= "'UI_ASIGNACION_CONTRATO_SAAPV' | translate" 
+						bcs-clic			= "pDistr.AsignacionPortafolioAPV()">
+					</bcs-button>
+					<bcs-button 
+						class				= "col-xs-2"
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-habilitado		= "pDistr.habilitadoBotonValidar" 
+						bcs-auto-desactivar	= "false"
+						bcs-texto			= "'UI_VALIDACION_NUEVOS_SAAPV' | translate" 
+						bcs-clic			= "pDistr.ValidacionNuevosSAAPV(pDistr.recaudacionSeleccionada)">
+					</bcs-button>
+					<bcs-menu
+						class				= "col-xs-offset-6 col-xs-2"
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-habilitado		= "'true'" 
+						bcs-texto			= "'UI_OPCIONES' | translate" 
+						bcs-clic			= "">
+						<li ng-click = "excelGridDepositosPeriodo('DetalleDepositosPerido')">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>
+					</bcs-menu>
+			</div>
+			<br>
+			<div class="row">
+			  		<strong class="col-xs-6" translate>UI_RESUMEN</strong>
+			  		<strong class="col-xs-offset-1 col-xs-5" translate>UI_TOTALES</strong>
+			</div>
+			<div class="row">
+				<bcs-grid 
+					class			= "col-xs-6"
+					seleccionado	= "pDistr.ConsultaTotalesSeleccionada" 
+					configuracion	= "pDistr.ConsultaTotales">
+				</bcs-grid>
+				<bcs-grid 
+					class			= "col-xs-offset-1 col-xs-5"
+					seleccionado	= "pDistr.ConsultaTotalesSeleccionada2" 
+					configuracion	= "pDistr.ConsultaTotales2">
+				</bcs-grid>
+			</div>
+			<br>
+			<div class="row">
+				<bcs-button class="col-xs-2"
+					bcs-tipo="'bcs-button-primary'"
+					bcs-habilitado="'true'" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_DISTRIBUCION' | translate" 
+					bcs-clic="pDistr.DistribuirConciliadoRezagado()">
+				</bcs-button>
+				<bcs-menu 
+					class="col-xs-2" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-habilitado="'true'" 
+					bcs-texto="'UI_DEVOLUCION' | translate" >
+					<li ng-click="pDistr.DevolucionPagoRezagos(pDistr.recaudacionSeleccionada,'CLIENTE')">{{'UI_A_CLIENTE' | translate}}</li>
+					<li ng-click="pDistr.DevolucionPagoRezagos(pDistr.recaudacionSeleccionada,'EMPLEADOR')">{{'UI_A_EMPLEADOR' | translate}}</li>
+					<li ng-click="pDistr.DevolucionPagoRezagos(pDistr.recaudacionSeleccionada,'OTROS')">{{'UI_A_OTRAS_ENTIDADES' | translate}}</li>
+				</bcs-menu>	
+				<!--  
+				<bcs-button class="col-xs-1"
+					bcs-tipo=""
+					bcs-habilitado="'true'" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_DEVOLUCION' | translate" 
+					bcs-clic="pDistr.DevolucionPagoRezagos(pDistr.recaudacionSeleccionada)">
+					
+				</bcs-button>
+				 -->
+			</div>
+	</form>
+</div>

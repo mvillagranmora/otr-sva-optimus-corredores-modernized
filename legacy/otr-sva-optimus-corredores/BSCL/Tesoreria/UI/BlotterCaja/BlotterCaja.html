@@ -1,0 +1,106 @@
+<form class="col-xs-12 form-horizontal">
+	<!-- PREGUNTAR -->
+	<div id="EventoPrincipal" ng-controller="BlotterCajaCtrl"
+		style="padding-right: 0px;">
+		<!-- <div class="row bcs_titulo no-margin">Configuración de Autorizaciones</div> -->
+		<div style="height: auto; overflow: hidden;">
+			<div style="width: 500px; float: right;">
+				<!-- Monedas -->
+				<div>
+						<div class="row bcs_titulo no-margin">Monedas</div>
+						<div class="row">
+						<!-- GRILLA CAJA MONEDA -->
+							<bcs-grid id="grid-moneda" 
+								configuracion="Moneda"
+								seleccionado="seleccionCajaMoneda">
+							</bcs-grid>
+						</div>
+						<div class="row bcs-panel-comandos alignButtonsToRight">
+							<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'"
+								bcs-auto-desactivar="false" bcs-texto="'UI_CREAR' | translate"
+								bcs-habilitado="habilitado" bcs-clic="agregarCajaMoneda()"></bcs-button>
+							<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+								bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate"
+								bcs-habilitado="habilitadoMoneda" bcs-clic="modificarCajaMoneda()"></bcs-button>
+						</div>
+				</div>
+				<div>
+					<uib-tabset class=row> <!-- Cargar Usuario --> 					
+						<uib-tab heading="{{'UI_PERFIL_USUARIOS'| translate}}" select="select('TabPanelUsuario')">
+							<div id="PanelUsuario" style="min-height: 167px;">
+								<!--<div class="row bcs_titulo no-margin">Usuarios</div>-->
+								<!-- GRILLA CAJA USUARIO -->
+								<bcs-grid id="grid-usuario" class="TabPanelUsuario"
+									configuracion="Usuario"
+									seleccionado="grillas.seleccionCajaUsuario">
+								</bcs-grid>
+								
+								<div class="row bcs-panel-comandos alignButtonsToRight" style="padding-top: 3px !important;">
+									<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'"
+										bcs-auto-desactivar="false" bcs-texto="'UI_CREAR' | translate"
+										bcs-habilitado="habilitado" bcs-clic="agregarCajaUsuario()"></bcs-button>
+									<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+										bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate"
+										bcs-habilitado="habilitadoUsuario" bcs-clic="modificarCajaUsuario()"></bcs-button>
+								</div>
+							</div>
+						</uib-tab> 
+						<uib-tab heading="{{'UI_PERFIL_PRODUCTOS' | translate}}" select="select('TabPanelAdministrarPerfilProductos')">
+							<div id="PanelAdministrarPerfilProductos" style="min-height: 167px;">
+								<!--<div class="row bcs_titulo no-margin">Producto Empresa</div>-->
+									<!-- GRILLA PRODUCTO CAJA -->
+								<bcs-grid id="grid-producto" class="TabPanelAdministrarPerfilProductos" 
+									configuracion="ProductoEmpresa"
+									seleccionado="grillas.seleccionCajaProductoEmpresa">
+								</bcs-grid>
+								<div class="row bcs-panel-comandos alignButtonsToRight" style="padding-top: 3px !important;">
+									<bcs-button class="col-xs-2 " bcs-tipo="'bcs-button-primary'"
+										bcs-auto-desactivar="false" bcs-texto="'Agregar'"
+										bcs-habilitado="habilitado" bcs-clic="agregarCajaProducto()"></bcs-button>
+									<bcs-button class="col-xs-2 " bcs-tipo="'bcs-button-secondary'"
+										bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate"
+										bcs-habilitado="habilitadoProducto" bcs-clic="modificarCajaProducto()"></bcs-button>
+								</div>
+							</div> 
+						</uib-tab>
+					</uib-tabset>
+				</div>
+			</div>
+			<!-- Grid Eventos izq -->
+			<div style="float: none; overflow: hidden; padding-right: 10px">
+				<div class="row bcs_titulo no-margin">Cajas</div>
+				<!-- GRILLA CAJAS -->
+				<div class="row">
+					<bcs-grid id="grid-caja" 
+						configuracion="Caja"
+						seleccionado="seleccionCaja">
+					</bcs-grid>
+				</div>
+				<div class="row bcs-panel-comandos alignButtonsToRight">
+					<!-- revisar esta seccion -->
+					<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="false" bcs-texto="'UI_CREAR' | translate"
+						bcs-habilitado="'true'" bcs-clic="agregarCaja()"></bcs-button>
+					<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"						
+						bcs-auto-desactivar="false" bcs-texto="'UI_ARQUEO' | translate"
+						bcs-habilitado="habilitado" bcs-clic="arqueoCaja('CAJA', 'ACT')"></bcs-button>
+					<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate"
+						bcs-habilitado="habilitado" bcs-clic="modificarCaja()"></bcs-button>
+					<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate"
+						bcs-habilitado="habilitado" bcs-clic="eliminarCaja()"></bcs-button>					
+					<!--<bcs-button class="col-xs-2" bcs-tipo="''"
+						ng-show="seleccionCaja.IdEstadoCaja ==='ACT'"
+						bcs-auto-desactivar="false" bcs-texto="'UI_BLOQUEAR' | translate"
+						bcs-habilitado="habilitado" bcs-clic="bloquear('CAJA', 'BLO')"></bcs-button>					
+					<bcs-button class="col-xs-2" bcs-tipo="''"
+						ng-show="seleccionCaja.IdEstadoCaja ==='BLO'"
+						bcs-auto-desactivar="false" bcs-texto="'UI_DESBLOQUEAR' | translate"
+						bcs-habilitado="habilitado" bcs-clic="bloquear('CAJA', 'ACT')"></bcs-button>-->
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

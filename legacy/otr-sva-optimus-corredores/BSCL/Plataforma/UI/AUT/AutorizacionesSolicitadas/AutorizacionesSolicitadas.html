@@ -1,0 +1,78 @@
+											
+<div id="VistaAutorizacionesSolicitadas" ng-controller="AutorizacionesSolicitadasCtrl"
+	style="padding-right: 0px;">
+
+	<div class="row no-margin" style="padding-top: 0px;">
+		<!-- <bcs-grid-autorizaciones k-options="optTransito" k-ng-model="eventoObj" etapa="etapaObj" ></bcs-grid-autorizaciones> -->
+
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+						<bcs-input-datetime class="col-xs-8"
+							k-ng-model="filtros.fecInicio"></bcs-input-datetime>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+						<bcs-input-datetime class="col-xs-8"
+							k-ng-model="filtros.fecTermino"></bcs-input-datetime>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionEstadoEvento.tipo"
+							ng-model="filtros.estado" seleccionado="filtros.estadoObj"
+							todos="'S'" id-defecto="'0'" id-actual="filtros.idEstado"
+							filtros="data.oConfiguracionEstadoEvento.filtros"
+							todos="'S'" id-defecto="'0'" id-actual="filtros.idEstado">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_EVENTO_AUTORIZACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionTipoEvento.tipo"
+							ng-model="filtros.tipoEvento"
+							seleccionado="filtros.tipoEventoObj" todos="'S'" id-defecto="'0'"
+							id-actual="filtros.idEvento"> </bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false"
+						bcs-texto="'Buscar'" bcs-habilitado="'true'" bcs-clic="Buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+						bcs-texto="'Limpiar'" bcs-habilitado="'true'" bcs-clic="limpiar()"></bcs-button>
+				</div>
+			</div>
+		</div>
+
+		<new-bcs-grid id="grid-eventoSol" 
+			fn-exportar-excel="exportarExcel" 
+			configuracion="EventoSol" 
+			seleccionado="seleccionEvento" 
+			api="gridApiSol">
+		</new-bcs-grid>
+
+		<div class="row bcs-panel-comandos" style="padding-top: 5px !important;">
+			<div class=col-xs-9>
+				<bcs-button 
+					id="VistaAutorizacionesSolicitadas_Anular" class="col-xs-2" bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false" bcs-texto="'Anular'"
+					bcs-habilitado="(seleccionEvento.IdEstado === 'VIG') && (seleccionEvento.IdEstadoEtapa ==='VIG')" bcs-clic="modificarEstado('ANU')">
+				</bcs-button>
+			</div>
+			<div class=col-xs-2></div>
+			<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'"  bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+				<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+			</div>
+		</div>		
+	</div>
+</div>

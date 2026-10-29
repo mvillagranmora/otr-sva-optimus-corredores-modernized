@@ -1,0 +1,170 @@
+<div class="row" ng-controller='OrdenesEnNegociacionCtrl' bcs-enter="buscarOrdenes(apiGridOrdenes,filtros)" tabindex="1">
+	<!-- INICIO FILTROS -->
+	<form name="OrdenesEnNegociacionForm">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base
+							tipo="'combobox-clasificacion-tipo-instrumento'"
+							class="col-xs-8"
+							item-post-filtro="'1'"
+							id-defecto="'RV'"
+							filtros="filtrosClasificacionTipoInstrumento"
+							seleccionado="filtros.clasificacionTipoInstrumento"
+							id-actual="filtros.IdClasificacionTipoInstrumento"
+							cascada-a="oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-instrumento'"
+							todos = "'S'"
+							item-post-filtro = "'1'"
+							filtros="oConfiguracionTipoInstrumento.filtros"
+							id-actual="filtros.IdTipoInstrumento"
+							seleccionado="filtros.tipoInstrumento"
+							cascada-a="oConfiguracionTipoOperacion.filtros.IdTipoInstrumento"
+							cascada-valor="'IdTipoInstrumento'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos class="col-xs-8"
+							bcs-requerido
+							buscar-instrumento="filtros.buscarInstrumento"
+							datos-instrumento="filtros.instrumento"
+							filtro-clasificacion="filtros.IdClasificacionTipoInstrumento"
+							filtro-tipo-instrumento="filtros.IdTipoInstrumento">
+						</bcs-input-instrumentos>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							todos = "'S'"
+							item-post-filtro = "'1'"
+							tipo="'combobox-operacion'"
+							id-actual="filtros.AccionOrden"
+							filtros="oConfiguracionTipoOperacion.filtros"
+							seleccionado="filtros.tipoOperacion">
+						</bcs-combobox-base>						
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_OPERACION</label>
+						<bcs-input-date class="col-xs-8" k-ng-model="filtros.fechaOperacionVigencia"></bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_BOLSA</label>
+						<bcs-combobox-base
+							id 					="OrdenesEnNegociacion.Bolsa"
+							todos 				="filtros.filtroBolsa.IdInstrumento.value === 0 ?'S':'N'"
+							class				="col-xs-8"
+							tipo				="'combobox-bolsa-instrumento'"												
+							seleccionado		="filtros.bolsaSeleccionada" 
+							id-defecto			="filtros.bolsaDefecto"
+							id-actual			="filtros.IdBolsa" 
+							filtros				="filtros.filtroBolsa"
+							item-post-filtro	= "'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_OPERADOR</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							todos = "'S'"
+							item-post-filtro = "'1'"
+							tipo="'combobox-operador'"
+							id-actual="filtros.Operador"
+							filtros="filtrosOperador"
+							cascada1-a="filtrosOperadorCarteraInversion.CodigoOperador"
+							cascada1-valor="'CodigoOperador'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CARTERA_INVERSION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							todos = "'S'"
+							item-post-filtro = "'1'"
+							tipo="'combobox-operador-cartera-inversion'"
+							id-actual="filtros.OperadorCarteraInversion"
+							filtros="filtrosOperadorCarteraInversion">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CONTRAPARTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id 				="OrdenesPorNegociar.Corredor"							
+							tipo			="'combobox-corredor-corresponsal'"							
+							seleccionado	="filtros.CorredorCorresponsalSeleccionada"
+							id-actual		="filtros.IdCorredorCorresponsal"
+							filtros 		="filtros.filtroCorredorCorresponsal"
+							item-post-filtro="'1'"
+							todos 			="'S'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_MONEDA</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							filtros = "filtrosMonedaNegociacion"
+							tipo="'combobox-moneda-negociacion'"
+							id-actual="filtros.IdMoneda"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base >
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							filtros = "datos.filtrosCondicionDeLiquidacion"
+							tipo="'combobox-condicion-liquidacion'"
+							id-actual="filtros.IdCondicionDeLiquidacion"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarOrdenes(apiGridOrdenes,filtros)"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- FIN BOTONES -->
+	<div class="row">
+		<new-bcs-grid id="grid-ordenes-en-negociacion"
+			fn-doble-click="abrirDetalle(ordenesSeleccionadas)"
+			fn-exportar-excel = "exportarExcel"
+			api = "apiGridOrdenes"
+			seleccionado="ordenesSeleccionadas"
+			configuracion="defaultOptionsNew">
+		</new-bcs-grid>
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+
+	<div class="row">
+		<bcs-button bcs-tipo="'bcs-button-primary'"  class="col-xs-2 pull-right" bcs-auto-desactivar="'false'" bcs-texto="'UI_RETIRAR_OFERTA' | translate" id="OrdenesEnNegociacion_retirarOferta"
+			bcs-habilitado="ordenesSeleccionadas"  bcs-clic="retirarOfertas(ordenesSeleccionadas)"></bcs-button>
+	</div>
+</div>

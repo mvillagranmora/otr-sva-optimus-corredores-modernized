@@ -1,0 +1,29 @@
+<div id="AdministrarClienteNotificaciones" ng-controller="PanelClienteEncuestaCtrl as pCliEnc">		
+
+	<div class="row" style = "padding-left: 10px; padding-top: 10px; color: #265D7B;"; >  <label style = "font-size: 12px">{{ test.p_out_NombreEncuesta }}</label> </div>
+
+	<div class="row" style="height: 350px; padding: 5px 30px; overflow: auto"> 
+		<div> 
+        		<div style = "padding-bottom: 10px" ng-repeat="pregunta in test.p_out_Preguntas">
+        		
+            		<label style ="font-size:11px"> {{ pregunta.TextoPregunta }}</label><br>
+            			<div ng-repeat="respuesta in test.p_out_Respuestas | filter: { IdDefinicionPregunta: pregunta.IdDefinicionPregunta }">
+                			<input type="radio" ng-model="Respuestas[pregunta.IdDefinicionPregunta]"  ng-value="respuesta.IdDefinicionRespuesta" name="pregunta_{{ pregunta.IdDefinicionPregunta }}" >
+                			<label style="font-weight: 100!important">{{ respuesta.TextoRespuesta }}</label><br>
+            			</div>
+            		<hr>
+        		</div>
+    	</div>
+	</div>
+<br>
+<div style = "margin-right: 35px" 
+	 class="row alignButtonsToRight">
+	<bcs-button class="col-xs-2"
+		bcs-tipo="'bcs-button-primary'"
+		bcs-habilitado="true" 
+		bcs-auto-desactivar="false"
+		bcs-texto="'UI_RESPONDER' | translate" 
+		bcs-clic="ResponderEncuesta()">
+	</bcs-button>
+</div>			
+</div>

@@ -1,0 +1,109 @@
+<div ng-controller="ConsultarCarterasModalCtrl">
+	<div class="row bcs-cuerpo">
+		<form name="formConsultarCarteras">
+			<div class="row" ng-show="!data.oDatosCartera.Filtrado">
+			<!-- FILTROS -->
+				<div class="col-xs-10">	
+					<div class="row">
+	                    <label class="col-xs-2" translate>UI_SOCIO_NEGOCIO</label>
+						 <bcs-combobox-base class="col-xs-10" 
+						 	bcs-requerido
+						 	id				="formConsultarCarteras_SocioNegocio"
+						 	auto-cargar		="'false'"
+						    tipo=			"'combobox-socio-negocio'"
+						    seleccionado	="oSocioNegocio.seleccionado"
+						    filtros			="oSocioNegocio.filtros"
+							cascada-a		="oPortafolio.filtros.IdCliente"
+							cascada-valor	="'IdCliente'"
+		                    cascada-defecto	="'-1'"
+		                    id-actual		="oSocioNegocio.idActual"
+						    configuracion	= "oSocioNegocio.configuracion">
+						</bcs-combobox-base >
+            		</div>
+            		
+		            <div class="row">
+	                    <label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+						 <bcs-combobox-base class="col-xs-10"
+						 	bcs-requerido
+						 	id					="formConsultarCarteras_Portafolio"
+						 	auto-cargar			="'false'"						 	
+						    tipo				="'combobox-portafolio'"
+						    seleccionado		="oPortafolio.seleccionado"
+						    filtros				="oPortafolio.filtros"
+		                    item-post-filtro	="'1'"
+		                    id-actual			="oPortafolio.idActual"
+						    configuracion		= "oPortafolio.configuracion">
+						</bcs-combobox-base >
+		            </div>
+					
+					<div class="row">
+						<label class="col-xs-2" translate>UI_FECHA</label>
+						<bcs-input-date class="col-xs-2"
+							bcs-requerido
+							id			= "formConsultarCarteras_Fecha"
+							k-ng-model	="data.kngFecha"
+							k-options	="data.fechaOptions">
+						</bcs-input-date>
+					</div>
+
+				</div>				
+				<!-- INICIO BOTONES -->
+				<div class="col-xs-2">
+					<div class="row">
+						<bcs-button class="col-xs-12"
+							bcs-tipo="'default'"  
+							bcs-auto-desactivar="'false'" 
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-habilitado="'true' && formConsultarCarteras.$valid"  
+							bcs-clic="data.btnBuscar()"
+						></bcs-button>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="row" ng-show="data.oDatosCartera.Filtrado">
+			<!-- FILTROS -->
+				<div class="col-xs-12">	
+					<div class="row">
+	                	<label class="col-xs-2" translate>UI_SOCIO_NEGOCIO</label>
+						<bcs-input-texto class="col-xs-10"
+							id				="formConsultarCarteras_SocioNegocioTexto"
+							k-ng-disabled	="'true'"
+							ng-model		="data.oDatosCartera.SocioNegocio">
+						</bcs-input-texto>
+            		</div>
+            		
+		            <div class="row">
+	                    <label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+						<bcs-input-texto class="col-xs-10"
+							id				="formConsultarCarteras_PortafolioTexto"
+							k-ng-disabled	="'true'"
+							ng-model		="data.oDatosCartera.Portafolio">
+						</bcs-input-texto>
+		            </div>
+					
+					<div class="row">
+						<label class="col-xs-2" translate>UI_FECHA</label>
+						<bcs-input-date class="col-xs-2"
+							id				="formConsultarCarteras_FechaTexto"
+							k-ng-model		="data.oDatosCartera.fechaBusqueda"
+							k-ng-disabled 	= "'true'">
+						</bcs-input-date>
+					</div>
+
+				</div>
+			</div>
+		</form>			
+			
+			
+		<div class="row">
+			<bcs-grid id="formConsultarCarteras_grid-carteras"
+				configuracion = "carteras.confBasicaCarteras"
+				seleccionado = "carteras.selCarteras"
+				fn-doble-click = "data.fnDobleClick(carteras.selCarteras)">
+			</bcs-grid>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,294 @@
+<div id="SolicitarCircular" ng-controller="SolicitarCircularCtrl as solCir">
+	<form class="col-xs-12 form-horizontal">
+
+		<div class="row" >
+				<label class="col-xs-3" translate> Fecha Ingreso Solicitud: </label>
+				<bcs-input-date class="col-xs-3" bcs-requerido
+					k-ng-model="solCir.fechaInicioSol"
+					k-ng-readonly="'true'"
+					k-ng-disabled="true">
+				</bcs-input-date>
+				<label class="col-xs-3" translate>UI_USUARIO</label>
+				<label style="font-weight: bold" class="col-xs-3" id="User"
+					ng-model="solCir.lblUsuario" translate>{{SesionUsuario}}</label>
+		
+		</div>
+			
+		<div class="row">
+			<span class="col-xs-3">
+				<label class="col-xs-4" translate>UI_FORMATO&nbsp;&nbsp;</label>
+				<em class="col-xs-4" style="text-decoration: underline;" ng-show="!solCir.muestraFormatos" ng-click="solCir.muestraFormatos = !solCir.muestraFormatos">({{'UI_MOSTRAR' | translate}})</em>
+				<em class="col-xs-4" style="text-decoration: underline;" ng-show="solCir.muestraFormatos" ng-click="solCir.muestraFormatos = !solCir.muestraFormatos">({{'UI_OCULTAR' | translate}})</em>
+			</span>
+		</div>
+		
+		<div class="row"  ng-show="solCir.muestraFormatos">
+					<div class="col-xs-3">
+				            <label>Separador Listas</label>
+				    </div>
+				    <div class="col-xs-3">
+				            <select class="combobox-bcs" style="width:100%;" ng-model="solCir.separadorListas" ng-disabled="data.modoLectura">
+				                <option value=",">Coma</option>
+				                <option value=";">Punto y coma</option>
+				            </select>
+				    </div>
+						
+					<div class="col-xs-3">
+			            <label>Simbolo Decimal</label>
+			        </div>
+			        <div class="col-xs-3">
+			            <select class="combobox-bcs" style="width:100%;" ng-model="solCir.simboloDecimal" ng-disabled="solCir.modoLectura" >
+			                <option value=",">Coma</option>
+			                <option value=".">Punto</option>
+			            </select>
+			        </div>
+				        
+				        
+			</div>
+			<div class="row" ng-show="solCir.muestraFormatos">
+		        <div class="col-xs-3">
+			            <label>Formato Fecha</label>
+			        </div>
+			        <div class="col-xs-3">
+			            <select class="combobox-bcs" style="width:100%;" ng-model="solCir.simboloFecha" ng-disabled="solCir.modoLectura" >
+			                <option value="dd/MM/yyyy">dd/MM/yyyy</option>
+			                <option value="MM/dd/yyyy">MM/dd/yyyy</option>
+			            </select>
+			        </div>
+			</div>			
+			
+		</form>
+				
+	<form class="col-xs-12 form-horizontal">
+		<div class="row" >
+			<label class="col-xs-3" translate>UI_NORMATIVA</label>
+			<bcs-combobox-base class="col-xs-9"
+						tipo = "'combobox-tipo-normativa'"
+						seleccionado="solCir.cmbbx.IdNormativaObj"
+						bcs-requerido
+						auto-cargar="true"
+						item-post-filtro="'1'"
+						id-defecto="solCir.params.PrevNormativa.idactual"
+						id-actual = "solCir.cmbbx.IdNormativa"
+						filtros="solCir.cmbbx.Normativa.filtros"
+						cascada1-a="solCir.cmbbx.TipoDocumento.filtros.IdNormativa"
+						cascada1-valor="'IdNormativa'">   
+		 	</bcs-combobox-base >		
+		</div>
+		<div class="row" ng-hide = "solCir.checkCliente">
+			<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO</label>
+			<bcs-combobox-base class="col-xs-9"
+						tipo = "'combobox-tipo-documento-normativa'"
+						id-actual = "solCir.cmbbx.IdTipoDocumento"
+						filtros="solCir.cmbbx.TipoDocumento.filtros"
+						auto-cargar="true"
+						item-post-filtro="'1'"
+						id-defecto="solCir.params.PrevDocumento.IdTipoDocumento"
+						todos="'N'"
+						seleccionado="solCir.cmbbx.IdTipoDocumentoObj">
+		 	</bcs-combobox-base >		
+		</div>
+		<div class="row" ng-show="solCir.checkCliente">
+			<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO</label>
+			<div class="col-xs-9">
+				<span class="combobox-arrow k-icon k-i-arrow-60-down"><i ></i></span>
+			<form >
+				<select id="NCG380CLI_Ofi_Det"
+				style="width:100%;" 
+						class="combobox-bcs" 
+						ng-model="selectedOption" >
+				  <option value="Oficial">OFICIAL</option>
+				  <option value="Detallado">DETALLADO</option>
+				</select>
+		
+			  </form>	
+			</div>  
+		</div>
+		
+		<hr>
+		<br>
+			<div class="col-xs-12" style="padding-top: 10px;">
+			<uib-tabset>
+					<uib-tab id="TabCarta1" heading="{{'UI_ART171_CARTA1_BCS' | translate}}" select="solCir.fnTabCarta1BCS()"  active="solCir.cmbbx.IdTipoDocumento=='ART171Car1'" ng-show="solCir.cmbbx.IdTipoDocumento=='ART171Car1'">
+						<div class="row" >
+							<div id="PanelCarta1BCS"></div>
+						</div>
+					</uib-tab>
+					
+					<uib-tab id="TabCarta2" heading="{{'UI_ART171_CARTA2_SVS' | translate}}" select="solCir.fnTabCarta2SVS()"  active="solCir.cmbbx.IdTipoDocumento=='ART171Car2'" ng-show="solCir.cmbbx.IdTipoDocumento=='ART171Car2'">
+						<div class="row">
+							<div id="PanelCarta2SVS"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCI63Nomina" heading="{{'UI_CIR63_NOMINA_DE_PERSONAS' | translate}}" select="solCir.fnTabCI63Nomina()"  active="solCir.cmbbx.IdTipoDocumento=='CI63Nomina'" ng-show="solCir.cmbbx.IdTipoDocumento=='CI63Nomina'">
+						<div class="row">
+							<div id="PanelCI63Nomina"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCI63Transa" heading="{{'UI_CIR63_TRANSACCIONES_DE_RELACIONADOS' | translate}}" select="solCir.fnTabCI63Transa()"  active="solCir.cmbbx.IdTipoDocumento=='CI63Transa'" ng-show="solCir.cmbbx.IdTipoDocumento=='CI63Transa'">
+						<div class="row">
+							<div id="PanelCI63Transa"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCI63Carta" heading="{{'UI_CIR63_CARTA_CIRCULAR' | translate}}" select="solCir.fnTabCI63Carta()"  active="solCir.cmbbx.IdTipoDocumento=='CI63Carta'" ng-show="solCir.cmbbx.IdTipoDocumento=='CI63Carta'">
+						<div class="row">
+							<div id="PanelCI63Carta"></div>
+						</div>
+					</uib-tab>					
+					<uib-tab id="TabNCG380" heading="{{'UI_NCG380_NORMA_DE_CARACTER_GENERAL' | translate}}" select="solCir.fnTabNCG380()" active="solCir.cmbbx.IdNormativa=='NCG380'" ng-show="solCir.cmbbx.IdNormativa=='NCG380'">
+						<div class="row">
+							<div id="PanelNCG380"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabUAF48PEP" heading="{{'UI_UAF48_PERSONAS_EXPUESTAS_POLITICAMENTE' | translate}}" select="solCir.fnTabUAF48PEP()"  active="solCir.cmbbx.IdTipoDocumento=='UAF48PEP'" ng-show="solCir.cmbbx.IdTipoDocumento=='UAF48PEP'">
+						<div class="row">
+							<div id="PanelUAF48PEP"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabUAF57BFPEJ" heading="{{'UI_UAF57_BENEFICIARIOS_FINALES_DE_PERSONAS_Y_ESTRUCTURAS_JURIDICAS' | translate}}" select="solCir.fnTabUAF57BFPEJ()"  active="solCir.cmbbx.IdTipoDocumento=='UAF57BFPEJ'" ng-show="solCir.cmbbx.IdTipoDocumento=='UAF57BFPEJ'">
+						<div class="row">
+							<div id="PanelUAF57BFPEJ"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabUAFDOF" heading="{{'UI_UAFDOF_TRANSACCIONES_CON_ORIGEN_DE_FONDOS' | translate}}" select="solCir.fnTabUAFDOF()"  active="solCir.cmbbx.IdTipoDocumento=='UAFDOF'" ng-show="solCir.cmbbx.IdTipoDocumento=='UAFDOF'">
+						<div class="row">
+							<div id="PanelUAFDOF"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabUAFROE" heading="{{'UI_UAFROE_REPORTE_DE_OPERACIONES_EN_EFECTIVO' | translate}}" select="solCir.fnTabUAFROE()"  active="solCir.cmbbx.IdTipoDocumento=='UAFROE'" ng-show="solCir.cmbbx.IdTipoDocumento=='UAFROE'">
+						<div class="row">
+							<div id="PanelUAFROE"></div>
+						</div>
+					</uib-tab>	
+					<uib-tab id="TabINFTRASEIL"  heading="{{'UI_INFOTRANOFIC_INFORME_DE_TRANSACCIONES_POR_OFICIO' | translate}}" select="solCir.fnTabINFTRASEIL()" active="solCir.cmbbx.IdTipoDocumento=='INFTRASEIL'" ng-show="solCir.cmbbx.IdTipoDocumento=='INFTRASEIL'">
+						<div class="row">
+							<div id="PanelINFTRASEIL"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabINFTRABCS"  heading="{{'UI_INFOTRANOFIC_INFORME_DE_TRANSACCIONES_POR_OFICIO' | translate}}" select="solCir.fnTabINFTRABCS()" active="solCir.cmbbx.IdTipoDocumento=='INFTRABCS'" ng-show="solCir.cmbbx.IdTipoDocumento=='INFTRABCS'">
+						<div class="row">
+							<div id="PanelINFTRABCS"></div>
+						</div>
+					</uib-tab>		
+					<uib-tab id="TabCIR1064" heading="{{'UI_CIR1064_OPERACIONES_DIARIAS' | translate}}"  select="solCir.fnTabCIR1064()" active="solCir.cmbbx.IdTipoDocumento=='CIR1064'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR1064'">
+						<div class="row">
+							<div id="PanelCIR1064"></div>
+						</div>
+					</uib-tab>								
+					<uib-tab id="TabCIR1064R" heading="{{'UI_CIR1064_OPERACIONES_EN_RUEDA' | translate}}" select="solCir.fnTabCIR1064R()" active="solCir.cmbbx.IdTipoDocumento=='CIR1064R'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR1064R'">
+						<div class="row">
+							<div id="PanelCIR1064R"></div>
+						</div>
+					</uib-tab>		
+					<uib-tab id="TabCIR1064FR" heading="{{'UI_CIR1064_OPERACIONES_FUERA_DE_RUEDA' | translate}}" select="solCir.fnTabCIR1064FR()" active="solCir.cmbbx.IdTipoDocumento=='CIR1064FR'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR1064FR'">
+						<div class="row">
+							<div id="PanelCIR1064FR"></div>
+						</div>
+					</uib-tab>				
+					<uib-tab id="TabFATCAR" heading="{{'UI_FATCA_RESUMEN' | translate}}" select="solCir.fnTabFATCAR()" active="solCir.cmbbx.IdTipoDocumento=='FATCAR'" ng-show="solCir.cmbbx.IdTipoDocumento=='FATCAR'">
+						<div class="row">
+							<div id="PanelFATCAR"></div>
+						</div>
+					</uib-tab>		
+					<uib-tab id="TabFATCAD" heading="{{'UI_FATCA_DETALLE' | translate}}" select="solCir.fnTabFATCAD()" active="solCir.cmbbx.IdTipoDocumento=='FATCAD'" ng-show="solCir.cmbbx.IdTipoDocumento=='FATCAD'">
+						<div class="row">
+							<div id="PanelFATCAD"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabINFDERECH" heading="{{'UI_INFORME_DERECHOS' | translate}}" select="solCir.fnTabINFDERECH()" active="solCir.cmbbx.IdNormativa=='INFDERECH'" ng-show="solCir.cmbbx.IdNormativa=='INFDERECH'">
+						<div class="row">
+							<div id="PanelInformeDerecho"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabACPE" heading="{{'UI_ANEXO1_ACCIONES_CUENTA_PROPIA_EN_RUEDA' | translate}}" select="solCir.fnTabACPE()" active="solCir.cmbbx.IdTipoDocumento=='ACPE'" ng-show="solCir.cmbbx.IdTipoDocumento=='ACPE'">
+						<div class="row">
+							<div id="PanelACPE"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabACPOB" heading="{{'UI_ANEXO13_ACCIONES_CUENTA_PROPIA_EN_OTRAS_BOLSAS' | translate}}"  select="solCir.fnTabACPOB()" active="solCir.cmbbx.IdTipoDocumento=='ACPOB'" ng-show="solCir.cmbbx.IdTipoDocumento=='ACPOB'">
+						<div class="row">
+							<div id="PanelACPOB"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabAMF" heading="{{'UI_ANEXO4_RESUMEN_DIARIO_MONTOS_FACTURADOS' | translate}}" select="solCir.fnTabAMF()" active="solCir.cmbbx.IdTipoDocumento=='ANEXO4'" ng-show="solCir.cmbbx.IdTipoDocumento=='ANEXO4'">
+						<div class="row">
+							<div id="PanelAMF"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCIR1518"  heading="{{'UI_CIR1518_CUADRATURA_SEMANAL_DE_CUSTODIA' | translate}}" select="solCir.fnTabCIR1518()" active="solCir.cmbbx.IdTipoDocumento=='CIR1518'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR1518'">
+						<div class="row">
+							<div id="PanelCIR1518"></div>
+						</div>
+					</uib-tab>	
+					<uib-tab id="TabCIR1720"  heading="{{'UI_CIR1720_CUADRATURA_TRIMESTRAL_DE_CUSTODIA' | translate}}" select="solCir.fnTabCIR1720()" active="solCir.cmbbx.IdTipoDocumento=='CIR1720'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR1720'">
+						<div class="row">
+							<div id="PanelCIR1720"></div>
+						</div>
+					</uib-tab> 
+					<uib-tab id="TabCIR1985"  heading="{{'UI_CIR1985_CUADRATURA_TRIMESTRAL_DE_CUSTODIA' | translate}}" select="solCir.fnTabCIR1985()" active="solCir.cmbbx.IdTipoDocumento=='CIR1985'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR1985'">
+						<div class="row">
+							<div id="PanelCIR1985"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCIR1804"  heading="{{'UI_CIR1804_INFORME_MENSUAL' | translate}}" select="solCir.fnTabCIR1804()" active="solCir.cmbbx.IdTipoDocumento=='CIR1804'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR1804'">
+						<div class="row">
+							<div id="PanelCIR1804"></div>
+						</div>
+					</uib-tab>	
+					<uib-tab id="TabInfInversionistasRV"  heading="{{'UI_INFORME_MENSUAL_INVERSIONISTAS_RV' | translate}}" select="solCir.fnTabInfInversionistasRV()" active="solCir.cmbbx.IdTipoDocumento=='NCG380INTB'" ng-show="solCir.cmbbx.IdTipoDocumento=='NCG380INTB'">
+						<div class="row">
+							<div id="PanelInformeMensualRV"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabNGC368PART" heading="{{'UI_REGISTRO_PARTICIPES' | translate}}" select="solCir.fnTabNGC368PART()" active="solCir.cmbbx.IdTipoDocumento=='NGC368PART'" ng-show="solCir.cmbbx.IdTipoDocumento=='NGC368PART'">
+						<div class="row">
+							<div id="PanelNGC368PART"></div>
+						</div>
+					</uib-tab>		
+					<uib-tab id="TabNGC368GRAV" heading="{{'UI_GRAVAMENES_PROHIBICIONES' | translate}}" select="solCir.fnTabNGC368GRAV()" active="solCir.cmbbx.IdTipoDocumento=='NGC368GRAV'" ng-show="solCir.cmbbx.IdTipoDocumento=='NGC368GRAV'">
+						<div class="row">
+							<div id="PanelNGC368GRAV"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabNCG365FFMM" heading="{{'UI_NCG365_INFORME_DE_TRANSACCIONES' | translate}}" select="solCir.fnTabNCG365FFMM()" active="solCir.cmbbx.IdTipoDocumento=='NCG365MAS'" ng-show="solCir.cmbbx.IdTipoDocumento=='NCG365MAS'">
+						<div class="row">
+							<div id="PanelNCG365FFMM"></div>
+						</div>
+					</uib-tab>	
+					<uib-tab id="TabCIR20Anexo1" heading="{{'UI_CIRCULAR20_ANEXO1' | translate}}" select="solCir.fnTabCIR20Anexo1()"  active="solCir.cmbbx.IdTipoDocumento=='CIR20AN1'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR20AN1'">
+                        <div class="row">
+                            <div id="PanelCIR20Anexo1"></div>
+                        </div>
+                    </uib-tab>	
+                    <uib-tab id="TabCIR20Anexo1Detalle" heading="{{'UI_CIRCULAR20_ANEXO1DETALLE' | translate}}" select="solCir.fnTabCIR20Anexo1Detalle()"  active="solCir.cmbbx.IdTipoDocumento=='CIR20AN1D'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR20AN1D'">
+                        <div class="row">
+                            <div id="PanelCIR20Anexo1Detalle"></div>
+                        </div>
+                    </uib-tab>
+					<uib-tab id="TabCIRCMF" heading="{{'UI_CIRCULAR_CARTERA_CMF' | translate}}" select="solCir.fnTabCIRCMF()" active="solCir.cmbbx.IdTipoDocumento=='CIRCMF'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIRCMF'">
+						<div class="row">
+							<div id="PanelCIRCMF"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabPacVigEBox" heading="{{'UI_PACTOS_VIGENTES_EBOX' | translate}}" select="solCir.fnTabPacVigEBox()" active="solCir.cmbbx.IdTipoDocumento=='PACVIGEBOX'" ng-show="solCir.cmbbx.IdTipoDocumento=='PACVIGEBOX'">
+						<div class="row">
+							<div id="PanelPacVigEBox"></div>
+						</div>
+					</uib-tab>		
+					<uib-tab id="TabFwdVigEbox" heading="{{'UI_INFORME_FORWARDS_VIGENTES' | translate}}" select="solCir.fnTabINFOFWDEBOXForwardsVigentes()" active="solCir.cmbbx.IdTipoDocumento=='FWDVIGEBOX'" ng-show="solCir.cmbbx.IdTipoDocumento=='FWDVIGEBOX'">
+						<div class="row">
+							<div id=PanelFwdVigEbox></div>
+						</div>
+					</uib-tab>	
+					<uib-tab id="TabGarFwdEbox" heading="{{'UI_INFORME_GARANTIAS_FORWARD' | translate}}" select="solCir.fnTabINFOFWDEBOXGarantiasForward()" active="solCir.cmbbx.IdTipoDocumento=='GARFWDEBOX'" ng-show="solCir.cmbbx.IdTipoDocumento=='GARFWDEBOX'">
+						<div class="row">
+							<div id="PanelGarFwdEbox"></div>
+						</div>
+					</uib-tab>								 															
+			</uib-tabset> 
+			</div>
+	</form>
+	<form class="col-xs-12 form-horizontal">	
+		<br>
+	</form>	
+</div>

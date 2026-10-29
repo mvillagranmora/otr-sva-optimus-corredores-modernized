@@ -1,0 +1,1 @@
+DROP TABLE #CargarArchivoTasas_p_DataTasas;

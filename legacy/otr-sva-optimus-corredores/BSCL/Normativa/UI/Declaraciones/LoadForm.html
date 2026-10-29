@@ -1,0 +1,100 @@
+<div class="row" ng-controller="UploadController">
+    <div class="row">
+        <div class="col-xs-4">
+            <label>Fuente de Datos</label>
+        </div>
+        <div class="col-xs-4">
+            <label><input type="radio" ng-model="fuenteDatos" ng-disabled = "deshabilitaFuenteDatos" value="EXTERNA" />Externa</label>
+            <label><input type="radio" ng-model="fuenteDatos" value="INICIAL" />Sistema</label>
+        </div>
+    </div>
+    <div class="row" ng-show="!EsDJ1">
+        <div class="col-xs-4">
+            <label>Reemplazar</label>
+        </div>
+        <div class="col-xs-4">
+            <label><input type="radio" ng-model="reemplazar" value="false" />No</label>
+            <label><input type="radio" ng-model="reemplazar" value="true" />Si</label>
+        </div>
+    </div>
+    <div class="row" ng-show="!EsDJ1">
+        <div class="col-xs-4">
+            <label>Grabar</label>
+        </div>
+        <div class="col-xs-4">
+            <label><input type="radio" ng-model="grabar" value="false" />No</label>
+            <label><input type="radio" ng-model="grabar" value="true" />Si</label>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+        <bcs-input-date class="col-xs-8" k-ng-model="fechaDesde"></bcs-input-date>
+    </div>
+    <div class="row">
+        <label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+        <bcs-input-date class="col-xs-8" k-ng-model="fechaHasta"></bcs-input-date>
+    </div>
+    <div class="row" ng-show = "!Es1720">
+        <div class="col-xs-4">
+            <label>Separador Listas</label>
+        </div>
+        <div class="col-xs-8">
+            <select style="width:100%;" ng-model="separadorListas" ng-disabled="fuenteDatos==='INICIAL'">
+                <option value=",">Coma</option>
+                <option value=";">Punto y coma</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" ng-show = "!Es1720">
+        <div class="col-xs-4">
+            <label>Simbolo Decimal</label>
+        </div>
+        <div class="col-xs-8">
+            <select style="width:100%;" ng-model="simboloDecimal" ng-disabled="fuenteDatos==='INICIAL'">
+                <option value=",">Coma</option>
+                <option value=".">Punto</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" ng-show="EsDJ1">
+        <div class="col-xs-4">
+            <label translate>UI_TIPO_ARCHIVO</label>
+        </div>
+        <div class="col-xs-8">
+			<select style="width:100%;" ng-model="tipoArchivoDJ1" ng-disabled="fuenteDatos==='INICIAL'">
+				<option value="FX">FX requerimiento sistema de monedas</option>
+				<option value="IR">IR requerimiento sistema tasa de interes</option>
+				<option value="FI">FI requerimiento sistema RF</option>
+			</select>
+		</div>
+	</div>
+    <div class="row" ng-show = "!Es1720">
+        <div class="col-xs-12">
+            <input type="file" class="col-xs-5 custom-file-input-form" onchange="angular.element(this).scope().fileChanged(this)" file-model="loadFile" ng-disabled="fuenteDatos==='INICIAL'" style="display:inline"/>
+					<div class="col-xs-7" style="height: 100%;
+					position: relative;
+					height: 30px;">
+						<span id="nombreArchivo" style="
+						font-weight: bold;
+						font-size: 12px;
+						position: absolute;
+						top: 50%; 
+						left: 50%; 
+						width: 100%;
+						transform: translate(-50%, -50%); 
+						padding-left: 14px;
+					">{{nombreArchivo}}</span>
+					</div>
+        </div>
+    </div>
+    <hr>
+    <div class="row alignButtonsToRight">
+        <bcs-button class="col-xs-4"
+            bcs-tipo="'bcs-button-input-form'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_CARGAR' | translate"
+            bcs-habilitado="botonCargarHabilitado"
+            bcs-clic="cargar()">
+        </bcs-button>
+    </div>
+</div>

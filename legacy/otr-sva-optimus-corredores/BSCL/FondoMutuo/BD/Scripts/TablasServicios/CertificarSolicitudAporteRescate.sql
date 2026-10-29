@@ -1,0 +1,62 @@
+SET SCHEMA "BSCL"; 
+GO
+DROP TABLE "BSCL.FondoMutuo.BD::GBL.CertificarSolicitudAporteRescate_Proceso_Solicitudes";
+GO
+CREATE GLOBAL TEMPORARY ROW TABLE "BSCL.FondoMutuo.BD::GBL.CertificarSolicitudAporteRescate_Proceso_Solicitudes"(
+    "IdSolicitudAporteRescate"              BIGINT,
+    "IdSolicitudAporteRescateRelacionado"   BIGINT,
+    "Codigo"                                NVARCHAR(100),
+    "Descripcion"                           NVARCHAR(520),
+    "FechaCertificacion"                    DATE,
+    "TipoSolicitud"                         NVARCHAR(3),
+    "IdSerieFondo"                          NVARCHAR(40),
+    "IdInstrumento"                         BIGINT,
+    "IdTipoInstrumento"                     NVARCHAR(3),
+    "IdTipoMovimientoFondoMutuo"            NVARCHAR(10),
+    "IdEmisor"                              NVARCHAR(40),
+    "IdCliente"                             BIGINT,
+    "IdPortafolio"                          BIGINT,
+    "IdMoneda"                              NVARCHAR(3),
+    "IdMonedaFondo"                         NVARCHAR(3),
+    "CostoMonedaLocal"                      DECIMAL(26,8),
+    "Monto"                                 DECIMAL(26,8),
+    "ValorCuota"                            DECIMAL(26,8),
+    "NumeroCuotas"                          DECIMAL(26,8),
+    "ParidadFechaCertificacion"             DECIMAL(26,8),
+    "FechaLiquidacion"                      DATE,
+    "FechaAceptacion"                       DATE,
+    "IdUsuario"                             BIGINT,
+    "IdPersona"                             BIGINT,
+    "IdMedioDePago"                         NVARCHAR(3),
+    "MueveCta"                              NVARCHAR(1),
+    "CalculoPorMontoCuota"                  NVARCHAR(1),
+    "MontoComision"                         DECIMAL(26,8),
+    "MontoPago"                             DECIMAL(26,8),
+    "MontoComisionLocal"                    DECIMAL(26,8),
+    "MontoPagoLocal"                        DECIMAL(26,8),
+    "ValorUFFechaInversion"                 DECIMAL(26,8),
+    "CostoUF"                               DECIMAL(26,8),
+    "IndicadorMLT"                          NVARCHAR(1),
+    "Overnight"                             NVARCHAR(1),
+    "Glosa"                                 NVARCHAR(100),
+    "IdSerieFondoDestino"                   NVARCHAR(40),
+    "IdEmisorDestino"                       NVARCHAR(40),
+    "OrigenOperacion"                       NVARCHAR(1),
+    "SolicitudBatch"                        NVARCHAR(1),
+    "ComisionInformada"                     NVARCHAR(1),
+    "PropositoPortafolio"                   NVARCHAR(520),
+    "IdRegimenTributario"                   NVARCHAR(40),
+    "TipoCarteraNormativa"                  NVARCHAR(6),
+    "IdRegimenTributarioDestino"            NVARCHAR(40),
+    "TipoCarteraNormativaDestino"           NVARCHAR(6),
+    "Spread"                                DECIMAL(26,8),
+    "EstadoSolicitud"                       NVARCHAR(3),
+    "IdPreferenciaPagoPortafolio"           BIGINT,
+    "IdMonedaSistema"                       NVARCHAR(3),
+    "MontoMonedaSistema"                    DECIMAL(26,8),
+    "EsPorMontoLiquido"                     NVARCHAR(1),--oct
+    "MontoLiquido"                          DECIMAL(26,8),--oct
+    "MontoLiquidoLocal"                     DECIMAL(26,8),--oct
+    "Rechazo"                               BIGINT) ON COMMIT DELETE ROWS;
+GO    
+COMMIT;    

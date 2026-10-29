@@ -1,0 +1,80 @@
+# ============================================================
+# Stage 1: Preprocesar views/login.html → optimus.html
+#
+# El BootstrapServlet de TomEE normalmente genera este HTML
+# consultando HANA (diccionario, logo, empresas). En Docker lo
+# generamos en build time con valores mínimos para pruebas internas.
+#
+# El index.html del SPA redirige a "optimus?p=login"; nginx sirve
+# ese path como optimus.html (via try_files $uri $uri.html).
+# ============================================================
+FROM python:3.11-alpine AS preprocessor
+
+# BCS_AMBIENTE: etiqueta del badge de ambiente en el panel de login.
+# Valores: DES | PRE | QA | PRO | UAT
+ARG BCS_AMBIENTE=DES
+ENV BCS_AMBIENTE=${BCS_AMBIENTE}
+
+# LOGO_PATH: ruta relativa al PNG del logo de la corredora.
+# El logo real viene de la BD SAP HANA; para pruebas se usa el genérico.
+ARG LOGO_PATH=images/logos/OPTIMUS-corredores.png
+ENV LOGO_PATH=${LOGO_PATH}
+
+WORKDIR /src
+COPY BSCL/Plataforma/UI/ .
+
+RUN python3 - <<'PYEOF'
+import os, base64, re
+
+bcs_ambiente = os.environ.get('BCS_AMBIENTE', 'DES').upper()
+ambiente_img_map = {
+    'DES': 'images/login/ambiente-desarrollo.png',
+    'PRE': 'images/login/ambiente-pre.png',
+    'QA':  'images/login/ambiente-qa.png',
+    'PRO': 'images/login/ambiente-pro.png',
+    'UAT': 'images/login/ambiente-desarrollo.png',
+}
+ambiente_img = ambiente_img_map.get(bcs_ambiente, 'images/login/ambiente-desarrollo.png')
+
+logo_path = os.environ.get('LOGO_PATH', 'images/logos/OPTIMUS-corredores.png')
+logo_b64  = base64.b64encode(open(logo_path, 'rb').read()).decode()
+
+lib_base = open('resources/config_lib.html').read().replace('<::DATADOG-RUM-CONFIG::>', '')
+html = open('views/login.html').read()
+html = html.replace('<::LIB_BASE::>', lib_base)
+html = html.replace('<::LIB_EXTRA_CSS::>', '')
+html = html.replace('<::LOCALIZACION::>', '')
+config = f"""<script>
+const BCS_MUESTRA_SSO_GOOGLE = "N";
+const BCS_AMBIENTE = "{bcs_ambiente}";
+document.addEventListener('DOMContentLoaded', function() {{
+  var img = document.querySelector('.imagen_ambiente');
+  if (img) img.src = '{ambiente_img}';
+}});
+</script>"""
+html = html.replace('<::CONFIG::>', config)
+html = html.replace('<::LOGO_CORREDOR::>', f'[{{"Binario":"{logo_b64}"}}]')
+html = html.replace('<::EMPRESAS::>', '[{"IdEmpresa":"1","Nombre":"Corredora"}]')
+
+logo_img = f'<img src="data:image/png;base64,{logo_b64}">'
+for lid in ['logoCorredora', 'logoCorredora2', 'logoCorredora3', 'logoCorredora4']:
+    html = re.sub(rf'(id="{lid}"[^>]*>)\s*</a>', rf'\1{logo_img}</a>', html)
+
+open('optimus.html', 'w').write(html)
+PYEOF
+
+# ============================================================
+# Stage 2: nginx sirve los archivos estáticos del SPA
+# ============================================================
+FROM nginx:1.25-alpine
+
+# Árbol BSCL completo — módulos AngularJS, libs, imágenes, etc.
+COPY BSCL/ /usr/share/nginx/html/BSCL/
+
+# UI preprocesada: sobreescribe BSCL/Plataforma/UI/ con optimus.html incluido
+COPY --from=preprocessor /src/ /usr/share/nginx/html/BSCL/Plataforma/UI/
+
+# Config nginx (proxy GWJAVA + static serving)
+COPY docker/nginx-corredores.conf /etc/nginx/nginx.conf
+
+EXPOSE 80

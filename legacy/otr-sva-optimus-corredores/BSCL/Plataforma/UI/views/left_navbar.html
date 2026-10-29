@@ -1,0 +1,48 @@
+<div class="row"> 
+  
+  <nav id="navbar" class="navbar navbar-default navbar-fixed-top sidebar ">
+    <div class="divLogo">
+      <img class="mainLogo" src="./images/LOGO-OPTIMUS-300x200-solo.png" alt="optimus-logo" ng-class="{'hidden-search': isMenuVisible, 'display-search': !isMenuVisible}" ng-click="displayWelcome()">
+      <img class="mainLogo-collapse" src="./images/LOGO-OPTIMUS-flecha.png" alt="optimus-logo-collapse" ng-class="{'display-search': isMenuVisible, 'hidden-search': !isMenuVisible}" ng-click="toggleMenu()">
+    </div>
+      <div>
+        <span id="buscarVentana" ng-class="{'hidden-search': isMenuVisible, 'display-search': !isMenuVisible}">
+          <input placeholder="'Busqueda de Menús'" kendo-auto-complete="d.buscarVentanaWidget" k-ng-model="d.buscarVentana" k-options="d.buscarVentanaOptions"></input>
+          <i class="glyphicon glyphicon-search icon-search-left"  ng-class="{'hidden-search': isMenuVisible, 'display-search': !isMenuVisible}"></i>
+        </span>
+        
+        <span id="searchMainbtn" class="glyphicon glyphicon-search" ng-class="{'display-search': isMenuVisible, 'hidden-search': !isMenuVisible}" ng-click="toggleMenu()"></span>
+
+
+        
+      </div>
+    
+      <div class="collapse navbar-collapse" style="max-height: 690px; height: 690px !important;"> <!-- class="collapse navbar-collapse" -->
+        <ul class="nav navbar-nav"  ng-repeat="(menuitemIndex,menuitem) in ::MenuLeft ">
+          <li class="dropdown keep-open" dropdown auto-close="disabled" ng-click="leftBarOpen()" ng-if="::(menuitem.WIN.ENABLE == true  && (menuitem.QA === undefined || (menuitem.QA===true && Ambiente !== 'PRO'))    )">
+            <a id="MENU_{{::menuitem.WIN.KEY}}" style="width:200px;" class="dropdown-toggle">
+                <span style="font-size:16px;" class="pull-left hidden-xs showopacity glyphicon {{::menuitem.WIN.IMAGE}}"  title="{{::menuitem.TITULO|translate|FormatoTitulo}}"></span>{{::menuitem.TITULO|translate|FormatoTitulo}}
+            </a>
+            <ul class="dropdown-menu" role="menu" ng-repeat="(submenuitemIndex,submenuitem) in ::menuitem.SUBMENU">
+              <li ng-if="::(submenuitem.SEPARATE != true && submenuitem.WIN.ENABLE == true &&  (submenuitem.QA === undefined || (submenuitem.QA===true && Ambiente !== 'PRO'))  )">
+                  <a class="submenu-anchor" id="MENU_{{::submenuitem.WIN.KEY}}" href="#" ng-click="AbrirVentana(submenuitem.WIN.KEY,submenuitem.WIN.PARAMS,submenuitem.WIN.UNIQUE) " title="{{::submenuitem.TITULO|translate|FormatoTitulo}}"> {{::submenuitem.TITULO|translate|FormatoTitulo}}</a>
+              </li>
+              <li ng-if="::(submenuitem.SEPARATE == true )">
+                  <a class="tituloMenuSeparador"><b>{{::submenuitem.TITULO|translate|FormatoTitulo}}</b></a>
+              </li>            
+            </ul>
+          </li>
+        </ul>
+    </div>
+    <div class="pull-left" style= "margin-top:5%">
+      <a id="boletinOptimus" class="col-xs-12" ng-click="AbrirVentana('MantenedorBoletinesCli',{})">Boletin Optimus</a>
+      <a id="wiki" class="col-xs-12" href="{{::urlWikiOpt}}" target="_blank">Wiki-Optimus </a>	   
+    </div>
+  </nav>
+  <div id="bcs-collapse-button" class="menu-toggle-container" ng-click="toggleMenu()" ng-class="{'button-collapse': isMenuVisible,}">
+    <button id="arrowButton" class="glyphicon"
+      ng-class="{'glyphicon-menu-right': isMenuVisible, 'glyphicon-menu-left': !isMenuVisible}">
+    </button>
+  </div>
+</div>
+

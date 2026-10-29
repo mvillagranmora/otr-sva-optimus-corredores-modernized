@@ -1,0 +1,1 @@
+INSERT INTO #p_VariablesProceso VALUES ('EsPac','S');

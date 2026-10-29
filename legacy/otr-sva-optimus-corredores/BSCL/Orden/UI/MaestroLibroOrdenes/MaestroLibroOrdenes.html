@@ -1,0 +1,109 @@
+<div id="MaestroLibroOrdenes" class="col-xs-12" ng-controller="MaestroLibroOrdenesCtrl as mlo" bcs-enter="mlo.buscar()" tabindex="1">
+	<div class="row bcs-cuerpo">
+		<!-- INICIO FILTROS -->
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_NOMBRE_LIBRO</label>
+						<bcs-input-texto class="col-xs-7" ng-model="mlo.formData.Nombre"></bcs-input-texto>
+					</div>
+					<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_TIPO_LIBRO</label>
+				  		<bcs-combobox-base class="col-xs-7"
+				  			tipo="'combobox-tipo-libro-orden'"
+				  			id-actual="mlo.formData.TipoLibro"
+				  			id-defecto="'0'" 
+				  			todos="'S'" 
+				  			item-post-filtro="'1'">
+				  		</bcs-combobox-base>
+					</div>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-10" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="mlo.buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-10" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="mlo.limpiar()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid id="grid-libro-ordenes"
+			 	configuracion = "mlo.gridLibroOrdenes"
+			 	fn-exportar-excel = "exportarExcel" 
+				seleccionado = "mlo.libroOrdenesSeleccionado"
+				fn-doble-click="mlo.modificar(mlo.libroOrdenesSeleccionado)"
+				api = "mlo.apiGridLibroOrdenes">
+				
+				<div bcs-grid-detail ng-non-bindable>
+					<uib-tabset>
+					<!-- [CELCONDOR-687]  - Eliminar pestana operadores de la configuracion del libro de ordenes
+						<uib-tab heading="{{'UI_OPERADORES'| translate}}">
+							<div class="row" style="width: 100%;">
+								<bcs-grid 
+									id="grid-libro-ordenes-operadores"
+									seleccionado="grid.mlo.operadorSeleccionado" 
+									configuracion="mlo.gridOperadores(dataItem)"
+									api="grid.mlo.apiGridOperadores">
+								</bcs-grid>
+								<div class="row">
+									<bcs-button id="MaestroLibroOrdenes_agregarOperador" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 
+										bcs-habilitado="'true'" bcs-clic="grid.mlo.agregarOperador(grid.mlo.libroOrdenesSeleccionado)">
+									</bcs-button>
+									<bcs-button id="MaestroLibroOrdenes_eliminarOperador" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate" 
+										bcs-habilitado="grid.mlo.operadorSeleccionado" bcs-clic="grid.mlo.eliminarElementoSubGrilla(grid.mlo.operadorSeleccionado, 'OPE')">
+									</bcs-button>
+								</div>
+							</div>
+						</uib-tab>
+						[CELCONDOR-687]  - Eliminar pestana operadores de la configuracion del libro de ordenes -->
+						<uib-tab heading="{{'UI_MARCAS_NEGOCIACION'| translate}}">
+							<div class="row" style="width: 100%;">
+								<bcs-grid 
+									id="grid-libro-ordenes-marcas-negociacion"
+									seleccionado="grid.mlo.marcasNegociacionSeleccionado" 
+									configuracion="mlo.gridMarcasNegociacion(dataItem)" 
+									fn-doble-click="mlo.noAbrirModal()" 
+									api="grid.mlo.apiGridMarcasNegociacion">
+								</bcs-grid>
+								<div class="row">
+									<bcs-button id="MaestroLibroOrdenes_agregarMarcasNegociacion" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 
+										bcs-habilitado="'true'" bcs-clic="grid.mlo.agregarMarcasNegociacion(grid.mlo.libroOrdenesSeleccionado)">
+									</bcs-button>
+									<bcs-button id="MaestroLibroOrdenes_eliminarMarcasNegociacion" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate" 
+										bcs-habilitado="grid.mlo.marcasNegociacionSeleccionado" bcs-clic="grid.mlo.eliminarElementoSubGrilla(grid.mlo.marcasNegociacionSeleccionado, 'MAR')">
+									</bcs-button>
+								</div>
+							</div>
+						</uib-tab>
+					</uib-tabset>
+				</div>			
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-10">
+			<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 
+				bcs-habilitado="'true'" bcs-clic="mlo.agregar()" id="MaestroLibroOrdenes_crear">
+			</bcs-button>
+			<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate" 
+				bcs-habilitado="mlo.libroOrdenesSeleccionado" bcs-clic="mlo.modificar(mlo.libroOrdenesSeleccionado)" id="MaestroLibroOrdenes_modificar">
+			</bcs-button>
+			<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="mlo.libroOrdenesSeleccionado" bcs-clic="mlo.cambioEstado(mlo.libroOrdenesSeleccionado, 'ELI')" id="MaestroLibroOrdenes_eliminar">
+			</bcs-button>
+			<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" 
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIBRO_POR_DEFECTO' | translate" bcs-clic="mlo.abrirLibroPorDefecto()" id="MaestroLibroOrdenes_libroDef">
+			</bcs-button>
+			<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" bcs-texto="'UI_VER_ORDENES' | translate" bcs-clic="mlo.verOrdenes()" 
+				bcs-habilitado="mlo.libroOrdenesSeleccionado" id="MaestroLibroOrdenes_verOrdenes">
+			</bcs-button>
+		</div>
+		<bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

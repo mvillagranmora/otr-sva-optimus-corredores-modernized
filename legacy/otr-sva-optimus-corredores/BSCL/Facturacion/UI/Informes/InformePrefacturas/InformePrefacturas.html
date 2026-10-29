@@ -1,0 +1,85 @@
+<div class="row" ng-controller='InformePrefacturas'>
+	<form name="frmPrefactura">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-8"
+						id="frmPrefactura_ClientePortafolio" 
+						carga-cliente-automatico="'S'"
+						auto-cargar="'false'"
+						tipo="oConfiguracionCliente.tipo"
+						seleccionado="data.oClientePortafolio.seleccionado"
+						filtros="filtrosPortafolio"
+						id-actual="data.oClientePortafolio.idActual"
+						id-defecto="data.oClientePortafolio.idDefecto"
+						configuracion="data.oClientePortafolio.configuracion">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FORMATO_SALIDA</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						id="frmPrefactura_FormatoSalida"
+						tipo="oConfiguracionFormato.tipo"
+						configuracion="oConfiguracionFormato.configuracion"
+						seleccionado="oConfiguracionFormato.seleccionado"
+						filtros="oConfiguracionFormato.filtros"
+						id-actual="oConfiguracionFormato.idActual"
+						id-defecto="oConfiguracionFormato.idDefecto"
+						todos="'S'">
+					</bcs-combobox-base>
+				</div>  
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA_CONSULTA</label>
+					<bcs-input-date id="frmCtaCliente_FechaConsulta" class="col-xs-8"
+						bcs-requerido
+						k-ng-model="data.kngFechaConsulta" 
+						k-options="data.kOpFechaConsulta">
+					</bcs-input-date>
+				</div>	  
+			</div>
+					
+		</div>
+	</form>	
+	
+	<div class="col-xs-2" ng-show="!esVentana">
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"    bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="frmPrefactura.$valid" bcs-clic="buscarPrefacturas();"></bcs-button>
+	</div>
+
+	<div class="col-xs-12">
+		<div class="row" >
+			<bcs-grid
+				id="grid-informe-prefacturas"
+				configuracion="grid.confGridInforme"
+				seleccionado="seleccionInformePrefacturas"
+				api="gridApiInformePrefacturas"
+				fn-exportar-excel="exportarExcel">
+			</bcs-grid>		
+		</div>
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos">
+			<!-- Exportar todo -->
+			<bcs-button class="col-xs-2 pull-right" 
+				id="exportar-todo-informe-prefactura" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EXPORTAR_TODO' | translate" 
+				bcs-habilitado="prefacturaOptions.total() > 0" 
+				bcs-clic="exportarTodo()">
+			</bcs-button>
+
+			<!-- Exportar seleccionado -->
+			<bcs-button class="col-xs-2 pull-right" 
+				id="exportar-seleccionado-informe-prefactura" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EXPORTAR_SELECCIONADO' | translate" 
+				bcs-habilitado="seleccionInformePrefacturas.length == 1" 
+				bcs-clic="exportarSeleccionado()">
+			</bcs-button>
+		</div>
+	</div>
+</div>

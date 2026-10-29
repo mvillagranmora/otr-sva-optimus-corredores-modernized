@@ -1,0 +1,176 @@
+<div ng-controller="EjecutarDesasignacionCtrl">
+	<form name="EjecutarDesasignacionForm">
+		<div class="row">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_HORA_DESDE</label>
+				<bcs-input-time 
+					class="col-xs-8" 
+					bcs-requerido 
+					k-ng-model="datos.fechaDesde"
+					k-ng-disabled="datos.IdAsignacionMasiva">
+				</bcs-input-time>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_CANAL_INGRESO</label>
+				<bcs-combobox-base 
+					class="col-xs-8" 
+					bcs-requerido 
+					id-defecto="'AGE'"
+					activado="!inputsDeshabilitados()"
+					tipo="'combobox-tipo-canal-ingreso'" 
+					id-actual="datos.IdTipoCanalIngreso">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_LIBRO_ORDENES</label>
+				<bcs-combobox-base 
+					class="col-xs-8" 
+					bcs-requerido 
+					item-post-filtro="'1'" 
+					tipo="'combobox-libro-orden'"
+					id-actual="datos.IdLibroOrdenes"
+					todos="'S'" 
+					activado="!inputsDeshabilitados()">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+				<bcs-combobox-base 
+					class="col-xs-8" 
+					bcs-requerido id-defecto="'RV'"
+					id-actual="datos.IdClasificacionTipoInstrumento" 
+					tipo="'combobox-clasificacion-tipo-instrumento'"
+					activado="!inputsDeshabilitados()" 
+					filtros="filtros.clasificacionTipoInstrumento"
+					cascada1-a="filtros.tipoInstrumento.IdClasificacionTipoInstrumento"
+					cascada1-valor="'IdClasificacionTipoInstrumento'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+				<bcs-combobox-base 
+					class="col-xs-8" 
+					todos="'S'" 
+					bcs-requerido
+					item-post-filtro="'1'"
+					activado="!inputsDeshabilitados()" 
+					id-actual="datos.IdTipoInstrumento"
+					tipo="'combobox-tipo-instrumento'" 
+					filtros="filtros.tipoInstrumento">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+				<bcs-input-instrumentos 
+					class="col-xs-8" 
+					datos-instrumento="datos.instrumento"
+					filtro-clasificacion="datos.IdClasificacionTipoInstrumento"
+					filtro-tipo-instrumento="datos.IdTipoInstrumento" 
+					k-ng-disabled="datos.IdAsignacionMasiva">
+				</bcs-input-instrumentos>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_OPERACION</label>
+				<bcs-combobox-base 
+					class="col-xs-8" 
+					todos="'S'" 
+					bcs-requerido 
+					activado="!inputsDeshabilitados()"
+					item-post-filtro="'1'" 
+					id-actual="datos.AccionOperacion" 
+					tipo="'combobox-operacion'"
+					filtros="filtros.operacion">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_BOLSA</label>
+				<bcs-combobox-base 
+					class="col-xs-8" 
+					todos="'S'" 
+					item-post-filtro="'1'"
+					bcs-requerido
+					activado="!inputsDeshabilitados()" 
+					id-actual="datos.IdBolsa" 
+					tipo="'combobox-bolsa'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MONEDA</label>
+				<bcs-combobox-base
+					class="col-xs-8"
+					todos="'S'"
+					item-post-filtro="'1'"
+					activado="!inputsDeshabilitados()"
+					id-actual="datos.IdMonedaOperacion"
+					tipo="'combobox-moneda'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+				<bcs-combobox-base
+					class="col-xs-8"
+					todos="'S'"
+					item-post-filtro="'1'"
+					activado="!inputsDeshabilitados()"
+					id-actual="datos.IdCondicionDeLiquidacion"
+					tipo="'combobox-condicion-liquidacion'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<bcs-combobox-base 
+					class="col-xs-8" 
+					todos="'N'" 
+					item-post-filtro="'1'"
+					activado="!inputsDeshabilitados()"
+					k-ng-disabled="datos.IdAsignacionMasiva"
+					carga-cliente-automatico="'S'"  
+					id-actual="datos.IdPortafolio" 
+					tipo="data.oClientePortafolio.tipo"
+					seleccionado="data.oClientePortafolio.seleccionado">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_ID_ASIGNACION_MASIVA</label>
+				<bcs-input-texto
+					class="col-xs-8"
+					id="UI_ID_ASIGNACION_MASIVA"
+					k-ng-model="datos.IdAsignacionMasiva"
+					ng-model="datos.IdAsignacionMasiva"
+					>
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MARCA_ASIGNACION</label>
+				<bcs-input-texto
+					class="col-xs-8"
+					id="UI_MARCA_ASIGNACION"
+					k-ng-model="datos.MarcaAsignacion"
+					ng-model="datos.MarcaAsignacion"
+					k-ng-disabled="datos.IdAsignacionMasiva">
+				</bcs-input-texto>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<br />
+	</div>
+	<div class="row">
+		<bcs-button 
+			class="col-xs-3" 
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="'false'"
+			bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="aceptar()">
+		</bcs-button>
+		<bcs-button 
+			class="col-xs-3 pull-right" 
+			bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="'false'"
+			bcs-texto="'UI_PREVISUALIZAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="verElementos()">
+		</bcs-button>
+	</div>
+</div>

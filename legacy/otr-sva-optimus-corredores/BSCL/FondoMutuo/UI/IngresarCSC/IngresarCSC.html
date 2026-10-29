@@ -1,0 +1,252 @@
+<div id="PanelIngresos" class="col-xs-12" ng-controller="IngresoCSCCtrl as IngresoCSC">
+	<div class="row bcs-cuerpo">
+	<form name="IngresoCSC" class="filters-formulario">
+		
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_FORMULARIO_INGRESO_CSC</label>
+		  		</div>
+		  		<hr>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_CANAL</label> 
+		  			<label class="col-xs-2" translate>{{formData.DescripcionCanal}}</label>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_FECHA</label> 
+			  		<bcs-input-date
+				        class="col-xs-4"
+				        k-ng-model="formData.Fecha">
+				    </bcs-input-date>
+		  			<label class="col-xs-2 col-xs-offset-1" translate>UI_HORA</label> 
+		  			<bcs-input-time 
+						class="col-xs-3"
+						bcs-requerido 
+						k-ng-model="formData.Hora" >
+					</bcs-input-time>
+		  		</div>
+		  		
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_FOLIO_CSC</label> 
+		  			<bcs-input-numero class="col-xs-4"
+		  				bcs-requerido 
+		  				decimales = "'0'"
+		  				k-ng-model="formData.IdFolioEdit">
+		  			</bcs-input-numero>
+		  			<label class="col-xs-2 col-xs-offset-1" translate>UI_FOLIO_RELACIONADO</label> 
+		  			<bcs-input-texto class="col-xs-3"			  			
+			  			k-ng-disabled="'true'"
+			  			k-ng-readonly="'true'"
+		  				ng-model="formData.IdFolio">
+		  			</bcs-input-texto>
+		  			
+		  		</div>
+				  <div class="row">
+					<label class="col-xs-2" translate>UI_SOCIO_NEGOCIO_PORTAFOLIO</label>
+		  			
+					<bcs-combobox-base class="col-xs-8" style="width:35.2%" id="UI_SOCIO_NEGOCIO"
+						  auto-cargar="'true'"
+						  bcs-requerido 
+						  muestra-enlace 	= "'N'"
+						  id-actual="oClientePortafolio.idActual"
+						  tipo="oClientePortafolio.tipo"
+						  carga-cliente-automatico="'N'" 
+						  seleccionado="oClientePortafolio.seleccionado"
+						  filtros="oClientePortafolio.filtros"
+						  cascada-defecto="'-1'"		
+						  configuracion="oClientePortafolio.configuracion"
+						  id-defecto="oClientePortafolio.idDefecto">
+				  </bcs-combobox-base>
+				  <!--<bcs-input-texto class="col-xs-2" 
+		  				ng-model="ingresarCSC.SocioNegocioPortafolio">
+		  			</bcs-input-texto> -->
+
+				  </div>
+		  	
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_MONEDA</label> 
+		  			<bcs-combobox-base 
+								class="col-xs-4"
+								id="UI_MONEDA"
+								auto-cargar="'true'"
+							 	id-post-filtro="'CLP'"
+							    tipo="'combobox-moneda'"
+							    seleccionado="formData.MonedaSeleccionado"
+							    filtros="formData.filtroMonedaPago"
+			                    id-actual="formData.MonedaIdActual">
+						</bcs-combobox-base>
+		  			<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO</label>
+		  			<bcs-input-numero class="col-xs-3" 
+		  				decimales = "'0'"
+		  				ng-blur= "formData.Requerido('Pesos')"
+		  				k-ng-model="formData.Monto">
+		  			</bcs-input-numero> 
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_ACEPTO_CONDICIONES</label> 
+		  			<bcs-input-checkbox class="col-xs-4"
+						ng-model="formData.AceptoCondiciones"> 
+					</bcs-input-checkbox>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_MLT</label> 
+		  			<bcs-input-checkbox class="col-xs-3 "
+						ng-model="formData.AceptoMLT"> 
+					</bcs-input-checkbox>
+		  		</div>
+		  		<hr>
+		  		<div class="row">
+		  		
+		  				<label class="col-xs-2" translate>UI_INSTRUMENTO</label> 
+ 
+			  				  			
+						<bcs-combobox-buscador-fondos 
+							bcs-requerido 		="'false'"
+							class				= "col-xs-4"
+							muestra-valor-cuota	= "'N'"
+							datos-fondo			= "Instrumento.seleccionado"
+							buscar-fondo		= "Instrumento.setFondoDestino"
+							id-ventana			= "winID"
+							muestra-detalle		= "'N'">
+						</bcs-combobox-buscador-fondos>
+					
+					
+					
+			  			<label class="col-xs-2 col-xs-offset-1" translate>UI_REGIMEN_TRIBUTACION</label>
+				  		<bcs-combobox-base
+							class="col-xs-3"
+							tipo="'combobox-regimen-serie-fondo'"
+				  			id-actual="formData.IdRegimenSerieFondo"
+				  			item-post-filtro="'1'"
+				  			filtros="ingresarCSC.filtrosRegimenSerieFondo"
+				  			todos="'N'"
+				  			usa-filtros-completos="'S'">
+						</bcs-combobox-base>
+							  			
+				  
+			  		 
+				</div>
+				<div class="row">
+		  			<bcs-button class="col-xs-2 pull-right" id="AGREGAR_DI"
+					  	bcs-tipo="'bcs-button-input-form'" 
+						bcs-texto="'UI_AGREGAR' | translate" 
+						bcs-auto-desactivar="'false'"
+						bcs-habilitado="formData.habilitarAgregar"
+						bcs-clic="formData.agregarItem()">
+					</bcs-button>
+		  			<bcs-button class="col-xs-2 pull-right" id="QUITAR_DI"
+					  	bcs-tipo="'bcs-button-input-form'" 
+						bcs-texto="'UI_QUITAR' | translate" 
+						bcs-habilitado="'true'"
+						bcs-auto-desactivar="'false'"
+						bcs-clic="formData.quitarItem()"
+						bcs-blur="formData.resetFoco()">
+					</bcs-button>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_DISTRIBUCION_INVERSION</label>
+				</div>
+				<div class="row">
+					<bcs-grid
+						id					= "grid-distribuicion-inversion"
+						configuracion		= "defaultOptions"
+						fn-doble-click		= "abrirDetalle(datos.kNgModel)"
+						api					= "apiGridPac"
+						seleccionado		= "formData.ItemSeleccionado"
+						>
+					</bcs-grid>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<label class="col-xs-2" translate>UI_RUT_FUNCIONARIO</label> 
+		  				<bcs-input-texto 
+		  					class="col-xs-4" 
+		  					bcs-requerido 
+		  					id-tipo-documento="formData.IdTipoDocumentoIdentidad"
+		  					ng-model="formData.RutFuncionario">
+		  				</bcs-input-texto>
+				  	<label class="col-xs-2 col-xs-offset-1" translate>UI_CODIGO_SUCURSAL</label> 
+		  				<bcs-input-texto 
+		  				    class="col-xs-3"
+		  				    bcs-requerido  
+		  					ng-model="formData.CodigoSucursal">
+		  				</bcs-input-texto>
+				</div>
+				<div class="row">
+			  		<label class="col-xs-2" translate>UI_NOMBRE_FUNCIONARIO</label> 
+				  		<bcs-input-texto 
+				  		    class="col-xs-4" 
+				  			bcs-requerido 
+				  			ng-model="formData.NombreFuncionario">
+				  		</bcs-input-texto> 
+				  	<label class="col-xs-2 col-xs-offset-1" translate>UI_DOMICILIO_SUCURSAL</label> 
+				  		<bcs-input-texto 
+				  		class="col-xs-3" 
+				  		bcs-requerido 
+				  		ng-model="formData.DomicilioSucursal">
+				  		</bcs-input-texto> 
+				</div>
+				<div class="row">
+			  		<label class="col-xs-2" translate>UI_FIRMA_FUNCIONARIO</label> 
+				  		<bcs-input-checkbox 
+	         				class="col-xs-4"
+							ng-model="formData.FirmaFuncionario"
+					> 
+						</bcs-input-checkbox> 
+				</div>
+				<hr>
+								
+				<div class="row">
+					<label class="col-xs-2" translate>UI_TIPO_DE_PAGO</label> 
+			  		<div ng-repeat="(keyItem, valItem) in formData.matriz">
+		  				<label class="col-xs-2" style="width: 8%;" translate>{{valItem.Nombre}}</label>
+		  				<bcs-input-checkbox 
+	         				class="col-xs-1" style="width: 8.6%; display: flex; justify-content: center;" 
+	         				ng-disabled="formData.checkDisable[valItem.IdCSCPago]"
+							ng-model="formData.check[valItem.IdCSCPago]"> 
+						</bcs-input-checkbox>
+		  			</div>
+				</div>
+						
+				<div class="row">
+			  		<label class="col-xs-2" translate ng-show="formData.LabelDiaDescuento">UI_DIA_DESCUENTO</label> 
+				  		<bcs-input-numero class="col-xs-4" 
+				  			k-ng-model="formData.DiaDescuento"
+				  			ng-show="formData.DiasDescuento"
+				  			k-options="oConfiguracionDiaDescuento.conf"
+				  			decimales="'0'">
+				  		</bcs-input-numero>
+					<label class="col-xs-2 col-xs-offset-1" translate ng-show="formData.LabelBanco">
+						UI_BANCO
+					</label> 
+				  		<bcs-combobox-base  
+							class          = "col-xs-3"
+							auto-cargar    = "true"									
+							tipo           = "oConfiguracionBanco.tipo"
+							id-actual      = "oConfiguracionBanco.idActual"													
+							configuracion  = "oConfiguracionBanco.configuracion"
+							seleccionado   = "oConfiguracionBanco.seleccionado"							
+							filtros        = "oConfiguracionBanco.filtros"
+							id-post-filtro = "'0'"
+							id-defecto     = "oConfiguracionBanco.idDefecto"
+							ng-show		   = "formData.Banco">
+						</bcs-combobox-base>
+				</div>
+		
+				<div class="row bcs-panel-comandos">
+					<div class=col-xs-12>
+						<bcs-button class="col-xs-2 pull-right" id="GUARDAR_CSC" 
+								bcs-texto="'UI_GUARDAR' | translate" 
+								bcs-habilitado="IngresoCSC.$valid"
+								bcs-tipo="'bcs-button-primary'" 
+								bcs-auto-desactivar= "'true'"
+								bcs-clic="formData.IngresarCSC()">
+						</bcs-button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+</div>

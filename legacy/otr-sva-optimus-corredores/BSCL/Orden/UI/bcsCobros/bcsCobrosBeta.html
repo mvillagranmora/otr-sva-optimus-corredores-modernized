@@ -1,0 +1,71 @@
+<div>
+ 	<!-- MODO SOLO LECTURA -->
+	<div ng-show="soloLectura" class="row" style="min-height:50px;">
+		<table class="table table-striped" >
+			<thead>
+				<tr>
+					<th width="10%" translate>UI_CODIGO</th>
+		 			<th width="15%" translate>UI_NOMBRE</th>
+		 			<th width="10%" translate>UI_FORMA</th>
+		       		<th width="15%" translate>UI_VALOR_FINAL</th>
+		       		<th width="15%" translate>UI_MONTO</th>
+		       		<th width="15%" translate>UI_MONTO_LIQUIDACION</th>
+     			</tr>
+			</thead>
+			<tbody> 
+				<tr ng-repeat="cobro in matrizSoloLectura">	
+					
+					<td>{{cobro.IdCobro}}</td>												<!-- Codigo -->
+					<td>{{cobro.NombreCobro}}</td>								<!-- Tipo -->
+					<td ng-if="cobro.FormaCobro === 'F'" translate>UI_FIJO</td>				<!-- Forma -->
+					<td ng-if="cobro.FormaCobro === 'V'" translate>UI_VARIABLE</td>			<!-- Forma -->
+					<td><label>{{cobro.FormaCobro === 'V'? (cobro.ValorCobroAplicado | kformat:'x') : (cobro.ValorCobroAplicado | kformat:'c':cobro.IdMonedaCobro:'monto':'ORD')}}</label></td> <!-- Valor Cobro -->					
+					<td>{{cobro.MontoCobroCalculado | kformat:'c':cobro.IdMonedaCobro:'monto':'ORD'}}</td>						<!-- Valor Cobro FINAL-->
+					<td>{{cobro.MontoCobroCalculadoLiquidacion | kformat:'c':monedaLiquidacionCobros:'monto':'ORD'}}</td>						<!-- Valor Cobro FINAL-->
+				</tr>
+			</tbody>
+ 		</table>
+ 	</div>
+
+	<!-- MODO EDITABLE -->
+	<div ng-show="!soloLectura" class="row">
+		<div class="row" ng-show="!cargado && matrizCobros && matrizCobros.length === 0">
+			Debe seleccionar cliente y portafolio
+		</div>
+		<div class="row" ng-show="cargado && matrizCobros && matrizCobros.length === 0">
+			Portafolio sin cobros configurados
+		</div>
+		<div class="row" ng-show="matrizCobros && matrizCobros.length > 0">
+			<table class="table table-striped" >
+				<thead>
+					<tr>
+						<th width="8%" translate>UI_CODIGO</th>
+			 			<th width="20%" translate>UI_NOMBRE</th>
+			 			<th width="8%" translate>UI_FORMA</th>
+			       		<th width="8%" class="align_right" translate>UI_MINIMO</th>
+			       		<th width="10%" class="align_right" translate>UI_VALOR_COBRO</th>
+			       		<th width="15%" translate>UI_VALOR_FINAL</th>	
+			       		<th width="15%" class="align_right" translate>UI_MONTO</th>	          	
+			       		<th width="20%" class="align_right" translate>UI_MONTO_LIQUIDACION</th>
+			    </tr>
+				</thead>
+				<tbody> 
+					<tr ng-repeat="cobro in matrizCobros">	
+						<td>{{cobro.IdCobro}}</td>												<!-- Codigo -->
+						<td>{{cobro.NombreCobro}}</td>											<!-- Tipo -->
+						<td ng-if="cobro.FormaCobro === 'F'" translate>UI_FIJO</td>				<!-- Forma -->
+						<td ng-if="cobro.FormaCobro === 'V'" translate>UI_VARIABLE</td>			<!-- Forma -->
+						<td class="align_right">{{cobro.ValorTopeMinimoOrden | kformat:'c':cobro.IdMoneda:'monto':'ORD'}}</td>					<!-- Mínimo -->
+						<td class="align_right"><label>{{cobro.FormaCobro === 'V'? (cobro.ValorCobro | kformat:'x') : (cobro.ValorCobro | kformat:'c':cobro.IdMoneda:'monto':'ORD')}}</label></td>
+						<td class="align_right">
+							<bcs-input-monetario decimales="cobro.Decimales" simbolo="cobro.IdMoneda" ng-if="cobro.FormaCobro === 'F'" k-ng-model="matrizCobrosModificados[cobro.IdCobro]" k-ng-disabled="cobro.PermiteCambiarValor === 'N'" ></bcs-input-monetario>
+							<bcs-input-porcentaje decimales="cobro.DecimalesPorcentaje" ng-if="cobro.FormaCobro === 'V'" k-ng-model="matrizCobrosModificados[cobro.IdCobro]" k-ng-disabled="cobro.PermiteCambiarValor === 'N'" ></bcs-input-porcentaje>
+						</td>
+						<td class="align_right">{{matrizMontos[cobro.IdCobro].MontoCobroMonedaOrden | kformat:'c':matrizMontos[cobro.IdCobro].IdMonedaCobro:'monto':'ORD'}}</td>				<!-- Monto Cobro -->
+						<td class="align_right">{{matrizMontos[cobro.IdCobro].MontoCobroMonedaLiquidacion | kformat:'c':matrizMontos[cobro.IdCobro].IdMonedaLiquidacionOrden:'monto':'ORD'}}</td>				<!-- Monto Cobro -->
+					</tr>
+				</tbody>
+	 		</table>
+ 		</div>
+	</div> 
+</div>

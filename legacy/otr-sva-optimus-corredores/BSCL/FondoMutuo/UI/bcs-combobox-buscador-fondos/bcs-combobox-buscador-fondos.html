@@ -1,0 +1,129 @@
+<div ng-show="esDetalle != 'S'">
+	<span class="k-combobox k-space-right" style="width: 100%;">
+	
+	<bcs-combobox-base
+		tipo="'combobox-instrumento-ffmm'"
+		id-actual="nemotecnico"
+		id-defecto="idDefecto"
+		seleccionado="datosFondo"
+		filtros="filtrosCombobox"
+		todos="'N'">
+	</bcs-combobox-base> 
+	
+	<a tabindex="-1" href="#" ng-hide="pensando" ng-click="fnBusquedaFondo()" class="k-select k-icon k-i-search"></a>
+	<span tabindex="-1" ng-show="pensando" class="k-icon k-loading"></span>
+	
+	</span>
+	<div ng-show="muestraValorCuota === 'S'">
+		<span ng-show="datosFondo">VC: {{datosFondo.IdMoneda}} {{datosFondo.ValorFormato}}<br/></span>
+		<div ng-show="datosFondo.ValorFormato <= 0"><span class="red-font" translate>{{'UI_NO_EXISTE_VALOR_CUOTA'}}</span><br/></div>
+		<span ng-show="datosFondo.NombreSerieFondo">{{datosFondo.NombreSerieFondo}}<br/></span>
+		<span ng-show="datosFondo.MoneyMarket">MoneyMarket: {{datosFondo.EsMoneyMarketUI | translate}}</span>
+	</div>
+</div>
+<div ng-show="esDetalle === 'S'">
+	<div class="row">
+		<label class="col-xs-4" translate>UI_SERIE</label>
+		<div class="col-xs-8">
+			<bcs-combobox-base
+				id="BUSCADOR_SERIE_FONDO"
+				bcs-requerido="bcsRequerido"
+				tipo="'combobox-serie-ffmm'"
+				id-actual="nemotecnico"
+				id-defecto="idDefecto"
+				seleccionado="datosFondo"
+				filtros="filtrosCombobox"
+				todos="'N'">
+			</bcs-combobox-base>
+		</div>
+	</div>
+	<div class="row">
+		<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+		<div class="col-xs-8">
+			<span class="k-combobox k-space-right" style="width: 95%;">
+			<bcs-combobox-base
+				id="BUSCADOR_SERIE_FONDO"
+				bcs-requerido="bcsRequerido"
+				tipo="'combobox-instrumento-ffmm'"
+				id-actual="nemotecnico"
+				id-defecto="idDefecto"
+				seleccionado="datosFondo"
+				filtros="filtrosCombobox"
+				todos="'N'">
+			</bcs-combobox-base>
+			
+			<a tabindex="-1" href="#" ng-hide="pensando" ng-click="fnBusquedaFondo()" class="k-select k-icon k-i-search"></a>
+			<span tabindex="-1" ng-show="pensando" class="k-icon k-loading"></span>
+			
+			</span>
+			<div ng-show="muestraValorCuota === 'S'">
+				<span ng-show="datosFondo">VC: {{datosFondo.IdMoneda}} {{datosFondo.ValorFormato}}<br/></span>
+				<div ng-show="datosFondo.ValorFormato <= 0"><span class="red-font" translate>{{'UI_NO_EXISTE_VALOR_CUOTA'}}</span><br/></div>
+				<span ng-show="datosFondo.NombreSerieFondo">{{datosFondo.NombreSerieFondo}}<br/></span>
+				<span ng-show="datosFondo.MoneyMarket">MoneyMarket: {{datosFondo.EsMoneyMarketUI | translate}}</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div ng-show="muestraDetalle === 'S'">
+	<label class="col-xs-4" translate>UI_NOMBRE_FONDO</label>
+	<bcs-input-texto 
+		class="col-xs-8"
+ 		k-ng-disabled="'true'"
+ 		ng-model="datosFondo.NombreFondo">
+		</bcs-input-texto>
+</div>
+<div ng-show="muestraDetalle === 'S'">
+	<div class="row">
+		<span class="col-xs-6">
+			<label class="col-xs-8" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+			<em class="col-xs-4" style="text-decoration: underline;" ng-show="!masInformacion" ng-click="masInformacion = !masInformacion">({{'+' | translate}})</em>
+			<em class="col-xs-4" style="text-decoration: underline;" ng-show="masInformacion" ng-click="masInformacion = !masInformacion">({{'-' | translate}})</em>
+		</span>
+	</div>
+	<div class="row" ng-show="masInformacion">
+		<div class="row">
+		  	<label class="col-xs-3 " translate>UI_TIPO_FONDO</label> 
+	  		<label class="col-xs-2 col-xs-offset-1">{{datosFondo.NombreCorto}}</label>
+	  		<label class="col-xs-2 col-xs-offset-1" translate>UI_PERFIL</label> 
+	  		<label class="col-xs-2 col-xs-offset-1">{{datosFondo.IdCategoriaPerfilFondoMutuo}}</label>
+		</div>
+		<div class="row">
+		  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+	  		<label class="col-xs-2 col-xs-offset-1">{{datosFondo.NombreRegimen}}</label>
+	  		<label class="col-xs-2 col-xs-offset-1" translate>UI_PROPOSITO_SERIE</label> 
+	  		<label class="col-xs-2 col-xs-offset-1">{{datosFondo.NombreProposito}}</label>
+		</div>
+		<div class="row">
+		  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.EsComisionSalidaUI}}</label>
+	  		<label class="col-xs-2 col-xs-offset-1" translate>UI_MINIMO_PATRIMONIO</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.EsPatrimonioMinimoUI}}</label>
+		</div>
+		<div class="row">
+		  	<label class="col-xs-3" translate>UI_BLOQUEO_APORTE</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.BloqueoAporteUI}}</label>
+	  		<label class="col-xs-2 col-xs-offset-1" translate>UI_BLOQUEO_RESCATE</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.BloqueoRescateUI}}</label>
+		</div>
+		<div class="row">
+		  	<label class="col-xs-3 " translate>UI_ESTADO_APORTE_COMERCIAL</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.EstadoAporteComercialUI}}</label>
+	  		<label class="col-xs-2 col-xs-offset-1" translate>UI_ESTADO_APORTE_BACKOFFICE</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.EstadoAporteBackOfficeUI}}</label>
+		</div>
+		<div class="row">
+		  	<label class="col-xs-3" translate>UI_ESTADO_RESCATE_COMERCIAL</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.EstadoRescateComercialUI}}</label>
+	  		<label class="col-xs-2 col-xs-offset-1" translate>UI_ESTADO_RESCATE_BACKOFFICE</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.EstadoRescateBackOfficeUI}}</label>
+		</div>
+		<div class="row">
+		  	<label class="col-xs-3" translate>UI_ESTADO_REINVERSION_COMERCIAL</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.EstadoReinversionComercialUI}}</label>
+	  		<label class="col-xs-2 col-xs-offset-1" translate>UI_ESTADO_REINVERSION_BACKOFFICE</label> 
+	  		<label class="col-xs-2 col-xs-offset-1" translate>{{datosFondo.EstadoReinversionBackofficeUI}}</label>
+		</div>
+	</div>
+</div>
+	

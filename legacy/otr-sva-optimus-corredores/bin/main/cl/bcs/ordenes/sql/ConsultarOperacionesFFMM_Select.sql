@@ -1,0 +1,22 @@
+SELECT
+ TO_CHAR("FechaIngresoRegistro" , 'YYYY-MM-DD') AS "FechaOperacion"
+,"DocumentoIdentidad"  							AS "Rut"
+,"IdCliente"           							AS "Cliente"
+,"NombreCompleto"								AS "NombreCliente"
+,"CodigoPortafolio" 	  						AS "Portafolio"
+,'' 				 							AS "Mercado"
+,"IdTipoInstrumento"   							AS "TipoInstrumento"
+,"Monto"										
+,"NumeroCuotas"		    						AS "Cantidad" 
+,"IdMoneda"
+,"ValorCuota"		  							AS "Precio"
+,0.0											AS "Tasa"
+,0.0                   							AS	"Paridad"		
+,0.0                    						AS	"PrecioPromedio"
+,0.0                    						AS	"ParidadPromedio"
+,0.0                    						AS	"TasaPromedio"
+,TO_DATE('0001-01-01','YYYY-MM-DD')  			AS 	"FechaVencimiento"
+,TO_DATE("FechaLiquidacion")					AS  "FechaLiquidacion" 
+FROM "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarSolicitudAporteRescate" 
+WHERE "IdCliente" = :p_IdCliente
+AND TO_CHAR("FechaIngresoRegistro" , 'YYYY-MM-DD') = :p_FechaOperacion;

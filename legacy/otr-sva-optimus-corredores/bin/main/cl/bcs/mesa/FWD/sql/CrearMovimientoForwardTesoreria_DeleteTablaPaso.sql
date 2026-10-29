@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Mesa.BD::GBL.CrearMovimientoForwardTesoreria_Proceso_Paso";

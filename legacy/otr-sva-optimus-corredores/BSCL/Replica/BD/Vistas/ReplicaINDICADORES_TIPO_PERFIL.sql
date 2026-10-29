@@ -1,0 +1,18 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaINDICADORES_TIPO_PERFIL"; 
+
+--SELECT  *  FROM "BSCL.Replica.BD.Vistas::ReplicaINDICADORES_TIPO_PERFIL" ORDER BY ind_id
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaINDICADORES_TIPO_PERFIL" AS
+
+        SELECT	WST."IdStack" AS "IDSTACK", "Action" AS ACTION,
+        		(TPE_ID || IND_ID) AS TABLE_KEY,
+    			"TPE_ID", -- CHAR(2)
+    			"IND_ID", -- INT
+    			"DIN_ID", -- CHAR(1)
+    			"ITP_FEC_INICIO" -- DATETIME
+		FROM "BSCL.Replica.BD.Vistas::Sebra.INDICADORES_TIPO_PERFIL" AS PCO
+		LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'INDICADORES_TIPO_PERFIL' AND WST."Key" = PCO."TPE_ID" || PCO."IND_ID"  
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaINDICADORES_TIPO_PERFIL" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

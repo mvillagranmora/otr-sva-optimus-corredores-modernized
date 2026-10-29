@@ -1,0 +1,20 @@
+SELECT
+PPP."IdPortafolio" || '_' || PPP."IdTipoOperacion" || '_' || PPP."IdMedioDePago" || '_' || PPP."IdMoneda" AS "Key"
+,PPP."IdPortafolio"
+,PPP."IdTipoOperacion"
+,PPP."IdMoneda"
+,PPP."IdEmpresa"
+,COALESCE(PPP."IdMedioDePago",'') AS "IdMedioDePago"
+,COALESCE(PPP."IdCuentaBancaria",TO_BIGINT(0)) AS "IdCuentaBancaria"
+,COALESCE(PPP."IdBancoCuentaBancaria",TO_BIGINT(0)) AS "IdBancoCuentaBancaria"
+,COALESCE(PPP."NombreBancoCuentaBancaria",'') AS "NombreBancoCuentaBancaria"
+,COALESCE(PPP."NumeroCuentaBancaria",'') AS "NumeroCuentaBancaria"
+,COALESCE(PPP."IdTipoCuentaBancaria",'') AS "IdTipoCuentaBancaria"
+,COALESCE(PPP."NombreTipoCuentaBancaria",'') AS "NombreTipoCuentaBancaria"
+,COALESCE(PPP."IdBancoTarjetaBancaria",TO_BIGINT(0)) AS "IdBancoTarjetaBancaria"
+,COALESCE(PPP."IdTipoTarjetaBancaria",'') AS "IdTipoTarjetaBancaria"
+,COALESCE(PPP."NombreTipoTarjetaBancaria",'') AS "NombreTipoTarjetaBancaria"
+,COALESCE(PPP."NumeroTarjetaBancaria",'') AS "NumeroTarjetaBancaria"
+,COALESCE(PPP."PorDefecto",'') AS "PorDefecto"
+FROM "BSCL.Portafolio.BD.Vistas::ConsultarPreferenciaPagoPortafolio" PPP  																		
+WHERE PPP."IdPortafolio" IN (:IdPortafolio) AND PPP."IdTipoProducto" = 'MEFW';

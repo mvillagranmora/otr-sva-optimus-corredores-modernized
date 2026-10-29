@@ -1,0 +1,153 @@
+<div class="row" ng-controller="ConsultarDetallePrecioPromedioCtrl">
+	<div class="row">
+		<form class="form-horizontal">
+			<div class="row k-window-subtitle">
+				<label class="col-xs-8" translate>UI_INFORMACION</label>
+			</div>
+			<div class="form-group">
+				<table class="table">
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_INSTRUMENTO'}}</strong></td>
+						<td><label class="">{{parametros.Nemotecnico}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_MONEDA'}}</strong></td>
+						<td><label class="" >{{parametros.IdMonedaInstrumento}}</label></td>
+					</tr>
+				</table>
+			</div>
+			<div class="row k-window-subtitle">
+				<br>
+				<label class="col-xs-8" translate>UI_DETALLE</label>
+			</div>
+			<div class="row">
+				<uib-tabset>
+					<uib-tab heading="{{'UI_CARTERA_DISPONIBLES' | translate}}">
+						<div class="row">
+							<bcs-grid
+								id					= "cus-grid-consulta-cartera-disponibles"
+								configuracion		= "confCarteraDisponible"
+								api					= "apiGridCarteraDisponible">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'UI_CARTERAS_EN_TRANSITO' | translate}}">
+						<div class="row">
+							<bcs-grid
+								id					= "cus-grid-carteras-en-transito"
+								configuracion		= "confCarterasEnTransito"
+								api					= "apiGridCarterasEnTransito">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'UI_COMPRAS_A_PLAZO' | translate}}">
+						<div class="row">
+							<bcs-grid
+								id					= "cus-grid-compras-a-plazo"
+								configuracion		= "confComprasAPlazo"
+								api					= "apiGridComprasAPlazo">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'UI_VENTA_A_PLAZO' | translate}}">
+						<div class="row">
+							<bcs-grid
+								id					= "cus-grid-ventas-a-plazo"
+								configuracion		= "confVentasAPlazo"
+								api					= "apiGridVentasAPlazo">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'UI_PRESTAMOS' | translate}}">
+						<div class="row">
+							<bcs-grid
+								id					= "cus-grid-prestamos"
+								configuracion		= "confPrestamos"
+								api					= "apiGridPrestamos">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'UI_EMPRESTITOS' | translate}}">
+						<div class="row">
+							<bcs-grid
+								id					= "cus-grid-emprestitos"
+								configuracion		= "confEmprestitos"
+								api					= "apiGridEmprestitos">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'UI_GARANTIAS' | translate}}">
+						<div class="row">
+							<bcs-grid
+								id					= "cus-grid-garantias"
+								configuracion		= "confGarantias"
+								api					= "apiGridGarantias">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+				<uib-tabset>
+			</div>
+			<div class="row k-window-subtitle">
+				<br>
+				<label class="col-xs-8" translate>UI_RESUMEN</label>
+			</div>
+			<div class="form-group">
+				<table class="table">
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_CANTIDAD_CARTERA_DISPONIBLE'}}</strong></td>
+						<td><label class="">{{resultadoTotalizador.TotalCantidadCarteras | kformat:'n':parametros.IdMonedaInstrumento:'cantidad':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_MONTO_CARTERA_DISPONIBLE'}}</strong></td>
+						<td><label class="" >{{resultadoTotalizador.TotalMontoCarteras | kformat:'c':parametros.IdMonedaInstrumento:'monto':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_CANTIDAD_CARTERA_EN_TRANSITO_DISPONIBLE'}}</strong></td>
+						<td><label class="">{{resultadoTotalizador.TotalCantidadCarterasEnTransito | kformat:'n':parametros.IdMonedaInstrumento:'cantidad':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_MONTO_CARTERA_EN_TRANSITO_DISPONIBLE'}}</strong></td>
+						<td><label class="" >{{resultadoTotalizador.TotalMontoCarterasEnTransito | kformat:'c':parametros.IdMonedaInstrumento:'monto':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_CANTIDAD_COMPRA_PLAZO'}}</strong></td>
+						<td><label class="">{{resultadoTotalizador.TotalCantidadSubyacenteSimultaneaVenta | kformat:'n':parametros.IdMonedaInstrumento:'cantidad':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_MONTO_COMPRA_PLAZO'}}</strong></td>
+						<td><label class="" >{{resultadoTotalizador.TotalMontoSubyacentesSimultaneaVenta | kformat:'c':parametros.IdMonedaInstrumento:'monto':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_CANTIDAD_VENTA_PLAZO'}}</strong></td>
+						<td><label class="">{{resultadoTotalizador.TotalCantidadSubyacenteSimultaneaCompra | kformat:'n':parametros.IdMonedaInstrumento:'cantidad':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_MONTO_VENTA_PLAZO'}}</strong></td>
+						<td><label class="" >{{resultadoTotalizador.TotalMontoSubyacentesSimultaneaCompra | kformat:'c':parametros.IdMonedaInstrumento:'monto':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_CANTIDAD_EMPRESTITO'}}</strong></td>
+						<td><label class="">{{resultadoTotalizador.TotalCantidadSubyacenteEmprestito | kformat:'n':parametros.IdMonedaInstrumento:'cantidad':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_MONTO_EMPRESTITO'}}</strong></td>
+						<td><label class="" >{{resultadoTotalizador.TotalMontoSubyacentesEmprestito | kformat:'c':parametros.IdMonedaInstrumento:'monto':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_CANTIDAD_PRESTAMO'}}</strong></td>
+						<td><label class="">{{resultadoTotalizador.TotalCantidadSubyacentePrestamo | kformat:'n':parametros.IdMonedaInstrumento:'cantidad':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_MONTO_PRESTAMO'}}</strong></td>
+						<td><label class="" >{{resultadoTotalizador.TotalMontoSubyacentesPrestamo | kformat:'c':parametros.IdMonedaInstrumento:'monto':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_CANTIDAD_GARANTIAS'}}</strong></td>
+						<td><label class="">{{resultadoTotalizador.TotalCantidadGarantias | kformat:'n':parametros.IdMonedaInstrumento:'cantidad':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_MONTO_GARANTIAS'}}</strong></td>
+						<td><label class="" >{{resultadoTotalizador.TotalMontoGarantias | kformat:'c':parametros.IdMonedaInstrumento:'monto':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_CANTIDAD'}}</strong></td>
+						<td><label class="">{{resultadoPrecioPromedioActivo.TotalCantidad | kformat:'n':parametros.IdMonedaInstrumento:'cantidad':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TOTAL_MONTO'}}</strong></td>
+						<td><label class="" >{{resultadoPrecioPromedioActivo.TotalMonto | kformat:'c':parametros.IdMonedaInstrumento:'monto':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_PRECIO_PROMEDIO'}}</strong></td>
+						<td><label class="">{{resultadoPrecioPromedioActivo.PrecioPromedio | kformat:'n':parametros.IdMonedaInstrumento:'precio':'GEN':'':parametros.IdTipoInstrumento}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<br>
+		</form>
+	</div>
+</div>

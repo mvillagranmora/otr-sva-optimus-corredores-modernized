@@ -1,0 +1,33 @@
+INSERT INTO "BSCL.Plataforma.BD::GTA.CoberturaGarantia"
+(
+	"IdCoberturaGarantia",
+	"IdTipoInstrumentoExigeGarantia",
+    "IdInstrumentoExigeGarantia",
+	"IdTipoInstrumentoComoGarantia",
+    "IdTipoClasificacionRiesgo",				
+	"PlazoTope",
+	"UnidadPlazo",
+	"CoberturaEntidad",   
+	"CoberturaCorredora",
+    "IdEstado", 	
+    "IdEntidadClasificadoraRiesgo",
+    "ClasificacionRiesgo", 
+   	"IdEntidadDestinoGarantia",
+    "IdConcepto"
+)
+VALUES(
+	:IdCoberturaGarantia,
+    COALESCE(:IdTipoInstrumentoExigeGarantia,''),
+    COALESCE(:IdInstrumentoExigeGarantia,0),			    
+	COALESCE(:IdTipoInstrumentoComoGarantia,''),
+    COALESCE(:IdTipoClasificacionRiesgo,''),		    
+	COALESCE(:PlazoTope,0),
+	COALESCE(:UnidadPlazo,''),
+	COALESCE(:CoberturaEntidad,0),
+	COALESCE(:CoberturaCorredora,0),
+    COALESCE(:IdEstado,''),
+    COALESCE(:IdEntidadClasificadoraRiesgo,''),
+    COALESCE(:ClasificacionRiesgo,''),
+    COALESCE(:IdEntidadDestinoGarantia,0),
+    COALESCE(:IdConcepto,'')
+);

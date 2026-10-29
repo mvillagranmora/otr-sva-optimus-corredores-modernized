@@ -1,0 +1,77 @@
+<div id="AuditoriaConsultaLogs" ng-controller="ConsultaControlProcesosCtrl">
+
+	<div class="row">
+		<div class="col-xs-11">
+			<!-- Inicio filtros de búsqueda -->
+
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+					<bcs-input-datetime class="col-xs-8" ng-model="filtros.fecIniciong"
+						k-ng-model="filtros.fecInicio"></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+					<bcs-input-datetime class="col-xs-8" ng-model="filtros.fecTerminong"
+						k-ng-model="filtros.fecTermino"></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_ID_PROCESO</label>
+					<bcs-input-numero class="col-xs-8"
+						k-ng-model="filtros.idProceso" ng-model="filtros.idProcesong" decimales="'0'"></bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_LOG</label>
+					<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionTipoLog.tipo"
+							ng-model="filtros.TipoLog" seleccionado="filtros.TipoLogObj"
+							todos="'S'" id-defecto="'0'" id-actual="filtros.idTipoLog" >
+						</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_REGISTRO</label>
+					<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionTipoRegistro.tipo"
+							ng-model="filtros.tipoRegistro"
+							seleccionado="filtros.tipoRegistroObj" todos="'S'" id-defecto="'0'"
+							id-actual="filtros.idTipoRegistro"> </bcs-combobox-base>
+				</div>
+			</div>
+		</div>
+		<!-- Fin Filtros -->
+		<div class="col-xs-1">
+			<!-- botones -->
+			<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+				bcs-habilitado="true" bcs-clic="buscar()"></bcs-button>
+			<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+				bcs-habilitado="true" bcs-clic="limpiarFiltros()"></bcs-button>
+		</div>
+	</div>
+
+	<div class="row">
+		<!-- Tabla -->
+		<bcs-grid id="grid-control-procesos"
+		fn-exportar-excel = "exportarExcel" 
+			configuracion="confControlProcesos"
+			seleccionado="seleccionControlProcesos">
+		<div bcs-grid-detail ng-non-bindable>
+			<div style="width: 35%;">
+				<bcs-grid id="grid-detalles-procesos"
+					configuracion="confDetallesProcesos(dataItem)"
+					seleccionado="grid.seleccionDetalleSProcesos"> </bcs-grid>
+			</div>
+		</div>
+		</bcs-grid>
+		<!-- Fin Tabla -->
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

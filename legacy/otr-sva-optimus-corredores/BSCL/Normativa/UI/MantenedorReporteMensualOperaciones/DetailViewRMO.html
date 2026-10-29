@@ -1,0 +1,88 @@
+<div class="row" ng-controller="DetailControllerRMO">
+    <div id="containerRMO" class="bcs-cuerpo">
+        <form id="CrearRMO" name="formRMO" class="form-horizontal">
+            <div class="row">
+                <h5><b><span class="titulo" ng-bind="titulosRMO[paginaActual]"></span></b></h5>
+            </div>
+            <div class="row" id="formContainerRMO1" ng-hide="hideRMO1"></div>
+            <div class="row" id="formContainerRMO2" ng-hide="hideRMO2"></div>
+            <div class="row" id="formContainerRMO3" ng-hide="hideRMO3"></div>
+            <div class="row" id="formContainerRMO4" ng-hide="hideRMO4"></div>
+            <div class="row" id="formContainerRMO5" ng-hide="hideRMO5"></div>
+            <div class="row" id="formContainerRMO6" ng-hide="hideRMO6"></div>
+            <div class="row" id="formContainerRMO7" ng-hide="hideRMO7"></div>
+            <div class="row" id="formContainerRMO8" ng-hide="hideRMO8"></div>
+            <div class="row" id="formContainerRMO9" ng-hide="hideRMO9"></div>
+            <div class="row">
+                <bcs-button class="col-xs-2"
+                    bcs-tipo="'default'"
+                    bcs-auto-desactivar="false"
+                    bcs-texto="'UI_ANTERIOR' | translate"
+                    bcs-habilitado="botonAnteriorHabilitado"
+                    bcs-clic="paginaAnteriorRMO()">
+                </bcs-button>
+                <bcs-button class="col-xs-2"
+                    bcs-tipo="'default'"
+                    bcs-auto-desactivar="false"
+                    bcs-texto="'UI_SIGUIENTE' | translate"
+                    bcs-habilitado="botonSiguienteHabilitado"
+                    bcs-clic="paginaSiguienteRMO()">
+                </bcs-button>
+                <bcs-button class="col-xs-2"
+                    bcs-tipo="'default'"
+                    bcs-auto-desactivar="false"
+                    bcs-texto="'UI_GRABAR' | translate"
+                    bcs-habilitado="botonGrabarHabilitado"
+                    bcs-clic="grabarDetalleRMO()">
+                </bcs-button>
+            </div>
+        </form>
+    </div>
+
+    <style type="text/css">
+.invalid {
+    background-color: #FFEFBE;
+}
+
+.valid {
+    background-color: #FFFFFF;
+}
+
+.disabled {
+    background-color: #E7E7E7;
+    opacity: 1;
+}
+
+</style>
+
+    <script id="fieldsTemplateRMO" type="text/x-kendo-template">
+            #var cols = 2;#
+            #var rows = Math.trunc((fields.length + cols - 1) / cols);#
+            #var x = 0;#
+            #for (var i = 0; i < rows; i++) {#
+<div class="row col-xs-12">
+                #for (var j = 0; j < cols; j++) {#
+                    #if (x < fields.length) {#
+                    #    var ml = fields[x].htmlMaxlength();#
+                    #    var ro = fields[x].htmlReadonly(masivo);#
+                    #    var rq = fields[x].htmlRequired();#
+                    #    var cl = fields[x].isEditable() ? '' : 'class="disabled"';#
+                    #    var as = '';#
+                    #    if (fields[x].isRequired()) {#
+                    #        as = ' (*)';#
+                    #    }#
+                    #    var lm = j > 0 ? '' : '';#
+    <label class="col-xs-2">#=lm##=fields[x].Titulo##=as#</label>
+    <div class="col-xs-4">
+        <input #=cl# style="width:100%;" id="RMO_#=fields[x].Nombre#" #=ml# #=rq# #=ro# />
+    </div>
+                    #    x++;#
+                    #} else {#
+    <label class="col-xs-2">&nbsp;</label>
+    <label class="col-xs-4">&nbsp;</label>
+                    #}#
+                #}#
+</div>
+            #}#
+    </script>
+</div>

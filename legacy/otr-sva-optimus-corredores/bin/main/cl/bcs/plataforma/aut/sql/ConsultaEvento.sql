@@ -1,0 +1,55 @@
+select 
+	EV."IdEvento",
+	EV."IdTipoEvento",
+	EV."IdEmpresa",
+	EV."IdModulo",
+	EV."IdUsuario",
+	EV."Fecha",
+	EV."FechaHoraVigencia",
+	EV."FechaHoraRegistro",
+	EV."IdUsuarioSuperAutorizador",
+	EV."IdRolSuperAutorizador",
+	EV."EtapasSecuenciales",
+	EV."IdTipoOperacion",
+	EV."IdConcepto",
+	EV."NumeroOperacionConcepto",
+	EV."FechaOperacionConcepto",
+	EV."IdCliente",
+	EV."IdFuncionario",
+	EV."IdProveedor",
+	EV."IdTipoProducto",
+	EV."IdClasificacionTipoInstrumento",
+	EV."IdTipoInstrumento",
+	EV."IdInstrumento",
+	EV."Nemo",
+	EV."Cantidad",
+	EV."Monto",
+	EV."Precio",
+	EV."Tasa",
+	EV."IdMoneda",
+	EV."Glosa",
+	EV."IdUsuarioCambioEstado",
+	EV."IdRolCambioEstado",
+	EV."FechaHoraCambioEstado",
+	EV."IdEstado",
+	EV."IdGrupo",
+	COALESCE(EV."IdCanal",'OPT') AS "IdCanal",		
+	USU."IdPersona" as "IdPersonaUsuario",
+	USU."TipoEntidad" as "TipoEntidadUsuario",
+	USU."IdEntidad" as "IdEntidadUsuario",
+	
+		
+	TEV."Nombre" as "NombreEvento",
+	TEV."SPConfirma",
+	TEV."SPRechaza",
+	TEV."SPFormato",
+	TEV."SPCampoAutorizacion",
+	TEV."SPCampoNegocio",
+	TEV."JavaAutorizacion",
+	EMP."IdDireccionElectronica" as "IdDireccionElectronicaEntidadEMPUsuario"
+	
+FROM "BSCL.Plataforma.BD::AUT.Evento" as EV
+JOIN "BSCL.Plataforma.BD::AUT.TipoEvento" as TEV ON EV."IdTipoEvento" =  TEV."IdTipoEvento" AND TEV."IdEmpresa" = :IdEmpresa
+LEFT JOIN "BSCL.Plataforma.BD.Vistas::ACC.ConsultarUsuarioCompleto" as USU ON EV."IdUsuario" = USU."IdUsuario"
+LEFT JOIN "BSCL.SocioNegocio.BD::EMP.Empleado" as EMP ON USU."IdPersona" = EMP."IdPersona" AND EMP."IdEmpresa" = :IdEmpresa
+WHERE "IdEvento" IN ( :ListaIdEventos )-- AND "Borrado" <> 'S'

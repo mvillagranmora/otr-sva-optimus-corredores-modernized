@@ -1,0 +1,1 @@
+SELECT "IdInstrumento", "IdMoneda" FROM "BSCL.Plataforma.BD::INS.Instrumento" WHERE "IdInstrumento" IN (:idsInstrumento);

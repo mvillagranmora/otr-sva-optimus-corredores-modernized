@@ -1,0 +1,31 @@
+CALL "BSCL.CuentaInversion.BD.Servicios::ConsultarSaldoCuentaInversion" (
+    p_IdEmpresa => :p_IdEmpresa,
+    p_IdUsuario => :p_IdUsuario, 
+    p_IdModulo => :p_IdModulo,        
+	p_UsaReglasNegocio => :p_UsaReglasNegocio,
+	p_CuentaInversionAConsultar	=> #p_ConsultarSaldoCuentaInversion,
+	p_FechaDesde => :p_FechaDesde,
+    p_FechaHasta => :p_FechaHasta,
+    p_SoloSaldoNegativo => :p_SoloSaldoNegativo,
+	p_SoloSaldoDisponible => :p_SoloSaldoDisponible,
+    p_IncluyeCargosPendientes => :p_IncluyeCargosPendientes,
+    p_IncluyeAbonosPendientes => :p_IncluyeAbonosPendientes,
+	p_IncluyeOtrosSaldos => :p_IncluyeOtrosSaldos,
+
+	p_IncluyeProductoApv => :p_IncluyeProductoApv,									  	 
+	p_IdEjecutivo => :p_IdEjecutivo,
+	p_IdCliente	=> :p_IdCliente,
+	p_IdPortafolio	=> :p_IdPortafolio,
+	p_IdProductoAgrupador => :p_IdProductoAgrupador,
+	p_IdMoneda	=> :p_IdMoneda,
+
+    p_out_SaldoInicialFinal	=> $p_out_SaldoInicialFinal,
+    p_out_SaldoPorFechaEfectiva => $p_out_SaldoPorFechaEfectiva,
+	p_out_SaldoPorFechaMovimiento => $p_out_SaldoPorFechaMovimiento,
+	p_out_InformacionContador => @p_out_InformacionContador,
+	p_out_InformacionDetalle  => $p_out_InformacionDetalle,
+	p_out_AdvertenciasContador => @p_out_AdvertenciasContador,
+	p_out_AdvertenciasDetalle => $p_out_AdvertenciasDetalle,	
+	p_out_ErroresContador => @p_out_ErroresContador,
+	p_out_ErroresDetalle => $p_out_ErroresDetalle
+);

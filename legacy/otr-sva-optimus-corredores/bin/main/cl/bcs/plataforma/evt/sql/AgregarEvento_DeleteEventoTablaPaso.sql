@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::GBL.AgregarEvento_Evento";

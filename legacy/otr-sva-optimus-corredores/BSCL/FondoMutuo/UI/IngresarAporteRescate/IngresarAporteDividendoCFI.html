@@ -1,0 +1,306 @@
+<div class="col-xs-12" ng-controller="IngresarAporteDividendoCFICtrl as ingresoAporteDividendoCFI">
+	<!-- Pre-Ingreso -->
+	<div class="row bcs-cuerpo" ng-show="ingresoAporteDividendoCFI.formData.IngresoConfirmacion === 'I'">
+	 <div>	
+	 	<form name="FormIngresoFFM" class="filters-formulario">
+		   	<div class="row">
+				<div class="col-xs-12">
+				  	<div class="row">
+						<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							bcs-requerido
+							id-actual="ingresoAporteDividendoCFI.filtros.IdPortafolio"
+							ng-style="{'width' : ingresoAporteDividendoCFI.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && ingresoAporteDividendoCFI.oClientePortafolio.seleccionado  ? '50%' : '66.66666667%'}"
+							tipo="'combobox-cliente-portafolio'"
+							carga-cliente-automatico="'S'" 
+							seleccionado="ingresoAporteDividendoCFI.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio"
+							item-post-filtro="'1'"
+		                    cascada1-a="ingresoAporteDividendoCFI.formData.IdCategoriaInversionista"
+		                    cascada1-valor="'IdCategoriaInversionista'"
+		                    cascada2-a="ingresoAporteDividendoCFI.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="ingresoAporteDividendoCFI.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"       
+		                    cascada-defecto="'-1'"
+							configuracion="ingresoAporteDividendoCFI.oClientePortafolio.configuracion">
+						</bcs-combobox-base>						
+					</div>
+				  	<hr>
+				  	<bcs-combobox-buscador-fondos
+							id="UI_BUSCADOR_FONDO_APORTE"
+							datos-fondo="ingresoAporteDividendoCFI.datosFondo" 
+							muestra-valor-cuota = "'S'"
+							buscar-fondo="ingresoAporteDividendoCFI.formData.setFondo"
+							id-ventana="ingresoAporteDividendoCFI.winID"
+							id-defecto="ingresoAporteDividendoCFI.datosFondoDefecto.IdDefecto"
+							muestra-detalle="'S'"
+							es-detalle="'S'"
+							mas-informacion="ingresoAporteDividendoCFI.masInformacion"
+							filtros="ingresoAporteDividendoCFI.formData.FiltrosBusquedaFondo"
+							filtros-combobox="ingresoAporteDividendoCFI.formData.FiltrosComboFondo">
+					</bcs-combobox-buscador-fondos>
+			  		<hr>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="ingresoAporteDividendoCFI.formData.fechaSistema" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+			  		</div>
+			  		<div class="row" ng-if="ingresoAporteDividendoCFI.formData.IdMonedaAporte && ingresoAporteDividendoCFI.filtros.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_SALDO_CAJA</label>
+						<bcs-saldo-cta-inversion
+							class="col-xs-8"
+							uso = "'INGRESO_APORTE_FMM'"
+							id-moneda = "ingresoAporteDividendoCFI.formData.IdMonedaAporte"
+							id-portafolio = "ingresoAporteDividendoCFI.filtros.IdPortafolio"
+							fecha-saldo = "ingresoAporteDividendoCFI.formData.fechaAceptacion"
+							valores-saldo="data.ValoresSaldos"
+						>
+			  		</div>
+			  		<div class="row" ng-if="ingresoAporteDividendoCFI.ConfiguracionFM.MOSTRAR_MONEDA_PAGO=='S'">
+			  			<label class="col-xs-4" translate>UI_SALDO_CAJA_PESOS</label>
+						<bcs-saldo-cta-inversion
+							class="col-xs-8"
+							uso = "'INGRESO_APORTE_FMM'"
+							id-moneda = "'CLP'"
+							id-portafolio = "ingresoAporteDividendoCFI.filtros.IdPortafolio"
+							fecha-saldo = "ingresoAporteDividendoCFI.formData.fechaAceptacion"
+							valores-saldo="data.ValoresSaldosPeso"
+						>
+			  		</div>
+			  		<div class="row" ng-if="ingresoAporteDividendoCFI.datosFondo && ingresoAporteDividendoCFI.filtros.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_REGIMEN</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-regimen-serie-fondo'"
+				  			id-actual="ingresoAporteDividendoCFI.formData.IdRegimenFondoMutuo"
+				  			seleccionado="ingresoAporteDividendoCFI.formData.regimenFondoMutuo"
+				  			id-defecto="ingresoAporteDividendoCFI.formData.RegimenDefecto"
+				  			item-post-filtro="'1'"
+				  			filtros="ingresoAporteDividendoCFI.formData.filtrosRegimen"
+				  			bcs-requerido
+				  			todos="'N'">
+						</bcs-combobox-base>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+				  		<bcs-input-monetario class="col-xs-8"
+				  			id="UI_MONTO_INICIAL"
+				  			k-ng-model="ingresoAporteDividendoCFI.formData.montoInicial"
+				  			decimales = "ingresoAporteDividendoCFI.formData.decimalesMonto"
+				  			bcs-requerido
+							simbolo="ingresoAporteDividendoCFI.formData.IdMonedaAporte">
+				  		</bcs-input-monetario> 
+			  		</div>
+			  		<div class="row" ng-show="ingresoAporteDividendoCFI.ConfiguracionFM.MOSTRAR_MONEDA_PAGO=='S'">
+					  	<label class="col-xs-4" translate>UI_MONTO_INICIAL_MONEDA_SISTEMA</label> 
+				  		<bcs-input-monetario class="col-xs-8"
+				  			id="UI_MONTO_INICIAL_MONEDA_SISTEMA"
+				  			k-ng-model="ingresoAporteDividendoCFI.formData.MontoMonedaSistema"
+				  			decimales = "0"
+				  			bcs-requerido="ingresoAporteDividendoCFI.ConfiguracionFM.MOSTRAR_MONEDA_PAGO=='S'"
+							simbolo="SesionIdMonedaSistema">
+				  		</bcs-input-monetario> 
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+				  		<bcs-input-numero class="col-xs-8"
+				  			id="UI_NUMERO_CUOTAS"
+							decimales = "ingresoAporteDividendoCFI.formData.decimalesCantidad"
+							bcs-requerido
+							k-ng-model="ingresoAporteDividendoCFI.formData.numeroCuotas"
+							k-ng-disabled="'true'">
+						</bcs-input-numero> 
+			  		</div>
+			  		<div ng-if="ingresoAporteDividendoCFI.datosFondo.IdSerieFondo">
+			  			<bcs-fechas-solicitud-fondo
+							fecha-emision = "ingresoAporteDividendoCFI.datosFondo.FechaFondo"
+							id-serie-fondo = "ingresoAporteDividendoCFI.datosFondo.IdSerieFondo"
+							traspaso = "'N'"
+							tipo-solicitud="'APO'"
+							mostrar-fecha-aceptacion="'true'"
+							mostrar-fecha-valor-cuota="'true'"
+							mostrar-fecha-certificacion="'true'"
+							mostrar-fecha-liquidacion="'true'"
+							fecha-aceptacion-saldo = "ingresoAporteDividendoCFI.formData.fechaAceptacion">
+						</bcs-fechas-solicitud-fondo>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+				  		<bcs-input-texto class="col-xs-8"
+				  			id="UI_GLOSA"
+					  		maxlength="100"
+							tipo-campo="'textarea'"
+							ng-model="ingresoAporteDividendoCFI.formData.comentario"
+							atributos="margin: 0px; height:73px;resize:none;width: 100%">
+				  		</bcs-input-texto>
+			  		</div>	 	
+				</div>
+			</div>
+			
+			</form>
+        
+			<div class="row bcs-panel-comandos">
+				<div class=col-xs-12>
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarAporteDividendoFFM" 
+						bcs-texto="'UI_INGRESAR' | translate" 
+						bcs-habilitado="FormIngresoFFM.$valid"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar="true"
+						bcs-clic="ingresoAporteDividendoCFI.formData.ingresarAporte()">
+					</bcs-button>	
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_LimpiaringresarAporteDividendoFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="ingresoAporteDividendoCFI.limpiarFMM()"
+						bcs-blur="ingresoAporteDividendoCFI.formData.resetFoco()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Solicitud Ingresada -->
+	<div class="row bcs-cuerpo" ng-show="ingresoAporteDividendoCFI.formData.IngresoConfirmacion === 'C'">
+		<div class="row">
+			<div class="col-xs-12">
+			    <div class="row" ng-show="true">
+				  	<label class="col-xs-4" translate>UI_SECUENCIA_OPERACION</label> 
+			  		<bcs-input-texto 
+			  		class="col-xs-8" 
+			  		ng-model="ingresoAporteDividendoCFI.formData.ResultadoSolicitudAporteRescate.SecuenciaOperacion" 
+			  		k-ng-disabled="'true'"></bcs-input-texto>
+		  		</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="oOperacion.seleccionado.Descripcion"
+			  			k-ng-disabled="'true'"
+			  		> 
+			  	</div>
+			  	<hr>
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="ingresoAporteDividendoCFI.oClientePortafolio.seleccionado.NombreCompletoPortafolio"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>      
+			  	<hr>
+			  	<div class="row">
+			  	    <label class="col-xs-4" translate>UI_FONDO_MUTUO</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="ingresoAporteDividendoCFI.datosFondo.IdSerieFondo"
+			  			k-ng-disabled="'true'"
+			  		>
+		  		</div>
+		  		
+		  		<div class="row">
+					<span class="col-xs-6">
+						<label class="col-xs-8" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresoFFM.ingresoAporteDividendoCFI.muestraDetalle" ng-click="ingresoFFM.ingresoAporteDividendoCFI.muestraDetalle = !ingresoFFM.ingresoAporteDividendoCFI.muestraDetalle;ajustaVentana()">({{'+' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresoFFM.ingresoAporteDividendoCFI.muestraDetalle" ng-click="ingresoFFM.ingresoAporteDividendoCFI.muestraDetalle = !ingresoFFM.ingresoAporteDividendoCFI.muestraDetalle;ajustaVentana()">({{'-' | translate}})</em>
+					</span>
+				</div>
+				<div class="row" ng-show="ingresoFFM.ingresoAporteDividendoCFI.muestraDetalle">
+					<div class="row">
+					  	<label class="col-xs-3" translate>UI_TIPO_FONDO</label> 
+				  		<label class="col-xs-3" translate>{{ingresoAporteDividendoCFI.datosFondo.NombreCorto}}</label>
+				  		<label class="col-xs-3" translate>UI_PERFIL</label> 
+				  		<label class="col-xs-3" translate>{{ingresoAporteDividendoCFI.datosFondo.IdCategoriaPerfilFondoMutuo}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+				  		<label class="col-xs-3" translate>{{ingresoAporteDividendoCFI.datosFondo.IdRegimenTributario}}</label>
+				  		<label class="col-xs-3" translate>UI_PROPOSITO_SERIE</label> 
+				  		<label class="col-xs-3" translate>{{ingresoAporteDividendoCFI.datosFondo.PropositoSerie}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_ENTRADA</label> 
+				  		<label class="col-xs-3" translate>{{ingresoAporteDividendoCFI.datosFondo.EsComisionEntradaUI}}</label>
+				  		<label class="col-xs-3" translate>UI_MINIMO_PATRIMONIO</label> 
+				  		<label class="col-xs-3" translate>{{ingresoAporteDividendoCFI.datosFondo.EsPatrimonioMinimoUI}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+				  		<label class="col-xs-3" translate>{{ingresoAporteDividendoCFI.datosFondo.EsComisionSalidaUI}}</label>
+		  			</div>
+				</div>
+		  		<hr>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+			  		<bcs-input-date
+						class="col-xs-8"
+						k-ng-model="ingresoAporteDividendoCFI.formData.fechaSistema" 
+						bcs-requerido
+						k-ng-disabled="'true'">
+					</bcs-input-date>
+			  	</div>
+		  		<div class="row">
+			  		<label class="col-xs-4" translate>UI_REGIMEN</label>
+				 	<bcs-input-texto class="col-xs-8"
+				 		k-ng-disabled="'true'"
+				 		ng-model="ingresoAporteDividendoCFI.formData.regimenFondoMutuo.Descripcion">
+				 	</bcs-input-texto>
+				</div>    		
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="ingresoAporteDividendoCFI.formData.ResultadoSolicitudAporteRescate.MontoInicial"
+			  			decimales = "ingresoAporteDividendoCFI.formData.decimalesMonto"
+			  			k-ng-disabled="'true'"
+			  			simbolo="ingresoAporteDividendoCFI.formData.IdMonedaAporte">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="ingresoAporteDividendoCFI.formData.ResultadoSolicitudAporteRescate.NumeroCuotas"
+			  			k-ng-disabled="'true'"	
+			  		>
+			  		</bcs-input-texto>
+		  		</div>
+		  		<bcs-fechas-solicitud-fondo
+						fecha-emision = "ingresoAporteDividendoCFIdatosFondo.FechaFondo"
+						id-serie-fondo = "ingresoAporteDividendoCFI.datosFondo.IdSerieFondo"
+						traspaso = "'N'"
+						tipo-solicitud="'APO'"
+						mostrar-fecha-aceptacion="'true'"
+						mostrar-fecha-valor-cuota="'true'"
+						mostrar-fecha-certificacion="'true'"
+						mostrar-fecha-liquidacion="'true'">
+				</bcs-fechas-solicitud-fondo>
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+			  		<bcs-input-texto class="col-xs-8"
+				  		maxlength="260"
+						tipo-campo="'textarea'"
+						ng-model="ingresoAporteDividendoCFI.formData.comentario"
+						atributos="margin: 0px; height:73px;resize:none;width: 100%"
+						k-ng-disabled="'true'"	
+					>
+			  		</bcs-input-texto>
+		  		</div>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class=col-xs-12>
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VOLVER' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="ingresoAporteDividendoCFI.limpiarFMM('true')"
+					foco = "ingresoAporteDividendoCFI.formData.focoVolver">
+				</bcs-button>	
+			</div>
+		</div>
+	</div>
+	
+</div>

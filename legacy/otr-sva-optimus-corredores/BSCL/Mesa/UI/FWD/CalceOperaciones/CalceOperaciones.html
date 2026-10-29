@@ -1,0 +1,147 @@
+<div ng-controller="CalceOperaciones">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_CALCE_OPERACIONES|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="row">
+				<div class="row col-xs-10">
+					<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base 
+						class="col-xs-9"
+						id="UI_TIPO_INSTRUMENTO"
+						auto-cargar="'true'"
+						bcs-requerido
+						item-post-filtro="'1'"
+						todos="'S'"
+						tipo="'combobox-instrumento-mesa'"
+						filtros="data.ConfiguracionInstrumento.filtros"
+						seleccionado="data.InstrumentoSeleccionado"
+						id-actual="data.InstrumentoIdActual"
+					>
+					</bcs-combobox-base >
+				</div>
+				<div class="col-xs-2" style="position: absolute; right: 1px;">
+					<bcs-button  
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="BuscoOperacionesFWD()" 
+					>
+					</bcs-button>
+				</div>
+				<div class="row col-xs-10">
+					<label class="col-xs-3" translate>UI_OPERACION</label>
+					<bcs-combobox-base 
+						class="col-xs-9"
+						bcs-requerido="true"
+						id="UI_OPERACION"
+					 	auto-cargar="'true'"
+					 	item_post_filtro="'1'"
+					    tipo="'combobox-operacion-mesa'"
+						filtros="data.oConfiguracionOperacion.filtros"
+						seleccionado="data.OperacionSeleccionada"
+					>
+					</bcs-combobox-base >
+				</div>
+			</div>
+			<div class="row">
+				<form name="formCalceOperaciones" class="filters-formulario">
+					<bcs-grid id="grid-OperFWD"
+						configuracion="confBasicaOperaciones"
+						seleccionado="ObjSeleccionGrilla.seleccionoperaciones"
+					>
+					<!-- 
+						<div bcs-grid-detail ng-non-bindable>
+							<bcs-grid 
+								configuracion="OperacionesCalzadas()" 
+								seleccionado="seleccionOperacionesCalzadas" 
+								> 
+							</bcs-grid>
+						</div>
+					 -->
+					</bcs-grid>
+				</form>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-10">
+				</div>
+				<div class="col-xs-2">
+					<bcs-button  
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="BuscoOperacionesParaCalzar()" 
+					>
+					</bcs-button>
+				</div>
+			</div>
+			<div class="row">
+				<form name="formCalceOperaciones" class="filters-formulario">
+					<bcs-grid id="grid-Calce"
+						configuracion="confBasicaCalce"
+						seleccionado="ObjSeleccionGrilla.seleccioncalce"
+					>
+					</bcs-grid>
+				</form>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONTO</label>
+					<bcs-input-numero 
+						class="col-xs-6" 
+						id="UI_MONTO"
+						k-ng-model="data.kngMontoCalce"
+						k-ng-disabled="'true'"
+					>
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONTO_CALZADO</label>
+					<bcs-input-numero 
+						class="col-xs-6" 
+						id="UI_MONTO_CALZADO"
+						k-ng-model="data.kngMontoCalzado" 
+						k-ng-disabled="'true'"
+					>
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONTO_DIFERENCIA</label>
+					<bcs-input-numero 
+						class="col-xs-6" 
+						id="UI_MONTO_DIFERENCIA" 
+						k-ng-model="data.kngMontoDiferencia"
+						k-ng-disabled="'true'"
+					>
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row bcs-panel-comandos" style="padding-top: 10px !important;">
+				<bcs-button class="col-xs-2 pull-right"
+					id="CalceOperaciones_calzar" 
+					bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="'true'" 
+					bcs-texto="'UI_CALZAR' | translate"
+					bcs-habilitado="(HabilitoBotonCalce)"
+					bcs-clic="GuardarCalces()" 
+				>
+				</bcs-button>
+				<bcs-button class="col-xs-2 pull-right"
+					id="CalceOperaciones_descalzar" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'true'" 
+					bcs-texto="'UI_DESCALZAR' | translate"
+					bcs-habilitado="(HabilitoBotonDescalce)"
+					bcs-clic="DescalzarOperacion()" 
+				>
+				</bcs-button>
+			</div>
+		</div>
+</div>
+

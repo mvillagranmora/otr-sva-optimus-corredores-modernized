@@ -1,0 +1,92 @@
+<div id="PanelCliente" class="row" ng-controller="PanelClienteCtrl as pLCP">
+<div class="row">
+
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+
+			 <div class="col-xs-6"> 	  			  	  
+				<label class="col-xs-3" translate>UI_GRUPO</label>
+				<bcs-combobox-base class="col-xs-8"
+								tipo = "'combobox-grupo-indicador'"
+								id-actual = "pLCP.cmbbx.IdGrupoIndicador"
+								filtros="pLCP.cmbbx.GrupoIndicador.filtros"
+								auto-cargar="true"
+								item-post-filtro="'1'"
+								id-defecto="' TODOS'" 
+								todos="'S'"
+								cascada1-a="pLCP.cmbbx.TipoIndicador.filtros.IdGrupoIndicador"
+								cascada1-valor="'GrupoIndicador'"   
+								seleccionado="pLCP.cmbbx.IdGrupoIndicadorObj"
+								memoria="'IdGrupoIndicador'">
+				</bcs-combobox-base >		
+			 </div>
+			 
+			 <div class="col-xs-6"> 	  			  	  
+				<label class="col-xs-3" translate>UI_INDICADOR</label>
+				<bcs-combobox-base class="col-xs-8"
+								tipo = "'combobox-tipo-indicador'"
+								id-actual = "pLCP.cmbbx.IdTipoIndicador"
+								filtros="pLCP.cmbbx.TipoIndicador.filtros"
+								auto-cargar="true"
+								item-post-filtro="'1'"
+								id-defecto="'0'" 
+								todos="'S'"
+								seleccionado="pLCP.cmbbx.IdTipoIndicadorObj"
+								memoria="'IdTipoIndicador'">
+				</bcs-combobox-base >		
+			 </div>
+		
+				 
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pLCP.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pLCP.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pLCP.SocioDeNegocioObj">
+					</bcs-combobox-base>
+				</div>	
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pLCP.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pLCP.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		
+	<div class="row">
+		<bcs-grid
+			id="gridCliente"
+			configuracion="pLCP.grilla.Cliente"
+			seleccionado="pLCP.grilla.limiteSel"
+			fn-exportar-excel="excelCliente"
+			api="gridApi">
+			
+		</bcs-grid>
+	</div>
+
+	<div class="row bcs-panel-comandos" style="padding-top: 10px !important;">
+		<div class="col-xs-12">
+			<bcs-menu 
+				class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'"
+				bcs-habilitado="'true'" 
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelCliente('Cliente')">						  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+			</bcs-menu>	
+		</div>
+		
+	</div>
+</div>	
+	
+	
+</div>

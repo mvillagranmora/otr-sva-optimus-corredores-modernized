@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.CuentaInversion.BD::CTA.ConsultarCartolaDeMovimiento_Proceso";

@@ -1,0 +1,53 @@
+INSERT INTO  "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_FormaDePago"
+(
+	"NumeroReferencia"
+	,"IdMedioDePago"
+	,"IdModalidadDePago"
+	,"IdMoneda"
+	,"Monto"
+	,"IdCuentaBancariaCorredora"
+	,"IdTarjetaBancariaCorredora"
+	,"IdChequera"
+	,"NumeroDocumentoCorredora"
+	,"FechaDocumentoPagoCorredora"					
+	,"IdCuentaBancariaSocio"					
+	,"IdBancoSocio"
+	,"NombreCuentaBancariaSocio"
+	,"NumeroCuentaBancariaSocio"
+	,"IdTipoCuentaBancariaSocio"
+	,"NombreTipoCuentaBancariaSocio"															
+	,"IdTarjetaBancariaSocio"					
+	,"IdTipoTarjetaBancariaSocio"
+	,"NombreTipoTarjetaBancariaSocio"
+	,"NumeroTarjetaBancariaSocio"
+	,"NumeroSerieSocio"
+	,"NumeroDocumentoSocio"
+	,"FechaDocumentoPagoSocio"
+) 
+VALUES
+(
+	1
+	,:IdMedioDePago
+	,:IdModalidadDePago
+	,:IdMoneda
+	,:Monto
+	,:IdCuentaBancariaCorredora
+	,0
+	,0
+	,0
+	,'0001-01-01'
+	,0
+	,0
+	,''
+	,''
+	,''
+	,''
+	,0
+	,''
+	,''
+	,''
+	,''
+	,0
+	,'0001-01-01'
+);
+		

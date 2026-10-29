@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="PreComprobantesAsientoDetalle" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="PreComprobantesAsientoDetalle"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdPreComprobante"/>
+        <viewAttribute datatype="BIGINT" id="IdPreComprobanteAsiento"/>
+        <viewAttribute datatype="BIGINT" id="IdEvento"/>
+        <viewAttribute datatype="BIGINT" id="IdMovimiento"/>
+        <viewAttribute datatype="NVARCHAR" id="Operador" length="10"/>
+        <viewAttribute datatype="BIGINT" id="Linea"/>
+        <viewAttribute datatype="NVARCHAR" id="Estado" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="GlosaDetalle" length="120"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoEvento" length="40"/>
+        <viewAttribute datatype="DECIMAL" id="Monto" length="26" scale="8"/>
+        <viewAttribute datatype="BIGINT" id="Numero"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = SELECT 
+			PRE.&quot;IdPreComprobante&quot;,
+			EPCA.&quot;IdPreComprobanteAsiento&quot;,
+			EPCA.&quot;IdEvento&quot;,
+			MV.&quot;IdMovimiento&quot;,
+			EPCA.&quot;Operador&quot;,
+			EPCA.&quot;Linea&quot;,
+			EPCA.&quot;Estado&quot;,
+			EPCA.&quot;GlosaDetalle&quot;,
+			EV.&quot;IdTipoEvento&quot;,
+			EV.&quot;Monto&quot;,
+			MV.&quot;Numero&quot;
+		FROM &quot;BSCL.Contabilidad.BD::ITZ.PreComprobante&quot; PRE
+		LEFT JOIN &quot;BSCL.Contabilidad.BD::ITZ.PreComprobanteAsiento&quot; PREA ON PRE.&quot;IdPreComprobante&quot; = PREA.&quot;IdPreComprobante&quot;
+		LEFT JOIN &quot;BSCL.Contabilidad.BD::ITZ.EventoPreComprobanteAsiento&quot; EPCA ON PREA.&quot;IdPreComprobanteAsiento&quot; = EPCA.&quot;IdPreComprobanteAsiento&quot;
+		LEFT JOIN &quot;BSCL.Contabilidad.BD::ITZ.Evento&quot; EV ON EPCA.&quot;IdEvento&quot; = EV.&quot;IdEvento&quot; 
+		LEFT JOIN &quot;BSCL.Contabilidad.BD::ITZ.Movimiento&quot; MV ON MV.&quot;IdMovimiento&quot; = EV.&quot;IdMovimiento&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdPreComprobante" order="1">
+        <descriptions defaultDescription="IdPreComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPreComprobante"/>
+      </attribute>
+      <attribute id="IdPreComprobanteAsiento" order="2">
+        <descriptions defaultDescription="IdPreComprobanteAsiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPreComprobanteAsiento"/>
+      </attribute>
+      <attribute id="IdEvento" order="3">
+        <descriptions defaultDescription="IdEvento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEvento"/>
+      </attribute>
+      <attribute id="IdMovimiento" order="4">
+        <descriptions defaultDescription="IdMovimiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMovimiento"/>
+      </attribute>
+      <attribute id="Operador" order="5">
+        <descriptions defaultDescription="Operador"/>
+        <keyMapping columnObjectName="Script_View" columnName="Operador"/>
+      </attribute>
+      <attribute id="Linea" order="6">
+        <descriptions defaultDescription="Linea"/>
+        <keyMapping columnObjectName="Script_View" columnName="Linea"/>
+      </attribute>
+      <attribute id="Estado" order="7">
+        <descriptions defaultDescription="Estado"/>
+        <keyMapping columnObjectName="Script_View" columnName="Estado"/>
+      </attribute>
+      <attribute id="GlosaDetalle" order="8">
+        <descriptions defaultDescription="GlosaDetalle"/>
+        <keyMapping columnObjectName="Script_View" columnName="GlosaDetalle"/>
+      </attribute>
+      <attribute id="IdTipoEvento" order="9">
+        <descriptions defaultDescription="IdTipoEvento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoEvento"/>
+      </attribute>
+      <attribute id="Monto" order="10">
+        <descriptions defaultDescription="Monto"/>
+        <keyMapping columnObjectName="Script_View" columnName="Monto"/>
+      </attribute>
+      <attribute id="Numero" order="11">
+        <descriptions defaultDescription="Numero"/>
+        <keyMapping columnObjectName="Script_View" columnName="Numero"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

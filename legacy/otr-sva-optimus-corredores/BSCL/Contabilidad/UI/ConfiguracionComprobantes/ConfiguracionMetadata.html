@@ -1,0 +1,185 @@
+<div id="ConfiguracionMetadataContabilidad" ng-controller="ConfiguracionMetadataContabilidadCtrl">
+	<div class="row bcs-cuerpo">
+	<form name="formConfiguracionMetadataContabilidad">
+		<div class="row">
+		  	<label class="col-xs-2 titulo" translate>UI_METADATA</label>
+		  	<bcs-combobox-base class="col-xs-4" 						 
+						tipo="'combobox-configuracion-metadata-centralizacion'"
+						seleccionado="data.selecionadoConfiguracion"  						  						
+ 						id-actual= "data.IdConfiguracionMetadata"
+ 						activado='true'>					
+ 			</bcs-combobox-base>
+ 			
+ 			
+ 				<bcs-button  
+					class				="col-xs-2 pull-right" 
+					bcs-tipo			="'bcs-button-search'" 					
+					bcs-auto-desactivar	="'false'" 
+					bcs-texto			="'UI_BUSCAR' | translate"   
+					bcs-clic			="btnBuscar()"
+					bcs-habilitado="'true'">
+				</bcs-button>
+
+			
+		</div>
+		<hr>
+		<div class="row">
+		  	<label class="col-xs-2 titulo" translate>UI_CUENTAS</label>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-consulta-metadata"
+			 	configuracion="tablesContabilidad.confCuentas"
+				seleccionado="grid.seleccionadoCuentas">		
+			</bcs-grid>
+		</div>
+		<hr>
+		<div class="row">
+		  	<label class="col-xs-2 titulo" translate>UI_CONFIGURACION</label>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-8" translate>UI_EJERCICIO</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">	
+					  	<bcs-input-texto class="col-xs-10" id="" bcs-requerido
+						ng-model="inputs.ejercicio"> </bcs-input-texto>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-10" translate>UI_DEBE_HABER</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">	
+					  	<input class="col-xs-5" type="checkbox" id="" ng-model="inputs.debe">
+					  	<label class="col-xs-5" translate>UI_DEBE</label>
+					</div>
+				</div>
+				<div class="row">
+					  	<div class="col-xs-4">  		
+					  		<input class="col-xs-5" type="checkbox" id="" ng-model="inputs.haber">
+					  		<label class="col-xs-5" translate>UI_HABER</label>
+						</div>
+				</div>				
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-2" translate>UI_FORMATO</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">	
+					  	<input class="col-xs-5" type="checkbox" id="" ng-model="inputs.detallado">
+					  	<label class="col-xs-5" translate>UI_DETALLADO</label>
+					</div>
+				</div>
+				<div class="row">
+					  	<div class="col-xs-4">  		
+					  		<input class="col-xs-5" type="checkbox" id="" ng-model="inputs.resumido">
+					  		<label class="col-xs-5" translate>UI_RESUMIDO</label>
+						</div>
+				</div>				
+			</div>
+
+		</div>
+		<hr>
+
+		<div class="row">
+		  <div class="col-xs-12">	
+			<label class="col-xs-2" translate>UI_CENTRALIZACION</label>
+			<bcs-combobox-base class="col-xs-4" 						 
+				tipo="'combobox-tipo-centralizaciones'"
+				seleccionado="selecionadoTipoCentralizacion"  						  						
+					id-actual= "data.tipoCentralizacion" 								 
+					id-defecto= "data.tipoCentralizaciones" 
+					filtros = "data.filtroTipoContabilidad"
+					item-post-filtro="'1'"
+					activado='true'>					
+			</bcs-combobox-base>					
+		  </div>
+		</div>
+		<div class="row">
+		  	<div class="col-xs-5">
+					<label class="col-xs-4" translate>UI_EVENTOS_DISPONIBLES</label>
+					<br>
+					<bcs-grid id="" seleccionado="grid.seleccionadoEventoDisp"						 
+						configuracion="tablesContabilidad.confEventosDisponibles">
+					</bcs-grid>
+					<div class="row"></div>
+					<div class="col-xs-12 bcs-panel-comandos">
+						<bcs-button  
+							class	="col-xs-2 pull-right"  
+							bcs-tipo="'bcs-button-input-form'"
+							bcs-auto-desactivar="'false'"
+							bcs-texto="'UI_AGREGAR' | translate"
+							bcs-habilitado="grid.seleccionadoEventoDisp" bcs-clic="btnGrabarEvento()">
+						</bcs-button>
+					</div>
+				</div>
+				<div class="col-xs-2">
+					<br>
+					<div class="row">
+						<div class="col-xs-4">	
+						</div>
+						<div class="col-xs-4">	
+						  	<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.suma">
+						  	<label class="col-xs-6" translate>(+)</label> 
+						</div>
+						<div class="col-xs-4">	
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">	
+						</div>
+						 <div class="col-xs-4">  		
+						  	<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.resta">
+						  	<label class="col-xs-6" translate>(-)</label>
+						</div>
+						<div class="col-xs-4">	
+						</div>
+					</div>	
+				</div>
+				<div class="col-xs-5">
+					<label class="col-xs-2" translate>UI_EVENTOS_ASOCIADOS</label>
+					<br>
+					<bcs-grid id="" seleccionado="grid.seleccionadoEventoAsoc"						 
+						configuracion="tablesContabilidad.confEventosAsociados">
+					</bcs-grid>
+					<div class="row"></div>
+					<div class="col-xs-12 bcs-panel-comandos">
+						<bcs-button  
+							class	="col-xs-2 pull-right"  
+							bcs-tipo="'bcs-button-input-form'"
+							bcs-auto-desactivar="'false'"
+							bcs-texto="'UI_ELIMINAR' | translate"
+							bcs-habilitado="grid.seleccionadoEventoAsoc" bcs-clic="btnEliminarEvento()">
+						</bcs-button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="padding-top: 10px;">
+			<div class="col-xs-12 bcs-panel-comandos">
+			<bcs-button  
+					class				="col-xs-2 pull-right" 
+					bcs-tipo			="'bcs-button-primary'" 					
+					bcs-auto-desactivar	="'true'" 
+					bcs-texto			="'UI_GRABAR' | translate"   
+					bcs-clic			="btnGrabar()"
+					bcs-habilitado="formConfiguracionMetadataContabilidad.$valid">
+				</bcs-button>
+			
+			</div>
+		</div> 
+	 </form>
+	 </div>	
+</div>

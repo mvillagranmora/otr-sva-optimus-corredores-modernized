@@ -1,0 +1,186 @@
+<div id="AsignarDepositos" class="row" ng-controller="AsignarDepositosCtrl as asigDep">
+	<div class="row">
+		<form name="formAsignarDeposito" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<strong> <div class="ng-scope" translate="">UI_ASIGNAR_DEPOSITO</div></strong>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="row">
+						<div class="col-xs-6">
+			      			<label class="col-xs-5" translate="">UI_FOLIO_RECAUDACION</label>
+							<bcs-combobox-base 
+								id="UI_FOLIO_RECAUDACION" 
+								auto-cargar="true"
+								cache="true"
+								class="col-xs-7"
+								tipo="'combobox-folio-recaudacion'"
+								id-actual="asigDep.folioContrato"
+								seleccionado="asigDep.depositoSeleccionado"
+								>
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4"> 
+							<label class="col-xs-6 ng-scope" translate="">UI_FECHA_MOVIMIENTO</label>
+							<bcs-input-date 
+								id="UI_FECHA_MOVIMIENTO" 
+								class="col-xs-6" 
+								k-ng-model = "asigDep.kngFechaDeposito"
+								k-options="kOptFechaDeposito"
+							>
+							</bcs-input-date>
+			    		</div>
+						<bcs-button class="col-xs-2"
+							bcs-tipo="'bcs-button-search'"
+							bcs-habilitado="'true'" 
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-clic="asigDep.filtroDepositos()">
+						</bcs-button>
+					</div>
+					<div class="row">
+						<div class="col-xs-10">
+				      		<label class="col-xs-3" translate>UI_BANCO_DEPOSITO</label>
+							<bcs-combobox-base 
+								id="UI_BANCO_DEPOSITO"
+								class="col-xs-9"
+								tipo="'combobox-banco-por-pais'"
+								id-actual="asigDep.bancoDeposito"
+								filtros="asigDep.filtroBanco" 
+								seleccionado="asigDep.bancoDepositoSeleccionado"
+								>
+							</bcs-combobox-base>
+						</div>
+						<bcs-button class="col-xs-2"
+							bcs-tipo="'bcs-button-secondary'"
+							bcs-habilitado="'true'" 
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-clic="asigDep.limpiarDepositos()">
+						</bcs-button>
+					</div>
+					<br>
+			    	<div class="row">
+						<bcs-grid id="gridDeposito"
+							configuracion = "asigDep.confGridDeposito"
+							seleccionado = "asigDep.seleccionDeposito"
+							ng-click="asigDep.totalEmpleadores(asigDep.seleccionDeposito[0])"
+						>
+						</bcs-grid>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="row">
+						<div class="col-xs-6">
+			      			<label class="col-xs-5" translate>UI_EMPLEADOR</label>
+							<bcs-combobox-base
+								id="UI_TIPO_DEPOSITO" 
+								auto-cargar="true"
+								class="col-xs-7"
+								tipo="'combobox-empleador'"
+								id-actual="asigDep.empleador"
+								seleccionado="asigDep.empleadorSeleccionado"
+								id-post-filtro="asigDep.idPersonaPostFiltro"
+								>
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4"> 
+							<label class="col-xs-6 ng-scope" translate>UI_FECHA_MOVIMIENTO</label>
+							<bcs-input-date 
+								id="UI_FECHA_MOVIMIENTO" 
+								class="col-xs-6" 
+								k-ng-model = "asigDep.kngFechaEmpleador"
+								k-options="kOptFechaEmpleador"
+							>
+							</bcs-input-date>
+			    		</div>
+						<bcs-button class="col-xs-2"
+							bcs-tipo="'bcs-button-search'"
+							bcs-habilitado="'true'" 
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-clic="asigDep.filtroEmpleadores()">
+						</bcs-button>
+					</div>
+					<div class="row">
+						<div class="col-xs-10">
+				      		<label class="col-xs-3" translate>UI_BANCO_EMPLEADOR</label>
+							<bcs-combobox-base 
+								id="UI_BANCO_EMPLEADOR"
+								class="col-xs-9"
+								tipo="'combobox-banco-por-pais'"
+								id-actual="asigDep.bancoEmpleador"
+								filtros="asigDep.filtroBanco" 
+								seleccionado="asigDep.bancoEmpleadorSeleccionado"
+								>
+							</bcs-combobox-base>
+						</div>
+						<bcs-button class="col-xs-2"
+							bcs-tipo="'bcs-button-secondary'"
+							bcs-habilitado="'true'" 
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-clic="asigDep.limpiarEmpleador()">
+						</bcs-button>
+					</div>
+					<br>
+					<div class="row">
+						<bcs-grid id="gridEmpleador"
+							configuracion = "asigDep.confGridEmpleador"
+							seleccionado = "asigDep.seleccionEmpleador"
+						>
+						</bcs-grid>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row"> 
+				<label class="col-xs-3 ng-scope" translate="">UI_TOTALES</label>
+				<div class="col-xs-3">
+					<label class="col-xs-5 ng-scope" translate="">UI_MONTO_DEPOSITO</label>
+					<div class="col-xs-6">
+						<bcs-input-numero class="col-xs-11"
+							ng-model="asigDep.montoDeposito"
+							k-ng-disabled="true"
+							decimales="0"
+							>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5 ng-scope" translate="">UI_CALCULADO</label>
+					<div class="col-xs-6">
+						<bcs-input-numero class="col-xs-11"
+							ng-model="asigDep.montoCalculado"
+							k-ng-disabled="true"
+							decimales="0"
+							>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5 ng-scope" translate="">UI_DIFERENCIA_EMPLEADOR</label>
+					<div class="col-xs-6">
+						<bcs-input-numero class="col-xs-11"
+							ng-model="asigDep.diferenciaEmpleador"
+							k-ng-disabled="true"
+							decimales="0"
+							>
+						</bcs-input-numero>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row alignButtonsToRight">
+				<bcs-button class="col-xs-2"
+					bcs-tipo="'bcs-button-primary'"
+					bcs-habilitado="true" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_ASIGNAR' | translate" 
+					bcs-clic="asigDep.asignarDeposito()">
+				</bcs-button>
+			</div>
+		</form>
+	</div>
+</div>

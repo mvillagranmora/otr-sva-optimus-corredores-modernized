@@ -1,0 +1,164 @@
+<div class="row" ng-controller='ConsultarHistorialTransaccionesCtrl' bcs-enter="datosForm.buscarTransacciones()" tabindex="1">
+	<div class="row" >
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="'combobox-clasificacion-tipo-instrumento'"
+							id-actual="datosBusqueda.IdClasificacionTipoInstrumento"
+							todos = "'S'"
+							cascada-a="datosForm.filtrosTipoInstrumento.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'"
+							cascada1-a="datosForm.filtrosInstrumentos.IdClasificacionTipoInstrumento"
+							cascada1-valor="'IdClasificacionTipoInstrumento'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-instrumento'"
+							id-actual="datosBusqueda.IdTipoInstrumento"
+							filtros = "datosForm.filtrosTipoInstrumento"
+							cascada-a="datosForm.filtrosOperacion.IdTipoInstrumento"
+							cascada-valor="'IdTipoInstrumento'"
+							cascada1-a="datosForm.filtrosInstrumentos.IdTipoInstrumento"
+							cascada1-valor="'IdTipoInstrumento'"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_OPERACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-operacion'"
+							id-actual="datosBusqueda.AccionOrden"
+							filtros = "datosForm.filtrosOperacion"
+							todos = "'S'"
+							item-post-filtro = "'1'"
+							cascada-a="datosForm.filtrosCondicionDeLiquidacion.AccionTipoOperacion"
+							cascada-valor="'AccionOrden'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos class="col-xs-8"						    
+							datos-instrumento="datosBusqueda.instrumento"
+							buscar-instrumento="datosBusqueda.setInstrumento"							
+							filtro-clasificacion="datosBusqueda.IdClasificacionTipoInstrumento">
+						</bcs-input-instrumentos>
+					</div>
+					
+			    </div>
+			    <div class="row">
+			    	<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_TIPO_REGISTRO</label>
+						<bcs-combobox-base class="col-xs-8"
+						   tipo="'combobox-estado-transaccionbolsa'"
+						   id-actual="datosBusqueda.TipoRegistro"
+						   seleccionado="datosBusqueda.oConfiguracionEstadoTransAnuMod.seleccionado"
+						   filtros="datosBusqueda.oConfiguracionEstadoTransAnuMod.filtros"
+						   todos = "'S'"
+						   item-post-filtro = "'1'"
+						   auto-cargar="'true'">
+					    </bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_FECHA_TRANSACCION</label>
+						<bcs-input-date class="col-xs-4" k-ng-model="datosBusqueda.fechaDesde"></bcs-input-date>
+						<bcs-input-date class="col-xs-4" k-ng-model="datosBusqueda.fechaHasta"></bcs-input-date>
+					</div>
+					
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							filtros = "datosForm.filtrosCondicionDeLiquidacion"
+							tipo="'combobox-condicion-liquidacion'"
+							id-actual="datosBusqueda.IdCondicionDeLiquidacion"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base >
+					</div>
+					
+				    <div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_LIBRO_ORDENES</label>
+						<bcs-combobox-base 
+					     	class="col-xs-8"
+							tipo="'combobox-libro-orden'"
+							id-actual="datosBusqueda.IdLibroOrdenes"
+							todos="'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+					
+			    </div>
+			    <div class="row">
+			    	<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_MARCA_NEGOCIACION</label>
+						<bcs-input-texto class="col-xs-8" ng-model="datosBusqueda.MarcaNegociacion"></bcs-input-texto>
+					</div>
+			    	<div class="col-xs-3">
+				    	<label class="col-xs-4" translate>UI_VENTA_CORTA</label>
+						<bcs-input-checkbox 
+					     	class="col-xs-1"
+					     	ng-model="datosBusqueda.EsVentaCorta">
+						</bcs-input-checkbox>
+			    	</div>
+			    	<div class="col-xs-3">
+				    	<label class="col-xs-4" translate>UI_PENDIENTE</label>
+						<bcs-input-checkbox 
+					     	class="col-xs-1"
+					     	ng-model="datosBusqueda.EsPendiente">
+						</bcs-input-checkbox>
+			    	</div>
+			    </div>
+			</div>
+			
+			
+			
+			<div class="col-xs-2">
+			    <div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true" 
+						bcs-clic="datosForm.buscarTransacciones()" >
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="true"  
+						bcs-clic="datosForm.limpiarFiltros()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<bcs-grid id="grid-transaccionesHistorico"			
+			api = "datosForm.apiGridTransaccionesHistorico"
+			seleccionado="datosForm.kNgModel"
+			configuracion="datosForm.defaultOptions">
+		</bcs-grid>
+	</div>
+	
+
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<!-- <bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_PROCESAR' | translate" id = "ConsultarTransaccionesHistorica_procesar"
+			bcs-habilitado="datosForm.kNgModel.length==1" bcs-clic="datosForm.procesarTransaccion(datosForm.kNgModel)"></bcs-button> -->
+	</div>
+</div>

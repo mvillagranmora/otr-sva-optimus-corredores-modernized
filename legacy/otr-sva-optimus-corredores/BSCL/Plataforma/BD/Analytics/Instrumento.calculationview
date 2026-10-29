@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Instrumento" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="instrumento"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdInstrumento"/>
+        <viewAttribute datatype="NVARCHAR" id="Nemotecnico" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="ISIN" length="40"/>
+        <viewAttribute datatype="DECIMAL" id="CorteMinimo" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="EstaInscrito" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EsDivisible" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="RazonSocial" length="100"/>
+        <viewAttribute datatype="CHAR" id="FechaEmision" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaVencimiento" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdInstrumentoRelacionado"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEmisor" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoReajuste" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="Reajustable" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="BIGINT" id="DecimalesPrecio"/>
+        <viewAttribute datatype="BIGINT" id="Tamano"/>
+        <viewAttribute datatype="CHAR" id="FechaInicioVigencia" length="10"/>
+        <viewAttribute datatype="DECIMAL" id="TasaFiscal" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IndArt104" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoValorizacion" length="10"/>
+        <viewAttribute datatype="DECIMAL" id="Tasa" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="Precio" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="ValorizaPor" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="TieneCupon" length="1"/>
+        <viewAttribute datatype="BIGINT" id="IdPaisEmisor"/>
+        <viewAttribute datatype="NVARCHAR" id="IndicadorLiquidaDCV" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="Serie" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IndicadorBolson" length="1"/>
+        <viewAttribute datatype="DECIMAL" id="FrecuenciaCupon" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioReferencia" length="26" scale="8"/>
+        <viewAttribute datatype="CHAR" id="FechaReferencia" length="10"/>
+        <viewAttribute datatype="BIGINT" id="NumeroCupones"/>
+        <viewAttribute datatype="BIGINT" id="CodigoRubro"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCodigoRubro" length="500"/>
+        <viewAttribute datatype="NVARCHAR" id="ClasificacionRiesgoInstrumento" length="20"/>
+        <viewAttribute datatype="INTEGER" id="PresenciaBursatilAjustada"/>
+        <viewAttribute datatype="NVARCHAR" id="IdClasificacionTipoInstrumento" length="3"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN   
+ 	 var_out =
+ 	 Select &quot;IdInstrumento&quot; 
+ 	                 ,&quot;Nemotecnico&quot;
+ 	                 ,&quot;ISIN&quot; 
+ 	                 ,&quot;CorteMinimo&quot;
+ 	                 ,&quot;EstaInscrito&quot;
+ 	                 ,&quot;EsDivisible&quot;
+ 	                 ,&quot;RazonSocial&quot;
+ 	                 ,&quot;FechaEmision&quot;
+ 	                 ,&quot;FechaVencimiento&quot;
+ 	                 ,&quot;IdInstrumentoRelacionado&quot; 
+ 	                 ,&quot;IdEmisor&quot; 
+ 	                 ,&quot;IdTipoReajuste&quot;
+ 	                 ,&quot;Reajustable&quot;
+ 	                 ,&quot;IdMoneda&quot;
+ 	                 ,&quot;IdTipoInstrumento&quot; 
+ 	                 ,&quot;IdEstado&quot; 
+ 	                 ,&quot;DecimalesPrecio&quot;
+ 	                 ,&quot;Tamano&quot;
+   	                 ,&quot;FechaInicioVigencia&quot;
+ 	                 ,&quot;TasaFiscal&quot;
+ 	                 ,&quot;IndArt104&quot;
+ 	                 ,&quot;TipoValorizacion&quot;
+ 	                 ,&quot;Tasa&quot;
+ 	                 ,&quot;Precio&quot;
+ 	                 ,&quot;ValorizaPor&quot;
+ 	                 ,&quot;TieneCupon&quot;
+ 	                 ,&quot;IdPaisEmisor&quot; 
+ 	                 ,&quot;IndicadorLiquidaDCV&quot;
+ 	                 ,&quot;Serie&quot;
+ 	                 ,&quot;IndicadorBolson&quot;
+ 	                 ,&quot;FrecuenciaCupon&quot;
+ 	                 ,&quot;PrecioReferencia&quot;
+ 	                 ,&quot;FechaReferencia&quot;
+ 	                 ,&quot;NumeroCupones&quot;
+ 	                 ,&quot;CodigoRubro&quot;
+ 	                 ,&quot;NombreCodigoRubro&quot;
+ 	                 ,&quot;ClasificacionRiesgoInstrumento&quot;
+ 	                 ,&quot;PresenciaBursatilAjustada&quot;
+ 	                 , &quot;IdClasificacionTipoInstrumento&quot;
+ 	             from &quot;BSCL.Plataforma.BD.Vistas::INS.ConsultarInstrumentoAnalitica&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdInstrumento" order="1">
+        <descriptions defaultDescription="IdInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumento"/>
+      </attribute>
+      <attribute id="Nemotecnico" order="2">
+        <descriptions defaultDescription="Nemotecnico"/>
+        <keyMapping columnObjectName="Script_View" columnName="Nemotecnico"/>
+      </attribute>
+      <attribute id="ISIN" order="3">
+        <descriptions defaultDescription="ISIN"/>
+        <keyMapping columnObjectName="Script_View" columnName="ISIN"/>
+      </attribute>
+      <attribute id="CorteMinimo" order="4">
+        <descriptions defaultDescription="CorteMinimo"/>
+        <keyMapping columnObjectName="Script_View" columnName="CorteMinimo"/>
+      </attribute>
+      <attribute id="EstaInscrito" order="5">
+        <descriptions defaultDescription="EstaInscrito"/>
+        <keyMapping columnObjectName="Script_View" columnName="EstaInscrito"/>
+      </attribute>
+      <attribute id="EsDivisible" order="6">
+        <descriptions defaultDescription="EsDivisible"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsDivisible"/>
+      </attribute>
+      <attribute id="RazonSocial" order="7">
+        <descriptions defaultDescription="RazonSocial"/>
+        <keyMapping columnObjectName="Script_View" columnName="RazonSocial"/>
+      </attribute>
+      <attribute id="FechaEmision" order="8">
+        <descriptions defaultDescription="FechaEmision"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaEmision"/>
+      </attribute>
+      <attribute id="FechaVencimiento" order="9">
+        <descriptions defaultDescription="FechaVencimiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaVencimiento"/>
+      </attribute>
+      <attribute id="IdInstrumentoRelacionado" order="10">
+        <descriptions defaultDescription="IdInstrumentoRelacionado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumentoRelacionado"/>
+      </attribute>
+      <attribute id="IdEmisor" order="11">
+        <descriptions defaultDescription="IdEmisor"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmisor"/>
+      </attribute>
+      <attribute id="IdTipoReajuste" order="12">
+        <descriptions defaultDescription="IdTipoReajuste"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoReajuste"/>
+      </attribute>
+      <attribute id="Reajustable" order="13">
+        <descriptions defaultDescription="Reajustable"/>
+        <keyMapping columnObjectName="Script_View" columnName="Reajustable"/>
+      </attribute>
+      <attribute id="IdMoneda" order="14">
+        <descriptions defaultDescription="IdMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="IdTipoInstrumento" order="15">
+        <descriptions defaultDescription="IdTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdEstado" order="16">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="DecimalesPrecio" order="17">
+        <descriptions defaultDescription="DecimalesPrecio"/>
+        <keyMapping columnObjectName="Script_View" columnName="DecimalesPrecio"/>
+      </attribute>
+      <attribute id="Tamano" order="18">
+        <descriptions defaultDescription="Tamano"/>
+        <keyMapping columnObjectName="Script_View" columnName="Tamano"/>
+      </attribute>
+      <attribute id="FechaInicioVigencia" order="19">
+        <descriptions defaultDescription="FechaInicioVigencia"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaInicioVigencia"/>
+      </attribute>
+      <attribute id="TasaFiscal" order="20">
+        <descriptions defaultDescription="TasaFiscal"/>
+        <keyMapping columnObjectName="Script_View" columnName="TasaFiscal"/>
+      </attribute>
+      <attribute id="IndArt104" order="21">
+        <descriptions defaultDescription="IndArt104"/>
+        <keyMapping columnObjectName="Script_View" columnName="IndArt104"/>
+      </attribute>
+      <attribute id="TipoValorizacion" order="22">
+        <descriptions defaultDescription="TipoValorizacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoValorizacion"/>
+      </attribute>
+      <attribute id="Tasa" order="23">
+        <descriptions defaultDescription="Tasa"/>
+        <keyMapping columnObjectName="Script_View" columnName="Tasa"/>
+      </attribute>
+      <attribute id="Precio" order="24">
+        <descriptions defaultDescription="Precio"/>
+        <keyMapping columnObjectName="Script_View" columnName="Precio"/>
+      </attribute>
+      <attribute id="ValorizaPor" order="25">
+        <descriptions defaultDescription="ValorizaPor"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorizaPor"/>
+      </attribute>
+      <attribute id="TieneCupon" order="26">
+        <descriptions defaultDescription="TieneCupon"/>
+        <keyMapping columnObjectName="Script_View" columnName="TieneCupon"/>
+      </attribute>
+      <attribute id="IdPaisEmisor" order="27">
+        <descriptions defaultDescription="IdPaisEmisor"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPaisEmisor"/>
+      </attribute>
+      <attribute id="IndicadorLiquidaDCV" order="28">
+        <descriptions defaultDescription="IndicadorLiquidaDCV"/>
+        <keyMapping columnObjectName="Script_View" columnName="IndicadorLiquidaDCV"/>
+      </attribute>
+      <attribute id="Serie" order="29">
+        <descriptions defaultDescription="Serie"/>
+        <keyMapping columnObjectName="Script_View" columnName="Serie"/>
+      </attribute>
+      <attribute id="IndicadorBolson" order="30">
+        <descriptions defaultDescription="IndicadorBolson"/>
+        <keyMapping columnObjectName="Script_View" columnName="IndicadorBolson"/>
+      </attribute>
+      <attribute id="FrecuenciaCupon" order="31">
+        <descriptions defaultDescription="FrecuenciaCupon"/>
+        <keyMapping columnObjectName="Script_View" columnName="FrecuenciaCupon"/>
+      </attribute>
+      <attribute id="PrecioReferencia" order="32">
+        <descriptions defaultDescription="PrecioReferencia"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioReferencia"/>
+      </attribute>
+      <attribute id="FechaReferencia" order="33">
+        <descriptions defaultDescription="FechaReferencia"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaReferencia"/>
+      </attribute>
+      <attribute id="NumeroCupones" order="34">
+        <descriptions defaultDescription="NumeroCupones"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroCupones"/>
+      </attribute>
+      <attribute id="CodigoRubro" order="35">
+        <descriptions defaultDescription="CodigoRubro"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoRubro"/>
+      </attribute>
+      <attribute id="NombreCodigoRubro" order="36">
+        <descriptions defaultDescription="NombreCodigoRubro"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCodigoRubro"/>
+      </attribute>
+      <attribute id="ClasificacionRiesgoInstrumento" order="37">
+        <descriptions defaultDescription="ClasificacionRiesgoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="ClasificacionRiesgoInstrumento"/>
+      </attribute>
+      <attribute id="IdClasificacionTipoInstrumento" order="39">
+        <descriptions defaultDescription="IdClasificacionTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdClasificacionTipoInstrumento"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures>
+      <measure id="PresenciaBursatilAjustada" order="38" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="PresenciaBursatilAjustada"/>
+        <measureMapping columnObjectName="Script_View" columnName="PresenciaBursatilAjustada"/>
+      </measure>
+    </baseMeasures>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

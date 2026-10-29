@@ -1,0 +1,138 @@
+<div id="CrearPortafolio" class="col-xs-12"
+	 ng-controller="ModalEnrolamientoPortafolioEditarPreferenciaPagoEnrolCtrl as meeppp">
+	<div class="bcs-cuerpo">
+		<form name="formModalEnrolamientoPortafolioEditarPreferenciaPago" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MEDIO_DE_PAGO</label>
+				<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-preferencia-pago-medio-pago'"
+						filtros="meeppp.cmbbx.prefPagoMedioPago.filtros"
+						id-actual="meeppp.datosDespues.IdMedioDePago"
+						id-defecto="meeppp.datosAntes.IdMedioDePago"
+						todos="'N'"
+						auto-cargar="true"
+						activado="false"
+						seleccionado="meeppp.PrefPagoMedioPagoObj"
+						cascada1-a="meeppp.cmbbx.prefPagoMoneda.filtros.IdMedioDePago"
+						cascada1-valor="'IdMedioDePago'"
+						cascada2-a="meeppp.cmbbx.prefPagoMoneda.filtros.RecibePagaPortafolio"
+						cascada2-valor="'RecibePagaPortafolio'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MONEDA</label>
+				<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-preferencia-pago-moneda'"
+						filtros="meeppp.cmbbx.prefPagoMoneda.filtros"
+						id-actual="meeppp.datosDespues.IdMoneda"
+						id-defecto="meeppp.datosAntes.IdMoneda"
+						todos="'N'"
+						auto-cargar="false"
+						activado="false"
+						seleccionado="meeppp.PrefPagoMonedaObj"
+						cascada1-a="meeppp.cmbbx.personaCuentasBancarias.filtros.IdMoneda"
+						cascada1-valor="'IdMoneda'"
+						cascada2-a="meeppp.cmbbx.personaCuentasBancariasCorredora.filtros.IdMoneda"
+						cascada2-valor="'IdMoneda'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_OPERACION</label>
+				<bcs-combobox-base
+						class="col-xs-8"
+						bcs-requerido="mecppp.camposRequeridos['formModalPortafolioPreferenciaPago_IdPreferenciaPago'].Requerido === 'S'"
+						auto-cargar="true"
+						tipo="'combobox-operaciones-portafolio-cliente'"
+						filtros="meeppp.cmbbx.personaOperacionPortafolioCliente.filtros"
+						id-actual="meeppp.datosDespues.IdPreferenciaPago"
+						id-defecto="meeppp.datosAntes.IdPreferenciaPago"
+						todos="'N'"
+						usa-filtros-completos="'S'"
+						seleccionado="meeppp.PersonaOperacionPortafolioClienteObj">
+				</bcs-combobox-base>
+			</div>
+			<div ng-show="meeppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && meeppp.isOperacionMesaRecibe">
+				<hr>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CUENTA_BANCARIA</label>
+					<bcs-combobox-base
+							bcs-requerido="(meeppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && meeppp.isOperacionMesaRecibe) && (meeppp.parametros.RecibePagaPortafolio === 'R' || meeppp.isOperacionMesaPaga)"
+							ng-show="(meeppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && meeppp.isOperacionMesaRecibe) && (meeppp.parametros.RecibePagaPortafolio === 'R' || meeppp.isOperacionMesaPaga)"
+							class="col-xs-8"
+							tipo="'combobox-enrolamiento-cuenta-bancaria'"
+							filtros="meeppp.cmbbx.personaCuentasBancarias.filtros"
+							id-actual="meeppp.datosDespues.IdCuentaBancaria"
+							id-defecto="meeppp.datosAntes.IdCuentaBancaria"
+							todos="'N'"
+							auto-cargar="true"
+							seleccionado="meeppp.PersonaCuentasBancariasObj">
+					</bcs-combobox-base>
+					<bcs-combobox-base
+							bcs-requerido="(meeppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && meeppp.isOperacionMesaRecibe) && (meeppp.parametros.RecibePagaPortafolio === 'P' && !meeppp.isOperacionMesaPaga)"
+							ng-show="(meeppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && meeppp.isOperacionMesaRecibe) && (meeppp.parametros.RecibePagaPortafolio === 'P' && !meeppp.isOperacionMesaPaga)"
+							class="col-xs-8"
+							tipo="'combobox-banco-cuentas-bancarias-corredora-cuentas'"
+							filtros="meeppp.cmbbx.personaCuentasBancariasCorredora.filtros"
+							id-actual="meeppp.datosDespues.IdCuentaBancariaCuenta"
+							id-defecto="meeppp.datosAntes.IdCuentaBancariaCuenta"
+							todos="'N'"
+							auto-cargar="true"
+							seleccionado="meeppp.PersonaCuentasBancariasObjCuenta">
+					</bcs-combobox-base>
+				</div>
+				<hr>
+			</div>
+			<div ng-show="meeppp.PrefPagoMedioPagoObj.UsaTarjetaBancaria === 'S'">
+				<hr>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TARJETA_BANCARIA</label>
+					<bcs-combobox-base
+							class="col-xs-8"
+							bcs-requerido="meeppp.PrefPagoMedioPagoObj.UsaTarjetaBancaria === 'S'"
+							tipo="'combobox-enrolamiento-tarjeta-bancaria'"
+							filtros="meeppp.cmbbx.personaTarjetasBancarias.filtros"
+							id-actual="meeppp.datosDespues.IdTarjetaBancaria"
+							id-defecto="meeppp.datosAntes.IdTarjetaBancaria"
+							todos="'N'"
+							seleccionado="meeppp.PersonaTarjetasBancariasObj">
+					</bcs-combobox-base>
+				</div>
+				<hr>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+				<bcs-input-checkbox
+						class="col-xs-8"
+						ng-model="meeppp.datosDespues.PorDefecto">
+				</bcs-input-checkbox>
+			</div>
+
+			<hr>
+
+		</form>
+		<div class="row bcs-panel-comandos">
+			<div class="row">
+				<bcs-button id="CrearPortafolio_guardar"
+							class="col-xs-3 pull-right"
+							bcs-tipo="'bcs-button-primary'"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_GUARDAR' | translate"
+							bcs-habilitado="formModalEnrolamientoPortafolioEditarPreferenciaPago.$valid"
+							bcs-clic="meeppp.win.guardar()">
+				</bcs-button>
+				<bcs-button id="CrearPortafolio_cancelar"
+							class="col-xs-3 pull-right"
+							bcs-tipo="'bcs-button-secondary'"
+							bcs-mostrar="meeppp.win.muestraCancelar"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_CANCELAR' | translate"
+							bcs-habilitado="'true'"
+							bcs-clic="meeppp.win.cancelar()">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+</div>

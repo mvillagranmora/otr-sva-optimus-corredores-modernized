@@ -1,0 +1,9 @@
+SELECT 	 EventoCliente."IdSocioNegocio"			AS "IdSocioNegocio"
+		,SUM("CantidadDerecho")					AS "CantidadDerecho"
+		,SUM("Total")							AS "Total"
+FROM "BSCL.Custodia.BD::CUS.EventoCapitalCliente" AS EventoCliente 
+WHERE EventoCliente."IdEventoCapital" = :IdEventoCapital
+  AND EventoCliente."CantidadDerecho" > 0
+  AND EventoCliente."TipoCartera" = 'GAR'
+  AND EventoCliente."IdBoveda" = 'CAV'
+GROUP BY EventoCliente."IdSocioNegocio";

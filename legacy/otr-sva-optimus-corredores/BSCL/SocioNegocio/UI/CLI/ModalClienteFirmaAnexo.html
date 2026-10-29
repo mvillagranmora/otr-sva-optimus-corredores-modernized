@@ -1,0 +1,80 @@
+<div id="ModalClienteFirmaAnexo" ng-controller='ModalClienteFirmaAnexoCtrl'>
+<form name="formModalFirma" class="col-xs-12 form-horizontal">
+	<div class="col-xs-12">
+		<div class = "row" ng-if="data.ValidaFechaVigencia === 'S' && data.NombreEstado !== 'ACTIVO'">
+			<label class="col-xs-3" translate>UI_FECHA_VENCIMIENTO</label>
+			<bcs-input-date
+					id="formModalClienteFirmaAnexo_fechaVencimiento"
+					class="col-xs-5"
+					k-ng-model="data.FechaVigencia"
+					k-ng-disabled="Bloqueo || (data.NombreEstado === 'ACTIVO')"
+					bcs-requerido="!Bloqueo"
+			></bcs-input-date>
+		</div>
+		<div class="row" ng-if="!Bloqueo">
+			<label class="col-xs-3" translate>UI_FECHA_FIRMA</label>
+			<bcs-input-date
+					id="formModalClienteFirmaAnexo_fechaFirma"
+					class="col-xs-4"
+					k-ng-model="data.FechaFirma"
+					k-ng-disabled="(data.PermiteFirmarSinDocumento === 'N' && data.DocumentoSubido !== 'S' && data.NombreEstado !== 'ACTIVO') || (data.SolicitarFechaFirma === 'N' && data.NombreEstado !== 'ACTIVO')"
+					bcs-requerido="data.SolicitarFechaFirma === 'S'"
+					k-ng-change="fechaFirmaChanged()"
+
+			></bcs-input-date>
+		</div>
+		<div class="row" ng-if="!Bloqueo">
+			<div class="col-xs-12">
+				<label class="col-xs-3" translate>UI_PERSONA_FIRMANTE</label>
+				<bcs-combobox-base
+						class="col-xs-5"
+						tipo="'combobox-firmantes-cliente'"
+						todos="'N'"
+						filtros="filtrosFormulario.consultaPersonasFirmantes"
+						id-actual="data.IdPersonaFirmante"
+						seleccionado="data.PersonaFirmanteCombo"
+						activado="(data.NombreEstado !== 'ACTIVO')"
+				>
+				</bcs-combobox-base>
+				<bcs-button
+						class="col-xs-2"
+						bcs-tipo="'principal'"
+						bcs-habilitado="!!data.PersonaFirmanteCombo"
+						bcs-auto-desactivar="false"
+						bcs-clic="agregarFirmante(data.PersonaFirmanteCombo)"
+						bcs-texto="'Agregar'"
+				>
+				</bcs-button>
+				<bcs-button
+						id="ModalClienteFirmaAnexo_quitarFirmante"
+						class="col-xs-2"
+						bcs-habilitado="!!data.PersonaFirmanteGrilla && data.PersonaFirmanteGrilla.FirmaIngresada !== 'S'"
+						bcs-tipo="'principal'"
+						bcs-auto-desactivar="false"
+						bcs-texto="'Eliminar'"
+						bcs-clic="quitarFirmante(data.PersonaFirmanteGrilla)"
+				>
+				</bcs-button>
+			</div>
+		</div>
+		<div class="row">
+			<bcs-grid
+					id="grilla"
+					seleccionado="data.PersonaFirmanteGrilla"
+					configuracion="grillaFirmantesOptions"
+					fn-doble-click=""
+			>
+			</bcs-grid>
+		</div>
+	</div>
+	<div ng-show="!Bloqueo">
+		<bcs-button id="ModalClienteFirmaAnexo_guardar" class="col-xs-3" bcs-habilitado="formModalFirma.$valid && habilitaModificar || (firmaHabilitada && formModalFirma.$valid)"
+			bcs-tipo="'principal'" bcs-auto-desactivar="false" bcs-texto="nombreBoton"
+			bcs-clic="Accion()"></bcs-button>
+		<bcs-button id="ModalClienteFirmaAnexo_cancelar" class="col-xs-3" bcs-habilitado="'true'"
+			bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'Cancelar'"
+			bcs-clic="cerrar()"></bcs-button>
+	</div>
+</form>
+</div>
+

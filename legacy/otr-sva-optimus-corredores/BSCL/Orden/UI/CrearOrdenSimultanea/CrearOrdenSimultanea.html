@@ -1,0 +1,527 @@
+<div ng-controller="CrearOrdenSimultaneaCtrl">
+	<div class="row bcs_titulo ng-scope" translate="">UI_CREAR_ORDEN_SIMULTANEA</div>
+	
+	<!-- RESUMEN -->
+	<form ng-show="!formData.modoIngreso" class="col-xs-12 form-horizontal" >
+		<div class="row" ng-show="resumen.IdTipoOperacion==='COMSIM'">
+			<div class="row k-window-subtitle">
+				<label translate>UI_INFORMACION</label>			
+			</div>
+			<div class="row">
+				<div class="row">
+					<label class="col-xs-2" translate>UI_SECUENCIA_ORDEN</label>
+					<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].IdOrden" k-ng-disabled="'true'"></bcs-input-texto>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_ORDEN</label>
+					<bcs-input-datetime class="col-xs-3" k-ng-model="resumen.ordenes[0].FechaOperacionOrden" k-ng-disabled="'true'"></bcs-input-datetime>
+				</div>
+				<div class="row">
+				<label class="col-xs-2" translate>UI_CLIENTE</label>
+					<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].Cliente" k-ng-disabled="'true'"></bcs-input-texto>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].CodigoPortafolio" k-ng-disabled="'true'"></bcs-input-texto>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_INSTRUMENTO</label>
+					<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].Instrumento" k-ng-disabled="'true'"></bcs-input-texto>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_CONDICION_LIQUIDACION_ABR</label>
+					<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].NombreCondicionDeLiquidacion" k-ng-disabled="'true'"></bcs-input-texto>
+					
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_CANTIDAD</label>
+					<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].Cantidad" k-ng-disabled="'true'"></bcs-input-texto>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO_NETO</label>
+					<bcs-input-monetario class="col-xs-3" decimales = "formData.decimalesMonto" simbolo="resumen.ordenes[0].IdMonedaOrden" k-ng-model="resumen.ordenes[0].MontoNeto" k-ng-disabled="'true'"></bcs-input-monetario>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_VIGENCIA</label>
+					<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].NombreTipoVigenciaOrden" k-ng-disabled="'true'"></bcs-input-texto>
+					<label class="col-xs-2 col-xs-offset-1" ng-show="orden[0].IdTipoVigencia !== 'OP'" translate>UI_FECHA_VIGENCIA</label>
+					<bcs-input-date class="col-xs-3" ng-show="resumen.ordenes[0].IdTipoVigenciaOrden !== 'OP'" k-ng-model="resumen.ordenes[0].FechaVigencia" k-ng-disabled="'true'"></bcs-input-date>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_TASA</label>
+					<bcs-input-numero class="col-xs-3" decimales = "formData.decimalesTasaVentaCorta" k-ng-model="resumen.ordenes[0].Tasa" k-ng-disabled="'true'"></bcs-input-numero>
+					<label class="col-xs-2 col-xs-offset-1">{{'UI_PLAZO' | translate }} ({{ 'UI_DIAS' | translate}})</label>
+					<bcs-input-numero class="col-xs-3" decimales = "'0'" k-ng-model="resumen.ordenes[0].Plazo" k-ng-disabled="'true'"></bcs-input-numero>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_MONTO_COBROS</label>
+					<bcs-input-monetario class="col-xs-3" decimales = "formData.decimalesMonto" simbolo="resumen.ordenes[0].IdMonedaLiquidacionCobros" k-ng-model="resumen.ordenes[0].TotalCobros" k-ng-disabled="'true'"></bcs-input-monetario>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO_TOTAL</label>
+					<bcs-input-monetario class="col-xs-3" decimales = "formData.decimalesMonto" simbolo="resumen.ordenes[0].IdMonedaLiquidacionOrden" k-ng-model="resumen.ordenes[0].MontoTotal" k-ng-disabled="'true'"></bcs-input-monetario>
+				</div>
+			</div>
+		</div>
+		
+		<div ng-show="resumen.IdTipoOperacion==='VENSIM'">
+			<div class="row">
+				<label class="col-xs-2" translate>UI_CLIENTE</label>
+				<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].Cliente" k-ng-disabled="'true'"></bcs-input-texto>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_PORTAFOLIO</label>
+				<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].CodigoPortafolio" k-ng-disabled="'true'"></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_FECHA_ORDEN</label>
+				<bcs-input-datetime class="col-xs-3" k-ng-model="resumen.ordenes[0].FechaOperacionOrden" k-ng-disabled="'true'"></bcs-input-datetime>			
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_ACCION_OPERACION</label>
+				<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].AccionOrden" k-ng-disabled="'true'"></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_INSTRUMENTO</label>
+				<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].Instrumento" k-ng-disabled="'true'"></bcs-input-texto>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_CONDICION_LIQUIDACION_ABR</label>
+				<bcs-input-texto class="col-xs-3" ng-model="resumen.ordenes[0].NombreCondicionDeLiquidacion" k-ng-disabled="'true'"></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_TASA</label>
+				<bcs-input-numero class="col-xs-3" decimales = "formData.decimalesTasa" k-ng-model="resumen.ordenes[0].Tasa" k-ng-disabled="'true'"></bcs-input-numero>
+				<label class="col-xs-2 col-xs-offset-1">{{'UI_PLAZO' | translate }} ({{ 'UI_DIAS' | translate}})</label>
+				<bcs-input-numero class="col-xs-3" decimales = "'0'" k-ng-model="resumen.ordenes[0].Plazo" k-ng-disabled="'true'"></bcs-input-numero>
+			</div>
+					
+				
+			<div class="row" translate>UI_ORDENES</div>
+			<div class="row" >
+				<div class="col-xs-12" style="overflow-x: scroll; white-space: nowrap;">
+					<table class="table">
+						<thead>
+			  				<tr>
+			 					<th translate>UI_SECUENCIA_ORDEN</th>
+			 					<th translate>UI_INSTRUMENTO</th>
+			 					<th translate>UI_CANTIDAD</th>
+			 					<th translate>UI_MONTO_OPERACION</th>
+								<th translate>UI_MONTO_PLAZO</th>
+								<th translate>UI_TOTAL_COBROS</th>
+								<th translate>UI_MONTO_TOTAL</th>			          	         			          
+				    		</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="orden in resumen.ordenes">
+								<td>{{orden.IdOrden}}</td>
+								<td>{{orden.InstrumentoSubyacente}}</td>	
+								<td>{{orden.Cantidad | kformat:'n':orden.IdMonedaOrden:'cantidad':'ORD'}}</td>
+								<td>{{orden.MontoNeto | kformat:'c':orden.IdMonedaOrden:'monto':'ORD'}}</td>
+								<td>{{orden.MontoNetoPlazo | kformat:'c':orden.IdMonedaOrden:'monto':'ORD'}}</td>
+								<td>{{orden.TotalCobros | kformat:'c':orden.IdMonedaOrden:'monto':'ORD'}}</td>
+								<td>{{orden.MontoTotal | kformat:'c':orden.IdMonedaOrden:'monto':'ORD'}}</td>
+				   			</tr>
+				      	</tbody>	       	
+				 	</table>
+			 	</div>
+			</div>
+			<br/>
+			<div class="row" ng-show="resumen.garantiasCustodia.length > 0" translate>UI_GARANTIAS_CUSTODIA</div>
+			<div class="row" ng-show="resumen.garantiasCustodia.length > 0">
+				<div class="col-xs-6">
+					<table class="table">
+						<thead>
+			  				<tr >
+			 					<th translate>UI_FOLIO_GARANTIA</th>
+			 					<th translate>UI_INSTRUMENTO</th>
+			 					<th translate>UI_CANTIDAD</th>
+			 					<th translate>UI_MONTO</th>
+				    		</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="garantia in resumen.garantiasCustodia">
+								<td>{{garantia.FolioGarantia}}</td>
+				     			<td>{{garantia.Instrumento}}</td>
+								<td>{{garantia.Cantidad | kformat:'n':garantia.IdMonedaInstrumento:'cantidad'}}</td>
+								<td>{{garantia.Monto | kformat:'c':garantia.IdMonedaInstrumento:'monto'}}</td>			          	         			          
+				   			</tr>
+				      	</tbody>	       	
+				 	</table>
+			 	</div>
+			 </div>
+			 <br/>
+			<div class="row" ng-show="resumen.garantiasCtaInv.length > 0"  translate>UI_GARANTIAS_CUENTA_INVERSION</div>
+			<div class="row" ng-show="resumen.garantiasCtaInv.length > 0">
+				<div class="col-xs-6">
+					<table class="table">
+						<thead>
+			  				<tr>
+			  					<th translate>UI_GARANTIA</th>
+			 					<th translate>UI_CUENTA_INVERSION</th>
+			 					<th translate>UI_MONTO</th>    	          	         			          
+				    		</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="garantia in resumen.garantiasCtaInv">
+				     			<td>{{garantia.FolioGarantia}}</td>
+				     			<td>{{garantia.IdMoneda}}</td>
+								<td>{{garantia.Monto | kformat:'c':garantia.IdMoneda:'monto'}}</td>			          	         			          
+				   			</tr>
+				      	</tbody>	       	
+				 	</table>
+			 	</div>
+			</div>
+		</div>
+		<div class="row"><br/></div>
+		<div class="row">
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_VOLVER' | translate" bcs-habilitado="true" bcs-clic="formData.volver()"></bcs-button>
+		</div>
+	</form>
+
+	
+	<form ng-show="formData.modoIngreso" name="formOrdenSimultanea" class="col-xs-12 form-horizontal" >
+		<!-- CABECERA -->
+			 	
+	 	<div class="row">
+	 		<!-- TIPO SIMULTANEA  -->
+			<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+			<bcs-combobox-base class="col-xs-3" 
+							auto-cargar="'true'"
+							id-actual ="operacion.operacionSeleccionadaIdActual"
+							tipo="'combobox-instrumento-simultanea'"
+							seleccionado="operacion.operacionSeleccionada" 
+							filtros="formData.comboTipoSimultanea.filtros"
+							item-post-filtro = "'2'"
+							activado="!formData.Simulando"
+							cascada1-a="formData.oConfiguracionCondicionLiquidacion.filtros.IdTipoOperacion"
+							cascada1-valor="'IdTipoOperacion'"	
+							cascada2-a="formData.configuracionPreferenciaPagoPortafolioFinanciado.filtros.IdTipoOperacion"
+							cascada2-valor="'IdTipoOperacion'"	
+							cascada3-a="formData.configuracionPreferenciaPagoPortafolioFinancista.filtros.IdTipoOperacion"
+							cascada3-valor="'IdTipoOperacion'"	
+							bcs-requerido>
+		 	</bcs-combobox-base >
+		 	
+		 	<!-- OD -->
+		 	<div class="col-xs-2">
+			    <label >
+					<input type="checkbox" ng-model="operacion.EsOD" 
+					ng-disabled="formData.Simulando || operacion.operacionSeleccionada.IdTipoOperacion !== 'VENSIM'">{{'UI_ORDEN_DIRECTA' | translate}}
+				</label>
+		    </div>
+		    <label class="col-xs-2" translate>UI_BOLSA</label>
+			<bcs-combobox-base class="col-xs-3"
+							tipo="'combobox-bolsa'" 
+							id-defecto="'BCS'"
+							seleccionado="operacion.bolsaSeleccionada"
+							filtros="formData.comboBolsa.filtros"
+							activado="!formData.Simulando"
+							item-post-filtro = "'1'"
+							bcs-requerido>
+		 	</bcs-combobox-base >
+	 	</div>
+	 	
+	 	<!-- CLIENTE FINANCIADO -->
+	 	<div class="row" ng-show="operacion.operacionSeleccionada.IdTipoOperacion === 'VENSIM' || operacion.EsOD">
+			<label class="col-xs-2" translate>UI_CLIENTE_FINANCIADO</label>
+			
+			<bcs-combobox-base class="col-xs-4"
+			 	id="UI_SOCIO_NEGOCIO"
+			 	auto-cargar="'false'"
+			    tipo="'combobox-socio-negocio'"
+			    carga-cliente-automatico="'S'"
+			    activado="(!(operacion.operacionSeleccionada.IdTipoOperacion ==='VENSIM') && (!operacion.EsOD)) || formData.EsCuentaPropiaFinanciado || !formData.Simulando"
+			    filtros="formData.oConfiguracionSocioNegocioFinanciado.filtros"
+				cascada-a="formData.oConfiguracionPortafolioFinanciado.filtros.IdCliente"
+				cascada-valor="'IdCliente'"
+	            cascada-defecto="'-1'"
+			    bcs-requerido="operacion.operacionSeleccionada.IdTipoOperacion === 'VENSIM'"
+			    seleccionado = "formData.oConfiguracionSocioNegocioFinanciado.seleccionado"
+			    id-actual="formData.oConfiguracionSocioNegocioFinanciado.IdActual">
+			</bcs-combobox-base>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_PORTAFOLIO_FINANCIADO</label>
+			<bcs-combobox-base class="col-xs-3"
+			 	id="UI_PORTAFOLIO"
+			 	auto-cargar="'false'"
+			    tipo="'combobox-portafolio'"
+			    filtros="formData.oConfiguracionPortafolioFinanciado.filtros"
+	            item-post-filtro="'1'"
+	            activado="(!(operacion.operacionSeleccionada.IdTipoOperacion ==='VENSIM') && (!operacion.EsOD)) || formData.EsCuentaPropiaFinanciado || !formData.Simulando"
+			    bcs-requerido="operacion.operacionSeleccionada.IdTipoOperacion === 'VENSIM'"
+			    seleccionado = "operacion.portafolioFinanciado"
+			    
+			    cascada-a="formData.configuracionPreferenciaPagoPortafolioFinanciado.filtros.IdPortafolio"
+				cascada-valor="'IdPortafolio'"
+				
+				cascada1-a="formData.configuracionMecanismoCaptacion.filtros.IdEntidad"
+                cascada1-valor="'IdPortafolio'"
+                                
+			    >
+			</bcs-combobox-base >
+	 	</div>
+	 	
+	 	<!-- CLIENTE FINANCISTA CUENTA PROPIA -->
+	 	<div class="row" ng-show ="operacion.operacionSeleccionada.IdTipoOperacion ==='VENSIM' && operacion.EsOD">
+	 		<label class="col-xs-2" translate>UI_CLIENTE_FINANCISTA</label>
+	 		<label>
+				<input type="checkbox" ng-model="formData.EsCuentaPropiaFinancista"
+		    		ng-disabled="formData.EsCuentaPropiaFinanciado || formData.Simulando" > {{'UI_CUENTA_PROPIA' | translate}} 
+			</label>
+		</div>
+	 	
+	 	<!-- CLIENTE FINANCISTA -->
+	 	<div class="row" ng-show ="operacion.operacionSeleccionada.IdTipoOperacion ==='COMSIM'">
+			<label class="col-xs-2" translate>UI_CLIENTE_FINANCISTA</label>
+			
+			<bcs-combobox-base class="col-xs-4"
+			 	id="UI_SOCIO_NEGOCIO"
+			 	auto-cargar="'false'"
+			    tipo="'combobox-socio-negocio'"
+				filtros="formData.oConfiguracionSocioNegocioFinancista.filtros"
+				cascada-a="formData.oConfiguracionPortafolioFinancista.filtros.IdCliente"
+				cascada-valor="'IdCliente'"
+	            cascada-defecto="'-1'"
+			    bcs-requerido="operacion.operacionSeleccionada.IdTipoOperacion === 'COMSIM'"
+			    seleccionado = "formData.oConfiguracionSocioNegocioFinancista.seleccionado"
+			    id-actual="formData.oConfiguracionSocioNegocioFinancista.IdActual">
+			</bcs-combobox-base>
+			<label class="col-xs-2 col-xs-offset-1 " translate>UI_PORTAFOLIO_FINANCISTA</label>
+			<bcs-combobox-base class="col-xs-3"
+			 	id="UI_PORTAFOLIO"
+			 	auto-cargar="'false'"
+			    tipo="'combobox-portafolio'"
+			    filtros="formData.oConfiguracionPortafolioFinancista.filtros"
+	            item-post-filtro="'1'"
+			    bcs-requerido="operacion.operacionSeleccionada.IdTipoOperacion === 'COMSIM'"
+			    seleccionado = "operacion.portafolioFinancista"
+			    
+			    cascada-a="formData.configuracionPreferenciaPagoPortafolioFinancista.filtros.IdPortafolio"
+				cascada-valor="'IdPortafolio'"
+				
+				cascada1-a="formData.configuracionMecanismoCaptacion.filtros.IdEntidad"
+                cascada1-valor="'IdPortafolio'"
+                				
+			    >
+			</bcs-combobox-base >
+	 	</div>
+	 	
+	 	<div class="row">
+			<label class="col-xs-2" translate>UI_CONDICION_LIQUIDACION</label>
+			<bcs-combobox-base class="col-xs-4"
+				tipo="'combobox-condicion-liquidacion'" 
+				seleccionado="operacion.condicionDeLiquidacion"
+				activado="!formData.Simulando"
+				item-post-filtro="'1'"
+				filtros="formData.oConfiguracionCondicionLiquidacion.filtros"
+				bcs-requerido>
+			</bcs-combobox-base>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_MECANISMO_DE_CAPTACION</label>
+			
+			<bcs-combobox-base class="col-xs-3"
+				bcs-requerido
+				tipo="'combobox-detalle-tipo-atributo-entidad-json'"
+				seleccionado="operacion.mecanismoCaptacion"
+				activado="!formData.Simulando"
+				usa-filtros-completos  = "'S'"
+				filtros="formData.configuracionMecanismoCaptacion.filtros"								
+				auto-cargar = "'false'"
+				auto-seleccion = "'true'">
+			</bcs-combobox-base>
+			
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2">{{'UI_PLAZO' | translate }} ({{ 'UI_DIAS' | translate}})</label>
+			<bcs-input-numero
+				id ="formOrdenSimultanea_inputPlazo"
+				bcs-requerido
+				bcs-mayor-que="'0'" 
+				decimales="'0'" 
+				k-ng-disabled="formData.Simulando"
+				k-ng-model="operacion.plazoSugerido" 
+				class="col-xs-4">
+			</bcs-input-numero>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_VENCIMIENTO</label>
+			<bcs-input-date k-ng-model="operacion.FechaVencimiento" k-ng-disabled="'true'"  class="col-xs-2" ></bcs-input-date>
+			<bcs-input-texto ng-model="formData.diaVencimiento" k-ng-disabled = "'true'" class="col-xs-1"></bcs-input-texto>
+			
+	 	</div>
+	 		 	
+	 	<div class="row">
+	 		<label class="col-xs-2" translate>UI_MONTO</label>
+			<bcs-input-monetario 
+				bcs-mayor-que="'0'"
+				id ="formOrdenSimultanea_inputMonto"
+				bcs-requerido
+				k-ng-model="operacion.montoReferencialVenta"
+				k-ng-disabled="formData.Simulando"
+				decimales="formData.montoDecimales"
+				class="col-xs-4">
+			</bcs-input-monetario>
+	 		<label class="col-xs-2 col-xs-offset-1" translate>UI_TASA_MONTO_PLAZO</label>
+	 		<div class="col-xs-3">
+				<bcs-input-numero
+					id ="formOrdenSimultanea_inputTasa"
+					bcs-requerido
+					bcs-mayor-que="'0'"
+					k-ng-model="operacion.tasaSugerida" 
+					class="col-xs-4" 
+					k-ng-disabled="formData.Simulando">
+				</bcs-input-numero>
+				<bcs-input-monetario 
+					id ="formOrdenSimultanea_inputMontoPlazo"
+					k-ng-disabled="'true'" 
+					class="col-xs-8"
+					decimales="formData.montoDecimales"
+					k-ng-model="operacion.montoPlazo" >
+				</bcs-input-monetario>
+			</div>
+	 	</div>
+	 	
+	 	<div class="row">
+			<label class="col-xs-2" translate>UI_MONTO_INGRESADO</label>
+			<bcs-input-monetario 
+				k-ng-disabled="'true'"
+				decimales="formData.montoDecimales"
+				k-ng-model="operacion.montoTotalIngresado" 
+				class="col-xs-4">
+			</bcs-input-monetario>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO_POR_INGRESAR</label>
+			<bcs-input-monetario 
+				k-ng-disabled="'true'" 
+				k-ng-model="operacion.montoTotalPorIngresar" class="col-xs-3"
+				decimales="formData.montoDecimales">
+			</bcs-input-monetario>
+	 	</div>
+	 	
+	 	<div class="row" ng-if="operacion.operacionSeleccionada.IdTipoOperacion === 'COMSIM'">
+		 	<label class="col-xs-2" translate>UI_PAGO_COBRO_CON_CTA_INVERSION</label>
+			<bcs-input-checkbox class="col-xs-4"
+				ng-model="operacion.pagoCobroCuentaInversionFinancista">
+			</bcs-input-checkbox>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FORMA_DE_PAGO_COBRO</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				usa-filtros-completos = "'S'"
+				activado = "!operacion.pagoCobroCuentaInversionFinancista"
+				filtros = " formData.configuracionPreferenciaPagoPortafolioFinancista.filtros"
+				tipo="'combobox-preferencia-pago-portafolio'"
+				id-actual = "operacion.IdPreferenciaPagoPortafolioFinancista"
+				seleccionado="operacion.formaDePagoSeleccionadaFinancista">
+			</bcs-combobox-base>
+	 	</div>
+	 	
+	 	
+	 	<div class="row" ng-if="operacion.operacionSeleccionada.IdTipoOperacion === 'VENSIM'">
+		 	<label class="col-xs-2" translate>UI_PAGO_COBRO_CON_CTA_INVERSION</label>
+			<bcs-input-checkbox class="col-xs-4"
+				ng-model="operacion.pagoCobroCuentaInversionFinanciado">
+			</bcs-input-checkbox>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FORMA_DE_PAGO_COBRO</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				usa-filtros-completos = "'S'"
+				activado = "!operacion.pagoCobroCuentaInversionFinanciado"
+				filtros = " formData.configuracionPreferenciaPagoPortafolioFinanciado.filtros"
+				tipo="'combobox-preferencia-pago-portafolio'"
+				id-actual = "operacion.IdPreferenciaPagoPortafolioFinanciado"
+				seleccionado="operacion.formaDePagoSeleccionadaFinanciado">
+			</bcs-combobox-base>
+	 	</div>
+	 	
+	 	<div class="row">
+	 	     <label class="col-xs-2" translate>UI_BOVEDA</label>
+             <bcs-combobox-base
+                 bcs-requerido 
+                 id = "UI_BOVEDA"
+                 tipo = "formData.oConfiguracionBoveda.tipo"
+                 class = "col-xs-4"
+                 auto-cargar = "'true'"
+                 bcs-requerido = "true"
+                 configuracion = "formData.oConfiguracionBoveda.configuracion" 
+                 id-actual = "formData.oConfiguracionBoveda.idActual" 
+                 seleccionado = "formData.oConfiguracionBoveda.seleccionado"
+                 filtros = "formData.oConfiguracionBoveda.filtros"
+                 activado = "!formData.Simulando">
+             </bcs-combobox-base>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_PORCENTAJE_GARANTIA_BCS</label>
+			<label class="col-xs-4" ng-style="porcentajeGarantiaStyle">{{ formData.porcentajeGarantia }}</label>	             
+	 	</div>
+	 	
+	 	
+	 	<div class="row" style="padding-bottom: 5px;">
+	 		<bcs-button class="col-xs-1 pull-right" bcs-auto-desactivar="false" bcs-tipo="'bcs-button-primary'" bcs-texto="'UI_SIMULAR' | translate" bcs-habilitado="formOrdenSimultanea.$valid && formData.plazoDiaHabil && operacion.operacionSeleccionada.IdTipoOperacion === 'VENSIM' && !formData.Simulando" bcs-clic="formData.buscarCustodia()"></bcs-button>
+	 	</div>
+		
+		<!-- FIN CABECERA -->
+	
+		<!-- GRILLAS OPERACIONES, GARANTIAS, COBROS -->
+		<div class="row">
+			<uib-tabset>
+				<!-- VENTAS  -->
+				<uib-tab ng-click='tabClick()' active="formData.tabOperacionesVenta.active" select="select('gridVenta')" ng-show="'false'" disable="operacion.operacionSeleccionada.IdTipoOperacion ==='COMSIM'" heading="{{'UI_OPERACIONES' | translate}}">
+					<div class="row" >
+						<bcs-grid id="gridVenta" api="formData.gridVenta" configuracion="formData.optionsGrillaVenta"></bcs-grid>
+					</div>
+				</uib-tab>
+				<!-- GARANTIAS -->
+				<uib-tab ng-click='tabClick()' select="select(['gridGtiaCartera'])" disable="operacion.operacionSeleccionada.IdTipoOperacion ==='COMSIM'" heading="{{'UI_GARANTIAS_CUSTODIA' | translate}}" select="refreshGrids(['gridGarantiasCartera'])">
+					<div class="row" >
+						<bcs-grid  id="gridGtiaCartera" api="formData.gridGarantiasCartera" configuracion="formData.optionsGrillaGtiaCartera"></bcs-grid>
+					</div>
+				</uib-tab>
+				<!-- GARANTIAS -->
+				<uib-tab ng-click='tabClick()' select="select(['gridGtiaCtaInv'])" disable="operacion.operacionSeleccionada.IdTipoOperacion ==='COMSIM'" heading="{{'UI_GARANTIAS_CUENTA_INVERSION' | translate}}" select="refreshGrids(['gridGarantiasCtaInv'])">
+					<div class="row" >
+						<bcs-grid  id="gridGtiaCtaInv" api="formData.gridGarantiasCtaInv" configuracion="formData.optionsGrillaGtiaCtaInv"></bcs-grid>
+					</div>
+				</uib-tab>
+				<!-- COBROS -->
+				<uib-tab ng-click='tabClick()' active="formData.tabCobros.active" heading="{{'UI_COBROS' | translate}}">
+					<div class="row" ng-show="operacion.operacionSeleccionada.IdTipoOperacion ==='VENSIM'">
+						<bcs-cobros-simultanea
+							id-ventana="ordenRV.datosForm.idVentana"
+							cabecera = "formData.cabeceraVENSIM"
+							class="bcs-cobros-ordenes"
+							operaciones = "formData.operacionesVenta"
+							matriz-cobros-modificados="operacion.cobrosModificadosVenta"
+							matriz-cobros = "operacion.matrizCobros"
+							matriz-montos = "operacion.matrizMontos"
+							operaciones-salida = "operacion.operacionesCobrosSalida"
+						></bcs-cobros-simultanea>
+					</div>
+					
+					<div class="row" ng-show="operacion.operacionSeleccionada.IdTipoOperacion ==='COMSIM'">
+						<bcs-cobros-simultanea
+							id-ventana="ordenRV.datosForm.idVentana"
+							cabecera = "formData.cabeceraCOMSIM"
+							class="bcs-cobros-ordenes"
+							operaciones = "formData.operacionesCompra"
+							matriz-cobros-modificados="operacion.cobrosModificadosCompra"
+							matriz-cobros = "operacion.matrizCobros"
+							matriz-montos = "operacion.matrizMontos"				
+						></bcs-cobros-simultanea>
+					</div>
+					
+				</uib-tab>
+				<uib-tab ng-click='tabClick()' heading="{{'UI_LINEAS_Y_GARANTIAS' | translate}}">
+					<div class="row bcs-lineas-garantias">
+						<bcs-exigibilidad
+							class="col-xs-4"
+							operaciones = "formData.operacionesExigibilidad">
+						</bcs-exigibilidad>
+						<bcs-cobertura 
+							class		= "col-xs-4"
+							operaciones = "formData.operacionesCobertura">
+						</bcs-cobertura>
+						<bcs-linea-riesgo
+							operaciones = "formData.operacionesLineaRiesgo"
+							class		= "col-xs-4">
+						</bcs-linea-riesgo>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+		<!-- FIN GRILLAS OPERACIONES, GARANTIAS, COBROS -->
+		<div class="row">
+		
+			<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="formOrdenSimultanea.$valid && ((operacion.operacionSeleccionada.IdTipoOperacion === 'VENSIM' && formData.Simulando) || operacion.operacionSeleccionada.IdTipoOperacion === 'COMSIM')" bcs-clic="formData.aceptarSimulacion()"></bcs-button>
+			<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="formOrdenSimultanea.$valid && (operacion.operacionSeleccionada.IdTipoOperacion === 'VENSIM' && formData.Simulando)"  bcs-clic="formData.cancelar()"></bcs-button>
+	 		
+	 		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'"  bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+				<li ng-disabled="!(formOrdenSimultanea.$valid && operacion.operacionSeleccionada.IdTipoOperacion === 'VENSIM' && formData.Simulando)" ng-click="formData.imprimirSimulacion()">{{'UI_IMPRIMIR' | translate | uppercase}}</li>
+			</bcs-menu>
+		</div>
+			
+		
+		
+		
+	</form>
+</div>

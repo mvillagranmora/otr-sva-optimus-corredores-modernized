@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="ConsultarMontosImpagos" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="ConsultarMontosImpagos"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="DealNumber"/>
+        <viewAttribute datatype="NVARCHAR" id="Counterparty" length="40"/>
+        <viewAttribute datatype="DATE" id="SettlementDate"/>
+        <viewAttribute datatype="DECIMAL" id="AmountCLP" length="26" scale="8"/>
+        <viewAttribute datatype="VARCHAR" id="Relacionado" length="1"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = SELECT 
+			&quot;DealNumber&quot;,
+			&quot;Counterparty&quot;,
+			&quot;SettlementDate&quot;,
+			&quot;AmountCLP&quot;,
+			&quot;Relacionado&quot;
+		FROM &quot;BSCL.Facturacion.BD.Vistas::ConsultarMontosImpagosAnalitica&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="DealNumber" order="1">
+        <descriptions defaultDescription="DealNumber"/>
+        <keyMapping columnObjectName="Script_View" columnName="DealNumber"/>
+      </attribute>
+      <attribute id="Counterparty" order="2">
+        <descriptions defaultDescription="Counterparty"/>
+        <keyMapping columnObjectName="Script_View" columnName="Counterparty"/>
+      </attribute>
+      <attribute id="SettlementDate" order="3">
+        <descriptions defaultDescription="SettlementDate"/>
+        <keyMapping columnObjectName="Script_View" columnName="SettlementDate"/>
+      </attribute>
+      <attribute id="AmountCLP" order="4">
+        <descriptions defaultDescription="AmountCLP"/>
+        <keyMapping columnObjectName="Script_View" columnName="AmountCLP"/>
+      </attribute>
+      <attribute id="Relacionado" order="5">
+        <descriptions defaultDescription="Relacionado"/>
+        <keyMapping columnObjectName="Script_View" columnName="Relacionado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

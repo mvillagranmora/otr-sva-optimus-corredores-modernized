@@ -1,0 +1,54 @@
+<div  id="ModalVentanaMensajeResultado" ng-controller='ModalVentanaMensajeResultadoCtrl'>
+	<div style="min-height:150px;font-size: 12px;">
+		<div ng-if="mensaje">
+			<div class="row">
+			<label class="col-xs-11">{{mensaje}}</label>
+			<span class="col-xs-1">
+				<i ng-show="icono === 'ERROR'" class="fa fa-lg fa-exclamation-circle" style="color:red"></i>
+				<i ng-show="icono === 'AUTORIZACION'" class="fa fa-lg fa-hand-paper-o" style="color:orange"></i>
+				<i ng-show="icono === 'ADVERTENCIA'" class="fa fa-lg fa-exclamation-triangle" style="color:orange"></i>
+				<i ng-show="icono === 'INFORMACION'" class="fa fa-lg fa-check-circle" style="color:green"></i>
+			</span>
+			</div>
+			<div class="row">
+				<hr/>
+			</div>
+		</div>
+		<div class="row" style="overflow: auto;max-height : 200px">
+			<div class="row" ng-show="conflictos.erroresFatales.length">
+				<div style="font-size: 12px;"><label translate><i class="fa fa-exclamation-circle" style="padding-right:7px;color:red"></i>{{conflictos.erroresFatales[0].Descripcion}}</label></div>
+			</div>
+			<div class="row" ng-show="conflictos.informaciones.length">
+				<div ng-repeat="inf in conflictos.informaciones"><label><i class="fa fa-check-circle" style="padding-right:7px;color:green"></i>{{inf.Descripcion}}</label></div>
+			</div>
+			<div class="row" ng-show="conflictos.advertencias.length">
+				<div ng-repeat="adv in conflictos.advertencias"><label><i class="fa fa-exclamation-triangle" style="padding-right:7px;color:orange"></i>{{adv.Descripcion}}</label></div>
+			</div>
+			
+			<div class="row" ng-show="conflictos.autorizaciones.length">
+				<div ng-repeat="aut in conflictos.autorizaciones"><label><i class="fa fa-hand-paper-o" style="padding-right:7px;color:orange"></i>{{aut.Descripcion}}</label></div>		
+			</div>
+		
+			<div class="row" ng-show="conflictos.errores.length">
+				<div ng-repeat="error in conflictos.errores"><label ><i class="fa fa-exclamation-circle" style="padding-right:7px;color:red"></i>{{error.Descripcion}}</label></div>
+			</div>
+		</div>		
+	</div>
+	
+	<div class="row bcs-panel-comandos" style="margin-top: 10px">
+		<bcs-button  class="col-xs-2" id="VistaPreviaComprobante_btnConfirmar"
+	    	bcs-auto-desactivar="false"
+			bcs-habilitado='true'
+			bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-tipo="'principal'" 
+			bcs-clic="confirmar()"
+		></bcs-button>
+		<bcs-button  class="col-xs-2" id="VistaPreviaComprobante_btnCancelar" 
+			bcs-auto-desactivar="false"
+			bcs-habilitado='true' 
+			bcs-texto="'UI_CANCELAR' | translate"
+			bcs-tipo="'principal'" 
+			bcs-clic="cancelar()"
+		></bcs-button>			
+	</div>
+</div>

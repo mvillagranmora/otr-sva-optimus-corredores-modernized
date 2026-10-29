@@ -1,0 +1,775 @@
+<div ng-controller="IngresarForwardCtrl">
+	<bcs-websocket bcs-msg='msgWebsocket(message)'></bcs-websocket>
+	<form name="formIngresarForward" class="filters-formulario">
+		<div class="col-xs-12 bcs-cuerpo">
+			<!-- FILTROS -->
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_INGRESO_RAPIDO</label>
+					<bcs-input-texto class="col-xs-8"
+						placeholder="'C|V 994/999 13265876-5 1 100000 10 685.25 F'"
+						id="UI_INGRESO_RAPIDO" ng-model="data.ingresoRapido"
+						k-ng-model="data.kngingresoRapido"
+						k-ng-disabled="(bloqueoAnular || bloqueoModificar || bloqueoAnticipo) || (bloqueoIngresoRapido)">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA_OPERACION</label>
+					<bcs-input-date class="col-xs-8" id="UI_FECHA_OPERACION"
+						ng-model="data.FechaOperacion" k-ng-model="data.kngFechaOperacion"
+						k-options="data.fechaOperacionOptions" k-ng-disabled="'true'">
+					</bcs-input-date>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-8"
+						id="UI_SOCIO_NEGOCIO" 
+						carga-cliente-automatico="'S'"
+						bcs-requerido="'true'" 
+						auto-cargar="'false'"
+						tipo="'combobox-cliente-portafolio'"
+						seleccionado="data.oClientePortafolio.seleccionado"
+						filtros = "filtrosPortafolio"
+		    			id-actual="filtros.IdPortafolio"
+		    			id-defecto="data.oClientePortafolio.idDefecto"
+						configuracion="data.oClientePortafolio.configuracion"
+						cascada1-a="data.oConfiguracionContactos.filtros.IdCliente"				
+						cascada1-valor="'IdCliente'"
+						activado="(!bloqueoAnular && !bloqueoAnticipo)"> 
+					</bcs-combobox-base> 
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8" id="UI_TIPO_INSTRUMENTO"
+						bcs-requerido="true" auto-cargar="'true'" item_post_filtro="'1'"
+						tipo="'combobox-tipoinstrumento-mesa'"
+						filtros="data.oConfiguracionTipoInstrumento.filtros"
+						seleccionado="data.tipoInstrumentoSeleccionado"
+						id-actual="data.tipoInstrumentoIdActual"
+						cascada1-a="data.oConfiguracionMedioDePago.filtros.IdInstrumento"
+						cascada1-valor="'IdInstrumento'" activado="false">
+					</bcs-combobox-base>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_OPERACION</label>
+					<bcs-combobox-base class="col-xs-8" bcs-requerido="true"
+						id="UI_OPERACION" auto-cargar="'true'" item_post_filtro="'1'"
+						tipo="'combobox-operacion-mesa'"
+						filtros="data.oConfiguracionOperacion.filtros"
+						seleccionado="data.OperacionSeleccionada"
+						id-actual="data.OperacionIdActual"
+						activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)">
+					</bcs-combobox-base>
+				</div>
+			</div>
+
+			<hr>
+
+			<!-- DATOS OPERACIÃ“N -->
+			<uib-tabset> <uib-tab id="idDatosOperacionales" 
+				active = "data.datosOperacionalesActive"
+				heading="{{'UI_DATOS_OPERACION' | translate}}"
+				>
+			<div class="row" style="padding-top: 10px;">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONEDA_PRINCIPAL</label>
+					<bcs-combobox-base class="col-xs-6" id="UI_MONEDA_PRINCIPAL"
+						auto-cargar="'true'" bcs-requerido="true"
+						tipo="'combobox-moneda-principal'"
+						id-defecto="data.MonedaPrincipalDefecto"
+						seleccionado="data.oConfiguracionMonedaPrincipal.seleccionado"
+						filtros="data.oConfiguracionMonedaPrincipal.filtros"
+						id-actual="data.MonedaPrincipalIdActual"
+						cascada1-a="data.oConfiguracionMedioDePago.filtros.IdMonedaPrincipal"
+						cascada1-valor="'IdMonedaPrincipal'"
+						activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONEDA_SECUNDARIA</label>
+					<bcs-combobox-base class="col-xs-6" id="UI_MONEDA_SECUNDARIA"
+						bcs-requerido="true" auto-cargar="'true'"
+						tipo="'combobox-moneda-secundaria'"
+						id-defecto="data.MonedaSecundariaDefecto"
+						seleccionado="data.oConfiguracionMonedaSecundaria.seleccionado"
+						filtros="data.oConfiguracionMonedaSecundaria.filtros"
+						id-actual="data.MonedaSecundariaIdActual"
+						cascada1-a="data.oConfiguracionMedioDePago.filtros.IdMonedaSecundaria"
+						cascada1-valor="'IdMonedaSecundaria'"
+						activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONTO</label>
+					<bcs-input-monetario class="col-xs-6" id="UI_MONTO"
+						bcs-requerido="true" bcs-mayor-que="'0'"
+						k-ng-model="data.kngMonto"
+						simbolo="data.oConfiguracionMonedaPrincipal.seleccionado.IdMonedaPrincipal"
+						decimales="data.oConfiguracionMonedaPrincipal.seleccionado.MonedaPrincipalCantidadDecimales"
+						k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)"
+						foco="data.FocoMonto" ng-blur="data.saleMonto()">
+					</bcs-input-monetario>
+				</div>
+
+				<div
+					ng-show="(data.tipoInstrumentoSeleccionado.Nemotecnico === 'SECARE' || data.tipoInstrumentoSeleccionado.Nemotecnico === 'SEINFL')">
+					<div class="col-xs-4">
+						<label class="col-xs-5" translate>UI_MONTO_INICIAL</label>
+						<bcs-input-monetario class="col-xs-6" id="UI_MONTO_INICIAL"
+							bcs-requerido="true" bcs-mayor-que="'0'"
+							k-ng-model="data.kngMontoInicial"
+							simbolo="data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria"
+							decimales="data.oConfiguracionMonedaSecundaria.seleccionado.MonedaSecundariaCantidadDecimales"
+							k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)">
+						</bcs-input-monetario>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-5" translate>UI_MONTO_FINAL</label>
+						<bcs-input-monetario class="col-xs-6" id="UI_MONTO_FINAL"
+							bcs-requerido="true" bcs-mayor-que="'0'"
+							k-ng-model="data.kngMontoFinal"
+							simbolo="data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria"
+							decimales="data.oConfiguracionMonedaSecundaria.seleccionado.MonedaSecundariaCantidadDecimales"
+							k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)">
+						</bcs-input-monetario>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_TC_CIERRE</label>
+					<bcs-input-numero class="col-xs-6" id="UI_TC_CIERRE"
+						k-ng-model="data.kngTCCierre"
+						k-ng-disabled="(bloqueoAnular || data.tipoInstrumentoSeleccionado.Nemotecnico === 'ARBITR' || bloqueoAnticipo)"
+						decimales="data.DecimalesMonSecInstrumento"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_PARIDAD_CIERRE</label>
+					<bcs-input-numero class="col-xs-6" id="UI_PARIDAD_CIERRE"
+						ng-model="data.ParidadCierre" k-ng-model="data.kngParidadCierre"
+						k-ng-disabled="(bloqueoAnular) || (data.tipoInstrumentoSeleccionado.Nemotecnico !== 'ARBITR' || bloqueoAnticipo)"
+						decimales="data.oConfiguracionMonedaSecundaria.seleccionado.ParidadDecimalesSecundaria">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_PLAZO</label>
+					<bcs-input-numero class="col-xs-6" id="UI_PLAZO" bcs-mayor="'1'"
+						bcs-requerido="true" k-ng-model="data.kngPlazo" formato="'#'"
+						k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_FECHA_VENCIMIENTO</label>
+					<bcs-input-date class="col-xs-6" id="UI_FECHA_VENCIMIENTO"
+						bcs-requerido="true" bcs-fecha-mayor-que="data.kngFechaOperacion"
+						ng-model="data.FechaVencimiento"
+						k-ng-model="data.kngFechaVencimiento"
+						k-options="data.FechaVencimientoOptions"
+						k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_FECHA_PAGO</label>
+					<bcs-input-date class="col-xs-6" id="UI_FECHA_PAGO"
+						ng-model="data.FechaPago" k-ng-model="data.kngFechaPago"
+						bcs-fecha-mayor-que="data.kngFechaVencimiento"
+						k-options="data.LimiteFechaPago"
+						k-ng-disabled="((bloqueoAnular) || (data.DeshabilitoFechaPorEntregaFisica) || bloqueoAnticipo)">
+					</bcs-input-date>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MODALIDAD_LIQUIDACION</label>
+					<bcs-combobox-base class="col-xs-6" id="UI_MODALIDAD_LIQUIDACION"
+						auto-cargar="'true'" tipo="'combobox-modalidad-liquidacion'"
+						seleccionado="data.oConfiguracionModalidadLiquidacion.seleccionado"
+						filtros="data.oConfiguracionModalidadLiquidacion.filtros"
+						id-actual="data.ModalidadLiquidacionIdActual"
+						id-defecto="data.ModalidadLiquidacionDefecto"
+						activado="(!bloqueoAnular && !bloqueoAnticipo) && data.HabilitadoPorCompensacion">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_PLAZA</label>
+					<bcs-combobox-base class="col-xs-6" id="UI_PLAZA"
+						bcs-requerido="'true'" tipo="'combobox-ciudad'"
+						id-actual="data.oConfiguracionPlaza.idActual" id-defecto="2931"
+						seleccionado="data.PlazaSeleccionado"
+						filtros="data.oConfiguracionPlaza.filtros"
+						activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row"" >
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONEDA_COMPENSACION</label>
+					<bcs-combobox-base class="col-xs-6" id="UI_MONEDA_COMPENSACION"
+						auto-cargar="'true'" tipo="'combobox-moneda'"
+						seleccionado="data.oConfiguracionMonedaCompensacion.seleccionado"
+						filtros="data.oConfiguracionMonedaCompensacion.filtros"
+						id-actual="data.MonedaCompensacionIdActual"
+						id-defecto="data.MonedaCompensacionDefecto"
+						activado="(!bloqueoAnular && !bloqueoAnticipo) && data.HabilitadoPorCompensacion && data.oConfiguracionModalidadLiquidacion.seleccionado.ValorParametro !== 'ENTREGA_FISICA'"
+						>
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<br>
+			<label class="col-xs-6" translate>UI_COTIZADOR</label> <br>
+			<hr>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>{{data.TipoCotizador}}</label>
+					<bcs-input-numero class="col-xs-6" id="UI_TC_COSTO"
+						k-ng-model="data.kngTCCosto"
+						k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)"
+						decimales="data.DecimalesMonSecInstrumento"> </bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_CALCULAR_POR</label>
+					<bcs-input-checkbox class="col-xs-1" id="UI_PUNTOS_FORWARD"
+						ng-model="data.ChkPuntosForward"
+						k-ng-model="data.kngChkPuntosForward" ng-disabled="bloqueoAnular"
+						k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)">
+					</bcs-input-checkbox>
+					<label class="col-xs-5" translate>UI_PUNTOS_FORWARD</label>
+				</div>
+				<div class="col-xs-4">
+					<bcs-input-checkbox class="col-xs-1" id="UI_PUNTOS_FORWARD"
+						ng-model="data.ChkTasasForward"
+						k-ng-model="data.kngChkTasasForward" ng-disabled="bloqueoAnular"
+						k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)"
+						decimales="data.DecimalesPorInstrumento">
+					</bcs-input-checkbox>
+					<label class="col-xs-5" translate>UI_TASAS_FORWARD</label>
+				</div>
+				<div class="col-xs-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_PUNTOS_FORWARD</label>
+					<bcs-input-numero class="col-xs-6" id="UI_PUNTOS_FORWARD_VAL"
+						k-ng-model="data.kngPuntosForward"
+						k-ng-disabled="(data.ChkTasasForward || bloqueoAnular || bloqueoAnticipo)"
+						decimales="data.DecimalesPorInstrumento"
+						k-options="{min : -999999999999, spinners : false}">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5">{{data.oConfiguracionMonedaPrincipal.seleccionado.IdMonedaPrincipal}}</label>
+					<bcs-input-numero class="col-xs-6" id="UI_TASAPRINCIPAL"
+						k-ng-model="data.kngTasaMonedaPrincipal"
+						k-ng-disabled="(data.ChkPuntosForward || bloqueoAnular || bloqueoAnticipo)">
+					</bcs-input-numero>
+					%
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONTO_DIFERIDO</label>
+					<bcs-input-monetario class="col-xs-6" id="UI_MONTO_DIFERIDO"
+						k-options="{min : -999999999999, spinners : false}"
+						k-ng-model="data.kngMontoDiferido"
+						simbolo="data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria"
+						decimales="data.oConfiguracionMonedaSecundaria.seleccionado.MonedaSecundariaDecimales"
+						k-ng-disabled="true"> </bcs-input-monetario>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_TC_FORWARD</label>
+					<bcs-input-numero class="col-xs-6" id="UI_TC_FORWARD"
+						k-ng-model="data.kngTCForward"
+						k-ng-disabled="(data.ChkTasasForward || bloqueoAnular || bloqueoAnticipo)" 
+						decimales="data.DecimalesMonSecInstrumento">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5">{{data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria}}</label>
+					<bcs-input-numero class="col-xs-6" id="UI_TASASECUNDARIA"
+						k-ng-model="data.kngTasaMonedaSecundaria"
+						k-ng-disabled="(data.ChkPuntosForward || bloqueoAnular || bloqueoAnticipo)">
+					</bcs-input-numero>
+					%
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MARGEN</label>
+					<bcs-input-monetario class="col-xs-6" id="UI_MARGEN"
+						k-options="{min : -999999999999, spinners : false}"
+						k-ng-model="data.kngMargen" k-ng-disabled="true"
+						simbolo="SesionIdMonedaSistema" decimales="'0'"
+						k-ng-disabled="true"> </bcs-input-monetario>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_FIXING</label>
+					<bcs-combobox-base class="col-xs-6" id="UI_FIXING"
+						auto-cargar="'true'" tipo="'combobox-parametro-mesa'"
+						seleccionado="data.oConfiguracionFixing.seleccionado"
+						filtros="data.oConfiguracionFixing.filtros"
+						id-actual="data.FixingIdActual" item-post-filtro="'1'"
+						id-defecto="data.FixingDefecto"
+						activado="(!bloqueoAnular && !bloqueoAnticipo)">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_FIXING_FECHA</label>
+					<bcs-input-date class="col-xs-6" id="UI_FECHA_FIXING"
+						ng-model="data.FechaFixing" k-ng-model="data.kngFechaFixing"
+						k-options="data.LimiteFechaFixing"
+						kendo-widget="data.kendoWidgetFixing"
+						k-ng-disabled="bloqueoAnular || bloqueoAnticipo || data.DeshabilitoFechaPorEntregaFisica || data.DeshabilitoBancoCentral">
+					</bcs-input-date>
+					<!-- 
+								bcs-fecha-mayor-que="data.kngFechaVencimiento"
+								k-options="data.LimiteFechaFixing"
+								-->
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_FIXING_HORA</label>
+					<bcs-input-time class="col-xs-6" id="UI_HORA_FIXING"
+						ng-model="data.HoraFixing"
+						k-ng-model="data.kngHoraFixing"
+						k-ng-disabled="bloqueoAnular || bloqueoAnticipo || data.DeshabilitoFechaPorEntregaFisica || data.DeshabilitoBancoCentral">
+					</bcs-input-time>
+					<!--k-ng-model="data.kngHoraFixing"-->
+				</div>
+			</div>
+			</uib-tab> <!-- COTIZADOR --> <!-- 
+				<uib-tab heading="{{'UI_COTIZADOR' | translate}}">
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>{{data.TipoCotizador}}</label>
+							<bcs-input-numero 
+								class="col-xs-6" 
+								id="UI_TC_COSTO"
+								k-ng-model="data.kngTCCosto"
+								k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)" 
+								decimales="data.DecimalesPorInstrumento"
+							>
+							</bcs-input-numero>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_CALCULAR_POR</label>
+							<bcs-input-checkbox class="col-xs-1"
+								id="UI_PUNTOS_FORWARD"
+								ng-model="data.ChkPuntosForward"
+								k-ng-model="data.kngChkPuntosForward"
+								ng-disabled="bloqueoAnular"
+								k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)"
+							>
+							</bcs-input-checkbox>
+							<label class="col-xs-5" translate>UI_PUNTOS_FORWARD</label>
+						</div>
+						<div class="col-xs-4">
+							<bcs-input-checkbox class="col-xs-1"
+								id="UI_PUNTOS_FORWARD"
+								ng-model="data.ChkTasasForward"
+								k-ng-model="data.kngChkTasasForward"
+								ng-disabled="bloqueoAnular"
+								k-ng-disabled="(bloqueoAnular || bloqueoAnticipo)"
+								decimales="data.DecimalesPorInstrumento"
+							>
+							</bcs-input-checkbox>
+							<label class="col-xs-5" translate>UI_TASAS_FORWARD</label>
+						</div>
+						<div class="col-xs-4">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_PUNTOS_FORWARD</label>
+							<bcs-input-numero 
+								class="col-xs-6" 
+								id="UI_PUNTOS_FORWARD_VAL"
+								k-ng-model="data.kngPuntosForward"
+								k-ng-disabled="(data.ChkTasasForward || bloqueoAnular || bloqueoAnticipo)"
+								decimales="data.DecimalesPorInstrumento"  
+							>
+							</bcs-input-numero>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-5">{{data.oConfiguracionMonedaPrincipal.seleccionado.IdMonedaPrincipal}}</label>
+							<bcs-input-numero 
+								class="col-xs-6" 
+								id="UI_TASAPRINCIPAL"
+								k-ng-model="data.kngTasaMonedaPrincipal" 
+								k-ng-disabled="(data.ChkPuntosForward || bloqueoAnular || bloqueoAnticipo)"
+							>
+							</bcs-input-numero>
+							%
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_MONTO_DIFERIDO</label>
+							<bcs-input-numero 
+								class="col-xs-6" 
+								id="UI_MONTO_DIFERIDO"
+								k-options="{min : -999999999999, spinners : false}"
+								k-ng-model="data.kngMontoDiferido"
+								k-ng-disabled="true"
+							>
+							</bcs-input-numero>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_TC_FORWARD</label>
+							<bcs-input-numero 
+								class="col-xs-6" 
+								id="UI_TC_FORWARD"
+								k-ng-model="data.kngTCForward"
+								k-ng-disabled="(data.ChkTasasForward || bloqueoAnular || bloqueoAnticipo)"
+							>
+							</bcs-input-numero>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-5">{{data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria}}</label>
+							<bcs-input-numero 
+								class="col-xs-6" 
+								id="UI_TASASECUNDARIA"
+								k-ng-model="data.kngTasaMonedaSecundaria" 
+								k-ng-disabled="(data.ChkPuntosForward || bloqueoAnular || bloqueoAnticipo)"
+							>
+							</bcs-input-numero>
+							%
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_MARGEN</label>
+							<bcs-input-numero 
+								class="col-xs-6" 
+								id="UI_MARGEN"
+								k-options="{min : -999999999999, spinners : false}"
+								k-ng-model="data.kngMargen"
+								k-ng-disabled="true"
+							>
+							</bcs-input-numero>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_FIXING</label>
+							<bcs-combobox-base 
+								class="col-xs-6"
+								id="UI_FIXING"
+							 	auto-cargar="'true'"
+							 	tipo="'combobox-parametro-mesa'"
+							 	seleccionado="data.oConfiguracionFixing.seleccionado"
+							    filtros="data.oConfiguracionFixing.filtros"
+			                    id-actual="data.FixingIdActual"
+			                    item-post-filtro="'1'"
+			                    activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)"
+							>
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_FIXING_FECHA</label>
+							<bcs-input-date
+								class="col-xs-6"
+								id="UI_FECHA_FIXING"
+								ng-model="data.FechaFixing"
+								k-ng-model="data.kngFechaFixing"
+								bcs-fecha-mayor-que="data.kngFechaVencimiento"
+								k-options="data.LimiteFechaFixing"
+								k-ng-disabled="bloqueoAnular || bloqueoModificar || bloqueoAnticipo || data.DeshabilitoFechaPorEntregaFisica"
+							>
+							</bcs-input-date>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_FIXING_HORA</label>
+							<bcs-input-time
+								class="col-xs-6"
+								id="UI_HORA_FIXING"
+								ng-model="data.HoraFixing"
+								k-ng-model="data.kngHoraFixing"
+								k-ng-disabled="bloqueoAnular || bloqueoModificar || bloqueoAnticipo || data.DeshabilitoFechaPorEntregaFisica"
+							>
+							</bcs-input-time>	
+						</div>
+					</div>
+				</uib-tab>
+				--> <!-- FORMAS DE PAGO --> 
+				<uib-tab heading="{{'UI_FORMAS_PAGO' | translate}}"
+				active = "data.datosFormaPagoActive">
+			<div style="height: 350px">
+				<div class="row"  >
+					<div class="col-xs-12">
+						<!-- GRID -->
+						<!-- moneda = "data.oConfiguracionMonedaLiquidacionOperacion.idActual"-->
+						<bcs-forma-pago-mesa id-portafolio="filtros.IdPortafolio"
+							id-tipo-producto="parametros.Opcion === 'INGRESO' ? data.OperacionSeleccionada.IdTipoProducto : parametros.IdTipoProducto"
+							id-tipo-operacion-principal="data.OperacionIdActual"
+							id-tipo-operacion-secundaria="data.OperacionSeleccionada.IdTipoOperacionRelacionada"
+							fecha-operacion="data.kngFechaVencimiento"
+							monto-operacion-moneda-principal="data.MonedaPrincipalIdActual==='UF' ? data.kngMontoMonedaSecundaria : data.OperacionIdActual==='COMFWD' ? data.kngMontoMonedaSecundaria : data.kngMontoMonedaPrincipal"
+							moneda-principal="data.MonedaPrincipalIdActual==='UF' ? data.MonedaSecundariaIdActual : data.ModalidadLiquidacionIdActual?data.MonedaPrincipalIdActual:''"
+							monto-operacion-moneda-secundaria="data.MonedaPrincipalIdActual==='UF' ? data.kngMontoMonedaSecundaria : data.OperacionIdActual==='COMFWD' ? data.kngMontoMonedaPrincipal : data.kngMontoMonedaSecundaria"
+							moneda-secundaria="data.ModalidadLiquidacionIdActual === 'ENTREGA_FISICA'? data.MonedaSecundariaIdActual:''"
+							forma-de-pago-entregamos="data.formaDePagoEntregamos"
+							forma-de-pago-recibimos="data.formaDePagoRecibimos"
+							monto-asignado-recibimos="data.formaDePagoRecibimosTotal"
+							monto-asignado-entregamos="data.formaDePagoEntregamosTotal"
+							opera-cuenta-inversion="data.operaCuentaInversion"
+							limpiar-datos="data.limpiarFormaPago"
+							id-operacion="parametros.IdCartera"
+							activado="data.DeshabilitaFormaPago"
+							modulo = "'FWD'"
+							paga-con-cta-inv ="data.PagaConCtaInv" 
+							id-instrumento = "data.tipoInstrumentoSeleccionado.IdInstrumento"
+							carga-portafolio = "data.valorClienteCargado"
+	                        />
+					</div>
+				</div>
+			</div>
+			</uib-tab> <!-- CALCE --> <uib-tab heading="{{'UI_CALCE' | translate}}"
+				ng-show="(parametros.Opcion !== 'ANTICIPO')">
+			<div class="row">
+				<div class="col-xs-10"></div>
+				<div class="col-xs-2">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-input-form'"
+						bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)"
+						bcs-clic="data.BuscoOperacionesCalce()"> </bcs-button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-grid id="grid-calce" configuracion="confBasicaCalce"
+						seleccionado="ObjSeleccionGrilla.seleccioncalce"
+						bcs-enter="data.PresionaEnterGrillaCalce()"> </bcs-grid>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONTO</label>
+					<bcs-input-numero class="col-xs-6" id="UI_MONTO"
+						k-ng-model="data.kngMontoCalce" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONTO_CALZADO</label>
+					<bcs-input-numero class="col-xs-6" id="UI_MONTO_CALZADO"
+						k-ng-model="data.kngMontoCalzado" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONTO_DIFERENCIA</label>
+					<bcs-input-numero class="col-xs-6" id="UI_MONTO_DIFERENCIA"
+						k-ng-model="data.kngMontoDiferencia" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+			</uib-tab> <!-- PARÃ�METROS FINANCIEROS --> <uib-tab
+				heading="{{'UI_PARAMETROS_FINANCIEROS' | translate}}">
+			<div class="row" style="padding-top: 10px;">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_REFERENCIA_MERCADO</label>
+					<bcs-combobox-base class="col-xs-6" id="UI_REFERENCIA_MERCADO"
+						auto-cargar="'true'" id-defecto="'USD'" tipo="'combobox-moneda'"
+						seleccionado="data.oConfiguracionReferenciaMercado.seleccionado"
+						activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_VALOR</label>
+					<bcs-input-numero class="col-xs-6" id="UI_VALOR"
+						bcs-mayor-que="'0'" k-ng-model="data.kngMontoReferenciaMercado"
+						k-ng-disabled="'true'"> </bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_UF</label>
+					<bcs-input-numero class="col-xs-6" id="UI_UF" bcs-mayor-que="'0'"
+						k-ng-model="data.kngMontoUf" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_DOLAR_OBSERVADO</label>
+					<bcs-input-numero class="col-xs-6" id="UI_DOLAR"
+						bcs-mayor-que="'0'" k-ng-model="data.kngMontoDO"
+						k-ng-disabled="'true'"> </bcs-input-numero>
+				</div>
+			</div>
+			</uib-tab> <!-- OTROS --> <uib-tab heading="{{'UI_OTROS' | translate}}">
+			<div class="row" style="padding-top: 10px;">
+				<div class="col-xs-12">
+					<div class="col-xs-6">
+						<div class="row">
+							<label class="col-xs-4" translate>UI_MESA</label>
+							<bcs-combobox-base class="col-xs-7" id="UI_MESA"
+								auto-cargar="'true'" tipo="'combobox-mesas'"
+								item-post-filtro="'1'" filtros="data.oConfiguracionMesa.filtros"
+								seleccionado="data.oConfiguracionMesa.seleccionado"
+								id-actual="data.MesaIdActual"
+								activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)">
+							</bcs-combobox-base>
+						</div>
+						<div class="row">
+							<label class="col-xs-4" translate>UI_ASOCIADA_SPOT</label>
+							<bcs-input-numero class="col-xs-7" id="UI_ASOCIADA_SPOT"
+								bcs-mayor-que="'0'" k-ng-model="data.kngAsociadaSpot"
+								k-ng-disabled="(bloqueoAnular || bloqueoModificar || bloqueoAnticipo)">
+							</bcs-input-numero>
+						</div>
+						<div class="row">
+							<label class="col-xs-4" translate>UI_CLASIFICACION_CARTERA</label>
+							<bcs-combobox-base class="col-xs-7" id="UI_CLASIFICACION_CARTERA"
+								auto-cargar="'true'" tipo="'combobox-parametro-mesa'"
+								item-post-filtro="'1'"
+								filtros="data.oConfiguracionClasificacionCartera.filtros"
+								seleccionado="data.oConfiguracionClasificacionCartera.seleccionado"
+								id-actual="data.ClasificacionCarteraIdActual"
+								activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)">
+							</bcs-combobox-base>
+						</div>
+						<div class="row">
+							<label class="col-xs-4" translate>UI_AGENTE</label>
+							<bcs-input-texto class="col-xs-7" id="UI_AGENTE"
+								ng-model="data.Agente" k-ng-disabled="(bloqueoAnular)">
+							</bcs-input-texto>
+						</div>
+					 <div class="row">
+						<label class="col-xs-4" translate>UI_CONTACTO</label>
+						<bcs-combobox-base class="col-xs-7" id="UI_CONTACTO"
+								auto-cargar="'true'" id-defecto="data.oConfiguracionContactos.idDefecto"
+								tipo="'combobox-contactos'"
+								configuracion = "data.oConfiguracionContactos.configuracion"
+								id-actual="data.oConfiguracionContactos.idActual"
+								filtros = "data.oConfiguracionContactos.filtros"
+								seleccionado="data.oConfiguracionContactos.seleccionado"
+								activado="clienteSeleccionado">
+						</bcs-combobox-base>
+					</div>
+                    <div class="row">
+                        <label class="col-xs-4" translate>UI_DOCUMENTOS</label>
+                    	<bcs-combobox-base class="col-xs-7"
+							id="frmMesa_UI_DOCUMENTOS"
+						 	auto-cargar="'true'"
+						 	activado = "data.habilitaCabecera"
+						    tipo="data.oConfiguracionDocumentos.tipo"
+						    seleccionado="data.oConfiguracionDocumentos.seleccionado"
+						    filtros="data.oConfiguracionDocumentos.filtros"
+		                    id-actual="data.oConfiguracionDocumentos.idActual"
+						    configuracion= "data.oConfiguracionDocumentos.configuracion"
+						    id-defecto="data.oConfiguracionDocumentos.idDefecto"
+							>
+					   </bcs-combobox-base>
+                    </div>
+					</div>
+					<div class="col-xs-5">
+						<label translate>UI_OBSERVACIONES_OPERACION</label>
+						<bcs-input-texto class="col-xs-9" id="UI_OBSERVACIONES_OPERACION"
+							maxlength="260" ng-model="data.ngComentario"
+							k-ng-model="data.kngComentario" tipo-campo="'textarea'"
+							atributos="margin: 0px; height:73px;resize:none;width: 100%"
+							k-ng-disabled="(bloqueoAnular || bloqueoModificar || bloqueoAnticipo)">
+						</bcs-input-texto>
+					</div>
+				</div>
+			</div>
+			</uib-tab> <!-- ANTICIPO --> <uib-tab id="IdAnticipoOperacion"
+				heading="{{'UI_ANTICIPO' | translate}}"
+				ng-show="(parametros.Opcion === 'ANTICIPO' || (parametros.Opcion === 'CONSULTAR' && parametros.EstaAnticipada))"
+				active="dataTabAntActivo">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_PLAZO</label>
+					<bcs-input-numero class="col-xs-4" id="UI_PLAZO" bcs-mayor="'1'"
+						bcs-requerido="true" k-ng-model="data.kngPlazoResidual"
+						formato="'#'" k-ng-disabled="true"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_TC_OBSERVADO</label>
+					<bcs-input-numero class="col-xs-4" id="UI_MONTO"
+						k-ng-model="data.kngTCObservadoAnt"
+						decimales="data.DecimalesMonSecInstrumento" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_MONTO_MONEDA_PRINCIPAL</label>
+					<bcs-input-monetario class="col-xs-4" id="UI_MONTO"
+						bcs-requerido="true" bcs-mayor-que="'0'"
+						k-ng-model="data.kngMontoPrincipalAnt"
+						simbolo="data.oConfiguracionMonedaPrincipal.seleccionado.IdMonedaPrincipal"
+						decimales="data.oConfiguracionMonedaPrincipal.seleccionado.MonedaPrincipalDecimales"
+						k-ng-disabled="(bloqueoConsultar)"> </bcs-input-monetario>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_MONTO_LIQUIDACION</label>
+					<bcs-input-monetario class="col-xs-4" id="UI_MONTO"
+						bcs-requerido="true" k-ng-model="data.kngMontoSecundarioAnt"
+						k-options="{min : -999999999999, spinners : false}"
+						simbolo="(data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria === 'USD' || antNemo === 'ARBITR' || data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria === 'UF' || antNemo === 'SECARE') ? 'CLP' : data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria"
+						decimales="(data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria === 'USD' || antNemo === 'ARBITR' || data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria === 'UF' || antNemo === 'SECARE') ? 0 : data.oConfiguracionMonedaSecundaria.seleccionado.MonedaSecundariaDecimales"
+						k-ng-disabled="'true'"> </bcs-input-monetario>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_TASA_DESCUENTO</label>
+					<bcs-input-numero class="col-xs-4" id="UI_TASA_DESCUENTO"
+						k-ng-model="data.kngTasaDescuentoAnt"
+						k-ng-disabled="(bloqueoConsultar || bloqueoAnticipoEF)"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_MONTO_ANTICIPO</label>
+					<bcs-input-monetario class="col-xs-4" id="UI_MONTO_RECIBIR"
+						k-ng-model="data.kngMontoRecibirAnt"
+						k-options="{min : -999999999999, spinners : false}"
+						simbolo="(data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria === 'USD' || antNemo === 'ARBITR' || data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria === 'UF' || antNemo === 'SECARE') ? 'CLP' : data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria"
+						decimales="(data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria === 'USD' || antNemo === 'ARBITR' || data.oConfiguracionMonedaSecundaria.seleccionado.IdMonedaSecundaria === 'UF' || antNemo === 'SECARE') ? 0 : data.oConfiguracionMonedaSecundaria.seleccionado.MonedaSecundariaDecimales"
+						k-ng-disabled="'true'"> </bcs-input-monetario>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_TC_ANTICIPO</label>
+					<bcs-input-numero class="col-xs-4" id="UI_TC_ANTICIPO"
+						k-ng-model="data.kngTCAnticipo"
+						decimales="data.DecimalesMonSecInstrumento"
+						k-ng-disabled="(bloqueoConsultar || bloqueoAnticipoEF)">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-6"></div>
+			</div>
+			</uib-tab> </uib-tabset>
+		</div>
+	</form>
+	<hr>
+	<!-- BOTONES -->
+	<div class="row bcs-panel-comandos" style="padding-top: 10px !important;">
+		<bcs-button class="col-xs-2 pull-right" id="MesaForward_aceptar"
+			bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+			bcs-texto="'UI_ACEPTAR' | translate"
+			bcs-habilitado="(!bloqueoConsultar)"
+			bcs-clic="data.OperacionForward()"> </bcs-button>
+		<bcs-button class="col-xs-2 pull-right" id="MesaForward_dejarPendiente"
+			bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+			bcs-texto="'UI_DEJAR_PENDIENTE' | translate"
+			bcs-habilitado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)"
+			bcs-clic="data.IngresoPendienteForward()"> </bcs-button> 
+		<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+			bcs-texto="'UI_LIMPIAR' | translate"
+			bcs-habilitado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)"
+			bcs-clic="data.Limpiar()"> </bcs-button>
+	</div>
+</div>

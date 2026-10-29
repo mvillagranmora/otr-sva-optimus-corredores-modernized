@@ -1,0 +1,112 @@
+<div id="EtapasAutorizador" ng-controller="PanelAutorizadorCtrl" style="padding-right: 0px;">
+
+<form name="FormAutorizador" class="col-xs-12 form-horizontal">
+	
+	
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_AUTORIZACION_POR_ROL</label>
+				<bcs-input-checkbox class="col-xs-8" ng-model="data.EsAutorizacionPorRol" ></bcs-input-checkbox>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3">Usuario</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="data.oConfiguracionUsuario.tipo"
+					configuracion= "data.oConfiguracionUsuario"
+					id-defecto="data.oConfiguracionUsuario.idDefecto"
+					filtros="data.oConfiguracionUsuario.filtros"
+					id-actual = "data.oConfiguracionUsuario.idActual"
+					seleccionado="data.oConfiguracionUsuario.seleccionado" 
+					todos="'N'"
+					bcs-requerido="!data.EsAutorizacionPorRol"
+					activado="(!data.EsAutorizacionPorRol)"> 
+				</bcs-combobox-base>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>Rol</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="data.oConfiguracionRol.tipo" 
+					configuracion="data.oConfiguracionRol"
+					filtros = "data.oConfiguracionRol.filtros" 
+					bcs-requerido="data.EsAutorizacionPorRol"
+					activado="data.EsAutorizacionPorRol"
+					id-actual="data.oConfiguracionRol.idActual"
+					id-defecto="data.oConfiguracionRol.idDefecto"
+					seleccionado="data.oConfiguracionRol.seleccionado" 
+					todos="'N'"> 
+				</bcs-combobox-base>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3">Usuario Reemplaza</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="data.oConfiguracionUsuarioReemplaza.tipo" 
+					filtros="data.oConfiguracionUsuarioReemplaza.filtros"
+					id-actual = "data.oConfiguracionUsuarioReemplaza.idActual"
+					configuracion="data.oConfiguracionUsuarioReemplaza"
+					id-defecto="data.oConfiguracionUsuarioReemplaza.idDefecto"
+					seleccionado="data.oConfiguracionUsuarioReemplaza.seleccionado" 
+					todos="'N'"
+					activado="(!data.EsAutorizacionPorRol)"> 
+				</bcs-combobox-base>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-3">Estado</label>
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					tipo="data.oConfiguracionEstadoAutorizador.tipo" 
+					id-actual="data.oConfiguracionEstadoAutorizador.idActual"
+					id-defecto="data.oConfiguracionEstadoAutorizador.idDefecto"
+					filtros="data.oConfiguracionEstadoAutorizador.filtros"
+					seleccionado="data.oConfiguracionEstadoAutorizador.seleccionado" 
+					todos="'N'"> 
+				</bcs-combobox-base>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_REEMPLAZA_DESDE</label>
+				<bcs-input-date class="col-xs-8" 
+					bcs-requerido="(!filtros.reemplazoIndefinido && data.oConfiguracionUsuarioReemplaza.seleccionado)" 
+					k-ng-model="data.fechaInicioReemplazo" 
+					k-ng-disabled="filtros.reemplazoIndefinido || !data.oConfiguracionUsuarioReemplaza.seleccionado">
+				</bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_REEMPLAZA_HASTA</label>
+				<bcs-input-date class="col-xs-8" 
+					bcs-requerido="(!filtros.reemplazoIndefinido && data.oConfiguracionUsuarioReemplaza.seleccionado)" 
+					k-ng-model="data.fechaTerminoReemplazo" 
+					k-ng-disabled="filtros.reemplazoIndefinido || !data.oConfiguracionUsuarioReemplaza.seleccionado">
+				</bcs-input-date>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_REEMPLAZA_INDEFINIDO</label>
+				<bcs-input-checkbox class="col-xs-8" 
+					ng-model="filtros.reemplazoIndefinido" 
+					ng-disabled="!data.oConfiguracionUsuarioReemplaza.seleccionado">
+				</bcs-input-checkbox>
+			</div>
+		</div>
+
+	</div>
+	<div class="row bcs-panel-comandos">
+	
+		<bcs-button class="col-xs-2 pull-right" id="EtapasAutorizador_crear" bcs-habilitado="FormAutorizador.$valid"
+			bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="textoBotonActualizar | translate"
+			bcs-clic="crearAutorizador()"></bcs-button>
+			
+		<bcs-button class="col-xs-2 pull-right" bcs-habilitado="'true'"
+			bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+			bcs-texto="'UI_CERRAR' | translate" bcs-clic="cerrar()"></bcs-button>
+	</div>
+
+</form>
+</div>

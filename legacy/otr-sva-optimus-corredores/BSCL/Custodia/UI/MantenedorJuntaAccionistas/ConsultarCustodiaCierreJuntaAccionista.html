@@ -1,0 +1,140 @@
+<div id="ConsultarCustodiaCierreJuntaAccionista" class="col-xs-12" ng-controller="ConsultarCustodiaCierreJuntaAccionistaCtrl">
+	<div class="row bcs-cuerpo">
+   	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-9"
+							id="UI_CLIENTE"
+						 	auto-cargar="'false'"
+						    tipo="'combobox-socio-negocio'"
+						    seleccionado="oSocioNegocio.seleccionado"
+						    filtros="oSocioNegocio.filtros"
+		                    cascada-defecto="'-1'"
+		                    id-actual="oSocioNegocio.idActual"
+						    configuracion= "oSocioNegocio.configuracion">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos class="col-xs-9"
+						  bcs-requerido
+						  buscar-instrumento="filtros.buscarInstrumento"
+						  datos-instrumento="filtros.instrumento"
+						  filtro-emisor="filtros.IdEmisor">
+				  </bcs-input-instrumentos>
+				</div>
+				
+		  	</div>
+		  	<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_INSTRUCCION_MANDATO</label>
+					<bcs-combobox-base class="col-xs-9"
+			  			tipo="'combobox-si-no'"
+			  			id-actual="filtros.IndicadorMandatoRepresentacion"
+			  			id-defecto="'0'"
+			  			todos="'S'"
+			  			>
+			  		</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_TIPO_INSTRUCCION</label>
+			  		<bcs-combobox-base
+						class="col-xs-9"
+						bcs-requerido
+						tipo="oConfiguracionTipoJuntaAccionista.tipo"
+						filtros="oConfiguracionTipoJuntaAccionista.filtros"
+						id-actual="filtros.IdTipoInstruccion"
+						id-defecto="'0'"
+						seleccionado="filtros.TipoInstruccion"
+						todos="'S'">
+					</bcs-combobox-base>
+			  	</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarCustodiaCierreJuntaAccionista()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-consulta-custodia-cierre-junta-accionista"
+			 	configuracion="defaultOptions"
+				api = "apiConsultaCustodiaCierreJuntaAccionista"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-15">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_CUADRATURA_DCV</label>
+					<bcs-input-numero class="col-xs-7"
+				  		maxlength ="28"
+				  		decimales = "'0'"
+				  		k-ng-disabled="'true'"
+						k-ng-model="evento.CuadraturaDCV">
+			  		</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 col-xs-offset-1" translate>UI_TOTAL_CANTIDAD_DERECHO</label>
+					<bcs-input-numero class="col-xs-7"
+				  		maxlength ="28"
+				  		decimales = "'0'"
+				  		k-ng-disabled="'true'"
+						k-ng-model="evento.TotalCantidadDerecho">
+			  		</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 col-xs-offset-1" translate>UI_TOTAL_CANTIDAD_DERECHO_CALCULADO</label>
+					<bcs-input-numero class="col-xs-7"
+				  		maxlength ="28"
+				  		decimales = "'0'"
+				  		k-ng-disabled="'true'"
+						k-ng-model="evento.TotalCantidadDerechoCalculado">
+			  		</bcs-input-numero>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-3" id="ConsultarCustodiaCierreJuntaAccionista_Ingresar" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="ingresarClienteCustodia()">
+			</bcs-button>
+			<bcs-button class="col-xs-3" id="ConsultarCustodiaCierreJuntaAccionista_Modificar" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_MODIFICAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="modificarClienteCustodia(datos.kNgModel)">
+			</bcs-button>		
+			<bcs-button class="col-xs-3" id="ConsultarCustodiaCierreJuntaAccionista_Eliminar" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="eliminarClienteCustodia(datos.kNgModel)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+	            <li ng-click="verInstructivo()">{{'UI_VER_INSTRUCTIVO' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

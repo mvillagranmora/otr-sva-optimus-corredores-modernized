@@ -1,0 +1,129 @@
+<div class="row"
+	ng-controller="DeudoresAcreedoresPorIntermediacionClienteCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-7">
+						<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-10" 
+							id="DeudoresPorIntermediacionCtrl_UI_SOCIO_NEGOCIO"
+							ng-style="{'width' : data.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oClientePortafolio.seleccionado  ? '81%' : '83.33333333%'}"
+							bcs-requerido="'true'"
+							auto-cargar="'false'"
+							id-Actual="filtros.IdPortafolio"
+							tipo="data.oClientePortafolio.tipo"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							configuracion="data.oClientePortafolio.configuracion"
+							filtros="filtrosPortafolio">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-3" translate>UI_TIPO_COMPROBANTE</label>
+						<bcs-combobox-base class="col-xs-9"
+							id="DeudoresPorIntermediacionCtrl_UI_TIPO_COMPROBANTE"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionTipoComprobante.tipo"
+							configuracion="data.oConfiguracionTipoComprobante.configuracion"
+							id-actual="data.oConfiguracionTipoComprobante.idActual"
+							seleccionado="data.oConfiguracionTipoComprobante.seleccionado"
+							filtros="data.oConfiguracionTipoComprobante.filtros"
+							memoria="COMPROBANTES" todos="'S'" id-defecto="'0'"
+							item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-7">
+						<label class="col-xs-2" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-5"
+							id="DeudoresPorIntermediacionCtrl_UI_FECHA_COMPROBANTE_DESDE"
+							k-ng-model="data.oFechaLiquidacionComprobanteDesde">
+						</bcs-input-date>
+						<bcs-input-date class="col-xs-5"
+							id="DeudoresPorIntermediacionCtrl_UI_FECHA_COMPROBANTE_HASTA"
+							k-ng-model="data.oFechaLiquidacionComprobanteHasta">
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base class="col-xs-9"
+							id="DeudoresPorIntermediacionCtrl_UI_CLASIFICACION"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+							configuracion="data.oConfiguracionClasificacionTipoInstrumento.configuracion"
+							id-actual="data.oConfiguracionClasificacionTipoInstrumento.idActual"
+							seleccionado="data.oConfiguracionClasificacionTipoInstrumento.seleccionado"
+							filtros="data.oConfiguracionClasificacionTipoInstrumento.filtros"
+							cascada-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'" todos="'S'"
+							id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-7">
+						<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-10"
+							id="DeudoresPorIntermediacionCtrl_UI_TIPO_INSTRUMENTO"
+							auto-cargar="'false'"
+							tipo="data.oConfiguracionTipoInstrumento.tipo"
+							configuracion="data.oConfiguracionTipoInstrumento.configuracion"
+							id-actual="data.oConfiguracionTipoInstrumento.idActual"
+							seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+							filtros="data.oConfiguracionTipoInstrumento.filtros" todos="'S'"
+							id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row"></div>
+			</div>
+			<!-- FIN FILTROS -->
+
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true" bcs-clic="buscar()"> </bcs-button>
+				</div>
+
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="true" bcs-clic="limpiarFiltros()"> </bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+
+		</div>
+
+		<!-- INICIO SUB GRILLA DETALLE REGISTRO -->
+		<div class="row">
+			<bcs-grid id="grid-deudores-acreedores"
+				configuracion="confBasicaDeudoresAcreedoresPorIntermediacionCliente"
+				seleccionado="seleccionComprobante"
+				fn-exportar-excel="exportarExcel" api="gridApiDeudoresAcreedores">
+
+			</bcs-grid>
+		</div>
+		<!-- FIN SUB GRILLA DETALLE REGISTRO -->
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row">
+		<div class="col-xs-12 bcs-panel-comandos">
+			<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'"
+				bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="data.seleccionarTodosMovimientos()">{{'UI_SELECCIONAR_TODO'
+				| translate}}</li>
+			<li ng-click="data.deseleccionarTodosMovimientos()">{{'UI_DESELECCIONAR_TODO'
+				| translate}}</li>
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' |
+				translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+	<!-- FIN PANEL COMANDOS -->
+</div>

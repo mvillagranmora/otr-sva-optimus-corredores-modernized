@@ -1,0 +1,2 @@
+SELECT DOCUMENTO."IdPersona",DOCUMENTO."DocumentoIdentidad" FROM "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" DOCUMENTO
+WHERE DOCUMENTO."IdTipoDocumentoIdentidad" = 'RUT' AND DOCUMENTO."DocumentoIdentidad" IN (:DocumentoIdentidad)

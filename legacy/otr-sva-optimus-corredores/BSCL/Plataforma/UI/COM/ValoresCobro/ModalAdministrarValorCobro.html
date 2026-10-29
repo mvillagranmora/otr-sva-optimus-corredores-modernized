@@ -1,0 +1,139 @@
+<div class="row" ng-controller="ModalAdministrarValorCobroCtrl as mAdmVC">
+	<div class="row">
+		<form name="ModalAgregarValorCobroDetalle" class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO_PRODUCTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-tipo-producto'"
+						filtros="mAdmVC.cmbbx.TipoOperacion.filtros"
+						id-actual="mAdmVC.valorCobro.IdTipoProducto"
+						id-defecto="mAdmVC.valorCobro.IdTipoProductoDef"
+						seleccionado="mAdmVC.valorCobro.TipoProductoSeleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_CLASIFICACION_COBRO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-cobro-clasificacion'"
+						filtros="mAdmVC.cmbbx.CobroClasificacion.filtros"
+						id-actual="mAdmVC.valorCobro.IdCobroClasificacion"
+						id-defecto="mAdmVC.valorCobro.IdCobroClasificacionDef"
+						cascada1-a="mAdmVC.cmbbx.Cobro.filtros.IdCobroClasificacion"
+						cascada1-valor="'IdCobroClasificacion'"
+						seleccionado="mAdmVC.valorCobro.CobroClasificacionSeleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_COBRO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-cobro'"
+						filtros="mAdmVC.cmbbx.Cobro.filtros"
+						id-actual="mAdmVC.valorCobro.IdCobro"
+						id-defecto="mAdmVC.valorCobro.IdCobroDef"
+						seleccionado="mAdmVC.valorCobro.CobroSeleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_CODIGO</label>
+					<bcs-input-texto class="col-xs-8"
+						bcs-requerido
+						k-ng-disabled="mAdmVC.modoEditar"
+						ng-model="mAdmVC.valorCobro.IdValorCobro">
+					</bcs-input-texto>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_MONEDA</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-moneda'"
+						filtros="mAdmVC.cmbbx.Moneda.filtros"
+						id-actual="mAdmVC.valorCobro.IdMoneda"
+						id-defecto="mAdmVC.valorCobro.IdMonedaDef"
+						todos="'N'"
+						seleccionado="mAdmVC.valorCobro.MonedaSeleccionado"
+						activado="(mAdmVC.valorCobro.IdCobro!='IVA')">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div ng-if="mAdmVC.valorCobro.CobroSeleccionado.FormaCobro==='V'"><!-- porcentaje! -->
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_VALOR_VARIABLE</label>
+						<bcs-input-porcentaje class="col-xs-8"
+							bcs-requerido = "mAdmVC.valorCobro.CobroSeleccionado.FormaCobro==='V'"
+							k-ng-model="mAdmVC.valorCobro.ValorCobro"  
+							decimales="4"
+							k-ng-disabled="(mAdmVC.valorCobro.CobroSeleccionado.PermiteCambiarValor==='N')">
+						</bcs-input-porcentaje>
+					</div>
+				</div>
+			</div>
+			<div ng-if="mAdmVC.valorCobro.CobroSeleccionado.FormaCobro==='F'"><!-- FIJO -->
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_VALOR_FIJO</label>
+						<bcs-input-numero class="col-xs-8"
+							bcs-requerido = "mAdmVC.valorCobro.CobroSeleccionado.FormaCobro==='F'"
+							k-ng-model="mAdmVC.valorCobro.ValorCobro"  
+							decimales="mAdmVC.valorCobro.CantidadDecimales"
+							k-ng-disabled="(mAdmVC.valorCobro.CobroSeleccionado.PermiteCambiarValor==='N')">
+						</bcs-input-numero>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_VALOR_TOPE_MINIMO</label>
+					<bcs-input-numero class="col-xs-8"
+						k-ng-model="mAdmVC.valorCobro.ValorTopeMinimoOrden"  
+						decimales="mAdmVC.valorCobro.CantidadDecimales"
+						k-ng-disabled="(mAdmVC.valorCobro.CobroSeleccionado.PermiteCambiarValor==='N')">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-estado-perfil-comercial'"
+						filtros="mAdmVC.cmbbx.EstadoPerfilComercial.filtros"
+						id-actual="mAdmVC.valorCobro.IdEstado"
+						id-defecto="mAdmVC.valorCobro.IdEstadoDef"
+						seleccionado="mAdmVC.valorCobro.EstadoSeleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+		</form>
+	</div>
+	<hr>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-3 pull-right" 
+			bcs-tipo="'bcs-button-primary'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GUARDAR' | translate" 
+			bcs-habilitado="ModalAgregarValorCobroDetalle.$valid"  
+			bcs-clic="mAdmVC.aceptar();">
+		</bcs-button>
+		<bcs-button class="col-xs-3 pull-right" 
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-habilitado="true"  
+			bcs-clic="mAdmVC.cancelar();">
+		</bcs-button>
+	</div>
+</div>

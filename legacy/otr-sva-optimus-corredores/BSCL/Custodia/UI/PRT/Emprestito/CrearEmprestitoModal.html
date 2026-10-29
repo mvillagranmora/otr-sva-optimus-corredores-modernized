@@ -1,0 +1,295 @@
+<div ng-controller="CrearEmprestitoModalCtrl">
+	<div class="row bcs_titulo" translate>
+		UI_INGRESO_EMPRESTITO
+	</div>
+	<div class="row bcs-cuerpo">
+		<form name="formEmprestito">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FOLIO_PRESTAMO</label>
+				<bcs-input-numero
+					class="col-xs-9"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngFolioPrestamo"
+					k-options ="data.folioPrestamoOptions"
+				></bcs-input-numero>
+			</div>
+		
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_PRESTAMO</label>
+				<bcs-input-texto 
+					class="col-xs-9"
+					k-ng-disabled="'true'"
+					ng-model="data.tipoPrestamo"
+				>
+				</bcs-input-texto>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CANTIDAD_ASIGNADA</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					bcs-menor-que="data.oDatosPrestamo.Cantidad"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngCantidadAsignada"
+					k-options ="data.cantidadAsignadaOptions"
+				>
+				</bcs-input-numero>
+			
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_POR_ASIGNAR</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					bcs-mayor-que="'0'"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngCantidadPorAsignar"
+					k-options ="data.CantidadPorAsignarOptions"
+				></bcs-input-numero>
+			</div>	
+			
+			<div class="row">
+				<label class="col-xs-3 " translate>UI_TIPO_INSTRUMENTO</label>
+				<bcs-input-texto 
+					class="col-xs-9"
+					ng-model="data.tipoInstrumento"
+					k-ng-disabled="'true'"
+				>
+				</bcs-input-texto>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3 " translate>UI_INSTRUMENTO</label>
+				<bcs-input-texto 
+					class="col-xs-3"
+					ng-model="data.instrumento"
+					k-ng-disabled="'true'"
+				>
+				</bcs-input-texto>
+				
+				
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_CORTE_MINIMO</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngCorteMinimo"
+					k-options ="data.CorteMinimoOptions"
+				></bcs-input-numero>
+				
+			</div>
+			
+			<div class="row"> 
+				<label class="col-xs-3" translate>UI_FECHA_INGRESO</label>
+				<bcs-input-date
+					k-ng-disabled="'true'"
+					class="col-xs-3"
+					k-ng-model="data.kngFechaInicioPrestamo"
+					k-options="data.FechaInicioPrestamoOptions"
+				>
+				</bcs-input-date>
+				
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_VENCIMIENTO</label>
+				<bcs-input-date
+					k-ng-disabled="'true'"
+					class="col-xs-3"
+					k-ng-model="data.kngFechaVencimientoPrestamo"
+					k-options="data.FechaVencimientoPrestamoOptions"
+				>
+				</bcs-input-date>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_GARANTIAS_ESPECIFICAS</label>
+				<input type="checkbox"
+					ng-model="data.checkConGarantiasEspecificas"
+					ng-disabled="'true'" >
+			</div>
+			
+			<hr>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+				
+         		<bcs-input-texto 
+					 class			= "col-xs-9"
+					 bcs-requerido
+					 ng-model		= "oSocioNegocio2.InfoCliente"
+					 k-ng-disabled	= "'true'">
+				</bcs-input-texto>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6"></div>
+				<bcs-button
+					class="col-xs-3"
+					id="UI_PRESTAMISTAS" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'"
+					bcs-texto="'UI_PRESTAMISTAS' | translate"
+					bcs-habilitado="'true'"
+					bcs-clic="data.btnBuscarPrestamistas()">
+				</bcs-button>
+				
+				<bcs-button
+					class="col-xs-3"
+					id="UI_PRESTAMISTAS_EXTERNOS" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'"
+					bcs-texto="'UI_PRESTAMISTAS_EXTERNOS' | translate"
+					bcs-habilitado="'true'"
+					bcs-clic="data.btnBuscarPrestamistasSinCustodia()">
+				</bcs-button>
+			</div>
+
+         	
+          	<div class="row" ng-show="false">
+				<label class="col-xs-3" translate>UI_TITULOS_NOMINALES</label>
+				<input type="checkbox"
+					ng-model="data.checkPrestaTitulosNominales"
+					ng-disabled = "'true'"
+				>
+
+          	</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CANTIDAD</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					bcs-menor-igual-que="data.kngCantidadPorAsignar"
+					k-ng-model="data.kngCantidad"
+					k-options ="data.cantidadOptions"
+					bcs-mayor-que="'0'"
+				>
+				</bcs-input-numero>
+				
+						
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PRECIO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					bcs-mayor-que="'-1'"
+					k-options ="data.precioOptions"
+					k-ng-model="data.kngPrecio"
+				>
+				</bcs-input-monetario>
+				
+				<label class="col-xs-2 col-xs-offset-1" translate ng-show="data.muestraDatosRF">UI_TASA</label>
+				<bcs-input-numero ng-show="data.muestraDatosRF"
+					class="col-xs-3"
+					k-ng-model="data.kngTasa"
+					k-options ="data.tasaOptions"
+					>
+				</bcs-input-numero>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					bcs-mayor-que="'0'"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMonto"
+					k-options ="data.montoOptions"
+					simbolo="data.monedaInstrumento"
+				></bcs-input-monetario>
+
+				<bcs-button 
+					class="col-xs-2 col-xs-offset-3" 
+					ng-show="data.muestraDatosRF" 
+					style="position: absolute; width: 23%;"
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VALORIZAR' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="data.ObtenerValorizacion()">
+				</bcs-button>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA_INICIO</label>
+				<bcs-input-date
+					class="col-xs-3"
+					bcs-requerido
+					k-ng-disabled="'true'" 
+					k-ng-model="data.kngFechaInicio"
+					k-options="data.FechaInicioOptions"
+				>
+				</bcs-input-date>
+			</div>
+
+			<div class="row"> 
+				<label class="col-xs-3" translate>UI_CONDICION_LIQUIDACION</label>
+				<bcs-input-condicion-liquidacion
+					class = "col-xs-3"
+					bcs-requerido
+					set-id-condicion-liquidacion = "data.IdCondicionDeLiquidacion"
+					fecha-inicial 				 = "data.fechaInicial"
+					condicion-de-liquidacion 	 = "data.condicionLiquidacionSeleccionada"
+					id-tipo-operacion 			 = "data.oDatosPrestamo.IdTipoOperacion"
+					fecha-liquidacion 			 = "data.fechaLiquidacion"
+					activado 					 = "'false'">
+				</bcs-input-condicion-liquidacion>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA_VENCIMIENTO</label>
+				
+				<bcs-input-plazo
+					id="CraerPrestamoModal_InputPlazoVencimiento"
+					class="col-xs-3"
+					activa-fecha="false"
+					activa-plazo="false"
+					bcs-menor-igual-que="data.oDatosPrestamo.MaximoDiasPrestamo"
+					bcs-mayor-igual-que="data.oDatosPrestamo.MinimoDiasPrestamo"
+					fecha-inicial="data.fechaInicialInputPlazo"
+					fecha-vencimiento="data.kngFechaVencimiento"
+					plazo="data.kngPlazo"
+					id-tipo-operacion="data.oDatosPrestamo.IdTipoOperacion"
+					id-condicion-de-liquidacion="'T0'"
+					bcs-requerido="data.RequeridoInputPlazo || false"
+				>
+				</bcs-input-plazo>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PORCENTAJE_PREMIO_ABR</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					bcs-requerido
+					bcs-mayor-igual-que="'-1'"
+					k-ng-disabled = "data.PorcentajePremioDisabled"
+					k-ng-model="data.kngPorcentajePremio"
+					k-options ="data.porcentajePremioOptions"
+				>
+				</bcs-input-numero>
+				
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_PREMIO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					bcs-mayor-igual-que="'-1'"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMontoPremio"
+					k-options ="data.montoPremioOptions"
+					simbolo="data.monedaInstrumento"
+				></bcs-input-monetario>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO_PLAZO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					bcs-mayor-que="'-1'"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMontoPlazo"
+					k-options ="data.montoPlazoOptions"
+					simbolo="data.monedaInstrumento"
+				></bcs-input-monetario>
+				<bcs-input-checkbox class="col-xs-2 col-xs-offset-1" ng-model="data.checkExigirGarantia"
+					ng-disabled="!(data.oDatosPrestamo.IdTipoPrestamo === 'PRTFIN' && data.oDatosPrestamo.TipoCustodia === 'S')">
+				</bcs-input-checkbox>{{'UI_EXIGIR_GARANTIA' | translate}}
+			</div>
+			
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button class="col-xs-2" ng-show="'true'" bcs-tipo="'bcs-button-primary'" 	bcs-auto-desactivar="false" bcs-texto="'UI_GRABAR' | translate" bcs-habilitado="data.yaValorizo && data.accionDisabled && formEmprestito.$valid" bcs-clic="data.crearEmprestito()"></bcs-button>
+		<bcs-button class="col-xs-2" ng-show="'true'" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CERRAR' | translate" bcs-habilitado="data.accionDisabled" bcs-clic="data.btnCerrar(false)"></bcs-button>
+	</div>
+</div>

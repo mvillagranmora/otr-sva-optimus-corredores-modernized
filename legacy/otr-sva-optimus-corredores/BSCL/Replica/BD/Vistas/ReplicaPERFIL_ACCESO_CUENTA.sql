@@ -1,0 +1,14 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaPERFIL_ACCESO_CUENTA"; 
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaPERFIL_ACCESO_CUENTA" AS
+
+        Select WST."IdStack" AS "IDSTACK", "Action" AS ACTION, PAC.ID_USER || PER_ID_USER || PER_ID  AS TABLE_KEY,
+            PAC.*
+			
+        FROM  "BSCL.Replica.BD.Vistas::Sebra.PERFIL_ACCESO_CUENTA" PAC
+        LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'PERFIL_ACCESO_CUENTA' AND WST."Key" = PAC.ID_USER || PER_ID_USER || PER_ID
+
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaPERFIL_ACCESO_CUENTA" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

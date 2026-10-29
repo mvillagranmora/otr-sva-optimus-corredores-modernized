@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="BcsJarConfiguradorCartolasTomEE8" default="build" basedir=".">
+
+    <!-- ==================== PROPIEDADES ==================== -->
+    <property name="RUTA" value="../../../../"/>
+    <property name="DEPLOY" value="../../../../../"/>
+    <property name="source" value="1.8"/>
+    <property name="target" value="1.8"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="jargs" value="-Xlint:none"/>
+
+    <!-- ==================== LIMPIEZA ==================== -->
+    <target name="clean">
+        <delete dir="${DEPLOY}/bin"/>
+        <delete dir="${DEPLOY}/deploy"/>
+        <delete dir="${DEPLOY}/libsTomEE8"/>
+    </target>
+
+    <!-- ==================== INICIALIZACIÓN ==================== -->
+    <target name="init">
+        <mkdir dir="${DEPLOY}/bin"/>
+        <mkdir dir="${DEPLOY}/deploy"/>
+        <mkdir dir="${DEPLOY}/libsTomEE8"/>
+    </target>
+
+    <!-- ==================== CLASSPATH ==================== -->
+    <path id="build.classpath">
+        <fileset dir="${RUTA}/BSCL/Plataforma/JAVA/libsTomEE8">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- ==================== COMPILACIÓN ==================== -->
+    <target name="compile" depends="init">
+        <javac
+            debug="true"
+            debuglevel="${debuglevel}"
+            encoding="UTF-8"
+            destdir="${DEPLOY}/bin"
+            includeantruntime="false"
+            source="${source}"
+            target="${target}"
+            fork="true">
+
+            <!-- Módulos requeridos -->
+            <src path="${RUTA}/BSCL/Normativa/Java/BcsNormativaServicios/src"/>
+            <src path="${RUTA}/BSCL/Plataforma/JAVA/BcsPlataformaServicios/src"/>
+            <src path="${RUTA}/BSCL/Plataforma/JAVA/BcsUtils/src"/>
+            <src path="${RUTA}/BSCL/Custodia/JAVA/BcsCustodiaServicios/src"/>
+            <src path="${RUTA}/BSCL/FondoMutuo/JAVA/BcsFondoMutuoServicios/src"/>
+            <src path="${RUTA}/BSCL/Plataforma/JAVA/BcsValo2/src"/>
+            <src path="${RUTA}/BSCL/Facturacion/JAVA/BcsFacturacionServicios/src"/>
+            <src path="${RUTA}/BSCL/CuentaInversion/JAVA/BcsCuentaInversionServicios/src"/>
+            <src path="${RUTA}/BSCL/Tesoreria/JAVA/BcsTesoreriaServicios/src"/>
+            <src path="${RUTA}/BSCL/Mesa/JAVA/BcsMesaServicios/src"/>
+            <src path="${RUTA}/BSCL/Orden/JAVA/BcsOrdenServicios/src"/>
+            <src path="${RUTA}/BSCL/APV/JAVA/BcsAPVServicios/src"/>
+            <src path="${RUTA}/BSCL/SocioNegocio/JAVA/BcsSocioNegocioServicios/src"/>
+            <src path="${RUTA}/BSCL/Portafolio/JAVA/BcsPortafolioServicios/src"/>
+
+            <!-- Clase específica -->
+            <include name="cl/bcs/normativa/cartola/utils/ConfiguradorCartola.java"/>
+
+            <classpath refid="build.classpath"/>
+            <compilerarg value="${jargs}"/>
+            <compilerarg value="-proc:none"/>
+        </javac>
+
+        <echo message="Compilación completada. Archivos en ${DEPLOY}/bin"/>
+    </target>
+
+    <!-- ==================== COPIA DE LIBRERÍAS ==================== -->
+    <target name="copy-libs" depends="compile">
+        <copy todir="${DEPLOY}/libsTomEE8">
+            <fileset dir="${RUTA}/BSCL/Plataforma/JAVA/libsTomEE8">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <echo message="Librerías copiadas a ${DEPLOY}/libsTomEE8"/>
+    </target>
+
+    <!-- ==================== COPIA DE SQL SELECCIONADOS ==================== -->
+    <target name="copy-resources" depends="compile">
+        <echo message="Copiando SQLs seleccionados..."/>
+
+        <!-- SQL desde Normativa -->
+        <copy todir="${DEPLOY}/bin" overwrite="true" verbose="true">
+            <fileset dir="${RUTA}/BSCL/Normativa/Java/BcsNormativaServicios/src">
+                <include name="cl/bcs/normativa/cartola/sql/ConfiguradorCartola**"/>
+            </fileset>
+        </copy>
+
+        <!-- SQL desde Plataforma -->
+        <copy todir="${DEPLOY}/bin" overwrite="true" verbose="true">
+            <fileset dir="${RUTA}/BSCL/Plataforma/JAVA/BcsPlataformaServicios/src">
+                <include name="cl/bcs/plataforma/pla/sql/ConsultarConfiguracion**"/>
+            </fileset>
+        </copy>
+
+        <echo message="SQLs copiados correctamente"/>
+    </target>
+
+    <!-- ==================== CREACIÓN DEL JAR ==================== -->
+    <target name="jar" depends="copy-libs,copy-resources">
+        <jar destfile="${DEPLOY}/deploy/CONFIGURADOR_CARTOLAS_OPTIMUS.jar" basedir="${DEPLOY}/bin">
+            <manifest>
+                <attribute name="Main-Class" value="cl.bcs.normativa.cartola.utils.ConfiguradorCartola"/>
+                <attribute name="Class-Path" value="libsTomEE8/"/>
+            </manifest>
+        </jar>
+
+        <echo message="JAR creado correctamente con SQLs incluidos"/>
+    </target>
+
+    <!-- ==================== TAREA FINAL ==================== -->
+    <target name="build" depends="clean,jar">
+        <echo message="Compilación, copia de SQLs y empaquetado completados correctamente."/>
+    </target>
+
+</project>

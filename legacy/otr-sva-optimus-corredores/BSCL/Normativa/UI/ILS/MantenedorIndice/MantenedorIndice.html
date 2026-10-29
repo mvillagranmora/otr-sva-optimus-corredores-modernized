@@ -1,0 +1,122 @@
+<form class="col-xs-12 form-horizontal">
+	<div id="MantenedorIndice" ng-controller="MantenedorIndiceCtrl"	style="padding-right: 0px;">
+	
+	<div class="row">	
+		<div class="col-xs-6">
+<!-- Inicia Grid Izquierdo Indice -->
+			<div style="float: none; overflow: hidden; padding-right: 10px">
+				<div class="row">
+					<new-bcs-grid id="grid-informe"
+						configuracion="Indice"
+						seleccionado="seleccionIndice">
+					</new-bcs-grid>
+				</div>
+				<div class="row bcs-panel-comandos">
+					<div class="col-xs-6 col-xs-offset-6">
+						<bcs-button class="col-xs-4" bcs-tipo="'bcs-button-primary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate"
+							bcs-habilitado="'true'" bcs-clic="agregarIndice()"></bcs-button>
+						<bcs-button class="col-xs-4" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate"
+							bcs-habilitado="habilitado" bcs-clic="modificarIndice()"></bcs-button>
+						<bcs-button class="col-xs-4" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate"
+							bcs-habilitado="habilitado" bcs-clic="eliminarIndice()"></bcs-button>					
+					</div>
+				</div>
+			</div>
+		</div>	
+		<!-- Finaliza Grid Izquierdo Indice -->	
+		
+	<div class="col-xs-6">
+	
+		<!-- Inicia Información de Indice -->
+				<div style="float: none; overflow: hidden; padding-right: 10px">
+			<div class="row">
+				<label class="col-xs-2" translate>Indice</label>
+				<bcs-input-texto class="col-xs-10" k-ng-disabled="'true'" ng-model="filtro.indice"></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>Nombre Corto</label>
+				<bcs-input-texto class="col-xs-6" k-ng-disabled="'true'" ng-model="filtro.nombreCorto"></bcs-input-texto>
+			</div>
+			<!--<hr style="margin-bottom:10px">	-->
+			<div class="row">
+				<label class="col-xs-2 text-left" translate>UI_CONCEPTO</label>
+				<bcs-combobox-base 
+					activado="habilitado"
+					class="col-xs-10"
+					filtros=""
+					id="IdConcepto"						
+					id-actual="data.Concepto"
+					id-defecto="'0'"
+					seleccionado="conceptoSeleccionado"						
+					tipo="'combobox-concepto-ils'"
+				>
+				</bcs-combobox-base>								
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>Posición</label>
+				<bcs-combobox-base 
+			
+					class="col-xs-3"
+					filtros=""
+					id="IdPosicion"						
+					id-actual="filtro.Posicion"
+					id-defecto="'0'"
+					seleccionado="posicionSeleccionado"
+					tipo="'combobox-posicion-fraccion-ils'">
+				</bcs-combobox-base>
+				<label class="col-xs-1" translate>Factor</label>
+				<bcs-input-numero class="col-xs-2" 
+				    k-ng-disabled="inputDisabled" 
+				    ng-model="Factor"
+					k-ng-model="data.kngFactor"
+					k-options="{max: 99.9999, spinners : false}">
+				</bcs-input-numero>
+				<label class="col-xs-2" translate>Operación</label>
+				<bcs-combobox-base 
+
+					class="col-xs-2"
+					filtros=""
+					id="operacionId"						
+					id-actual="filtro.Operacion"
+					id-defecto="'0'"
+					seleccionado="operacionSeleccionado"
+					style="padding-left:7px;"						
+					tipo="'combobox-tipo-operacion-ctb'">
+				</bcs-combobox-base>		
+			</div>
+			<div class="row">		
+				<div class="col-xs-2 col-xs-offset-8" style="margin-bottom: 4px">
+					<bcs-button bcs-auto-desactivar="false" bcs-texto="'UI_GRABAR' | translate"
+						bcs-habilitado="habilitaGrabar()" bcs-tipo="'bcs-button-input-form'" bcs-clic="MantenedorIndiceConfiguracion('I')"></bcs-button>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button bcs-auto-desactivar="false"  bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="habilitado" bcs-tipo="'bcs-button-input-form'" bcs-clic="limpiar()">
+					</bcs-button>		
+				</div>
+			</div>
+			<div class="row">
+				<new-bcs-grid id="grid-IndiceConfiguracion"
+					configuracion="IndiceConfiguracion"
+					fn-doble-click="detalleIndice(seleccionIndiceConfiguracion)"
+					seleccionado="seleccionIndiceConfiguracion">
+				</new-bcs-grid>
+			</div>
+			<div class="row bcs-panel-comandos">
+				<div class="col-xs-4 col-xs-offset-10">
+					<bcs-button class="col-xs-6" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate"
+						bcs-habilitado="habilitadoIndiceConfiguracion" bcs-clic="MantenedorIndiceConfiguracion('E')"></bcs-button>
+				</div>
+			</div>
+			</div>
+		</div>
+		</div>
+		<!-- Finaliza Información de Indice -->	
+						
+		
+	</div>
+</form>

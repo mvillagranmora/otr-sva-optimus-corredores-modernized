@@ -1,0 +1,1 @@
+SELECT "IdSegmentoCliente" FROM "BSCL.SocioNegocio.BD::CLI.TipoSegmento" WHERE "NombreSegmentoCliente" = 'RETAIL'

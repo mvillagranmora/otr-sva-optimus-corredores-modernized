@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js" lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>OPTIMUS | Bolsa de Santiago</title>
+  <meta name="description" content="Optimus Full Business Management">
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width">
+  
+	
+	<script src="libs/K2016_3_1028/jquery.min.js"></script> 
+	<script src="libs/K2015_3_1111/angular.min.js"></script>
+	<script src="libs/K2015_3_1111/bootstrap.min.js"></script>
+	<link href="libs/K2015_3_1111/bootstrap.min.css" rel="stylesheet" />
+	
+
+	<script>  		   		
+		angular.module('AutoLogout', []);
+		
+		
+		
+		angular.module('AutoLogout').controller('AutoLogoutCtrl',function($scope,$window,$location){			
+			angular.element(document).ready(function () {
+				var params = $window.location.search.split('?')[1]
+				$scope.url = "";
+				if (params) {
+					$scope.url = '/BSCL/Plataforma/UI/SSOInit?a=' + params.split('=')[1];
+							//se envia IdEntidad al hacer logout en optimus como parametro get
+							//se agrego columna identidadsso en la sesion
+							//se agrego insert a la columna en ssoutils -> crearsesion servlet, sesion .java
+							//se agrego lectura de la columna en sesion.java
+							//se agrego lectura de datos sso en bootstrap hacia la ui
+							//se agrego guardado en rootscope de variables en ui, sesionapp y baseapp
+							//se agrego codigo para ignorar cambio de clave en ui en base el identidad
+				}
+				console.log($scope.url);
+				//limpiar url
+				window.history.replaceState({}, {},$window.location.href.substring(0,$window.location.href.indexOf('?')));
+			});
+			
+			$scope.click = function() {
+				$window.location.href = $scope.url;
+			}
+			
+			
+		});	
+		
+		
+  	</script>
+</head>
+<body ng-app="AutoLogout" ng-controller="AutoLogoutCtrl" class="row" style="position: relative;
+    z-index: 9;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 1024px;
+    padding-bottom: 40px">
+  <div class="row">
+  	<div class="col-xs-4"></div>
+  	<span class="col-xs-8" style="padding-top: 205px;
+    background: url(images/login/LOGO-OPTIMUS-600x400-solo.png) no-repeat;
+    background-size: contain;
+    display: block"></span>
+  </div>
+  <div class="row">
+  	<div role="main" id="main" class="col-xs-4 col-xs-offset-4">
+  		<span>Su sesión ha sido desconectada, presione el botón para volver a ingresar.</span>
+  	</div>
+  </div>
+  <div class="row" style="margin-top:20px">
+  	<div class="row col-xs-4 col-xs-offset-5">
+  		<input  type="button" ng-click="click()" value="Reingresar"/>
+  	</div>
+  </div>
+</body>
+</html>

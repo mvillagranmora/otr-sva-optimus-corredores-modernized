@@ -1,0 +1,29 @@
+INSERT INTO "BSCL.SocioNegocio.BD::SOC.DetalleLogTipoBorrado"
+(
+ "IdDetalleLogTipoBorrado"
+,"IdLogTipoBorrado"
+,"CodigoTipoBorrado"
+,"IdPersona"
+,"CodigoDato"
+,"Accion"
+,"TablaAfectada"
+,"NombreLlaveTablaAfectada"
+,"ValorLlaveTablaAfectada"
+,"NombreCampoTablaAfectada"
+,"ValorOriginal"
+,"ValorOfuscado"
+ )
+VALUES(
+ "BSCL.SocioNegocio.BD.Secuencias::DetalleLogTipoBorrado".NEXTVAL
+,:IdLogTipoBorrado
+,:CodigoTipoBorrado
+,:IdPersona
+,:CodigoDato
+,:Accion
+,:TablaAfectada
+,:NombreLlaveTablaAfectada
+,:ValorLlaveTablaAfectada
+,:NombreCampoTablaAfectada
+,:ValorOriginal
+,:ValorOfuscado
+ );

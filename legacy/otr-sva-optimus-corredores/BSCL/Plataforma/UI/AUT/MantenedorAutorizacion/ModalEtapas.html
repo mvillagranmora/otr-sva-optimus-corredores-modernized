@@ -1,0 +1,57 @@
+<form class="col-xs-12 form-horizontal" name="FormEtapa">
+	<div id="EtapasAutorizador" ng-controller="PanelEtapasCtrl"
+		style="padding-right: 0px;">
+		<div class="row bcs-cuerpo">
+			<div class="row">
+					<label class="col-xs-2" translate>UI_NOMBRE</label>
+					<bcs-input-texto class="col-xs-10" ng-model="nombre" id="nombre" bcs-requerido="true"
+						name="nombre"></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_CODIGO</label>
+				<bcs-input-texto class="col-xs-10" ng-model="codigo" id="codigo" bcs-requerido="true"
+					name="codigo"></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_ORDEN</label>
+				<bcs-input-numero class="col-xs-10" k-ng-model="orden"
+					id="orden" decimales="0" bcs-requerido="true" name="orden"></bcs-input-numero>
+			</div>
+			<div class="row">
+					<label class="col-xs-2" translate>UI_TIPO_AUTORIZACION</label>
+					<bcs-combobox-base  ng-class="{'col-xs-8' : tipoAutObj.IdTipoAutorizacion === 'M', 'col-xs-10':  tipoAutObj.IdTipoAutorizacion !== 'M'}"
+						tipo="'combobox-tipo-autorizacion-etapa'" 
+						id-actual="RadioTipoAut"
+						id-defecto="RadioTipoAutdef"
+						seleccionado="tipoAutObj" todos="'N'"
+						bcs-requerido="true"
+						> </bcs-combobox-base>
+						<bcs-input-numero class="col-xs-2" ng-show="tipoAutObj.IdTipoAutorizacion === 'M'"
+							decimales="0" id="minimo"
+							k-ng-model="minimo"
+							bcs-requerido="RadioTipoAut === 'M'"
+							name="minimo"></bcs-input-numero>
+			</div>
+			<div class="row">
+					<label class="col-xs-2" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-4"
+						tipo="data.oConfiguracionEstadoEtapa.tipo" 
+						id-actual="estadoEtapa"
+						bcs-requerido="true"
+						id-defecto="estadoEtapadef"
+						filtros="data.oConfiguracionEstadoEtapa.filtros"
+						seleccionado="estadoEtapaObj" todos="'N'">  </bcs-combobox-base>
+						
+			</div>
+
+		</div>
+		<div class="row bcs-panel-comandos">
+			<bcs-button class="col-xs-2 pull-right" bcs-habilitado="FormEtapa.$valid"
+				bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+				bcs-texto="textoBotonActualizar | translate" bcs-clic="crearEtapa()"></bcs-button>
+			<bcs-button class="col-xs-2 pull-right" bcs-habilitado="'true'"
+				bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_CERRAR' | translate" bcs-clic="cerrar()"></bcs-button>
+		</div>
+	</div>
+</form>

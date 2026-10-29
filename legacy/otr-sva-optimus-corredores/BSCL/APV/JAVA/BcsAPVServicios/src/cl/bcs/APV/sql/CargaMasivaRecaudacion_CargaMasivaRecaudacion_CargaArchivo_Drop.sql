@@ -1,0 +1,1 @@
+DROP TABLE "#CargaMasivaRecaudacion_CargaArchivo"

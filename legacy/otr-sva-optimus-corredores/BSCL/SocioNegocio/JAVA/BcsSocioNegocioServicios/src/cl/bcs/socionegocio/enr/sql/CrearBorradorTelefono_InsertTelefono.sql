@@ -1,0 +1,26 @@
+INSERT INTO "BSCL.SocioNegocio.BD::ENR.Telefono"
+(
+"IdTelefono"
+,"IdPais"
+,"Numero"
+,"Anexo"
+,"CodigoProposito"
+,"Comentario"
+,"IdEnrolamiento"
+,"IdTipoTelefono"
+,"Predeterminado"
+,"IdTelefonoPersona"
+)
+VALUES
+(
+:IdTelefono
+,:IdPais
+,:Numero
+,:Anexo
+,:CodigoProposito
+,:Comentario
+,:IdEnrolamiento
+,:IdTipoTelefono
+,:Predeterminado
+,:IdTelefonoPersona
+);

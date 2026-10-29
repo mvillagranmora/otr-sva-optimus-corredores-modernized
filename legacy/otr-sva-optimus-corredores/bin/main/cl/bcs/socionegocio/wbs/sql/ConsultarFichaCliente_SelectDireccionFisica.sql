@@ -1,0 +1,20 @@
+SELECT 
+Direccion."IdPersona"
+,COALESCE(Direccion."IdDireccionFisica",0) AS "IdDireccionFisica"
+,COALESCE(Direccion."CodigoProposito",'') AS "IdProposito"
+,COALESCE(Proposito."Descripcion",'') AS "Proposito"
+,COALESCE(Direccion."Sector",'') AS "Sector"
+,COALESCE(Direccion."CodigoPostal",'') AS "CodigoPostal"
+,COALESCE(Direccion."IdDivisionPais",0) AS "IdComuna"
+,COALESCE(DivisionPais."NombreDivisionPais",'') AS "Comuna"
+,COALESCE(Direccion."Calle",'') AS "Calle"
+,COALESCE(Direccion."Numero",'') AS "Numero"
+,COALESCE(Direccion."Departamento",'') AS "Departamento"
+,COALESCE(Direccion."Comentario",'') AS "Complemento"
+,COALESCE(Direccion."IdCiudad",0) AS "IdCiudad"
+,COALESCE(Ciudad."NombreCiudad",'') AS "Ciudad"
+FROM "BSCL.SocioNegocio.BD::PER.DireccionFisica" AS Direccion
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.PropositoMedioContacto" AS Proposito ON Proposito."IdPropositoMedioContacto" = Direccion."CodigoProposito"
+LEFT JOIN "BSCL.Plataforma.BD::REG.DivisionPais" AS DivisionPais ON DivisionPais."IdDivisionPais" = Direccion."IdDivisionPais"
+LEFT JOIN "BSCL.Plataforma.BD::REG.Ciudad" AS Ciudad ON Ciudad."IdCiudad" = Direccion."IdCiudad"
+WHERE "IdPersona" IN (:p_IdPersonas) AND Direccion."Borrado"='N'

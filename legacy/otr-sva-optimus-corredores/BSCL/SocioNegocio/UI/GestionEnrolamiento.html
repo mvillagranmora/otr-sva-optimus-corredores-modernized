@@ -1,0 +1,155 @@
+<div id="GestionEnrolamiento" class="col-xs-12" ng-controller="GestionEnrolamientoCtrl as conSocNeg">
+	<div class="row bcs-cuerpo">
+		<!-- INICIO FILTROS -->
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-8">
+				  		<label class="col-xs-3" translate>UI_RAZON_SOCIAL_O_NOMBRE</label>
+						<bcs-input-texto 
+							class		= "col-xs-9"
+							foco		= "true"
+							ng-model	= "formData.NombreCompleto"
+							key-enter	= "fnKeyEnter();">
+						</bcs-input-texto>
+					</div>
+		  			<div class="col-xs-4">
+				  		<label class="col-xs-4" ng-show="false" translate>UI_TIPO_ENTIDAD</label>
+						<bcs-combobox-base
+							class				= "col-xs-8"
+							tipo				= "'combobox-tipo-socio-negocio'"
+							id-actual			= "formData.tipoSocioNegocio"
+							id-defecto			= "'0'"
+							todos				= "'S'" 
+							item-post-filtro	= "'1'" 
+							ng-show				= "false">
+						</bcs-combobox-base>
+				  	</div>
+			  	</div>
+				<div class="row">
+				  	<div class="col-xs-4">
+				  		<label class="col-xs-6" translate>UI_TIPO_DOCUMENTO_IDENTIDAD</label>
+				  		<bcs-combobox-base
+				  			class				= "col-xs-6"
+				  			tipo				= "'combobox-tipo-documento-identidad'"
+				  			id-actual			= "formData.tipoDocumentoIdentidad"
+				  			id-defecto			= "'0'" 
+				  			todos				= "'S'" 
+				  			item-post-filtro	= "'1'">
+				  		</bcs-combobox-base>
+					</div>
+			  		<div class="col-xs-4">
+				  		<label class="col-xs-6" translate>UI_DOCUMENTO_IDENTIDAD_ABR</label>
+						<bcs-input-texto
+							class		= "col-xs-6" 
+							ng-model	= "formData.NumeroDocumentoIdentidad" 
+							placeholder	= "placeholder.documentoIdentidad"
+							key-enter	= "fnKeyEnter();">
+						</bcs-input-texto>
+				 	 </div>
+				 	 <div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_INGRESO</label>
+						<div class="col-xs-7">
+							<bcs-input-date
+								class		= "col-xs-6"
+								k-ng-model 	= "formData.fechaIngresoDesde">
+							</bcs-input-date>
+							<bcs-input-date
+								class		= "col-xs-6"
+								k-ng-model	= "formData.fechaIngresoHasta">
+							</bcs-input-date>
+						</div>
+					</div>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="read()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="clear()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id					= "grid-socio-negocio"
+			 	configuracion		= "kOptions"
+				seleccionado		= "seleccionGrilla"
+				fn-exportar-excel	= "exportarExcel"
+				fn-doble-click		= "abrirDetalleSoc(seleccionGrilla)"
+				api 				= "kwidget">
+				
+				<div bcs-grid-detail="initDetalle()" ng-non-bindable>
+					<uib-tabset>
+						<uib-tab heading="{{'UI_DATOS_PERSONALES'| translate}}">
+							<div class="row" style="height: 110px; text-align:left;">
+								<div class="row">
+									<label class="col-xs-3" translate>UI_NOMBRES</label>
+									<label class="col-xs-3">: {{dataItem.NombreCompleto}}</label>
+								</div>
+	        					<div class="row">
+							    	<label class="col-xs-3" translate>UI_TIPO_PERSONA</label>
+									<label class="col-xs-3">: {{dataItem.TipoPersona}}</label>
+								</div>
+								<div class="row">
+									<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO_IDENTIDAD</label>
+									<label class="col-xs-3">: {{dataItem.NombreTipoDocumentoIdentidadDefecto || conSocNeg.win.defSinValor}}</label>
+								</div>
+								<div class="row">
+									<label class="col-xs-3" translate>UI_DOCUMENTO_IDENTIDAD</label>
+									<label class="col-xs-3">: {{(dataItem.DocumentoIdentidadDefecto | kformat:dataItem.IdTipoDocumentoIdentidadDefecto) || conSocNeg.win.defSinValor}}</label>
+								</div>
+								<!-- <div class="row">
+									<label class="col-xs-3" translate>UI_PAIS_RESIDENCIA</label>
+									<label class="col-xs-3">: {{dataItem.NombrePaisResidencia || conSocNeg.win.defSinValor}}</label>
+								</div> -->
+								<div class="row">
+									<label class="col-xs-3" translate>UI_ESTADO</label>
+									<label class="col-xs-3">: {{dataItem.NombreEstadoPersona}}</label>
+								</div>
+								<div ng-show="dataItem.EstadoPersona === 'BLO'">
+									 <div class="row">
+					                	<label class="col-xs-3" translate>UI_FECHA_BLOQUEO</label>
+										<label class="col-xs-3">: {{dataItem.FechaBloqueo | date: 'dd-MM-yyyy'}}</label>
+									</div>
+									<div class="row">
+					                	<label class="col-xs-3" translate>UI_COMENTARIO_BLOQUEO</label>
+										<label class="col-xs-3">: {{dataItem.ComentarioBloqueo}}</label>
+					                </div>
+				                </div>
+								<!-- <div class="row">
+									<label class="col-xs-3" translate>UI_FECHA_NACIMIENTO</label>
+									<label class="col-xs-3">: {{(dataItem.FechaNacimiento | date: 'dd-MM-yyyy') || conSocNeg.win.defSinValor}}</label>
+								</div> -->
+							</div>
+						</uib-tab>
+					</uib-tabset>
+				</div>			
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button
+				class				= "col-xs-2"
+				id					= "GestionEnrolamiento_crearCliente" 
+				bcs-tipo			= "''" 
+				bcs-auto-desactivar	= "false" 
+				bcs-texto			= "'UI_INGRESAR_PERSONA' | translate" 
+				bcs-habilitado		= "'true'" 
+				bcs-clic			= "crearPersona()">
+			</bcs-button>	
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>
+	            <li ng-click="crearClienteNomina()">{{'UI_INGRESAR_CLIENTE_NOMINA' | translate}}</li>
+	            <li ng-click="exportarSociosDeNegocio()">{{'UI_EXPORTAR_TODO_EXCEL' | translate}}</li>
+	            <li ng-click="exportarClientesFallecidos()">{{'UI_EXPORTAR_CLIENTES_FALLECIDOS' | translate}}</li>
+	            <!-- li ng-click="bloqueoDesbloqueoMasivo()">{{'UI_BLOQUEO_DESBLOQUEO_MASIVO' | translate}}</li-->
+			</bcs-menu>
+		</div>
+	</div>
+</div>

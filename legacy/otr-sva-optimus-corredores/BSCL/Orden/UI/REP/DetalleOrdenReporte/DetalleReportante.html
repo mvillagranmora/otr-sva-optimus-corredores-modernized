@@ -1,0 +1,174 @@
+<div ng-controller="DetalleReportanteCtrl">
+	<div class="row">
+		<div class="row">
+			<label class="col-xs-2" translate>UI_SECUENCIA_ORDEN</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.IdOrden"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_ORDEN</label>
+			<bcs-input-datetime class="col-xs-3" k-ng-disabled="'true'" k-ng-model="orden.FechaOperacionOrden"></bcs-input-datetime>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CLASIFICACION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreClasificacionTipoInstrumento"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_INSTRUMENTO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreTipoInstrumento"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_TIPO_OPERACION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreTipoOperacion"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_INSTRUMENTO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.InstrumentoUI"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_BOLSA</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreBolsa"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_CONDICION_LIQUIDACION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreCondicionDeLiquidacion"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANTIDAD</label>
+			<bcs-input-numero class="col-xs-3" k-ng-disabled="'true'" decimales="orden.DecimalesCantidad" k-ng-model="orden.CantidadOrden"></bcs-input-numero>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO</label>
+			<bcs-input-monetario class="col-xs-3" k-ng-disabled="'true'" decimales="orden.DecimalesMonto" simbolo="orden.IdMonedaOrden" k-ng-model="orden.MontoOrden"></bcs-input-monetario>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_PRECIO</label>
+			<bcs-input-monetario class="col-xs-3" k-ng-disabled="'true'" decimales="orden.DecimalesPrecio" simbolo="orden.IdMonedaOrden" k-ng-model="orden.PrecioOrden"></bcs-input-monetario>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_PRECIO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.TipoPrecio"></bcs-input-texto>
+		</div>
+		<div class="row" ng-show="SesionLocale=='PE'&&orden.IdClasificacionTipoInstrumento=='RF'">
+			<label class="col-xs-2" translate>UI_TIR</label>
+			<bcs-input-monetario class="col-xs-3" k-ng-disabled="'true'" decimales="orden.DecimalesTasa||2" simbolo="'%'" k-ng-model="orden.TasaRFIF"></bcs-input-monetario>
+			<!-- <label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_PRECIO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.TipoPrecio"></bcs-input-texto> -->
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANTIDAD_DISPONIBLE</label>
+			<bcs-input-numero class="col-xs-3" k-ng-disabled="'true'" decimales="orden.DecimalesCantidad" k-ng-model="orden.CantidadDisponibleOrden"></bcs-input-numero>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_CANTIDAD_ASIGNADA</label>
+			<bcs-input-numero class="col-xs-3" k-ng-disabled="'true'" decimales="orden.DecimalesCantidad" k-ng-model="orden.CantidadAsignadaOrden"></bcs-input-numero>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_TASA</label>
+			<bcs-input-porcentaje class="col-xs-3" k-ng-disabled="'true'" decimales="orden.DecimalesCantidad" k-ng-model="orden.Tasa"></bcs-input-porcentaje>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_ORDEN_VIGENTE</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.OrdenVigenteUI"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_MONEDA_LIQUIDACION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.IdMonedaLiquidacionOrden"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_VIGENCIA</label>
+			<bcs-input-date class="col-xs-3" k-ng-disabled="'true'" k-ng-model="orden.FechaVigencia"></bcs-input-date>
+			
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_PLAZO_VENCIMIENTO_DIAS</label>
+			<bcs-input-date class="col-xs-3" k-ng-disabled="'true'" k-ng-model="orden.FechaVencimiento"></bcs-input-date>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_ESTADO_ASIGNACION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.EstadoOrdenAsignacion"></bcs-input-texto>
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_TIPO_VIGENCIA</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreTipoVigenciaOrden"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_ESTADO_ORDEN</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.EstadoOrden"></bcs-input-texto>
+		</div>
+	
+		<div class="row" ng-if = "orden.EsVentaCorta ==='S'">
+			<label class="col-xs-2" translate>UI_ES_VENTA_CORTA</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.EsVentaCortaUI"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_TASA_VENTA_CORTA</label>
+			<bcs-input-numero class="col-xs-3" k-ng-disabled="'true'" decimales="orden.DecimalesTasa" k-ng-model="orden.Tasa"></bcs-input-numero>
+		</div>
+		<div class="row" ng-show = "orden.EsVentaCorta ==='S'">
+			<label class="col-xs-2 " translate>UI_PLAZO_VENTA_CORTA</label>
+			<bcs-input-numero class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.Plazo"></bcs-input-numero>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_VENCIMENTO_VENTA_CORTA</label>
+			<bcs-input-date class="col-xs-3" k-ng-disabled="'true'" k-ng-model="orden.FechaVencimiento"></bcs-input-date>
+		</div>
+		<div class="row" ng-show = "orden.IdClasificacionTipoInstrumento ==='DV'">
+			<label class="col-xs-2" translate>UI_TAMANO</label>
+			<bcs-input-numero class="col-xs-3" k-ng-disabled="'true'" decimales="'0'" k-ng-model="orden.Tamano"></bcs-input-numero>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_NOCIONAL</label>
+			<bcs-input-numero class="col-xs-3" k-ng-disabled="'true'" decimales="'0'" k-ng-model="orden.CantidadOrden * orden.Tamano"></bcs-input-numero>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_DOCUMENTO_IDENTIDAD</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.DocumentoIdentidad"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_NOMBRE_CLIENTE</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreCompleto"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">
+				<label class="col-xs-11" translate>UI_CODIGO_PORTAFOLIO</label>
+				<bcs-link class="col-xs-1" link="'administrarPortafolio'" params="{ IdCliente : orden.IdCliente , IdPortafolio: orden.IdPortafolio }"></bcs-link>
+			</div>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.CodigoPortafolio"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_LIBRO_ORDENES</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreLibroOrdenes"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CODIGO_EJECUTIVO_PORTAFOLIO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.CodigoEmpleadoPortafolio"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_EJECUTIVO_PORTAFOLIO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreEmpleadoPortafolio"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CODIGO_EMPLEADO_DIGITADOR</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.CodigoEmpleadoDigitador"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_EMPLEADO_DIGITADOR</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreEmpleadoDigitador"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_AUTORIZADOR_ORDEN</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreAutorizadorOrden"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_ACEPTACION</label>
+			<bcs-input-datetime class="col-xs-3" k-ng-disabled="'true'" k-ng-model="orden.FechaAceptacion"></bcs-input-datetime>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANAL_INGRESO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreCanal"></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_CANAL_DISTRIBUCION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreCanalDistribucion"></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_FORMA_CUSTODIA</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.NombreFormaCustodia"></bcs-input-texto>
+			<label ng-show="SesionLocale=='PE'" class="col-xs-2 col-xs-offset-1" translate>UI_ES_ORDEN_ESPECIAL</label>
+			<bcs-input-texto ng-show="SesionLocale=='PE'" class="col-xs-3" k-ng-disabled="'true'" ng-model="orden.EsOrdenEspecialTexto"></bcs-input-texto>
+		</div>
+	</div>
+	<hr/>
+	<div class="row">
+		<uib-tabset class="col-xs-11">
+			<uib-tab heading="{{'UI_COBROS' | translate}}">
+				<div class="row" style="min-height:150px">
+					<bcs-detalle-cobros id-orden="parametros.IdOrden"></bcs-detalle-cobros>
+				</div>
+			</uib-tab>
+			<uib-tab class="no-print" heading="{{'UI_ASIGNACIONES' | translate}}">
+				<div class="row" style="min-height:150px">
+					<bcs-detalle-asignaciones informacion-cliente="'N'" asignaciones="datos.asignaciones"></bcs-detalle-asignaciones>
+				</div>
+			</uib-tab>
+			<uib-tab class="no-print" heading="{{'UI_MOVIMIENTOS_FACTURAR' | translate}}">
+				<div class="row" style="min-height:150px">
+					<bcs-detalle-movimientos-facturar movimientos="datos.movimientos"></bcs-detalle-movimientos-facturar>
+				</div>
+			</uib-tab>
+			<uib-tab class="no-print" heading="{{'UI_REPORTANTES' | translate}}" ng-show="orden.AccionTipoOperacion=='VENTA'">
+				<div class="row" style="min-height:150px">
+				<bcs-detalle-reportantes id-orden="parametros.IdOrden"></bcs-detalle-reportantes>
+								
+				</div>
+			</uib-tab>
+		</uib-tabset>
+	</div>	
+
+	<div class="row no-print">
+		<bcs-button  class="col-xs-2" bcs-auto-desactivar="'false'" bcs-texto="'UI_BITACORA' | translate" 
+			bcs-habilitado="'true'" bcs-clic="verBitacora()"></bcs-button>
+		<bcs-button id="UI_VER_COMPROBANTE" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="'false'" bcs-texto="'UI_VER_COMPROBANTE' | translate"  bcs-habilitado="'true'" bcs-clic="verComprobante()"></bcs-button>
+	</div>
+</div>

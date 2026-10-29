@@ -1,0 +1,99 @@
+<div class="row" ng-controller="PanelPortafolioPerfilComercialCtrl as pPortCom">
+	<form class="row" name="formPortafolioClientePerfilComercialMatrizOperacional">
+		<div class="col-xs-12'">
+			<div class="row no-margin">
+				<div class="row">
+					<div class="col-xs-6"></div>
+					<div class="col-xs-1 text-center">
+						<label class="col-xs-12" translate>UI_MOSTRAR_TODOS</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_MODELO_COMERCIAL_ORIGEN</label>
+						<bcs-combobox-base
+								id="formPortafolioClientePerfilComercialMatrizOperacional_modeloComercialOrigen"
+								class="col-xs-8"
+								tipo="'combobox-perfil-comercial'"
+								id-actual="pPortCom.datosDespues.IdPerfilComercialBaseOrigen"
+								id-defecto="pPortCom.datosDespues.IdPerfilComercialBaseOrigenDef"
+								todos="'N'"
+								activado="!pPortCom.win.modoLectura"
+								filtros="pPortCom.cmbbx.oConfiguracionPerfilComercial.filtros"
+								seleccionado="pPortCom.PerfilComercialObj"
+								bcs-requerido="pPortCom.camposRequeridos['formPortafolioClientePerfilComercialMatrizOperacional_modeloComercialOrigen'].Requerido === 'S'"
+						></bcs-combobox-base>
+					</div>
+					<div class="col-xs-1">
+						<div class="col-xs-5"></div>
+						<bcs-input-checkbox
+								id="formPortafolioClientePerfilComercialMatrizOperacional_todosModelosComercialesOrigen"
+								class="col-xs-7"
+								ng-model="pPortCom.AllModelosComercialesOrigen"
+								ng-disabled="pPortCom.win.modoLectura"
+						></bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_CAEGORIA_INVERSIONISTA</label>
+						<div class="col-xs-8">{{pPortCom.datosDespues.IdCategoriaInversionista}}</div>
+					</div>
+				</div>
+				<div class="row" style="margin-bottom:5px;">
+					<div class="col-xs-6">
+						<h6 translate>UI_COMPOSICION_PLANTILLAS</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_PLANTILLA_PRODUCTOS</label>
+						<label class="col-xs-8" translate>{{pPortCom.datosDespues.IdPerfilProductos}}</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_PLANTILLA_COBROS</label>
+						<label ng-if="SesionLocale === 'CL'" class="col-xs-8" translate>{{pPortCom.datosDespues.IdPerfilCobros || '-'}}</label>
+						<label ng-if="SesionLocale === 'PE'"class="col-xs-8" translate>{{pPortCom.datosDespues.IdPerfilCobrosPeru || '-'}}</label>
+					</div>
+					<div class="col-xs-6">
+						<div class="col-xs-9"></div>
+						<bcs-button  class="col-xs-4"
+							bcs-tipo="'bcs-button-secondary'"
+							bcs-mostrar="true"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_PREVISUALIZAR_MATRIZ' | translate"
+							bcs-habilitado = "pPortCom.win.modoLectura"
+							bcs-clic="pPortCom.fn.previsualizarMatrizOperacional();">
+						</bcs-button>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_PLANTILLA_LIMITES</label>
+						<label class="col-xs-8" translate>{{pPortCom.datosDespues.IdPerfilLimites || '-'}}</label>
+					</div>
+				</div>
+				<hr>
+				<div class="row" style="padding-top:5px;">
+					<bcs-grid
+						id="grid-por-matriz-operacional"
+						configuracion="pPortCom.grilla.optionsGrillaMatrizOperacional">
+					</bcs-grid>
+				</div>
+			</div>
+			<div class="row">&nbsp;</div>
+			<div class="row col-xs-12 bcs-panel-comandos">
+				<div class="col-xs-8">
+					<bcs-button id="AdmPortPerfCom_MatrizOperacional_editar" class="col-xs-2" bcs-tipo="'bcs-button-primary'"  ng-if="pPortCom.win.modoLectura" bcs-mostrar="pPortCom.win.modoLectura"  bcs-auto-desactivar="false" bcs-texto="'UI_EDITAR' | translate" bcs-habilitado="true"  bcs-clic="pPortCom.win.editar();"></bcs-button>
+					<bcs-button id="AdmPortPerfCom_MatrizOperacional_guardar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" ng-if="!pPortCom.win.modoLectura" bcs-mostrar="!pPortCom.win.modoLectura"  bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="formPortafolioClientePerfilComercialMatrizOperacional.$valid"  bcs-clic="pPortCom.win.guardar();"></bcs-button>
+					<bcs-button id="AdmPortPerfCom_MatrizOperacional_cancelar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" ng-if="!pPortCom.win.modoLectura" bcs-mostrar="!pPortCom.win.modoLectura" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'"  bcs-clic="pPortCom.win.cancelar();"></bcs-button>
+				</div>
+				<div class="col-xs-3"></div>
+
+			</div>
+		</div>
+	</form>
+</div>

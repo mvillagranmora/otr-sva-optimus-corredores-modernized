@@ -1,0 +1,402 @@
+<div class="col-xs-12" ng-controller="IngresarRescateTraspasoFFMCtrl as rescateTraspaso">
+	<!-- Pre-Ingreso -->
+	<div class="row bcs-cuerpo" ng-show="rescateTraspaso.formData.IngresoConfirmacion === 'I'">
+	 <div ng-show="rescateTraspaso.formData.DatosAdicionales === 'N'">	
+	 	<form name="FormIngresoFFM" class="filters-formulario">
+		   	<div class="row">
+				<div class="col-xs-12">
+				  	<div class="row">
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_CLIENTE"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-socio-negocio'"
+						    carga-cliente-automatico="'S'"
+						    seleccionado="rescateTraspaso.oSocioNegocio.seleccionado"
+						    filtros="rescateTraspaso.oSocioNegocio.filtros"
+							cascada-a="rescateTraspaso.oPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+		                    cascada1-a="rescateTraspaso.formData.IdCategoriaInversionista"
+		                    cascada1-valor="'IdCategoriaInversionista'"
+		                    cascada2-a="rescateTraspaso.oPortafolioDestino.filtros.IdCliente"
+							cascada2-valor="'IdCliente'"
+							cascada3-a="rescateTraspaso.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada3-valor="'IdCliente'"
+		                    cascada-defecto="'-1'"
+		                    id-actual="rescateTraspaso.oSocioNegocio.idActual"
+						    configuracion= "rescateTraspaso.oSocioNegocio.configuracion">
+						</bcs-combobox-base>
+					</div>      
+		 			<div class="row">
+						<label class="col-xs-4" translate>UI_PORTAFOLIO_ORIGEN</label>
+						<bcs-combobox-base 
+							class				="col-xs-8"
+							id					="UI_PORTAFOLIO"
+						 	auto-cargar			="'false'"
+						 	bcs-requerido
+						    tipo				="'combobox-portafolio'"
+						    seleccionado		="rescateTraspaso.oPortafolio.seleccionado"
+						    filtros				="rescateTraspaso.oPortafolio.filtros"
+		                    item-post-filtro	="'1'"
+		                    id-actual			="rescateTraspaso.oPortafolio.idActual"
+		                    cascada-a			="rescateTraspaso.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada-valor		="'IdPortafolio'"
+		                    cascada1-a			="rescateTraspaso.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada1-valor		="'IdPortafolio'"
+		                    cascada2-a			="rescateTraspaso.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada2-valor	    ="'IdPortafolio'"
+		                    cascada3-a			="rescateTraspaso.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada3-valor	    ="'IdPortafolio'"
+		                    cascada4-a			="rescateTraspaso.formData.FiltrosComboFondo.IdPortafolio"
+		                    cascada4-valor		="'IdPortafolio'"
+						    configuracion		= "rescateTraspaso.oPortafolio.configuracion">
+						</bcs-combobox-base >
+					</div>
+					
+					<div class="row">
+ 						<label class="col-xs-4" translate>UI_AUTORIZADOR_ORIGEN</label>
+						<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "rescateTraspaso.oPortafolio.seleccionado.portafolio.TipoPersona === 'J'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "rescateTraspaso.formData.idAutorizadoDarOrdenes"
+								id-defecto				= "rescateTraspaso.formData.idAutorizadoDarOrdenesDefecto"
+								seleccionado			= "autorizadoDarOrdenes" 
+								filtros					= "rescateTraspaso.formData.FiltrosAutorizarOrden"
+								usa-filtros-completos   = "'S'"	>
+						</bcs-combobox-base>						
+ 					</div>
+					
+					<div class="row">
+						<label class="col-xs-4" translate>UI_PORTAFOLIO_DESTINO</label>
+						<bcs-combobox-base 
+								class				="col-xs-8"
+								id					="UI_PORTAFOLIO_DESTINO"
+							 	auto-cargar			="'false'"
+							 	bcs-requerido
+							    tipo				="'combobox-portafolio'"
+							    seleccionado		="rescateTraspaso.oPortafolioDestino.seleccionado"
+							    filtros				="rescateTraspaso.oPortafolioDestino.filtros"
+			                    item-post-filtro	="'1'"
+			                    id-actual			="rescateTraspaso.oPortafolioDestino.idActual"
+			                    cascada-a			="rescateTraspaso.formData.filtrosFormaPagoDestino.IdPortafolio"
+			                    cascada-valor		="'IdPortafolio'"
+			                    cascada1-a			="rescateTraspaso.formData.FiltrosBusquedaFondoDestino.IdPortafolio"
+			                    cascada1-valor		="'IdPortafolio'"
+			                    cascada2-a			="rescateTraspaso.formData.FiltrosAutorizarOrdenDestino.IdPortafolio"
+		                    	cascada2-valor	    ="'IdPortafolio'"
+							    configuracion		= "rescateTraspaso.oPortafolioDestino.configuracion">
+						</bcs-combobox-base >
+					</div>
+					<div class="row">
+ 						<label class="col-xs-4" translate>UI_AUTORIZADOR_DESTINO</label>
+						<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "rescateTraspaso.oPortafolioDestino.seleccionado.portafolio.TipoPersona === 'J'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "rescateTraspaso.formData.idAutorizadoDarOrdenesDestino"
+								id-defecto				= "rescateTraspaso.formData.idAutorizadoDarOrdenesDestinoDefecto"
+								seleccionado			= "autorizadoDarOrdenesDestino" 
+								filtros					= "rescateTraspaso.formData.FiltrosAutorizarOrdenDestino"	
+								usa-filtros-completos   = "'S'">
+						</bcs-combobox-base>						
+ 					</div>
+					
+					
+				  	<hr>
+				  	<bcs-combobox-buscador-fondos-custodia
+				  			id					="UI_BUSCADOR_FONDO_RESCATE_TRASPASO"
+							datos-fondo			="rescateTraspaso.datosFondo" 
+							muestra-valor-cuota = "'S'"
+							buscar-fondo		="rescateTraspaso.formData.setFondo"
+							id-ventana			="winID"
+							muestra-detalle		="'S'"
+							es-detalle			="'S'"
+							mas-informacion		="rescateTraspaso.masInformacion"
+							filtros				="rescateTraspaso.formData.FiltrosBusquedaFondo"
+							filtros-combobox	="rescateTraspaso.formData.FiltrosComboFondo">
+					</bcs-combobox-buscador-fondos-custodia>
+					
+			  		<hr>
+					<div ng-if="rescateTraspaso.datosFondo.IdInstrumento && rescateTraspaso.oPortafolio.seleccionado.IdPortafolio && (rescateTraspaso.formData.IdRegimenFondoMutuo || rescateTraspaso.formData.TipoRescate == 'T')">
+						<bcs-saldo-custodia-fondo
+					  		    decimales = "rescateTraspaso.datosFondo.DecimalesCuota"
+								id-boveda = "'COR'"
+								id-cliente = "rescateTraspaso.oSocioNegocio.seleccionado.IdCliente"
+								id-instrumento = "rescateTraspaso.datosFondo.IdInstrumento"
+								id-regimen = "rescateTraspaso.formData.IdRegimenFondoMutuo"
+								id-portafolio = "rescateTraspaso.oPortafolio.seleccionado.IdPortafolio"
+								fecha-saldo = "rescateTraspaso.formData.fechaSistema"
+								id-moneda = "rescateTraspaso.datosFondo.IdMoneda"
+								saldo-cuotas = "rescateTraspaso.formData.SaldoCuotas"
+								saldo-monto = "rescateTraspaso.formData.SaldoMonto" 
+						>
+						</bcs-saldo-custodia-fondo>
+						<hr>
+					</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="rescateTraspaso.formData.fechaSistema" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+			  		</div>
+			  		<div class="row">
+						<label class="col-xs-4" translate>UI_TIPO_RESCATE</label>
+				  		<bcs-combobox-base class="col-xs-8"
+				  			id="UI_TIPO_RESCATE"
+				  			tipo="'combobox-tipo-rescate-ffmm'"
+				  			configuracion="rescateTraspaso.formData.oConfiguracionTipoRescate.configuracion"
+                            filtros="rescateTraspaso.formData.oConfiguracionTipoRescate.filtros" 
+				  			id-actual="rescateTraspaso.formData.TipoRescate"
+				  			id-defecto="'M'"
+				  			seleccionado="rescateTraspaso.formData.TipoRescateSeleccionado">
+				  		</bcs-combobox-base>
+				  	</div>
+				  	<div class="row" ng-if="rescateTraspaso.datosFondo && rescateTraspaso.oPortafolio.seleccionado.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_REGIMEN</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-regimen-serie-fondo'"
+				  			id-actual="rescateTraspaso.formData.IdRegimenFondoMutuo"
+				  			seleccionado="rescateTraspaso.formData.regimenFondoMutuo"
+				  			item-post-filtro="'1'"
+				  			filtros="rescateTraspaso.formData.filtrosRegimen"
+				  			bcs-requerido
+				  			todos="'N'">
+						</bcs-combobox-base>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_MONTO_RESCATE</label> 
+				  		<bcs-input-monetario class="col-xs-8"
+				  			id="UI_MONTO_RESCATE"
+				  			k-ng-model="rescateTraspaso.formData.montoInicial"
+				  			decimales = "rescateTraspaso.formData.decimalesMonto"
+				  			bcs-requerido
+				  			k-ng-disabled="rescateTraspaso.formData.TipoRescate === 'C' || rescateTraspaso.formData.TipoRescate === 'T'"
+							simbolo="rescateTraspaso.datosFondo.IdMoneda">
+				  		</bcs-input-monetario>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+				  		<bcs-input-numero class="col-xs-8"
+				  			id="UI_NUMERO_CUOTAS"
+							decimales = "rescateTraspaso.formData.decimalesCantidad"
+							bcs-requerido
+							k-ng-model="rescateTraspaso.formData.numeroCuotas"
+							k-ng-disabled="rescateTraspaso.formData.TipoRescate === 'M' || rescateTraspaso.formData.TipoRescate === 'T'">
+						</bcs-input-numero> 
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_MONTO_COMISIONES</label> 
+				  		<bcs-comision-solicitud-fondo class="col-xs-8"
+					  		id-serie-fondo="rescateTraspaso.datosFondo.IdSerieFondo"
+					  		id-instrumento="rescateTraspaso.datosFondo.IdInstrumento"
+					  		id-cliente="rescateTraspaso.oSocioNegocio.seleccionado.IdCliente"
+					  		id-portafolio="rescateTraspaso.oPortafolio.seleccionado.IdPortafolio"
+					  		id-moneda="rescateTraspaso.datosFondo.IdMoneda"
+					  		id-moneda-operacion="rescateTraspaso.datosFondo.IdMoneda"
+					  		tipo-solicitud="'RES'"
+					  		tipo-movimiento="'RESTRANSF'"
+					  		fecha-valor-cuota="rescateTraspaso.formData.fechaSistema"
+					  		es-traspaso="'N'"
+					  		cantidad="rescateTraspaso.formData.numeroCuotas"
+					  	>	
+					  	</bcs-comision-solicitud-fondo>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+				  		<bcs-input-texto class="col-xs-8"
+				  			id="UI_GLOSA"
+					  		maxlength="100"
+							tipo-campo="'textarea'"
+							ng-model="rescateTraspaso.formData.comentario"
+							atributos="margin: 0px; height:73px;resize:none;width: 100%">
+				  		</bcs-input-texto>
+			  		</div>  
+				  	
+				</div>
+			</div>
+			
+			</form>
+        
+			<div class="row bcs-panel-comandos">
+				<div class=col-xs-12>
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM" 
+						bcs-texto="'UI_INGRESAR' | translate" 
+						bcs-habilitado="FormIngresoFFM.$valid"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar="true"
+						bcs-clic="rescateTraspaso.formData.ingresarAporteRescate()">
+					</bcs-button>	
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="rescateTraspaso.limpiarFMM()"
+						bcs-blur="rescateTraspaso.formData.resetFoco()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Solicitud Ingresada -->
+	<div class="row bcs-cuerpo" ng-show="rescateTraspaso.formData.IngresoConfirmacion === 'C'">
+		<div class="row">
+			<div class="col-xs-12">
+			    <div class="row" ng-show="true">
+				  	<label class="col-xs-4" translate>UI_SECUENCIA_OPERACION</label> 
+			  		<bcs-input-texto class="col-xs-8" ng-model="rescateTraspaso.formData.ResultadoSolicitudAporteRescate.SecuenciaOperacion" k-ng-disabled="'true'"></bcs-input-texto>
+		  		</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="oOperacion.seleccionado.Descripcion"
+			  			k-ng-disabled="'true'"
+			  		> 
+			  	</div>
+			  	<hr>
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="rescateTraspaso.oSocioNegocio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>      
+	 			<div class="row">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO_ORIGEN</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="rescateTraspaso.oPortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO_DESTINO</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="rescateTraspaso.oPortafolioDestino.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>
+			  	<hr>
+			  	<div class="row">
+			  	    <label class="col-xs-4" translate>UI_FONDO_MUTUO</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="rescateTraspaso.datosFondo.IdSerieFondo"
+			  			k-ng-disabled="'true'"
+			  		>
+		  		</div>
+		  		
+		  		<div class="row">
+					<span class="col-xs-6">
+						<label class="col-xs-8" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresoFFM.rescateTraspaso.muestraDetalle" ng-click="ingresoFFM.rescateTraspaso.muestraDetalle = !ingresoFFM.rescateTraspaso.muestraDetalle;ajustaVentana()">({{'+' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresoFFM.rescateTraspaso.muestraDetalle" ng-click="ingresoFFM.rescateTraspaso.muestraDetalle = !ingresoFFM.rescateTraspaso.muestraDetalle;ajustaVentana()">({{'-' | translate}})</em>
+					</span>
+				</div>
+				<div class="row" ng-show="ingresoFFM.rescateTraspaso.muestraDetalle">
+					<div class="row">
+					  	<label class="col-xs-3" translate>UI_TIPO_FONDO</label> 
+				  		<label class="col-xs-3" translate>{{rescateTraspaso.datosFondo.NombreCorto}}</label>
+				  		<label class="col-xs-3" translate>UI_PERFIL</label> 
+				  		<label class="col-xs-3" translate>{{rescateTraspaso.datosFondo.IdCategoriaPerfilFondoMutuo}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+				  		<label class="col-xs-3" translate>{{rescateTraspaso.datosFondo.IdRegimenTributario}}</label>
+				  		<label class="col-xs-3" translate>UI_PROPOSITO_SERIE</label> 
+				  		<label class="col-xs-3" translate>{{rescateTraspaso.datosFondo.PropositoSerie}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_ENTRADA</label> 
+				  		<label class="col-xs-3" translate>{{rescateTraspaso.datosFondo.EsComisionEntradaUI}}</label>
+				  		<label class="col-xs-3" translate>UI_MINIMO_PATRIMONIO</label> 
+				  		<label class="col-xs-3" translate>{{rescateTraspaso.datosFondo.EsPatrimonioMinimoUI}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+				  		<label class="col-xs-3" translate>{{rescateTraspaso.datosFondo.EsComisionSalidaUI}}</label>
+		  			</div>
+				</div>
+		  		<hr>	
+				<div class="row">
+				  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+			  		<bcs-input-date
+						class="col-xs-8"
+						k-ng-model="rescateTraspaso.formData.fechaSistema" 
+						bcs-requerido
+						k-ng-disabled="'true'">
+					</bcs-input-date>
+			  	</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_TIPO_RESCATE</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="rescateTraspaso.formData.ResultadoSolicitudAporteRescate.TipoRescate"
+			  			k-ng-disabled="'true'">
+			  		</bcs-input-texto>
+		  		</div>
+		  		<div class="row" ng-show="rescateTraspaso.formData.TipoRescate !== 'T'">
+			  		<label class="col-xs-4" translate>UI_REGIMEN</label>
+				 	<bcs-input-texto class="col-xs-8"
+				 		k-ng-disabled="'true'"
+				 		ng-model="rescateTraspaso.formData.regimenFondoMutuo.Descripcion">
+				 	</bcs-input-texto>
+				</div>
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_MONTO_RESCATE</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="rescateTraspaso.formData.ResultadoSolicitudAporteRescate.MontoRescate"
+			  			decimales = "rescateTraspaso.formData.decimalesMonto"
+			  			k-ng-disabled="'true'"
+			  			simbolo="rescateTraspaso.datosFondo.IdMoneda"
+			  		>
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="rescateTraspaso.formData.ResultadoSolicitudAporteRescate.NumeroCuotas"
+			  			k-ng-disabled="'true'"	
+			  		>
+			  		</bcs-input-texto>
+		  		</div>
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+			  		<bcs-input-texto class="col-xs-8"
+				  		maxlength="260"
+						tipo-campo="'textarea'"
+						ng-model="rescateTraspaso.formData.comentario"
+						atributos="margin: 0px; height:73px;resize:none;width: 100%"
+						k-ng-disabled="'true'"	
+					>
+			  		</bcs-input-texto>
+		  		</div>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class=col-xs-12>
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VOLVER' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="rescateTraspaso.limpiarFMM('true')"
+					foco = "rescateTraspaso.formData.focoVolver">
+				</bcs-button>	
+				<!--  <bcs-button class="col-xs-4" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="''" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VER_COMPROBANTE' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-blur="rescateTraspaso.formData.resetFoco()"
+					bcs-clic="verComprobante()"
+					foco = "rescateTraspaso.formData.focoComprobante">
+				</bcs-button>-->
+			</div>
+		</div>
+	</div>
+	
+</div>

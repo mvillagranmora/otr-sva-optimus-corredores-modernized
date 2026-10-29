@@ -1,0 +1,117 @@
+<div id="BlotterCSC" class="col-xs-12" ng-controller="BlotterCSCCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-2" translate>UI_CLIENTE</label> 
+			  			<bcs-combobox-base
+							class				= "col-xs-8"
+							id					= "UI_CLIENTE"
+							auto-cargar			= "'false'"
+							tipo				= "'combobox-socio-negocio'"
+							seleccionado		= "filtros.socioNegocio"
+							filtros				= "oSocioNegocio.filtros"
+							id-actual			= "filtros.IdSocioDeNegocio">
+						</bcs-combobox-base>
+					</div> 
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_FECHA_APROBACION</label> 
+			  			<bcs-input-date
+							class				= "col-xs-8"
+							id					= "UI_FECHA_APROBACION"
+							k-ng-model			= "filtros.fecha"
+							bcs-requerido>
+						</bcs-input-date>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-4">
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button
+						class					= "col-xs-12"
+						bcs-tipo				= "'bcs-button-search'"
+						bcs-auto-desactivar		= "false"
+						bcs-texto				= "'UI_BUSCAR' | translate"
+						bcs-habilitado			= "true"
+						bcs-clic				= "buscar(apiGridPac,filtros)">
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button
+						class					= "col-xs-12"
+						bcs-tipo				= "'bcs-button-secondary'"
+						bcs-auto-desactivar		= "false"
+						bcs-texto				= "'UI_LIMPIAR' | translate"
+						bcs-habilitado			= "true"
+						bcs-clic				= "limpiarFiltros()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<bcs-grid
+				id					= "grid-consulta-contratos-pac"
+				configuracion		= "defaultOptions"
+				fn-doble-click		= "abrirDetalle(datos.kNgModel)"
+				api					= "apiGridPac"
+				seleccionado		= "datos.kNgModel"
+				fn-exportar-excel	= "exportarExcel">
+				
+					<div bcs-grid-detail ng-non-bindable>
+						<div style="width : 970px;">
+			              	<uib-tabset> <!--<uib-tabset style="width:800px;">-->
+			                  	<uib-tab heading="{{'UI_DETALLE' | translate}}">
+			                  		<bcs-grid configuracion = "confBasicaDetalleCSC(dataItem)"	                            
+			                            seleccionado = "seleccionDetalleCSC">
+									</bcs-grid>                  		
+			                  	</uib-tab>
+							</uib-tabset>
+						</div>
+					</div>
+				
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-10>
+			
+			<bcs-button class="col-xs-2" id="IngresarCSC"
+				bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_INGRESO' | translate" bcs-habilitado="'true'"
+				bcs-clic="ingresarCSC()"> </bcs-button>
+			<!--<bcs-button class="col-xs-2" id="BlotterCSC_"
+				bcs-tipo="''" bcs-auto-desactivar="false"
+				bcs-texto="'UI_EDITAR' | translate" bcs-habilitado="datos.kNgModel[0].IdEstado!='RVC'"
+				bcs-clic="ingresarCSC('EDITAR')"> </bcs-button>-->
+			<!--<bcs-button class="col-xs-2" id="BlotterCSC_"
+				bcs-tipo="''" bcs-auto-desactivar="false"
+				bcs-texto="'UI_IMPRIMIR_CSC' | translate" bcs-habilitado="'true'"
+				bcs-clic="certificarFFM(datos.kNgModel)"> </bcs-button> -->
+				<div class=col-xs-2>
+					<bcs-menu bcs-habilitado="datos.kNgModel[0].IdEstado!='ANU'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES_GESTION' | translate">
+						<li ng-click="ingresarCSC('EDITAR')"  >{{'UI_MODIFICAR_CONTRATO' | translate}} </li>
+						<li ng-click="AnulacionContratoCSC('CER')">{{'UI_ANULAR_CONTRATO' | translate}}</li>
+						<li ng-click="RevocacionContratoCSC('REV')">{{'UI_REVOCAR_CONTRATO' | translate}}</li>
+					</bcs-menu>	
+				</div>
+			<bcs-button class="col-xs-2" id="ImprimirBlotterCSC_"
+				bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_IMPRIMIR_CSC' | translate" bcs-habilitado="'true'"
+				bcs-clic="verComprobante()"> </bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>	
+	            <!--  li ng-click="blotterCambioSerieFFM()">{{'UI_CAMBIO_SERIE_MASIVO' | translate}}</li>-->
+			</bcs-menu>
+		</div>
+	</div>
+</div>

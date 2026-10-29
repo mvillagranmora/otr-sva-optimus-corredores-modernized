@@ -1,0 +1,67 @@
+<div id="PanelClienteDocumentos" ng-controller='PanelClienteDocumentosCtrl as pcd'> 
+	<div class="row">
+		<bcs-grid id="id_grid" 
+			configuracion="pcd.confGridDocumentos"
+			seleccionado="pcd.seleccion"
+			fn-doble-click="pcd.abrirDetalleFirmas(pcd.seleccion)"
+			api="pcd.gridApi">
+			<div bcs-grid-detail ng-non-bindable>
+				<div class="row">
+					<label class="col-xs-12" translate>UI_DOCUMENTOS_VENCIDOS</label>
+				</div>
+				<bcs-grid id="grid-vencidos" 
+					configuracion="pcd.confGridVencidos(dataItem)" 
+					seleccionado="pcd.seleccion" 
+					api="grid.gridApiVencidos" >		
+				</bcs-grid>		
+			</div> 
+		</bcs-grid>
+		<div class="row col-xs-12 bcs-panel-comandos">
+			<div class="col-xs-12">
+				<bcs-button id="PanelClienteDocumentos_nuevo" 
+					class="col-xs-2 pull-right" 
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_FIRMAR_DOCUMENTO' | translate" 
+					bcs-habilitado="(pcd.seleccion && (pcd.seleccion.TieneAdjunto=='S' || pcd.seleccion.IdClaseDocumento == '2' || pcd.seleccion.IdClaseDocumento == '3') && pcd.seleccion.IdEstado!=='ACT') || (pcd.seleccion.PermiteFirmarSinDocumento ==='S' && pcd.seleccion.IdEstado !== 'ACT')"
+					bcs-clic="pcd.abrirDetalle()"
+					ng-show="SesionLocale!=='PE'">
+				</bcs-button>
+				<bcs-button id="PanelClienteDocumentos_subirPFD" 
+					class="col-xs-2 pull-right" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_SUBIR_PDF' | translate" 
+					bcs-habilitado="(!!pcd.seleccion && (pcd.seleccion.IdEstado !== 'VCD' || pcd.seleccion.IdClaseDocumento === 1 ? true : false) && pcd.seleccion.PermiteFirmarSinDocumento === 'N')"
+					bcs-clic="pcd.SubirDocumento()">
+				</bcs-button>
+				<bcs-button id="PanelClienteDocumentos_verPFD" 
+					class="col-xs-2 pull-right" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false"
+					bcs-habilitado="((pcd.seleccion.TieneAdjunto!==undefined && pcd.seleccion.TieneAdjunto === 'S' && pcd.seleccion.PermiteFirmarSinDocumento === 'N' ) || (pcd.seleccion.IdEstado === 'VCD' && pcd.seleccion.PermiteFirmarSinDocumento === 'N'))"  
+					bcs-texto="'UI_VER_PDF' | translate" 
+					bcs-clic="pcd.validarDocumento()">
+				</bcs-button>
+				<bcs-button id="PanelClienteDocumentos_modificar" 
+					class="col-xs-2 pull-right" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_DOCUMENTO_MODIFICAR' | translate " 
+					bcs-habilitado="(pcd.seleccion.IdEstado === 'ACT')"
+					bcs-clic="pcd.abrirDetalle()"
+					ng-show="SesionLocale!=='PE'">
+				</bcs-button>
+				<!--  <bcs-button id="PanelClienteDocumentos_nuevo" 
+					class="col-xs-2" 
+					bcs-tipo="'principal'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="BTN" 
+					bcs-habilitado="(!!pcd.seleccion && (pcd.seleccion.PermiteFirmarSinDocumento==='S' ? true : (pcd.seleccion.TieneAdjunto==='S')))"  
+					bcs-clic="pcd.consultarSi()"
+					ng-show="SesionLocale!=='PE'">
+				</bcs-button>-->
+			</div>
+		</div>
+	</div>	
+</div>

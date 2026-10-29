@@ -1,0 +1,73 @@
+<div class="row" ng-controller="LibroDteComprobanteCtrl">
+  <div class="row bcs-cuerpo">	
+	<div class="row">
+	
+	  <!-- INICIO FILTROS -->	
+	  <div class="col-xs-10"> 				
+		<div class="row">	
+		  <div class="col-xs-12">
+	        <label class="col-xs-2" translate>UI_PERIODO_CONTABLE</label>
+		    <bcs-input-date class="col-xs-10" 
+			   k-options="data.monthSelectorOptions"
+			   todo-dias="'true'"
+			   k-ng-model="data.oPeriodoContable">
+		    </bcs-input-date>
+	 	  </div>
+		</div>
+	  </div>
+      <!-- FIN FILTROS -->
+				
+	  <!-- INICIO BOTONES -->
+	  <div class="col-xs-2">
+		<div class="row">
+		  <bcs-button class="col-xs-12" 
+			 bcs-tipo="'bcs-button-search'"  
+			 bcs-auto-desactivar="'false'" 
+			 bcs-texto="'UI_BUSCAR' | translate" 
+			 bcs-habilitado="true"  
+			 bcs-clic="buscar()">
+		  </bcs-button>
+		</div>
+		  
+		<div class="row">
+		  <bcs-button class="col-xs-12" 
+			 bcs-tipo="'bcs-button-secondary'"  
+			 bcs-auto-desactivar="'false'" 
+			 bcs-texto="'UI_LIMPIAR' | translate" 
+			 bcs-habilitado="true"  
+			 bcs-clic="limpiarFiltros()">
+		  </bcs-button>
+		</div>		  
+	  </div>
+	  <!-- FIN BOTONES -->
+	  
+    </div> 
+    
+    <!-- INICIO SUB GRILLA DETALLE REGISTRO -->
+	<div class="row">
+	  <bcs-grid id="grid-libro-comprobantes" configuracion = "confBasicaLibroDteComprobante" seleccionado = "seleccionLibroDteComprobante" api = "gridApiLibroDteComprobante" fn-exportar-excel = "exportarExcel"></bcs-grid>
+	</div>
+	<!-- FIN SUB GRILLA DETALLE REGISTRO -->	
+  </div>
+   
+  <!-- INICIO PANEL COMANDOS --> 	  
+  <div class="row bcs-panel-comandos">
+	<bcs-button class="col-xs-2" 
+	      id = 'LibroDteComprobanteCtrl_btnEnviarLibroDte' 
+	      bcs-tipo="'bcs-button-primary'"  
+	      bcs-auto-desactivar="'true'"  
+	      bcs-texto="'UI_ENVIAR_LIBRO_DTE' | translate"  
+	      bcs-habilitado="seleccionLibroDteComprobante"
+	      ng-show = "SesionLocale === 'CL'"
+	      bcs-clic="data.enviarLibroDte()">
+	</bcs-button>
+    
+    <bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">		            
+	   <li ng-click="data.seleccionarTodosComprobantes()">{{'UI_SELECCIONAR_TODO' | translate}}</li>
+	   <li ng-click="data.deseleccionarTodosComprobantes()">{{'UI_DESELECCIONAR_TODO' | translate}}</li>
+	   <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+    </bcs-menu>
+  </div>	
+  <!-- FIN PANEL COMANDOS -->
+  	
+</div>

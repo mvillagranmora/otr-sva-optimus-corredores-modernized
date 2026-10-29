@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="demo2" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DIMENSION" enforceSqlExecution="false" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <descriptions defaultDescription="demo2"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources>
+    <DataSource id="BSCL.Orden.BD::ORD.Asignacion" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="BSCL" columnObjectName="BSCL.Orden.BD::ORD.Asignacion"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews/>
+  <logicalModel id="BSCL.Orden.BD::ORD.Asignacion">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdAsignacion" key="true" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdAsignacion"/>
+        <keyMapping schemaName="BSCL" columnObjectName="BSCL.Orden.BD::ORD.Asignacion" columnName="IdAsignacion"/>
+      </attribute>
+      <attribute id="FechaAsignacion" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="FechaAsignacion"/>
+        <keyMapping schemaName="BSCL" columnObjectName="BSCL.Orden.BD::ORD.Asignacion" columnName="FechaAsignacion"/>
+      </attribute>
+      <attribute id="MontoAsignado" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="MontoAsignado"/>
+        <keyMapping schemaName="BSCL" columnObjectName="BSCL.Orden.BD::ORD.Asignacion" columnName="MontoAsignado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes>
+      <calculatedAttribute id="FechaXXX" hidden="false" order="4" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="FechaXXX"/>
+        <keyCalculation datatype="VARCHAR" expressionLanguage="SQL" length="10">
+          <formula>TO_CHAR(ADD_SECONDS (&quot;FechaAsignacion&quot;, -60*60))&#xD;
+&#xD;
+</formula>
+        </keyCalculation>
+      </calculatedAttribute>
+    </calculatedAttributes>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

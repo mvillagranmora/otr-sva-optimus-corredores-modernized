@@ -1,0 +1,93 @@
+<form class="col-xs-12 form-horizontal">
+	<div id="EtapasAutorizador" ng-controller="MantenedorAutorizacionCtrl"
+		style="padding-right: 0px;">
+		<div class="row bcs_titulo no-margin">Configuración de Autorizaciones</div>
+		
+		<div style="height: auto; overflow: hidden;">
+			<!-- derecha -->
+			<div style="width: 550px; float: right;">
+				<!-- Etapas -->
+				<div>
+					<div class="row bcs_titulo no-margin">Etapas</div>
+					<div class="row">
+						<bcs-grid id="grid-etapa" 
+						configuracion="Etapa" 
+						seleccionado="seleccionEtapa" 
+						api="gridEtapa" ></bcs-grid>
+					</div>
+					<div class="row bcs-panel-comandos">
+						<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-input-form'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate"
+							bcs-habilitado="!!seleccionEvento" bcs-clic="etapaModal()"></bcs-button>
+						<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-input-form'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate"
+							bcs-habilitado="!!seleccionEtapa" bcs-clic="modificarEtapa()"></bcs-button>
+					</div>
+				</div>
+				<!-- Autorizador -->
+				<div>
+					<div class="row bcs_titulo no-margin">Autorizadores</div>
+					<div class="row">
+						<bcs-grid id="grid-autorizador" 
+						configuracion="Autorizador" 
+						seleccionado="seleccionAutorizador" 
+						api="gridAutorizador" ></bcs-grid>
+					</div>
+					<div class="row bcs-panel-comandos">
+					
+						<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate"
+							bcs-habilitado="!!seleccionEtapa" bcs-clic="autorizadorModal()"></bcs-button>
+							
+						<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate"
+							bcs-habilitado="!!seleccionAutorizador" bcs-clic="modificarAutorizador()"></bcs-button>
+							
+						<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="false" bcs-texto ="'UI_BLOQUEAR' | translate"
+							bcs-clic  ="bloquearAutorizador()" bcs-habilitado="!!seleccionAutorizador && seleccionAutorizador.IdEstado !== 'BLO'"></bcs-button>
+							
+					</div>
+				</div>
+			</div>
+			<!-- Grid Eventos izq -->
+			<div style="float: none; overflow: hidden; padding-right: 5px">
+				<div class="row bcs_titulo no-margin">Eventos</div>
+				<div class="row">
+					<bcs-grid id="grid-tipo-evento" 
+						configuracion="TipoEvento" 
+						seleccionado="seleccionEvento" 
+						api="gridTipoEvento" ></bcs-grid>
+				</div>
+				<div class="row bcs-panel-comandos">
+					<bcs-button
+					class="col-xs-3"
+					bcs-tipo="'bcs-button-secondary'"
+					ng-show="seleccionEvento.IdEstado != 'VIG' && seleccionEvento.IdEstado != 'INA'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'DESHABILITAR'"
+					bcs-habilitado="botonesHabilitados"></bcs-button>
+					<bcs-button
+					id="PanelMantenedorAutorizaciones_deshabilitar"
+					class="col-xs-3"
+					bcs-tipo="'bcs-button-secondary'"
+					ng-show="seleccionEvento.IdEstado === 'VIG'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'DESHABILITAR'"
+					bcs-habilitado="!ppdg.pantalla.modoEdicion"
+					bcs-clic="modificarEstadoEvento()"></bcs-button>
+					<bcs-button
+					id="PanelPersonaDatosGenerales_desbloquear"
+					class="col-xs-3"
+					bcs-tipo="'bcs-button-primary'"
+					ng-show="seleccionEvento.IdEstado ==='INA'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'HABILITAR'"
+					bcs-habilitado="!ppdg.pantalla.modoEdicion"
+					bcs-clic="modificarEstadoEvento()"></bcs-button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

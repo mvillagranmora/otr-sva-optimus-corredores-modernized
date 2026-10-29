@@ -1,0 +1,68 @@
+<div id="ModalOperadoresMesa" class="row" ng-controller="ModalOperadoresMesaCtrl as mOM">
+	<div class="row">
+		<form name="ModalOperadoresMesa" class="col-xs-12">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MESA</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-mesas'"
+					id-actual="mOM.datosOpeMes.IdMesa"
+					id-defecto="mOM.datosOpeMes.IdMesaDef"
+					filtros="mOM.cmbbx.Mesa.filtros"
+					todos="'S'"
+					activado="!mOM.win.modoEditar"
+					bcs-requerido
+					configuracion="mOM.cmbbx.Mesa.configuracion"
+					seleccionado="mOM.datosOpeMes.MesaObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_AGENTE_OPERADOR</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-empleado'"
+					id-actual="mOM.datosOpeMes.IdAgente"
+					id-defecto="mOM.datosOpeMes.IdAgenteDef"
+					filtros="mOM.cmbbx.Agente.filtros"
+					todos="'N'"
+					bcs-requerido
+					configuracion="mOM.cmbbx.Agente.configuracion"
+					seleccionado="mOM.datosOpeMes.AgenteObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row" ng-show="mOM.datosOpeMes.MesaObj.CodigoModulo='MRF'">
+				<label class="col-xs-4"></label>
+				<div class="col-xs-8">
+					<bcs-input-checkgroup
+						valores="mOM.datosOpeMes.SuperUsuario"
+						etiquetas="{confSuperUsr :'UI_MODIFICA_OTRAS_OPERACIONES'}"
+						orientacion="H"
+						modo="U"
+						activado="'false'"></bcs-input-checkgroup>
+				</div>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_ESTADO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-estado-mesas'"
+					id-actual="mOM.datosOpeMes.IdEstado"
+					id-defecto="mOM.datosOpeMes.IdEstadoDef"
+					filtros="mOM.cmbbx.Estado.filtros"
+					todos="'N'"
+					bcs-requerido
+					seleccionado="mOM.datosOpeMes.EstadoObj">
+				</bcs-combobox-base>
+			</div>
+			
+			
+		</form>
+	</div>
+	<br>
+	
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button id={{mOM.IdBotonAceptar}} class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalOperadoresMesa.$valid" bcs-clic="mOM.fn.aceptar();">
+		</bcs-button>
+		<bcs-button id="ModalOperadoresMesa_cancelar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="mOM.fn.cancelar();">
+		</bcs-button>
+	</div>
+</div>

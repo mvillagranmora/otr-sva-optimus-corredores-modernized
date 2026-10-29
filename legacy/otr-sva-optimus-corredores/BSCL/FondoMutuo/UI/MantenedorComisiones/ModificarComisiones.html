@@ -1,0 +1,110 @@
+<div id="ModificarComisiones" class="col-xs-12" ng-controller="ModificarComisionesCtrl">
+	<div class="row bcs-cuerpo">
+		<form name="FormIngresoComisionFFM" class="filters-formulario">
+		   	<div class="row">
+				<div class="col-xs-12">
+					<div class="row">
+						<label class="col-xs-3" translate>UI_INSTRUMENTO</label> 
+				  		<bcs-input-texto class="col-xs-9"
+					  		maxlength="40"
+					  		k-ng-disabled="'true'"
+							ng-model="parametros.IdSerieFondo">
+				  		</bcs-input-texto>
+				  	</div>
+				  	<div class="row">
+						<label class="col-xs-3" translate>UI_FAMILIA</label> 
+				  		<bcs-input-texto class="col-xs-9"
+					  		maxlength="40"
+					  		k-ng-disabled="'true'"
+							ng-model="parametros.NombreFamilia">
+				  		</bcs-input-texto>
+				  	</div>
+				  	<div class="row">
+				  		<label class="col-xs-3" translate>UI_TIPO_COMISION</label>
+						<bcs-input-texto class="col-xs-9"
+					  		maxlength="40"
+					  		k-ng-disabled="'true'"
+							ng-model="formData.ComisionDespues.TipoComision">
+				  		</bcs-input-texto>
+				  	</div>
+				  	<div class="row">
+				  		<label class="col-xs-3" translate>UI_VIGENCIA_DESDE</label>
+						<bcs-input-date class="col-xs-9" 
+							k-ng-model="formData.ComisionDespues.FechaVigenciaDesde"
+							bcs-requerido
+							todo-dias="'true'">
+						</bcs-input-date>
+				  	</div>
+				  	<div class="row">
+				  		<label class="col-xs-3" translate>UI_VIGENCIA_HASTA</label>
+						<bcs-input-date class="col-xs-9" 
+							k-ng-model="formData.ComisionDespues.FechaVigenciaHasta"
+							bcs-requerido
+							todo-dias="'true'">
+							
+						</bcs-input-date>
+				  	</div>
+				  	<div class="row">
+				  		<label class="col-xs-3" translate>UI_PORCENTAJE_LIBERADO</label>
+						<bcs-input-numero class="col-xs-9"
+							decimales = "'2'"
+							bcs-requerido
+							k-ng-model="formData.ComisionDespues.PorcentajeLiberado">
+						</bcs-input-numero>
+				  	</div>
+				  	<div class="row">
+				  		<label class="col-xs-3" translate>UI_DESCRIPCION</label>
+						<bcs-input-texto class="col-xs-9"
+					  		maxlength="40"
+					  		bcs-requerido
+							ng-model="formData.ComisionDespues.Descripcion">
+				  		</bcs-input-texto>
+				  	</div>
+				  	<div class="row">
+				  		<label class="col-xs-3" translate>UI_ESTADO</label>
+				  		<bcs-combobox-base class="col-xs-9"
+				  			tipo="'combobox-estado-comision-ffmm'"
+				  			id-actual="formData.ComisionDespues.Estado"
+				  			bcs-requerido
+				  			id-defecto="formData.ComisionAntes.Estado" 
+				  			todos="'N'">
+				  		</bcs-combobox-base>
+				  	</div>
+				</div>
+			</div>
+		</form>	
+		<div class="row">
+			<bcs-grid 
+				id="grid-comisiones-fmm"
+			 	configuracion="defaultOptions"
+				api = "apiGridComisiones"
+				seleccionado="formData.tramosSeleccionados">		
+			</bcs-grid>
+		</div>	
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-12>
+			<bcs-button class="col-xs-2 pull-right" id="MantenedorApertura_GuardarAperturaCierreBloqueo" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_GUARDAR' | translate" 
+				bcs-habilitado="FormIngresoComisionFFM.$valid"
+				bcs-clic="formData.modificarComisiones()">
+			</bcs-button>
+			<bcs-button class="col-xs-2 pull-right" id="MantenedorApertura_GuardarAperturaCierreBloqueo" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_AGREGAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.agregarTramo()">
+			</bcs-button>	
+			<bcs-button class="col-xs-2 pull-right" id="MantenedorApertura_GuardarAperturaCierreBloqueo" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_QUITAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.quitarTramo()">
+			</bcs-button>		
+		</div>
+	</div>
+</div>

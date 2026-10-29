@@ -1,0 +1,162 @@
+<div class="row" ng-controller='ModificarMasivoComisionesModalCtrl as bModMasivCom'>
+  <!-- <div class="row no-margin"> -->
+  <div class="row bcs-cuerpo">
+ 	<div class="row">
+ 		<div class="col-xs-10">
+ 			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_CLIENTE</label>
+			        <bcs-combobox-base class="col-xs-10" 
+			        	id="ModificarMasivoComisionesCtrl_UI_CLIENTE" 
+			        	bcs-requerido="'true'" 
+			        	auto-cargar="'false'"
+						carga-cliente-automatico="'N'"
+						activado="data.modoConsulta" 
+						id-Actual="data.oCliente.idActual"
+						id-defecto="data.oCliente.idDefecto"
+						tipo="'combobox-socio-negocio'" 
+						seleccionado="data.oCliente.seleccionado"
+						configuracion="data.oCliente.configuracion" 
+						filtros="data.oCliente.filtros"
+						cascada-a="data.oPortafolio.filtros.IdCliente" 
+						cascada-valor="'IdCliente'">
+					</bcs-combobox-base>
+				</div> 	
+				<div class="col-xs-6">
+			        <label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+				    <bcs-combobox-base class="col-xs-10"
+				       id="ModificarMasivoComisionesCtrl_UI_PORTAFOLIO"
+				       tipo="data.oPortafolio.tipo"
+				       seleccionado="data.oPortafolio.seleccionado"
+				       auto-cargar="'false'"
+				       activado="data.modoConsulta"
+				       id-actual="data.oPortafolio.idActual"
+				       filtros="data.oPortafolio.filtros"
+				       id-post-filtro = "bModMasivCom.infoPrincipalCliente.IdPortafolio"
+				       configuracion= "data.oPortafolio.configuracion">
+				    </bcs-combobox-base>
+			  </div>
+ 			</div>
+ 			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_OPERACION</label>
+					<bcs-combobox-base class="col-xs-10"
+						id="ModificarMasivoComisionesCtrl_UI_OPERACION" 
+						auto-cargar="'true'"
+						activado="data.modoConsulta"
+						tipo="data.oConfiguracionOperacion.tipo"
+						configuracion="data.oConfiguracionOperacion.configuracion"
+						id-actual="data.oConfiguracionOperacion.idActual"
+						seleccionado="data.oConfiguracionOperacion.seleccionado"
+						filtros="data.oConfiguracionOperacion.filtros" 
+						todos="'S'"
+						item-post-filtro="'1'">
+						</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-10"
+						id="ModificarMasivoComisionesCtrl_UI_CLASIFICACION" 
+						auto-cargar="'true'"
+						tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+						configuracion="data.oConfiguracionClasificacionTipoInstrumento.configuracion"
+						seleccionado="data.oConfiguracionClasificacionTipoInstrumento.seleccionado"
+						filtros="data.oConfiguracionClasificacionTipoInstrumento.filtros"
+						id-actual="data.oConfiguracionClasificacionTipoInstrumento.idActual"
+						cascada-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada-valor="'IdClasificacionTipoInstrumento'" 
+						activado="data.modoConsulta"
+						todos="'S'"
+						id-defecto="'0'" item-post-filtro="'1'"> 
+					</bcs-combobox-base>
+				</div>
+				
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_TIPO_COBRO</label>
+					<bcs-combobox-base class="col-xs-10"
+						id="ModificarMasivoComisionesCtrl_UI_TIPO_COBRO" 
+						auto-cargar="'true'"
+						bcs-requerido="'true'"
+						tipo="data.oConfiguracionComboTipoCobro.tipo"
+						configuracion="data.oConfiguracionComboTipoCobro.configuracion"
+						seleccionado="data.oConfiguracionComboTipoCobro.seleccionado"
+						filtros="data.oConfiguracionComboTipoCobro.filtros"
+						id-actual="data.oConfiguracionComboTipoCobro.idActual"
+						todos="'N'"
+						activado="data.modoConsulta"
+						id-defecto="data.oConfiguracionComboTipoCobro.idDefecto"> 
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<div class="col-xs-4">
+					</div>	
+					<label class="col-xs-7" translate>UI_SELECCIONAR_TODAS_OPERACIONES</label>
+					<bcs-input-checkbox id="ModificarMasivoComisionesCtrl_UI_SELECCIONAR_TODAS_OPERACIONES"
+						class="col-xs-1" 
+						ng-disabled="!data.modoConsulta"
+						ng-model="data.oIndSeleccionarTodasOperaciones">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+ 		</div>
+ 		<!-- INICIO BOTONES -->
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" 
+				bcs-tipo="'bcs-button-search'"
+					bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_BUSCAR' | translate"
+					bcs-habilitado="data.modoConsulta" 
+					bcs-clic="buscar()"> 
+				</bcs-button>
+			</div>
+	
+			<div class="row">
+				<bcs-button class="col-xs-12" 
+				bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_LIMPIAR' | translate"
+					bcs-habilitado="data.modoConsulta"
+					bcs-clic="limpiarFiltros()">
+				</bcs-button>
+			</div>
+		</div>
+		<!-- FIN BOTONES -->
+ 		
+ 	</div>
+  </div>	
+  
+  <div class= "row no-margin">
+		<div class="col-xs-12">
+			<uib-tabset id="tabsModificarMasivoComisiones">
+				<uib-tab index="tabsModificarMasivoComisionesSeleccion" select="activarModoConsulta()" active="data.tabs['TabSeleccion'].active" heading="{{'UI_SELECCION' | translate}}">
+				 	<div id="gridModificarMasivoComisionesSeleccion">
+				 		<bcs-grid 
+				 			id="grid-modificar-masivo-comisiones-seleccion"
+						configuracion = "confBasicaGrillaSeleccion"
+						seleccionado = "seleccionModificarMovimientos"
+						api = "data.gridApiModificarMovimiento">
+				 		</bcs-grid>
+				</div>
+				 </uib-tab>
+				 <uib-tab index="tabsModificarMasivoComisionesCobros" select="validarSeleccion(seleccionModificarMovimientos)" active="data.tabs['TabCobros'].active" heading="{{'UI_COBROS' | translate}}">
+				<div id="gridModificarMasivoComisionesCobros">
+				 		<bcs-grid 
+				 			id="grid-modificar-masivo-comisiones-cobros"
+						configuracion = "confBasicaGrillaCobros"
+						api = "data.gridApiModificarMovimientoCobros">
+				 		</bcs-grid>
+				</div>
+				 </uib-tab>
+			</uib-tabset>
+		</div>
+  </div>
+  <!-- INICIO PANEL COMANDOS --> 	  
+  <div class="row bcs-panel-comandos" style="margin-top:10px">
+	<bcs-button  class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"   bcs-auto-desactivar="'true'"  bcs-texto="'UI_GRABAR' | translate"  bcs-habilitado="!data.modoConsulta"  bcs-clic="data.grabarModificarMasivoComisiones()"></bcs-button>
+	<bcs-button  class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'true'"  bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="!data.modoConsulta"  bcs-clic="data.cancelar()"></bcs-button>				
+  </div>	
+  <!-- FIN PANEL COMANDOS -->
+</div>

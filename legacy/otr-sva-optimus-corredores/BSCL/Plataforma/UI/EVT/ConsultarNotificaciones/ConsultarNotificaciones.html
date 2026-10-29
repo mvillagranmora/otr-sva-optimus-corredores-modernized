@@ -1,0 +1,188 @@
+<div class="col-xs-12" ng-controller='ConsultarNotificaciones'>
+<div class="col-xs-12 bcs-cuerpo">
+<uib-tabset>
+<uib-tab heading="Enviadas">
+<div class="row" >
+	 
+	<div class="row">
+		<div class="col-xs-10">
+	       <div class ="row">  
+	      	 <div class="col-xs-12">
+              	<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_FECHA_DESPACHO_DESDE</label>
+					<bcs-input-date class="col-xs-6" 
+						k-ng-model="conf.kngFechaDespachoDesde" 
+						ng-model="FechaDespachoDesde"
+					></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_FECHA_DESPACHO_HASTA</label>
+					<bcs-input-date class="col-xs-6" 
+						k-ng-model="conf.kngFechaDespachoHasta" 
+						ng-model="FechaDespachoHasta"
+					></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_ESTADO_RESPUESTA</label>
+					<bcs-combobox-base class="col-xs-6"
+							item-post-filtro="'4'"
+							tipo="'combobox-estado-confirmacion'"
+							seleccionado="conf.oEstadoConfirmacion"
+							filtros = "conf.oEstadoConfirmacion.filtros"
+	 						todos="'N'"   
+ 							activado="true">
+					</bcs-combobox-base>
+				</div>
+			  </div>
+			  <div class ="row">  </div>
+				<div class="col-xs-12">
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_TIEMPO_DESPACHO</label>
+						<bcs-combobox-base class="col-xs-6"
+							tipo="'combobox-tiempo-despacho'"
+							seleccionado="conf.oTiempoDespacho"
+							filtros = "conf.oTiempoDespacho.filtros"
+	 						todos="'S'"   
+ 							activado="true"> 
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_ESTADO_NOTIFICACION</label>
+						<bcs-combobox-base class="col-xs-6"
+							tipo="'combobox-notificacion-enviada'"
+							seleccionado="conf.oNotificacionEnviada"
+							filtros = "conf.oNotificacionEnviada.filtros"
+	 						todos="'S'"   
+ 							activado="true">
+						</bcs-combobox-base>
+					</div>
+				</div>
+            </div> 
+ 	
+		</div>  
+		<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="BuscarNotificacionesEnviadas()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+		 </div>
+
+</div> 
+	<div class="row"> 
+		 <bcs-grid id="grid-notificacion"
+		 	configuracion ="notificacionesenviadas"
+			seleccionado = "conf.notificacionesenviadas"
+			fn-doble-click ="verDetalleNotificacion(conf.notificacionesenviadas)"
+			fn-exportar-excel="exportarExcelEnviadas"
+			 >
+    	</bcs-grid> 
+    
+	</div>     
+	</br>
+ 	<div class="row bcs-panel-comandos">
+		<bcs-button id="Enviadas_enviar"  class="col-xs-2" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_ENVIAR' | translate" bcs-habilitado="conf.notificacionesenviadas" bcs-clic="enviarNotificacion(conf.notificacionesenviadas)"></bcs-button>
+		<bcs-button id="Enviadas_reenviar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_REENVIAR' | translate" bcs-habilitado="conf.notificacionesenviadas" bcs-clic="reEnviarNotificacion(conf.notificacionesenviadas)"  ></bcs-button>
+		<bcs-button id="Enviadas_descartar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_DESCARTAR' | translate" bcs-habilitado="conf.notificacionesenviadas" bcs-clic="descartarNotificacion(conf.notificacionesenviadas)"></bcs-button>
+		<bcs-button id="Enviadas_confirmar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_CONFIRMAR' | translate" bcs-habilitado="conf.notificacionesenviadas" bcs-clic="confirmarNotificacion(conf.notificacionesenviadas)"></bcs-button>
+		<bcs-button id="Enviadas_rechazar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_RECHAZAR' | translate" bcs-habilitado="conf.notificacionesenviadas" bcs-clic="rechazarNotificacion(conf.notificacionesenviadas)" ></bcs-button>
+		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcelEnviadas('Notificaciones_enviadas')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+		<!-- <bcs-button  class="col-xs-2" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_VER_DETALLE' | translate" bcs-habilitado="conf.notificacionesenviadas" bcs-clic="evaluar(conf.notificacionesenviadas)"  ></bcs-button> -->
+	</div> 
+</div>
+</uib-tab> 
+<uib-tab heading="Recibidas" >
+<div class="row"  >
+	 <div class="row">
+<div class="col-xs-10">
+	       <div class ="row">  
+	      	 <div class="col-xs-12">
+              	<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_FECHA_DESPACHO_DESDE</label>
+					<bcs-input-date class="col-xs-6" 
+						k-ng-model="conf.kngFechaDespachoDesdeRecibidas" 
+						ng-model="FechaDespachoDesde"
+					></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_FECHA_DESPACHO_HASTA</label>
+					<bcs-input-date class="col-xs-6" 
+						k-ng-model="conf.kngFechaDespachoHastaRecibidas" 
+						ng-model="FechaDespachoHasta"
+					></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_ESTADO_RESPUESTA</label>
+					<bcs-combobox-base class="col-xs-6"
+							item-post-filtro="'4'"
+							tipo="'combobox-estado-confirmacion'"
+							seleccionado="conf.oEstadoConfirmacionRecibida"
+							filtros = "conf.oEstadoConfirmacion_Recibida.filtros"
+	 						todos="'N'"   
+ 							activado="true">
+					</bcs-combobox-base>
+				</div>
+			  </div>
+			  <div class ="row">  </div>
+				<div class="col-xs-12">
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_TIEMPO_DESPACHO</label>
+						<bcs-combobox-base class="col-xs-6"
+							tipo="'combobox-tiempo-despacho'"
+							seleccionado="conf.oTiempoDespachoRecibida"
+							filtros = "conf.oTiempoDespacho_Recibida.filtros"
+	 						todos="'S'"   
+ 							activado="true"> 
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_ESTADO_NOTIFICACION</label>
+						<bcs-combobox-base class="col-xs-6"
+							tipo="'combobox-notificacion-enviada'"   
+							seleccionado="conf.oNotificacionRecibida"
+							filtros = "conf.oNotificacionRecibida.filtros"
+	 						todos="'S'"   
+ 							activado="true">
+						</bcs-combobox-base>
+					</div>
+				</div>
+            </div> 
+ 	
+		</div>  
+		<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="BuscarNotificacionesRecibidas()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+		 </div> 
+	</div>
+	<div class="row"> 
+		 <bcs-grid id="grid-notificacion"
+		 	configuracion ="notificacionesrecibidas"
+			seleccionado = "conf.notificacionesrecibidas"
+ 			fn-doble-click ="verDetalleNotificacion(conf.notificacionesrecibidas)"
+ 			fn-exportar-excel="exportarExcel"
+			 >
+    	</bcs-grid> 
+	</div> 
+	
+	</br>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="Recibidas_confirmar" class="col-xs-2" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_CONFIRMAR' | translate" bcs-habilitado="conf.notificacionesrecibidas" bcs-clic="confirmarNotificacionRecibida(conf.notificacionesrecibidas)"></bcs-button>
+  		<bcs-button id="Recibidas_rechazar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_RECHAZAR' | translate" bcs-habilitado="conf.notificacionesrecibidas" bcs-clic="rechazarNotificacionRecibida(conf.notificacionesrecibidas)" ></bcs-button>
+  		<div class="col-xs-6"> </div>
+ 		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel('Notificacion_recibidas')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div> 
+</div>
+</uib-tab>   
+</uib-tabset>
+</div>
+
+</div>

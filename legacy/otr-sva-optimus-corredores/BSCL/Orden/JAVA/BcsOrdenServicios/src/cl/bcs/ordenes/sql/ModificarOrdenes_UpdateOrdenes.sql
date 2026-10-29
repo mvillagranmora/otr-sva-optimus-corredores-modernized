@@ -1,0 +1,20 @@
+UPDATE "BSCL.Orden.BD::ORD.Orden"
+SET "FechaModificacion" = CURRENT_UTCTIMESTAMP,
+"PrecioPlazo"			= COALESCE(:PrecioPlazo,"PrecioPlazo"),
+"Cantidad"				= COALESCE(:Cantidad,"Cantidad"),
+"MontoOrden"			= COALESCE(:MontoOrden,"MontoOrden"),
+"MontoOrdenPlazo"		= COALESCE(:MontoOrdenPlazo,"MontoOrdenPlazo"),
+"MontoLiquidacion"		= COALESCE(:MontoLiquidacion,"MontoLiquidacion"),
+"MontoLiquidacionPlazo" = COALESCE(:MontoLiquidacionPlazo,"MontoLiquidacionPlazo"),
+"MontoLocal"			= COALESCE(:MontoLocal,"MontoLocal"),
+"MontoLocalPlazo"		= COALESCE(:MontoLocalPlazo,"MontoLocalPlazo"),
+"TasaPromedioReporte"	= COALESCE(:TasaPromedioReporte,"TasaPromedioReporte"),
+"IdGrupoCobro"			= COALESCE(:IdGrupoCobro,"IdGrupoCobro"),
+"IdSistemaBursatil"		= COALESCE(:IdSistemaBursatil,"IdSistemaBursatil"),
+"MontoInteresContado"   = COALESCE(:MontoInteresContado,"MontoInteresContado"),
+"MontoInteresPlazo"     = COALESCE(:MontoInteresPlazo,"MontoInteresPlazo"),
+"IdInstrumentoSubyacente" = COALESCE(:IdInstrumentoSubyacente,"IdInstrumentoSubyacente"),
+"IdEmisor"              = COALESCE(:IdEmisor,"IdEmisor"),
+"IdMonedaLiquidacionOrden" = COALESCE(:IdMonedaLiquidacionOrden,"IdMonedaLiquidacionOrden"),
+"IdCondicionDeLiquidacion" = COALESCE(:IdCondicionDeLiquidacion,"IdCondicionDeLiquidacion")
+WHERE "IdOrden" = :IdOrden;

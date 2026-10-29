@@ -1,0 +1,122 @@
+<div id="ConsultaCobrosClientes" ng-controller='ConsultaCobrosClientesCtrl'>
+	<div class="row no-margin">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-7">
+					<label class="col-xs-3" translate>UI_EJECUTIVO</label>
+					<bcs-combobox-base id="frmConsultaCobrosClientes_Ejecutivo"
+						class="col-xs-9" auto-cargar="'true'"
+						tipo="filtros.oConfiguracionEjecutivo.tipo"
+						configuracion="filtros.oConfiguracionEjecutivo.configuracion"
+						id-actual="filtros.oConfiguracionEjecutivo.idActual"
+						seleccionado="filtros.oConfiguracionEjecutivo.seleccionado"
+						filtros="filtros.oConfiguracionEjecutivo.filtros" todos="'S'"
+						item-post-filtro="'1'"></bcs-combobox-base>
+				</div>
+				<div class="col-xs-5">
+					<label class="col-xs-4" style="padding-left: 15px" translate>UI_SUCURSAL</label>
+					<bcs-input-texto class="col-xs-8"
+						id="frmConsultaCobrosClientes_Sucursal"
+						ng-model="filtros.oConfiguracionEjecutivo.seleccionado.NombreSucursal"
+						k-ng-disabled="'true'"> </bcs-input-texto>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-7">
+					<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-9"
+						id="frmConsultaCobrosClientes_SOCIO_NEGOCIO"
+						auto-cargar="'false'" 
+						id-actual="filtros.IdPortafolio"
+						tipo="filtros.oClientePortafolio.tipo"
+						seleccionado="filtros.oClientePortafolio.seleccionado"
+						configuracion="filtros.oClientePortafolio.configuracion"
+						filtros="filtrosPortafolio"
+						id-defecto="filtros.oClientePortafolio.idDefecto"
+						item-post-filtro="filtros.oClientePortafolio.itemPostFiltro">
+					</bcs-combobox-base>
+
+				</div>
+				<div class="col-xs-5">
+					<label class="col-xs-4" style="padding-left: 15px" translate>UI_TIPO_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						id="frmConsultaCobrosClientes_TIPOCLIENTE" auto-cargar="'true'"
+						tipo="'combobox-tipo-cliente'"
+						seleccionado="filtros.oConfiguracionTipoCLiente.seleccionado"
+						id-actual="filtros.oConfiguracionTipoCLiente.idActual"
+						filtros="filtros.oConfiguracionTipoCLiente.filtros"
+						configuracion="filtros.oConfiguracionTipoCLiente.configuracion"
+						todos="'S'" item-post-filtro="'1'"> </bcs-combobox-base>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-7">
+					<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-9"
+						id="frmConsultaCobrosClientes_TIPOINSTRUMENTO"
+						auto-cargar="'true'" tipo="'combobox-tipo-instrumento'"
+						seleccionado="filtros.oConfiguracionTipoInstrumento.seleccionado"
+						id-actual="filtros.oConfiguracionTipoInstrumento.idActual"
+						filtros="filtros.oConfiguracionTipoInstrumento.filtros"
+						configuracion="filtros.oConfiguracionTipoInstrumento.configuracion"
+						todos="'S'" item-post-filtro="'1'"> </bcs-combobox-base>
+				</div>
+				<div class="col-xs-5">
+					<bcs-input-checkbox style="padding-left: 15px"
+						id="frmConsultaCobrosClientes_SoloConContratoCobro"
+						ng-model="filtros.SoloConContratoCobro"> </bcs-input-checkbox>
+					&nbsp;{{'UI_SOCIO_CON_CONTRATO_COBRO' | translate}}
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-xs-7">
+					<label class="col-xs-3" translate>UI_FECHA_MOVIMIENTO</label>
+					<bcs-input-date id="frmConsultaCobrosClientes_FechaConsultaDesde"
+						class="col-xs-4" style="width: 37.5%;" bcs-requerido
+						k-ng-model="filtros.kngFechaConsultaDesde"
+						k-options="{max: filtros.kngFechaConsultaHasta}">
+					</bcs-input-date>
+					<bcs-input-date id="frmConsultaCobrosClientes_FechaConsultaHasta"
+						class="col-xs-4" style="width: 37.5%;" bcs-requerido
+						k-ng-model="filtros.kngFechaConsultaHasta"
+						k-options="{min : filtros.kngFechaConsultaDesde}">
+					</bcs-input-date>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" id="frmCtaCliente_BUSCAR"
+					bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false"
+					bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"
+					bcs-clic="buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" id="frmCtaCliente_LIMPIAR"
+					bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+					bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"
+					bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" style="padding-top: 10px">
+		<bcs-grid id="frmConsultaCobrosClientes_gridComisionCliente"
+			configuracion="grid.confComisionCliente"
+			seleccionado="grid.seleccionComisionCliente"
+			fn-exportar-excel="exportarExcel"> </bcs-grid>
+	</div>
+
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'"
+		bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+		<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' |
+			translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

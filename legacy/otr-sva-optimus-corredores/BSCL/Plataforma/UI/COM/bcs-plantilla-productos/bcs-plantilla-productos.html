@@ -1,0 +1,163 @@
+<div>
+	<div class="col-xs-12">
+		<div class="row">
+			<!-- Cabecera -->
+			<div ng-show="modo==='MP'">
+				<div class="row">
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_CODIGO</label>
+						<bcs-input-texto class="col-xs-8" 
+							ng-model="datosCabeceraDespues.IdPerfilProductos" 
+							k-ng-disabled="true">
+						</bcs-input-texto>
+					</div>
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+						<bcs-input-texto 
+							class="col-xs-8" 
+							ng-model="datosCabeceraDespues.DescripcionPerfilProductos" 
+							k-ng-disabled="true">
+						</bcs-input-texto>
+				  	</div>
+			  	</div>
+			  	<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_CATEGORIA_INVERSIONISTA</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="'combobox-categoria-inversionista'"
+							id-actual="datosCabeceraDespues.IdCategoriaInversionista"
+							id-defecto="datosCabeceraAntes.IdCategoriaInversionista"
+							todos="'N'"
+							filtros = "cmbbx.CategoriaInversionista.filtros"
+							activado="false"
+							seleccionado="datosCabeceraDespues.CategoriaInversionistaObj">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+						<bcs-input-checkbox 
+							ng-model="datosCabeceraDespues.PorDefecto" 
+							ng-disabled="true">
+						</bcs-input-checkbox>
+				  	</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_HABILITADO</label>
+						<bcs-input-checkbox 
+							ng-model="datosCabeceraDespues.Habilitado" 
+							ng-disabled="true">
+						</bcs-input-checkbox>
+				  	</div>
+			  	</div>
+		  	</div>
+		  	<!-- Detalle -->
+		  	<div ng-show="true">
+				<div class="row">
+					<bcs-grid
+						id="grid-plantilla-productos"
+						configuracion="grilla.GrillaMatrizProductos"
+						fn-exportar-excel="excelPlantillaproductos"
+						seleccionado="grilla.GrillaMatrizProductosSeleccionado">
+					</bcs-grid>
+				</div>
+			</div>
+			<!-- Botonera Principal -->
+			<div class="row col-xs-12 bcs-panel-comandos">
+				<div class="col-xs-8">	
+					<div ng-show="modo==='MP'">
+						<bcs-button 
+							id="AdmPla_PlantillaProductos_crear" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-primary'"  
+							ng-if="!win.perfilCargado && !win.modoEditar" 
+							bcs-mostrar="!win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CREAR_PLANTILLA' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.administrarCabecera();">
+						</bcs-button>
+						<!-- <bcs-button 
+							id="AdmPla_PlantillaProductos_editar" 
+							class="col-xs-2" 
+							bcs-tipo="''"  
+							ng-if="win.perfilCargado && !win.modoEditar" 
+							bcs-mostrar="!win.perfilCargado && !win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_PERFIL' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.editar();">
+						</bcs-button> -->
+					</div>
+					<div ng-show="modo==='MP' || modo==='PE'">
+						<bcs-button 
+							id="AdmPla_PlantillaProductos_crearDetalle" 
+							class="col-xs-3" 
+							bcs-tipo="'bcs-button-primary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_AGREGAR_DETALLE' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.administrarDetalle();">
+						</bcs-button>
+						<bcs-button 
+							id="AdmPla_PlantillaProductos_editarDetalle" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-secondary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_DETALLE' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.modificarDetalle(grilla.GrillaMatrizProductosSeleccionado);">
+						</bcs-button>
+					</div>
+					<!-- <div ng-if="modo==='PE'">
+						<bcs-button 
+							id="AdmPla_PlantillaProductos_finalizar" 
+							class="col-xs-2" 
+							bcs-tipo="''" 
+							ng-if="win.modoEditar" 
+							bcs-mostrar="win.modoEditar" 
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CANCELAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.finalizarEdicion();">
+						</bcs-button>
+					</div> -->
+					<div ng-show="modo==='MP'">
+						<bcs-button 
+							id="AdmPla_PlantillaProductos_editarCabecera" 
+							class="col-xs-2" style="width: 19%;"
+							bcs-tipo="'bcs-button-secondary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_PLANTILLA' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.administrarCabecera(datosCabeceraDespues);">
+						</bcs-button>
+						<bcs-button 
+							id="AdmPla_PlantillaProductos_cancelar" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-secondary'" 
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar" 
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CANCELAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.cancelar();">
+						</bcs-button>
+					</div>
+				</div>
+				<div ng-show="modo==='MP'">
+					<div class="col-xs-3"></div>
+					<bcs-menu id="AdmPla_PlantillaProductos_opciones"  class="col-xs-1" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+			             <li ng-click="excelPlantillaproductos()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+					</bcs-menu>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

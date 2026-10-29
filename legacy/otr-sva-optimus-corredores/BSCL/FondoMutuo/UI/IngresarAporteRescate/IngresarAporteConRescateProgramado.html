@@ -1,0 +1,498 @@
+<div class="col-xs-12" ng-controller="IngresarAporteRescateProgramadoFFMCtrl as aporteRescateProgramado">
+	<!-- Pre-Ingreso -->
+	<div class="row bcs-cuerpo" ng-show="aporteRescateProgramado.formData.IngresoConfirmacion === 'I'">
+	 <div ng-show="aporteRescateProgramado.formData.DatosAdicionales === 'N'">	
+	 	<form name="FormIngresoFFM" class="filters-formulario">
+		   	<div class="row">
+				<div class="col-xs-12">
+				  	<div class="row">
+				  	<!-- Inicio GCMBIPAPAS-1 Filtro de clientes por Perfiles-->	
+				  	<!--
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_CLIENTE"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-socio-negocio'"
+						    seleccionado="aporteRescateProgramado.oSocioNegocio.seleccionado"
+						    filtros="aporteRescateProgramado.oSocioNegocio.filtros"
+							cascada-a="aporteRescateProgramado.oPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+		                    cascada1-a="aporteRescateProgramado.formData.IdCategoriaInversionista"
+		                    cascada1-valor="'IdCategoriaInversionista'"
+		                    cascada2-a="aporteRescateProgramado.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada2-valor="'IdCliente'"
+		                    cascada-defecto="'-1'"
+		                    id-actual="aporteRescateProgramado.oSocioNegocio.idActual"
+						    configuracion= "aporteRescateProgramado.oSocioNegocio.configuracion">
+						</bcs-combobox-base>
+					-->	
+						<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							bcs-requerido
+							id-actual="filtros.IdPortafolio"
+							ng-style="{'width' : aporteRescateProgramado.seleccionado.IdEstadoCliente !== 'ACT' && aporteRescateProgramado.seleccionado  ? '50%' : '66.66666667%'}"
+							tipo="aporteRescateProgramado.oClientePortafolio.tipo"
+							carga-cliente-automatico="'S'" 
+							seleccionado="aporteRescateProgramado.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio"
+
+		                    cascada-a="aporteRescateProgramado.formData.IdCategoriaInversionista"
+		                    cascada-valor="'IdCategoriaInversionista'"
+		                    cascada1-a="aporteRescateProgramado.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada1-valor="'IdClinte'"
+		                    cascada2-a="aporteRescateProgramado.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"		
+		                    		                    
+		                    cascada3-a="aporteRescateProgramado.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+		                    cascada4-a="aporteRescateProgramado.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada4-valor="'IdPortafolio'"
+						    cascada5-a="aporteRescateProgramado.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada5-valor="'IdPortafolio'"
+                    
+		                    
+		                    cascada-defecto="'-1'"
+		                    							
+							configuracion="aporteRescateProgramado.oClientePortafolio.configuracion">
+						</bcs-combobox-base>					
+					</div>      
+					<!--  
+		 			<div class="row">
+						<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_PORTAFOLIO"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-portafolio'"
+						    
+						    seleccionado="aporteRescateProgramado.oPortafolio.seleccionado"
+						    filtros="aporteRescateProgramado.oPortafolio.filtros"
+		                    item-post-filtro="'1'"
+		                    id-actual="aporteRescateProgramado.oPortafolio.idActual"
+		                    cascada-a="aporteRescateProgramado.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada-valor="'IdPortafolio'"
+		                    cascada1-a="aporteRescateProgramado.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada1-valor="'IdPortafolio'"
+						    cascada2-a="aporteRescateProgramado.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="aporteRescateProgramado.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+						    configuracion= "aporteRescateProgramado.oPortafolio.configuracion">
+						</bcs-combobox-base >
+					</div>
+					-->
+					<!-- Fin GCMBIPAPAS-1 -->	
+					<div class="row">
+ 						<label class="col-xs-4" translate>UI_AUTORIZADOR</label>
+						<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "aporteRescateProgramado.oClientePortafolio.seleccionado.portafolio.TipoPersona === 'J'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "aporteRescateProgramado.formData.idAutorizadoDarOrdenes"
+								id-defecto				= "aporteRescateProgramado.formData.idAutorizadoDarOrdenesDefecto"
+								seleccionado			= "autorizadoDarOrdenes" 
+								filtros					= "aporteRescateProgramado.formData.FiltrosAutorizarOrden"	>
+						</bcs-combobox-base>
+ 					</div>
+					
+					
+					
+					
+				  	<hr>
+				  	<bcs-combobox-buscador-fondos
+				  			id="UI_BUSCADOR_FONDO_APORTE_PROGRAMADO"
+							datos-fondo="aporteRescateProgramado.datosFondo" 
+							muestra-valor-cuota = "'S'"
+							buscar-fondo="aporteRescateProgramado.formData.setFondo"
+							id-ventana="aporteRescateProgramado.winID"
+							muestra-detalle="'S'"
+							es-detalle="'S'"
+							mas-informacion="aporteRescateProgramado.masInformacion"
+							filtros="aporteRescateProgramado.formData.FiltrosBusquedaFondo"
+							filtros-combobox="aporteRescateProgramado.formData.FiltrosComboFondo">
+					</bcs-combobox-buscador-fondos>
+			  		<hr>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="aporteRescateProgramado.formData.fechaSistema" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+			  		</div>
+		  			<div class="row" ng-if="aporteRescateProgramado.datosFondo.Diferido && aporteRescateProgramado.oClientePortafolio.seleccionado && aporteRescateProgramado.oClientePortafolio.seleccionado.IdPortafolio">
+				  		<label class="col-xs-4" translate>UI_MONEDA_APORTE</label>
+				  		<bcs-combobox-base 
+							class="col-xs-3"
+							id="UI_MONEDA"
+							bcs-requerido="aporteRescateProgramado.datosFondo.Diferido === 'S'"
+						 	auto-cargar="'true'"
+						 	id-actual="aporteRescateProgramado.formData.IdMonedaAporte"
+						 	id-defecto="aporteRescateProgramado.datosFondo.IdMoneda"
+						 	filtros="aporteRescateProgramado.formData.filtrosCuentaInversion"
+						 	tipo="'combobox-moneda-cuenta-inversion-ffmm'"
+						 	usa-filtros-completos="'S'"
+						 	ng-show="aporteRescateProgramado.datosFondo.Diferido === 'S'">
+						</bcs-combobox-base>
+					 	<bcs-input-texto class="col-xs-3"
+					 		k-ng-disabled="'true'"
+					 		ng-model="aporteRescateProgramado.formData.IdMonedaAporte"
+					 		ng-show="aporteRescateProgramado.datosFondo.Diferido === 'N'"
+					 	>
+					 	</bcs-input-texto>
+					 	<label class="col-xs-2" translate>UI_DOLAR_OBSERVADO</label>
+				  		<bcs-dolar-observado-serie-fondo class="col-xs-3"
+				  			id-serie-fondo = "aporteRescateProgramado.datosFondo.IdSerieFondo"
+				  			id-tipo-solicitud= "'APO'"
+				  			fecha="aporteRescateProgramado.formData.fechaSistema"
+				  			dolar-observado-serie-fondo="aporteRescateProgramado.formData.DolarObservadoSerieFondo">
+				  		</bcs-dolar-observado-serie-fondo>
+			  		</div>
+			  		<div class="row" ng-if="aporteRescateProgramado.formData.IdMonedaAporte && aporteRescateProgramado.oClientePortafolio.seleccionado.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_SALDO_CAJA</label>
+						<bcs-saldo-cta-inversion
+							class="col-xs-8"
+							uso = "'INGRESO_APORTE_FMM'"
+							id-moneda = "aporteRescateProgramado.formData.IdMonedaAporte"
+							id-portafolio = "aporteRescateProgramado.oClientePortafolio.seleccionado.IdPortafolio"
+							fecha-saldo = "aporteRescateProgramado.formData.fechaAceptacion"
+						>
+						</bcs-saldo-cta-inversion>
+			  		</div>
+			  		<div class="row" ng-if="aporteRescateProgramado.datosFondo && aporteRescateProgramado.oClientePortafolio.seleccionado.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_REGIMEN</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-regimen-serie-fondo'"
+				  			id-actual="aporteRescateProgramado.formData.IdRegimenFondoMutuo"
+				  			seleccionado="aporteRescateProgramado.formData.regimenFondoMutuo"
+							id-defecto="aporteRescateProgramado.formData.RegimenDefecto"
+				  			item-post-filtro="'1'"
+				  			filtros="aporteRescateProgramado.formData.filtrosRegimen"
+				  			bcs-requerido
+				  			todos="'N'"
+						>
+						</bcs-combobox-base>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_MONTO_INVERSION</label> 
+				  		<bcs-input-monetario class="col-xs-8"
+				  			id="UI_MONTO_INVERSION"
+				  			k-ng-model="aporteRescateProgramado.formData.montoInicial"
+				  			decimales = "aporteRescateProgramado.formData.decimalesMonto"
+				  			bcs-requerido
+							simbolo="aporteRescateProgramado.formData.IdMonedaAporte">
+				  		</bcs-input-monetario>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+				  		<bcs-input-numero class="col-xs-8"
+				  			id="UI_NUMERO_CUOTAS"
+							decimales = "aporteRescateProgramado.formData.decimalesCantidad"
+							bcs-requerido
+							k-ng-model="aporteRescateProgramado.formData.numeroCuotas"
+							k-ng-disabled="'true'">
+						</bcs-input-numero> 
+			  		</div>
+			  		<div ng-if="aporteRescateProgramado.datosFondo.IdSerieFondo">
+			  			<bcs-fechas-solicitud-fondo
+						fecha-emision = "aporteRescateProgramado.datosFondo.FechaFondo"
+						id-serie-fondo = "aporteRescateProgramado.datosFondo.IdSerieFondo"
+						traspaso = "'N'"
+						tipo-solicitud="'APO'"
+						mostrar-fecha-aceptacion="'true'"
+						mostrar-fecha-valor-cuota="'true'"
+						mostrar-fecha-certificacion="'true'"
+						mostrar-fecha-liquidacion="'true'"
+						fecha-aceptacion-saldo="aporteRescateProgramado.formData.fechaAceptacion"
+						>
+						</bcs-fechas-solicitud-fondo>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_RESCATE_TOTAL</label> 
+				  		<bcs-input-date
+				  			id="UI_FECHA_RESCATE_TOTAL"
+							class="col-xs-8"
+							k-ng-model="aporteRescateProgramado.formData.fechaRescate" 
+							bcs-requerido
+							k-options="aporteRescateProgramado.formData.fechaOptions">
+						</bcs-input-date>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+				  		<bcs-input-texto class="col-xs-8"
+				  			id="UI_GLOSA"
+					  		maxlength="100"
+							tipo-campo="'textarea'"
+							ng-model="aporteRescateProgramado.formData.comentario"
+							atributos="margin: 0px; height:73px;resize:none;width: 100%">
+				  		</bcs-input-texto>
+			  		</div>	 	
+				</div>
+			</div>
+			
+			</form>
+        
+			<div class="row bcs-panel-comandos">
+				<div class=col-xs-8>
+					<bcs-button class="col-xs-4" id="BlotterFFM_ingresarFFM" 
+						bcs-texto="'UI_INGRESAR' | translate" 
+						bcs-habilitado="FormIngresoFFM.$valid"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar="true"
+						bcs-clic="aporteRescateProgramado.formData.ingresarAporteRescate()">
+					</bcs-button>	
+					<bcs-button class="col-xs-4" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="aporteRescateProgramado.limpiarFMM()"
+						bcs-blur="aporteRescateProgramado.formData.resetFoco()">
+					</bcs-button>
+				</div>
+				<div class="col-xs-4">
+					<bcs-button class="col-xs-8 pull-right" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_MAS_DATOS' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="aporteRescateProgramado.formData.masDatos()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+		<div ng-show="aporteRescateProgramado.formData.DatosAdicionales === 'S'">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_APORTE</label>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_INSTRUCCION_COBRO</label>
+			</div>
+			<hr> 
+			<div class="row">
+			  	<label class="col-xs-4" translate>UI_MONTO_APORTE</label> 
+		  		<bcs-input-monetario class="col-xs-8"
+		  			k-ng-model="aporteRescateProgramado.formData.montoInicial"
+		  			decimales = "aporteRescateProgramado.formData.DecimalesFondo"
+		  			k-ng-disabled="'true'"
+					simbolo="aporteRescateProgramado.datosFondo.IdMoneda">
+		  		</bcs-input-monetario>
+	  		</div>
+	  		<div class="row">
+		  		<label class="col-xs-4" translate>UI_MEDIOS_DE_PAGO</label>					
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					tipo="aporteRescateProgramado.oConfiguracionMedioDePago.tipo" 
+					configuracion= "aporteRescateProgramado.oConfiguracionMedioDePago.configuracion" 				
+					seleccionado="aporteRescateProgramado.oConfiguracionMedioDePago.seleccionado"
+					id-actual="aporteRescateProgramado.formData.IdMedioDePago"
+					filtros="aporteRescateProgramado.oConfiguracionMedioDePago.filtros">
+				</bcs-combobox-base>	
+	  		</div>
+	  		<hr>
+	  		<div class="row">
+				<label class="col-xs-4" translate>UI_RESCATE</label>
+			</div>
+	  		<div class="row">
+				<label class="col-xs-4" translate>UI_INSTRUCCION_COBRO</label>
+			</div>
+			<div class="row"> 
+		  		<bcs-forma-pago class="col-xs-12"
+		  			seleccionado="aporteRescateProgramado.oFormaPago.seleccionado"
+		  			id-seleccionado="aporteRescateProgramado.formData.IdMedioDePagoRescate"
+		  			id-portafolio="aporteRescateProgramado.formData.filtrosFormaPago.IdPortafolio.value"
+                  	id-tipo-operacion="'RESCFM'" >
+		  		</bcs-forma-pago>
+	  		</div>
+	  		<div class="row bcs-panel-comandos">
+				<div class="col-xs-8"></div>
+				<div class="col-xs-4">
+					<bcs-button class="col-xs-5 pull-right" id="BlotterFFM_ingresarFFM" 
+						bcs-texto="'UI_VOLVER' | translate" 
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-habilitado="'true'" 
+						bcs-auto-desactivar="false" 
+						bcs-clic="aporteRescateProgramado.formData.masDatos()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Solicitud Ingresada -->
+	<div class="row bcs-cuerpo" ng-show="aporteRescateProgramado.formData.IngresoConfirmacion === 'C'">
+		<div class="row">
+			<div class="col-xs-12">
+			    <div class="row" ng-show="true">
+				  	<label class="col-xs-4" translate>UI_SECUENCIA_OPERACION</label> 
+			  		<bcs-input-texto 
+			  		class="col-xs-8" 
+			  		ng-model="aporteRescateProgramado.formData.ResultadoSolicitudAporteRescate.SecuenciaOperacion" 
+			  		k-ng-disabled="'true'"></bcs-input-texto>
+		  		</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="oOperacion.seleccionado.Descripcion"
+			  			k-ng-disabled="'true'"
+			  		> 
+			  	</div>
+			  	<hr>
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteRescateProgramado.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>      
+	 			<div class="row">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteRescateProgramado.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>
+			  	<hr>
+			  	<div class="row">
+			  	    <label class="col-xs-4" translate>UI_FONDO_MUTUO</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteRescateProgramado.datosFondo.IdSerieFondo"
+			  			k-ng-disabled="'true'"
+			  		>
+		  		</div>
+		  		
+		  		<div class="row">
+					<span class="col-xs-6">
+						<label class="col-xs-8" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresoFFM.aporteRescateProgramado.muestraDetalle" ng-click="ingresoFFM.aporteRescateProgramado.muestraDetalle = !ingresoFFM.aporteRescateProgramado.muestraDetalle;ajustaVentana()">({{'+' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresoFFM.aporteRescateProgramado.muestraDetalle" ng-click="ingresoFFM.aporteRescateProgramado.muestraDetalle = !ingresoFFM.aporteRescateProgramado.muestraDetalle;ajustaVentana()">({{'-' | translate}})</em>
+					</span>
+				</div>
+				<div class="row" ng-show="ingresoFFM.muestraDetalle">
+					<div class="row">
+					  	<label class="col-xs-3" translate>UI_TIPO_FONDO</label> 
+				  		<label class="col-xs-3" translate>{{aporteRescateProgramado.datosFondo.NombreCorto}}</label>
+				  		<label class="col-xs-3" translate>UI_PERFIL</label> 
+				  		<label class="col-xs-3" translate>{{aporteRescateProgramado.datosFondo.IdCategoriaPerfilFondoMutuo}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+				  		<label class="col-xs-3" translate>{{aporteRescateProgramado.datosFondo.IdRegimenTributario}}</label>
+				  		<label class="col-xs-3" translate>UI_PROPOSITO_SERIE</label> 
+				  		<label class="col-xs-3" translate>{{aporteRescateProgramado.datosFondo.PropositoSerie}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_ENTRADA</label> 
+				  		<label class="col-xs-3" translate>{{aporteRescateProgramado.datosFondo.EsComisionEntradaUI}}</label>
+				  		<label class="col-xs-3" translate>UI_MINIMO_PATRIMONIO</label> 
+				  		<label class="col-xs-3" translate>{{aporteRescateProgramado.datosFondo.EsPatrimonioMinimoUI}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+				  		<label class="col-xs-3" translate>{{aporteRescateProgramado.datosFondo.EsComisionSalidaUI}}</label>
+		  			</div>
+				</div>
+		  		<hr>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+			  		<bcs-input-date
+						class="col-xs-8"
+						k-ng-model="aporteRescateProgramado.formData.fechaSistema" 
+						bcs-requerido
+						k-ng-disabled="'true'">
+					</bcs-input-date>
+			  	</div>
+		  		<div class="row">
+			  		<label class="col-xs-4" translate>UI_MONEDA_APORTE</label>
+				 	<bcs-input-texto class="col-xs-3"
+				 		k-ng-disabled="'true'"
+				 		ng-model="aporteRescateProgramado.formData.IdMonedaAporte">
+				 	</bcs-input-texto>
+				 	<label class="col-xs-2" translate>UI_DOLAR_OBSERVADO</label>
+			  		<bcs-input-monetario class="col-xs-3"
+			  			k-ng-model="aporteRescateProgramado.formData.DolarObservadoSerieFondo"
+						simbolo="'CLP'"
+						k-ng-disabled="'true'">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+			  		<label class="col-xs-4" translate>UI_REGIMEN</label>
+				 	<bcs-input-texto class="col-xs-8"
+				 		k-ng-disabled="'true'"
+				 		ng-model="aporteRescateProgramado.formData.regimenFondoMutuo.Descripcion">
+				 	</bcs-input-texto>
+				</div>  		
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_MONTO_INVERSION</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="aporteRescateProgramado.formData.ResultadoSolicitudAporteRescate.MontoInicial"
+			  			decimales = "aporteRescateProgramado.formData.decimalesMonto"
+			  			k-ng-disabled="'true'"
+			  			simbolo="aporteRescateProgramado.formData.IdMonedaAporte">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteRescateProgramado.formData.ResultadoSolicitudAporteRescate.NumeroCuotas"
+			  			k-ng-disabled="'true'"	
+			  		>
+			  		</bcs-input-texto>
+		  		</div>
+			  	<bcs-fechas-solicitud-fondo
+						fecha-emision = "aporteRescateProgramado.datosFondo.FechaFondo"
+						id-serie-fondo = "aporteRescateProgramado.datosFondo.IdSerieFondo"
+						traspaso = "'N'"
+						tipo-solicitud="'APO'"
+						mostrar-fecha-aceptacion="'true'"
+						mostrar-fecha-valor-cuota="'true'"
+						mostrar-fecha-certificacion="'true'"
+						mostrar-fecha-liquidacion="'true'">
+				</bcs-fechas-solicitud-fondo>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_FECHA_RESCATE_TOTAL</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteRescateProgramado.formData.ResultadoSolicitudAporteRescate.FechaRescate"
+			  			k-ng-disabled="'true'">
+			  		</bcs-input-texto>
+		  		</div>
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+			  		<bcs-input-texto class="col-xs-8"
+				  		maxlength="260"
+						tipo-campo="'textarea'"
+						ng-model="aporteRescateProgramado.formData.comentario"
+						atributos="margin: 0px; height:73px;resize:none;width: 100%"
+						k-ng-disabled="'true'"	
+					>
+			  		</bcs-input-texto>
+		  		</div>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class=col-xs-12>
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VOLVER' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="aporteRescateProgramado.limpiarFMM('true')"
+					foco = "aporteRescateProgramado.formData.focoVolver">
+				</bcs-button>	
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VER_COMPROBANTE' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-blur="aporteRescateProgramado.formData.resetFoco()"
+					bcs-clic="aporteRescateProgramado.verComprobante()"
+					foco = "aporteRescateProgramado.formData.focoComprobante">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+	
+</div>

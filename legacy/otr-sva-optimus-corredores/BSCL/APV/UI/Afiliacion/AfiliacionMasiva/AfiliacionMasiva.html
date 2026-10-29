@@ -1,0 +1,180 @@
+<div ng-controller="AfiliacionMasivaCtrl as CargInt">
+	<form name="formAfiliacionMasiva" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_CARGA_INTERFACES|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="row">
+				<uib-tabset>
+					<uib-tab heading="{{'BANCO' | translate}}">
+					
+					</uib-tab>
+					<uib-tab heading="{{'PREVIRED' | translate}}" active="data.tabCargaMasivaActive">
+						<div class="row">
+							<label class="col-xs-12" translate>UI_CARGA_INTERFAZ</label>
+							<br>
+							<hr>
+							<div class="col-xs-9">
+								<input type="file" 
+									class="custom-file-input pull-left"
+									ng-model="data.fileName"
+									file-reader-datatec="data.fileContent" 
+									file-name-datatec="data.fileName"
+									onchange="angular.element(this).scope().fileChanged(this)"
+									style="display:inline"/>
+									<div class="col-xs-7" style="height: 100%;
+									position: relative;
+									height: 30px;">
+										<span id="nombreArchivo" style="
+										font-weight: bold;
+										font-size: 12px;
+										position: absolute;
+										top: 50%; 
+										left: 50%; 
+										width: 100%;
+										transform: translate(-50%, -50%); 
+										padding-left: 14px;
+									">{{nombreArchivo}}</span>
+									</div>
+								<bcs-input-texto 
+									ng-show="false" 
+									tipo-campo="'textarea'" 
+									atributos="height:400px;resize:none;width: 100%" 
+									ng-model="data.fileContent"	>
+							</div>
+							<div class="col-xs-3">
+								<bcs-button class="col-xs-12" 
+									bcs-tipo="'bcs-button-primary'" 
+									bcs-auto-desactivar="false" 
+									bcs-texto="'UI_CARGAR_ARCHIVO' | translate"
+									bcs-habilitado="true"
+									bcs-clic="" 
+								></bcs-button>
+							</div>
+						</div>
+						<br>
+						<label class="col-xs-12" translate>UI_DATOS_CARGA</label>
+						<hr>
+						<br>
+						<div class="row">
+							<bcs-grid id="gridDatosCarga"
+								configuracion = "confBasicaDatosCarga"
+								seleccionado = "seleccionDatosCarga"
+								>
+							</bcs-grid>
+						</div>
+						<br>
+						<label class="col-xs-12" translate>UI_DETALLE_RECAUDACION</label>
+						<hr>
+						<br>
+						<div class="row">
+							<bcs-grid id="gridDetalleRecaudacion"
+								configuracion = "confBasicaDetalleRecaudacion"
+								seleccionado = "seleccionDetalleRecaudacion"
+								>
+							</bcs-grid>
+						</div>
+						<br>
+						<label class="col-xs-12" translate>UI_RESUMEN_RECAUDACION</label>
+						<hr>
+						<br>
+						<div class="row">
+							<div class="col-xs-4">
+								<label class="col-xs-5" translate>UI_PLANILLAS</label>
+								<bcs-input-numero 
+									class="col-xs-6"
+									id="UI_PLANILLAS"
+									ng-model="data.Planillas" 
+									k-ng-model="data.kngPlanillas" 
+									k-ng-disabled = "'true'">
+									<!-- 
+									decimales="data.MonedaPrincipalSeleccionado.MonedaPrincipalDecimales"  
+									-->
+								</bcs-input-numero>
+							</div>
+							<div class="col-xs-4">
+								<label class="col-xs-5" translate>UI_APV</label>
+								<bcs-input-numero 
+									class="col-xs-6"
+									id="UI_APV"
+									ng-model="data.APV" 
+									k-ng-model="data.kngAPV" 
+									k-ng-disabled = "'true'">
+									<!-- 
+									decimales="data.MonedaPrincipalSeleccionado.MonedaPrincipalDecimales"  
+									-->
+								</bcs-input-numero>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								<label class="col-xs-5" translate>UI_AFILIADOS</label>
+								<bcs-input-numero 
+									class="col-xs-6"
+									id="UI_AFILIADOS"
+									ng-model="data.Afiliados" 
+									k-ng-model="data.kngAfiliados" 
+									k-ng-disabled = "'true'">
+									<!-- 
+									decimales="data.MonedaPrincipalSeleccionado.MonedaPrincipalDecimales"  
+									-->
+								</bcs-input-numero>
+							</div>
+							<div class="col-xs-4">
+								<label class="col-xs-5" translate>UI_MONTO_TOTAL_DC</label>
+								<bcs-input-numero 
+									class="col-xs-6"
+									id="UI_MONTO_TOTAL_DC"
+									ng-model="data.MontoTotalDc" 
+									k-ng-model="data.kngMontoTotalDc" 
+									k-ng-disabled = "'true'">
+									<!-- 
+									decimales="data.MonedaPrincipalSeleccionado.MonedaPrincipalDecimales"  
+									-->
+								</bcs-input-numero>
+							</div>
+							<bcs-button class="col-xs-3" 
+								bcs-tipo="'bcs-button-primary'" 
+								bcs-auto-desactivar="false" 
+								bcs-texto="'UI_CARGAR_RECAUDACION_PREVIRED' | translate"
+								bcs-habilitado="data.datosRecaudacion" 
+								bcs-clic="data.cargarRecaudacion()"	
+							></bcs-button>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								<label class="col-xs-5" translate>UI_LOTE</label>
+								<bcs-input-numero 
+									class="col-xs-6"
+									id="UI_LOTE"
+									ng-model="data.Lote" 
+									k-ng-model="data.kngLote" 
+									k-ng-disabled = "'true'">
+									<!-- 
+									decimales="data.MonedaPrincipalSeleccionado.MonedaPrincipalDecimales"  
+									-->
+								</bcs-input-numero>
+							</div>
+							<div class="col-xs-4">
+								<label class="col-xs-5" translate>UI_MONTO_TOTAL</label>
+								<bcs-input-numero 
+									class="col-xs-6"
+									id="UI_MONTO_TOTAL"
+									ng-model="data.MontoTotal" 
+									k-ng-model="data.kngMontoTotal" 
+									k-ng-disabled = "'true'">
+									<!-- 
+									decimales="data.MonedaPrincipalSeleccionado.MonedaPrincipalDecimales"  
+									-->
+								</bcs-input-numero>
+							</div>
+							
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</form>
+</div>

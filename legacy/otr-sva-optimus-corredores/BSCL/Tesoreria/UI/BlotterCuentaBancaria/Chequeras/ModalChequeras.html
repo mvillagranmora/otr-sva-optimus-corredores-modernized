@@ -1,0 +1,113 @@
+<div ng-controller="ModalChequerasCtrl">
+	<div class="row bcs-cuerpo">
+		<form name="formChequeras" class="col-xs-12 form-horizontal">
+		
+			<div class="row">
+				<label class="col-xs-3" translate>UI_BANCO</label>
+				<bcs-combobox-base  id="formChequeras_Banco"
+					class="col-xs-9"
+					bcs-requerido
+					auto-cargar   = "true"									
+					tipo          = "oConfiguracionBanco.tipo"
+					id-actual     = "oConfiguracionBanco.idActual"	
+					id-defecto    = "oConfiguracionBanco.idDefecto"													
+					configuracion = "oConfiguracionBanco.configuracion"
+					seleccionado  = "oConfiguracionBanco.seleccionado"							
+					filtros       = "oConfiguracionBanco.filtros"
+					cascada-a	  = "oConfiguracionCuentaBancaria.filtros.IdBanco"
+					cascada-valor = "'IdBanco'"
+					id-post-filtro= "oConfiguracionBanco.idPostFiltro">
+				</bcs-combobox-base>	
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CUENTAS_BANCARIAS</label>
+				<bcs-combobox-base   id="formChequeras_CuentaBancaria"
+					class="col-xs-9"
+					bcs-requerido
+					auto-cargar   = "true"									
+					tipo          = "oConfiguracionCuentaBancaria.tipo"
+					id-actual     = "oConfiguracionCuentaBancaria.idActual"	
+					id-defecto    = "oConfiguracionCuentaBancaria.idDefecto"													
+					configuracion = "oConfiguracionCuentaBancaria.configuracion"
+					seleccionado  = "oConfiguracionCuentaBancaria.seleccionado"							
+					filtros       = "oConfiguracionCuentaBancaria.filtros"
+					id-post-filtro= "oConfiguracionCuentaBancaria.idPostFiltro">
+				</bcs-combobox-base>	
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA_RETIRO</label>				
+				<bcs-input-date bcs-requerido class="col-xs-9" k-ng-model="FechaRetiro" id="formChequeras_FechaRetiro"></bcs-input-date>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_SERIE_CHEQUERA</label>
+				<bcs-input-texto bcs-requerido class="col-xs-9" ng-model="Serie"  id="formChequeras_Serie"></bcs-input-texto>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CANTIDAD_CHEQUES</label>
+				<bcs-input-numero bcs-requerido class="col-xs-9" k-ng-model="CantidadCheques" decimales="'0'" id="formChequeras_CantidadCheques">></bcs-input-numero>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_REMANENTE</label>
+				<bcs-input-numero bcs-requerido class="col-xs-9" k-ng-model="Remanente" decimales="'0'" k-ng-disabled="true"  id="formChequeras_Remanente"></bcs-input-numero>
+			</div>
+						
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CHEQUE_DESDE</label>
+				<bcs-input-numero bcs-requerido class="col-xs-9" k-ng-model="NroChequeDesde" decimales="'0'" id="formChequeras_NroChequeDesde"></bcs-input-numero>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CHEQUE_HASTA</label>				
+				<bcs-input-numero bcs-requerido class="col-xs-9" k-ng-model="NroChequeHasta" decimales="'0'"  k-ng-disabled="true"  id="formChequeras_NroChequeHasta"></bcs-input-numero>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CHEQUE_ACTUAL</label>
+				<bcs-input-numero bcs-requerido class="col-xs-9" k-ng-model="NroChequeActual" decimales="'0'" k-ng-disabled="true" id="formChequeras_NroChequeActual"></bcs-input-numero>
+			</div>		
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_ESTADO</label>				
+				<bcs-combobox-base  id="formChequeras_Estado"
+					class="col-xs-9"
+					bcs-requerido
+					auto-cargar   = "true"			
+					tipo          = "oConfiguracionEstado.tipo"
+					id-actual     = "oConfiguracionEstado.idActual"
+					id-defecto    = "oConfiguracionEstado.idDefecto"												
+					configuracion = "oConfiguracionEstado.configuracion"
+					seleccionado  = "oConfiguracionEstado.seleccionado"							
+					filtros       = "oConfiguracionEstado.filtros"
+					id-post-filtro= "oConfiguracionEstado.idPostFiltro">
+				</bcs-combobox-base>
+			</div>		
+			
+		<div class="row">
+				<label class="col-xs-3" translate>UI_CONFIGURACION_CHEQUERA</label>								
+				<bcs-combobox-base  id="formChequeras_ConfiguracionChequera"
+					class="col-xs-9"
+					bcs-requerido 
+					auto-cargar   = "true"			
+					tipo          = "oConfiguracionConfigChequera.tipo"
+					configuracion = "oConfiguracionConfigChequera.configuracion"
+					filtros       = "oConfiguracionConfigChequera.filtros"
+					seleccionado  = "oConfiguracionConfigChequera.seleccionado"
+					id-actual     = "oConfiguracionConfigChequera.idActual"
+					id-defecto    = "oConfiguracionConfigChequera.idDefecto"				
+					id-post-filtro= "oConfiguracionConfigChequera.idPostFiltro">
+				</bcs-combobox-base>
+		</div>					
+		</form>
+	</div>
+	
+	<div class="row bcs-panel-comandos alignButtonsToRight">	    
+		<bcs-button class="col-xs-2" id="formChequeras_BtnGrabar"   bcs-habilitado="formChequeras.$valid" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate"  bcs-clic="grabarChequera()"></bcs-button>
+		<bcs-button class="col-xs-2" id="formChequeras_BtnAnular"   bcs-habilitado="'true'"               bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_ANULAR_CHEQUE' | translate" bcs-clic="AnularCheque()"></bcs-button>		
+		<bcs-button class="col-xs-2" id="formChequeras_BtnCancelar" bcs-habilitado="'true'"               bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="cancelar(false)"></bcs-button>
+	</div>
+</div>

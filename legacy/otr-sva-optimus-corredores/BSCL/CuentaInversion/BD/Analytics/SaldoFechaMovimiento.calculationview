@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="SaldoFechaMovimiento" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="SaldoFechaMovimiento"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdEjecutivo" length="19" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEjecutivo" length="300" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoSucursal" length="40" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreSucursal" length="100" scale="0"/>
+        <viewAttribute datatype="BIGINT" id="IdCuentaInversion" length="19" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoCuentaInversion" length="40" scale="0"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente" length="19" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCliente" length="300" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidad" length="40" scale="0"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio" length="19" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePortafolio" length="100" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="PropositoPortafolio" length="100" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolio" length="100" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaSaldo" length="10" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoMoneda" length="40" scale="0"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMoneda" length="100" scale="0"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoDisponible" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoEnGarantia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoAPlazo" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoRetiro" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoRetenido" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="Producto" length="100" scale="0"/>
+        <viewAttribute datatype="BIGINT" id="IdMatrizAgrupador"/>
+        <viewAttribute datatype="NVARCHAR" id="EsADC" length="1"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+/********* Begin Procedure Script ************/ 
+BEGIN 
+
+	 /********************************
+	 * DEFINICION VARIABLES
+	 ********************************/
+	 --CONSTANTES
+	 declare idempresa 			bigint:=1;
+	 declare fechaconsulta 		nvarchar(10):='0001-01-01';
+
+	/********************************
+	 * ASIGNACION DE LOS DATOS
+	 ********************************/
+	 var_parms = select
+ 		conf.&quot;IdEmpresa&quot; as idempresa,
+ 		conf.&quot;Valor&quot; as fechaconsulta
+ 	 from &quot;BSCL.Plataforma.BD::PLA.Configuracion&quot; conf 
+ 	 where conf.&quot;CodigoParametro&quot;='PLA.FechaSistema' 
+ 	 and conf.&quot;IdEmpresa&quot;= 1;
+ 	 
+ 	 select top 1 idempresa,fechaconsulta
+ 	 into idempresa,fechaconsulta
+ 	 from :var_parms;
+ 		
+	 var_out = 
+		SELECT 
+	   	&quot;IdEjecutivo&quot;
+	   	,&quot;NombreEjecutivo&quot;
+		,&quot;CodigoSucursal&quot;
+ 		,&quot;NombreSucursal&quot;
+		,&quot;IdCuentaInversion&quot; 
+        ,&quot;CodigoCuentaInversion&quot;
+        ,&quot;IdCliente&quot;
+        ,&quot;NombreCliente&quot;
+        ,&quot;DocumentoIdentidad&quot;
+        ,&quot;IdPortafolio&quot;
+        ,&quot;NombrePortafolio&quot;
+        ,&quot;PropositoPortafolio&quot;
+        ,&quot;CodigoPortafolio&quot;
+        ,&quot;FechaSaldo&quot;
+        ,&quot;IdMoneda&quot;
+        ,&quot;CodigoMoneda&quot;
+        ,&quot;NombreMoneda&quot;
+        ,&quot;SaldoDisponible&quot;
+        ,&quot;SaldoEnGarantia&quot;
+        ,&quot;SaldoAPlazo&quot;
+        ,&quot;SaldoRetiro&quot;
+        ,&quot;SaldoRetenido&quot;
+        ,&quot;Producto&quot;
+        ,&quot;IdMatrizAgrupador&quot;
+        ,&quot;EsADC&quot;
+  FROM &quot;BSCL.CuentaInversion.BD.Vistas::ConsultarSaldoCuentaInversionAnalitica&quot; (
+    PLACEHOLDER.&quot;$$p_idempresa$$&quot; => :idempresa,
+ 	PLACEHOLDER.&quot;$$p_fechaconsulta$$&quot; => :fechaconsulta,
+ 	PLACEHOLDER.&quot;$$p_idproductoagrupador$$&quot; => null,
+ 	PLACEHOLDER.&quot;$$p_solosaldonegativo$$&quot; => 'N',
+ 	PLACEHOLDER.&quot;$$p_solosaldodisponible$$&quot; => 'N',
+ 	PLACEHOLDER.&quot;$$p_incluyecargospendientes$$&quot; => 'N',
+ 	PLACEHOLDER.&quot;$$p_incluyeabonospendientes$$&quot; => 'N',
+ 	PLACEHOLDER.&quot;$$p_incluyeotrossaldos$$&quot; => 'S',
+ 	PLACEHOLDER.&quot;$$p_incluyeproductoapv$$&quot; => 'N'
+  )
+  WHERE &quot;TipoRegistro&quot; = 'MOV';
+
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdEjecutivo" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEjecutivo"/>
+      </attribute>
+      <attribute id="NombreEjecutivo" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEjecutivo"/>
+      </attribute>
+      <attribute id="CodigoSucursal" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoSucursal"/>
+      </attribute>
+      <attribute id="NombreSucursal" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreSucursal"/>
+      </attribute>
+      <attribute id="IdCuentaInversion" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCuentaInversion"/>
+      </attribute>
+      <attribute id="CodigoCuentaInversion" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoCuentaInversion"/>
+      </attribute>
+      <attribute id="IdCliente" order="7">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="NombreCliente" order="8">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCliente"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" order="9">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="10">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="NombrePortafolio" order="11">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePortafolio"/>
+      </attribute>
+      <attribute id="PropositoPortafolio" order="12">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="PropositoPortafolio"/>
+      </attribute>
+      <attribute id="CodigoPortafolio" order="13">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolio"/>
+      </attribute>
+      <attribute id="FechaSaldo" order="14">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaSaldo"/>
+      </attribute>
+      <attribute id="IdMoneda" order="15">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="CodigoMoneda" order="16">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoMoneda"/>
+      </attribute>
+      <attribute id="NombreMoneda" order="17">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMoneda"/>
+      </attribute>
+      <attribute id="SaldoDisponible" order="18">
+        <descriptions defaultDescription="SaldoDisponible"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoDisponible"/>
+      </attribute>
+      <attribute id="SaldoEnGarantia" order="19">
+        <descriptions defaultDescription="SaldoEnGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoEnGarantia"/>
+      </attribute>
+      <attribute id="SaldoAPlazo" order="20">
+        <descriptions defaultDescription="SaldoAPlazo"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoAPlazo"/>
+      </attribute>
+      <attribute id="SaldoRetiro" order="21">
+        <descriptions defaultDescription="SaldoRetiro"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoRetiro"/>
+      </attribute>
+      <attribute id="SaldoRetenido" order="22">
+        <descriptions defaultDescription="SaldoRetenido"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoRetenido"/>
+      </attribute>
+      <attribute id="Producto" order="23">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Producto"/>
+      </attribute>
+      <attribute id="IdMatrizAgrupador" order="24">
+        <descriptions defaultDescription="IdMatrizAgrupador"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMatrizAgrupador"/>
+      </attribute>
+      <attribute id="EsADC" order="25">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EsADC"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

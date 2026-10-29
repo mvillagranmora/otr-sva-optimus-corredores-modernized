@@ -1,0 +1,115 @@
+<div class="row" ng-controller="InformeOrdenesConfirmadas">
+	<div class="row bcs-cuerpo">
+	<form name="frmInformeOrdenesConfirmadas">
+	   <div class="row">
+	   
+		  <!-- INICIO FILTROS -->
+		  <div class="col-xs-11">
+			 <div class="row">
+			   <div class="col-xs-4">
+					 <label class="col-xs-4" translate>UI_FECHA_VENCIMIENTO_PLAZO</label>
+					 <bcs-input-date class="col-xs-6" 
+							 id="UI_FECHA_VENCIMIENTO"
+						 k-options="data.kngFechaOperacionConf"
+						 k-ng-model="data.kngFechaOperacion"
+						 bcs-requerido="'true'">
+					 </bcs-input-date>
+			   </div>
+				<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ESTADO_CONFIRMACION</label>
+					 <bcs-combobox-base
+						 id="UI_ESTADO_CONFIRMACION"
+						 class="col-xs-6"
+						 todos = "'S'"
+						 configuracion = "data.EstadoConfirmacion"
+						 filtros = "data.EstadoConfirmacion.filtros"
+						 id-post-filtro="'0'"
+						 tipo="'combobox-estado-confirmacion-orden'"
+						 seleccionado="data.EstadoConfirmacionSeleccionado"
+						 id-actual="data.EstadoConfirmado">
+					 </bcs-combobox-base>
+			   </div>
+			   <div class="col-xs-4">
+					 <label class="col-xs-3" translate>UI_PRODUCTOS</label>
+					 <bcs-combobox-base
+						 id="UI_PRODUCTOS"
+						 class="col-xs-6"
+						 todos = "'S'"
+						 id-post-filtro="'0'"
+						 tipo="'combobox-tipo-instrumento'"
+						 seleccionado="data.IdTipoInstrumentoSeleccionado"
+						 id-actual="data.IdTipoInstrumento">
+					 </bcs-combobox-base>
+				 </div>
+			 </div>
+			 <div class="row">
+				 <div class="col-xs-4">
+					 <label class="col-xs-4" translate>UI_COND_DE_LIQUIDACION</label>
+					 <bcs-combobox-base 
+						 class="col-xs-6"
+						 filtros = "data.filtrosCondicionDeLiquidacion"
+						 tipo="'combobox-condicion-liquidacion'"
+						 id-actual="filtros.IdCondicionDeLiquidacion"
+						 todos = "'S'"
+						 item-post-filtro = "'1'">
+					 </bcs-combobox-base >
+				 </div>
+				 <div class="col-xs-4">
+					 <label class="col-xs-4" translate>UI_MONEDA</label>
+					 <bcs-combobox-base 
+						 class="col-xs-8"
+						 filtros = "data.filtrosMonedaNegociacion"
+						 tipo="'combobox-moneda-negociacion'"
+						 id-actual="filtros.IdMoneda"
+						 todos = "'S'"
+						 item-post-filtro = "'1'">
+					 </bcs-combobox-base >
+				 </div>	
+			 </div>
+		  </div>
+		  <!-- FIN FILTROS -->
+				 
+		  <!-- INICIO BOTONES -->
+		  <div class="col-xs-1">
+			 <div class="row"> 
+				 <bcs-button class="col-xs-12" 
+					  id="UI_BUSCAR"
+					bcs-tipo="'bcs-button-search'" 
+					bcs-auto-desactivar="false"
+				  bcs-texto="'UI_BUSCAR' | translate" 
+				  bcs-habilitado="true"
+				  bcs-clic="buscar()"> 
+			   </bcs-button>
+			 </div>  
+					
+			 <div class="row">					
+			   <bcs-button class="col-xs-12"
+					id="UI_LIMPIAR" 
+				  bcs-tipo="'bcs-button-secondary'" 
+				  bcs-auto-desactivar="false"
+				  bcs-texto="'UI_LIMPIAR' | translate" 
+				  bcs-habilitado="true"
+				  bcs-clic="limpiarFiltros()"> 
+			   </bcs-button>					
+			 </div>	  
+		  </div>
+		  <!-- FIN BOTONES -->		 
+	   </div>			
+	  </form> 
+	   
+	   <!-- INICIO GRILLA DETALLE REGISTRO -->						
+	   <div class="row">
+		  <new-bcs-grid id="grid-ConsultaCliente" 
+			  configuracion="confBasicaInformeOrdenesConfirmadas"
+			  seleccionado="seleccionInformeOrdenesConfirmadas"
+			  fn-exportar-excel="exportarExcel"
+			  api="gridApiReporteGestionCliente"> 
+		  </new-bcs-grid>
+	   </div>
+	   <!--  <div class="row bcs-panel-comandos">
+		 <bcs-button ng-show="true" class="col-xs-1" bcs-auto-desactivar="'false'" bcs-texto="'UI_GENERAR_INFORME' | translate" id = "InformeOrdenesConfirmadas"
+			 bcs-habilitado="bcsInformeOrdenesConfirmadasGrid.dataSourceInformeOrdenesConfirmadas.length>0" bcs-clic=""></bcs-button>
+	  </div>-->
+	   <!-- FIN GRILLA DETALLE REGISTRO -->
+	</div>	
+ </div>

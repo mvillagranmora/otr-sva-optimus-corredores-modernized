@@ -1,0 +1,43 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaTBCODTSD"; 
+
+--SELECT  *  FROM "BSCL.Replica.BD.Vistas::ReplicaTBCODTSD" where  SEC_CMBTE = 2075 and LIN_CMBTE = 19958
+
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaTBCODTSD" AS
+
+    select 
+		WST."IdStack" AS "IDSTACK","Action" AS ACTION,
+		COD_EMPRESA  || ':' ||    SEC_CMBTE || ':' ||  LIN_CMBTE   AS TABLE_KEY,
+		MOV."COD_EMPRESA",
+		MOV."SEC_CMBTE",
+		MOV."LIN_CMBTE",
+		MOV."FEC_CMBTE",
+		MOV."FOLIO_VOUCHER",
+		MOV."VIGENCIA",
+		MOV."CTA_CONTAB",
+		MOV."GLOSA_MVTO",
+		MOV."CENTRO",
+		MOV."IND_CENTRAL",
+		MOV."MONTO_DEBE",
+		MOV."MONTO_HABER",
+		MOV."SUBCENTRO",
+		MOV."TIPO_CMBTE",
+		MOV."RUT_CLI",
+		MOV."SEC_RUT_CLI",
+		MOV."TIPO_COMP_FAC",
+		MOV."FOLIO_COMP_FAC",
+		MOV."CONCEPTO_MVTO",
+		MOV."NRO_DCTO",
+		MOV."NOM_CLIENTE",
+		MOV."CODEVENTOCTB",
+		MOV."IND_GLOSA_PARAM"
+        	
+		FROM  "BSCL.Replica.BD.Vistas::Sebra.TBCODTSD" MOV
+        LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'TBCODTSD' AND WST."Key" = COD_EMPRESA  || ':' ||    SEC_CMBTE || ':' ||  LIN_CMBTE
+	
+	
+	
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaTBCODTSD" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

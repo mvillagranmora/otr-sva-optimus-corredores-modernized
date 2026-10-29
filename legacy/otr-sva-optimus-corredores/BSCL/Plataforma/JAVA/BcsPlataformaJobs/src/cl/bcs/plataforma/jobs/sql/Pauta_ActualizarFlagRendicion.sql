@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::PLA.Configuracion" SET "Valor" = :FlagRendicionDefecto WHERE "CodigoParametro" = :CodigoParametro

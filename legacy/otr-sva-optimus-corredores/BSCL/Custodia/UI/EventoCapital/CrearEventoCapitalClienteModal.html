@@ -1,0 +1,793 @@
+<div ng-controller="CrearEventoCapitalClienteModalCtrl">
+	<div class="row bcs_titulo" translate>UI_INGRESO_EVENTO</div>
+	<!-- 
+	<div 	ng-show	="data.Accion=='Modificar'"
+			class="row bcs_titulo" translate>
+		UI_MODIFICAR_EVENTO
+	</div>
+	 -->
+	<form name="formEventoCapitalCliente">
+		<div class="col-xs-12"><div class="row"><strong translate>UI_EVENTO_CAPITAL</strong></div></div>
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_TIPO_EVENTO</label>
+					<!--<bcs-combobox-base ng-show="data.Accion=='Crear'" class="col-xs-7"
+						bcs-requerido="data.Accion=='Crear'"
+						tipo="data.oConfiguracionTipoEvento.tipo"
+						ng-model="data.TipoEvento"
+						seleccionado="data.oConfiguracionTipoEvento.seleccionado"
+						id-post-filtro="data.idPostFiltro" foco="formData.TipoEvento">
+					</bcs-combobox-base>-->
+					<bcs-input-texto ng-show="data.Accion=='Crear'"
+						class="col-xs-9" id="UI_TIPOEVENTOTXT" maxlength="200"
+						ng-model="data.TipoEventoTXT" k-ng-disabled="'true'"
+						foco="formData.TipoEvento"> </bcs-input-texto>
+					<bcs-input-texto ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" id="UI_TIPOEVENTOTXT" maxlength="200"
+						ng-model="data.TipoEventoTXT" k-ng-disabled="'true'"
+						foco="formData.TipoEvento"> </bcs-input-texto>
+
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_NUMERO_DIVIDENDO</label>
+					<bcs-input-texto ng-show="data.Accion=='Modificar'"
+						class="col-xs-3" id="UI_DIVIDENDOTXT" maxlength="10"
+						ng-model="data.kngDividendoTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+
+					<bcs-input-texto ng-show="data.Accion=='Crear'" 
+						class="col-xs-3" id="UI_DIVIDENDOTXT"
+						ng-model="data.kngDividendoTXT"
+						k-ng-disabled="'true'"></bcs-input-texto>
+	
+					<label class="col-xs-3" translate>UI_SECUENCIA</label>
+					<bcs-input-texto ng-show="data.Accion=='Modificar'"
+						class="col-xs-3" id="UI_SECUENCIATXT" maxlength="10"
+						ng-model="data.kngSecuenciaTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+
+					<bcs-input-texto ng-show="data.Accion=='Crear'" 
+						class="col-xs-3" id="UI_SECUENCIATXT"
+						ng-model="data.kngSecuenciaTXT"
+						k-ng-disabled="'true'"></bcs-input-texto>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+					<bcs-input-texto ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" id="UI_CLASIFICACIONTXT" maxlength="200"
+						ng-model="data.ClasificacionInstrumentoTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+
+					<bcs-input-texto ng-show="data.Accion=='Crear'" class="col-xs-9"
+						id="UI_CLASIFICACION" maxlength="200"
+						ng-model="data.ClasificacionInstrumento" k-ng-disabled="'true'">
+					</bcs-input-texto>
+
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_VALOR_UNITARIO</label>
+					<bcs-input-numero ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngValorUnitarioTXT"
+						k-options="data.ValorUnitario" k-ng-disabled="'true'">
+					</bcs-input-numero>
+
+					<bcs-input-numero ng-show="data.Accion=='Crear'" class="col-xs-9"
+						bcs-mayor-igual-que="'0'" k-ng-model="data.kngValorUnitario"
+						k-options="data.ValorUnitario" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_FACTOR</label>
+					<bcs-input-numero ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" bcs-mayor-igual-que="'0'" decimales="'8'"
+						k-ng-model="data.kngFactorTXT" k-ng-disabled="'true'">
+					</bcs-input-numero>
+
+					<bcs-input-numero ng-show="data.Accion=='Crear'" class="col-xs-9"
+						bcs-mayor-igual-que="'0'" decimales="'8'"
+						k-ng-model="data.kngFactorTXT" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_ISIN</label>
+					<bcs-input-texto class="col-xs-9" id="UI_ISINTXT" maxlength="200"
+						ng-model="data.ISINTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_FECHA_PAGO</label>
+					<bcs-input-date ng-show="data.Accion=='Modificar'" class="col-xs-9"
+						k-ng-model="data.idFechaPagoM" k-options="data.FechaPagoOptions"
+						k-ng-disabled="'true'"> </bcs-input-date>
+
+					<bcs-input-date ng-show="data.Accion=='Crear'" id="UI_FECHAPAGO"
+						class="col-xs-9" k-ng-model="data.KngIdFechaPago"
+						k-ng-disabled="'true'"> </bcs-input-date>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_DESCRIPCION</label>
+					<bcs-input-texto ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" id="UI_DESCRIPCION" maxlength="100"
+						ng-model="data.DescripcionTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+
+					<bcs-input-texto ng-show="data.Accion=='Crear'" class="col-xs-9"
+						id="UI_DESCRIPCION" maxlength="100" ng-model="data.DescripcionTXT"
+						k-ng-disabled="'true'">
+					</bcs-input-texto>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate
+						ng-show="(data.Accion=='Crear' && data.MuestraMoneda) || (data.Accion=='Modificar' && data.MuestraMoneda)">
+						UI_MONEDA </label>
+					<bcs-input-texto
+						ng-show="data.MuestraMoneda && !configuracionDividendosClienteAmbasMonedas"
+						class="col-xs-9" id="UI_MONEDATXT" maxlength="200"
+						ng-model="data.MonedaTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+					<bcs-combobox-base
+						ng-show="instrumentoUsaPagoDividendosOtrasMonedas && configuracionDividendosClienteAmbasMonedas"
+						class="col-xs-8"
+						bcs-requerido="instrumentoUsaPagoDividendosOtrasMonedas && configuracionDividendosClienteAmbasMonedas"
+						auto-cargar="'true'"
+						tipo="data.oConfiguracionMoneda.tipo"
+						configuracion="data.oConfiguracionMoneda.configuracion"
+						id-actual="data.oConfiguracionMoneda.idActual"
+						id-defecto="data.oConfiguracionMoneda.idDefecto" 
+						seleccionado="data.oConfiguracionMoneda.seleccionado"
+						filtros="data.oConfiguracionMoneda.filtros">
+					</bcs-combobox-base>
+				</div>
+
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+					<bcs-input-texto ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" id="UI_INSTRUMENTOTXT" maxlength="200"
+						ng-model="data.idInstrumentoTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+					<bcs-input-texto ng-show="data.Accion=='Crear'" class="col-xs-9"
+						id="UI_INSTRUMENTO" maxlength="200" ng-model="data.idInstrumentoTXT"
+						k-ng-disabled="'true'"> </bcs-input-texto>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-12" ng-show="data.Accion==='Crear' && data.MuestraInstrumentoNuevo">
+			<div class="row">
+				<div class="col-xs-6 col-xs-offset-6">
+					<label class="col-xs-3" translate>UI_INSTRUMENTO_NUEVO</label>
+					<bcs-input-texto ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" id="UI_INSTRUMENTONUEVOTXT" maxlength="200"
+						ng-model="data.idInstrumentoNuevoTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+					<bcs-input-texto ng-show="data.Accion=='Crear'" class="col-xs-9"
+						id="UI_INSTRUMENTO" maxlength="200" ng-model="data.InstrumentoNuevo"
+						k-ng-disabled="'true'"> </bcs-input-texto>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<hr>
+		</div>
+		
+		<div class="col-xs-12"><div class="row"><strong translate>UI_DETALLE</strong></div></div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+						
+					
+					<label class="col-xs-3" ng-show="data.Accion=='Crear'" translate>UI_SOCIO_NEGOCIO</label>
+						<bcs-combobox-base class="col-xs-9"
+							bcs-requerido				="data.Accion=='Crear'"
+							ng-show						="data.Accion=='Crear'" 
+							id                			= "UI_CLIENTE"
+							auto-cargar		  			= "'false'"
+							carga-cliente-automatico    ="'S'" 
+							tipo			  			= "data.oConfiguracionSocioNegocio.tipo"
+							configuracion	  			= "data.oConfiguracionSocioNegocio.configuracion"
+							seleccionado	  			= "data.oConfiguracionSocioNegocio.seleccionado"
+							filtros			  			= "data.oConfiguracionSocioNegocio.filtros"
+							id-actual		  			= "data.oConfiguracionSocioNegocio.idActual"
+							activado            		= "data.oConfiguracionSocioNegocio.activado"
+							id-defecto          		= "data.oConfiguracionSocioNegocio.idDefecto"							
+							id-post-filtro				= "'1'"
+							item-post-filtro			= "'1'"
+							cascada1-a					= "data.oConfiguracionSocioNegocioRelacionado.filtros.IdPersonaOrigen"
+							cascada1-valor				= "'IdPersona'"
+							cascada1-defecto			= "-1">
+						</bcs-combobox-base>
+											
+					<label class="col-xs-3" ng-show="data.Accion=='Modificar'"translate>UI_SOCIO_NEGOCIO</label>
+					<bcs-input-texto 
+						ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" 
+						id="UI_CLIENTETXT" 
+						maxlength="200"
+						ng-model="data.ClienteTXT" 
+						k-ng-disabled="'true'">
+					</bcs-input-texto>
+					
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+						<label class="col-xs-4" ng-show="(data.Accion=='Crear' && data.EventoCerradoValido == false)" translate>UI_TIPO_SOCIO_NEGOCIO</label>								
+						<bcs-combobox-base class="col-xs-9"
+							ng-show			="(data.Accion=='Crear' && data.EventoCerradoValido == false)"
+							bcs-requerido	="(data.Accion=='Crear' && data.EventoCerradoValido == false)"
+							id				= "frmIngresoEgreso_TipoSocio"
+							carga-cliente-automatico="'S'" 
+							tipo			= "data.oConfiguracionTipoSocioNegocio.tipo"
+							configuracion	= "data.oConfiguracionTipoSocioNegocio.configuracion" 				
+							seleccionado	= "data.oConfiguracionTipoSocioNegocio.seleccionado"
+							filtros			= "data.oConfiguracionTipoSocioNegocio.filtros"
+							activado        = "data.oConfiguracionTipoSocioNegocio.activado"
+							id-defecto		= "data.oConfiguracionTipoSocioNegocio.IdDefecto"
+							id-actual		= "data.oConfiguracionTipoSocioNegocio.idActual"
+							id-post-filtro	= "data.oConfiguracionTipoSocioNegocio.idPostFiltro">
+						</bcs-combobox-base>
+						
+						<label class="col-xs-4" ng-show="(data.Accion=='Crear' && data.EventoCerradoValido == true)" translate>UI_TIPO_SOCIO_NEGOCIO</label>
+						<bcs-combobox-base class="col-xs-9"
+							ng-show			="(data.Accion=='Crear' && data.EventoCerradoValido == true)"
+							bcs-requerido	="(data.Accion=='Crear' && data.EventoCerradoValido == true)"
+							id				= "frmIngresoEgreso_TipoSocio"
+							carga-cliente-automatico="'S'" 
+							tipo			= "data.oConfiguracionTipoSocioNegocioSinContraparte.tipo"
+							configuracion	= "data.oConfiguracionTipoSocioNegocioSinContraparte.configuracion" 				
+							seleccionado	= "data.oConfiguracionTipoSocioNegocioSinContraparte.seleccionado"
+							filtros			= "data.oConfiguracionTipoSocioNegocioSinContraparte.filtros"
+							activado        = "data.oConfiguracionTipoSocioNegocioSinContraparte.activado"
+							id-defecto		= "data.oConfiguracionTipoSocioNegocioSinContraparte.IdDefecto"
+							id-actual		= "data.oConfiguracionTipoSocioNegocioSinContraparte.idActual"
+							id-post-filtro	= "data.oConfiguracionTipoSocioNegocioSinContraparte.idPostFiltro">
+						</bcs-combobox-base>
+						
+						<label class="col-xs-3" ng-show="data.Accion=='Modificar'" translate>UI_TIPO_SOCIO_NEGOCIO</label>
+						<bcs-combobox-base 
+							ng-show="data.Accion=='Modificar'"
+							class="col-xs-9"
+							tipo= "data.oConfiguracionTipoSocioNegocio.tipo"
+							id-actual="formData.tipoSocioNegocio"
+							seleccionado="data.TipoSocioNegocio"
+							todos="'N'"
+							id-defecto="data.IdTipoSocioNegocio"
+							activado = "false">
+						</bcs-combobox-base>
+				</div>
+				
+				
+			</div>
+			
+	</div>	
+	<div class ="col-xs-12">
+		<div class="row">
+		
+			<div class="col-xs-5">
+					
+						<label class="col-xs-3" ng-show="(data.Accion=='Crear' && data.showPortafolio)" translate>UI_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-9"	
+							
+							ng-show				="(data.showPortafolio && data.Accion=='Crear')" 						
+							id					= "frmIngresoEgreso_PortafolioSocio"
+							auto-cargar			= "{{data.oConfiguracionPortafolio.autoCargar}}"
+							bcs-requerido 		= "(data.showPortafolio && data.Accion=='Crear')"
+							tipo				= "'combobox-portafolio'"
+							activado			= "data.oConfiguracionPortafolio.activado"
+							configuracion		= "data.oConfiguracionPortafolio.configuracion"
+							seleccionado		= "data.oConfiguracionPortafolio.seleccionado"
+							filtros				= "data.oConfiguracionPortafolio.filtros"
+							id-actual		  	= "data.oConfiguracionPortafolio.idActual"
+							id-defecto			= "data.oConfiguracionPortafolio.idDefecto"
+							activado            = "data.oConfiguracionPortafolio.activado"
+							id-post-filtro		= "data.oConfiguracionPortafolio.idPostFiltro"
+							usa-filtros-completos = "'S'"
+							ng-disabled="'true'"
+							>
+						</bcs-combobox-base >
+					
+					<label class="col-xs-3" ng-show="data.Accion=='Modificar'"translate>UI_PORTAFOLIO</label>
+					<bcs-input-texto ng-show="data.Accion=='Modificar'"
+						class="col-xs-9" 
+						id="UI_PORTAFOLIOTXT"
+						maxlength="200"
+						ng-model="data.PortafolioTXT" 
+						k-ng-disabled="'true'">
+					</bcs-input-texto>
+				</div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-6">	
+			<label class="col-xs-3" translate>UI_ISFUT</label>			
+				<bcs-input-checkbox 
+					ng-model	="data.switchISFUT"
+					ng-disabled	="data.ngDisabledSwitchISFUT"
+					class="col-xs-6">
+				</bcs-input-checkbox>
+				
+			</div>
+		</div>
+	
+	</div>	
+
+	<div class="col-xs-12"  ng-show="(data.Accion=='Crear' && data.EventoCerradoValido == true)">
+		<div class="row">
+			<div class="col-xs-5">
+		
+				<label class="col-xs-4" ng-show="(data.Accion=='Crear' && data.EventoCerradoValido == true)" translate>UI_CONTRAPARTE</label>
+				<bcs-combobox-base class="col-xs-8"
+					ng-show="(data.Accion=='Crear' && data.EventoCerradoValido == true)"
+					bcs-requerido = "(data.Accion=='Crear' && data.EventoCerradoValido == true)"
+					tipo="'combobox-contraparte'"
+					id-actual="data.oConfiguracionEntidad.idActual"
+					id-defecto="'0'"
+					todos="'N'"
+					seleccionado="data.oConfiguracionEntidad.seleccionado">
+				</bcs-combobox-base>
+					
+			
+
+			</div>
+		</div>
+		
+	</div>
+
+
+
+
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_BOVEDA</label>
+					<bcs-combobox-base ng-show="data.Accion=='Crear'" class="col-xs-9"
+						id="UI_BOVEDA" bcs-requerido="data.Accion=='Crear'"
+						auto-cargar="'true'" tipo="'combobox-boveda'"
+						configuracion="data.oConfiguracionBoveda.configuracion"
+						id-actual="data.oConfiguracionBoveda.idActual"
+						seleccionado="data.oConfiguracionBoveda.seleccionado"
+						filtros="data.oConfiguracionBoveda.filtros"
+						memoria="'INGRESOTITULO'"> </bcs-combobox-base>
+					<bcs-combobox-base ng-show="data.Accion=='Modificar'"
+						bcs-requerido="data.Accion=='Modificar'" class="col-xs-9"
+						id="UI_BOVEDA" auto-cargar="'true'" tipo="'combobox-boveda'"
+						configuracion="data.oConfiguracionBoveda.configuracion"
+						id-actual="data.oConfiguracionBoveda.idActual"
+						seleccionado="data.oConfiguracionBoveda.seleccionado"
+						filtros="data.oConfiguracionBoveda.filtros"
+						memoria="'INGRESOTITULO'"
+						> </bcs-combobox-base>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">	
+				<label class="col-xs-3" translate>UI_RETENCION_ISFUT</label>				
+					<bcs-input-checkbox 
+						ng-model	="data.switchRetencionISFUT"
+						ng-disabled	="data.ngDisabledSwitchRetencionISFUT"
+						class="col-xs-6">
+					</bcs-input-checkbox>
+					
+				</div>
+				<div class="col-xs-6">
+					<label ng-show="data.MuestraVacali" class="col-xs-3" translate>UI_RUT_CAVALI</label>
+					<bcs-input-texto ng-show="data.MuestraVacali" class="col-xs-9"
+						id="UI_RUTCAVALITXT" maxlength="200" ng-model="data.RUTCAVALITXT"
+						k-ng-disabled="'true'"> </bcs-input-texto>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_TIPO_CARTERA</label>
+					<bcs-combobox-base ng-show="data.Accion=='Crear'" class="col-xs-9"
+						bcs-requerido="data.Accion=='Crear'" auto-cargar="'true'"
+						tipo="data.oConfiguracionTipoCartera.tipo"
+						id-actual="data.oConfiguracionTipoCartera.idActual"
+						configuracion="data.oConfiguracionTipoCartera.configuracion"
+						seleccionado="data.oConfiguracionTipoCartera.seleccionado"
+						filtros="data.oConfiguracionTipoCartera.filtros"
+						memoria="TIPOCARTERA"> </bcs-combobox-base>
+					<bcs-combobox-base ng-show="data.Accion=='Modificar'"
+						bcs-requerido="data.Accion=='Modificar'" class="col-xs-9"
+						auto-cargar="'true'" tipo="data.oConfiguracionTipoCartera.tipo"
+						id-actual="data.oConfiguracionTipoCartera.idActual"
+						configuracion="data.oConfiguracionTipoCartera.configuracion"
+						seleccionado="data.oConfiguracionTipoCartera.seleccionado"
+						filtros="data.oConfiguracionTipoCartera.filtros"
+						id-post-filtro="data.idPostFiltroTXT"
+						activado="'true'"> </bcs-combobox-base>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_MONTO_RETENCION_ISFUT</label>
+					<bcs-input-numero
+						class="col-xs-9" id="UI_MONTO_RETENCION_ISFUT"
+						ng-model="data.kngMontoRetencionISFUTTXT" 
+						bcs-mayor-igual-que="'0'"
+						k-ng-disabled="'true'"
+						k-options="data.configuracionMontos">
+					</bcs-input-numero>
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_CUSTODIA</label>
+					<bcs-input-numero ng-show="data.Accion=='Crear'" class="col-xs-9"
+						bcs-requerido="data.Accion=='Crear'" k-ng-model="data.kngDerecho"
+						decimales="data.FormatoMoneda.cantidad.cantidadDecimales"
+						k-options="data.configuracionCantidad">
+						</bcs-input-numero>
+
+					<bcs-input-numero ng-show="data.Accion=='Modificar'"
+						bcs-requerido="data.Accion=='Modificar'" class="col-xs-9"
+						k-ng-model="data.kngDerechoTXT"
+						decimales="data.FormatoMoneda.cantidad.cantidadDecimales"
+						k-ng-disabled="data.disablekngDerechoTXT"
+						k-options="data.configuracionCantidad"></bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" ng-show="data.MuestraMontoImpuestoExtranjero" translate>UI_COL_MONTO_IMPUESTO_EXTRANJERO</label>
+					<bcs-input-numero
+						class="col-xs-9" id="UI_COL_MONTO_IMPUESTO_EXTRANJERO"
+						ng-show="data.MuestraMontoImpuestoExtranjero"
+						ng-model="data.kngMontoImpuestoExtranjero"
+						bcs-mayor-igual-que="'0'"
+						k-ng-disabled="data.kngMontoImpuestoExtranjeroDisabled"
+						decimales="2">
+					</bcs-input-numero>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" ng-show="data.MuestraMontoGastoTransferencia" translate>UI_COL_ECC_GASTO_TRANSFERENCIA</label>
+					<bcs-input-numero
+						class="col-xs-9" id="UI_COL_ECC_GASTO_TRANSFERENCIA"
+						ng-show="data.MuestraMontoGastoTransferencia"
+						ng-model="data.kngMontoGastoTransferencia"
+						bcs-mayor-igual-que="'0'"
+						k-ng-disabled="data.kngMontoGastoTransferenciaDisabled"
+						decimales="2">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6"></div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<hr>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate
+						ng-show="(data.Accion=='Crear' && data.MuestraCantidadNueva) || (data.Accion=='Modificar' && data.MuestraCantidadNueva)">
+						UI_CANTIDAD </label>
+					<bcs-input-numero
+						ng-show="data.Accion=='Crear' && data.MuestraCantidadNueva"
+						class="col-xs-9"
+						bcs-requerido="data.Accion=='Crear' && data.MuestraCantidadNueva"
+						k-ng-model="data.kngNueva"
+						decimales="0"
+						k-options="data.configuracionMontos"> </bcs-input-numero>
+
+					<bcs-input-numero
+						ng-show="data.Accion=='Modificar' && data.MuestraCantidadNueva"
+						class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngNuevaTXT"
+						decimales="0"
+						k-options="data.configuracionMontos">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+				</div>
+			</div>
+		</div>
+		
+		<!--<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-4" translate
+						ng-show="(data.Accion=='Crear' && data.MuestraMoneda) || (data.Accion=='Modificar' && data.MuestraMoneda)">
+						UI_MONEDA </label>
+					<bcs-input-texto
+						ng-show="data.Accion=='Modificar' && data.MuestraMoneda"
+						class="col-xs-8" id="UI_MONEDATXT" maxlength="200"
+						ng-model="data.MonedaTXT" k-ng-disabled="'true'">
+					</bcs-input-texto>
+
+					<bcs-combobox-base
+						ng-show="data.Accion=='Crear' && data.MuestraMoneda"
+						class="col-xs-8"
+						bcs-requerido="data.Accion=='Crear' && data.MuestraMoneda"
+						auto-cargar="'true'" tipo="data.oConfiguracionMoneda.tipo"
+						configuracion="data.oConfiguracionMoneda.configuracion"
+						id-actual="data.oConfiguracionMoneda.idActual"
+						seleccionado="data.oConfiguracionMoneda.seleccionado"
+						filtros="data.oConfiguracionMoneda.filtros" memoria="EVENTOS"
+						id-defecto="'0'" id-post-filtro="data.IdMoneda">
+					</bcs-combobox-base>
+				</div>
+			</div>
+		</div>-->
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate
+						ng-show="(data.Accion=='Crear' && data.MuestraTotal) || (data.Accion=='Modificar' && data.MuestraTotal)">
+						UI_MONTO_TOTAL </label>
+					<bcs-input-numero
+						ng-show="data.Accion=='Crear' && data.MuestraTotal"
+						class="col-xs-9"
+						bcs-requerido="data.Accion=='Crear' && data.MuestraTotal"
+						k-ng-model="data.kngMonto"
+						k-options="data.configuracionMontos">
+					</bcs-input-numero>
+
+					<bcs-input-numero
+						ng-show="data.Accion=='Modificar' && data.MuestraTotal"
+						class="col-xs-9"
+						bcs-requerido="data.Accion=='Modificar' && data.MuestraTotal"
+						k-ng-model="data.kngMontoTXT"
+						k-ng-disabled="data.disabledMontoTXT"
+						k-options="data.configuracionMontos"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate
+						ng-show="data.Accion==='Crear' && data.MuestraInstrumentoNuevo">
+						UI_INSTRUMENTO </label>
+					<bcs-input-instrumentos
+						ng-show="data.Accion=='Crear' && data.MuestraInstrumentoNuevo"
+						class="col-xs-9" ng-model="instrumento"
+						datos-instrumento="filtro.instrumentoObjeto"
+						k-ng-model="filtro.instrumento"
+						buscar-instrumento="bEC.idActualInst.IdInstrumento"
+						filtro-estado="'ACT'"> </bcs-input-instrumentos>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate
+						ng-show="(data.Accion=='Crear' && data.MuestraMontoCapital) || (data.Accion=='Modificar' && data.MuestraMontoCapital)">UI_MONTO_CAPITAL
+					</label>
+					<bcs-input-numero
+						ng-show="data.Accion=='Crear' && data.MuestraMontoCapital"
+						class="col-xs-9"
+						bcs-requerido="data.Accion=='Crear' && data.MuestraMontoCapital"
+						 k-ng-model="data.kngMontoCapital"
+						k-options="data.configuracionMontoCapital"> </bcs-input-numero>
+
+					<bcs-input-numero
+						ng-show="data.Accion=='Modificar' && data.MuestraMontoCapital"
+						class="col-xs-9" 
+						k-ng-model="data.kngMontoCapitalTXT" k-options="data.configuracionMontoCapital"
+						k-ng-disabled="data.disabledMontoCapital"> </bcs-input-numero>
+
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6"></div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate ng-show="data.MuestraMontoInteres">UI_MONTO_INTERES </label>
+					<bcs-input-numero
+						ng-show="data.Accion=='Crear' && data.MuestraMontoInteres"
+						class="col-xs-9"
+						bcs-requerido="data.Accion=='Crear' && data.MuestraMontoInteres"
+						 k-ng-model="data.kngMontoInteres"
+						k-options="data.configuracionMontos"
+						k-ng-disabled="data.disabledMontoInteres"> </bcs-input-numero>
+
+					<bcs-input-numero
+						ng-show="data.Accion=='Modificar' && data.MuestraMontoInteres"
+						class="col-xs-9"
+						k-ng-model="data.kngMontoInteres"
+						k-options="data.configuracionMontos"> </bcs-input-numero>
+
+					</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6"></div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<hr>
+		</div>
+
+		<div class="col-xs-12" ng-show="data.MuestraArchivo">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_CANTIDAD_DERECHO_ARCHIVO</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngDerechoArchivo"
+						k-options="data.DerechoArchivo"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_DIFERENCIA_CANTIDAD_DERECHO</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngDifDerecho" k-options="data.DifDerecho"
+						k-ng-disabled="'true'"> </bcs-input-numero>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12"
+			ng-show="data.MuestraArchivo && data.MuestraCantidadNueva">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_CANTIDAD_NUEVA_ARCHIVO</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngCantidadNuevaArchivo"
+						k-options="data.CantidadNuevaArchivo"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_DIFERENCIA_CANTIDAD_NUEVA</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngDifCantidadNuevaArchivo"
+						k-options="data.DifCantidadNuevaArchivo" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12"
+			ng-show="data.MuestraArchivo && data.MuestraTotal">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_MONTO_BENEFICIO_ARCHIVO</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngMontoBeneficioArchivo"
+						k-options="data.MontoBeneficioArchivo"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_DIFERENCIA_MONTO_BENEFICIO</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngDifMontoBeneficioArchivo"
+						k-options="data.DifMontoBeneficioArchivo" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12"
+			ng-show="data.MuestraArchivo && data.MuestraMontoInteres">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_MONTO_INTERES_ARCHIVO</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngMontoInteresArchivo"
+						k-options="data.MontoInteresArchivo"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_DIFERENCIA_MONTO_INTERES</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngDifMontoInteres"
+						k-options="data.DifMontoInteres" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12"
+			ng-show="data.MuestraArchivo && data.MuestraMontoCapital">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_MONTO_CAPITAL_ARCHIVO</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngMontoCapitalArchivo"
+						k-options="data.MontoCapitalArchivo"> </bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_DIFERENCIA_MONTO_CAPITAL</label>
+					<bcs-input-numero class="col-xs-9" bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngDifMontoCapital"
+						k-options="data.DifMontoCapital" k-ng-disabled="'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12"
+			ng-show="data.MuestraArchivo && data.MuestraMontoRetenido">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_MONTO_RETENIDO_ARCHIVO</label>
+					<bcs-input-numero 
+						class="col-xs-9" 
+						bcs-mayor-igual-que="'0'"
+						k-ng-model="data.kngMontoRetenidoArchivo"
+						k-options="data.MontoRetenidoArchivo"> 
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-6"></div>
+			</div>
+		</div>
+	</form>
+
+	<div class="row bcs-panel-comandos alignButtonsToRight" style="padding-top: 10px !important;">
+		<bcs-button ng-show="data.Accion=='Crear'"
+			class="col-xs-2" 
+			ng-show="'true'" 
+			bcs-tipo="'bcs-button-primary'"
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GRABAR' | translate"
+			bcs-habilitado="data.accionDisabled && formEventoCapitalCliente.$valid"
+			bcs-clic="data.CrearEventoCapitalCliente()"> 
+		</bcs-button>
+		<bcs-button ng-show="data.Accion=='Modificar'"
+			class="col-xs-2" 
+			ng-show="'true'" 
+			bcs-tipo="'bcs-button-primary'"
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GRABAR' | translate"
+			bcs-habilitado="data.accionDisabled"
+			bcs-clic="data.CrearEventoCapitalCliente()"> 
+		</bcs-button>
+		
+		<bcs-button class="col-xs-2" 
+			ng-show="'true'" 
+			bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CERRAR' | translate"
+			bcs-habilitado="data.accionDisabled" 
+			bcs-clic="data.btnCerrar(false)"
+			bcs-blur="formData.resetFoco()"> 
+		</bcs-button>
+		<!-- <input style="background-color: rgba(0, 0, 0, 0); border: none" -->
+			<!-- readonly type="text" /> -->
+	</div>
+</div>

@@ -1,0 +1,92 @@
+<div class="row" ng-controller='MantenedorCoberturaCtrl'>
+<form name="frmCoberturaGarantia"  class="col-xs-12 form-horizontal">
+	<div class="row">
+		<!-- INICIO BLOQUE FILTROS -->
+		<div class="col-xs-10">
+			
+			<div class="row">
+				<label class="col-xs-2" translate>UI_ENTIDAD_DESTINO</label>
+				<bcs-combobox-base class="col-xs-10"
+					bcs-requerido  
+				    auto-cargar		= "'true'"						    						    
+					tipo			= "filtros.oConfiguracionEntidadDestinoGarantia.tipo"  
+					configuracion	= "filtros.oConfiguracionEntidadDestinoGarantia.configuracion" 
+					id-actual		= "filtros.oConfiguracionEntidadDestinoGarantia.idActual" 
+					seleccionado	= "filtros.oConfiguracionEntidadDestinoGarantia.seleccionado" 
+					filtros			= "filtros.oConfiguracionEntidadDestinoGarantia.filtros"
+                    cascada1-a		= "filtros.oConfiguracionTipoInstrumentoExigeGarantia.filtros.IdEntidadDestinoGarantia"
+		            cascada1-valor	= "'IdEntidadDestinoGarantia'"
+                    cascada2-a		= "filtros.oConfiguracionInstrumentoExigeGarantia.filtros.IdEntidadDestinoGarantia"
+		            cascada2-valor	= "'IdEntidadDestinoGarantia'">
+				</bcs-combobox-base>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO_GARANTIZADO</label>
+				<bcs-combobox-base class="col-xs-4"
+					auto-cargar="false"
+					bcs-requerido						
+					tipo			 = "filtros.oConfiguracionTipoInstrumentoExigeGarantia.tipo"
+					configuracion	 = "filtros.oConfiguracionTipoInstrumentoExigeGarantia.configuracion"
+					seleccionado	 = "filtros.oConfiguracionTipoInstrumentoExigeGarantia.seleccionado"
+					filtros			 = "filtros.oConfiguracionTipoInstrumentoExigeGarantia.filtros"
+					id-actual		 = "filtros.oConfiguracionTipoInstrumentoExigeGarantia.idActual"
+					id-defecto		 = "filtros.oConfiguracionTipoInstrumentoExigeGarantia.idDefecto"
+					todos			 = "'S'"
+					item-post-filtro = "'1'"
+	                cascada1-a		 = "filtros.oConfiguracionInstrumentoExigeGarantia.filtros.IdTipoInstrumento"		                
+				    cascada1-valor	 = "'IdTipoInstrumento'">
+				</bcs-combobox-base>
+				
+				<label class="col-xs-2" translate>UI_INSTRUMENTO_GARANTIZADO</label>
+				<bcs-combobox-base class="col-xs-4"
+				    auto-cargar		 = "false"
+				    bcs-requerido
+					tipo			 = "filtros.oConfiguracionInstrumentoExigeGarantia.tipo"
+					configuracion	 = "filtros.oConfiguracionInstrumentoExigeGarantia.configuracion"
+					seleccionado	 = "filtros.oConfiguracionInstrumentoExigeGarantia.seleccionado"
+					todos			 = "'S'"
+					item-post-filtro = "'1'"
+					filtros			 = "filtros.oConfiguracionInstrumentoExigeGarantia.filtros"
+					id-actual		 = "filtros.oConfiguracionInstrumentoExigeGarantia.idActual"
+					id-defecto		 = "filtros.oConfiguracionInstrumentoExigeGarantia.idDefecto">
+				</bcs-combobox-base>			
+			</div>
+		</div>					
+		<!-- FIN BLOQUE FILTROS -->
+		
+		<!-- INICIO BLOQUE BOTONES -->
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="frmCoberturaGarantia.$valid"  bcs-clic="buscarCoberturaGarantia()"></bcs-button>				
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="'true'"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+		</div>
+		<!-- FIN BLOQUE BOTONES -->
+	</div>
+	
+
+	<div class="row">
+		<bcs-grid id="grid-cobertura-garantias"
+		 	configuracion 	  = "confBasicaCoberturaGarantia"
+			seleccionado 	  = "seleccionCoberturaGarantia"			
+			fn-doble-click 	  = "editarCobertura(seleccionCoberturaGarantia)"
+			fn-exportar-excel = "exportarExcel">
+		</bcs-grid>
+	</div>
+ 
+	
+	<!-- INICIO PANEL COMANDOS -->	 
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="MantenedorCobertura_Crear"  class="col-xs-2" bcs-tipo="'principal'"  bcs-auto-desactivar="false" bcs-texto="'UI_CREAR' | translate" bcs-habilitado="'true'" bcs-clic="crearCoberturaGarantia()"></bcs-button>				
+		<div class="col-xs-8"></div>
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+	       <li ng-click="exportarExcel('CoberturaGarantia')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+	    </bcs-menu>
+	</div>
+	<!-- FIN PANEL COMANDOS -->
+			
+</form>
+</div>

@@ -1,0 +1,131 @@
+<div id="PanelLibroVentas" class="row" ng-controller="PanelLibroVentasCtrl as pct">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_PERIODO</label>
+				<bcs-input-date class="col-xs-8" k-options="pct.FecInicioOptions" k-ng-model="pct.FecInicio"  todo-dias="'true'"></bcs-input-date>
+			</div>
+		  	</div>
+		  	<div class="row">
+		  			<div class="col-xs-6">
+		  			
+		  			
+		  			
+					<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+				
+					<bcs-combobox-base class="col-xs-8" 
+						todos="'S'"
+						auto-cargar			="'true'"
+						id					="UI_CLASIFICACION"
+						configuracion		="pct.cmbbx.Clasificacion.configuracion" 
+						tipo				="'combobox-clasificacion-tipo-instrumento'" 
+						seleccionado		="pct.dataModal.ClasificacionObj"
+						filtros				="pct.cmbbx.Clasificacion.filtros" 
+						id-actual			="pct.IdClasificacion"
+						item-post-filtro	="'1'"
+						cascada1-a			="pct.cmbbx.TipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor		="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+					
+					
+				</div>
+				<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						todos="'S'"
+						item-post-filtro="'1'" 
+						id="UI_TIPO_INSTRUMENTO" 
+						configuracion= "pct.cmbbx.TipoInstrumento.configuracion"
+						auto-cargar="'false'"
+						tipo="'combobox-tipo-instrumento'"
+						seleccionado="pct.dataModal.TipoInstrumentoObj"
+						filtros="pct.cmbbx.TipoInstrumento.filtros"
+						id-actual="pct.IdTipoInstrumento"
+						cascada1-a="pct.cmbbx.Operacion.filtros.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+		  
+		  
+		  	</div>
+		  	<div class="row">
+		  	
+		  	<div class="col-xs-6">
+		  	
+		  		<label class="col-xs-4" translate>UI_TIPO_COMPROBANTE</label>
+				<bcs-combobox-base class="col-xs-8"
+				   id="UI_TIPO_COMPROBANTE"
+				   auto-cargar="'true'"
+				   tipo="'combobox-tipo-comprobante'"
+				   configuracion= "pct.cmbbx.TipoComprobante.configuracion" 
+				   id-actual="pct.IdTipoComprobante" 
+				   seleccionado="pct.dataModal.TipoComprobante"
+				   filtros="pct.cmbbx.TipoComprobante.filtros"
+				   todos="'S'"
+				   id-defecto="'0'"
+				   item-post-filtro="'1'">
+				</bcs-combobox-base>
+			  		
+				</div>
+		  	
+		  	
+		  	<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pct.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pct.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pct.SocioDeNegocioObj">
+					</bcs-combobox-base>
+			</div>	 
+			
+			
+			
+		  	</div>
+		  	
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<!-- configuracion="pct.grilla.DOF" -->
+		<!--configuracion="pct.grillaCong" -->
+	<div class="row">
+		<bcs-grid
+			id="gridLibroVentas"
+			
+			configuracion="pct.grilla.LibroVentas"
+			
+			seleccionado="pct.grilla.LibroVentasSel"
+			fn-exportar-excel="excelLibroVentas"
+			api="gridApi">
+		</bcs-grid>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12" style="top:10px; padding-bottom: 10px;">
+			
+				<bcs-menu 
+				class="col-xs-1 pull-right"
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-habilitado="'true'" 
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelLibroVentas('LibroVentas')">	  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+			</bcs-menu>	
+		</div>
+		
+	</div>
+	
+	
+	
+	
+</div>

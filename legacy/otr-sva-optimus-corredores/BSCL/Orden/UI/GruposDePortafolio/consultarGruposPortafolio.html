@@ -1,0 +1,82 @@
+<div id="ConsultaGruposPortafolio" ng-controller="ConsultaGruposPortafolioCtrl">
+	<div class="row">
+		<div class="col-xs-10">
+				<!-- Inicio filtros de búsqueda -->
+					
+				<div class="row">
+					<div class="col-xs-6">
+				  		<label class="col-xs-3" translate>UI_NOMBRE</label>
+						<bcs-input-texto class="col-xs-9" ng-model="data.NombreGrupo"></bcs-input-texto>
+					</div>
+					<div class="col-xs-6">
+				  		<label class="col-xs-2 col-xs-offset-1" translate>UI_ESTADO</label>
+				  		<bcs-combobox-base  class="col-xs-9"
+							tipo="'combobox-estado-grupo-portafolio'"
+							id-actual="data.oConfiguracionEstadosGrupoPortafolio.idActual"
+							seleccionado="data.oConfiguracionEstadosGrupoPortafolio.seleccionado"
+							filtros="data.oConfiguracionEstadosGrupoPortafolio.filtros"
+							todos="'S'"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+				<!-- Fin filtros de búsqueda -->
+		</div>
+		<div class="col-xs-2">
+			<!-- botones -->
+			<div class="row">
+				<bcs-button class="col-xs-12" 
+					bcs-tipo="'bcs-button-search'"  
+					bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_BUSCAR' | translate" 
+					bcs-habilitado="true" 
+					bcs-clic="buscar()"
+				></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" 
+					bcs-tipo="'bcs-button-secondary'"  
+					bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_LIMPIAR' | translate" 
+					bcs-habilitado="true" 
+					bcs-clic="limpiarFiltros()"
+				></bcs-button>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<bcs-grid class="col-xs-12" id="grid-listado-grupos"
+	 	configuracion = "confBasicaGrupos"
+	 	fn-exportar-excel = "exportarExcel"
+	 	fn-doble-click = "modificarGrupo(seleccionDetalleGrupo)"
+		seleccionado = "seleccionDetalleGrupo">
+			<div bcs-grid-detail ng-non-bindable >
+			<div class="col-xs-12">
+              	<uib-tabset>
+                  	<uib-tab heading="{{'UI_PORTAFOLIOS' | translate}}">
+                  		<bcs-grid
+                            configuracion = "confBasicaPortafolio(dataItem)" 
+                            seleccionado = "seleccionPortafolios">
+						</bcs-grid>
+                  	</uib-tab>
+				</uib-tabset>
+				</div>
+			</div>
+		</bcs-grid>
+	</div>
+
+ 	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="ConsultaGruposPortafolio_crearGrupo"  class="col-xs-2" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_NUEVO' | translate" bcs-habilitado="'true'"  bcs-clic="crearGrupo()"></bcs-button>
+		<bcs-button id="ConsultaGruposPortafolio_modificarGrupo" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate" 
+			bcs-habilitado="seleccionDetalleGrupo"  bcs-clic="modificarGrupo(seleccionDetalleGrupo)"></bcs-button>
+		<bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+	           <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+		
+			
+	
+	
+</div>

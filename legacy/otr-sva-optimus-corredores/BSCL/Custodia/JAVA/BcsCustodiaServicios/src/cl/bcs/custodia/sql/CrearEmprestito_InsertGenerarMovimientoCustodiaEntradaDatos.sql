@@ -1,0 +1,122 @@
+INSERT INTO "BSCL.Custodia.BD::GBL.GenerarMovimientoCustodia_Entrada_Datos" 
+(
+	"IdGenerarMovimientoCustodia"
+   ,"EsNominalIngreso"
+   ,"FolioOperacionRelacionada"
+   ,"IdClienteIngreso"
+   ,"IdPortafolioIngreso"
+   ,"IdClienteRetiro"
+   ,"IdPortafolioRetiro"
+   ,"IdTipoProducto"
+   ,"IdTipoCanalIngreso"
+   ,"IdMonedaSistema"
+   ,"IdConcepto"
+   ,"IdTipoOperacion"
+   ,"FechaOperacion"
+   ,"FechaVencimientoOperacion"
+   ,"PlazoEnDiasOperacion"
+   ,"FolioComprobante"
+   ,"IdTipoComprobante"
+   ,"FechaComprobante"
+   ,"IdBolsa"
+   ,"IdSucursal"
+   ,"IdAgente"
+   ,"IdCondicionLiquidacion"
+   ,"FechaLiquidacion"
+   ,"UsaGarantiaEspecifica"
+   ,"CobraPrimaAlInicio"
+   ,"IdTipoPrestamo"
+   -- INSTRUMENTO
+   ,"IdTipoInstrumento"
+   ,"IdInstrumento"
+   -- CANTIDADES Y MONTOS
+   ,"Cantidad"
+   ,"CorteMinimo"
+   ,"PrecioCompra"
+   ,"TasaCompra"
+   ,"MontoCompra"
+   ,"MontoCompraMonedaInstrumento"
+   ,"PrecioAPlazo"
+   ,"MontoAPlazo"
+   -- INSTRUMENTO RELACIONADO   
+   ,"IdClasificacionTipoInstrumentoRelacionado"
+   ,"IdTipoInstrumentoRelacionado"
+   ,"IdInstrumentoRelacionado"
+   ,"NemotecnicoRelacionado"
+   ,"IdEmisorRelacionado"
+   ,"IdTipoReajusteRelacionado"
+   ,"FechaEmisionInstrumentoRelacionado"
+   ,"FechaVencimientoInstrumentoRelacionado"
+   ,"EsFungibleRelacionado"
+   ,"IdMonedaInstrumentoRelacionado"
+   -- CANTIDADES Y MONTOS INSTRUMENTO RELACIONADO
+   ,"CantidadInstrumentoRelacionado"
+   ,"CorteMinimoInstrumentoRelacionado"
+   ,"PrecioCompraInstrumentoRelacionado"
+   ,"TasaCompraInstrumentoRelacionado"
+   ,"MontoCompraInstrumentoRelacionado"
+   ,"MontoCompraMonedaInstrumentoRelacionado"
+   ,"PrecioAPlazoInstrumentoRelacionado"
+   ,"MontoAPlazoInstrumentoRelacionado"
+)
+VALUES
+(
+	:p_IdGenerarMovimientoCustodia
+   ,:p_EsNominalIngreso
+   ,:p_FolioOperacionRelacionada
+   ,:p_IdClienteIngreso
+   ,:p_IdPortafolioIngreso
+   ,:p_IdClienteRetiro
+   ,:p_IdPortafolioRetiro
+   ,:p_IdTipoProducto
+   ,:p_IdTipoCanalIngreso
+   ,:p_IdMonedaSistema
+   ,:p_IdConcepto
+   ,:p_IdTipoOperacion
+   ,:p_FechaOperacion
+   ,:p_FechaVencimientoOperacion
+   ,:p_PlazoEnDiasOperacion
+   ,:p_FolioComprobante
+   ,:p_IdTipoComprobante
+   ,:p_FechaComprobante
+   ,:p_IdBolsa
+   ,:p_IdSucursal
+   ,:p_IdAgente
+   ,:p_IdCondicionLiquidacion
+   ,:p_FechaLiquidacion
+   ,:p_UsaGarantiaEspecifica
+   ,:p_CobraPrimaAlInicio
+   ,:p_IdTipoPrestamo
+   -- INSTRUMENTO
+   ,:p_IdTipoInstrumento
+   ,:p_IdInstrumento
+   -- CANTIDADES Y MONTOS
+   ,:p_Cantidad
+   ,:p_CorteMinimo
+   ,:p_PrecioCompra
+   ,:p_TasaCompra
+   ,:p_MontoCompra
+   ,:p_MontoMonedaInstrumento
+   ,:p_PrecioAPlazo
+   ,:p_MontoAPlazo
+   -- INSTRUMENTO RELACIONADO
+   ,:p_IdClasificacionTipoInstrumentoRelacionado
+   ,:p_IdTipoInstrumentoRelacionado
+   ,:p_IdInstrumentoRelacionado
+   ,:p_NemotecnicoRelacionado
+   ,:p_IdEmisorRelacionado
+   ,:p_IdTipoReajusteRelacionado
+   ,:p_FechaEmisionInstrumentoRelacionado
+   ,:p_FechaVencimientoInstrumentoRelacionado
+   ,:p_EsFungibleRelacionado
+   ,:p_IdMonedaInstrumentoRelacionado
+   -- CANTIDADES Y MONTOS INSTRUMENTO RELACIONADO
+   ,:p_CantidadInstrumentoRelacionado
+   ,:p_CorteMinimoInstrumentoRelacionado
+   ,:p_PrecioCompraInstrumentoRelacionado
+   ,:p_TasaCompraInstrumentoRelacionado
+   ,:p_MontoCompraInstrumentoRelacionado
+   ,:p_MontoCompraMonedaInstrumentoRelacionado
+   ,:p_PrecioAPlazoInstrumentoRelacionado
+   ,:p_MontoAPlazoInstrumentoRelacionado
+)

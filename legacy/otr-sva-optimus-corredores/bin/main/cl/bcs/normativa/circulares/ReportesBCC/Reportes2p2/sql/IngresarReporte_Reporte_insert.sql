@@ -1,0 +1,42 @@
+INSERT INTO BSCL."BSCL.Normativa.BD::NOR.DatosREPO2P2"
+  (
+    "ID",
+    "IdDocumento",
+    "FuenteDatos",
+    "Estado",
+    "EstadoSICAM",
+    "SICAM",
+    "TipoRegistro",
+    "RUTEntidadMCF",
+    "Fecha",
+    "SaldoCuentaCambioConversion",
+    "SaldoMonedaOriginal",
+    "MonedaSaldo",
+    "Paridad",
+    "IdCuentaInversion",
+    "IdCliente",
+    "IdCargoAbonoMovimiento",
+    "IdTipoMovimiento",
+    "FechaEfectivaMovimiento"
+  )
+VALUES
+  (
+    :Id,
+    :IdDocumento,
+    :FuenteDatos,
+    :Estado,
+    :EstadoSICAM,
+    :SICAM,
+    :TipoRegistro,
+    :RutEntidadMCF,
+    TO_DATE(:Fecha, 'YYYY-MM-DD'),
+    :SaldoCuentaCambioConversion,
+    :SaldoMonedaOriginal,
+    :MonedaSaldo,
+    :Paridad,
+    :IdCuentaInversion,
+    :IdCliente,
+    :IdCargoAbonoMovimiento,
+    :IdTipoMovimiento,
+    :FechaEfectivaMovimiento
+    );

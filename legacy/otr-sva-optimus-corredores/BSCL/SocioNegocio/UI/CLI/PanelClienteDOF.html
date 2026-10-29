@@ -1,0 +1,59 @@
+<div id="PanelClienteDOFs" class="row" ng-controller="PanelClienteDOFCtrl as pcdof">
+	<div class="col-xs-12">
+		<bcs-grid
+			id="gridDOFs" 
+			seleccionado="pcdof.DOFSeleccionado" 
+			configuracion="pcdof.DOFsOptions" 
+			fn-exportar-excel = "exportarExcel"
+			fn-doble-click="pcdof.administrarDOF(pcdof.DOFSeleccionado)">
+			<div bcs-grid-detail ng-non-bindable>
+			    <div class="row" style="min-height: 50px; width: 100%; text-align:left" >
+			    	<div class="row">
+				    	<div class="col-xs-11">
+							<label class="col-xs-4" translate>UI_TIPO_ORIGEN_FONDO</label>
+							<label class="col-xs-4" translate>UI_VALOR</label>
+						</div>
+					</div>
+					<div class="row">
+						<div style="overflow: auto; height: 120px; ">
+							<div ng-repeat="val in dataItem.detalleDOF">
+								<div class="col-xs-11">
+									<label class="col-xs-4" translate>{{val.NombreTipoOrigenFondo}}</label>
+									<label class="col-xs-4" translate>{{val.Valor}}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</bcs-grid>
+	</div>
+	<div class="row col-xs-12 bcs-panel-comandos">
+		<div class="col-xs-8">
+			<bcs-button id="PanelClienteDOFs_crearDOF" class="col-xs-2" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CREAR' | translate" 
+				bcs-habilitado="'true'"  
+				bcs-clic="pcdof.administrarDOF()">
+			</bcs-button>
+			<bcs-button  id="PanelClienteDOFs_EditarDOF" class="col-xs-2" 
+				ng-if="pcdof.DOFSeleccionado.IdDeclaracionOrigenFondos>0" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-mostrar="pcdof.DOFSeleccionado.IdDeclaracionOrigenFondos>0"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EDITAR' | translate" 
+				bcs-habilitado="'true'" bcs-clic="pcdof.administrarDOF(pcdof.DOFSeleccionado)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-2 col-xs-offset-2">
+			<bcs-button  id="PanelClienteDOFs_ExportarDOF" class="col-xs-12"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EXPORTAR_EXCEL' | translate"
+				bcs-habilitado="'true'" 
+				bcs-clic="exportarExcel()">
+			</bcs-button>
+		</div>
+	</div>
+</div>

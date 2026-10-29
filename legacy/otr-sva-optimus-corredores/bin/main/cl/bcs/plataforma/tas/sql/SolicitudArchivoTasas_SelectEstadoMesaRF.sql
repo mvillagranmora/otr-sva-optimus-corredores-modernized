@@ -1,0 +1,1 @@
+SELECT "IdMesa" FROM "BSCL.Mesa.BD.Vistas::ConsultarCierreMesa" CME WHERE CME."IdEstadoMesa" = 'A' AND CME."IdTipoProducto" = 'MERF' AND CME."IdEmpresa" = :p_IdEmpresa;	

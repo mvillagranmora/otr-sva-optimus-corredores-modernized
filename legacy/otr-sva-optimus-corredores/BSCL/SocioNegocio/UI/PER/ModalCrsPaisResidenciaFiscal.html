@@ -1,0 +1,35 @@
+<div id="ModalCrsPaisResidenciaFiscal" ng-controller="ModalCrsPaisResidenciaFiscalCtrl as mcprf">
+	<div class="row">
+		<form name="ModalCrsPaisResidenciaFiscal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PAIS_RESIDENCIA</label>
+				<div ng-show="mcprf.Habilitado">
+					<bcs-combobox-base
+						id="formPaisResidenciaFiscal_paisResidencialFiscal"
+						class="col-xs-9"
+						auto-cargar="'true'"
+						cache="true"
+						tipo="'combobox-pais'"
+						id-actual="mcprf.datag.PaisResidenciaFiscal.idActual"
+						seleccionado="mcprf.datag.PaisResidenciaFiscal.seleccionado"
+					></bcs-combobox-base>
+				</div>		
+				<div class="col-xs-9" ng-show="!mcprf.Habilitado">
+					<label class="col-xs-9" translate>{{mcprf.parametros.dataGrilla.NombrePais}}</label>
+				</div>	
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA_INICIO_TRIBUTANDO_PAIS_CRS</label>
+				<bcs-input-date 
+					class="col-xs-9" 
+					k-ng-model="mcprf.datag.FechaInicioTributacionPais"
+					ng-blur="mcprf.fn.validaFecha()">
+				</bcs-input-date>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id={{mcprf.IdBotonAceptar}} class="col-xs-2 pull-right" bcs-habilitado="ModalCrsPaisResidenciaFiscal.$valid" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="mcprf.fn.aceptar()"></bcs-button>
+		<bcs-button id="ModalPaisResidenciaFiscal_cancelar" class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mcprf.fn.cancelar()"></bcs-button>
+	</div>
+</div>

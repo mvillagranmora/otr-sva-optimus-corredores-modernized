@@ -1,0 +1,94 @@
+<div class="row" ng-controller="ReporteGestionClienteInstrumento">
+   <div class="row bcs-cuerpo">
+   <form name="frmConsultaGestionClienteInstrumento">
+	  <div class="row">
+	  
+	     <!-- INICIO FILTROS -->
+		 <div class="col-xs-10">
+		    <div class="row">
+			  
+			  <div class="col-xs-4">
+				<label class="col-xs-3" translate>UI_FECHA_CONSULTA</label>
+				<bcs-input-date class="col-xs-6" 
+				    id				= "UI_FECHA_CONSULTA"
+				    k-options		= "data.kngFechaOperacionConf"
+					k-ng-model		= "data.kngFechaOperacion"
+					bcs-requerido	= "'true'">
+				</bcs-input-date>
+			  </div>
+			  
+		      <div class="col-xs-4">
+			    <label class="col-xs-3" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-8" 
+						auto-cargar			= "'true'"
+						id					= "UI_CLASIFICACION"
+						bcs-requerido		= "'true'"
+						tipo				= "'combobox-clasificacion-tipo-instrumento'" 
+						configuracion		= "data.oConfiguracionClasificacion.configuracion" 				
+						seleccionado		= "data.oConfiguracionClasificacion.seleccionado"
+						filtros				= "data.oConfiguracionClasificacion.filtros" 
+						id-actual			= "data.oConfiguracionClasificacion.idActual"						
+						id-defecto			= "data.oConfiguracionClasificacion.idDefecto"						
+						cascada1-a			= "data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor		= "'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+			  </div>
+			  
+			  <div class="col-xs-4">
+			      <label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+			      <bcs-combobox-base class="col-xs-8"
+						id					= "UI_TIPO_INSTRUMENTO" 
+						auto-cargar			= "'false'"						
+						todos				="'S'"
+						tipo				="'combobox-tipo-instrumento'"
+						configuracion		= "data.oConfiguracionTipoInstrumento.configuracion"
+						seleccionado		= "data.oConfiguracionTipoInstrumento.seleccionado"
+						filtros				= "data.oConfiguracionTipoInstrumento.filtros"
+						id-actual			= "data.oConfiguracionTipoInstrumento.idActual">
+				 </bcs-combobox-base>
+			  </div>			    
+
+			</div>
+		 </div>
+		 <!-- FIN FILTROS -->
+				
+		 <!-- INICIO BOTONES -->
+		 <div class="col-xs-2">
+		    <div class="row"> 
+  			  <bcs-button class="col-xs-12" 
+  				 bcs-tipo="'bcs-button-search'" 
+  				 bcs-auto-desactivar="false"
+				 bcs-texto="'UI_BUSCAR' | translate" 
+				 bcs-habilitado="frmConsultaGestionClienteInstrumento.$valid"
+				 bcs-clic="buscar()"> 
+			  </bcs-button>
+		    </div>  
+				   
+			<div class="row">					
+			  <bcs-button class="col-xs-12" 
+				 bcs-tipo="'bcs-button-secondary'" 
+				 bcs-auto-desactivar="false"
+				 bcs-texto="'UI_LIMPIAR' | translate" 
+				 bcs-habilitado="true"
+				 bcs-clic="limpiarFiltros()"> 
+			  </bcs-button>
+			</div>	  
+		 </div>
+		 <!-- FIN BOTONES -->		 
+	  </div>			
+	 </form> 
+	  
+	  <!-- INICIO GRILLA DETALLE REGISTRO -->						
+	  <div class="row">
+
+		 <bcs-grid id="grid-ConsultaCliente" 
+		     configuracion		= "confBasicaReporteGestionCliente"
+			 seleccionado		= "seleccionReporteGestionCliente"
+			 fn-exportar-excel	= "exportarExcel"
+			 api				= "gridApiReporteGestionCliente"> 
+		 </bcs-grid>
+
+	  </div>
+	  <!-- FIN GRILLA DETALLE REGISTRO -->
+   </div>	
+</div>

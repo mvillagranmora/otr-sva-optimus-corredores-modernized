@@ -1,0 +1,24 @@
+INSERT INTO #ActualizarPosicionInicial_p_DatosPosicion
+(
+	"IdMoneda"
+	,"TipoInstrumento"
+	,"ResultadoPosicionInicial"
+	,"Fecha"
+	,"PosicionInicial"
+	,"IdPosicionInicial"
+	,"TipoCambioInicial"
+	,"CierreIngresado"
+	,"Estado"
+)
+VALUES
+(
+	:IdMoneda,
+	:TipoInstrumento,
+	:ResultadoPosicionInicial,
+	:Fecha,
+	:PosicionInicial,
+	:IdPosicionInicial,
+	:TipoCambioInicial,
+	:CierreIngresado,
+	:Estado
+)

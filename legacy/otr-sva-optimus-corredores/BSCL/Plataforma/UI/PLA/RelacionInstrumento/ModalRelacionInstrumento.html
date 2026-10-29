@@ -1,0 +1,129 @@
+<div class="row" ng-controller="ModalRelacionInstrumentoCtrl as mRelInst">
+	<div class="row">
+		<form name="ModalTipoRelacionInstrumento" class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base
+						bcs-requerido
+						class			="col-xs-8"
+						auto-cargar		="'true'"
+						tipo			="mRelInst.cmbbx.TipoInstrumento.tipo"
+						configuracion	="mRelInst.cmbbx.TipoInstrumento.configuracion"
+						filtros 		="mRelInst.cmbbx.TipoInstrumento.filtros"
+						id-actual		="mRelInst.cmbbx.TipoInstrumento.idactual"
+						seleccionado	="mRelInst.cmbbx.TipoInstrumento.Seleccionado"
+						id-post-filtro	="mRelInst.datosDespues.IdTipoInstrumento">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos
+						class					="col-xs-8" 
+						bcs-requerido name		="uInstrumento"
+						datos-instrumento		="mRelInst.instrumentoObjeto"
+						filtro-tipo-instrumento ="mRelInst.cmbbx.TipoInstrumento.idactual"
+						filtro-clasificacion	="RV"
+						buscar-instrumento		="mRelInst.datosDespues.Nemo"
+						muestra-precio			= "N"
+						filtro-estado			= "'ACT'">
+					</bcs-input-instrumentos>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO_RELACION_INSTRUMENTO</label>
+					<bcs-combobox-base
+						bcs-requerido
+						class			="col-xs-8"
+						auto-cargar		="'true'"
+						tipo			="mRelInst.cmbbx.TipoRelacionInstrumento.tipo"
+						configuracion	="mRelInst.cmbbx.TipoRelacionInstrumento.configuracion"
+						filtros 		="mRelInst.cmbbx.TipoRelacionInstrumento.filtros"
+						id-actual		="mRelInst.cmbbx.TipoRelacionInstrumento.idactual"
+						seleccionado	="mRelInst.cmbbx.TipoRelacionInstrumento.Seleccionado"
+						id-post-filtro	="mRelInst.datosDespues.IdTipoRelacionInstrumento"
+						memoria			="TIPORELACIONINSTRUMENTO">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_INSTRUMENTO_RELACIONADO</label>
+					<bcs-input-instrumentos
+						class					="col-xs-8" 
+						bcs-requerido name		="uInstrumentoRelacionado"
+						filtro-tipo-instrumento ="mRelInst.filtroTipoInstrumento_instrumentoRelacionado"
+						datos-instrumento		="mRelInst.instrumentoRelacionadoObjeto"
+						buscar-instrumento		="mRelInst.datosDespues.NemoRelacionado"
+						muestra-precio			= "N"
+						filtro-clasificacion	="RV"
+						filtro-estado			= "'ACT'">
+					</bcs-input-instrumentos>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_FECHA_PAGO_DESDE</label>
+						<bcs-input-date 
+							class		="col-xs-8" 
+							ng-model	="mRelInst.fecIniciong" 
+							k-ng-model	="mRelInst.datosDespues.FechaInicioRelacion">
+						</bcs-input-date>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_FECHA_PAGO_HASTA</label>
+						<bcs-input-date 
+							class		="col-xs-8" 
+							ng-model	="mRelInst.fecTerminong" 
+							k-ng-model	="mRelInst.datosDespues.FechaFinRelacion">
+						</bcs-input-date>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+					<bcs-input-texto
+		               	class			="col-xs-8"
+		                id				="UI_DESCRIPCIONTXT"
+		               	maxlength		="100"
+						ng-model		="mRelInst.datosDespues.Descripcion">
+	               	</bcs-input-texto>
+<!-- 					ng-model		="mRelInst.datosDespues.DescripcionTXT">  -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-input-checkbox 
+						class		="col-xs-8"  
+						ng-model	="mRelInst.datosDespues.IdEstado">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+		</form>
+	</div>
+	<hr>
+	<div class="row bcs-panel-comandos">
+		<bcs-button 
+			class				="col-xs-3" 
+			bcs-tipo			="'principal'"  
+			bcs-auto-desactivar	="false" 
+			bcs-texto			="'UI_GUARDAR' | translate" 
+			bcs-habilitado		="ModalTipoRelacionInstrumento.$valid"  
+			bcs-clic			="mRelInst.aceptar();">
+		</bcs-button>
+		<bcs-button 
+			class				="col-xs-3" 
+			bcs-tipo			="''"  
+			bcs-auto-desactivar	="false" 
+			bcs-texto			="'UI_CANCELAR' | translate" 
+			bcs-habilitado		="true"  
+			bcs-clic			="mRelInst.cancelar();">
+		</bcs-button>
+	</div>
+</div>

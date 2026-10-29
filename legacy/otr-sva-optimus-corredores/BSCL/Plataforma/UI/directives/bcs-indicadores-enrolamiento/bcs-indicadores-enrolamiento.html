@@ -1,0 +1,99 @@
+<div>
+	<div class="row" ng-if="grupoAtr.length>0">
+		<div class="col-xs-12"  style="overflow: auto; height: 320px;">
+			<uib-tabset> <uib-tab ng-repeat="gAtr in grupoAtr"
+				heading="{{gAtr.GrupoIndicador}}"
+				select="onTabSelect(gAtr.GrupoIndicador)">
+			<ng-form name="forms.grupo_{{$index}}" class="filters-formulario">
+				<div id="{{gAtr.GrupoIndicador}}" class="row" style="overflow:auto; padding:10px;" >
+					<div class="col-xs-6" >
+						<div class="row">
+							<div ng-repeat="btn in camposAtr">
+								<div class="row"
+									ng-if="btn.ClaseDato == 'BIGINT' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible">
+									<label class="col-xs-5">{{btn.NombreTipoIndicador|translate}}</label>
+									<bcs-input-numero
+											id="{{btn.CodigoTipoIndicador}}" k-ng-model="btn.ValorIndicador"
+											class="col-xs-5"
+											k-ng-disabled="!bcsHabilitado || !btn.Habilitado"
+											bcs-requerido="btn.ClaseDato == 'BIGINT' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible && camposRequeridos[btn.CodigoTipoIndicador].Requerido === 'S'"
+									></bcs-input-numero>
+								</div>
+								<div class="row"
+									ng-if="btn.ClaseDato == 'NVARCHAR' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible">
+									<label class="col-xs-5">{{btn.NombreTipoIndicador|translate}}</label>
+									<bcs-input-texto
+											id="{{btn.CodigoTipoIndicador}}" ng-model="btn.ValorIndicador"
+											class="col-xs-5"
+											k-ng-disabled="!bcsHabilitado || !btn.Habilitado"
+											bcs-requerido="btn.ClaseDato == 'NVARCHAR' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible && camposRequeridos[btn.CodigoTipoIndicador].Requerido === 'S'"
+									></bcs-input-texto>
+								</div>
+								<div class="row"
+									ng-if="btn.ClaseDato == 'DATE' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible">
+									<label class="col-xs-5">{{btn.NombreTipoIndicador|translate}}</label>
+									<bcs-input-date
+											id="{{btn.CodigoTipoIndicador}}" k-ng-model="btn.ValorIndicador"
+											class="col-xs-5"
+											k-ng-disabled="!bcsHabilitado || !btn.Habilitado"
+											bcs-requerido="btn.ClaseDato == 'DATE' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible && camposRequeridos[btn.CodigoTipoIndicador].Requerido === 'S'"
+									></bcs-input-date>
+								</div>
+								<div class="row"
+									ng-if="btn.ClaseDato == 'COMBO' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible">
+									<label class="col-xs-5">{{btn.NombreTipoIndicador|translate}}</label>
+									<bcs-combobox-base
+											id="{{btn.CodigoTipoIndicador}}" class="col-xs-5"
+											activado="bcsHabilitado && btn.Habilitado" tipo="'combobox-detalle-tipo-atributo'"
+											filtros="filtroCombobox[btn.IdTipoIndicador]" 
+											id-defecto="camposRequeridos[btn.CodigoTipoIndicador].ValorDefectoCampoFormulario"
+											id-actual="btn.ValorIndicador"
+											seleccionado="btn.ValorIndicadorSel" todos="'N'"
+											bcs-requerido="btn.ClaseDato == 'COMBO' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible && camposRequeridos[btn.CodigoTipoIndicador].Requerido === 'S'"
+									></bcs-combobox-base>
+								</div>
+								<div class="row"
+									ng-if="btn.ClaseDato == 'CHECKBOX' && gAtr.GrupoIndicador == btn.GrupoIndicador && btn.IndicadorVisible">
+									<label class="col-xs-5">{{btn.NombreTipoIndicador|translate}}</label>
+									
+										<bcs-input-checkbox id="{{btn.CodigoTipoIndicador}}" ng-model="btn.ValorIndicador"
+										class="col-xs-2"
+										ng-disabled="!bcsHabilitado || (btn.RelacionDocumento === 'S' && btn.ValorIndicador === false )">
+										</bcs-input-checkbox>
+										
+									<bcs-input-date id="{{btn.NombreTipoIndicador}}" ng-if="btn.RequiereFechaVencimiento === 'S' && btn.ValorIndicador === true" 
+										class="col-xs-3"
+										k-ng-model = "btn.FechaVencimiento"
+										k-ng-disabled="!bcsHabilitado || !btn.Habilitado"
+									></bcs-input-date>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6"></div>
+				</div>
+			</ng-form>
+			</uib-tab> </uib-tabset>
+		</div>
+	
+		<div class="row no-margin" style="padding-top: 0px;">
+			<div class="row bcs-panel-comandos">
+				<bcs-button class="col-xs-2" id="BcsGridAtributos_editar" bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false" bcs-texto="'Editar'"
+					ng-if="!bcsHabilitado" bcs-habilitado="'true'"
+					bcs-clic="clicEditar()"></bcs-button>
+				<bcs-button class="col-xs-2" id="BcsGridAtributos_modificar" bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false" bcs-texto="'Guardar'"
+					ng-if="bcsHabilitado" bcs-habilitado="forms[nombreFormActual].$valid"
+					bcs-clic="modificarDatos('grupoAtrActual')"></bcs-button>
+				<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false" bcs-texto="'Cancelar'"
+					ng-if="bcsHabilitado" bcs-habilitado="'true'"
+					bcs-clic="clicCancelar()"></bcs-button>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-if="grupoAtr.length==0">
+		<label class="col-xs-12">{{'UI_SIN_INDICADORES_DEFINIDOS'|translate}}</label>
+	</div> 
+</div>

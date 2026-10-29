@@ -1,0 +1,1 @@
+SELECT "IdContraparte" FROM "BSCL.Custodia.BD::CUS.ConceptoCustodia" WHERE "IdConcepto" = :IdConcepto AND "NombreEntidad" = 'CUS.GARANTIA';

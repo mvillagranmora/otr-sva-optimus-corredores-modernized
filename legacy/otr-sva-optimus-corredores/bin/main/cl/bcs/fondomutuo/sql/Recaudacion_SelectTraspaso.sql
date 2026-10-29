@@ -1,0 +1,35 @@
+SELECT 
+	 TRASPASO."IdTraspaso"
+    ,TRASPASO."IdEmpresa"
+    ,TRASPASO."IdModulo"
+	,TRASPASO."IdUsuario"
+    ,TRASPASO."IdCliente"
+    ,TRASPASO."IdPortafolio"
+ 	,TRASPASO."IdEmisor"
+	,TRASPASO."IdMotivoTraspaso"
+	,TRASPASO."IdTipoMovimientoTraspaso"
+    ,TRASPASO."IdTipoTraspaso"
+    ,TRASPASO."Glosa"
+    ,TO_NVARCHAR(TRASPASO."FechaHoraSuscripcion",'YYYY-MM-DD HH24:MI:SS') AS "FechaHoraSuscripcion"
+    ,TRASPASO."IdDivisionPais"
+    ,TRASPASO."FolioTraspaso"
+    ,TRASPASO."IdEstado"
+    ,TRASPASO."Monto" 
+    ,TRASPASO."FechaIngreso"
+    ,TRASPASO."FechaAceptacion"
+    ,TRASPASO."FechaAnulacion"
+    ,TRASPASO."FechaModificacion"
+    ,TRASPASO."FechaIngresoRegistro"
+    ,TRASPASO."FechaAceptacionRegistro" 
+    ,TRASPASO."FechaAnulacionRegistro" 
+    ,TRASPASO."FechaModificacionRegistro"
+    ,COALESCE (EMISOR."IdPersona",0) AS "IdPersonaEmisor"
+    ,COALESCE (CER."IdPersona",0)  as "IdPersonaEntidad"
+    ,COALESCE (CLI."IdPersona",0)  as "IdPersonaCliente"
+    ,TRASPASO."FolioCSC" 
+    ,TRASPASO."FolioMLT"
+FROM "BSCL.FondoMutuo.BD::TRA.Traspaso" AS TRASPASO
+LEFT OUTER  JOIN "BSCL.Plataforma.BD::MER.Emisor"	AS EMISOR	ON  ( EMISOR."IdEmisor" =  TRASPASO."IdEmisor")
+LEFT JOIN "BSCL.APV.BD.Vistas::SCS.ConsultarEntidadRecaudadora" AS CER ON (TRASPASO."IdEntidadRecaudadora" = CER."IdEntidadRecaudadora")
+LEFT JOIN "BSCL.SocioNegocio.BD::CLI.Cliente" AS CLI ON (TRASPASO."IdCliente" = CLI."IdCliente")
+WHERE TRASPASO."IdEmpresa"=:IdEmpresa AND TRASPASO."IdTraspaso" IN (:IdTraspaso);

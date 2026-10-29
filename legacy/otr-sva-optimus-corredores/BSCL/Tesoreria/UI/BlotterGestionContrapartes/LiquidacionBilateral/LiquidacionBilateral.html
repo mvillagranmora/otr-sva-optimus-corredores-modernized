@@ -1,0 +1,127 @@
+<div id="liquidacionBilateral" class="row" ng-controller='LiquidacionBilateralCtrl' tabindex="2">
+	<form name="frmLiquidacionBilateral"  class="col-xs-12 form-horizontal">
+	<div class="row bcs-cuerpo">
+	 
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				
+			    <div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_EMPRESA</label>
+						<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="Empresa"></bcs-input-texto>						
+					</div>
+
+				    <div class="col-xs-4">
+				    	<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-8"
+							 bcs-requerido
+							 k-ng-model = "kngFechaLiquidacion" 
+							 ng-model   = "FechaLiquidacion">
+						</bcs-input-date>
+					</div>
+					
+				    <div class="col-xs-4">
+					</div>					
+			    </div>		
+			    				
+			    <div class="row">
+					<div class="col-xs-4">
+						 <label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						 <bcs-combobox-base class="col-xs-8" id="frmLiquidacionBilateral_ClasificacionTipoInstrumento"								
+							auto-cargar		= "'true'"
+							tipo			= "oConfiguracionClasificacionTipoInstrumento.tipo"
+							id-Actual		= "oConfiguracionClasificacionTipoInstrumento.idActual"
+							seleccionado	= "oConfiguracionClasificacionTipoInstrumento.seleccionado"
+							filtros			= "oConfiguracionClasificacionTipoInstrumento.filtros"
+							configuracion	= "oConfiguracionClasificacionTipoInstrumento.configuracion"
+							cascada1-a      = "oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada1-valor  = "'IdClasificacionTipoInstrumento'"
+							todos           ="'S'" 
+							item-post-filtro="'1'">
+						 </bcs-combobox-base >						
+					</div>					
+										
+				    <div class="col-xs-4">		
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-8"  id="frmLiquidacionBilateral_TipoInstrumento"
+							auto-cargar		= "'true'"
+							tipo			= "oConfiguracionTipoInstrumento.tipo"
+							configuracion	= "oConfiguracionTipoInstrumento.configuracion"
+							seleccionado	= "oConfiguracionTipoInstrumento.seleccionado"
+							filtros			= "oConfiguracionTipoInstrumento.filtros"
+							id-actual		= "oConfiguracionTipoInstrumento.idActual"							
+							cascada1-a		= "oConfiguracionCondicionLiquidacion.filtros.IdTipoOperacion"
+							cascada1-valor	= "'IdTipoOperacion'"
+							todos           ="'S'" 
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					
+				    <div class="col-xs-4">		
+						 <label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+						 <bcs-combobox-base class="col-xs-8" id="frmLiquidacionBilateral_CondicionLiquidacion"								
+							auto-cargar		= "'true'"
+							tipo			= "oConfiguracionCondicionLiquidacion.tipo"
+							id-Actual		= "oConfiguracionCondicionLiquidacion.idActual"
+							seleccionado	= "oConfiguracionCondicionLiquidacion.seleccionado"
+							filtros			= "oConfiguracionCondicionLiquidacion.filtros"
+							configuracion	= "oConfiguracionCondicionLiquidacion.configuracion" 
+							todos           ="'S'" 
+							item-post-filtro="'1'">
+						 </bcs-combobox-base >				    			    	
+					</div>					
+			    </div>
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="frmLiquidacionBilateral.$valid" bcs-clic="buscar()"></bcs-button>
+				</div>
+								
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="'true'"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+		<div class="row">
+			<!-- GRILLA -->
+			<bcs-grid    
+			    id 				  = "grid-liquidacion-bilateral"
+			    configuracion 	  = "confBasicaLiquidacionBilateralResumen"
+			    seleccionado  	  = "seleccionLiquidacionBilateralResumen"
+			    fn-exportar-excel = "exportarExcel">
+			    
+				<div bcs-grid-detail ng-non-bindable>							
+					<bcs-grid
+						configuracion = "confBasicaLiquidacionBilateralDetalle(dataItem)"
+						seleccionado  = "seleccionLiquidacionBilateralDetalle">
+					</bcs-grid>
+				</div>
+						    
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<!-- INICIO PANEL DE COMANDOS -->
+	<div class="row bcs-panel-comandos">	
+		<bcs-button  class="col-xs-1" bcs-tipo="'bcs-button-primary'" id="LiquidacionBilateral_procesar" bcs-auto-desactivar="false"   bcs-texto="'UI_PROCESAR' | translate"           bcs-habilitado="btnActivo"  bcs-clic="procesar()"></bcs-button>		 		
+		
+		<div ng-show="SesionLocale != 'PE'">
+			<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-secondary'" id="LiquidacionBilateral_informe"  bcs-auto-desactivar="'false'" bcs-texto="'UI_INFORME_DETALLADO' | translate"  bcs-habilitado="frmLiquidacionBilateral.$valid"  bcs-clic="generarInformeDetallado()"></bcs-button>		
+			<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-secondary'" id="LiquidacionBilateral_marcar"   bcs-auto-desactivar="'false'" bcs-texto="'UI_MARCAR_BILATERALES' | translate" bcs-habilitado="frmLiquidacionBilateral.$valid"  bcs-clic="actualizarMarcaBitateralTransaccionDesdeSCL()"></bcs-button>
+		 </div>
+		 
+		<bcs-menu    class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">	
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+	</div>
+		
+
+	</form>	
+</div>
+

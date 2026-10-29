@@ -1,0 +1,134 @@
+<div class="row" ng-controller='ConsultarEmisionCircularCtrl as emiCon'>
+	<!-- a class="hola" href="#">Hola</a> <a class="fileDownload" href="#">Download</a-->
+
+<!-- INICIO FILTROS -->
+<div class="row">
+	<div class="col-xs-10">
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_NORMATIVA</label>
+				
+				<bcs-combobox-base class="col-xs-8"
+								tipo = "'combobox-tipo-normativa'"
+								auto-cargar="true"
+								configuracion ="emiCon.data.oCircularConfiguracion.configuracion"
+								seleccionado="emiCon.data.oCircularConfiguracion.seleccionado"
+								id-actual = "emiCon.data.oCircularConfiguracion.idactual"
+								filtros="emiCon.data.oCircularConfiguracion.filtros"
+								cascada1-a="emiCon.data.cmbbx.TipoDocumento.filtros.IdNormativa"
+								cascada1-valor="'IdNormativa'"   
+								todos="'S'"
+								item-post-filtro="'1'"     
+								memoria="'IdNormativa'">
+				 </bcs-combobox-base >	
+			 </div>	
+			 <div class="col-xs-6"> 	  			  	  
+				<!-- <label class="col-xs-6" >   </label> -->
+				<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO</label>
+				<bcs-combobox-base class="col-xs-8"
+								tipo = "'combobox-tipo-documento-normativa'"
+								id-actual = "emiCon.data.cmbbx.IdTipoDocumento"
+								filtros="emiCon.data.cmbbx.TipoDocumento.filtros"
+								auto-cargar="true"
+								item-post-filtro="'1'"
+								id-defecto="'0'" 
+								todos="'S'"
+								seleccionado="emiCon.data.cmbbx.IdTipoDocumentoObj"
+								>
+				</bcs-combobox-base >		
+			 </div>
+		
+		
+		</div>
+	</div>
+
+<div class="row">
+	<div class="col-xs-10">
+	<div class="row">
+	<div class="col-xs-6">
+		<label class="col-xs-3" translate>  Fecha Desde: </label>
+		<bcs-input-date
+		    class="col-xs-5"
+			bcs-requerido
+			k-ng-model="emiCon.data.kngFechaDesde"
+			k-options="emiCon.data.fechaOptions"
+			> 
+		</bcs-input-date>
+	</div>
+	<div class="col-xs-6">	
+		<!--  <label class="col-xs-3" >   </label>-->	
+		<label class="col-xs-3" translate>  Fecha Hasta: </label>
+		<bcs-input-date
+			class="col-xs-5"
+			bcs-requerido
+			k-ng-model="emiCon.data.kngFechaHasta"
+			k-options="emiCon.data.fechaOptions"
+			> 
+		</bcs-input-date>
+	</div>
+
+	</div>
+	</div>
+	<div class="col-xs-2">	
+		<bcs-button class="row col-xs-12 pull-right" bcs-tipo="'default'"
+		bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+		bcs-habilitado="true" bcs-clic="emiCon.buscarCircular()"> </bcs-button>
+	</div>
+</div>
+
+	<div class="col-xs-12">
+		<bcs-grid id="gridEmisionCircular"
+			configuracion="emiCon.confBasicaEmisionCircular"
+			seleccionado="emiCon.EmisionCircularSeleccionado" 
+			fn-click=""
+			fn-exportar-excel="excelEmisionCircular"
+			>
+			<div bcs-grid-detail ng-non-bindable>
+				<uib-tabset>
+					<uib-tab  heading="{{'UI_PARAMETROS'| translate}}">
+						<div class="row" style="width:40%;">
+							<bcs-grid 
+								configuracion="emiCon.Parametros(dataItem)" 
+								seleccionado="emiCon.ParametrosSel">
+									<div bcs-grid-detail ng-non-bindable>
+										<uib-tabset>
+											<uib-tab ng-if="dataItem.TipoParametro === 'RUT_MAS' || dataItem.TipoParametro === 'RUTAUT_MAS' || dataItem.TipoParametro === 'RUTEMPL_MAS' || dataItem.TipoParametro === 'NEMO_MAS' || dataItem.TipoParametro === 'CLAINS_MAS'" heading="{{'UI_DETALLE'| translate}}">
+												<div class="row" style="width:40%;">
+													<bcs-grid 
+														configuracion="emiCon.SubParametros(dataItem)" 
+														seleccionado="emiCon.SubParametrosSel">
+													</bcs-grid>
+												</div>
+											</uib-tab>
+										</uib-tabset>
+									</div>
+							</bcs-grid>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+			 </bcs-grid>
+	</div>
+	
+	
+	
+
+<div class="col-xs-12" style="top:10px">
+<!-- <bcs-button class="col-xs-2 pull-left"   bcs-tipo="'principal'"     bcs-auto-desactivar="false" bcs-texto="'Crear Solicitud'"  bcs-habilitado="'true'" bcs-clic="emiCon.crearSolicitud()"></bcs-button> -->
+<bcs-button class="col-xs-2 pull-left"   bcs-tipo="'principal'"     bcs-auto-desactivar="false" bcs-texto="'Solicitar Circular'"  bcs-habilitado="'true'" bcs-clic="emiCon.solicitarCircular()"></bcs-button>
+</div>
+	<bcs-menu 
+		class="col-xs-1 pull-right" 
+		bcs-habilitado="'true'" 
+		bcs-texto="'UI_OPCIONES' | translate">		            
+		<li ng-click="excelEmisionCircular('EmisionCircular')">{{'UI_EXPORTAR_EXCEL' | translate}}
+		</li>
+	</bcs-menu>
+
+</div>
+
+
+
+
+
+

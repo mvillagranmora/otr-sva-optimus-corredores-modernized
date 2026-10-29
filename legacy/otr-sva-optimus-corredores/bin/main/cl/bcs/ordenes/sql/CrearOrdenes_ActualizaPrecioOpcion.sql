@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::INS.Instrumento" SET "Precio" = CASE WHEN "Precio" = 0 OR "Precio" IS NULL THEN :Precio ELSE "Precio" END WHERE "IdInstrumento" = :IdInstrumento;

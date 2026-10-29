@@ -1,0 +1,233 @@
+<div ng-controller="AnticiparEmprestitoModalCtrl">
+	<div class="row bcs-cuerpo">
+		<form name="formEmprestito">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FOLIO_PRESTAMO</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngFolioPrsetamo"
+					k-options ="data.folioPrsetamoOptions">
+				</bcs-input-numero>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_FOLIO_EMPRESTITO</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngFolioEmprestito"
+					k-options ="data.folioEmprestitoOptions">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_PRESTAMO</label>
+				<bcs-input-texto 
+					class="col-xs-9"
+					k-ng-disabled="'true'"
+					ng-model="data.tipoPrsetamo">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA_INICIO</label>
+				<bcs-input-date
+					class="col-xs-3"
+					bcs-requerido
+					k-ng-model="data.kngFechaInicio"
+					k-options="data.FechaInicioOptions"
+					k-ng-disabled="'true'">
+				</bcs-input-date>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_VENCIMIENTO</label>
+				<bcs-input-date
+					class="col-xs-3"
+					bcs-requerido
+					k-ng-model="data.kngFechaVencimiento"
+					k-options="data.FechaVencimientoOptions"
+					k-ng-disabled="'true'">
+				</bcs-input-date>
+			</div>	
+			<div class="row">
+				<label class="col-xs-3 " translate>UI_TIPO_INSTRUMENTO</label>
+				<bcs-input-texto 
+					class="col-xs-9"
+					ng-model="data.tipoInstrumento"
+					k-ng-disabled="'true'">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3 " translate>UI_INSTRUMENTO</label>
+				<bcs-input-texto 
+					class="col-xs-3"
+					ng-model="data.instrumento"
+					k-ng-disabled="'true'">
+				</bcs-input-texto>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_CANTIDAD</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					k-ng-disabled="'false'"
+					k-ng-model="data.kngCantidad"
+					k-options ="data.cantidadOptions">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_GARANTIAS_ESPECIFICAS</label>
+				<bcs-input-checkbox
+					ng-model="data.checkConGarantiasEspecificas"
+					ng-disabled="'true'">
+				</bcs-input-checkbox>
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PRESTAMISTA</label>			
+				<bcs-input-texto 
+					class="col-xs-9"
+					ng-model="data.prestamista"
+					k-ng-disabled="'true'">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CUSTODIO</label>
+				<bcs-input-texto class="col-xs-9"    
+					name="data.custodio"     
+					ng-model="data.custodio"
+					k-ng-disabled="'true'">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CUENTA_DEPOSITO</label>
+				<bcs-input-texto class="col-xs-9"    
+					name="data.cuentaDeposito"     
+					ng-model="data.cuentaDeposito"
+					k-ng-disabled="'true'" >
+				</bcs-input-texto>              
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CANTIDAD_ANTICIPO</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					bcs-menor-igual-que="Number(data.CantidadMaxima)"
+					bcs-mayor-que="'0'"
+					k-ng-model="data.kngCantidadPorAnticipar"
+					k-options ="data.cantidadPorAnticiparOptions">
+				</bcs-input-numero>		
+				<label class="col-xs-2 col-xs-offset-1" translate ng-show="data.muestraDatosRF">UI_CORTE_MINIMO</label>
+				<bcs-input-monetario ng-show="data.muestraDatosRF" class="col-xs-2"
+					id="UI_CORTE_MINIMO" k-ng-model="data.kngCorteMinimo"
+					k-options="data.corteMinimoOptions"
+					simbolo="data.monedaCorteMinimo"
+					decimales="data.oDecimales.corteMinimo.decimales"
+					k-ng-disabled="'true'"></bcs-input-monetario>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PRECIO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					bcs-mayor-que="'0'"
+					k-options ="data.precioOptions"
+					k-ng-model="data.kngPrecio"
+					k-ng-disabled="'true'"
+					>
+				</bcs-input-monetario>			
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					bcs-mayor-que="'-1'"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMonto"
+					simbolo="data.monedaInstrumento"
+					k-options ="data.montoOptions">
+				</bcs-input-monetario>
+				
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_DIAS_COBRADOS</label>
+				<bcs-input-numero 
+					class="col-xs-3"
+					k-ng-model="data.kngDiasCobrados"
+					k-options="data.plazoOptions"
+					k-ng-disabled="'true'">
+				</bcs-input-numero>
+				
+			</div>
+			<div class="row"> 
+				<label class="col-xs-3" translate>UI_FECHA_ANTICIPO</label>
+				<bcs-input-date
+					class="col-xs-3"
+					k-ng-model="data.kngFechaAnticipo"
+					k-options="data.FechaAnticipoOptions"
+					k-ng-disabled="'true'">
+				</bcs-input-date>
+				
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_PLAZO_RESIDUAL</label>
+				<bcs-input-numero 
+					class="col-xs-3"
+					k-ng-model="data.kngPlazo"
+					k-options="data.plazoOptions"
+					k-ng-disabled="'true'">
+				</bcs-input-numero>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-3" translate>UI_CONDICION_LIQUIDACION</label>
+				 <bcs-input-condicion-liquidacion
+					class = "col-xs-3"
+					bcs-requerido
+					fecha-inicial 				 = "data.kngFechaAnticipo"
+					condicion-de-liquidacion 	 = "data.oConfiguracionCondicionLiquidacion.seleccionado"
+					id-tipo-operacion 			 = "data.oDatosEmprestito.IdTipoOperacion"
+					fecha-liquidacion 			 = "data.kngFechaLiquidacion"
+					activado 					 = "'false'"
+					>
+				</bcs-input-condicion-liquidacion>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PORCENTAJE_PREMIO_ABR</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					bcs-mayor-igual-que="'-1'"
+					k-ng-model="data.kngPorcentajePremio"
+					k-options ="data.porcentajePremioOptions"
+					k-ng-disabled = "data.PorcentajePremioDisabled">
+				</bcs-input-numero>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_PREMIO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					bcs-mayor-igual-que="'-1'"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMontoPremio"
+					simbolo="data.monedaInstrumento"
+					k-options ="data.montoPremioOptions">
+				</bcs-input-monetario>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO_PLAZO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					bcs-mayor-que="'-1'"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMontoPlazo"
+					simbolo="data.monedaInstrumento"
+					k-options ="data.montoPlazoOptions">
+				</bcs-input-monetario>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button 
+			class="col-xs-2" 
+			ng-show="'true'" 
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ANTICIPAR' | translate" 
+			bcs-habilitado="data.accionDisabled && formEmprestito.$valid" 
+			bcs-clic="data.anticiparEmprestito()">
+		</bcs-button>
+		<bcs-button 
+			class="col-xs-2" 
+			ng-show="'true'" 
+			bcs-tipo="'bcs-button-secondary'" 
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_CERRAR' | translate" 
+			bcs-clic="data.btnCerrar(false)"
+			bcs-habilitado="'true'"
+			>
+		</bcs-button>
+	</div>
+</div>

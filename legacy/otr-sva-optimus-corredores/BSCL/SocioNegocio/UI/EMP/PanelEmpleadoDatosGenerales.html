@@ -1,0 +1,234 @@
+<div id="PanelEmpleadoDatosGenerales" class="row" ng-controller="PanelEmpleadoDatosGeneralesCtrl as pedg" >
+    <div class="row">
+        <div class="col-xs-6">
+			<ng-form name="formEmpleadoDatosGenerales" class="col-xs-12 form-horizontal">
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_CARGO</label>
+						<bcs-combobox-base
+							class="col-xs-7"
+							tipo="'combobox-tipo-cargo-empleado'"
+							filtros="pedg.oConfiguracionTipoCargoEmpleado.filtros"
+							id-actual="pedg.dataEmpleado.CodigoTipoCargoEmpleado"
+							id-post-filtro="pedg.dataEmpleadoOriginal.CodigoTipoCargoEmpleado"	
+							seleccionado="pedg.TipoCargoObj"
+							activado="pedg.pantalla.modoEdicion" bcs-requerido>
+						</bcs-combobox-base>
+				  	</div>
+			  	</div>
+			  	
+			 	<div class="row" ng-show="pedg.TipoCargoObj.UtilizaDetalle=== 'S'">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_DETALLE_CARGO</label>
+						<bcs-input-texto 
+							k-ng-disabled="!pedg.pantalla.modoEdicion" class="col-xs-7"
+							ng-model="pedg.dataEmpleado.DetalleCargo" name="DetalleCargo">
+						</bcs-input-texto>		  		
+		
+				  	</div>
+			  	</div> 	
+			  	<div class="row">
+					<div class="col-xs-12">
+						<div class="col-xs-6">
+					  		<label class="col-xs-8" translate>UI_UTILIZA_PLANTILLA_EJECUTIVO</label>
+							<bcs-input-checkbox 
+								class="col-xs-4" 
+								ng-disabled="!pedg.pantalla.modoEdicion || pedg.dataEmpleado.EsEjecutivo==='N'"
+								name="UtilizaPlantillaEmpleadoObj" 
+								ng-model="pedg.dataEmpleado.UtilizaPlantillaEmpleado">
+							</bcs-input-checkbox>
+						</div>
+						<div class="col-xs-2">
+					  		<label class="col-xs-8" translate>UI_EJECUTIVO</label>
+					  		<label class="col-xs-4" translate>{{(pedg.dataEmpleado.EsEjecutivo==='S')?"UI_SI" : "UI_NO"}}</label>
+					  	</div>
+					  	<div class="col-xs-2">
+					  		<label class="col-xs-8" translate>UI_SUPERVISOR</label>
+					  		<label class="col-xs-4" translate>{{(pedg.dataEmpleado.EsSupervisor==='S')?"UI_SI" : "UI_NO"}}</label>
+					  	</div>
+				  	</div>
+				  	
+			  	</div>
+			  	<div class="row" ng-show="pedg.dataEmpleado.UtilizaPlantillaEmpleado">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_PLANTILLA_EJECUTIVO</label>
+						<bcs-combobox-base
+							class="col-xs-7"
+							todos="'N'"
+							tipo="'combobox-plantilla-empleado'"
+							filtros="pedg.oConfiguracionPlantillaEmpleado.filtros"
+							id-actual="pedg.dataEmpleado.IdPlantillaEmpleado"
+							id-post-filtro="pedg.dataEmpleadoOriginal.IdPlantillaEmpleado"	
+							activado="pedg.pantalla.modoEdicion" bcs-requerido="pedg.dataEmpleado.UtilizaPlantillaEmpleado">
+						</bcs-combobox-base>
+				  	</div>
+			  	</div>
+			  	<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_RESTRINGE_CARTERA_CLIENTES</label>
+						<bcs-input-checkbox 
+							class="col-xs-4" 
+							ng-disabled="!pedg.pantalla.modoEdicion || (pedg.dataEmpleado.EsEjecutivo==='N' && pedg.dataEmpleado.EsSupervisor ==='N')"
+							name="VeTodosLosClientes" 
+							ng-model="pedg.dataEmpleado.RestringeCarteraCliente">
+						</bcs-input-checkbox>
+				  	</div>
+			  	</div>
+			  	<div class="row">
+		            <div class="col-xs-12">
+		                <label class="col-xs-4" translate>UI_RESTRINGE_ORDENES_CLIENTES</label>
+		                <bcs-input-checkbox 
+		                    class="col-xs-4" 
+		                    ng-disabled="!pedg.pantalla.modoEdicion || (pedg.dataEmpleado.EsEjecutivo ==='N' && pedg.dataEmpleado.EsSupervisor ==='N')"
+		                    name="VeTodasLasOrdenes" 
+		                    ng-model="pedg.dataEmpleado.RestringeOrdenCliente">
+		                </bcs-input-checkbox>
+		            </div>
+		        </div>
+			  	<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_DIRECCION_ELECTRONICA</label>
+						<bcs-combobox-base
+							class="col-xs-7"
+							tipo="'combobox-persona-direccion-electronica'"
+							filtros="pedg.oConfiguracionDireccionElectronica.filtros"
+							id-actual="pedg.dataEmpleado.IdDireccionElectronica"
+							id-post-filtro="pedg.dataEmpleadoOriginal.IdDireccionElectronica"	
+							seleccionado="pedg.DireccionElectronicaObj"
+							activado="pedg.pantalla.modoEdicion" bcs-requerido>
+						</bcs-combobox-base>
+				  	</div>
+			  	</div>
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_CODIGO</label>
+						<bcs-input-texto 
+							k-ng-disabled="!pedg.pantalla.modoEdicion" class="col-xs-7"
+							ng-model="pedg.dataEmpleado.CodigoEmpleado" bcs-requerido>
+						</bcs-input-texto>
+				  	</div>
+			  	</div>
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_SUCURSAL</label>
+						<bcs-combobox-base
+							class="col-xs-7"
+							tipo="'combobox-sucursal'"
+							filtros="pedg.oConfiguracionSucursal.filtros"
+							id-actual="pedg.dataEmpleado.IdSucursal"
+							id-post-filtro="pedg.dataEmpleadoOriginal.IdSucursal"	
+							activado="pedg.pantalla.modoEdicion" bcs-requerido>
+						</bcs-combobox-base>
+				  	</div>
+			  	</div>
+		
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_JEFE_DIRECTO</label>
+						<bcs-combobox-base
+							class="col-xs-7"
+							tipo="'combobox-empleado'"
+							filtros="pedg.oConfiguracionJefeDirecto.filtros"
+							id-actual="pedg.dataEmpleado.IdEmpleadoSupervisor"
+							id-post-filtro="pedg.dataEmpleadoOriginal.IdEmpleadoSupervisor"	
+							activado="pedg.pantalla.modoEdicion">
+						</bcs-combobox-base>
+				  	</div>
+			  	</div>
+			  	<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_FECHA_INICIO</label>
+						<bcs-input-date 
+							k-ng-disabled="!pedg.pantalla.modoEdicion" 
+							class="col-xs-7" 
+							k-ng-model="pedg.dataEmpleado.FechaInicioCargo" bcs-requerido>
+						</bcs-input-date>
+				  	</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_CARGO_INDEFINIDO</label>
+						<bcs-input-checkbox 
+							class="col-xs-7" 
+							ng-disabled="!pedg.pantalla.modoEdicion"
+							name="CargoIndefinido" 
+							ng-model="pedg.dataEmpleado.CargoIndefinido">
+						</bcs-input-checkbox>
+				  	</div>
+				</div>
+			  	<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_VIGENCIA_CARGO</label>
+						<bcs-input-date 
+							k-ng-disabled="!pedg.pantalla.modoEdicion || pedg.dataEmpleado.CargoIndefinido==true" 
+							class="col-xs-7" 
+							k-ng-model="pedg.dataEmpleado.FechaTerminoCargo">
+						</bcs-input-date>
+				  	</div>
+				</div>	
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base
+							id="empleadoComboEstado"
+							class="col-xs-7"
+							auto-cargar="true"
+							tipo="'combobox-estado-empleado'"
+							id-actual="pedg.dataEmpleado.IdEstado"
+							id-post-filtro="pedg.dataEmpleadoOriginal.IdEstado"
+							activado="false"> <!-- "pedg.pantalla.modoEdicion" -->
+						</bcs-combobox-base>
+					</div>	
+		  		</div>	
+				<br>
+			</ng-form>
+	   </div>
+	   <div class="col-xs-6" ng-if="SesionLocale == 'PE'">
+	       <div class="row">
+	            <div class="col-xs-8">
+	                <label translate>UI_PUNTOS_ATENCION</label>
+	                <bcs-grid id="grid-sucursales-atencion"
+			            seleccionado="pedg.sucursalAtencion"
+			            configuracion="pedg.confBasicaSucursalAtencion">
+			        </bcs-grid>
+				</div>
+			</div>
+			<div class="row">
+			     <div class="col-xs-8">
+			         <bcs-button 
+			             id="PanelEmpleadoDatosGenerales_agregarSucursalAtencion" 
+			             class="col-xs-6" 
+			             bcs-tipo="'bcs-button-primary'" 
+			             bcs-auto-desactivar="false" 
+			             bcs-texto="'UI_AGREGAR' | translate" 
+			             bcs-habilitado="'true'"  
+			             bcs-clic="pedg.agregarSucursalAtencion()">
+		             </bcs-button>
+		             <bcs-button 
+                         id="PanelEmpleadoDatosGenerales_eliminarSucursalAtencion" 
+                         class="col-xs-6" 
+                         bcs-tipo="'bcs-button-secondary'" 
+                         bcs-auto-desactivar="false" 
+                         bcs-texto="'UI_ELIMINAR' | translate" 
+                         bcs-habilitado="pedg.sucursalAtencion!=undefined"  
+                         bcs-clic="pedg.eliminarSucursalAtencion()">
+                     </bcs-button>
+			     </div>
+			</div>
+	   </div>
+    </div>
+    <div class="row"></div>
+    <div class="row bcs-panel-comandos">
+        <bcs-button id="PanelEmpleadoDatosGenerales_editar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" ng-show="!pedg.pantalla.modoEdicion" bcs-auto-desactivar="false" bcs-texto="'UI_EDITAR' | translate" bcs-habilitado="!pedg.pantalla.modoEdicion && !pedg.dataSolicitudCambio.CambiosPendientes"  bcs-clic="pedg.editarpedg()"></bcs-button>
+        <bcs-button id="PanelEmpleadoDatosGenerales_guardar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" ng-show="pedg.pantalla.modoEdicion" bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="formEmpleadoDatosGenerales.$valid"  bcs-clic="pedg.guardarpedg()"></bcs-button>
+        <bcs-button id="PanelEmpleadoDatosGenerales_cancelar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="pedg.pantalla.modoEdicion" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'"  bcs-clic="pedg.cancelarpedg()"></bcs-button>
+        <bcs-button id="PanelEmpleadoDatosGenerales_mostrarCambios" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="!pedg.pantalla.modoEdicion && pedg.dataSolicitudCambio.CambiosPendientes" bcs-auto-desactivar="false" bcs-texto="'UI_MOSTRAR_CAMBIOS' | translate" bcs-habilitado="'true'"  bcs-clic="pedg.mostrarCambios()"></bcs-button>
+        <bcs-button id="PanelEmpleadoDatosGenerales_bloquear" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="!pedg.pantalla.modoEdicion && pedg.dataEmpleado.IdEstado === 'ACT'" bcs-auto-desactivar="false" bcs-texto="'UI_BLOQUEAR' | translate" bcs-habilitado="'true'"  bcs-clic="pedg.bloquearEmpleado()"></bcs-button>
+        <bcs-button id="PanelEmpleadoDatosGenerales_desbloquear" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="!pedg.pantalla.modoEdicion && pedg.dataEmpleado.IdEstado === 'BLO'" bcs-auto-desactivar="false" bcs-texto="'UI_DESBLOQUEAR' | translate" bcs-habilitado="'true'"  bcs-clic="pedg.desbloquearEmpleado()"></bcs-button>
+        <bcs-button id="PanelEmpleadoDatosGenerales_solAutEnrol" class="col-xs-3 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="!pedg.pantalla.modoEdicion && pedg.dataEmpleado.IdEstado === 'PEN'" bcs-auto-desactivar="false" bcs-texto="'UI_SOLICITAR_AUTORIZACION_ENROLAMIENTO' | translate" bcs-habilitado="'true'"  bcs-clic="pedg.solicitarEventoAutorizacion()"></bcs-button>
+        <span ng-show="!pedg.pantalla.modoEdicion && pedg.dataSolicitudCambio.CambioEstadoPendiente" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIO_DE_ESTADO_POR_AUTORIZAR</label> </span>
+        <span ng-show="!pedg.pantalla.modoEdicion && pedg.dataSolicitudCambio.CambiosPendientes" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIOS_POR_AUTORIZAR</label> </span>
+        <span ng-show="!pedg.pantalla.modoEdicion && pedg.dataEmpleado.IdEstado === 'PEN'" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_ENROLAMIENTO_POR_AUTORIZAR</label> </span>
+
+    </div>	
+</div>

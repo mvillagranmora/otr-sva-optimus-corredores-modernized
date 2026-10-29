@@ -1,0 +1,104 @@
+<div class="row" ng-controller="modalClienteDOFCtrl as modCDOF">
+	<form name="formModalCDOF" class="col-xs-12 form-horizontal">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{'UI_OPERADOR'|translate}}</span>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-xs-6" translate>UI_FECHA_DECLARACION</label>
+			<bcs-input-date
+				id="formModalCDOF_FechaDeclaracion"
+				bcs-requerido = "modCDOF.camposRequeridos['formModalCDOF_FechaDeclaracion'].Requerido === 'S'"
+				k-ng-disabled="false" 
+				class="col-xs-6" 
+				k-ng-model="modCDOF.datosDespues.FechaDeclaracion">
+			</bcs-input-date>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-6" translate>UI_TIPO_ORIGEN</label>
+		  		<label class="col-xs-6" translate>UI_VALOR</label>
+			</div>
+		</div>
+		<div class="row">
+			<div style="overflow: auto; height: 200px;">
+				<div ng-show="modCDOF.inicializacionOk">
+					<div ng-repeat="val in ::modCDOF.datosAntes.detalle">
+						<div class="row">
+							<div class="col-xs-12">
+								<label class="{{(val.IdTipoOrigenFondo==='OTR' && SesionLocale=='PE') ? 'col-xs-3' : 'col-xs-6'}}" translate>{{val.NombreTipoOrigenFondo}}</label>
+								<bcs-input-texto 
+									id="formModalCDOF_OTR_ESP"
+									ng-show="(val.IdTipoOrigenFondo==='OTR' && SesionLocale=='PE')"
+									class="col-xs-3"
+									placeholder="Especifique"
+									ng-model="modCDOF.datosDespues.detalle[val.IdTipoOrigenFondo].Otros">
+								</bcs-input-texto>
+								
+						  		<bcs-input-numero
+						  			id="formModalCDOF_{{val.IdTipoOrigenFondo}}"
+									class="col-xs-6"
+									k-ng-model="modCDOF.datosDespues.detalle[val.IdTipoOrigenFondo].Valor">
+								</bcs-input-numero>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-xs-6" translate>UI_TIPO_OPERACION</label>
+						<bcs-combobox-base 
+							id="formModalCDOF_TipoOperacion"
+							bcs-requerido = "modCDOF.camposRequeridos['formModalCDOF_TipoOperacion'].Requerido === 'S'"
+							class="col-xs-6"
+							tipo="'combobox-tipo-operacion-origen-fondos'"
+							filtros="modCDOF.cbbx.tipoOperacionOrigenFondos.filtros"
+							id-actual="modCDOF.datosDespues.IdTipoOperacionOrigenFondos"
+							id-defecto="modCDOF.datosAntes.IdTipoOperacionOrigenFondos">
+						</bcs-combobox-base >
+					</div>
+				</div>
+			</div>
+		</div>	
+		<hr>
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-6" translate>UI_COMENTARIO</label>
+				<bcs-input-texto
+					id="formModalCDOF_Comentario"
+					bcs-requerido = "modCDOF.camposRequeridos['declaracionOrigenFondos_comentario'].Requerido === 'S'"
+					tipo-campo="'textarea'" atributos="width:100%" 
+					class="col-xs-6"
+					ng-model="modCDOF.datosDespues.Comentario">
+				</bcs-input-texto>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-6" translate>UI_HABILITADO</label>
+		  		<bcs-input-checkbox 
+		  			id="formModalCDOF_Habilitado"
+		  			class="col-xs-6"
+					ng-model="modCDOF.datosDespues.IdEstado">
+				</bcs-input-checkbox>
+			</div>
+		</div>
+		<hr>
+		<div class="row col-xs-12 bcs-panel-comandos">
+			<bcs-button class="col-xs-2 pull-right" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_GUARDAR' | translate" 
+				bcs-habilitado="formModalCDOF.$valid"
+				bcs-clic="modCDOF.win.guardar();">
+			</bcs-button>
+			<bcs-button class="col-xs-2 pull-right" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CANCELAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="modCDOF.win.cancelar();">
+			</bcs-button>
+		</div>
+	</form>
+</div>

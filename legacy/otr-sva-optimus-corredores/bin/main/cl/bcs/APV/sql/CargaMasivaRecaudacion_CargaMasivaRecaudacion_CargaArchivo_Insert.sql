@@ -1,0 +1,1 @@
+INSERT INTO   "#CargaMasivaRecaudacion_CargaArchivo" ( "FolioCartola", "FolioLineaCartola") VALUES (:FolioCartola,:FolioLineaCartola)

@@ -1,0 +1,1 @@
+SELECT "BSCL.Custodia.BD.Secuencias::IdCartera".NEXTVAL AS "NewIdCartera" FROM DUMMY;

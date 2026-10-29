@@ -1,0 +1,1 @@
+delete from "BSCL.CuentaInversion.BD::CTA.CrearCargoAbono_IN_CargoAbonoSumaSaldos"

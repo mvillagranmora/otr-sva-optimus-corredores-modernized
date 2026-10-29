@@ -1,0 +1,76 @@
+<div class="row" ng-controller='CrearModificarTasasGenericasCtrl'>
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						class="col-xs-8"
+						item-post-filtro = "'1'"
+						configuracion="formData.oConfiguracionClasificacion.configuracion"
+						filtros     = "formData.oConfiguracionClasificacion.filtros"
+						seleccionado= "filtros.clasificacionTipoInstrumento"
+						id-actual	= "filtros.IdClasificacionTipoInstrumento"
+						cascada-a	= "formData.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada-valor="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						item-post-filtro = "'1'"
+						id-defecto = "'ACN'"
+						filtros="formData.oConfiguracionTipoInstrumento.filtros"
+						id-actual="filtros.IdTipoInstrumento"
+						seleccionado="filtros.tipoInstrumento">
+					</bcs-combobox-base>
+				</div>
+				
+				
+			</div>
+			<div class="row">
+			    <div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_MONEDA</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-moneda'"
+						id-defecto="'CLP'"
+						filtros="cTas.cmbbx.Moneda.filtros"
+						id-actual="filtros.IdMonedaActual"
+						seleccionado="filtros.MonedaObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-xs-2">
+			<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-habilitado="'true'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-clic="formData.BuscarTasasGenericas()"></bcs-button>
+		</div>
+     </div>
+		
+		<div class="row">
+		<bcs-grid 
+			api = "formData.apiGrid"
+			fn-exportar-excel="formData.exportarExcel"
+			seleccionado = "formData.instrumentoSeleccionado"
+			fn-doble-click = "formData.ModificarTasasGenericas(formData.instrumentoSeleccionado)"
+			configuracion="formData.defaultOptions"
+			api="gridApi">
+		</bcs-grid>
+		</div>
+		<!-- FIN FILTROS -->
+		
+		<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-1 pull-right" bcs-tipo="'bcs-button-primary'" bcs-habilitado="'true'" bcs-auto-desactivar="false" bcs-texto="'UI_CREAR' | translate" bcs-clic="formData.CrearTasa(formData.instrumentoSeleccionado)"></bcs-button>
+		<bcs-button class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate" bcs-clic="formData.ModificarTasasGenericas(formData.instrumentoSeleccionado)"></bcs-button>
+		
+
+	</div>
+
+
+
+
+</div>

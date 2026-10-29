@@ -1,0 +1,82 @@
+<div id="GenerarInformeComprobanteComisioneMensuales" class="row" ng-controller="GenerarInformeComprobanteComisionesMensualesCtrl as iccm">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+				<!-- INICIO FILTROS -->
+				<form name="ModalGenerarInformeComprobanteComisionesMensuales" class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-12">
+						<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base 
+							id = "UI_CLIENTE_PORTAFOLIO"
+						 	class="col-xs-10"
+						 	tipo="'combobox-cliente-portafolio-contrato'"
+							id-actual = "iccm.data.IdPortafolio"
+							seleccionado = "iccm.data.portafolioSeleccionado">
+						</bcs-combobox-base >
+						</div>
+						
+					</div>
+					<div class = "row">
+						<div class="col-xs-12">
+							<label class="col-xs-2" translate>UI_TIPO_INFORME</label> 
+							<bcs-combobox-base class="col-xs-10" 
+								bcs-requerido
+								id-actual="iccm.data.CodigoInforme"
+								tipo="'combobox-informe-comisiones-mensuales'"
+								seleccionado="iccm.data.InformeSeleccionado"
+								todos="'N'">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-2" translate>UI_PERIODO</label>
+							<bcs-input-date
+								class="col-xs-10"
+								bcs-requerido
+								k-ng-model="iccm.data.FechaDesde"
+								k-options="iccm.data.FechaConsultaOpt"
+								todo-dias="'true'">
+							</bcs-input-date>	
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6">
+							<label class = "col-xs-4" translate>UI_SEGMENTO_CLIENTE</label>
+							<bcs-combobox-base class = "col-xs-8"
+								bcs-requerido
+								tipo = "'combobox-tipo-segmento'"
+								id-actual = "iccm.data.IdSegmentoCliente"
+								id-defecto = "0"
+								seleccionado="iccm.data.SegmentoClienteSeleccionado"
+								todos="'S'"
+								activado = "'false'">
+							</bcs-combobox-base>	
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-3 col-xs-offset-1" translate>UI_CLASIFICACION</label>
+							<bcs-combobox-base class = "col-xs-8"
+								bcs-requerido
+								tipo = "'combobox-clasificacion-tipo-instrumento'"
+								id-actual = "iccm.data.IdClasificacionTipoInstrumento"
+								seleccionado="iccm.data.ClasificacionTipoInstrumentoSeleccionado"
+								todos = "'S'">
+							</bcs-combobox-base>
+						</div>
+					</div>
+			</form>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<bcs-button class="col-xs-3 pull-right"  id="immc_UI_GENERAR"
+				bcs-habilitado="ModalGenerarInformeComprobanteComisionesMensuales.$valid" bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_GENERAR' | translate" 
+				bcs-clic="iccm.generar();">
+			</bcs-button>
+			<bcs-button class="col-xs-3 pull-right"  id="immc_UI_LIMPIAR"
+				bcs-habilitado="true" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" 
+				bcs-clic="iccm.limpiar();">
+			</bcs-button>
+		</div>
+	</div>
+</div>

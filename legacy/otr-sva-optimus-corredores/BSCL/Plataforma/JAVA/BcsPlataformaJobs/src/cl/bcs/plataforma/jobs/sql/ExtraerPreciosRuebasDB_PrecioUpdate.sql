@@ -1,0 +1,2 @@
+UPSERT "BSCL.Plataforma.BD::INS.BolsaInstrumentoPrecio"("IdInstrumento","IdBolsa","Fecha","FechaActualizacionArchivo","PrecioMayor","PrecioMenor","PrecioMedio","PrecioApertura","PrecioCierre","UnidadesTransadas","MontoTransado","Variacion") 
+SELECT :IdInstrumento,:IdBolsa,:Fecha,CURRENT_UTCTIMESTAMP,:PrecioMayor,:PrecioMenor,:PrecioMedio,:PrecioApertura,:PrecioCierre,:UnidadesTransadas,:MontoTransado,:Variacion FROM DUMMY;

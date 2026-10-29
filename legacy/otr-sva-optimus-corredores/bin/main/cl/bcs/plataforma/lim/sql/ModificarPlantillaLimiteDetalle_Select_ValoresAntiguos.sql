@@ -1,0 +1,26 @@
+SELECT 
+	CAST("Nombre" AS NVARCHAR(255)) AS "Nombre",
+	CAST("IdMesa" AS NVARCHAR(255)) AS "IdMesa",
+	CAST("IdCanalIngreso" AS NVARCHAR(255)) AS "IdCanalIngreso",
+	CAST("IdTipoInstrumento" AS NVARCHAR(255)) AS "IdTipoInstrumento",
+	CAST("IdTipoOperacion" AS NVARCHAR(255)) AS "IdTipoOperacion",
+	CAST("IdTipoProducto" AS NVARCHAR(255)) AS "IdTipoProducto",
+	CAST("IdInstrumento" AS NVARCHAR(255)) AS "IdInstrumento",
+	CAST("UnidadPlazo" AS NVARCHAR(255)) AS "UnidadPlazo",
+	CAST("Plazo" AS NVARCHAR(255)) AS "Plazo",
+	CAST("IdTipoReajuste" AS NVARCHAR(255)) AS "IdTipoReajuste",
+	CAST("CodigoOperador" AS NVARCHAR(255)) AS "CodigoOperador",
+	CAST("MontoTotal" AS NVARCHAR(255)) AS "MontoTotal",
+	CAST("MontoIntraday" AS NVARCHAR(255)) AS "MontoIntraday",
+	CAST("MontoOvernight" AS NVARCHAR(255)) AS "MontoOvernight",
+	CAST("IdMoneda" AS NVARCHAR(255)) AS "IdMoneda",
+	CAST("IdMonedaCalculo" AS NVARCHAR(255)) AS "IdMonedaCalculo",
+	CAST("ClasificacionRiesgoMinima" AS NVARCHAR(255)) AS "ClasificacionRiesgoMinima",
+	CAST("IdEstado" AS NVARCHAR(255)) AS "IdEstado",
+	CAST("EsPersonalizada" AS NVARCHAR(255)) AS "EsPersonalizada",
+	CAST("EsTotalizador" AS NVARCHAR(255)) AS "EsTotalizador",
+	CAST("IdAgente" AS NVARCHAR(255)) AS "IdAgente",
+	CAST("IdClasificacionTipoInstrumento" AS NVARCHAR(255)) AS "IdClasificacionTipoInstrumento",
+	CAST("Porcentaje" AS NVARCHAR(255)) AS "Porcentaje"
+FROM "BSCL.Plataforma.BD::LIM.Limite"
+WHERE "IdLimite" = :IdLimite

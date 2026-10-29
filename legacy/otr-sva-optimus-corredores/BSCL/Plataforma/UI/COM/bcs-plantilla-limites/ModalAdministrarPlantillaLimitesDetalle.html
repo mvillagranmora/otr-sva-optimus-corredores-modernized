@@ -1,0 +1,122 @@
+<div class="row" ng-controller="ModalAgregarValorLimiteDetalleCtrl as mavld">
+	<div class="row">
+		<form name="ModalAgregarValorLimiteDetalle" class="col-xs-12">
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_NOMBRE_LIMITE</label>
+				<bcs-input-texto class="col-xs-8" bcs-requerido ng-model="mavld.respuesta.Nombre" k-ng-disabled="mavld.esEdicion"></bcs-input-texto>
+		  	</div>
+		  	<div class="row" ng-if="mavld.win.clasifTipoInstr">
+				<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-clasificacion-tipo-instrumento'"
+					id-actual="mavld.respuesta.IdClasificacionTipoInstrumento"
+					id-defecto="mavld.respuesta.IdClasificacionTipoInstrumentoDef"
+					filtros = "mavld.cmbbx.ClasificacionTipoInstrumento.filtros"
+					todos="'N'"
+					bcs-requerido="mavld.win.clasifTipoInstr"
+					seleccionado="mavld.dataModal.ClasificacionTipoInstrumentoObj"
+					cascada1-a="mavld.cmbbx.TipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+					cascada1-valor="'IdClasificacionTipoInstrumento'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row" ng-if="mavld.win.tipoInstrumento">
+				<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-tipo-instrumento'"
+					id-actual="mavld.respuesta.IdTipoInstrumento"
+					id-post-filtro="mavld.respuesta.IdTipoInstrumentoDef"
+					filtros = "mavld.cmbbx.TipoInstrumento.filtros"
+					todos="'N'"
+					bcs-requerido="mavld.win.tipoInstrumento"
+					seleccionado="mavld.dataModal.TipoInstrumentoObj"
+					cascada1-a="mavld.cmbbx.TipoOperacion.filtros.IdTipoInstrumento"
+					cascada1-valor="'IdTipoInstrumento'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row" ng-if="mavld.win.tipoOperacion">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-operacion'"
+						id-actual="mavld.respuesta.IdTipoOperacion"
+						id-post-filtro="mavld.respuesta.IdTipoOperacionDef"
+						filtros = "mavld.cmbbx.TipoOperacion.filtros"
+						todos="'N'"
+						bcs-requerido="mavld.win.tipoOperacion"
+						seleccionado="mavld.dataModal.TipoOperacionObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_CANAL</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-canal-ingreso'"
+						id-actual="mavld.respuesta.IdCanalIngreso"
+						id-defecto="mavld.respuesta.IdCanalIngresoDef"
+						filtros="mavld.cmbbx.TipoCanalIngreso.filtros"
+						todos="'S'"
+						bcs-requerido
+						seleccionado="mavld.dataModal.TipoCanalIngresoObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_MONEDA</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-moneda'"
+						id-actual="mavld.respuesta.IdMoneda"
+						id-defecto="mavld.respuesta.IdMonedaDef"
+						filtros="mavld.cmbbx.Moneda.filtros"
+						todos="'N'"
+						bcs-requerido
+						seleccionado="mavld.dataModal.MonedaObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_PORCENTAJE</label>
+					<bcs-input-porcentaje class="col-xs-8"
+						bcs-requerido
+						k-ng-model="mavld.respuesta.Porcentaje"  
+						decimales="mavld.win.TasaDecimal">
+					</bcs-input-porcentaje>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_LINEA_ASIGNADA</label>
+					<bcs-input-numero class="col-xs-8" 
+						bcs-requerido 
+						k-ng-model="mavld.respuesta.MontoTotal" 
+						decimales="mavld.win.MontoDecimal">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-estado-limites'"
+						id-actual="mavld.respuesta.Estado"
+						id-defecto="mavld.respuesta.EstadoDef"
+						filtros="mavld.cmbbx.Estado.filtros"
+						todos="'N'"
+						bcs-requerido
+						seleccionado="mavld.dataModal.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-3 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-habilitado="ModalAgregarValorLimiteDetalle.$valid" bcs-clic="mavld.aceptar();">
+		</bcs-button>
+		<bcs-button class="col-xs-3 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-habilitado="true" bcs-clic="mavld.cancelar();">
+		</bcs-button>
+	</div>
+</div>

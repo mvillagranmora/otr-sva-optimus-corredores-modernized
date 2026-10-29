@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomee>
+  <!--
+    Datasource principal SAP HANA — JNDI: jdbc/hanaDB
+    Los valores se inyectan vía system properties establecidas en setenv.sh
+    desde las variables de ambiente del contenedor.
+  -->
+  <Resource id="jdbc/hanaDB" type="javax.sql.DataSource">
+    JdbcDriver      com.sap.db.jdbc.Driver
+    JdbcUrl         ${HANA_JDBC_URL}
+    UserName        ${HANA_USER}
+    Password        ${HANA_PASS}
+    ValidationQuery select 1 from dummy
+    TestOnBorrow    true
+    MaxActive       20
+    MaxIdle         5
+    MinIdle         2
+    MaxWait         30000
+  </Resource>
+
+  <!--
+    Datasource de auditoría — JNDI: jdbc/auditDS
+    Referenciado en CallServlet para el log de auditoría de WS.
+    Usa el mismo servidor HANA que el datasource principal.
+  -->
+  <Resource id="jdbc/auditDS" type="javax.sql.DataSource">
+    JdbcDriver      com.sap.db.jdbc.Driver
+    JdbcUrl         ${HANA_JDBC_URL}
+    UserName        ${HANA_USER}
+    Password        ${HANA_PASS}
+    ValidationQuery select 1 from dummy
+    TestOnBorrow    true
+    MaxActive       10
+    MaxIdle         3
+    MinIdle         1
+    MaxWait         30000
+  </Resource>
+</tomee>

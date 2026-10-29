@@ -1,0 +1,154 @@
+<div id="PanelEnrolamientoClienteDatosGenerales" class="row" ng-controller="PanelEnrolamientoClienteDatosGeneralesEnrolCtrl as pcdg">
+    <ng-form name="formEnrolamientoClienteDatosGenerales" class="col-xs-12 form-horizontal">
+        <div class="col-xs-12">
+            <div class="row">
+                <label class="col-xs-4" translate>UI_TIPO_CLIENTE</label>
+                <bcs-combobox-base
+                        id="id_tipoCliente"
+                        class="col-xs-7"
+                        tipo="'combobox-tipo-cliente'"
+                        filtros="pcdg.oConfiguracionTipoCliente.filtros"
+                        id-actual="pcdg.dataCliente.CLI_IdTipoCliente"
+                        seleccionado="pcdg.dataCliente.CLI_IdTipoCliente"
+                        id-post-filtro="pcdg.dataClienteOriginal.CLI_IdTipoCliente"
+                        bcs-requerido="pcdg.camposRequeridos['formCrearCliente_tipoCliente'].Requerido === 'S'">
+                </bcs-combobox-base>
+            </div>
+            <div class="row">
+                <label class="col-xs-4" translate>UI_CATEGORIA_INVERSIONISTA</label>
+                <bcs-combobox-base
+                        id="formPanelEnrolamientoClienteDatosGenerales_categoriaInversionista"
+                        class="col-xs-7"
+                        tipo="'combobox-categoria-inversionista'"
+                        filtros="pcdg.oConfiguracionCategoriaInversionista.filtros"
+                        id-actual="pcdg.dataCliente.CLI_IdCategoriaInversionista"
+                        seleccionado="pcdg.dataCliente.CLI_IdCategoriaInversionista"
+                        id-post-filtro="pcdg.dataClienteOriginal.CLI_IdCategoriaInversionista"
+                        bcs-requerido="pcdg.camposRequeridos['formCrearCliente_categoriaInversionista'].Requerido === 'S'">
+                </bcs-combobox-base>
+            </div>
+            <div class="row">
+                <label class="col-xs-4" translate>UI_SEGMENTO_CLIENTE</label>
+                <bcs-combobox-base
+                        id="formPanelEnrolamientoClienteDatosGenerales_segmentoCliente"
+                        class="col-xs-7"
+                        tipo="'combobox-tipo-segmento'"
+                        filtros="pcdg.oConfiguracionTipoSegmento.filtros"
+                        id-actual="pcdg.dataCliente.CLI_IdSegmentoCliente"
+                        seleccionado="pcdg.dataCliente.CLI_IdSegmentoCliente"
+                        id-post-filtro="pcdg.dataClienteOriginal.CLI_IdSegmentoCliente"
+                        bcs-requerido="pcdg.camposRequeridos['formPanelEnrolamientoClienteDatosGenerales_segmentoCliente'].Requerido === 'S'">
+                </bcs-combobox-base>
+            </div>
+            <div class="row" ng-show="SesionLocale=='PE'">
+                <label class="col-xs-4" translate>UI_CLASE_CLIENTE</label>
+                <bcs-combobox-base
+                        id="id_claseCliente"
+                        class="col-xs-7"
+                        tipo="'combobox-clase-cliente'"
+                        filtros="pcdg.oConfiguracionClaseCliente.filtros"
+                        id-actual="pcdg.dataCliente.IdClaseCliente"
+                        seleccionado="pcdg.ClaseClienteObj"
+                        id-post-filtro="pcdg.dataClienteOriginal.IdClaseCliente"
+                        activado="pcdg.pantalla.modoEdicion"
+                        bcs-requerido="SesionLocale=='PE'">
+                </bcs-combobox-base>
+            </div>
+            <div class="row">
+                <label class="col-xs-4" translate>UI_EJECUTIVO</label>
+                <bcs-combobox-base
+                        id="formPanelEnrolamientoClienteDatosGenerales_ejecutivo"
+                        class="col-xs-7"
+                        tipo="'combobox-ejecutivo'"
+                        filtros="pcdg.oConfiguracionEjecutivo.filtros"
+                        id-actual="pcdg.dataCliente.CLI_IdEmpleadoEjecutivo"
+                        id-defecto="pcdg.dataClienteOriginal.CLI_IdEmpleadoEjecutivo"
+                        seleccionado="pcdg.IdEmpleadoEjecutivoClienteObj"
+                        bcs-requerido="pcdg.camposRequeridos['formCrearCliente_ejecutivo'].Requerido === 'S'">
+                </bcs-combobox-base>
+            </div>
+            <div class="row">
+                <label class="col-xs-4" translate>UI_CODIGO_EJECUTIVO_EXTERNO</label>
+                <bcs-input-texto
+                        id="formPanelEnrolamientoClienteDatosGenerales_codigoEjecutivoExterno"
+                        class="col-xs-7"
+                        ng-model="pcdg.dataCliente.CLI_CodigoEjecutivoExterno"
+                        bcs-requerido="pcdg.camposRequeridos['formPanelEnrolamientoClienteDatosGenerales_codigoEjecutivoExterno'].Requerido === 'S'">
+                </bcs-input-texto>
+            </div>
+            <div class="row" ng-show="SesionLocale == 'PE' && pcdg.dataCliente.Tipo === 'J' && pcdg.dataCliente.IdTipoCliente === 'INSTITUCIONAL'">
+                <label class="col-xs-4" translate>UI_INFORMACION_INTERMEDIARIO</label>
+                <bcs-combobox-base
+                        id="formPanelEnrolamientoClienteDatosGenerales_informacionIntermediario"
+                        class="col-xs-7"
+                        tipo="'combobox-broker-extranjero'"
+                        filtros="pcdg.oPersonaBrokerExtranjero.filtros"
+                        id-actual="pcdg.dataCliente.IdPersonaBrokerExtranjero"
+                        id-defecto="pcdg.dataClienteOriginal.IdPersonaBrokerExtranjero"
+                        seleccionado="pcdg.PersonaBrokerExtranjeroObj"
+                        activado="pcdg.pantalla.modoEdicion"
+                        bcs-requerido="SesionLocale == 'PE' && pcdg.dataCliente.Tipo === 'J' && pcdg.dataCliente.IdTipoCliente === 'INSTITUCIONAL'">
+                </bcs-combobox-base>
+            </div>
+            <div class="row">
+                <label class="col-xs-4" translate>UI_SUCURSAL_PREFERENCIA_CLIENTE</label>
+                <bcs-combobox-base
+                        id="formPanelEnrolamientoClienteDatosGenerales_sucursalPreferenciaCliente"
+                        class="col-xs-7"
+                        tipo="'combobox-sucursal'"
+                        filtros="pcdg.oConfiguracionSucursalPreferencia.filtros"
+                        id-actual="pcdg.dataCliente.CLI_IdSucursalPreferencia"
+                        id-defecto="pcdg.dataClienteOriginal.CLI_IdSucursalPreferencia"
+                        seleccionado="pcdg.dataCliente.CLI_IdSucursalPreferencia"
+                        bcs-requerido="pcdg.camposRequeridos['formPanelEnrolamientoClienteDatosGenerales_sucursalPreferenciaCliente'].Requerido === 'S'">
+                </bcs-combobox-base>
+            </div>
+            <div class="row" ng-show="SesionLocale == 'PE'">
+                <label class="col-xs-4" translate>UI_CODIGO_ADICIONAL_HOLDING</label>
+                <bcs-input-texto
+                        id="formPanelEnrolamientoClienteDatosGenerales_codigoAdicionalHolding"
+                        class="col-xs-7"
+                        k-ng-disabled="!pcdg.pantalla.modoEdicion"
+                        ng-model="pcdg.dataCliente.CodigoAdicionalHolding"
+                        bcs-requerido="SesionLocale == 'PE'">
+                </bcs-input-texto>
+            </div>
+            <div class="row">
+                <label class="col-xs-4" translate>UI_CLIENTE_FINAL</label>
+                <bcs-input-checkbox
+                        id="formPanelEnrolamientoClienteDatosGenerales_clienteFinal"
+                        ng-model="pcdg.dataCliente.CLI_EsClienteFinal">
+                </bcs-input-checkbox>
+            </div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_AREA_CLIENTE</label>
+				<bcs-combobox-base 
+					id="formPanelEnrolamientoClienteDatosGenerales_AreaCliente" 
+					class="col-xs-7" 
+					tipo="'combobox-area-cliente'"
+					id-actual = "pcdg.dataCliente.CLI_AreaCliente"
+					id-defecto = "pcdg.dataClienteOriginal.CLI_AreaCliente"
+					seleccionado="pcdg.dataCliente.CLI_AreaCliente"
+					bcs-requerido="pcdg.camposRequeridos['clienteDatosGenerales_areaCliente'].Requerido === 'S'"
+					working-net="workingNet.AreaCliente"
+					activado = '!configData.bloqueoCliente'>
+				</bcs-combobox-base>
+			</div>
+
+        </div>
+
+        <br>
+
+        <div class="row"></div>
+        <div class="row bcs-panel-comandos">
+            <bcs-button id="PanelClienteDatosGenerales_guardar"
+                        class="col-xs-2"
+                        bcs-tipo="'bcs-button-primary'"
+                        bcs-auto-desactivar="false"
+                        bcs-texto="'UI_GUARDAR' | translate"
+                        bcs-habilitado="formEnrolamientoClienteDatosGenerales.$valid"
+                        bcs-clic="pcdg.guardarpcdg()">
+            </bcs-button>
+        </div>
+    </ng-form>
+</div>

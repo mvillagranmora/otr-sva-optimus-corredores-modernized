@@ -1,0 +1,143 @@
+<div id="MovimientoEnTransitoAgrupado" class="row"
+    ng-controller='ConsultarMovimientosEnTransitoAgrupadosCtrl'>
+    <form name="">
+        <div class="col-xs-10">
+            <div class="row">
+                <div class="col-xs-8">
+                    <label class="col-xs-3" style="width: 20.8333% !important;" translate>UI_CLIENTE</label>
+                    <bcs-combobox-base class="col-xs-9" style="width: 79.1667%;"
+                        id="UI_CLIENTE"
+                        auto-cargar="'false'" tipo="'combobox-socio-negocio'"
+                        seleccionado="oSocioNegocio.seleccionado"
+                        filtros="oSocioNegocio.filtros"
+                        cascada-a="oPortafolio.filtros.IdCliente"
+                        cascada-valor="'IdCliente'" id-actual="oSocioNegocio.idActual"
+                        carga-cliente-automatico="'S'"
+                        > </bcs-combobox-base>
+                </div>
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_INSTRUMENTO</label>
+                    <bcs-input-instrumentos class="col-xs-7"
+                        datos-instrumento="filtro.instrumentoObjeto"
+                        buscar-instrumento="filtro.buscarinstrumento"
+                        filtro-estado="'ACT'"> </bcs-input-instrumentos>
+                
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_CLASIFICACION</label>
+                    <bcs-combobox-base class="col-xs-7"
+                        tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+                        ng-model="clasificacionTipoInstrumento"
+                        seleccionado="filtro.clasificacionTipoInstrumentoObj.seleccionado" todos="'S'"
+                        id-actual="filtro.clasificacionTipoInstrumentoObj.idActual"
+                        item-post-filtro="'1'"
+                        cascada-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+                        cascada-valor="'IdClasificacionTipoInstrumento'">
+                    </bcs-combobox-base>
+                </div>
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_TIPO_INSTRUMENTO_ABR</label>
+                    <bcs-combobox-base class="col-xs-7"
+                        tipo="data.oConfiguracionTipoInstrumento.tipo"
+                        filtros="data.oConfiguracionTipoInstrumento.filtros"
+                        ng-model="tipoInstrumento" seleccionado="filtro.tipoInstrumento"
+                        todos="'S'" item-post-filtro="'1'"> </bcs-combobox-base>
+                </div>
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_BOVEDA</label>
+                    <bcs-combobox-base class="col-xs-7"
+                        tipo="data.oConfiguracionBoveda.tipo" ng-model="boveda"
+                        seleccionado="filtro.boveda" todos="'S'" item-post-filtro="'1'">
+                    </bcs-combobox-base>
+                </div>
+               
+                    
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_OPERACION</label>
+                    <bcs-combobox-base class="col-xs-7"
+                        tipo="data.oConfiguracionTipoOperacionCustodia.tipo"
+                        ng-model="accion" id-actual="filtro.accion.idActual"
+                        seleccionado="filtro.accion.seleccionado" todos="'S'"
+                        item-post-filtro="'1'"> </bcs-combobox-base>
+                </div>
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_CONCEPTO</label>
+                    <bcs-combobox-base class="col-xs-7"
+                        tipo="data.oConfiguracionConceptoCustodia.tipo"
+                        ng-model="concepto" id-actual="filtro.concepto.idActual"
+                        seleccionado="filtro.concepto.seleccionado" todos="'S'"
+                        item-post-filtro="'1'"> </bcs-combobox-base>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_FECHA_OPERACION_DESDE</label>
+                    <bcs-input-date class="col-xs-7" ng-model="filtro.fecIniciong"
+                        k-ng-model="filtro.fecInicio"></bcs-input-date>
+                </div>
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_FECHA_OPERACION_HASTA</label>
+                    <bcs-input-date class="col-xs-7" ng-model="filtro.fecTerminong"
+                        k-ng-model="filtro.fecTermino"></bcs-input-date>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_FECHA_LIQUIDACION_DESDE</label>
+                    <bcs-input-date class="col-xs-7" ng-model="filtro.fecIniciong"
+                        k-ng-model="filtro.fecInicioLiq"></bcs-input-date>
+                </div>
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_FECHA_LIQUIDACION_HASTA</label>
+                    <bcs-input-date class="col-xs-7" ng-model="filtro.fecTerminong"
+                        k-ng-model="filtro.fecTerminoLiq"></bcs-input-date>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-xs-2">
+        <bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"
+            bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+            bcs-habilitado="true" bcs-clic="buscarMovimientos()"></bcs-button>
+        <bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+            bcs-habilitado="true" bcs-clic="limpiarFiltros()"></bcs-button>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="row">
+            <bcs-grid id="grid-movimientos-en-transito-agrupado"
+                configuracion="data.confBasicaMovimientosEnTransitoAgrupados"
+                seleccionado="data.seleccionMovimientosEnTransitoAgrupados"
+                fn-exportar-excel="excelMovimientosEnTransito"> </bcs-grid>
+            <div class="row">
+                
+                <div class="col-xs-12 bcs-panel-comandos">
+                    <bcs-button id="MovimientoEnTransito_Certificar" class="col-xs-1"
+                        bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+                        bcs-texto="'UI_CERTIFICAR' | translate" bcs-habilitado="true"
+                        bcs-clic="enviarCertificarAgrupado()"></bcs-button>
+                    
+                    <bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+                        bcs-texto="'UI_OPCIONES' | translate">
+                        <li ng-click="data.seleccionarTodosMovimientos()">{{'UI_SELECCIONAR_TODO'
+                        | translate}}</li>
+                        <li ng-click="data.deseleccionarTodosMovimientos()">{{'UI_DESELECCIONAR_TODO'
+                        | translate}}</li>
+                        <li ng-click="excelMovimientosEnTransito('MovimientosEnTransito')">{{'UI_EXPORTAR_EXCEL'
+                        | translate}}</li>
+                    </bcs-menu>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::COM_2.DefinicionCobroRango" WHERE "IdEmpresa" = :IdEmpresa AND "CodigoDefinicionCobro" = :CodigoDefinicionCobro;

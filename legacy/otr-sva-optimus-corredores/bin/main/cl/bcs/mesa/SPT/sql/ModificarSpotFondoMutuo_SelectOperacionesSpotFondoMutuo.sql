@@ -1,0 +1,51 @@
+SELECT
+OP."IdSolicitudAporteRescate"
+,OP."IdOperacionSpot"
+,OP."IdInstrumento"
+,OP."IdTipoOperacion"
+,OP."IdCliente" 
+,OP."IdPortafolio"
+,OP."FechaOperacion"
+,OP."IdMonedaPrincipal"	
+,OP."IdMonedaSecundaria"
+,OP."MontoMonedaPrincipal"
+,OP."MontoMonedaSecundaria"
+,OP."TipoCambioCierre"
+,OP."TipoCambioCierreForward"
+,OP."ParidadCierre"
+,OP."ParidadCierreForward"
+,OP."TipoCambioCosto"
+,OP."ParidadCosto"
+,OP."MontoEquivalente"
+,OP."MontoRentabilidad"
+,OP."MontoRentabilidadCanal"
+,OP."Margen"
+,OP."Utilidad"
+,OP."PuntaCompra"
+,OP."PuntaVenta"
+,OP."SolicitudTipoCambio"
+,OP."IdMesa"
+,OP."IdModulo"
+,OP."IdTipoDolar"
+,OP."TipoComprobanteFacturacion"
+,OP."IdAgente"
+,OP."BenOur"
+,OP."EquivalenteConGasto"
+,OP."TipoCambioCierreConGasto"
+,OP."Observacion"
+,OP."CodigoComercio"
+,OP."FolioPlanilla"
+,OP."FolioInterfaz"
+,OP."OperacionFicticia"
+,OP."IdTipoCanalIngreso"
+,OP."IdDatatec"
+,OP."Estado"
+FROM "BSCL.Mesa.BD::SPT.OperacionSpot" OP
+LEFT JOIN "BSCL.Mesa.BD.Vistas::SPT.ConsultarMovimientosSpot" CMV ON CMV."IdOperacion" = OP."IdOperacionSpot"
+WHERE OP."Estado"  IN ('VIG','PEN')
+AND OP."EstadoConfirmacion" != 'CNF'
+AND OP."IdSolicitudAporteRescate">0
+AND TO_DATE(OP."FechaOperacion")=TO_DATE(:FechaOperacion)
+AND ( OP."IdTipoOperacion"  = :IdTipoOperacion OR :IdTipoOperacion = '0' OR :IdTipoOperacion = '' )
+AND CMV."FondosNacionalesValutaCero" = :FondoNacionalValutaCero
+AND OP."IdEmpresa"=:IdEmpresa;

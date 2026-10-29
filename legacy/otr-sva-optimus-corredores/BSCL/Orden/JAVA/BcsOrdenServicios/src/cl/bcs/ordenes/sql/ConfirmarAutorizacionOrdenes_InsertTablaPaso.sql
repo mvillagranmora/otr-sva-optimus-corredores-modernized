@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Orden.BD::ORD.AutorizacionOrdenes_Entrada"("IdOrden") values(:IdOrden);

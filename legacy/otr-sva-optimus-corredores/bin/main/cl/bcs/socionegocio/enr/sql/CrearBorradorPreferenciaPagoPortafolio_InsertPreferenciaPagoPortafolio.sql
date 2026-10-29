@@ -1,0 +1,22 @@
+INSERT INTO "BSCL.SocioNegocio.BD::ENR.PreferenciaPagoPortafolio"
+(
+"IdPreferenciaPagoPortafolio"
+,"IdEnrolamiento"
+,"IdPreferenciaPago"
+,"IdPersonaRelacionada"
+,"IdCuentaBancaria"
+,"IdEmpresa"
+,"IdTarjetaBancaria"
+,"PorDefecto"
+)
+VALUES
+(
+:IdPreferenciaPagoPortafolio
+,:IdEnrolamiento
+,:IdPreferenciaPago
+,:IdPersonaRelacionada
+,:IdCuentaBancaria
+,:IdEmpresa
+,:IdTarjetaBancaria
+,:PorDefecto
+);

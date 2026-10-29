@@ -1,0 +1,34 @@
+INSERT INTO #p_SolicitudAporteRescate(
+	"IdInterno",
+	"IdSerieFondo",
+	"FechaEmision",
+	"EstadoFondo",
+	"EstadoLiquidacion",
+	"NumeroDiasRetencion",
+	"NumeroValutaValorCuota",
+	"NumeroValutaCertificacion",
+	"NumeroValutaCurse",
+	"SolicitudBatch",
+	"TipoSolicitud",
+	"FondoExtranjero",
+	"IdPaisFondo",
+	"IdPaisEmisor",
+	"IdPaisMoneda"
+)
+VALUES(
+	:IdInterno,
+	:IdSerieFondo,
+	:FechaEmision,
+	:EstadoFondo,
+	:EstadoLiquidacion,
+	:NumeroDiasRetencion,
+	:NumeroValutaValorCuota,
+	:NumeroValutaCertificacion,
+	:NumeroValutaCurse,
+	:SolicitudBatch,
+	:TipoSolicitud,
+	:FondoExtranjero,
+	:IdPaisFondo,
+	:IdPaisEmisor,
+	:IdPaisMoneda
+);

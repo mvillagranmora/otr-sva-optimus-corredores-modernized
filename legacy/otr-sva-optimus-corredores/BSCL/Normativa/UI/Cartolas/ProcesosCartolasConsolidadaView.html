@@ -1,0 +1,107 @@
+<div ng-controller="ProcesosCartolasConsolidadaController">
+    <div class="col-xs-10">
+        <div class="row">
+            <label class="col-xs-1" translate>UI_ANO</label>
+            <bcs-combobox-base class="col-xs-2"
+                tipo="'combobox-ano-proceso-cartolas'"
+                id-actual="anoProceso"
+                id-defecto="''">
+            </bcs-combobox-base>
+            <label class="col-xs-1"></label>
+            <label class="col-xs-1" translate>UI_TIPO</label>
+            <bcs-combobox-base class="col-xs-2"
+                tipo="'combobox-tipo-proceso-cartolas'"
+                id-actual="tipoProceso"
+                id-defecto="''">
+            </bcs-combobox-base>
+            <label class="col-xs-1"></label>
+            <label class="col-xs-1" translate>UI_ESTADO</label>
+            <bcs-combobox-base class="col-xs-2"
+                tipo="'combobox-estado-proceso-cartolas'"
+                id-actual="estadoProceso"
+                id-defecto="''">
+            </bcs-combobox-base>
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="row">
+            <bcs-button bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="buscarNominas()"></bcs-button>
+        </div>
+        <div class="row">
+            <bcs-button bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="limpiarFiltros()"></bcs-button>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <bcs-grid id="gridNominas"
+            fn-exportar-excel = "exportarExcel"
+            configuracion="configuracionGrillaNominas"
+            seleccionado="NominaSeleccionada"
+            fn-click=""
+            fn-doble-click="mostrarDetalleNomina()">
+        </bcs-grid>
+    </div>
+    <div class="row bcs-panel-buttons">
+        <bcs-button class="col-xs-1"
+            bcs-tipo="'bcs-button-primary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_NUEVO' | translate"
+            bcs-habilitado="'true'"
+            ng-show = "'true'"
+            bcs-clic="agregarNomina()">
+        </bcs-button>
+        <bcs-button class="col-xs-1" style="width: 11%;"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_PROGRAMADOS' | translate"
+            bcs-habilitado="'true'"
+            bcs-clic="mostrarProgramados()">
+        </bcs-button>
+        <bcs-button class="col-xs-1"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_CANCELAR' | translate"
+            bcs-habilitado="NominaSeleccionada && NominaSeleccionada.EstadoProceso === 'ING'"
+            ng-show = "'true'"
+            bcs-clic="cancelarProceso()">
+        </bcs-button>
+        <bcs-button class="col-xs-1"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_CERTIFICAR' | translate"
+            bcs-habilitado="NominaSeleccionada && NominaSeleccionada.EstadoProceso === 'TER' && NominaSeleccionada.Certificada === 'N'"
+            ng-show = "'true'"
+            bcs-clic="certificarProceso()">
+        </bcs-button>
+        <!--<bcs-button class="col-xs-1"
+            bcs-tipo="'default'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_REEMPAQUETAR' | translate"
+            bcs-habilitado="'true'"
+            ng-show = "'true'"
+            bcs-clic="reempaquetarProceso()">
+        </bcs-button>-->
+        <bcs-button class="col-xs-2"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_REPROCESAR' | translate"
+            bcs-habilitado="NominaSeleccionada && NominaSeleccionada.EstadoProceso === 'TER' && NominaSeleccionada.Certificada === 'N'"
+            ng-show = "'true'"
+            bcs-clic="reprocesarProceso()">
+        </bcs-button>
+        <bcs-button class="col-xs-2"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_VER_NOMINA' | translate"
+            bcs-habilitado="(NominaSeleccionada && (NominaSeleccionada.EstadoProceso === 'EPR' || NominaSeleccionada.EstadoProceso === 'TER')) || NominaSeleccionada.TipoProceso === 'REPROCESO'"
+            ng-show = "'true'"
+            bcs-clic="mostrarCartolas()">
+        </bcs-button>
+        <bcs-menu class="col-xs-1 pull-right"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-habilitado="'true'"
+            bcs-texto="'UI_OPCIONES' | translate">
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+            <!--  <li ng-click="mostrarPreferencias()">{{'UI_ADMINISTRAR_PREFERENCIAS' | translate}}</li> -->
+        </bcs-menu>
+    </div>
+</div>

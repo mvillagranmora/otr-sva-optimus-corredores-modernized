@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.SocioNegocio.BD::PER.PaisResidenciaFiscal" ("IdPaisResidenciaFiscal","IdPersona","IdPais","FechaInicioTributacionPais","IdEstado","IdEmpresa","FechaCreacion","FechaModificacion","IdUsuarioCreador","IdUsuarioModificador")
+VALUES ((SELECT COALESCE(MAX("IdPaisResidenciaFiscal"), 0) + 1 FROM "BSCL.SocioNegocio.BD::PER.PaisResidenciaFiscal"),:IdPersona,:IdPais,:FechaInicioTributacionPais,:IdEstado,:IdEmpresa,CURRENT_UTCTIMESTAMP,CURRENT_UTCTIMESTAMP,:IdUsuarioCreador,0);

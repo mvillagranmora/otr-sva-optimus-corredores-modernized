@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Plataforma.BD::PAU.ControlProceso" ("IdEmpresa","IdControlProceso","CodigoModulo","CodigoProceso","FechaSistema","FechaRegistro","CodigoUsuario","ResultadoProceso")VALUES (:IdEmpresa,:Secuencia,:CodigoModulo,:CodigoProceso,:FechaSistema,CURRENT_UTCTIMESTAMP,:CodigoUsuario, :ResultadoProceso);

@@ -1,0 +1,348 @@
+<div id="ModalCirNCG499" class="col-xs-12"  ng-controller="ModalCirNCG499Ctrl"style="padding-right: 0px;">
+	<form class="col-xs-12 form-horizontal">
+	
+		<br>
+		 <div class="bcs-cuerpo">
+		   <form name="FormEdicion" class="filters-formulario">
+				<div class="col-xs-12">
+
+					<!-- Fecha -->
+			<div class="row">
+				<label class="col-xs-3">Fecha</label>
+				<input type="date"
+				 ng-maxlength="10"
+					class="col-xs-6"
+					ng-model="data.Fecha"
+					ng-disabled="true">
+			</div>
+			<!-- IdClasificacionTipoInstrumentoModificado -->
+			<div class="row">
+				<label class="col-xs-3"> Clasificacion Instrumento </label>
+				<bcs-input-texto 
+					class="col-xs-6" 
+					ng-model="data.IdClasificacionTipoInstrumentoModificado"
+					bcs-requerido="true"
+					k-ng-disabled="true">
+				</bcs-input-texto>
+			</div>
+			<!-- Nemotecnico -->
+			<div class="row">
+				<label class="col-xs-3">Nemotecnico</label>
+				<bcs-input-texto 
+					class="col-xs-6"
+					ng-model="data.Nemotecnico"
+					bcs-requerido="true"
+					k-ng-disabled="true">
+				</bcs-input-texto>
+			</div>
+		
+			<!-- ISIN -->
+			<div class="row">
+				<label class="col-xs-3">ISIN</label>
+				<bcs-input-texto 
+					class="col-xs-6"
+					ng-model="data.ISIN"
+					maxlength="12"
+					bcs-requerido="false">
+				</bcs-input-texto>
+			</div>
+		
+			<!-- SituacionInstrumento -->
+			<div class="row">
+				<label class="col-xs-3">Situación Instrumento</label>
+				<bcs-input-texto 
+					class="col-xs-6"
+					ng-model="data.SituacionInstrumento"
+					ng-maxlength="12"
+					k-ng-disabled="true"
+					bcs-requerido="false">
+				</bcs-input-texto>
+			</div>
+		
+			<!-- RutCliente -->
+			<div class="row">
+				<label class="col-xs-3">Rut Emisor</label>
+				<bcs-input-texto 
+					class="col-xs-6"
+					ng-model="data.RutCliente"
+					k-ng-disabled="true"
+					bcs-requerido="false">
+				</bcs-input-texto>
+			</div>
+		
+			<!-- Digito -->
+			<div class="row">
+				<label class="col-xs-3">Dígito Verificador</label>
+				<bcs-input-texto 
+					class="col-xs-6"
+					ng-model="data.Digito"
+					k-ng-disabled="true"
+					bcs-requerido="false">
+				</bcs-input-texto>
+			</div>
+		
+			<!-- NombrePersona -->
+			<div class="row">
+				<label class="col-xs-3">Razón social Emisor</label>
+				<bcs-input-texto 
+					class="col-xs-6"
+					ng-model="data.NombrePersona"
+					k-ng-disabled="true"
+					bcs-requerido="false">
+				</bcs-input-texto>
+			</div>
+		
+			<!-- CodigoPais -->
+			<div class="row">
+				<label class="col-xs-3">Código País</label>
+				<div class="col-xs-6">
+					<select kendo-combo-box
+							ng-model="data.DescripcionPaisSeleccionado"
+							ng-change="updateCountryCode(data.DescripcionPaisSeleccionado)"
+							k-data-text-field="'Descripcion'"
+							k-data-value-field="'ValorOrigen'"
+							k-data-source="homologaciones"
+							k-ng-maxlength="2"
+							bcs-requerido="false"
+							>
+					</select>
+				</div>
+			</div>
+			<!-- IdTipoInstrumento -->
+			<div class="row">
+				<label class="col-xs-3">Tipo Instrumento</label>
+				<div class="col-xs-6">
+					<select kendo-combo-box
+							ng-model="data.IdTipoInstrumento"
+							k-data-text-field="'Descripcion'"
+							k-data-value-field="'ValorDestino'"
+							k-data-source="ListaTipoInstrumentos"
+							k-ng-maxlength="10"
+							bcs-requerido="false"
+							>
+					</select>
+				</div>				
+			</div>
+		<div>
+			<!-- FechaVencimiento -->
+			<div class="row">
+				<label class="col-xs-3">Fecha Vencimiento</label>
+				<input type="date"
+				maxlength="10"
+					class="col-xs-6"
+					ng-model="data.FechaVencimiento"
+					bcs-requerido="false"
+					>
+			</div>
+				<!-- ClasificacionRiesgoInstrumento -->
+                <div class="row">
+                    <label class="col-xs-3">Clasificación Riesgo Instrumento</label>
+                    <div class="col-xs-6">
+                        <select kendo-combo-box
+                                ng-model="data.ClasificacionRiesgoInstrumento"
+                                k-data-text-field="'Descripcion'"
+                                k-data-value-field="'ValorDestino'"
+                                k-data-source="ListaClasificacionRiesgo"
+                                k-ng-maxlength="3"
+                                bcs-requerido="false"
+								>
+                        </select>
+                    </div>				
+                </div>
+			<!-- TendenciaRiesgoInstrumento -->
+			<div class="row">
+				<label class="col-xs-3">Tendencia Clasificacion Riesgo </label>
+				<bcs-input-texto 
+					class="col-xs-6"
+					maxlength="50"
+					ng-model="data.TendenciaClasificacionriesgo"
+					bcs-requerido="false"
+					>
+				</bcs-input-texto>
+			</div>			
+				
+				<div class="row">
+					<label class="col-xs-3">Cantidad Unidades</label>
+					<bcs-input-texto 
+						class="col-xs-6"
+						ng-model="data.CantidadUnidades"
+						bcs-requerido="false"
+						k-ng-disabled="data.CantidadUnidades < 0"
+						ng-keydown="preventNegativeInput($event)"
+						ng-pattern="/^\d{0,15}(\.\d{0,4})?$/"
+						k-options="{min: -99999999999999, max: 999999999999999, spinners : false}"
+						>
+					</bcs-input-texto>
+				</div>
+				<div>
+				<!-- IdMonedaPrincipal -->
+				<div class="row">
+					<label class="col-xs-3">Moneda Principal</label>
+					<bcs-input-texto 
+						class="col-xs-6"
+						ng-model="data.IdMonedaPrincipal"
+						k-ng-disabled="true"
+						bcs-requerido="false"
+						>
+					</bcs-input-texto>
+				</div>
+				<!-- Tir -->
+				<div class="row">
+					<label class="col-xs-3">TIR/PRECIO</label>
+					<bcs-input-texto 
+						class="col-xs-6"
+						ng-model="data.Tir"
+						ng-pattern="/^\d{0,15}(\.\d{0,4})?$/"
+						k-options="{min: -99999999999999, max: 99999999999999, spinners : false}"
+						
+						bcs-requerido="false"
+						>
+					</bcs-input-texto>
+				</div>
+				<div>	<!-- CodigoValorizacion -->
+				<div class="row">
+					<label class="col-xs-3">Código Valorización</label>
+					<div class="col-xs-6">
+						<select kendo-combo-box
+								ng-model="data.CodigoValorizacion"
+								k-data-text-field="'Descripcion'"
+								k-data-value-field="'ValorOrigen'"
+								k-data-source="ListaCodigosValorizacion"
+								k-ng-maxlength="4"
+								bcs-requerido="false"
+								>
+						</select>
+					</div>
+				</div>
+				<div>
+				<!-- BaseTasa -->
+				<div class="row">
+					<label class="col-xs-3">Base Tasa</label>
+					<div class="col-xs-6">
+						<select kendo-combo-box
+								ng-model="data.BaseTasa"
+								k-data-text-field="'Descripcion'"
+								k-data-value-field="'ValorOrigen'"
+								k-data-source="ListaBaseTasas"
+								k-ng-maxlength="3"
+								bcs-requerido="false"
+								
+								>
+						</select>
+					</div>
+				</div>
+			<div>
+				<!-- ValorizacionCierre -->
+				<div class="row">
+					<label class="col-xs-3">Valorización Cierre</label>
+					<bcs-input-texto	 
+						class="col-xs-6"
+						bcs-mayor-que="'0'"
+						ng-model="data.ValorizacionCierre"
+						ng-pattern="/^\d{0,15}(\.\d{0,4})?$/"
+						k-options="{min : -99999999999999, max : 999999999999999, spinners : false}"						
+						bcs-requerido="false"
+						
+						>
+					</bcs-input-texto>
+				</div>
+				<div>
+					<div class="row">
+						<label class="col-xs-3">Código País Emisión</label>
+						<div class="col-xs-6">
+							<select kendo-combo-box
+									ng-model="data.DescripcionPaisEmisionSeleccionado"
+									ng-change="updateCountryCode(data.DescripcionPaisEmisionSeleccionado, true)"
+									k-data-text-field="'Descripcion'"
+									k-data-value-field="'ValorOrigen'"
+									k-data-source="homologaciones"
+									k-ng-maxlength="2"
+									bcs-requerido="false"
+									
+									>
+							</select>
+						</div>
+					</div>
+			
+				<!-- Relacionado -->
+				<div class="row">
+					<label class="col-xs-3">Relacionado</label>
+					<bcs-input-texto 
+						class="col-xs-6"
+						ng-model="data.Relacionado"
+						k-ng-disabled="true"
+						bcs-requerido="false"
+						
+						>
+					</bcs-input-texto>
+				</div>
+			
+				<!-- FuentePrecios -->
+				<div class="row">
+					<label class="col-xs-3" translate>Fuente Precios</label>
+				  <bcs-combobox-base class="col-xs-6"
+					tipo="'combobox-fuente'"
+					id-actual="data.FuentePrecios"
+					id-defecto="data.CodigoDef"
+					filtros="cTas.cmbbx.Fuente.filtros"
+					seleccionado="data.FuentePrecios"
+					
+					>
+				  </bcs-combobox-base>
+				</div>
+			
+				<!-- Duracion -->
+				<div class="row">
+					<label class="col-xs-3">Duración</label>		
+					<bcs-input-texto 
+						class="col-xs-6"
+						ng-model="data.Duration"
+						bcs-mayor-que="'0'"
+						formato="'n0'"
+						maxlength="20"
+						bcs-requerido="false"
+						
+						>
+						
+					</bcs-input-texto>
+				</div>	
+
+                <!-- No se informa -->
+                <div class="row">
+					<label class="col-xs-3">No se informa</label>
+                    <bcs-input-checkbox 
+                        class="col-xs-6" 
+                        ng-model="data.noInforma"
+						>
+					</bcs-input-checkbox>		
+				</div>	
+			</div>					
+	<div class="col-xs-12" style="top: 10px">
+		<div class="col-xs-6" ng-show="data.CantidadUnidades < 0">
+			<label>
+				No se pueden modificar registros de Carteras Negativas.
+			</label>
+		</div>
+		<bcs-button class="col-xs-4 pull-right" 
+		id="UI_GUARDAR"
+		  bcs-tipo="'bcs-button-primary'"    			
+			bcs-auto-desactivar="false"
+			 bcs-texto="'UI_GUARDAR' | translate"
+			bcs-habilitado="true" 
+			bcs-clic="guardarCambios()"
+			ng-show="data.CantidadUnidades > 0"
+			></bcs-button>
+		<bcs-button class="col-xs-4 pull-right"
+		 bcs-tipo="'bcs-button-secondary'"
+		   bcs-auto-desactivar="false" 
+		   bcs-texto="'UI_CANCELAR' | translate"
+		   bcs-habilitado="true"
+		   bcs-clic="cancelar()">
+		</bcs-button>
+	
+	</div>
+	
+</div>
+
+</div>
+<br>	

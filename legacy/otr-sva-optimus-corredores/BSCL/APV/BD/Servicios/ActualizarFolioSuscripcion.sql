@@ -1,0 +1,20 @@
+SET SCHEMA "BSCL";
+
+DROP PROCEDURE "BSCL.APV.BD.Servicios::ActualizarFolioSuscripcion";
+
+CREATE PROCEDURE "BSCL.APV.BD.Servicios::ActualizarFolioSuscripcion"
+(
+	IN p_Canal NVARCHAR(1),
+	IN p_Folio BIGINT
+)
+LANGUAGE SQLSCRIPT
+SQL SECURITY INVOKER 
+DEFAULT SCHEMA BSCL
+AS
+BEGIN
+	BEGIN AUTONOMOUS TRANSACTION
+		UPDATE "BSCL.APV.BD::SCS.FolioSuscripcion"
+		SET "Folio" = :p_Folio
+		WHERE "Canal" = :p_Canal;
+	END;
+END;

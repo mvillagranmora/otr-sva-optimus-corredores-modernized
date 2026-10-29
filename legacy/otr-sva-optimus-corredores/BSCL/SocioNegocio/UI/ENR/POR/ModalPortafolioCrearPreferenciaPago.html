@@ -1,0 +1,143 @@
+<div id="CrearPortafolio" class="col-xs-12"
+	 ng-controller="ModalEnrolamientoPortafolioCrearPreferenciaPagoEnrolCtrl as mecppp">
+	<div class="bcs-cuerpo">
+		<form name="formModalEnrolamientoPortafolioCrearPreferenciaPago" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MEDIO_DE_PAGO</label>
+				<bcs-combobox-base
+						class="col-xs-8"
+						bcs-requerido="mecppp.camposRequeridos['formModalPortafolioPreferenciaPago_IdMedioDePago'].Requerido === 'S'"
+						tipo="'combobox-preferencia-pago-medio-pago'"
+						filtros="mecppp.cmbbx.prefPagoMedioPago.filtros"
+						id-actual="mecppp.datosDespues.IdMedioDePago"
+						id-defecto="mecppp.datosAntes.IdMedioDePago"
+						todos="'N'"
+						auto-cargar="true"
+						activado="true"
+						seleccionado="mecppp.PrefPagoMedioPagoObj"
+						cascada1-a="mecppp.cmbbx.prefPagoMoneda.filtros.IdMedioDePago"
+						cascada1-valor="'IdMedioDePago'"
+						cascada2-a="mecppp.cmbbx.prefPagoMoneda.filtros.RecibePagaPortafolio"
+						cascada2-valor="'RecibePagaPortafolio'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MONEDA</label>
+				<bcs-combobox-base
+						class="col-xs-8"
+						bcs-requerido="mecppp.camposRequeridos['formModalPortafolioPreferenciaPago_IdMoneda'].Requerido === 'S'"
+						tipo="'combobox-preferencia-pago-moneda'"
+						filtros="mecppp.cmbbx.prefPagoMoneda.filtros"
+						id-actual="mecppp.datosDespues.IdMoneda"
+						id-defecto="mecppp.datosAntes.IdMoneda"
+						todos="'N'"
+						auto-cargar="false"
+						activado="true"
+						seleccionado="mecppp.PrefPagoMonedaObj"
+						cascada1-a="mecppp.cmbbx.personaCuentasBancarias.filtros.IdMoneda"
+						cascada1-valor="'IdMoneda'"
+						cascada2-a="mecppp.cmbbx.personaCuentasBancariasCorredora.filtros.IdMoneda"
+						cascada2-valor="'IdMoneda'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_OPERACION</label>
+				<bcs-combobox-base
+						class="col-xs-8"
+						bcs-requerido="mecppp.camposRequeridos['formModalPortafolioPreferenciaPago_IdPreferenciaPago'].Requerido === 'S'"
+						auto-cargar="false"
+						tipo="'combobox-operaciones-portafolio-cliente'"
+						filtros="mecppp.cmbbx.personaOperacionPortafolioCliente.filtros"
+						id-actual="mecppp.datosDespues.IdPreferenciaPago"
+						id-defecto="mecppp.datosAntes.IdPreferenciaPago"
+						todos="'N'"
+						usa-filtros-completos="'S'"
+						seleccionado="mecppp.PersonaOperacionPortafolioClienteObj">
+				</bcs-combobox-base>
+			</div>
+			<div ng-show="mecppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mecppp.isOperacionMesaRecibe">
+				<hr>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CUENTA_BANCARIA</label>
+					<bcs-combobox-base
+							bcs-requerido="(mecppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mecppp.isOperacionMesaRecibe) && (mecppp.parametros.RecibePagaPortafolio === 'R' || mecppp.isOperacionMesaPaga)"
+							ng-show="(mecppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mecppp.isOperacionMesaRecibe) && (mecppp.parametros.RecibePagaPortafolio === 'R' || mecppp.isOperacionMesaPaga)"
+							class="col-xs-8"
+							tipo="'combobox-enrolamiento-cuenta-bancaria'"
+							filtros="mecppp.cmbbx.personaCuentasBancarias.filtros"
+							id-actual="mecppp.datosDespues.IdCuentaBancaria"
+							id-defecto="mecppp.datosAntes.IdCuentaBancaria"
+							todos="'N'"
+							auto-cargar="true"
+							seleccionado="mecppp.PersonaCuentasBancariasObj">
+					</bcs-combobox-base>
+					<bcs-combobox-base
+							bcs-requerido="(mecppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mecppp.isOperacionMesaRecibe) && (mecppp.parametros.RecibePagaPortafolio === 'P' && !mecppp.isOperacionMesaPaga)"
+							ng-show="(mecppp.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mecppp.isOperacionMesaRecibe) && (mecppp.parametros.RecibePagaPortafolio === 'P' && !mecppp.isOperacionMesaPaga)"
+							class="col-xs-8"
+							tipo="'combobox-banco-cuentas-bancarias-corredora-cuentas'"
+							filtros="mecppp.cmbbx.personaCuentasBancariasCorredora.filtros"
+							id-actual="mecppp.datosDespues.IdCuentaBancariaCuenta"
+							id-defecto="mecppp.datosAntes.IdCuentaBancariaCuenta"
+							todos="'N'"
+							auto-cargar="true"
+							seleccionado="mecppp.PersonaCuentasBancariasObjCuenta">
+					</bcs-combobox-base>
+				</div>
+				<hr>
+			</div>
+			<div ng-show="mecppp.PrefPagoMedioPagoObj.UsaTarjetaBancaria === 'S'">
+				<hr>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TARJETA_BANCARIA</label>
+					<bcs-combobox-base
+							class="col-xs-8"
+							bcs-requerido="mecppp.PrefPagoMedioPagoObj.UsaTarjetaBancaria === 'S'"
+							tipo="'combobox-enrolamiento-tarjeta-bancaria'"
+							filtros="mecppp.cmbbx.personaTarjetasBancarias.filtros"
+							id-actual="mecppp.datosDespues.IdTarjetaBancaria"
+							id-defecto="mecppp.datosAntes.IdTarjetaBancaria"
+							todos="'N'"
+							seleccionado="mecppp.PersonaTarjetasBancariasObj">
+					</bcs-combobox-base>
+				</div>
+
+				<hr>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+				<bcs-input-checkbox
+						class="col-xs-8"
+						ng-model="mecppp.datosDespues.PorDefecto">
+				</bcs-input-checkbox>
+			</div>
+
+			<hr>
+			
+		</form>
+		<div class="row bcs-panel-comandos">
+			<div class="row">
+				<bcs-button
+						id="CrearPortafolio_guardar"
+						class="col-xs-3 pull-right"
+						bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_GUARDAR' | translate"
+						bcs-habilitado="formModalEnrolamientoPortafolioCrearPreferenciaPago.$valid"
+						bcs-clic="mecppp.win.guardar()">
+				</bcs-button>
+				<bcs-button
+						id="CrearPortafolio_cancelar"
+						class="col-xs-3 pull-right"
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-mostrar="mecppp.win.muestraCancelar"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_CANCELAR' | translate"
+						bcs-habilitado="'true'"
+						bcs-clic="mecppp.win.cancelar()">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+</div>

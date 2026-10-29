@@ -1,0 +1,54 @@
+<div class="row" ng-controller="ModalSubdetalleContratoComisionCtrl as subdetalleContratoComision">
+	<div class="row"> 
+		<form name="ModalAgregarSubdetalleContratoComision" class="col-xs-12">
+			<div class = "row" ng-show = "subdetalleContratoComision.dataOriginal.EsPorRangos">
+	  			<div class = "col-xs-12">
+			  		<label class = "col-xs-4" translate>UI_MONTO_MAXIMO</label> 
+					<bcs-input-texto  class="col-xs-8"
+						ng-model="subdetalleContratoComision.montoMaximoTexto"
+						placeholder="subdetalleContratoComision.placeholderMonto"
+    					maxlength="25">
+					</bcs-input-texto>
+				</div>
+		  	</div>
+			<div class = "row" ng-show = "subdetalleContratoComision.puedeIngresarMonto()">
+				<div class = "col-xs-12">
+		  			<label class="col-xs-4" translate>UI_MONTO</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+						bcs-requerido = "subdetalleContratoComision.puedeIngresarMonto()"
+						k-ng-model = "subdetalleContratoComision.data.Monto"
+						simbolo = "subdetalleContratoComision.dataOriginal.IdMoneda">
+					</bcs-input-monetario>
+				</div>
+			</div>
+            <div class = "row" ng-show = "subdetalleContratoComision.puedeIngresarPorcentaje()">
+				<div class = "col-xs-12">
+			  		<label class = "col-xs-4" translate>UI_PORCENTAJE</label>
+					  <bcs-input-numero class="col-xs-8"
+                        k-ng-model = "subdetalleContratoComision.data.Porcentaje"
+                        bcs-requerido = "subdetalleContratoComision.puedeIngresarPorcentaje()"
+                        decimales = "8"
+                        k-options = "subdetalleContratoComision.porcentajeOptions">
+                    </bcs-input-numero>
+				</div>
+		  	</div>
+		</form>
+	</div>
+	<hr>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-3" 
+			bcs-tipo="'principal'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-habilitado="ModalAgregarSubdetalleContratoComision.$valid"  
+			bcs-clic="subdetalleContratoComision.aceptar();">
+		</bcs-button>
+		<bcs-button class="col-xs-3" 
+			bcs-tipo="''"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-habilitado="true"  
+			bcs-clic="subdetalleContratoComision.cancelar();">
+		</bcs-button>
+	</div>
+</div>

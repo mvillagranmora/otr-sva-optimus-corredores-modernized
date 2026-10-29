@@ -1,0 +1,71 @@
+<div ng-controller="DatatecCtl ">
+	<form name="formDatatecCtl" class="filters-formulario">
+		<div class="row">
+			<label class="col-xs-4" translate>UI_RUTA_ARCHIVO_DATATEC</label>
+			<bcs-input-texto class="col-xs-8" 
+				id="CargaDatatec_Cargar"
+				bcs-mayor-que="'0'" 
+				ng-model="data.RutaDatatec"
+				k-ng-model="data.kngRutaDatatec"
+				k-ng-disabled="'true'">
+			</bcs-input-texto>
+		</div>
+		<!--ELIMINAR CUANDO SE DEFINA LECTURA AUTOMATICA DEL ARCHIVO-->
+		<div class="row">
+			<div class=col-xs-3>
+				<input type="file"
+				ng-model="data.fileName"
+				file-reader-datatec="data.fileContent" 
+				file-name-datatec="data.fileName"
+				style="display:inline"/>
+			</div>
+			<div class=col-xs-6>
+				<bcs-input-texto
+					ng-show="false" 
+					tipo-campo="'textarea'" 
+					atributos="height:400px;resize:none;width: 100%" 
+					ng-model="data.fileContent">
+				</bcs-input-texto>
+			</div>
+			<!-- SVARESGIN-7992 Se corrige bcs-habilitado que boton alterne entre bloqueado/desbloqueado cuando tiene data procesandose -->
+			<bcs-button 
+				class="col-xs-2" 
+				bcs-tipo="'principal'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CARGAR_ARCHIVO' | translate" 
+				bcs-habilitado="!data.cargandoDatatec"
+				bcs-clic="data.ProcesarDATATEC()">
+			</bcs-button>
+		</div>
+		<!--FIN ELIMINAR-->
+		<div class="row">
+			<bcs-grid 
+				id="grid-carga-archivo"
+		 		configuracion = "confGrillaLog"
+				seleccionado = "seleccionGrillaLog"
+				fn-exportar-excel = "exportarExcel">
+			</bcs-grid>
+		</div>
+		<hr>
+		<div class="row" ng-show="data.texto">
+			<label class="col-xs-3" style="font-size: 150%" translate>UI_EN_ESPERA</label>
+		</div>
+		<div class="row">
+			<hr>
+			<div class="row">
+				<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_LIMPIAR_LOG' | translate" 
+					bcs-habilitado="true"
+					bcs-clic="data.limpiarDatos()"	
+				></bcs-button>
+				<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_SALIR' | translate" 
+					bcs-habilitado="true"
+					bcs-clic="data.salir()"	
+				></bcs-button>
+			</div>
+		</div>
+	</form>
+</div>

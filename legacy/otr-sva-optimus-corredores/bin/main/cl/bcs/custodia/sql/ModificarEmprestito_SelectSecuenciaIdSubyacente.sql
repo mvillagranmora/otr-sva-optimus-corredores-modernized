@@ -1,0 +1,1 @@
+SELECT "BSCL.Custodia.BD.Secuencias::IdSubyacente".NEXTVAL AS "NewIdSubyacente" FROM DUMMY;

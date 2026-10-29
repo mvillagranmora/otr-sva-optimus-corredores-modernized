@@ -1,0 +1,78 @@
+<div id="ConsultaSupervisor" class="col-xs-12" ng-controller="ConsultarSupervisorCtrl">
+	<div class="row bcs-cuerpo">
+		<!-- INICIO FILTROS -->
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_NOMBRE_SUPERVISOR</label>
+						<bcs-input-texto class="col-xs-9" ng-model="data.NombreEmpleadoFiltro"></bcs-input-texto>
+					</div>
+			  	</div>
+				<div class="row">
+				  	<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_CODIGO_EMPLEADO_SUPERVISOR</label>
+				  		<bcs-input-texto class="col-xs-9" ng-model="data.NombreUsuarioFiltro"></bcs-input-texto>
+					</div>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-supervisor"
+			 	configuracion = "gridSupervisor"
+				seleccionado = "seleccionGrilla"			
+				fn-exportar-excel = "exportarExcel" 
+				fn-doble-click="Ejecutivos()">			
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-3" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="Ingresar()">
+			</bcs-button>	
+			<bcs-button class="col-xs-3" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_BLOQUEAR' | translate" 
+				bcs-habilitado="'true'" 
+				ng-show="seleccionGrilla.IdEstado === 'ACT'"
+				bcs-clic="Bloquear()">
+			</bcs-button>	
+			<bcs-button class="col-xs-3" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_DESBLOQUEAR' | translate" 
+				bcs-habilitado="'true'" 
+				ng-show="seleccionGrilla.IdEstado === 'BLO'"
+				bcs-clic="Desbloquear()">
+			</bcs-button>	
+			<bcs-button class="col-xs-3" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EJECUTIVOS' | translate" 
+				bcs-habilitado="seleccionGrilla.IdEstado === 'ACT'"
+				bcs-clic="Ejecutivos()">
+			</bcs-button>	
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

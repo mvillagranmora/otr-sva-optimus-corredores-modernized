@@ -1,0 +1,203 @@
+<div>
+	<div class="col-xs-12">
+		<div class="row" >
+			<!-- Cabecera -->
+			<div ng-show="modo==='MP'">
+				<div class="row">
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_CODIGO</label>
+						<bcs-input-texto class="col-xs-8" 
+							ng-model="datosCabeceraDespues.IdPerfilCobros" 
+							k-ng-disabled="true">
+						</bcs-input-texto> 
+					</div>
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+						<bcs-input-texto 
+							class="col-xs-8" 
+							ng-model="datosCabeceraDespues.DescripcionPerfilCobros" 
+							k-ng-disabled="true">
+						</bcs-input-texto>
+				  	</div>
+			  	</div>
+			  	<div class="row">
+					<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_HABILITADO</label>
+						<bcs-input-checkbox 
+							ng-model="datosCabeceraDespues.Habilitado" 
+							ng-disabled="true">
+						</bcs-input-checkbox>
+				  	</div>
+					<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+						<bcs-input-checkbox 
+							ng-model="datosCabeceraDespues.PorDefecto" 
+							ng-disabled="true">
+						</bcs-input-checkbox>
+				  	</div>
+				</div>
+				<div class="row"></div>
+		  	</div>
+		  	<!-- Detalle -->
+		  	<div ng-show="true">
+				<div class="row">
+					<bcs-grid
+						id="planilla-perfil-cobros"
+						configuracion="grilla.GrillaMatrizCobros"
+						seleccionado="grilla.GrillaMatrizCobrosSeleccionado">
+					</bcs-grid>
+				</div>
+			</div>
+			<!-- Botonera Principal -->
+			<div class="row col-xs-12 bcs-panel-comandos">
+				<div class="col-xs-8">	
+					<div ng-show="modo==='MP'">
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_crear" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-primary'"  
+							ng-if="!win.perfilCargado && !win.modoEditar" 
+							bcs-mostrar="!win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CREAR_PLANTILLA' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.administrarCabecera();">
+						</bcs-button>
+						<!--<bcs-button 
+							id="AdmPla_PlantillaCobros_editar" 
+							class="col-xs-2" 
+							bcs-tipo="''"  
+							ng-if="win.perfilCargado && !win.modoEditar" 
+							bcs-mostrar="win.perfilCargado && !win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_PERFIL' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.editar();">
+						</bcs-button>
+						-->
+					</div>
+					<!-- <div ng-show="modo==='MP' || modo==='PE'"> -->
+					<div ng-show="modo==='MP'">
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_crearDetalle" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-primary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_AGREGAR_DETALLE' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.administrarDetalle(false,false);">
+						</bcs-button>
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_editarDetalle" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-secondary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_DETALLE' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.modificarDetalle(grilla.GrillaMatrizCobrosSeleccionado,false);">
+						</bcs-button>
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_quitarDetalle" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-secondary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_QUITAR_DETALLE' | translate" 
+							bcs-habilitado="grilla.GrillaMatrizCobrosSeleccionado"  
+							bcs-clic="win.quitarDetalle(grilla.GrillaMatrizCobrosSeleccionado)">
+						</bcs-button>
+					</div>
+					<!-- AGREGA DETALLE CON DEFINICION DE COBRO NUEVA -->
+					<div ng-show="modo==='PE'">
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_crearDetalle" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-primary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_AGREGAR_DETALLE' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.administrarDetalle(false,true);">
+						</bcs-button>
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_editarDetalle" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-secondary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_DETALLE' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.modificarDetalle(grilla.GrillaMatrizCobrosSeleccionado,true);">
+						</bcs-button>
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_quitarDetalle" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-secondary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_QUITAR_DETALLE' | translate" 
+							bcs-habilitado="grilla.GrillaMatrizCobrosSeleccionado"  
+							bcs-clic="win.quitarDetalle(grilla.GrillaMatrizCobrosSeleccionado)">
+						</bcs-button>
+					</div>
+					<!--
+					<div ng-if="modo==='PE'">
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_finalizar" 
+							class="col-xs-2" 
+							bcs-tipo="''" 
+							ng-if="win.modoEditar" 
+							bcs-mostrar="win.modoEditar" 
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CANCELAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.finalizarEdicion();">
+						</bcs-button>
+					</div>
+					-->
+					<div ng-show="modo==='MP'">
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_editarCabecera" 
+							class="col-xs-2" style="width: 19%;" 
+							bcs-tipo="'bcs-button-secondary'"  
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_PLANTILLA' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.administrarCabecera(datosCabeceraDespues);">
+						</bcs-button>
+						<bcs-button 
+							id="AdmPla_PlantillaCobros_cancelar" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-secondary'" 
+							ng-if="win.perfilCargado && win.modoEditar" 
+							bcs-mostrar="win.modoEditar" 
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_SALIR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="win.cancelar();">
+						</bcs-button>
+					</div>
+				</div>
+				<div ng-show="modo==='MP'">
+					<div class="col-xs-3"></div>
+					<bcs-menu class="col-xs-1" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+						<li ng-click="win.administrarValoresCobro();">{{'UI_ADMINISTRAR_VALORES_DE_COBRO' | translate}}</li>
+			            <li ng-click="">{{'UI_EXTRAER_PLANTILLAS_POR_CORREDORA' | translate}}</li>
+			            <li ng-click="">{{'UI_EXTRAER_PLANTILLAS_POR_CLIENTE' | translate}}</li>
+			            <li ng-click="">{{'UI_IMPRIMIR' | translate}}</li>
+					</bcs-menu>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

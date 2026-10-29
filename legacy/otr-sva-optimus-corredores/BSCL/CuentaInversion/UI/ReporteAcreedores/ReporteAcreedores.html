@@ -1,0 +1,79 @@
+<div id="ReporteAcreedores" class="row" ng-controller="ReporteAcreedoresCtrl">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <label class="col-xs-4 titulo" translate>UI_CONSULTA_REPORTES_GENERADOS</label>
+            </div>
+        </div>
+        <form >
+            <div class="col-xs-10">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label class="col-xs-2" translate>UI_FECHA_INICIO</label>
+                        <bcs-input-date 
+                            bcs-requerido
+                            id-actual="fecha-inicio-busqueda"
+                            k-ng-model = "data.FechaInicioBusqueda"
+                            class="col-xs-10" 
+                            k-options="filtros.kOptFechaDeposito">
+                        </bcs-input-date>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label class="col-xs-2" translate>UI_FECHA_FIN</label>
+                        <bcs-input-date 
+                            class		    ="col-xs-10" 
+                            k-ng-model	    ="filtros.fechaTopeArchivoBuscar"
+                            k-options		="filtros.kOptFechaDeposito">
+					    </bcs-input-date>
+                    </div>
+                </div>
+            </div>	
+        
+        <div class="col-xs-2">
+            <bcs-button 
+                class				="row col-xs-12" 
+                style               ="margin-bottom: 0;"
+                bcs-tipo			="'bcs-button-search'"  
+                bcs-texto			="'UI_BUSCAR' | translate" 
+                bcs-habilitado		="data.btnBuscarReportesValido"  
+                bcs-auto-desactivar	="false" 
+                bcs-clic			="buscarReportes()">
+            </bcs-button>
+            <bcs-button 
+                class				="row col-xs-12" 
+                bcs-tipo			="'bcs-button-secondary'" 
+                bcs-auto-desactivar	="false" 
+                bcs-texto			="'UI_LIMPIAR' | translate" 
+                bcs-habilitado		="true" 
+                bcs-clic			="limpiaFiltrosBuscarReportes()">
+            </bcs-button>
+        </div>
+        </form>
+    </div>
+    <div class="row">
+        <bcs-grid id="grid-control-reportes"
+            configuracion="confControlReportes"
+            seleccionado="seleccionControlReportes">
+            <div bcs-grid-detail ng-non-bindable>
+                <div style="width: 35%;">
+                    <bcs-grid id="grid-detalles-reporte"
+                        configuracion="confDetallesReporte(dataItem)"
+                        seleccionado="grid.seleccionDetalleReporte"> </bcs-grid> 
+                </div>
+            </div> 
+		</bcs-grid>
+        <div class= "row alignButtonsToRight" style="padding-top: 10px;">
+            <div class="col-xs-5 bcs-panel-comandos">
+                <bcs-button
+                    class="col-xs-6 pull-right" 
+                    bcs-tipo="'bcs-button-primary'"  
+                    bcs-texto="'UI_DESCARGA_REPORTE' | translate"       
+                    bcs-habilitado="EstadoBotonDescargaReporte"   
+                    bcs-clic="descargarReporte(seleccionControlReportes)">
+                </bcs-button>
+            </div>
+        </div>
+	</div>
+</div>  

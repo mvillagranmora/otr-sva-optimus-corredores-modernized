@@ -1,0 +1,102 @@
+<div ng-controller="ResultadoOperacionesCtrl as resultOp">
+	<form name="formResultadoOperaciones" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_RESULTADO_OPERACIONES|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+		<div class="row">
+				<div class="col-xs-10">
+					<div class="row col-xs-6">
+						<label class="col-xs-4" translate>UI_FECHA_OPERACION</label>
+						<bcs-input-date
+							class="col-xs-7"
+							id="UI_FECHA_OPERACION"
+							bcs-requerido
+							k-ng-model="data.kngFechaOperacion"
+							k-options="fechaOperacion"
+						>
+						</bcs-input-date>
+					</div>
+				</div>
+				<!-- BOTONES -->
+				<div class="col-xs-2">
+					<bcs-button class="row col-xs-12" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.filtrarOperaciones()" >
+					</bcs-button>
+				</div>
+			</div>
+			<div>
+				<label class="col-xs-4" translate>UI_DETALLE</label>
+				<br>
+			</div>
+			<br>
+			<!-- GRILLA OPERACIONES-->
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-grid 
+						id="grid-calce"
+						configuracion="confBasicaOperaciones">
+						<!-- fn-exportar-excel = "exportarExcel" -->
+					</bcs-grid>
+				</div>
+<!-- 				<div class="row bcs-panel-comandos">
+					<div class="col-xs-10"></div>
+					<div class="col-xs-2">
+						<bcs-button  class="col-xs-12" 
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_EXPORTAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="exportarExcel()">
+						</bcs-button>
+					</div>
+				</div> -->
+			</div>
+			<div class="row k-grid" style="width: 775px; background-color:#E7E7E7;border: solid 1px; border-color:#bfbfbf">
+				<strong>
+				<div style='width:152px; text-align: left; float:left; padding-right:10px;padding: .929em 1.286em' translate>UI_TOTALES</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.MontoCompraInterbancario | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.PrecioCompraInterbancario | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.MontoVentaInterbancario | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.PrecioVentaInterbancario | kformat:'c':'USD':'monto':'SPT'}}</div>
+				</strong>
+			</div>
+			<div class="row k-grid" style="width: 775px; background-color:#E7E7E7;border: solid 1px; border-color:#bfbfbf">
+				<strong>
+				<div style='width:152px; text-align: left; float:left; padding-right:10px;padding: .929em 1.286em' translate>UI_POSICION_INICIAL</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.PosicionInicialCompra | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='min-width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.TipoCambioCompra | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.PosicionInicialVenta | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='min-width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.TipoCambioVenta | kformat:'c':'USD':'monto':'SPT'}}</div>
+				</strong>
+			</div>
+			<div class="row" style="width: 775px; background-color:#E7E7E7;border: solid 1px; border-color:#bfbfbf">
+				<strong>
+				<div style='width:152px; text-align: left; float:left; padding-right:10px;padding: .929em 1.286em' translate>UI_TOTALES_CONSOLIDADOS</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.MontoCompraConsolidado | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.PrecioCompraConsolidado | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.MontoVentaConsolidado | kformat:'c':'USD':'monto':'SPT'}}</div>
+				<div style='width:152px; text-align: right; float:left; padding-right:10px;padding: .929em 1.286em'>{{data.PrecioVentaConsolidado | kformat:'c':'USD':'monto':'SPT'}}</div>
+				</strong>
+			</div>
+			<div class="row col-xs-12">
+				<bcs-resultado-operaciones
+					resultado-posicion-inicial = "resultOp.datosResultado.resultadoPosicionInicial"
+					resultado-interbancario = "resultOp.datosResultado.resultadoInterbancario"
+					resultado-distribucion = "resultOp.datosResultado.resultadoDistribucion"
+					resultado-arbitraje-interbancario = "resultOp.datosResultado.resultadoArbitrajeInterbancario"
+					resultado-arbitraje-distribucion = "resultOp.datosResultado.resultadoArbitrajeDistribucion"
+					resultado-total = "resultOp.datosResultado.resultadoTotal"
+					id-moneda = "resultOp.datosResultado.idMoneda"
+				>
+				</bcs-resultado-operaciones>
+			</div>
+		</div>
+</div>
+</form>
+</div>

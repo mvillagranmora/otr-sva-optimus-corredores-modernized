@@ -1,0 +1,1 @@
+DROP TABLE #EdicionMultuple_P_FORMAPAGO

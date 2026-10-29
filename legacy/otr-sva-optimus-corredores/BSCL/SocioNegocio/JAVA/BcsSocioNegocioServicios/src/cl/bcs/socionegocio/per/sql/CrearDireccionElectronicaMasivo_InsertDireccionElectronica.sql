@@ -1,0 +1,27 @@
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DireccionElectronica"(
+"IdDireccionElectronica"
+,"Direccion"
+,"CodigoProposito"
+,"Comentario"
+,"IdEstado"
+,"FechaIngreso"
+,"FechaCreacion"
+,"FechaModificacion"
+,"IdPersona"
+,"IdEstadoAutorizacion"
+,"IdUsuarioCreador"
+,"Predeterminado"
+)VALUES(
+:IdDireccionElectronica
+,:Direccion
+,:CodigoProposito
+,:Comentario
+,:IdEstado
+,CURRENT_UTCTIMESTAMP
+,CURRENT_UTCTIMESTAMP
+,CURRENT_UTCTIMESTAMP
+,:IdPersona
+,:IdEstadoAutorizacion
+,:IdUsuarioCreador
+,:Predeterminado
+);

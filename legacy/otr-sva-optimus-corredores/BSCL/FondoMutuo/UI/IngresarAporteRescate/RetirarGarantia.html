@@ -1,0 +1,354 @@
+<div class="col-xs-12" ng-controller="RetirarGarantiaFFMCtrl as retiroGarantia">
+	<!-- Pre-Ingreso -->
+	<div class="row bcs-cuerpo" ng-show="retiroGarantia.formData.IngresoConfirmacion === 'I'">
+	 <div>	
+	 	<form name="FormIngresoFFM" class="filters-formulario">
+		   	<div class="row">
+				<div class="col-xs-12">
+				  	<div class="row">
+				  	<!-- Inicio GCMBIPAPAS-1 Filtro de clientes por Perfiles-->	
+				  	<!--				  	
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_CLIENTE"
+						 	auto-cargar="false"
+						 	bcs-requerido
+						    tipo="'combobox-socio-negocio'"
+						    carga-cliente-automatico="'S'"
+						    seleccionado="retiroGarantia.oSocioNegocio.seleccionado"
+						    filtros="retiroGarantia.oSocioNegocio.filtros"
+							cascada-a="retiroGarantia.oPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+		                    cascada1-a="retiroGarantia.formData.IdCategoriaInversionista"
+		                    cascada1-valor="'IdCategoriaInversionista'"
+		                    cascada2-a="retiroGarantia.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada2-valor="'IdCliente'"
+		                    cascada-defecto="'-1'"
+		                    id-actual="retiroGarantia.oSocioNegocio.idActual"
+						    configuracion= "retiroGarantia.oSocioNegocio.configuracion"
+						    id-defecto="retiroGarantia.oSocioNegocio.idDefecto">
+						</bcs-combobox-base>
+					-->
+						<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							bcs-requerido
+							id-actual="filtros.IdPortafolio"
+							tipo="retiroGarantia.oClientePortafolio.tipo"
+							carga-cliente-automatico="'S'" 
+							seleccionado="retiroGarantia.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio"
+							ng-style="{'width' : retiroGarantia.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && retiroGarantia.oClientePortafolio.seleccionado  ? '50%' : '66.66666667%'}"
+		                    cascada-a="retiroGarantia.formData.IdCategoriaInversionista"
+		                    cascada-valor="'IdCategoriaInversionista'"
+		                    cascada1-a="retiroGarantia.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada1-valor="'IdCliente'"
+		                    
+		                    cascada2-a="retiroGarantia.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="retiroGarantia.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+		                    cascada4-a="retiroGarantia.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada4-valor="'IdPortafolio'"
+		                    cascada5-a="retiroGarantia.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada5-valor="'IdPortafolio'"
+		                    		                    
+		                    cascada-defecto="'-1'"
+							
+							configuracion="retiroGarantia.oClientePortafolio.configuracion">
+						</bcs-combobox-base>						
+					</div>
+					<!--       
+		 			<div class="row">
+						<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_PORTAFOLIO"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-portafolio'"						    
+						    seleccionado="retiroGarantia.oPortafolio.seleccionado"
+						    filtros="retiroGarantia.oPortafolio.filtros"
+		                    item-post-filtro="'1'"
+		                    id-actual="retiroGarantia.oPortafolio.idActual"
+		                    id-defecto="retiroGarantia.oPortafolio.idDefecto"
+		                    cascada-a="retiroGarantia.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada-valor="'IdPortafolio'"
+		                    cascada1-a="retiroGarantia.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada1-valor="'IdPortafolio'"
+		                    cascada2-a="retiroGarantia.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="retiroGarantia.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+						    configuracion= "retiroGarantia.oPortafolio.configuracion">
+						</bcs-combobox-base >
+					</div>
+					-->
+					<!-- Fin GCMBIPAPAS-1 -->
+										
+					<div class="row">
+ 						<label class="col-xs-4" translate>UI_AUTORIZADOR</label>
+						<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "retiroGarantia.oClientePortafolio.seleccionado.portafolio.TipoPersona === 'J'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "retiroGarantia.formData.idAutorizadoDarOrdenes"
+								id-defecto				= "retiroGarantia.formData.idAutorizadoDarOrdenesDefecto"
+								seleccionado			= "autorizadoDarOrdenes" 
+								filtros					= "retiroGarantia.formData.FiltrosAutorizarOrden "	>
+						</bcs-combobox-base>						
+ 					</div>
+					
+				  	<hr>
+				  	<bcs-combobox-buscador-fondos
+							id="UI_BUSCADOR_FONDO_APORTE"
+							datos-fondo="retiroGarantia.datosFondo" 
+							muestra-valor-cuota = "'S'"
+							buscar-fondo="retiroGarantia.formData.setFondo"
+							id-ventana="retiroGarantia.winID"
+							id-defecto="retiroGarantia.datosFondoDefecto.IdDefecto"
+							muestra-detalle="'S'"
+							es-detalle="'S'"
+							mas-informacion="retiroGarantia.masInformacion"
+							filtros="retiroGarantia.formData.FiltrosBusquedaFondo"
+							filtros-combobox="retiroGarantia.formData.FiltrosComboFondo">
+					</bcs-combobox-buscador-fondos>
+			  		<hr>
+			  		<div ng-if="retiroGarantia.oClientePortafolio.seleccionado.IdPortafolio && retiroGarantia.datosFondo.IdInstrumento">
+			  			<div class="row">
+							<label class="col-xs-4" translate>UI_SALDO</label> 
+							<bcs-input-numero
+							id="UI_SALDO_CUOTAS"
+							class="col-xs-8"
+							decimales = "retiroGarantia.formData.decimalesCantidad"
+							bcs-requerido
+							k-ng-disabled="'true'"
+							k-ng-model="retiroGarantia.formData.saldoGarantia">
+							</bcs-input-numero>
+						</div>
+						<hr>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="retiroGarantia.formData.fechaSistema" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_GARANTIA</label> 
+				  		<bcs-input-texto
+							class="col-xs-4"
+							ng-model="retiroGarantia.formData.folioGarantia" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-texto>
+						<bcs-button class="col-xs-4" id="BlotterFFM_buscarGarantia"
+							bcs-tipo="'bcs-button-input-form'" 
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_BUSCAR_GARANTIA' | translate" 
+							bcs-habilitado="retiroGarantia.oClientePortafolio.seleccionado.IdPortafolio && retiroGarantia.datosFondo.IdFondo" 
+							bcs-clic="retiroGarantia.buscarGarantia()">
+						</bcs-button>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+				  		<bcs-input-numero class="col-xs-8"
+				  			id="UI_NUMERO_CUOTAS"
+							decimales = "retiroGarantia.formData.decimalesCantidad"
+							bcs-requerido
+							k-ng-model="retiroGarantia.formData.numeroCuotas">
+						</bcs-input-numero> 
+			  		</div>
+			  		<div class="row">
+						<label class="col-xs-4" translate>UI_CONCEPTO</label>	
+						<bcs-combobox-base class="col-xs-8"  
+							bcs-requerido   = "'true'"
+							tipo			= "retiroGarantia.oConceptoGarantia.tipo"  
+							filtros			= "retiroGarantia.oConceptoGarantia.filtros"
+							configuracion	= "retiroGarantia.oConceptoGarantia.configuracion" 
+							id-actual		= "retiroGarantia.oConceptoGarantia.idActual" 
+							seleccionado	= "retiroGarantia.oConceptoGarantia.seleccionado"
+							>
+						</bcs-combobox-base>
+					</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+				  		<bcs-input-texto class="col-xs-8"
+				  			id="UI_GLOSA"
+					  		maxlength="100"
+							tipo-campo="'textarea'"
+							ng-model="retiroGarantia.formData.comentario"
+							atributos="margin: 0px; height:73px;resize:none;width: 100%">
+				  		</bcs-input-texto>
+			  		</div>	 	
+				</div>
+			</div>
+			
+			</form>
+        
+			<div class="row bcs-panel-comandos">
+				<div class=col-xs-12>
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarTituloFFM" 
+						bcs-texto="'UI_INGRESAR' | translate" 
+						bcs-habilitado="FormIngresoFFM.$valid"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar="true"
+						bcs-clic="retiroGarantia.formData.retirarGarantia()">
+					</bcs-button>	
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="retiroGarantia.limpiarFMM()"
+						bcs-blur="retiroGarantia.formData.resetFoco()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Solicitud Ingresada -->
+	<div class="row bcs-cuerpo" ng-show="retiroGarantia.formData.IngresoConfirmacion === 'C'">
+		<div class="row">
+			<div class="col-xs-12">
+			    <div class="row" ng-show="true">
+				  	<label class="col-xs-4" translate>UI_SECUENCIA_OPERACION</label> 
+			  		<bcs-input-texto 
+			  		class="col-xs-8" 
+			  		ng-model="retiroGarantia.formData.ResultadoSolicitudAporteRescate.SecuenciaOperacion" 
+			  		k-ng-disabled="'true'"></bcs-input-texto>
+		  		</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="oOperacion.seleccionado.Descripcion"
+			  			k-ng-disabled="'true'"
+			  		> 
+			  	</div>
+			  	<hr>
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="retiroGarantia.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>      
+	 			<div class="row">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="retiroGarantia.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>
+			  	<hr>
+			  	<div class="row">
+			  	    <label class="col-xs-4" translate>UI_FONDO_MUTUO</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="retiroGarantia.datosFondo.IdSerieFondo"
+			  			k-ng-disabled="'true'"
+			  		>
+		  		</div>
+		  		
+		  		<div class="row">
+					<span class="col-xs-6">
+						<label class="col-xs-8" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresoFFM.retiroGarantia.muestraDetalle" ng-click="ingresoFFM.retiroGarantia.muestraDetalle = !ingresoFFM.retiroGarantia.muestraDetalle;ajustaVentana()">({{'+' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresoFFM.retiroGarantia.muestraDetalle" ng-click="ingresoFFM.retiroGarantia.muestraDetalle = !ingresoFFM.retiroGarantia.muestraDetalle;ajustaVentana()">({{'-' | translate}})</em>
+					</span>
+				</div>
+				<div class="row" ng-show="ingresoFFM.retiroGarantia.muestraDetalle">
+					<div class="row">
+					  	<label class="col-xs-3" translate>UI_TIPO_FONDO</label> 
+				  		<label class="col-xs-3" translate>{{retiroGarantia.datosFondo.NombreCorto}}</label>
+				  		<label class="col-xs-3" translate>UI_PERFIL</label> 
+				  		<label class="col-xs-3" translate>{{retiroGarantia.datosFondo.IdCategoriaPerfilFondoMutuo}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+				  		<label class="col-xs-3" translate>{{retiroGarantia.datosFondo.IdRegimenTributario}}</label>
+				  		<label class="col-xs-3" translate>UI_PROPOSITO_SERIE</label> 
+				  		<label class="col-xs-3" translate>{{retiroGarantia.datosFondo.PropositoSerie}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_ENTRADA</label> 
+				  		<label class="col-xs-3" translate>{{retiroGarantia.datosFondo.EsComisionEntradaUI}}</label>
+				  		<label class="col-xs-3" translate>UI_MINIMO_PATRIMONIO</label> 
+				  		<label class="col-xs-3" translate>{{retiroGarantia.datosFondo.EsPatrimonioMinimoUI}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+				  		<label class="col-xs-3" translate>{{retiroGarantia.datosFondo.EsComisionSalidaUI}}</label>
+		  			</div>
+				</div>
+		  		<hr>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+			  		<bcs-input-date
+						class="col-xs-8"
+						k-ng-model="retiroGarantia.formData.fechaSistema" 
+						bcs-requerido
+						k-ng-disabled="'true'">
+					</bcs-input-date>
+			  	</div>  		
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="retiroGarantia.formData.ResultadoSolicitudAporteRescate.MontoInicial"
+			  			decimales = "retiroGarantia.formData.decimalesMonto"
+			  			k-ng-disabled="'true'"
+			  			simbolo="retiroGarantia.formData.IdMonedaAporte">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_GARANTIA</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="retiroGarantia.formData.folioGarantia"
+			  			k-ng-disabled="'true'">
+			  		</bcs-input-texto>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="retiroGarantia.formData.ResultadoSolicitudAporteRescate.NumeroCuotas"
+			  			k-ng-disabled="'true'"	
+			  		>
+			  		</bcs-input-texto>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_CONCEPTO</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="retiroGarantia.oConceptoGarantia.seleccionado.Nombre"
+			  			k-ng-disabled="'true'"	
+			  		>
+			  		</bcs-input-texto>
+		  		</div>
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+			  		<bcs-input-texto class="col-xs-8"
+				  		maxlength="260"
+						tipo-campo="'textarea'"
+						ng-model="retiroGarantia.formData.comentario"
+						atributos="margin: 0px; height:73px;resize:none;width: 100%"
+						k-ng-disabled="'true'"	
+					>
+			  		</bcs-input-texto>
+		  		</div>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class=col-xs-12>
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VOLVER' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="retiroGarantia.limpiarFMM('true')"
+					foco = "retiroGarantia.formData.focoVolver">
+				</bcs-button>	
+			</div>
+		</div>
+	</div>
+	
+</div>

@@ -1,0 +1,143 @@
+<div ng-controller="SimultaneasVigentesCtrl">
+	<!-- FILTROS -->
+	<div class="row">
+		<form name="frmSimul">
+			<div class="col-xs-10">
+				<div class="row">
+					<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-8" style="width: 81.5%;" id="UI_SOCIO_NEGOCIO"
+						auto-cargar="'false'"
+						id-actual="filtros.IdPortafolio"
+						tipo="oClientePortafolio.tipo"
+						carga-cliente-automatico="'S'" 
+						seleccionado="oClientePortafolio.seleccionado"
+						filtros="filtrosPortafolio"
+						configuracion="oClientePortafolio.configuracion">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-4" auto-cargar="'true'"
+						tipo="'combobox-tipo-operacion'"
+						filtros="oConfiguracionTipoOperacion.filtros"
+						configuracion="oConfiguracionTipoOperacion.configuracion"
+						id-actual="oConfiguracionTipoOperacion.idActual"
+						seleccionado="oConfiguracionTipoOperacion.seleccionado"
+						todos="'S'" id-defecto="'0'"></bcs-combobox-base>
+					<label class="col-xs-2 txt-left" translate
+						style="padding-left: 15px">UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos class="col-xs-4" name="uInstrumento"
+						datos-instrumento="instrumento"
+						buscar-instrumento="buscarinstrumento" filtro-estado="'ACT'"
+						filtro-tipo-instrumento="oConfiguracionTipoOperacion.seleccionado.IdTipoInstrumento ? oConfiguracionTipoOperacion.seleccionado.IdTipoInstrumento : 'SIM'"
+						filtro-subyacente="'SIM'"></bcs-input-instrumentos>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_FECHA_CONSULTA</label>
+					<bcs-input-date class="col-xs-4" bcs-requerido="true"
+						k-ng-model="kngFecha" k-options="FechaConsultaOpt"></bcs-input-date>
+					<label class="col-xs-2" translate style="padding-left: 15px">UI_TRANSACCION</label>
+					<bcs-input-numero class="col-xs-4" ng-model="Transaccion"
+						k-ng-model="TransaccionObj"
+						k-options="{ format : 'n0', min:0, spinners: false }"></bcs-input-numero>
+				</div>
+			</div>
+
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="frmSimul.$valid" bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="'true'" bcs-clic="limpiar()"></bcs-button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- GRILLA -->
+	<div class="row">
+		<bcs-grid id="grid-simultaneas-vigentes"
+			configuracion="confBasicaSimultaneasVigentes"
+			seleccionado="seleccionSimultaneasVigentes"
+			fn-exportar-excel="exportarExcel"> </bcs-grid>
+	</div>
+
+
+
+	<!-- TOTALIZADORES -->
+	<!-- <div class="row col-xs-12">
+		<div class="row" align="left">
+			<label class="col-xs-4" translate></label>				
+			<label class="col-xs-2" translate>UI_AMORTIZACION</label>
+			<label class="col-xs-2" translate>UI_MERCADO</label>	
+			<label class="col-xs-2" translate>UI_RESULTADO</label>	
+			<label class="col-xs-2" translate>UI_RENTABILIDAD</label>							
+		</div>
+		<div class="row" align="right">				
+			<label class="col-xs-4" translate>UI_TOTAL_COMPRA</label>	
+			<bcs-input-monetario class="col-xs-2"				
+				k-ng-disabled = "'false'"
+				k-ng-model="data.kngTotalCompraAmortizado"
+			></bcs-input-monetario>
+			<bcs-input-monetario class="col-xs-2"				
+				k-ng-disabled = "'false'"
+				k-ng-model="data.kngTotalCompraMercado"
+			></bcs-input-monetario>	
+			<bcs-input-monetario class="col-xs-2"				
+				k-ng-disabled = "'false'"
+				k-ng-model="data.kngTotalCompraResultado"
+			></bcs-input-monetario>	
+			<bcs-input-monetario class="col-xs-2"				
+				k-ng-disabled = "'false'"
+				k-ng-model="data.kngTotalCompraRentabilidad"
+			></bcs-input-monetario>								
+		</div>
+		<div class="row" align="right">				
+			<label class="col-xs-4" translate>UI_TOTAL_VENTA</label>	
+			<bcs-input-monetario class="col-xs-2"				
+				k-ng-disabled = "'false'"
+				k-ng-model="data.kngTotalVentaAmortizado"
+			></bcs-input-monetario>
+			<bcs-input-monetario class="col-xs-2"				
+				k-ng-disabled = "'false'"
+				k-ng-model="data.kngTotalVentaMercado"
+			></bcs-input-monetario>	
+			<bcs-input-monetario class="col-xs-2"				
+				k-ng-disabled = "'false'"
+				k-ng-model="data.kngTotalVentaResultado"
+			></bcs-input-monetario>	
+			<bcs-input-monetario class="col-xs-2"				
+				k-ng-disabled = "'false'"
+				k-ng-model="data.kngTotalVentaRentabilidad"
+			></bcs-input-monetario>							
+		</div>
+	</div> -->
+	<!-- <div class="row">
+		<br></br>
+	</div> -->
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" id="BlotterSimultanea_Anticipo"
+			bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'"
+			bcs-texto="'UI_ANTICIPO' | translate" bcs-habilitado="HabilitarBotonAnticipar"
+			bcs-clic="anticipoSimultanea()"></bcs-button>
+		<!--<bcs-button class="col-xs-2" 
+			bcs-tipo="'default'"  
+			bcs-auto-desactivar="'false'" 
+			bcs-texto="'UI_ANULACION' | translate" 
+			bcs-habilitado="'true'"  
+			bcs-clic="anulacionSimultanea(data.kngGridSimultaneasSeleccionada)"
+		></bcs-button>-->
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+			bcs-texto="'UI_OPCIONES' | translate"> <!--<li ng-click="data.anticipoSimultanea(data.kngGridSimultaneasSeleccionada)">{{'UI_ANTICIPO' | translate}}</li>
+	            <li ng-click="data.anulacionSimultanea(data.kngGridSimultaneasSeleccionada)">{{'UI_ANULACION' | translate}}</li> -->
+		<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' |
+			translate}}</li>
+		</bcs-menu>
+	</div>
+</div>
+

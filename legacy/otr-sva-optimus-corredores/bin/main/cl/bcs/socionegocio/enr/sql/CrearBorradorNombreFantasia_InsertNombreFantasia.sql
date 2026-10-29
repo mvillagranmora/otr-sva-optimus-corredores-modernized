@@ -1,0 +1,20 @@
+INSERT INTO "BSCL.SocioNegocio.BD::ENR.NombreFantasia"
+(
+"IdNombreFantasia"
+,"DescripcionNombreFantasia"
+,"IdEnrolamiento"
+,"FechaCreacion"
+,"FechaModificacion"
+,"FechaIngreso"
+,"IdUsuarioCreador"
+)
+VALUES
+(
+:IdNombreFantasia
+,:NombreFantasia
+,:IdEnrolamiento
+,CURRENT_UTCTIMESTAMP
+,CURRENT_UTCTIMESTAMP
+,:FechaIngreso
+,:IdUsuarioCreador
+);

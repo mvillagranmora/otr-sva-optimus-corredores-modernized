@@ -1,0 +1,157 @@
+<div class="col-md-12" ng-controller="TestInputDateCtrl">
+	 <div class="row">
+	 	<p>Sesion: {{ SesionToken() }}</p>
+	 	<p>Empresa: {{ SesionEmpresa }}</p>
+	 	<p>Usuario: {{ SesionUsuario }}</p>
+	 </div>    
+	 
+     <div class="row" />
+     <div class="row">
+		Monetario Defecto 1 <bcs-input-monetario ng-model="mon" k-ng-model="monObject" k-options=""></bcs-input-monetario>
+		Combo1 <bcs-combobox-base k-options="comboOptions" ng-model="combo1" k-ng-model="combo2"></bcs-combobox-base>
+        Texto <bcs-input-texto ng-model="text"></bcs-input-texto>
+        Boton <kendo-button class="k-primary" ng-click="refreshGrid()" translate>REFRESCAR_GRILLA</kendo-button>
+        Monetario Defecto 1 <bcs-input-monetario ng-model="mon" k-ng-model="monObject" k-options=""></bcs-input-monetario>}
+        
+	</div>
+	<div class="row">
+	  	<p>Interceptores -  Ver consola Log</p>
+    	<button class="btn btn-success" ng-click="get('/BSCL/Plataforma/UI/index.html')"> HTTP Log 200</button>
+    	<button class="btn btn-danger" ng-click="get('/BSCL/Plataforma/UI/indexERROR.html')">HTTP Log 404</button>	 
+    	<button class="btn btn-success" ng-click="jqueryajax('/BSCL/Plataforma/UI/index.html')">JqueryAJAX Log 200</button>	
+    	<button class="btn btn-danger" ng-click="jqueryajax('/BSCL/Plataforma/UI/indexERROR.html')">JqueryAJAX Log 404</button>	 	
+	</div>	
+	<div class="row" />
+	<div>
+		<div class="row">
+            <div id="gridOdata"></div>
+            <script>
+                $(document).ready(function() {
+                    $("#gridOdata").kendoGrid({
+                        dataSource: {
+                            type: "odata",
+                            transport: {
+		    	                read: {
+		    	                	url:"/BSCL/Custodia/XSODATA/Cartera.xsodata/Cartera",
+		    	                	dataType: "json"
+		    	                }
+                            },
+                            schema: {
+                                model: {
+                                    fields: {
+                                        OrderID: { type: "number" },
+                                        Freight: { type: "number" },
+                                        ShipName: { type: "string" },
+                                        OrderDate: { type: "date" },
+                                        ShipCity: { type: "string" }
+                                    }
+                                }
+                            },
+                            pageSize: 20,
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        height: 550,
+                        filterable: true,
+                        sortable: true,
+                        pageable: true,
+                        columns: [{
+                                field:"OrderID",
+                                filterable: false
+                            },
+                            "Freight",
+                            {
+                                field: "OrderDate",
+                                title: "Order Date",
+                                format: "{0:MM/dd/yyyy}"
+                            }, {
+                                field: "ShipName",
+                                title: "Ship Name"
+                            }, {
+                                field: "ShipCity",
+                                title: "Ship City"
+                            }
+                        ]
+                    });
+                });
+            </script>
+		</div> 	
+	</div>
+      <!-- <br/>Date <bcs-input-date ng-model="dateString" k-ng-model="dateObject" k-options="monthSelectorOptions"></bcs-input-date>
+      <p>str: {{ dateString }}</p>
+      <p>obj: {{ dateObject }}</p>
+
+      <br/>Time <bcs-input-time ng-model="timeString" k-ng-model="timeObject" k-options="options"></bcs-input-time>
+      <p>str: {{ timeString }}</p>
+      <p>obj: {{ timeObject }}</p>
+
+      <br/>Datetime <bcs-input-datetime ng-model="datetimeString" k-ng-model="datetimeObject" k-options="options2"></bcs-input-datetime>
+      <p>str: {{ datetimeString }}</p>
+      <p>obj: {{ datetimeObject }}</p>
+
+      <br/>Porcentaje Entero <bcs-input-porcentaje ng-model="porc1" k-ng-model="porcObject1" k-options="{ format : 'p0', step : '0.1' }"/>
+      <p>str: {{ porc1 }}</p>
+      <p>obj: {{ porcObject1 }}</p>
+
+      <br/>Porcentaje <bcs-input-porcentaje ng-model="porc" k-ng-model="porcObject" k-options=""/>
+      <p>str: {{ porc }}</p>
+      <p>obj: {{ porcObject }}</p>
+
+
+      <bcs-combobox-base k-options="comboOptions" ng-model="combo1" k-ng-model="combo2"></bcs-combobox-base>
+      <p>ngmodel: {{ combo1 }}</p>
+      <p>kngmodel: {{ combo2 }}</p>
+
+	  <bcs-combobox-tipo-instrumento k-options="comboOptions2" ng-model="comboisnt1" k-ng-model="comboisnt2"></bcs-combobox-tipo-instrumento>
+		<p>ngmodel: {{ comboisnt1 }}</p>
+        <p>kngmodel: {{ comboisnt2 }}</p>
+    </div>
+    
+    
+    <div class="col-md-4">
+      <br/>Monetario Defecto 1 <bcs-input-monetario ng-model="mon" k-ng-model="monObject" k-options=""></bcs-input-monetario>
+      <p>str: {{ mon }}</p>
+      <p>obj: {{ monObject }}</p>
+
+      <br/>Monetario 5 decimal<bcs-input-monetario ng-model="mon2" k-ng-model="monObject2" k-options="{ format : 'c5' }"></bcs-input-monetario>
+      <p>str: {{ mon2 }}</p>
+      <p>obj: {{ monObject2 }}</p>
+
+      <br/>Numero Defecto <bcs-input-numero ng-model="num" k-ng-model="numObject" k-options=""></bcs-input-numero>
+      <p>str: {{ num }}</p>
+      <p>obj: {{ numObject }}</p>
+      <br/>
+      <br/>Numero 5 decimal <bcs-input-numero ng-model="num1" k-ng-model="numObject1" k-options="{ format : 'n5' }"></bcs-input-numero>
+      <p>str: {{ num1 }}</p>
+      <p>obj: {{ numObject1 }}</p>
+      <br/>
+
+      <br/>Numero Entero <bcs-input-numero ng-model="num2" k-ng-model="numObject2" k-options="{ format : 'n0' }"/>
+      <p>str: {{ num2 }}</p>
+      <p>obj: {{ numObject2 }}</p>
+      <br/>
+      
+      
+      Traduccion
+      <h1 translate>TRANSACCION</h1>
+      <h1 translate>EMPRESA_VACIA</h1>
+
+
+      <br/>Texto <bcs-input-texto ng-model="text"></bcs-input-texto>
+      <p>str: {{ text }}</p>
+      <p>obj: {{ text }}</p>
+
+    </div>
+    <div class="col-md-4">
+      Framework Control Acceso
+      <br/><bcs-input-texto id="textoEjemplo1" ng-model="text1" bcs-filtro-acceso>asdf</bcs-input-texto>
+      <br/><bcs-input-texto id="textoEjemplo2" ng-model="text2" bcs-filtro-acceso>asdfffff</bcs-input-texto>
+      <br/><bcs-input-texto ng-model="text3" bcs-filtro-acceso>asdfffff</bcs-input-texto>
+      <br/>
+      Grilla Color en base a celda
+      <br/>Filtro <bcs-input-texto ng-model="pais"></bcs-input-texto>
+      <kendo-button class="k-primary" ng-click="refreshGrid()" translate>REFRESCAR_GRILLA</kendo-button>
+      <kendo-grid id="grid" options="mainGridOptions">
+    </div> -->
+</div>

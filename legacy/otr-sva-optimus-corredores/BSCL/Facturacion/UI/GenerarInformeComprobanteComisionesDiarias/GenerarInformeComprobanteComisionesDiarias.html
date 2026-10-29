@@ -1,0 +1,64 @@
+<div id="GenerarInformeComprobanteComisionesDiariasRV" class="row" ng-controller="GenerarInformeComprobanteComisionesDiariasRVCtrl as iccm">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+				<!-- INICIO FILTROS -->
+				<form name="ModalGenerarInformeComprobanteComisionesDiariasRV" class="col-xs-12">
+					<div class="row">
+						<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base 
+							class="col-xs-10"
+							bcs-requerido="'false'" 
+							ng-style="{'width' : data.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oClientePortafolio.seleccionado  ? '81%' : '83.33333333%'}"
+							auto-cargar="'false'" 
+							carga-cliente-automatico="'S'"
+							id-actual="filtros.IdPortafolio"
+							tipo="data.oClientePortafolio.tipo"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							configuracion="data.oClientePortafolio.configuracion"
+							filtros="filtrosPortafolio">
+						</bcs-combobox-base>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-2" translate>UI_FECHA</label>
+							<bcs-input-date
+								class="col-xs-10"
+								bcs-requerido="'true'"
+								k-ng-model="data.Fecha">
+							</bcs-input-date>	
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-xs-2" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base class = "col-xs-10"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+							configuracion="data.oConfiguracionClasificacionTipoInstrumento.configuracion"
+							seleccionado="data.oConfiguracionClasificacionTipoInstrumento.seleccionado"
+							filtros="data.oConfiguracionClasificacionTipoInstrumento.filtros"
+							id-actual="data.oConfiguracionClasificacionTipoInstrumento.idActual"
+							cascada-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'" 
+							todos="'S'"
+							id-defecto="'RV'" item-post-filtro="'RV'"
+							activado = "'false'">
+						</bcs-combobox-base>
+					</div>
+					
+					
+			</form>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<bcs-button class="col-xs-3 pull-right"  id="immc_UI_GENERAR"
+				bcs-habilitado="ModalGenerarInformeComprobanteComisionesDiariasRV.$valid" bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_GENERAR' | translate" 
+				bcs-clic="generar();">
+			</bcs-button>
+			<bcs-button class="col-xs-3 pull-right"
+				bcs-habilitado="true" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" 
+				bcs-clic="limpiar();">
+			</bcs-button>
+		</div>
+	</div>
+</div>

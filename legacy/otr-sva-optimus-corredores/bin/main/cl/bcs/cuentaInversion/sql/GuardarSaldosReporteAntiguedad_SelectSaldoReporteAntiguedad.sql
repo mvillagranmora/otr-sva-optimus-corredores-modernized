@@ -1,0 +1,1 @@
+SELECT * FROM "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" WHERE "FechaSistema" = TO_DATE(:fechaConsulta);

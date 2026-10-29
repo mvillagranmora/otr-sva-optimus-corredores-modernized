@@ -1,0 +1,1 @@
+SELECT count(1) as "Contador" FROM "TBPRAJHI" WHERE LEFT("FECHA",4)=:periodoAnterior;

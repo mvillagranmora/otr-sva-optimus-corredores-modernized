@@ -1,0 +1,192 @@
+<div class="row" ng-controller='EmisionFacturacionMasivaCtrl'>
+<form name="frmEmiFacMas">
+  <div class="row bcs-cuerpo">	
+	<div class="row">	
+	
+	  <!-- INICIO FILTROS -->	
+	  <div class="col-xs-12"> 				
+		<div class="row">
+		  <div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_CLASIFICACION</label>			
+			<bcs-combobox-base class="col-xs-8"
+			   id="frmEmiFacMas_UI_CLASIFICACION"
+			   auto-cargar="'true'"
+			   tipo="data.oClasificacionTipoInstrumento.tipo"
+			   configuracion= "data.oClasificacionTipoInstrumento.configuracion"
+			   seleccionado="data.oClasificacionTipoInstrumento.seleccionado"								
+			   filtros="data.oClasificacionTipoInstrumento.filtros"
+			   id-actual="data.oClasificacionTipoInstrumento.idActual"
+			   cascada-a="data.oTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+			   cascada-valor="'IdClasificacionTipoInstrumento'"							
+			   todos="'S'"
+			   id-defecto="'0'"
+			   item-post-filtro="'1'">
+			</bcs-combobox-base>
+		  </div>
+		  
+		  		  	
+		  <div class="col-xs-6">
+	        <label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>					
+			<bcs-combobox-base  class="col-xs-8"
+			  bcs-requerido
+			  id="frmEmiFacMas_UI_TIPO_INSTRUMENTO"
+			  tipo="data.oTipoInstrumento.tipo"
+			  configuracion= "data.oTipoInstrumento.configuracion"
+			  id-actual="data.oTipoInstrumento.idActual"
+			  seleccionado="data.oTipoInstrumento.seleccionado"			  
+			  filtros="data.oTipoInstrumento.filtros"
+			  todos="'S'"
+			  id-defecto="'0'"
+			  item-post-filtro="'1'">								
+			</bcs-combobox-base>
+	 	  </div>  
+	 	</div>
+	 	
+	 	<div class="row">
+	 	  <div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_TIPO_COMPROBANTE</label>				  	
+			<bcs-combobox-base class="col-xs-8"
+			  bcs-requerido
+			  id="frmEmiFacMas_UI_TIPO_COMPROBANTE"
+			  tipo="data.oTipoComprobante.tipo"
+			  configuracion= "data.oTipoComprobante.configuracion"
+			  id-actual="data.oTipoComprobante.idActual"
+			  seleccionado="data.oTipoComprobante.seleccionado"
+			  filtros="data.oTipoComprobante.filtros"
+			  todos="'S'"
+			  id-defecto="'0'">
+			</bcs-combobox-base>
+		  </div>
+		    
+		  <div class="col-xs-6">
+	        <label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION_ABR</label>
+			<bcs-combobox-base class="col-xs-8"
+			  bcs-requerido
+			  id="frmEmiFacMas_UI_CONDICION_LIQUIDACION"
+			  tipo="data.oCondicionLiquidacion.tipo"
+			  configuracion= "data.oCondicionLiquidacion.configuracion"
+			  id-actual="data.oCondicionLiquidacion.idActual"
+			  seleccionado="data.oCondicionLiquidacion.seleccionado"
+			  filtros="data.oCondicionLiquidacion.filtros"
+			  todos="'S'"
+			  id-defecto="'0'" >
+			</bcs-combobox-base>
+	      </div>
+		</div>  
+		  
+		<div class="row">			  
+		  <div class="col-xs-6">
+		    <label class="col-xs-4" translate>UI_FECHA_MOVIMIENTO</label>
+			<bcs-input-date class="col-xs-8"
+			  bcs-requerido			
+			  id="frmEmiFacMas_UI_FECHA_MOVIMIENTO" 
+			  name="uFechaMovimiento"
+			  k-ng-model="data.oFechaMovimiento">
+		    </bcs-input-date>
+		  </div>
+		  
+		  <div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_BOVEDA</label>
+			<bcs-combobox-base class="col-xs-8"
+			  bcs-requerido
+			  id="frmEmiFacMas_UI_BOVEDA"
+			  tipo="data.oBoveda.tipo"
+			  id-actual="data.oBoveda.idActual" 
+			  configuracion= "data.oBoveda.configuracion"
+			  seleccionado="data.oBoveda.seleccionado" 
+			  filtros="data.oBoveda.filtros"
+			  todos="'S'"
+			  id-defecto="'0'">
+			</bcs-combobox-base >
+		  </div>
+		</div>
+		
+		<div class="row">
+		  <div class="col-xs-6">
+		    <label class="col-xs-4" translate>UI_INCLUSION</label>
+			<bcs-input-checkbox	  style="padding-left: 2px;"  
+			  id="frmEmiFacMas_UI_INCLUSION"
+			  ng-model="data.oInclusion"
+			  ng-disabled="data.activaroInclusion">
+			</bcs-input-checkbox>
+		  </div>
+		</div>
+		
+		<div class="row">
+		  <div class="col-xs-6">
+		    <label class="col-xs-4" translate>UI_OMISION</label>
+			<bcs-input-checkbox	style="padding-left: 2px;"		   
+			  id="frmEmiFacMas_UI_OMISION"
+			  ng-model="data.oOmision"
+			  ng-disabled="data.activaroOmision">
+			</bcs-input-checkbox>
+		  </div>	
+		</div>
+				
+		<div class="row">	
+		  <div class="col-xs-12">
+	        <div class="col-xs-8">
+				<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+		    <bcs-combobox-base class="col-xs-9"
+		       auto-cargar="'false'"
+			   ng-style="{'width' : data.oSocioNegocio.seleccionado.IdEstadoCliente !== 'ACT' && data.oSocioNegocio.seleccionado  ? '60%' : '75%'}"
+			   id="frmEmiFacMas_UI_SOCIO_NEGOCIO"
+			   tipo="data.oSocioNegocio.tipo"
+			   seleccionado="data.oSocioNegocio.seleccionado"
+			   filtros="data.oSocioNegocio.filtros"						    
+			   id-actual="data.oSocioNegocio.idActual"			   
+			   configuracion= "data.oSocioNegocio.configuracion">
+			</bcs-combobox-base>
+			</div>
+			
+			<div class="col-xs-4">
+			<bcs-button class="col-xs-6"
+			  id="agregarSocioDeNegocio"
+			  bcs-tipo="'bcs-button-input-form'"  
+			  bcs-auto-desactivar="'false'" 
+			  bcs-texto="'UI_AGREGAR' | translate" 
+			  bcs-habilitado="true"  
+			  bcs-clic="agregarSocioNegocio()">
+		    </bcs-button>
+		    
+		    <bcs-button class="col-xs-6"
+		      id="eliminarSocioDeNegocio"
+			  bcs-tipo="'bcs-button-input-form'"  
+			  bcs-auto-desactivar="'false'" 
+			  bcs-texto="'UI_ELIMINAR' | translate" 
+			  bcs-habilitado="gridApiSocioDeNegocio.dataSource.data().length"
+			  bcs-clic="gridApiSocioDeNegocio.dataSource.remove(seleccionSocioDeNegocio)" >			  
+		    </bcs-button>
+			</div>
+		    
+	 	  </div>
+	 	</div>  
+		
+	  </div>
+      <!-- FIN FILTROS -->
+    </div>
+  
+      
+    <!-- INICIO GRILLA CLIENTE -->
+	<div class="row">
+	  <div class="col-xs-12">
+	    <bcs-grid 
+	  	  id="grid-socio-de-negocio" 
+	  	  configuracion = "confBasicaSocioDeNegocio" 
+	  	  seleccionado = "seleccionSocioDeNegocio" 
+	  	  api = "gridApiSocioDeNegocio">
+	  	</bcs-grid>
+	  </div> 
+	</div>
+	<!-- FIN SUB GRILLA DETALLE REGISTRO -->
+	
+    
+    <!-- INICIO PANEL COMANDOS --> 	  
+    <div class="row bcs-panel-comandos" style="margin-top:15px">
+	  <bcs-button id="generarComprobante" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'"  bcs-texto="'UI_GENERAR' | translate"  bcs-habilitado="frmEmiFacMas.$valid && ((data.oInclusion && gridApiSocioDeNegocio.dataSource.data().length) || (data.oOmision && gridApiSocioDeNegocio.dataSource.data().length) || (!data.oOmision && !data.oInclusion))" bcs-clic="data.crearComprobante()"></bcs-button>
+	  <bcs-button id="limpiarComprobante" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'"  bcs-texto="'UI_LIMPIAR' | translate"  bcs-habilitado="true" bcs-clic="data.limpiar()"></bcs-button>		
+    </div>	
+    <!-- FIN PANEL COMANDOS -->
+   </form>     
+  	
+</div> 

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Custodia.BD::GBL.IngresoReservaFoliosConsultaPaso" WHERE "IdTrabajo" = :IdTrabajo

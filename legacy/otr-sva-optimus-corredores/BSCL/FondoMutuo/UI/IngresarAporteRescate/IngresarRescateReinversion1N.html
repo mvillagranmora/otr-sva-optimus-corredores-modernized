@@ -1,0 +1,159 @@
+<div class="col-xs-12" ng-controller="IngresarRescateReinversion1NFFMCtrl as rescateReinversion1N">
+	<div class="row bcs-cuerpo" ng-show="rescateReinversion1N.formData.IngresoConfirmacion === 'I'">
+		<div ng-show="rescateReinversion1N.formData.DatosAdicionales === 'N'">	
+		 	<form name="FormIngresoFFM" class="filters-formulario">
+			   	<div class="row">
+					<div class="col-xs-12">
+					  	<div class="row">
+							<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base class="col-xs-6" id="formTraspasoEgreso_cliente"
+								auto-cargar ="'true'"
+								muestra-enlace = "'N'"
+								carga-cliente-automatico ="'S'"
+								bcs-requerido
+								id-actual="rescateReinversion1N.cmbbx.IdPortafolio"
+								tipo="rescateReinversion1N.cmbbx.oClientePortafolio.tipo"
+								carga-cliente-automatico="'S'" 
+								seleccionado="rescateReinversion1N.cmbbx.oClientePortafolio.seleccionado"
+								filtros="filtrosPortafolio"
+								configuracion="rescateReinversion1N.cmbbx.oClientePortafolio.configuracion">
+							</bcs-combobox-base>
+							<div class="col-xs-2">
+								<bcs-input-checkbox 
+					         		class="col-xs-3 col-xs-offset-5"
+									ng-model="rescateReinversion1N.formData.MLT"> 
+								</bcs-input-checkbox>
+								<label class="col-xs-4" translate>UI_INDICADORMLT</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="row">
+							<uib-tabset class="col-xs-12">
+								<uib-tab heading="{{ 'UI_RESCATE' | translate}}" select="select('gridCustodia')">
+									<div class="row">
+										<bcs-grid 
+											id="grid-custodia-ffm"
+										 	configuracion="rescateReinversion1N.SaldoCustodia"
+											api = "apiGridCustodiaFondosMutuos"
+											seleccionado="rescateReinversion1N.SaldoCustodia.seleccion"
+											fn-exportar-excel = "exportarExcel">		
+										</bcs-grid>
+									</div>
+									<div class="row">
+										<div class="col-xs-3" >
+											<label class="col-xs-5" translate>UI_DOLAR_OBSERVADO</label>
+											<bcs-dolar-observado-serie-fondo class="col-xs-6"
+											         id-serie-fondo = "rescateReinversion1N.SaldoCustodia.seleccion.IdSerieFondo"
+											         id-tipo-solicitud= "'RES'"
+											         fecha="rescateReinversion1N.fechaSistema"
+											         dolar-observado-serie-fondo="rescateReinversion1N.DolarObservadoSerieFondo">
+											</bcs-dolar-observado-serie-fondo>
+										</div>
+										<div class="col-xs-3" >
+											<label class="col-xs-5" translate>UI_NUMERO_CUOTAS</label> 
+									  		<bcs-input-numero class="col-xs-6"
+									  				decimales = "rescateReinversion1N.decimalesCantidad"
+											 		k-ng-model="rescateReinversion1N.NumeroCuotas"
+											 		k-ng-disabled="'true'">
+											</bcs-input-numero>
+										</div>
+										<div class="col-xs-3" >
+											<label class="col-xs-4" translate>UI_MONTO_TOTAL</label> 
+									  		<bcs-input-monetario class="col-xs-6"
+									  				decimales = "rescateReinversion1N.decimalesMontoTotalRescate"
+									  				simbolo="rescateReinversion1N.IdMonedaMontoTotalRescate"
+											 		k-ng-model="rescateReinversion1N.MontoTotalRescate"
+											 		k-ng-disabled="'true'">
+											</bcs-input-texto>
+										</div>
+										<div class="col-xs-3" ng-show="rescateReinversion1N.IdMonedaMontoTotalRescateMonedaSistema !== rescateReinversion1N.IdMonedaMontoTotalRescate">
+											<label class="col-xs-4" translate>UI_MONTO_TOTAL</label> 
+									  		<bcs-input-monetario class="col-xs-6"
+									  				decimales = "rescateReinversion1N.decimalesMontoTotalRescateMonedaSistema"
+									  				simbolo="rescateReinversion1N.IdMonedaMontoTotalRescateMonedaSistema"
+											 		k-ng-model="rescateReinversion1N.MontoTotalRescateMonedaSistema"
+											 		k-ng-disabled="'true'">
+											</bcs-input-texto>
+										</div>
+									</div>
+								</uib-tab>
+							</uib-tabset>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-xs-3">
+								<bcs-input-checkbox 
+					         		class="col-xs-1"
+									ng-model="rescateReinversion1N.formData.igualRegimen"
+									ng-disabled="rescateReinversion1N.formData.igualRegimenDisabled"> 
+								</bcs-input-checkbox>
+								<label class="col-xs-5" translate>UI_MISMO_REGIMEN</label>
+							</div>
+							<div class="col-xs-2">
+								<bcs-input-checkbox 
+					         		class="col-xs-2 col-xs-offset-1"
+									ng-model="rescateReinversion1N.formData.igualFamilia"> 
+								</bcs-input-checkbox>
+								<label class="col-xs-9" translate>UI_MISMA_FAMILIA</label>
+							</div>
+							<div class="col-xs-2">
+								<bcs-input-checkbox 
+					         		class="col-xs-2 col-xs-offset-1"
+									ng-model="rescateReinversion1N.formData.igualMoneda"> 
+								</bcs-input-checkbox>
+								<label class="col-xs-9" translate>UI_MISMA_MONEDA</label>
+							</div>
+							<div class="col-xs-2">
+								<bcs-input-checkbox 
+					         		class="col-xs-2 col-xs-offset-1"
+									ng-model="rescateReinversion1N.formData.permiteSwitch"
+									ng-disabled="!rescateReinversion1N.formData.permiteSwitchDestino"> 
+								</bcs-input-checkbox>
+								<label class="col-xs-9" translate>UI_MISMO_SWITCH</label>
+							</div>
+							<div class="col-xs-3">
+								<label class="col-xs-3" translate>UI_EMISOR</label>
+								<bcs-combobox-base class="col-xs-9"
+						  			tipo="'combobox-emisor'"
+						  			id-actual="rescateReinversion1N.cmbbx.IdEmisor"
+						  			id-defecto="0"
+						  			filtros="rescateReinversion1N.formData.filtrosEmisor"
+						  			activado="!rescateReinversion1N.formData.permiteSwitch"
+						  			todos="'S'">
+						  		</bcs-combobox-base>
+							</div>
+						</div>
+						<div class="row">
+							<uib-tabset class="col-xs-12">
+								<uib-tab heading="{{ 'UI_APORTES' | translate}}" select="select('gridDestino')">
+									<div class="row">
+										<div class="col-xs-12" >
+											<bcs-grid 
+												id="grid-destino-ffm"
+											 	configuracion="rescateReinversion1N.Solicitudes"
+												api = "apiGridDestinoFondosMutuos"
+												seleccionado="rescateReinversion1N.Solicitudes.seleccion"
+												fn-exportar-excel = "exportarExcel">		
+											</bcs-grid>
+										</div>
+									</div>
+								</uib-tab>
+							</uib-tabset>
+						</div>	
+					</div>
+				</div>
+			</form>
+			<div class="row bcs-panel-comandos">
+				<div class="col-xs-12">
+					<bcs-button class="col-xs-3 pull-right" bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_INGRESAR' | translate"
+						bcs-habilitado="'true'" 
+					    bcs-clic="rescateReinversion1N.ingresar()">
+					 </bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

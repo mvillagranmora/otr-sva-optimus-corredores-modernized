@@ -1,0 +1,44 @@
+<div ng-controller="ConfiguracionConceptosClientesRelacionadosCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="col-xs-3">
+			<bcs-grid id="DatosConceptosNormativos" seleccionado="data.DatosConceptosNormativosSeleccionado"
+				configuracion="data.ConfiguracionGrillaTipoDatosEventos" fn-click="cargarFiltros()"> </bcs-grid>
+		</div>
+		<div class="col-xs-3" style="padding-left: 10px; padding-right: 10px;">
+			<div class="row">
+				<select class="col-xs-12" ng-model="inputs.valorCombo"
+					ng-disabled="data.DatosConceptosNormativosSeleccionado === undefined"
+					ng-options="eventos as eventos.Descripcion for eventos in inputs.comboboxEventos">
+				</select>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="'false'"
+					bcs-texto="('UI_AGREGAR' | translate) + ' >>'"
+					bcs-habilitado="data.DatosConceptosNormativosSeleccionado !== undefined"
+					bcs-clic="agregarCondicion()">
+				</bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="'false'"
+					bcs-texto="'<< ' + ('UI_QUITAR' | translate)"
+					bcs-habilitado="data.condicionSeleccionada !== undefined"
+					bcs-clic="quitarCondicion(data.DatosConceptosNormativosSeleccionado)">
+				</bcs-button>
+			</div>
+		</div>
+		<div class="col-xs-6">
+			<bcs-grid id="CondicionesConceptosNormativos" seleccionado="data.condicionSeleccionada"
+				configuracion="data.condConceptoNormativo"> </bcs-grid>
+		</div>
+	</div>
+	<div class="col-xs-12 alignButtonsToRight">
+		<bcs-button id="GuardarCambiosConceptosNormativos" class="col-xs-3" bcs-tipo="'bcs-button-primary'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR' | translate" bcs-auto-desactivar="false"
+			bcs-habilitado="btnGuardarActivo()" bcs-clic="guardarCambios()">
+		</bcs-button>
+		<bcs-button id="CancelarCambiosConceptosNormativos" class="col-xs-3" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-auto-desactivar="false"
+			bcs-habilitado="true" bcs-clic="cancelar()">
+		</bcs-button>
+	</div>
+</div>

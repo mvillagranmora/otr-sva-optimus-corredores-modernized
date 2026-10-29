@@ -1,0 +1,175 @@
+<div class="row" style="padding-top:10px" ng-controller="ModeloFacturacionCtrl as modFact">
+	<div class="bcs-cuerpo">
+		<form name="formModeloFacturacion" class="col-xs-12 form-horizontal">
+			<div ng-show="modFact.win.modoLectura">
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_CODIGO</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="'combobox-modelo-facturacion'"
+							id-actual="modFact.busq.IdModeloFacturacion"
+							id-defecto="modFact.busq.IdModeloFacturacionDef"
+							filtros="modFact.cmbbx.modeloFacturacion.filtros"
+							todos="'N'"
+							activado="true"
+							seleccionado="modFact.busq.PerfilCobrosObj">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-6">
+						<bcs-button  
+							class="col-xs-2" 
+							bcs-tipo="''"  
+							bcs-mostrar="true"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="modFact.fn.cargarDatos(modFact.busq.PerfilCobrosObj);">
+						</bcs-button>
+					</div>
+				</div>
+				<hr style="margin: 10px 0px">
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_CODIGO</label>
+					<bcs-input-texto 
+						bcs-requerido = "(!modFact.win.modoLectura)"
+						class="col-xs-8" 
+						ng-model="modFact.datosDespues.IdModeloFacturacion" 
+						k-ng-disabled="modFact.win.modoLectura || modFact.win.modoEditar">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+					<bcs-input-texto 
+						class="col-xs-8" 
+						ng-model="modFact.datosDespues.DescripcionModeloFacturacion" 
+						k-ng-disabled="modFact.win.modoLectura">
+					</bcs-input-texto>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-input-checkbox class="col-xs-6"
+						ng-model="modFact.datosDespues.IdEstado"
+						ng-disabled="modFact.win.modoLectura">
+					</bcs-input-checkbox> 
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+					<bcs-input-checkbox class="col-xs-6"
+						ng-model="modFact.datosDespues.PorDefecto"
+						ng-disabled="modFact.win.modoLectura">
+					</bcs-input-checkbox> 
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_SEPARA_LINEA_FACTURA_POR_TRANSACCION</label>
+					<bcs-input-checkbox class="col-xs-6"
+						ng-model="modFact.datosDespues.SeparaLineaFacturaPorTransaccion"
+						ng-disabled="modFact.win.modoLectura">
+					</bcs-input-checkbox> 
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_SEPARA_FACTURA_POR_INSTRUMENTO</label>
+					<bcs-input-checkbox class="col-xs-6"
+						ng-model="modFact.datosDespues.SeparaFacturaPorInstrumento"
+						ng-disabled="modFact.win.modoLectura">
+					</bcs-input-checkbox> 
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_FUSIONA_LINEA_FACTURA_POR_PRECIO</label>
+					<bcs-input-checkbox class="col-xs-6"
+						ng-model="modFact.datosDespues.FusionaLineaFacturaPorPrecio"
+						ng-disabled="modFact.win.modoLectura">
+					</bcs-input-checkbox> 
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_MODO_FACTURACION</label>
+					<bcs-combobox-base class="col-xs-6"
+						tipo="'combobox-modo-facturacion'"
+						id-actual="modFact.datosDespues.IdModoFacturacion"
+						id-defecto="modFact.datosAntes.IdModoFacturacion"
+						todos="'N'"
+						activado="false"
+						filtros="modFact.cmbbx.oConfiguracionModoFacturacion.filtros"
+						seleccionado="modFact.datosDespues.ModoFacturacionObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_OPERA_CONTRA_CUENTA_INVERSION</label>
+					<bcs-input-checkbox class="col-xs-6"
+						ng-model="modFact.datosDespues.OperaContraCuentaInversion"
+						ng-disabled="modFact.win.modoLectura">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_NETEA_INGRESOS_EGRESOS_TESORERIA</label>
+					<bcs-input-checkbox class="col-xs-6"
+						ng-model="modFact.datosDespues.NeteaIngresosEgresosTesoreria"
+						ng-disabled="modFact.win.modoLectura || modFact.win.disableNeteaIngEgrTes">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+		</form>
+		<div class="row bcs-panel-comandos" style="padding-top:20px">
+			<div class="col-xs-8">
+				<div class="row">
+					<bcs-button class="col-xs-2" 
+						id="AdministrarPortafolioDatosGenerales_crear" 
+						bcs-tipo="'principal'"  
+						ng-if="modFact.win.modoLectura" 
+						bcs-mostrar="modFact.win.modoLectura"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_CREAR' | translate" 
+						bcs-habilitado="'true'"  
+						bcs-clic="modFact.win.crear();">
+					</bcs-button>
+					<bcs-button class="col-xs-2" 
+						id="AdministrarPortafolioDatosGenerales_editar" 
+						bcs-tipo="''"  
+						ng-if="modFact.win.muestraEditar" 
+						bcs-mostrar="modFact.win.muestraEditar"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_EDITAR' | translate" 
+						bcs-habilitado="'true'"  
+						bcs-clic="modFact.win.editar();">
+					</bcs-button>
+					<bcs-button class="col-xs-2" 
+						id="AdministrarPortafolioDatosGenerales_guardar" 
+						bcs-tipo="'principal'"  
+						ng-if="!modFact.win.modoLectura" 
+						bcs-mostrar="!modFact.win.modoLectura"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_GUARDAR' | translate" 
+						bcs-habilitado="formModeloFacturacion.$valid"  
+						bcs-clic="modFact.win.guardar();">
+					</bcs-button>
+					<bcs-button class="col-xs-2" 
+						id="AdministrarPortafolioDatosGenerales_cancelar" 
+						bcs-tipo="''" 
+						ng-if="!modFact.win.modoLectura" 
+						bcs-mostrar="!modFact.win.modoLectura" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_CANCELAR' | translate" 
+						bcs-habilitado="'true'"  
+						bcs-clic="modFact.win.cancelar();">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

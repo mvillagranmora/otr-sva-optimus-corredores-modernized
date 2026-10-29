@@ -1,0 +1,57 @@
+<div id="ModalDireccionElectronica" ng-controller="ModalDireccionElectronicaCtrl as mdie">
+	<div class="row bcs-cuerpo">
+		<form name="formDireccionElectronica" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_DIRECCION</label>
+				<bcs-input-texto foco="true"
+					id="formDireccionElectronica_Direccion"
+					class="col-xs-9" 
+					bcs-requerido = "mdie.camposRequeridos['formDireccionElectronica_Direccion'].AplicaRequerido === 'S'"
+					ng-model="mdie.DireccionElectronica.Direccion" 
+					ng-blur="mdie.validaFormatoEmail()">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PROPOSITO</label>
+				<bcs-combobox-base
+					id="formDireccionElectronica_CodigoProposito"
+					bcs-requerido = "mdie.camposRequeridos['formDireccionElectronica_CodigoProposito'].AplicaRequerido === 'S'"
+					class="col-xs-9"
+					tipo="'combobox-proposito-contacto'"
+					filtros="mdie.configuracionProposito.filtros"
+					id-actual="mdie.DireccionElectronica.CodigoProposito"
+					id-post-filtro="mdie.DireccionElectronicaOriginal.CodigoProposito">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_COMENTARIO</label>
+				<bcs-input-texto
+					id="formDireccionElectronica_Comentario"
+					bcs-requerido = "mdie.camposRequeridos['formDireccionElectronica_Comentario'].Requerido === 'S'"
+					class="col-xs-9" 
+					ng-model="mdie.DireccionElectronica.Comentario">
+				</bcs-input-texto>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_ESTADO</label>
+				<bcs-combobox-base
+					id="formDireccionElectronica_IdEstado"
+					bcs-requerido = "mdie.camposRequeridos['direccionElectronica_estado'].AplicaRequerido === 'S'"
+					class="col-xs-9"
+					auto-cargar="true"
+					filtros="mdie.cmbbxDireccionElectronica.filtros"
+					tipo="'combobox-estado-direccion-electronica'"
+					id-actual="mdie.DireccionElectronica.IdEstado"
+					id-post-filtro="mdie.DireccionElectronicaOriginal.IdEstado"
+				>
+				</bcs-combobox-base>
+			</div>					
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="ModalDireccionElectronica_aceptar" class="col-xs-2 pull-right" bcs-habilitado="formDireccionElectronica.$valid" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="mdie.aceptar()"></bcs-button>
+		<bcs-button id="ModalDireccionElectronica_cancelar" class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mdie.cancelar()"></bcs-button>
+	</div>
+</div>

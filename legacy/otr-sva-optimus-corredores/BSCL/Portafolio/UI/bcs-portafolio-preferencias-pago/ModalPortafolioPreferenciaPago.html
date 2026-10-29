@@ -1,0 +1,152 @@
+<div id="CrearPortafolio" class="col-xs-12" ng-controller="ModalPortafolioPreferenciaPagoCtrl as mPortPP">
+	<div class="bcs-cuerpo">
+		<form name="formModalPortafolioPreferenciaPago" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MEDIO_DE_PAGO</label>
+				<bcs-combobox-base class="col-xs-8"
+					id="formModalPortafolioPreferenciaPago_IdMedioDePago"
+					bcs-requerido="mPortPP.camposRequeridos['formModalPortafolioPreferenciaPago_IdMedioDePago'].Requerido === 'S'"
+					tipo="'combobox-preferencia-pago-medio-pago'"
+					filtros="mPortPP.cmbbx.prefPagoMedioPago.filtros"
+					id-actual="mPortPP.datosDespues.IdMedioDePago"
+					id-defecto="mPortPP.datosAntes.IdMedioDePago"
+					todos="'N'"
+					auto-cargar="true"
+					activado="!mPortPP.win.modoEdicion"
+					seleccionado="mPortPP.PrefPagoMedioPagoObj"
+					cascada1-a="mPortPP.cmbbx.prefPagoMoneda.filtros.IdMedioDePago"
+					cascada1-valor="'IdMedioDePago'"
+					cascada2-a="mPortPP.cmbbx.prefPagoMoneda.filtros.RecibePagaPortafolio"
+					cascada2-valor="'RecibePagaPortafolio'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MONEDA</label>
+				<bcs-combobox-base class="col-xs-8"
+					id="formModalPortafolioPreferenciaPago_IdMoneda"
+					bcs-requerido="mPortPP.camposRequeridos['formModalPortafolioPreferenciaPago_IdMoneda'].Requerido === 'S'"
+					tipo="'combobox-preferencia-pago-moneda'"
+					filtros="mPortPP.cmbbx.prefPagoMoneda.filtros"
+					id-actual="mPortPP.datosDespues.IdMoneda"
+					id-defecto="mPortPP.datosAntes.IdMoneda"
+					todos="'N'"
+					auto-cargar="false"
+					activado="!mPortPP.win.modoEdicion"
+					seleccionado="mPortPP.PrefPagoMonedaObj"
+					cascada1-a="mPortPP.cmbbx.personaCuentasBancarias.filtros.IdMoneda"
+					cascada1-valor="'IdMoneda'"
+					cascada2-a="mPortPP.cmbbx.personaCuentasBancariasCorredora.filtros.IdMoneda"
+					cascada2-valor="'IdMoneda'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_OPERACION</label>
+				<bcs-combobox-base class="col-xs-8"
+					id="formModalPortafolioPreferenciaPago_IdPreferenciaPago"
+					bcs-requerido="mPortPP.camposRequeridos['formModalPortafolioPreferenciaPago_IdPreferenciaPago'].Requerido === 'S'"
+					auto-cargar="{{mPortPP.win.modoEdicion}}"
+					tipo="'combobox-operaciones-portafolio-cliente'"
+					filtros="mPortPP.cmbbx.personaOperacionPortafolioCliente.filtros"
+					id-actual="mPortPP.datosDespues.IdPreferenciaPago"
+					id-defecto="mPortPP.datosAntes.IdPreferenciaPago"
+					todos="'N'"
+					usa-filtros-completos="'S'"
+					seleccionado="mPortPP.PersonaOperacionPortafolioClienteObj">
+				</bcs-combobox-base>
+			</div>
+			<div ng-show="mPortPP.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mPortPP.isOperacionMesaRecibe">
+				<hr>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CUENTA_BANCARIA</label>
+					<bcs-combobox-base 
+						id="formModalPortafolioPreferenciaPago_IdCuentaBancaria"
+						bcs-requerido="(mPortPP.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mPortPP.isOperacionMesaRecibe) && (mPortPP.parametros.RecibePagaPortafolio === 'R' || mPortPP.isOperacionMesaPaga)"
+						ng-show="(mPortPP.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mPortPP.isOperacionMesaRecibe) && (mPortPP.parametros.RecibePagaPortafolio === 'R' || mPortPP.isOperacionMesaPaga)"
+						class="col-xs-8"					
+						tipo="'combobox-persona-cuenta-bancaria'"
+						filtros="mPortPP.cmbbx.personaCuentasBancarias.filtros"
+						id-actual="mPortPP.datosDespues.IdCuentaBancaria"
+						id-defecto="mPortPP.datosAntes.IdCuentaBancaria"
+						todos="'N'"
+						auto-cargar="true"
+						seleccionado="mPortPP.PersonaCuentasBancariasObj">
+					</bcs-combobox-base>
+					<bcs-combobox-base
+						id="formModalPortafolioPreferenciaPago_IdCuentaBancaria"
+						bcs-requerido="(mPortPP.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mPortPP.isOperacionMesaRecibe) && (mPortPP.parametros.RecibePagaPortafolio === 'P' && !mPortPP.isOperacionMesaPaga)"
+						ng-show="(mPortPP.PrefPagoMedioPagoObj.UsaCuentaBancaria === 'S' && mPortPP.isOperacionMesaRecibe) && (mPortPP.parametros.RecibePagaPortafolio === 'P' && !mPortPP.isOperacionMesaPaga)"
+						class="col-xs-8"
+						tipo="'combobox-banco-cuentas-bancarias-corredora-cuentas'"
+						filtros="mPortPP.cmbbx.personaCuentasBancariasCorredora.filtros"
+						id-actual="mPortPP.datosDespues.IdCuentaBancariaCuenta"
+						id-defecto="mPortPP.datosAntes.IdCuentaBancariaCuenta"
+						todos="'N'"
+						auto-cargar="true"
+						seleccionado="mPortPP.PersonaCuentasBancariasObjCuenta">
+					</bcs-combobox-base>
+				</div>
+				<hr>
+			</div>
+			<div ng-show="mPortPP.PrefPagoMedioPagoObj.UsaTarjetaBancaria === 'S'">
+				<hr>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TARJETA_BANCARIA</label>
+					<bcs-combobox-base class="col-xs-8"
+						id="formModalPortafolioPreferenciaPago_IdTarjetaBancaria"
+						bcs-requerido="mPortPP.PrefPagoMedioPagoObj.UsaTarjetaBancaria === 'S'"
+						tipo="'combobox-persona-tarjeta-bancaria'"
+						filtros="mPortPP.cmbbx.personaTarjetasBancarias.filtros"
+						id-actual="mPortPP.datosDespues.IdTarjetaBancaria"
+						id-defecto="mPortPP.datosAntes.IdTarjetaBancaria"
+						todos="'N'"
+						seleccionado="mPortPP.PersonaTarjetasBancariasObj">
+					</bcs-combobox-base>
+				</div>
+				<hr>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+				<bcs-input-checkbox class="col-xs-8" 
+					ng-model="mPortPP.datosDespues.PorDefecto">
+				</bcs-input-checkbox> 
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_ESTADO</label>
+				<bcs-combobox-base class="col-xs-8"
+					id="formModalPortafolioPreferenciaPago_IdEstado"
+					bcs-requerido="mPortPP.camposRequeridos['formModalPortafolioPreferenciaPago_IdEstado'].Requerido === 'S'"
+					tipo="'combobox-estado-portafolio'"
+					filtros="mPortPP.cmbbx.estado.filtros"
+					id-actual="mPortPP.datosDespues.IdEstado"
+					id-defecto="mPortPP.datosAntes.IdEstado"
+					todos="'N'"
+					seleccionado="mPortPP.EstadoObj">
+				</bcs-combobox-base>
+			</div>    				
+			<hr>
+			
+		</form>
+		<div class="row bcs-panel-comandos">
+			<div class="row">
+				<bcs-button id="CrearPortafolio_guardar" 
+					class="col-xs-3" 
+					bcs-tipo="'bcs-button-primary'"   
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_GUARDAR' | translate" 
+					bcs-habilitado="formModalPortafolioPreferenciaPago.$valid"
+					bcs-clic="mPortPP.win.guardar()">
+				</bcs-button>
+				<bcs-button id="CrearPortafolio_cancelar" 
+					class="col-xs-3" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-mostrar="mPortPP.win.muestraCancelar" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_CANCELAR' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="mPortPP.win.cancelar()">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+</div>

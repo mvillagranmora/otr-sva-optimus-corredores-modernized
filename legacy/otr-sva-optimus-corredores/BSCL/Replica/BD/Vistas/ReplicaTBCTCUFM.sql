@@ -1,0 +1,36 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaTBCTCUFM"; 
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaTBCTCUFM" AS
+
+SELECT
+	 WST."IdStack" AS "IDSTACK"
+	,WST."Action" AS ACTION
+	,COD_PER  || ':' || RUT_CLI || ':' ||  SEC_RUT_CLI || ':' || NEMO || ':' ||  COD_BOVEDA AS TABLE_KEY
+	,"COD_PER"
+	,"RUT_CLI"
+	,"SEC_RUT_CLI"
+	,"NEMO"
+	,"COD_BOVEDA"
+	,"CAN_CUSTODIA"
+	,"CAN_GARANTIA"
+	,"CAN_COM_PLAZO"
+	,"CAN_LIBRE_01"
+	,"CAN_LIBRE_02"
+	,"CAN_LIBRE_03"
+	,"CAN_TRAM_COM"
+	,"CAN_TRAM_VEN"
+	,"CAN_VEN_PLAZO"
+	,"MONTO_INI_AJUS"
+	,"MONTO_VALORIZ"
+	,"PRECIO_CIERRE"
+	,"PRECIO_PROM"
+	,"CAN_TRAM_APORTE"
+	,"CAN_TRAM_RESCATE"
+FROM "BSCL.Replica.BD.Vistas::Sebra.TBCTCUFM" SCUST
+--FROM "BSCL.Replica.BD.Vistas::Sebra.TBCTCUFMHist"('PLACEHOLDER' = ('$$p_fecha$$','2022-06-30')) SCUST
+LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'TBCTCUFM' 
+	AND WST."Key" = (COD_PER  || ':' || RUT_CLI || ':' ||  SEC_RUT_CLI || ':' || NEMO || ':' ||  COD_BOVEDA)
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaTBCTCUFM" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

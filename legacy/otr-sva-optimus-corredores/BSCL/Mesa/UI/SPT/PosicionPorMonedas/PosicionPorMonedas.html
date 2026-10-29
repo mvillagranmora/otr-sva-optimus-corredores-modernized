@@ -1,0 +1,76 @@
+<div ng-controller="posicionPorMonedasCtrl as posicionPorMonedas">
+	<form name="formPosicionPorMonedas" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_POSICION_POR_MONEDAS | translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-12 row">
+					<div class="col-xs-4">
+						<label class="col-xs-3" translate>UI_FECHA</label>
+						<bcs-input-date
+							class="col-xs-6"
+							id="UI_FECHA"
+							bcs-requerido
+							k-ng-model="data.kngFecha"
+							k-options="fecha"
+						>
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-3" translate>UI_TIPO_MESA</label>
+						<bcs-combobox-base 
+							class="col-xs-6"
+							id="UI_TIPO_MESA"
+							item-post-filtro="'1'"
+							todos="'S'"
+							auto-cargar="true"
+							tipo="'combobox-parametro-mesa'"
+							seleccionado="data.oConfiguracionTipoMesa.seleccionado"
+							filtros="data.oConfiguracionTipoMesa.filtros"
+						>
+						</bcs-combobox-base>
+					</div>
+					<!-- BOTONES -->
+					<div class="col-xs-4 alignButtonsToRight">
+						<bcs-button class="row col-xs-4" 
+							bcs-tipo="'bcs-button-search'"
+							bcs-auto-desactivar="'true'" 
+							bcs-texto="'UI_BUSCAR' | translate"
+							bcs-habilitado="true"
+							bcs-clic="data.consultarPosicion()" >
+						</bcs-button>
+					</div>
+				</div>
+			<br>
+			<!-- GRILLA -->
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-grid 	id="grid-posicionPorMoneda" 
+								configuracion="confPosicionPorMoneda"
+								seleccionado="seleccion"
+								fn-exportar-excel = "exportarExcel">
+					<!-- fn-exportar-excel = "exportarExcel" -->
+					</bcs-grid>
+				</div>
+			</div>
+			<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+				<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+			<!-- <div class="row bcs-panel-comandos">
+					<div class="col-xs-10"></div>
+					<div class="col-xs-2">
+						<bcs-button  class="col-xs-12" 
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_EXPORTAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="exportarExcel()">
+						</bcs-button>
+					</div>
+			</div> -->
+			<bcs-websocket bcs-msg='msgWebsocket(message)'></bcs-websocket>
+		</div>
+	</form>
+</div>

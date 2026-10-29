@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dimension:dimension xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" schemaVersion="1.2" id="Ciudad" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" visibility="internal" dimensionType="Standard">
+  <descriptions defaultDescription="Comuna"/>
+  <attributes>
+    <attribute id="NombrePais" order="1" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="NombrePais"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Pais" columnName="NombrePais"/>
+    </attribute>
+    <attribute id="NombreCiudad" order="2" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="NombreCiudad"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Ciudad" columnName="NombreCiudad"/>
+    </attribute>
+    <attribute id="NombreClasificacionDivisionPais" order="3" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="NombreClasificacionDivisionPais"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.ClasificacionDivisionPais" columnName="NombreClasificacionDivisionPais"/>
+    </attribute>
+    <attribute id="NombreDivisionPais_1" order="4" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="TipoDivisionPais"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Pais" columnName="NombreDivisionPais"/>
+    </attribute>
+    <attribute id="NombreDivisionPais" order="5" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="NombreDivisionPais"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.DivisionPais" columnName="NombreDivisionPais"/>
+    </attribute>
+    <attribute id="CodigoPais" order="6" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="CodigoPais"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Pais" columnName="CodigoPais"/>
+    </attribute>
+    <attribute id="TipoClasificacionDivisionPais" order="7" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="TipoClasificacionDivisionPais"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.ClasificacionDivisionPais" columnName="TipoClasificacionDivisionPais"/>
+    </attribute>
+    <attribute id="IdCiudad" key="true" order="8" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="IdCiudad"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Ciudad" columnName="IdCiudad"/>
+    </attribute>
+    <attribute id="IdPais" order="9" attributeHierarchyActive="false" displayAttribute="false">
+      <descriptions defaultDescription="IdPais"/>
+      <keyMapping schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Pais" columnName="IdPais"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <privateDataFoundation>
+    <tableProxies>
+      <tableProxy>
+        <table schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Pais"/>
+      </tableProxy>
+      <tableProxy>
+        <table schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Ciudad"/>
+      </tableProxy>
+      <tableProxy>
+        <table schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.ClasificacionDivisionPais"/>
+      </tableProxy>
+      <tableProxy>
+        <table schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.DivisionPais"/>
+      </tableProxy>
+    </tableProxies>
+    <joins>
+      <join>
+        <leftTable schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Ciudad"/>
+        <rightTable schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Pais"/>
+        <leftColumns>
+          <columnName>IdPais</columnName>
+        </leftColumns>
+        <rightColumns>
+          <columnName>IdPais</columnName>
+        </rightColumns>
+        <properties joinOperator="Equal" joinType="referential"/>
+      </join>
+      <join>
+        <leftTable schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.Ciudad"/>
+        <rightTable schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.DivisionPais"/>
+        <leftColumns>
+          <columnName>IdCiudad</columnName>
+        </leftColumns>
+        <rightColumns>
+          <columnName>IdCiudad</columnName>
+        </rightColumns>
+        <properties joinOperator="Equal" joinType="referential"/>
+      </join>
+      <join>
+        <leftTable schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.DivisionPais"/>
+        <rightTable schemaName="BSCL" columnObjectName="BSCL.Plataforma.BD::REG.ClasificacionDivisionPais"/>
+        <leftColumns>
+          <columnName>IdClasificacion1</columnName>
+        </leftColumns>
+        <rightColumns>
+          <columnName>IdClasificacionDivisionPais</columnName>
+        </rightColumns>
+        <properties joinOperator="Equal" joinType="referential"/>
+      </join>
+    </joins>
+    <layout>
+      <shapes>
+        <shape modelObjectName="BSCL.Plataforma.BD::REG.Pais" modelObjectNameSpace="BSCL" modelObjectType="catalog">
+          <upperLeftCorner x="27" y="14"/>
+        </shape>
+        <shape modelObjectName="BSCL.Plataforma.BD::REG.Ciudad" modelObjectNameSpace="BSCL" modelObjectType="catalog">
+          <upperLeftCorner x="327" y="16"/>
+        </shape>
+        <shape modelObjectName="BSCL.Plataforma.BD::REG.ClasificacionDivisionPais" modelObjectNameSpace="BSCL" modelObjectType="catalog">
+          <upperLeftCorner x="51" y="307"/>
+        </shape>
+        <shape modelObjectName="BSCL.Plataforma.BD::REG.DivisionPais" modelObjectNameSpace="BSCL" modelObjectType="catalog">
+          <upperLeftCorner x="637" y="145"/>
+        </shape>
+        <shape modelObjectName="DataFoundation" modelObjectNameSpace="DataFoundation" modelObjectType="repository">
+          <upperLeftCorner x="40" y="85"/>
+          <rectangleSize height="0" width="0"/>
+        </shape>
+      </shapes>
+    </layout>
+  </privateDataFoundation>
+  <hierarchies/>
+</Dimension:dimension>

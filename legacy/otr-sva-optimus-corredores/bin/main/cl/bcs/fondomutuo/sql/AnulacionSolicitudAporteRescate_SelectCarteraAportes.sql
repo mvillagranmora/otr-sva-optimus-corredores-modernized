@@ -1,0 +1,1 @@
+SELECT "IdOperacion","FolioCartera","IdCartera","IdCliente","IdPortafolio","IdInstrumento","INGCantidad", "Cantidad", "IdEmisor", "INGMontoATasaMercadoActual" AS "Monto" FROM "BSCL.Custodia.BD::CUS.Cartera" WHERE "IdCartera" IN (:IdCartera)

@@ -1,0 +1,61 @@
+<div class="row" ng-controller='ResumenOperacionesDiariasCtrl'>
+<form name="frmCustodiaPortafolioNew">
+	<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_CLIENTE</label>
+					<bcs-combobox-base 
+						class="col-xs-9"
+					    id="frmCustodiaPortafolioNew_Cliente"
+					    carga-cliente-automatico="'S'"
+					    auto-cargar="'false'"
+					    item-post-filtro="data.oConfiguracionCliente.itemPostFiltro"
+						tipo="data.oConfiguracionCliente.tipo"
+						filtros="data.oConfiguracionCliente.filtros"									
+						configuracion= "data.oConfiguracionCliente.configuracion"									 				
+						seleccionado="data.oConfiguracionCliente.seleccionado"									
+						id-actual="socioGral.idActual"
+						cascada-a="data.oConfiguracionPortafolio.filtros.IdCliente"
+						cascada-valor="'IdCliente'"
+						cascada-defecto="-1"
+						bcs-requerido="'true'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA_CONSULTA</label>
+					<bcs-input-date
+						class="col-xs-9"
+						bcs-requerido = "'true'"
+						k-ng-model="data.kngFecha"
+						k-options="data.FechaConsultaOpt">	
+				</div>			
+			</div>
+	</div>
+</form>		
+		<div class="col-xs-2">
+		    <div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-habilitado="'true'" bcs-texto="'UI_BUSCAR' | translate" bcs-clic="buscar()" ></bcs-button>
+			</div>
+		</div>
+  		
+	<div class="col-xs-12">
+		<div class="row" >
+			<bcs-grid id="grid-resumen-operaciones"
+				api = "apiGridResumenOperaciones"	
+				configuracion="confGrillaResumenOperaciones"
+				seleccionado="seleccionResumenOperaciones"
+				fn-exportar-excel="exportarExcel">
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<div class= "row">
+			<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="exportarExcel('resumen-operaciones')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+	</div>
+	
+
+</div>
+
+

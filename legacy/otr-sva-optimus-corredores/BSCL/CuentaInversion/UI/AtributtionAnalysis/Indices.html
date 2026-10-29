@@ -1,0 +1,52 @@
+<div id="Indices" ng-controller='IndicesCtrl as indices'>
+	<div class="row">
+		<!-- INICIO FILTROS -->
+		<div class="col-xs-11">
+			<div class="row">
+			<!-- ng-show='false'  oculta el combo -->
+				<div class="col-xs-4" ng-show='false'>
+					<label class="col-xs-5" translate>UI_TIPO_INDICE</label>
+					<bcs-combobox-base class="col-xs-5"
+			  			tipo="'combobox-tipo-indice'"
+			  			id-actual="indices.filtros.tipoIndice"
+			  			id-defecto="'DI'"
+			  			hidden="true"
+			  			todos="'N'">
+			  		</bcs-combobox-base>
+				</div>		    	
+				<div class="col-xs-4">
+					<label class="col-xs-2" translate>UI_PERIODO</label>
+					<bcs-input-date
+						class="col-xs-5"
+						id="indices_Periodo"
+						k-options="indices.configuracionPeriodo"
+						k-ng-model="indices.filtros.periodo"
+						todo-dias="'true'">
+					</bcs-input-date>
+				</div>
+		   			
+			</div>
+		</div>
+		<!-- FIN FILTROS -->
+	</div>
+	<!-- INICIO GRILLA -->
+	<div class="row">
+		<bcs-grid
+			id="indices-parametros-financieros"
+			api = "indices.apiGrid"
+			fn-exportar-excel="indices.exportarExcel"
+			seleccionado = "indices.registroSeleccionado"
+			configuracion="indices.defaultOptions">
+		</bcs-grid>
+	</div>
+	<!-- FIN GRILLA -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="indices_guardar" style="width: 120px;" bcs-tipo="'bcs-button-primary'" class="col-xs-1" bcs-habilitado="indices.grillaCargada" bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR_INDICE' | translate" bcs-clic="indices.guardar()"></bcs-button>
+		<bcs-button id="indices_mantenedor" bcs-tipo="'bcs-button-primary'" class="col-xs-1 pull-right"  bcs-habilitado="indices.grillaCargada" bcs-auto-desactivar="false" bcs-texto="'UI_MANTENEDOR' | translate" bcs-clic="indices.AbreVentana()"></bcs-button>
+		<!--
+		<bcs-button id="indices_crear" class="col-xs-1" bcs-habilitado="indices.grillaCargada" bcs-auto-desactivar="false" bcs-texto="'UI_CREAR_INDICE' | translate" bcs-clic="indices.crear()"></bcs-button>
+		<bcs-button id="indices_modificar" class="col-xs-1" bcs-habilitado="indices.grillaCargada" bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR_INDICE' | translate" bcs-clic="indices.modificar()"></bcs-button>
+		<bcs-button id="indices_eliminar" class="col-xs-1" bcs-habilitado="indices.grillaCargada" bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR_INDICE' | translate" bcs-clic="indices.eliminar()"></bcs-button>
+		-->
+	</div>
+</div>

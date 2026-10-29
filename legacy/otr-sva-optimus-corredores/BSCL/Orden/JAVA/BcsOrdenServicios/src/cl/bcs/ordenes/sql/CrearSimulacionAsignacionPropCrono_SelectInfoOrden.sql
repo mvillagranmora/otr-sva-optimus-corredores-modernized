@@ -1,0 +1,48 @@
+SELECT 
+	ord."IdOrden"
+	, ord."IdClasificacionTipoInstrumento"
+	, ord."IdBolsa"
+	, ord."IdCondicionDeLiquidacion"
+	, ord."PrecioOrden"
+	, ord."MontoOrden"
+	, ord."FechaIngresoRegistro"
+	, ord."FechaOperacionOrden"
+	, ord."IdLibroOrdenes"
+	, ord."IdTipoPrecio"
+	, ord."IdInstrumento"
+	, ord."Instrumento"
+	, ord."IdTipoInstrumento"
+	, ord."IdMonedaInstrumento"
+	, ord."Tasa"
+	, ord."IdPortafolio"
+	, ord."CodigoPortafolio"
+	, ord."NombreCompleto"
+	, ord."DocumentoIdentidad"
+	, ord."IdCliente"
+	, ord."IdTipoCanalIngreso"
+	, ord."IdMonedaLiquidacionOrden"
+	, ord."IdTipoOperacion"
+	, ord."EsVentaCorta"
+	, ord."Plazo"
+	, ord."IdInstrumentoSubyacente"
+	, CASE WHEN :p_IdTipo = 'REFACTURACION' or :p_IdTipo = 'REASIGNACION' THEN (ord."CantidadDisponibleOrden" + ord."CantidadAsignadaOrden") ELSE ord."CantidadDisponibleOrden" END AS "CantidadDisponibleOrden"
+	, CASE WHEN :p_IdTipo = 'REFACTURACION' or :p_IdTipo = 'REASIGNACION' THEN 0 ELSE ord."CantidadAsignadaOrden" END AS "CantidadAsignadaOrden"
+	, CASE WHEN :p_IdTipo = 'REFACTURACION' or :p_IdTipo = 'REASIGNACION' THEN (ord."MontoDisponibleOrden" + ord."MontoAsignadoOrden") ELSE ord."MontoDisponibleOrden" END AS "MontoDisponibleOrden"
+	, CASE WHEN :p_IdTipo = 'REFACTURACION' or :p_IdTipo = 'REASIGNACION' THEN 0 ELSE ord."MontoAsignadoOrden" END AS "MontoAsignadoOrden"
+	
+	, inst."PrecioStrike"
+	, inst."EsDivisible"
+	, inst."LargoPlazo"
+	, inst."ISIN"
+	, inst."EstaInscrito"
+	, inst."Tamano"
+	, inst."CorteMinimo"
+	
+	, bol."EsExtranjera"
+FROM "BSCL.Orden.BD.Vistas::ConsultarOrden" AS ord 
+INNER JOIN "BSCL.Orden.BD::ORD.CrearSimulacionAsignacion_Entrada_Ordenes"  AS p_ord ON (ord."IdOrden" = p_ord."IdOrden")
+
+LEFT JOIN  "BSCL.Plataforma.BD::INS.Instrumento" 	inst 	ON ord."IdInstrumento" 	= inst."IdInstrumento"
+LEFT JOIN  "BSCL.Plataforma.BD::INS.Bolsa" 			bol 	ON ord."IdBolsa" 		= bol."IdBolsa"
+
+ORDER BY "FechaOperacionOrden" ASC

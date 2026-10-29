@@ -1,0 +1,115 @@
+<div class="row" ng-controller='ContratoCondicionesGeneralesFWDCtrl as Contrato'>
+    <form name="frmContratoCondicionesGenerales"  class="col-xs-12 form-horizontal">
+        <div class="row bcs-cuerpo">
+            <div class="col-xs-12">
+             <div class="row">
+				<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<div class="col-xs-9">
+					<bcs-combobox-base class="col-xs-12"
+							id="UI_SOCIO_NEGOCIO" 
+							carga-cliente-automatico="'N'"
+							bcs-requerido="'true'" 
+							auto-cargar="'false'"
+							tipo="'combobox-cliente-portafolio'"
+							seleccionado="data.oConfiguracionClientePortafolio.seleccionado"
+							filtros = "filtrosPortafolio"
+					    	id-actual="data.oConfiguracionClientePortafolio.idActual"
+					    	id-defecto="data.oConfiguracionClientePortafolio.idDefecto"
+							configuracion="data.oClientePortafolio.configuracion"
+							activado="!data.allPortafolio"
+							cascada-a="data.oConfiguracionApoderadoCliente.filtros.IdPersonaOrigen"
+							cascada-valor="'IdPersona'">>
+					</bcs-combobox-base>
+				</div>
+			 </div>
+            </div>  
+            
+			<hr>
+			
+            <div class="col-xs-12">
+                <div class="row">
+	                <label class="col-xs-12" translate>UI_MRF_CCG_PERSONAS_FIRMAN_CORREDORA</label>
+                </div>
+            </div>
+            
+            <div class="col-xs-12">
+	            <div class="row">
+					<label class="col-xs-3" translate>UI_MRF_CCG_APODERADO_1</label>
+						<bcs-combobox-base class="col-xs-9"
+						    tipo="'combobox-relacionado'"
+						    id-actual="datosDespuesCorredora['GRUPOFORWARD//FWDAPO1']"
+						    id-defecto="datosAntesCorredora['GRUPOFORWARD//FWDAPO1']"
+						    bcs-requerido 
+						    filtros="data.oConfiguracionApoderadoCorredora.filtros"
+						    seleccionado="data.ApoderadoPrimarioCorredora.seleccionado">
+						</bcs-combobox-base>
+
+			 	</div>
+            </div>  
+   
+            <div class="col-xs-12">
+	            <div class="row">
+					<label class="col-xs-3" translate>UI_MRF_CCG_APODERADO_2</label>
+						<bcs-combobox-base class="col-xs-9"
+						    tipo="'combobox-relacionado'"
+						    id-actual="datosDespuesCorredora['GRUPOFORWARD//FWDAPO2']"
+						    id-defecto="datosAntesCorredora['GRUPOFORWARD//FWDAPO2']"
+						    filtros="data.oConfiguracionApoderadoCorredora.filtros"
+						    seleccionado="data.ApoderadoSecundarioCorredora.seleccionado">
+						</bcs-combobox-base>
+			 	</div>
+            </div>  
+
+			<hr>
+
+            <div class="col-xs-12">
+                <div class="row">
+	                <label class="col-xs-12" translate>UI_MRF_CCG_PERSONAS_FIRMAN_CLIENTE</label>
+                </div>
+            </div>
+            
+            <div class="col-xs-12">
+	            <div class="row">
+					<label class="col-xs-3" translate>UI_MRF_CCG_APODERADO_1</label>
+					<bcs-combobox-base class="col-xs-9"
+						    tipo="'combobox-relacionado'"
+						    id-actual="datosDespues['GRUPOFORWARD//FWDAPO1']"
+						    id-defecto="datosAntes['GRUPOFORWARD//FWDAPO1']"
+						    bcs-requerido ="data.oConfiguracionClientePortafolio.seleccionado.TipoPersona==='J'?true:false" 
+						    filtros="data.oConfiguracionApoderadoCliente.filtros"
+						    seleccionado="data.ApoderadoPrimarioCliente.seleccionado">
+					</bcs-combobox-base>	
+			 	</div>
+            </div>  
+            
+            <div class="col-xs-12">
+	            <div class="row">
+					<label class="col-xs-3" translate>UI_MRF_CCG_APODERADO_2</label>
+					<bcs-combobox-base class="col-xs-9"
+						    tipo="'combobox-relacionado'"
+						    id-actual="datosDespues['GRUPOFORWARD//FWDAPO2']"
+						    id-defecto="datosAntes['GRUPOFORWARD//FWDAPO2']"
+						    filtros="data.oConfiguracionApoderadoCliente.filtros"
+						    seleccionado="data.ApoderadoSecundarioCliente.seleccionado">
+					</bcs-combobox-base>	
+			 	</div>
+            </div>  
+
+			<hr>
+
+        </div>
+		<div class=row></div>
+		<hr>
+			        
+        <div class="row alignButtonsToRight">
+            <bcs-button id="frmBuscarOperaciones"  
+                class="col-xs-3" 
+                bcs-tipo="'bcs-button-input-form'" 
+                bcs-auto-desactivar="false" 
+                bcs-texto="'UI_ACEPTAR' | translate"
+                bcs-habilitado="(frmContratoCondicionesGenerales.$valid) && (data.oConfiguracionClientePortafolio.seleccionado.IdEstado==='ACT')"   
+                bcs-clic="data.contratoCondcionesGeneralesFWD()">  
+            </bcs-button>
+        </div>
+    </form>
+</div>

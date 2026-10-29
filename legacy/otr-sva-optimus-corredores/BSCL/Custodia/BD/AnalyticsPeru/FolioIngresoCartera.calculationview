@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="FolioIngresoCartera" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="FolioIngresoCartera"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="FolioCartera"/>
+        <viewAttribute datatype="BIGINT" id="IdCartera"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = select &quot;FolioCartera&quot;, MIN(&quot;IdCartera&quot;) as &quot;IdCartera&quot; from &quot;BSCL.Custodia.BD.Vistas::CUS.ConsultarTablaCartera&quot; as car
+			   where car.&quot;IdEmpresa&quot; = 1 and car.&quot;IdTipoInstrumento&quot; not in ('PRT','EMP') and car.&quot;IdEstado&quot; &lt;> 'ANU'
+			   group by &quot;FolioCartera&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes/>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures>
+      <measure id="FolioCartera" order="1" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="FolioCartera"/>
+        <measureMapping columnObjectName="Script_View" columnName="FolioCartera"/>
+      </measure>
+      <measure id="IdCartera" order="2" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="IdCartera"/>
+        <measureMapping columnObjectName="Script_View" columnName="IdCartera"/>
+      </measure>
+    </baseMeasures>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

@@ -1,0 +1,19 @@
+INSERT INTO "BSCL.SocioNegocio.BD::ENR.DetalleDeclaracionOrigenFondos" (
+"IdTipoOrigenFondo"
+,"IdDeclaracionOrigenFondos"
+,"Valor"
+,"IdUsuarioCreador"
+,"FechaIngreso"
+,"FechaCreacion"
+,"FechaModificacion" 
+,"Otros")
+VALUES(
+:IdTipoOrigenFondo
+,:IdDeclaracionOrigenFondos
+,:Valor
+,:IdUsuarioCreador
+,:FechaIngreso
+,CURRENT_UTCTIMESTAMP
+,CURRENT_UTCTIMESTAMP
+,:Otros
+);

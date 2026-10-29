@@ -1,0 +1,62 @@
+<div class="row" ng-controller='SelectorClientesCtrl' bcs-enter="buscarClientes()" tabindex="1">
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div ng-class="{'col-xs-6' : SesionLocale !=='PE', 'col-xs-3' : SesionLocale ==='PE'}">
+					<label  ng-class="{'col-xs-2' : SesionLocale !=='PE', 'col-xs-5' : SesionLocale ==='PE'}" translate>UI_NOMBRE</label>
+					<bcs-input-texto  ng-class="{'col-xs-9' : SesionLocale !=='PE', 'col-xs-6' : SesionLocale ==='PE'}" ng-model="nombreCompleto"></bcs-input-texto>
+				</div>
+				<div ng-class="{'col-xs-6' : SesionLocale !=='PE', 'col-xs-3' : SesionLocale ==='PE'}">
+			  		<label ng-class="{'col-xs-3' : SesionLocale !=='PE', 'col-xs-5' : SesionLocale ==='PE'}" translate>UI_DOCUMENTO_IDENTIDAD</label>
+					<bcs-input-texto ng-class="{'col-xs-9' : SesionLocale !=='PE', 'col-xs-6' : SesionLocale ==='PE'}" ng-model="numeroDocumentoIdentidad" ></bcs-input-texto>
+			 	 </div>
+			 	 <div class="col-xs-3" ng-show="SesionLocale==='PE'">
+				   <label class="col-xs-3" translate>UI_BROKER</label>
+				   <bcs-combobox-base				      				      
+				      class="col-xs-7"
+					  tipo="'combobox-broker-extranjero'"
+					  filtros="configData.filtroBroker"
+					  id-actual="recordData.idBroker"
+					  activado="!configData.bloqueoCliente"
+					  id-defecto="'0'"
+					  seleccionado="recordData.BrokerObj"
+					  todos="'S'">
+				   </bcs-combobox-base>
+				</div>
+			 	 
+				<!-- <div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_GRUPO</label>
+					<bcs-combobox-base  
+						class="col-xs-6"
+						todos = "'S'"
+						filtros = "filtrosGrupoCliente"
+						id-actual="IdGrupo"
+						seleccionado ="grupoSeleccionado"
+						tipo="'combobox-grupos-clientes'">
+					</bcs-combobox-base>
+					<bcs-button  class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_EDITAR' | translate" bcs-habilitado="IdGrupo > 0"  bcs-clic="editarGrupo()"></bcs-button>
+				</div> -->
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarClientes()"></bcs-button>
+			</div>
+	  	</div>
+  	</div>
+	<div class="row">
+		<div class="row">
+			<bcs-grid 
+				id="gridClientes"
+				api="apiGrid"
+				fn-doble-click = "aceptar()"
+				seleccionado ="seleccionado"
+				configuracion="configuracion">
+			</bcs-grid>
+		</div>
+	</div>		
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-1 pull-right" bcs-tipo="'bcs-button-primary'"   bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="'true'" bcs-clic="aceptar()"></bcs-button>
+		<bcs-button  class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'"  bcs-clic="cancelar()"></bcs-button>
+	</div>
+</div>

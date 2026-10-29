@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="ConsultaLogCambioPerfil" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="ConsultaLogCambioPerfil"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdUsuario"/>
+        <viewAttribute datatype="BIGINT" id="IdRegistro"/>
+        <viewAttribute datatype="DATE" id="FechaCambioPerfil"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = select L.&quot;IdUsuario&quot;, L.&quot;IdRegistro&quot;, MAX(L.&quot;FechaLog&quot;) as &quot;FechaCambioPerfil&quot;
+            from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Log&quot; as L
+            JOIN &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.DetalleLog&quot; as DL ON L.&quot;IdLog&quot; = DL.&quot;IdLog&quot;
+            where L.&quot;IdTipoRegistro&quot; = 'PORTAFOLIO' AND UPPER(DL.&quot;CampoRegistro&quot;) = 'IDPERFILCOMERCIALBASEORIGEN'
+             group by L.&quot;IdUsuario&quot;, L.&quot;IdRegistro&quot;  ;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <attributes>
+      <attribute id="IdUsuario" order="1">
+        <descriptions defaultDescription="IdUsuario"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuario"/>
+      </attribute>
+      <attribute id="IdRegistro" order="2">
+        <descriptions defaultDescription="IdRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdRegistro"/>
+      </attribute>
+      <attribute id="FechaCambioPerfil" order="3">
+        <descriptions defaultDescription="FechaCambioPerfil"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCambioPerfil"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

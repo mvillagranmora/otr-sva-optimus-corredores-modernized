@@ -1,0 +1,1 @@
+SELECT top 1 "Valor" from "BSCL.Normativa.BD::NOR.Configuracion" WHERE "CodigoParametro" = concat('PARAMS_SOL_PAUTA_',:p_IdTipoDocumento);

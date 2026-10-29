@@ -1,0 +1,200 @@
+<div id="ModalCriterioSeleccionTasas" class="row" ng-controller="ModalCriterioSeleccionTasasCtrl as mCST">
+	<div class="row">
+	<!-- kkkk -->
+		<form name="ModalCriterioSeleccionTasas" class="col-xs-12">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PRIORIDAD</label>
+				<bcs-input-numero class="col-xs-8"
+					k-ng-model="mCST.datosCriterio.Prioridad" 
+					bcs-requerido
+					decimales="0">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_TIPO_CARTERA</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-configuracion-tasas'"
+					id-actual="mCST.datosCriterio.Valor"
+					id-defecto="mCST.datosCriterio.ValorDef"
+					filtros="mCST.cmbbx.TipoCartera.filtros"
+					todos="'S'"
+					activado="!mCST.win.modoEditar"
+					bcs-requerido
+					configuracion="mCST.cmbbx.TipoCartera.configuracion"
+					seleccionado="mCST.datosCriterio.TipoCarteraObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_USO_CRITERIO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-uso-criterio'"
+					id-actual="mCST.datosCriterio.IdUso"
+					id-defecto="mCST.datosCriterio.IdUsoDef"
+					filtros="mCST.cmbbx.UsoCriterio.filtros"
+					todos="'N'"
+					activado="!mCST.win.modoEditar"
+					bcs-requerido
+					seleccionado="mCST.datosCriterio.UsoCriterioObj">
+				</bcs-combobox-base>
+			</div>
+
+			<div class="row" ng-show = mCST.MuestraEntidad>
+				<label class="col-xs-4" translate>UI_ENTIDAD_DESTINO</label>
+				<bcs-combobox-base class="col-xs-8" 
+					tipo			= "'combobox-entidad-garantia'"
+					id 				= "frm_EntidadDestino"				    						    
+					id-actual		= "mCST.datosCriterio.IdContraparte"
+					id-defecto    	= "mCST.datosCriterio.IdContraparteDef"
+					filtros			= "mCST.cmbbx.EntidadDestinoGarantia"
+					todos			= "'N'"
+					seleccionado	= "mCST.datosCriterio.IdEntidadObj">
+				</bcs-combobox-base >
+			</div>
+
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-clasificacion-tipo-instrumento'"
+					id-actual="mCST.datosCriterio.IdClasificacionTipoInstrumento"
+					id-defecto="mCST.datosCriterio.IdClasificacionTipoInstrumentoDef"
+					filtros = "mCST.cmbbx.ClasificacionTipoInstrumento.filtros"
+					todos="'N'"
+					activado="!mCST.win.modoEditar"
+					bcs-requerido
+					seleccionado="mCST.datosCriterio.ClasificacionTipoInstrumentoObj"
+					cascada1-a="mCST.cmbbx.TipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+					cascada1-valor="'IdClasificacionTipoInstrumento'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-tipo-instrumento'"
+					id-actual="mCST.datosCriterio.IdTipoInstrumento"
+					id-defecto="mCST.datosCriterio.IdTipoInstrumentoDef"
+					filtros = "mCST.cmbbx.TipoInstrumento.filtros"
+					todos="'S'"
+					bcs-requerido
+					activado="(!mCST.win.modoEditar) || (mCST.datosCriterio.IdClasificacionTipoInstrumento!=='IF' && mCST.win.modoEditar)"
+					seleccionado="mCST.datosCriterio.TipoInstrumentoObj"
+					cascada1-a="mCST.cmbbx.TipoOperacion.filtros.IdTipoInstrumento"
+					cascada1-valor="'IdTipoInstrumento'">
+				</bcs-combobox-base>
+			</div>
+			<div ng-if="mCST.datosCriterio.IdClasificacionTipoInstrumento=== 'IF' && (mCST.datosCriterio.IdTipoInstrumento == 'PAG' || mCST.datosCriterio.TipoInstrumentoObj.NombreLargoTipoInstrumento == ' TODOS')">
+				<div class="row">
+				  <label class="col-xs-4" translate>UI_NEMOTECNICO</label>
+				  <bcs-combobox-base class="col-xs-8" 
+				  		tipo="'combobox-instrumento-IF'"
+						id-actual="mCST.datosCriterio.NemotecnicoAct"
+						id-defecto="mCST.datosCriterio.NemotecnicoDef"
+						filtros="mCST.cmbbx.InstrumentoIF.filtros"
+						todos="'S'"
+						activado="!mCST.win.modoEditar"
+						bcs-requerido="mCST.datosCriterio.IdClasificacionTipoInstrumento=== 'IF' && (mCST.datosCriterio.IdTipoInstrumento == 'PAG' || mCST.datosCriterio.TipoInstrumentoObj.NombreLargoTipoInstrumento == ' TODOS') && !mCST.win.modoEditar"
+				  		seleccionado="mCST.datosCriterio.InstrumentoIFObj">
+			  	 </bcs-combobox-base>
+				</div>
+			</div>
+			<!--
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-tipo-operacion'"
+					id-actual="mCST.datosCriterio.IdTipoOperacion"
+					id-post-filtro="mCST.datosCriterio.IdTipoOperacionDef"
+					filtros = "mCST.cmbbx.TipoOperacion.filtros"
+					todos="'N'"
+					bcs-requerido
+					seleccionado="mavld.datosCriterio.TipoOperacionObj">
+				</bcs-combobox-base>
+			</div>
+			-->
+			<div class="row">
+				<label class="col-xs-4" translate>UI_DIAS_ANTIGUEDAD</label>
+				<bcs-input-numero class="col-xs-8"
+					k-ng-model="mCST.datosCriterio.DiasAntiguedad" 
+					bcs-requerido
+					decimales="0">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_TIPO_CRITERIO_TASA</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-tipo-criterio-tasa'"
+					id-actual="mCST.datosCriterio.IdTipoCriterioTasa"
+					id-defecto="mCST.datosCriterio.IdTipoCriterioTasaDef"
+					filtros="mCST.cmbbx.TipoCriterioTasa.filtros"
+					todos="'S'"
+					bcs-requerido
+					seleccionado="mCST.datosCriterio.TipoCriterioTasaObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_FUENTE</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-fuente'"
+					id-actual="mCST.datosCriterio.Codigo"
+					id-defecto="mCST.datosCriterio.CodigoDef"
+					filtros="mCST.cmbbx.Fuente.filtros"
+					todos="'N'"
+					bcs-requerido
+					seleccionado="mCST.datosCriterio.FuenteObj">
+				</bcs-combobox-base>
+		  	</div>
+		  	<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_TASA</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-tipo-tasa'"
+					id-actual="mCST.datosCriterio.IdTipoTasa"
+					id-defecto="mCST.datosCriterio.IdTipoTasaDef"
+					filtros="mCST.cmbbx.TipoTasa.filtros"
+					todos="'N'"
+					bcs-requerido
+					seleccionado="mCST.datosCriterio.TipoTasaObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row" ng-show="SesionLocale === 'CL'">
+				<label class="col-xs-4" translate>UI_TIPO_PRECIO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-tipo-precio-modulo-tasas'"
+					id-actual="mCST.datosCriterio.IdTipoPrecio"
+					id-defecto="mCST.datosCriterio.IdTipoPrecioDef"
+					filtros="mCST.cmbbx.TipoPrecio.filtros"
+					todos="'N'"
+					bcs-requerido="SesionLocale === 'CL' && mCST.datosCriterio.IdTipoInstrumento !== 'FWD'"
+					seleccionado="mCST.datosCriterio.TipoPrecioObj"
+					activado="mCST.datosCriterio.IdTipoInstrumento !== 'FWD'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_INTERPOLAR</label>
+				<bcs-input-checkbox 
+					ng-model="mCST.datosCriterio.Interpolar">
+				</bcs-input-checkbox>
+			</div>
+			<!--
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_ESTADO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-estado-tasa'"
+					id-actual="mCST.datosCriterio.IdEstado"
+					id-defecto="mCST.datosCriterio.IdEstadoDef"
+					filtros="mCST.cmbbx.Estado.filtros"
+					todos="'N'"
+					seleccionado="mCST.datosCriterio.EstadoObj">
+				</bcs-combobox-base>
+			</div>
+			-->
+		</form>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id={{mCST.IdBotonAceptar}} class="col-xs-3" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalCriterioSeleccionTasas.$valid" bcs-clic="mCST.fn.aceptar();">
+		</bcs-button>
+		<bcs-button id="ModalCriterioSeleccionTasas_cancelar" class="col-xs-3" bcs-tipo="''" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="mCST.fn.cancelar();">
+		</bcs-button>
+	</div>
+</div>

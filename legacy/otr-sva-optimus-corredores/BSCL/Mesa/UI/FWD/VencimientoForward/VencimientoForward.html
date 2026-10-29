@@ -1,0 +1,93 @@
+<div ng-controller="VencimientoForward">
+	<form name="formVencimientoForward" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_CALCE_OPERACIONES|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-10">
+					<div class="col-xs-6">
+						<div class="row">
+							<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="UI_SOCIO_NEGOCIO"
+							carga-cliente-automatico="'S'" bcs-requerido="'true'"
+							auto-cargar="'false'" tipo="'combobox-cliente-portafolio'"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio" id-actual="filtros.IdPortafolio"
+							configuracion="data.oClientePortafolio.configuracion"
+							activado="(!bloqueoAnular && !bloqueoAnticipo)"
+							bcs-tab="data.irMonto()"> </bcs-combobox-base>
+
+						</div>
+						<div class="row">
+							<label class="col-xs-3" translate>UI_OPERACION</label>
+							<bcs-combobox-base class="col-xs-5" bcs-requerido="true"
+								id="UI_OPERACION" auto-cargar="'true'" item_post_filtro="'1'"
+								todos="'S'" tipo="'combobox-operacion-mesa'"
+								filtros="data.oConfiguracionOperacion.filtros"
+								seleccionado="data.OperacionSeleccionada"> </bcs-combobox-base>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="row">
+							<label class="col-xs-3" translate>UI_FECHA_DESDE</label>
+							<bcs-input-date class="col-xs-5" id="UI_FECHA_OPERACION_DESDE"
+								k-ng-model="data.kngFechaOperacionDesde"
+								k-options="data.oConfiguracionFechaVencimientoDesde">
+							</bcs-input-date>
+						</div>
+						<div class="row">
+							<label class="col-xs-3" translate>UI_FECHA_HASTA</label>
+							<bcs-input-date class="col-xs-5" id="UI_FECHA_OPERACION_HASTA"
+								k-ng-model="data.kngFechaOperacionHasta"
+								k-options="data.oConfiguracionFechaVencimientoHasta">
+							</bcs-input-date>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-2" style="position: absolute; right: 0px;">
+					<bcs-button bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false"
+						bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"
+						bcs-clic="BuscoCarteraForward(1,undefined)"> </bcs-button>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<bcs-grid id="grid-OperFWD" configuracion="confBasicaOperaciones"
+					seleccionado="ObjSeleccionGrilla.seleccionoperaciones"
+					fn-exportar-excel="exportarExcel"> </bcs-grid>
+			</div>
+
+			<hr>
+			<div class="row bcs-panel-comandos">
+				<bcs-button class="col-xs-2" id="VencimientoForward_procesar"
+					bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+					bcs-texto="'UI_PROCESAR' | translate"
+					bcs-clic="ProcesarOperaciones()"
+					bcs-habilitado="(habilitoBtnProcesar)"> </bcs-button>
+				<bcs-button class="col-xs-2 " id="VencimientoForward_enviarTesoreria"
+					bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+					bcs-texto="'UI_ENVIAR_TESORERIA' | translate"
+					bcs-clic="EnviarATesoreria()"
+					bcs-habilitado="(habilitoBtnEnviarTesoreria)"> </bcs-button>
+				<bcs-button class="col-xs-2" id="VencimientoForward_reversa"
+					bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+					bcs-texto="'UI_REVERSA' | translate"
+					bcs-clic="ReversaAnticipoOperacion()"
+					bcs-habilitado="(habilitoBtnReversa)"> </bcs-button>
+
+				<div class="col-xs-4"></div>
+				<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+					bcs-texto="'UI_OPCIONES' | translate">
+				<li id="VencimientoForward_generarCartaLiquidacion"
+					ng-click="generarCartaLiquidacion()">{{'UI_GENERAR_CARTA_LIQUIDACION'
+					| translate}}</li>
+				<li ng-click="exportarExcel('VencimientoForward')">{{'UI_EXPORTAR_EXCEL'
+					| translate}}</li>
+				</bcs-menu>
+			</div>
+		</div>
+	</form>
+</div>

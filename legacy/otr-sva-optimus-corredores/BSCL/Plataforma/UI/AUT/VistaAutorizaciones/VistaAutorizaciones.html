@@ -1,0 +1,108 @@
+
+<div id="VistaAutorizaciones" ng-controller="VistaAutorizacionesCtrl"
+	style="padding-right: 0px;">
+	<div class="row no-margin" style="padding-top: 0px;">
+		<!-- <bcs-grid-autorizaciones k-options="optTransito" k-ng-model="eventoObj" etapa="etapaObj" ></bcs-grid-autorizaciones> -->
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+						<bcs-input-datetime class="col-xs-8"
+							k-ng-model="filtros.fecInicio"></bcs-input-datetime>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+						<bcs-input-datetime class="col-xs-8"
+							ng-model="filtros.fecTerminong" k-ng-model="filtros.fecTermino"></bcs-input-datetime>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionEstadoEvento.tipo"
+							ng-model="filtros.estado" seleccionado="filtros.estadoObj"
+							todos="'S'" id-actual="filtros.idEstado"
+							id-defecto="filtros.idDefecto"
+							filtros="data.oConfiguracionEstadoEvento.filtros">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_EVENTO_AUTORIZACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionTipoEvento.tipo"
+							ng-model="filtros.tipoEvento"
+							seleccionado="filtros.tipoEventoObj" todos="'S'" id-defecto="'0'"
+							id-actual="filtros.idEvento"> </bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false"
+						bcs-texto="'Buscar'" bcs-habilitado="'true'" bcs-clic="Buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button 
+						bcs-auto-desactivar="false"
+						bcs-clic="limpiar()"
+						bcs-habilitado="'true'" 
+						bcs-texto="'Limpiar'"
+						bcs-tipo="'bcs-button-secondary'"
+					></bcs-button>
+				</div>
+			</div>
+		</div>
+
+		<bcs-grid id="grid-evento" 
+		    configuracion="Evento"
+			fn-exportar-excel="exportarExcel" 
+			seleccionado="seleccionEvento" 
+			fn-doble-click="DetalleAutorizacion(seleccionEvento)"
+			api="gridApiEvento">
+				<div bcs-grid-detail ng-non-bindable>
+					<div style="width: 1200px;">
+						<bcs-grid configuracion="Autorizador(dataItem)"
+							seleccionado="seleccionAutorizador"> 
+						</bcs-grid>
+					</div>
+				</div>
+		</bcs-grid>
+
+		<div class="row bcs-panel-comandos" style="padding-top: 5px !important;">
+			<div class=col-xs-9>
+				<bcs-button 
+					class="col-xs-2" 
+					id="VistaAutorizaciones_Autorizar" 
+					bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false" 
+					bcs-texto="'Autorizar'"
+					bcs-habilitado=	"(seleccionEvento[0].IdEstado === 'VIG') && (seleccionEvento[0].IdEstadoEtapa ==='VIG')" 
+					bcs-clic="modificarEstado('AUT')">
+				</bcs-button>
+				<!-- (seleccionEvento[0].IdEstado === 'VIG') && (seleccionEvento[0].IdEstadoEtapa ==='VIG') -->
+				<bcs-button 
+					class="col-xs-2" 
+					id="VistaAutorizaciones_Rechazar" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false" 
+					bcs-texto="'Rechazar'"
+					bcs-habilitado=	"(seleccionEvento[0].IdEstado === 'VIG') && (seleccionEvento[0].IdEstadoEtapa ==='VIG')" 
+					bcs-clic="solicitarRechazo()">
+				</bcs-button>
+				<!--bcs-clic="modificarEstado('RZD')">  -->				
+			</div>
+			
+			<div class=col-xs-2></div>
+			
+			<div class=col-xs-1>
+				<bcs-menu class="col-xs-12 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+					bcs-texto="'UI_OPCIONES' | translate">
+				<li id="VistaAutorizaciones_MantenedorAutorizaciones" ng-click="abrirMantenedorAutorizaciones();">{{'UI_MANTENEDOR_AUTORIZACIONES' | translate}}</li>
+				<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+				</bcs-menu>
+			</div>
+		</div>
+	</div>
+</div>

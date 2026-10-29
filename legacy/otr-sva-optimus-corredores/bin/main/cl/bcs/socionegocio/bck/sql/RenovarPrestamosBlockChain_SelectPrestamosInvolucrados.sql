@@ -1,0 +1,20 @@
+SELECT car."FolioCartera" 
+	, car."FolioCarteraRelacionada"
+	, car."FolioSistemaExterno"
+	, car."IdCliente"
+	, car."FechaVencimientoOperacion"
+	, car."IdTipoPrestamo"
+	, sby."Nemotecnico"
+	, sby."IdClasificacionTipoInstrumento" AS "Mercado"
+	, cdl."Codigo" AS "CodigoCondicionLiquidacion"
+	, car."Cantidad"
+	, tp."TipoPrestamoSistemaExterno"
+	, car."TasaCompra" AS "TasaOperacion"
+	, car."PrecioAPlazo" AS "MontoPrima"
+FROM "BSCL.Custodia.BD::CUS.Cartera" car
+INNER JOIN "BSCL.Custodia.BD.Vistas::CUS.ConsultarUltimoMovimientoSubyacente" umsby ON umsby."FolioCarteraRelacionada" = car."FolioCartera"
+INNER JOIN "BSCL.Custodia.BD.Vistas::CUS.ConsultarCarteraSubyacenteBasica" sby ON sby."IdSubyacente" = umsby."IdSubyacente"
+INNER JOIN "BSCL.Plataforma.BD::PLA.CondicionDeLiquidacion" cdl ON cdl."IdCondicionDeLiquidacion" = car."IdCondicionLiquidacion"
+INNER JOIN "BSCL.Custodia.BD::PRT.TipoPrestamo" tp ON tp."IdTipoPrestamo" = car."IdTipoPrestamo"
+WHERE car."IdEmpresa" = :p_IdEmpresa AND car."FolioCartera" IN (:p_FoliosPrestamo)
+	AND car."IdEstado" IN ('VIG', 'RNV'); 

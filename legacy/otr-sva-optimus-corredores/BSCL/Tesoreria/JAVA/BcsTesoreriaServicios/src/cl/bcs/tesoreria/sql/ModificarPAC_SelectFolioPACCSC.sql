@@ -1,0 +1,2 @@
+SELECT "IdMandatoPAC", "IdCliente", "IdPortafolio", "FolioPAC", "CuentaCorriente", "FolioSAAPV", "Receptor", "Fecha", "NumeroMandato", "Firma", "IdentServicio", "EstadoCargo", "IdEmpresa", "Canal", "Estado", "FolioCSC", "EstadoCargoBanco", "EstadoRendicion", "IdCarga", "IdCuentaBancaria", "EstadoPorAutorizar", "EstadoContratoPorAutorizar", "DiaDescuentoPorAutorizar" 
+FROM "BSCL.Tesoreria.BD::PAC.MandatoPAC" WHERE "FolioCSC" IN (:FolioCSC) AND "FolioCSC" <> '0' AND "Estado" <> 'ANU';

@@ -1,0 +1,1 @@
+SELECT TOP 1 "FechaRegistro" FROM "BSCL.Normativa.BD::NOR.NCG380RegistroHistoricoCliente"

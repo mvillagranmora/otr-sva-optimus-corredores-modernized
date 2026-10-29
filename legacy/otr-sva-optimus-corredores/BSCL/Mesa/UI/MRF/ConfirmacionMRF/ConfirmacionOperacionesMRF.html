@@ -1,0 +1,158 @@
+<div ng-controller="ConfirmacionMRFCtrl as ConfMRF">
+	<form name="formLiquidacionSpot" class="filters-formulario">
+		<div class="col-xs-12 bcs-cuerpo">
+			<!-- MONEDAS POR PRODUCTOS -->
+			<div class="col-xs-10">
+				<div class="row col-xs-12">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-7"
+								id="frmMesa_TipoOperacion"
+							 	auto-cargar="'true'"
+							 	bcs-requerido
+							    tipo="data.oConfiguracionTipoOperacion.tipo"
+							    seleccionado="data.oConfiguracionTipoOperacion.seleccionado"
+							    filtros="data.oConfiguracionTipoOperacion.filtros"
+			                    id-actual="data.oConfiguracionTipoOperacion.idActual"
+							    configuracion= "data.oConfiguracionTipoOperacion.configuracion"
+							    id-defecto="data.oConfiguracionTipoOperacion.idDefecto"
+							    todos="'S'"
+							   >
+							</bcs-combobox-base>
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base 
+							class="col-xs-7"						
+							id="UI_SOCIO_NEGOCIO"
+							bcs-requerido = "'true'"
+							auto-cargar="'false'"
+							id-actual="data.oSocioNegocioIdActual"						
+							tipo="'combobox-socio-negocio'"
+							seleccionado="data.oSocioNegocio.seleccionado"
+							filtros="data.oSocioNegocio.filtros"
+							configuracion= "data.oSocioNegocio.configuracion"  
+						>
+						</bcs-combobox-base >						
+					</div>
+				</div>
+				<div class="row col-xs-12">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_REAJUSTE</label>
+						<!--  tipo="'combobox-moneda'" -->
+						<bcs-combobox-base class="col-xs-7"
+									id="frmMesa_TipoReajusteOperacion"
+									auto-cargar="true"
+									tipo="data.oConfiguracionTipoReajusteOperacion.tipo"
+									configuracion= "data.oConfiguracionTipoReajusteOperacion.configuracion"
+									filtros="data.oConfiguracionTipoReajusteOperacion.filtros"
+									seleccionado="data.oConfiguracionTipoReajusteOperacion.seleccionado"
+									id-actual="data.oConfiguracionTipoReajusteOperacion.idActual"
+									item-post-filtro="'-1'">
+									
+								</bcs-combobox-base >								
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base 
+							class="col-xs-7"						
+							id="UI_ESTADO"
+							auto-cargar="'true'"
+							tipo = "'combobox-estadoConfirmacion'"							
+							item-post-filtro="'1'"
+							todos="'S'"
+							seleccionado="data.oConfiguracionEstado.seleccionado"
+							filtros="data.oConfiguracionEstado.filtros"
+			    	        id-actual="data.oConfiguracionEstado.idActual"
+						>
+						</bcs-combobox-base >						
+					</div>
+				</div>
+				<div class="row col-xs-12">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_FECHA</label>
+							<bcs-input-date
+								class="col-xs-7"
+								id="UI_FECHA_OPERACION"
+								bcs-requerido
+								k-ng-model="data.kngFechaOperacion"
+								k-ng-enabled = "'true'"
+								k-options="data.fechaOperacionOptions"
+							>
+							</bcs-input-date>
+						</div>
+				</div>
+			</div>
+			<div class=col-xs-2>
+				<bcs-button class="row col-xs-12" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.BuscarOperaciones()" >
+					</bcs-button>
+			</div>
+			<br>
+			<hr>
+			<!-- DATOS OPERACIÓN -->
+			<!-- GRILLA -->
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-grid	
+						id="grid-mov" 
+						fn-exportar-excel="exportarExcel"
+						configuracion="confGrillaSpot"
+					    seleccionado = "data.seleccionMovimiento">
+
+						<div bcs-grid-detail ng-non-bindable>
+						   <div style="width: 900px;" >
+					         <uib-tabset>
+					            <uib-tab heading="{{'UI_FORMA_DE_PAGO' | translate}}">
+					               <bcs-grid 
+					                  configuracion="confGrillaFormasDePago(dataItem)"	                                        
+					                  seleccionado = "dataItem.seleccionMovimientoFormasDePago">
+								   </bcs-grid>							                  		
+					            </uib-tab> 
+							 </uib-tabset>
+						   </div>	
+						 </div>					    
+					</bcs-grid>
+				</div>
+			</div>
+			<div class="row bcs-panel-buttons">
+					<div class="col-xs-2">
+						<bcs-button class="row col-xs-12" 
+								bcs-tipo="'bcs-button-primary'"
+								bcs-auto-desactivar="false" 
+								bcs-texto="'UI_CONFIRMAR' | translate"
+								bcs-habilitado="(HabilitoBotones)"
+								bcs-clic="data.ConfirmarOperacion()" >
+							</bcs-button>	
+					</div>
+					<div class="col-xs-2">
+						<bcs-button class="row col-xs-12" 
+								bcs-auto-desactivar="false" 
+								bcs-tipo="'bcs-button-secondary'"
+								bcs-texto="'UI_RECHAZAR' | translate"
+								bcs-habilitado="(HabilitoBotones)"
+								bcs-clic="data.RechazarOperacion()" >
+							</bcs-button>	
+					</div>
+					<div class="col-xs-2">
+						<bcs-button class="row col-xs-12" 
+								bcs-auto-desactivar="false" 
+								bcs-tipo="'bcs-button-secondary'"
+								bcs-texto="'UI_MODIFICAR_FORMA_PAGO' | translate"
+								bcs-habilitado="HabilitoBotones"
+								bcs-clic="modificarMediosDePago(data.seleccionMovimiento)" >
+							</bcs-button>	
+					</div>	
+					<div class="col-xs-2 pull-right">
+							<bcs-menu class="col-xs-12" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+								<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+							</bcs-menu>
+					</div>						
+			</div>
+		</div>
+	</form>
+</div>

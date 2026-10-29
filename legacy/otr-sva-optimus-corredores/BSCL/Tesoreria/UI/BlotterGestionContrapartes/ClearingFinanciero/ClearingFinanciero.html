@@ -1,0 +1,141 @@
+<div class="row" ng-controller='ClearingFinancieroCtrl'>
+	<form name="frmClearingFinanciero"  class="col-xs-12 form-horizontal">
+	<div class="row bcs-cuerpo">
+	 
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_EMPRESA</label>
+						<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="Empresa"></bcs-input-texto>	
+					</div>		
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-8"
+							 bcs-requerido
+							 k-ng-model		= "kngFechaLiquidacion" 
+							 ng-model		= "FechaLiquidacion ">
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CAMARA</label>					    
+						<bcs-combobox-base class="col-xs-8" id="frmClearingFinanciero_GrupoCamara"
+							auto-cargar		="'true'"
+							tipo			="oConfiguracionGrupoCamara.tipo"
+							configuracion	="oConfiguracionGrupoCamara.configuracion" 				
+							seleccionado	="oConfiguracionGrupoCamara.seleccionado"
+							filtros			="oConfiguracionGrupoCamara.filtros"
+							activado        ="oConfiguracionGrupoCamara.activado"
+							id-actual		="oConfiguracionGrupoCamara.idActual"
+							id-post-filtro	="oConfiguracionGrupoCamara.idPostFiltro"
+							todos="'S'" id-defecto="'0'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+			    </div>
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="frmClearingFinanciero.$valid" bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="btnActivo"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+
+		
+		<div class="row" ng-if="SesionLocale != 'PE'">			
+			<bcs-grid    
+			    id 					= "grid-clearing-financiero"
+			    configuracion 		= "confBasicaClearingFinanciero"
+			    seleccionado 		= "seleccionClearingFinanciero"
+			    fn-exportar-excel 	= "datosForm.exportarExcel">			    			    			    
+					<div bcs-grid-detail ng-non-bindable>						
+						<div style="width : 970px;">
+						<uib-tabset>
+							<uib-tab heading="{{'UI_TRANSACCIONES' | translate}}">
+								<div class="TabTransacciones">
+									<bcs-grid
+										configuracion  = "confBasicaClearingFinancieroDetalle(dataItem)"
+										seleccionado   = "seleccionClearingFinancieroDetalle"
+										fn-doble-click = "data.abrirDetalleTransaccion(seleccionClearingFinancieroDetalle)">
+									</bcs-grid>
+								</div>
+							</uib-tab>                                    
+							<uib-tab heading="{{'UI_DIVIDENDOS' | translate}}">
+								<div class="TabDividendos">
+									<bcs-grid
+										configuracion  = "confBasicaClearingFinancieroDividendos(dataItem)"
+										seleccionado   = "seleccionClearingFinancieroDividendos">
+									</bcs-grid>
+								</div>								
+							</uib-tab>
+							<uib-tab heading="{{'UI_SIMULTANEAS' | translate}}">
+								<div class="TabSimultaneas">
+									<bcs-grid
+										configuracion  = "confBasicaClearingFinancieroSimultaneas(dataItem)"
+										seleccionado   = "seleccionClearingFinancieroSimultaneas">
+									</bcs-grid>
+								</div>								
+							</uib-tab>
+						</uib-tabset>
+						</div>
+					</div>
+			</bcs-grid>
+		</div>	
+		
+
+		<!-- Para PE no hay clearind de dividendos -->
+		<div class="row" ng-if="SesionLocale == 'PE'">			
+			<bcs-grid    
+			    id 					= "grid-clearing-financiero"
+			    configuracion 		= "confBasicaClearingFinanciero"
+			    seleccionado 		= "seleccionClearingFinanciero"
+			    fn-exportar-excel 	= "datosForm.exportarExcel">
+			    			    			    
+					<div bcs-grid-detail ng-non-bindable ng-show="{{SesionLocale != 'PE'}}">						
+						<div style="width : 970px;">
+						<uib-tabset>
+							<uib-tab heading="{{'UI_TRANSACCIONES' | translate}}">
+								<div class="TabTransacciones">
+									<bcs-grid
+										configuracion  = "confBasicaClearingFinancieroDetalle(dataItem)"
+										seleccionado   = "seleccionClearingFinancieroDetalle"
+										fn-doble-click = "data.abrirDetalleTransaccion(seleccionClearingFinancieroDetalle)">
+									</bcs-grid>
+								</div>
+							</uib-tab>
+						</uib-tabset>
+						</div>
+					</div>		
+					    
+			</bcs-grid>
+		</div>		
+		
+		
+		
+			
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">	
+		<bcs-button class="col-xs-1"  bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false"  bcs-texto="'UI_PROCESAR' | translate"      bcs-habilitado="btnActivo"  bcs-clic="procesarClearing()"></bcs-button>
+		
+		<div ng-show="SesionLocale != 'PE'">		 
+			<bcs-button class="col-xs-2"  bcs-tipo="'bcs-button-secondary'"           bcs-auto-desactivar="'false'" bcs-texto="'UI_MARCAR_CAMARAS' | translate" bcs-habilitado="'true'"  bcs-clic="actualizarCamaraTransaccionDesdeSCL()"></bcs-button>
+		</div>
+		 
+		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">	
+             <li ng-click="datosForm.exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+	</div>
+
+	</form>	
+</div>
+

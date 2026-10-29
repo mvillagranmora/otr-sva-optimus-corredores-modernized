@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.ConsultarFlujoCaja_Portafolio_Proceso"("IdPortafolio") VALUES(:IdPortafolio);

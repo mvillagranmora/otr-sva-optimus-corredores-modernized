@@ -1,0 +1,1 @@
+DROP TABLE #ConsultarLimitesCuentaPropia_LimitesPorClasificacion

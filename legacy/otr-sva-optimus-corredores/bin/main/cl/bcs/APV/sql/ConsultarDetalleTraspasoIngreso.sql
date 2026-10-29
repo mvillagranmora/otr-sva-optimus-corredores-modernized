@@ -1,0 +1,16 @@
+SELECT 
+ "IdTraspaso"
+,"IdDetalleTraspaso"
+,"IdPortafolio"
+,"FechaIngreso"
+,"FechaModificacion"
+,"IdPlanTipoInversion"
+,"IdProductoAgrupador"
+,"IdRegimenTributario"
+,"MontoPeso"
+,"MontoUF"
+,"Porcentaje"
+,"IdEstado"
+,"EsReapertura"
+FROM "BSCL.APV.BD::TRA.DetalleTraspaso" 
+WHERE "IdTraspaso" = :IdTraspaso AND "IdPortafolio" = :IdPortafolio AND "IdDetalleTraspaso" = :IdDetalleTraspaso;

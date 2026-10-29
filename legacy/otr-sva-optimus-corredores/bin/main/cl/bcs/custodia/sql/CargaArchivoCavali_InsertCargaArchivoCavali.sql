@@ -1,0 +1,43 @@
+INSERT INTO "BSCL.Custodia.BD::CUS.ArchivoCavali" (
+ "IdArchivoCavali"
+,"FechaCarga"
+,"TipoIntermediario"
+,"CodigoIntermediario"
+,"ISIN"
+,"DescripcionValor"
+,"CodigoTitular"
+,"NombreTitular"
+,"SaldoContable"
+,"SaldoDisponible"
+,"Prenda"
+,"Embargo"
+,"BloqueoOtros"
+,"CertificadoAcreditacion"
+,"SaldoTransito"
+,"SaldoMargenGarantia"
+,"SaldoComprometidoVenta"
+,"SaldoReportante"
+,"IdEstado"
+,"Resultado"
+)
+VALUES(
+ "BSCL.Custodia.BD.Secuencias::ArchivoCavali".NEXTVAL
+,:FechaCarga
+,:TipoIntermediario
+,:CodigoIntermediario
+,:ISIN
+,:DescripcionValor
+,:CodigoTitular
+,:NombreTitular
+,:SaldoContable
+,:SaldoDisponible
+,:Prenda
+,:Embargo
+,:BloqueoOtros
+,:CertificadoAcreditacion
+,:SaldoTransito
+,:SaldoMargenGarantia
+,:SaldoComprometidoVenta
+,:SaldoReportante
+,:IdEstado
+,:Resultado)

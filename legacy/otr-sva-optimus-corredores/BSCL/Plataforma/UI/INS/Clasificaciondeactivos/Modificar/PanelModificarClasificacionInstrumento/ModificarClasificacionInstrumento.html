@@ -1,0 +1,112 @@
+<div id="ModificarClasificacionInstrumento" ng-controller='ModificarClasificacionInstrumentoCtrl'>
+	<div class="row bcs-cuerpo">
+	
+		<div class="row">
+		<div class="col-xs-12">
+			<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+			<bcs-combobox-base
+				class="col-xs-5"
+				tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+				id-actual="filtros.clasificacionTipoInstrumento"
+				seleccionado="filtros.clasificacionTipoInstrumentoObj"
+				configuracion= "data.oConfiguracionClasificacionTipoInstrumento.configuracion"  
+				cascada-a="data.oConfiguracionClasificacionSubMercado.filtros.IdArbolClasificacionActivo"				
+				cascada-valor="'IdArbolClasificacionActivo'"			
+				todos="'N'"
+				>
+			</bcs-combobox-base>
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="col-xs-12">
+			<label class="col-xs-3" translate>UI_SUB_MERCADO</label>
+			<bcs-combobox-base
+				class="col-xs-5"
+				tipo="data.oConfiguracionClasificacionSubMercado.tipo"
+				id-actual="filtros.clasificacionSubMercado"
+				seleccionado="filtros.clasificacionTipoInstrumentoObj"
+				filtros="data.oConfiguracionClasificacionSubMercado.filtros"
+				configuracion= "data.oConfiguracionClasificacionSubMercado.configuracion"
+				cascada-a="data.oConfiguracionClasificacionInstrumento.filtros.IdArbolClasificacionActivo"
+				cascada-valor="'IdArbolClasificacionActivo'"				  
+				>
+			</bcs-combobox-base>
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="col-xs-12">
+			<label class="col-xs-3" translate>UI_CLA_INSTRUMENTO</label>
+			<bcs-combobox-base
+				class="col-xs-5"
+				tipo="data.oConfiguracionClasificacionInstrumento.tipo"
+				id-actual="filtros.clasificacionInstrumento"
+				seleccionado="filtros.clasificacionTipoInstrumentoObj"
+				filtros="data.oConfiguracionClasificacionInstrumento.filtros"
+				configuracion= "data.oConfiguracionClasificacionInstrumento.configuracion"  
+				>
+			</bcs-combobox-base>
+		</div>
+		</div>		
+		
+		<div class="row">
+			<div class="col-xs-12">
+	    		<label class="col-xs-3" translate>UI_NUEVO_NOMBRE</label>  <!-- Pasar el nombre cuando se seleccione en el combo -->
+				<bcs-input-texto 
+				class		= "col-xs-5"
+				foco		= "true"
+				ng-model	= "formData.NuevoNombreClas"
+				key-enter	= "">
+				</bcs-input-texto>
+			</div>
+		</div>
+		 <br>
+		 
+		 <div class="row">
+            <div class="col-xs-12">
+                 <label class="col-xs-3" translate>UI_MOVER_A_MERCADO</label>
+                     <bcs-combobox-base
+                      class="col-xs-5"
+                      tipo="data.oConfiguracionClasificacionNuevoMercado.tipo"
+                      id-actual="filtros.oConfiguracionClasificacionNuevoMercado"
+                      seleccionado="filtros.oConfiguracionClasificacionNuevoMercadoObj"
+                      configuracion= "data.oConfiguracionClasificacionNuevoMercado.configuracion"  
+                      cascada-a="data.oConfiguracionClasificacionSubMercadoNuevo.filtros.IdArbolClasificacionActivo"
+                      cascada-valor="'IdArbolClasificacionActivo'"                                          
+                      todos="'N'">
+                   </bcs-combobox-base>
+                        </div>
+                        </div>
+		 
+		 	
+		<div class="row">
+		<div class="col-xs-12">
+			<label class="col-xs-3" translate>UI_MOVER_A_SUB_MERCADO</label>
+			<bcs-combobox-base
+				class="col-xs-5"
+				tipo="data.oConfiguracionClasificacionSubMercadoNuevo.tipo"
+				id-actual="filtros.clasificacionSubMercadoNuevo"
+				seleccionado="filtros.clasificacionTipoInstrumentoObj"
+				filtros="data.oConfiguracionClasificacionSubMercadoNuevo.filtros"
+				configuracion= "data.oConfiguracionClasificacionSubMercado.configuracion"  
+				>
+			</bcs-combobox-base>
+		</div>
+		</div>
+				
+		<div class="row">
+			<div class=col-xs-12>
+				<bcs-button
+					class				= "col-xs-3"
+					id					= "btn_modificarsubmercado" 
+					bcs-tipo			= "''" 
+					bcs-auto-desactivar	= "false" 
+					bcs-texto			= "'UI_MODIFICAR_SUBMERCADO' | translate" 
+					bcs-habilitado		= "filtros.clasificacionTipoInstrumento && filtros.clasificacionSubMercado && filtros.clasificacionInstrumento && formData.NuevoNombreClas" 
+					bcs-clic			= "Modificaclasificacion()">
+			</bcs-button>	
+			</div>	
+		</div>
+	</div>
+</div>

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.CanalAgente.BD::ConsultarHistorialMovimientosCuentaInversion_Proceso";

@@ -1,0 +1,124 @@
+<div id = "ConsultarDepositos" class="row" ng-controller='ConsultarDepositosCtrl'>
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-2">
+						<label translate>UI_CUENTAS_BANCARIAS</label>
+					</div>
+					<div class="col-xs-6">
+						<bcs-combobox-base
+							bcs-requerido							
+							tipo			= "data.oConfiguracionCuentaBancoCorredora.tipo" 
+							configuracion	= "data.oConfiguracionCuentaBancoCorredora.configuracion" 				
+							seleccionado	= "data.oConfiguracionCuentaBancoCorredora.seleccionado"
+							filtros			= "data.oConfiguracionCuentaBancoCorredora.filtros" 
+							id-actual		= "data.oConfiguracionCuentaBancoCorredora.idActual">
+						</bcs-combobox-base>
+					</div>					
+				</div>
+				<div class="row">
+					<div class="col-xs-2">
+						<label translate>UI_MONEDA</label>
+					</div>
+					<div class="col-xs-3">
+						<bcs-combobox-base
+							bcs-requerido							
+							tipo			= "data.oConfiguracionMoneda.tipo" 
+							configuracion	= "data.oConfiguracionMoneda.configuracion" 				
+							seleccionado	= "data.oConfiguracionMoneda.seleccionado"
+							filtros			= "data.oConfiguracionMoneda.filtros" 
+							id-actual		= "data.oConfiguracionMoneda.idActual">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-2" style="padding-left: 15px">
+						<label translate>UI_FOLIO_COMPROBANTE</label>
+					</div>
+					<div class="col-xs-1">
+						<bcs-input-texto name="uFolioComprobante" ng-model="data.FolioComprobante"></bcs-input-texto>		
+					</div>
+
+					<div class="col-xs-2" style="padding-left: 15px">
+						<label translate>UI_FECHA_MOVIMIENTO</label>
+					</div>
+					<div class="col-xs-2">
+						<bcs-input-date k-ng-model="data.kngFechaDeposito" ng-model="data.FechaDeposito"></bcs-input-date>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="btnActivo" 
+						bcs-clic="buscarDepositos()"
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="btnActivo" 
+						bcs-clic="limpiarFiltros()"
+					></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+		<!-- GRILLA -->
+		<div class="row">
+			<bcs-grid id="grid-depositos-tesoreria"
+			 	configuracion = "confBasicaDepositos"
+			 	fn-exportar-excel = "exportarExcel"
+				seleccionado = "seleccionDepositos"
+				fn-doble-click = "detalleNominaDeposito(seleccionDepositos)">
+					<!--<div bcs-grid-detail ng-non-bindable><div style="width : 835px;">
+	                 	<bcs-grid
+	                    	configuracion = "confBasicaDepositosDetalle(dataItem)"
+	                        seleccionado = "seleccionDepositosDetalle">
+						</bcs-grid>
+					</div></div>-->
+			</bcs-grid>
+		</div>
+	</div>
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2"
+			id = "ConsultarDeposito_enviarDeposito"
+			bcs-tipo="'bcs-button-primary'"  
+			bcs-auto-desactivar="false"  
+			bcs-texto="'UI_ENVIAR_A_DEPOSITO' | translate" 
+			bcs-habilitado="'true'"  
+			bcs-clic="EnviarADeposito()">
+		</bcs-button>
+		<bcs-button class="col-xs-2" 
+			id = "ConsultarDeposito_liquidar"
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="false"  
+			bcs-texto="'UI_LIQUIDAR' | translate" 
+			bcs-habilitado="'true'"  
+			bcs-clic="LiquidarDepositos()">
+		</bcs-button>
+		<bcs-button class="col-xs-2"
+			id = "ConsultarDeposito_anular" 
+			bcs-tipo="'bcs-button-anular'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_ANULAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="AnularDepositos()">
+		</bcs-button>			 	
+		
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+	</div>
+</div>

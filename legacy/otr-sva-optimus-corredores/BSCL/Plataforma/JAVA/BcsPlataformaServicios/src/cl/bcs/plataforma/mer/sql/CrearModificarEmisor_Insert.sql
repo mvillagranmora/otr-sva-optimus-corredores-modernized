@@ -1,0 +1,31 @@
+INSERT INTO "BSCL.Plataforma.BD::MER.Emisor" (
+    "CodigoEmisor",
+    "CodigoRegulador",
+    "Regulador",
+    "EmiteIIF",
+    "EmiteIRF",
+    "EmiteFungible",
+    "ValorClasificacionRiesgoIIF",
+    "IndicadorAGF",
+    "IdEstado",
+    "IdEntidadClasificadoraRiesgo",
+    "FechaActualizacion",
+    "IdPersona",
+    "IdEmisor",
+    "TipoEntidad"
+) VALUES (
+    :p_CodigoEmisor,
+    :p_CodigoRegulador,
+    :p_Regulador,
+    :p_EmiteIIF,
+    :p_EmiteIRF,
+    :p_EmiteFungible,
+    :p_ValorClasificacionRiesgoIIF,
+    :p_IndicadorAGF,
+    :p_IdEstado,
+    :p_IdEntidadClasificadoraRiesgo,
+    now(),
+    :p_IdPersona,
+    :p_IdEmisor,
+    :p_TipoEntidad
+);

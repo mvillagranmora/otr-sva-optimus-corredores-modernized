@@ -1,0 +1,98 @@
+<div id="PanelPerfil" class="row" ng-controller="PanelPerfilCtrl as pct">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecInicio"
+				></bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_HASTA</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecTermino"></bcs-input-date>
+			</div>
+		  	</div>
+		  	<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pct.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pct.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pct.SocioDeNegocioObj">
+					</bcs-combobox-base>
+				</div>
+				 
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_TIPO_PRODUCTO</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="'combobox-tipo-producto'"
+							id-actual="pct.IdTipoProducto"
+							id-defecto="pct.IdTipoProducto"
+							todos="'S'">
+						</bcs-combobox-base>
+				</div>
+		  
+		  
+		  	</div>
+		  	<div class="row">
+		  	<div class="col-xs-6">
+			  		
+				</div>	 
+		  	</div>
+		  	
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<!-- configuracion="pct.grilla.Perfil" -->
+		<!--configuracion="pct.grillaCong" -->
+	<div class="row">
+		<bcs-grid
+			id="gridPerfil"
+			configuracion="pct.grilla.Perfil"
+			fn-exportar-excel="excelPerfil"
+			seleccionado="pct.grilla.PerfilSel"
+			api="gridApi">
+				<div bcs-grid-detail ng-non-bindable>
+				<uib-tabset>
+				  <uib-tab  heading="{{'UI_PERFIL_PRODUCTOS'| translate}}">
+					<div class="row" style="width:100%;">
+						<bcs-plantilla-productos
+							id-plantilla="dataItem.IdPerfilProductos"
+							modo="'PB'">
+						</bcs-plantilla-productos>
+						
+					</div>
+				   </uib-tab>
+				</uib-tabset>
+				</div>
+		</bcs-grid>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12" style="top:10px; padding-bottom: 10px;">
+		  <bcs-button id="Cumplimiento_notificar" class="col-xs-2 pull-left"  bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_NOTIFICAR' | translate"  bcs-habilitado="'true'" bcs-clic="pct.fn.Notificar(pct.grilla.PerfilSel)"></bcs-button>
+				<bcs-menu 
+				class="col-xs-1 pull-right"
+				bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelPerfil('Perfil')">						  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+			</bcs-menu>	
+		</div>
+		
+	</div>
+	
+	
+	
+	
+</div>

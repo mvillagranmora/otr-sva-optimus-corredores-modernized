@@ -1,0 +1,52 @@
+SET SCHEMA "BSCL"; 
+
+DROP VIEW "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarFondoAnalitica";
+
+CREATE VIEW "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarFondoAnalitica" AS
+SELECT
+ 	 		"Fondo"."IdEmpresa" 
+ 	 		,"Fondo"."IdFondo"
+			,"Fondo"."IdEmisor"
+			,"Fondo"."IdPaisEmisor"
+			,"Fondo"."Nemotecnico"
+			,"Fondo"."NombreFondo"
+			,"Fondo"."IdPaisOrigen"
+			,"Fondo"."CodigoSVS"
+			,"Fondo"."MoneyMarket"
+			,"Fondo"."FechaCreacion"
+			,"Fondo"."FechaConstitucion"
+			,TO_NVARCHAR("Fondo"."FechaCierre",'YYYY-MM-DD') AS "FechaCierre"
+			,"Fondo"."Vigencia"
+			,"Fondo"."FondoExtranjero"
+			,"Fondo"."IdMoneda"
+			,"Fondo"."IdTipoInstrumento"
+			,TO_VARCHAR("Fondo"."HoraCierreAporteComercial", 'HH:mm:ss') AS "HoraCierreAporteComercial"
+			,TO_VARCHAR("Fondo"."HoraCierreRescateComercial", 'HH:mm:ss') AS "HoraCierreRescateComercial"
+			,TO_VARCHAR("Fondo"."HoraCierreReinversionComercial", 'HH:mm:ss') AS "HoraCierreReinversionComercial"
+			,TO_VARCHAR("Fondo"."HoraCierreLiquidezComercial", 'HH:mm:ss') AS "HoraCierreLiquidezComercial"
+			,TO_VARCHAR("Fondo"."HoraCierreAporteBackoffice", 'HH:mm:ss') AS "HoraCierreAporteBackoffice"
+			,TO_VARCHAR("Fondo"."HoraCierreRescateBackoffice", 'HH:mm:ss') AS "HoraCierreRescateBackoffice"
+			,TO_VARCHAR("Fondo"."HoraCierreReinversionBackoffice", 'HH:mm:ss') AS "HoraCierreReinversionBackoffice"
+			,TO_VARCHAR("Fondo"."HoraCierreLiquidezBackoffice", 'HH:mm:ss') AS "HoraCierreLiquidezBackoffice"
+			,"Fondo"."EstadoAporteComercial"
+			,"Fondo"."EstadoRescateComercial"
+			,"Fondo"."EstadoReinversionComercial"
+			,"Fondo"."EstadoLiquidezComercial"
+			,"Fondo"."EstadoAporteBackoffice"
+			,"Fondo"."EstadoRescateBackoffice"
+			,"Fondo"."EstadoReinversionBackoffice"
+			,"Fondo"."EstadoLiquidezBackoffice"
+			,"Fondo"."BloqueoAporte"
+			,"Fondo"."BloqueoRescate"
+			,"Fondo"."BloqueoIndefinido"
+			,TO_NVARCHAR("Fondo"."FechaBloqueoDesde",'YYYY-MM-DD HH24:MI:SS') AS "FechaBloqueoDesde"
+			,TO_NVARCHAR("Fondo"."FechaBloqueoHasta",'YYYY-MM-DD HH24:MI:SS') AS "FechaBloqueoHasta"
+			,"Fondo"."FechaFondo"
+			,"Fondo"."DocumentoIdentidadFondo"
+			,COALESCE("TipoFondo"."NombreCorto",'') AS "TipoFondo"
+			,COALESCE("CategoriaPerfilFondoMutuo"."NombreCategoriaPerfilFondoMutuo",'') AS "CategoriaPerfilFondoMutuo"
+		FROM "BSCL.FondoMutuo.BD::FMM.Fondo" AS "Fondo"
+		LEFT JOIN "BSCL.FondoMutuo.BD::FMM.TipoFondo" AS "TipoFondo" ON "TipoFondo"."IdTipoFondo" = "Fondo"."IdTipoFondo"
+		LEFT JOIN "BSCL.FondoMutuo.BD::FMM.CategoriaPerfilFondoMutuo" AS "CategoriaPerfilFondoMutuo" ON "CategoriaPerfilFondoMutuo"."IdCategoriaPerfilFondoMutuo" = "Fondo"."IdCategoriaPerfilFondoMutuo";
+
+GRANT SELECT ON "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarFondoAnalitica" TO  BCS_DESARROLLADOR WITH GRANT OPTION; 

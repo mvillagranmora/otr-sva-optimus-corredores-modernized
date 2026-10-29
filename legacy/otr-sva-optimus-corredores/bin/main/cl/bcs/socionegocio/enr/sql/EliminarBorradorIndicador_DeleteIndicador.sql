@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.SocioNegocio.BD::ENR.Indicador" WHERE "IdIndicador" = :IdIndicador;

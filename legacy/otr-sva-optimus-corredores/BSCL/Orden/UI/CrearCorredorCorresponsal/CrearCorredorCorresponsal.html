@@ -1,0 +1,67 @@
+<div ng-controller="CrearCorredorCorresponsalCtrl">
+	<form name="CrearCorredorCorresponsalForm">
+		<div class="row">
+			<label class="col-xs-4" translate>UI_CODIGO</label>
+			<bcs-input-texto class="col-xs-8" 
+				bcs-requerido
+				ng-model = "corredorCorresponsal.CodigoCorredor">
+			</bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-4" translate>UI_PAIS</label>
+			<bcs-combobox-base class="col-xs-8" 
+				tipo="'combobox-pais'"
+				bcs-requerido
+				id-actual = "corredorCorresponsal.IdPais">
+			</bcs-combobox-base>
+		</div>
+		<div class="row">
+			<label class="col-xs-4" translate>UI_PERSONA</label>
+			<bcs-combobox-base class="col-xs-8" 
+				tipo="'combobox-socio-negocio'"
+				filtros = "filtros.persona"
+				id-actual = "corredorCorresponsal.IdPersona"
+				seleccionado = "corredorCorresponsal.personaSeleccionada">
+			</bcs-combobox-base>
+		</div>
+		<div class="row">
+		 	<label class="col-xs-4" translate>UI_PERFIL_COBROS</label>
+			<bcs-combobox-base class="col-xs-8"
+				ng-if="SesionLocale === 'CL'"
+				bcs-requerido
+				filtros = "filtros.perfilCobrosPeru"
+				tipo="'combobox-perfil-cobros'"
+				id-actual="corredorCorresponsal.IdPerfilCobros">
+			</bcs-combobox-base>
+			<bcs-combobox-base class="col-xs-8"
+				ng-if="SesionLocale === 'PE'"
+				bcs-requerido
+				filtros = "filtros.perfilCobrosPeru"
+				tipo="'combobox-perfil-cobros-peru'"
+				id-actual="corredorCorresponsal.IdPerfilCobros">
+			</bcs-combobox-base>
+			
+		</div>
+		<div class="row">
+			<label class="col-xs-4" translate>UI_POR_DEFECTO_PAIS</label>
+			<bcs-input-checkbox class="col-xs-8" ng-model="corredorCorresponsal.DefaultPais" ></bcs-input-checkbox>
+		</div>
+		<div class="row">
+			<label class="col-xs-4" translate>UI_ESTADO</label>
+			<bcs-combobox-base class="col-xs-8"
+				id-defecto = "'ACT'"
+				tipo="'combobox-estado-corredor-corresponsal'"
+				id-actual = "corredorCorresponsal.IdEstado">
+			</bcs-combobox-base>
+		</div>
+		
+	</form>
+	<div class="row">
+		<br/>
+	</div>
+	<div class="row alignButtonsToRight">
+		<bcs-button class="col-xs-3" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'" bcs-clic="cancelar()"></bcs-button>
+		<bcs-button class="col-xs-3" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="CrearCorredorCorresponsalForm.$valid" bcs-clic="aceptar()"></bcs-button>
+	</div>
+</div>
+ 

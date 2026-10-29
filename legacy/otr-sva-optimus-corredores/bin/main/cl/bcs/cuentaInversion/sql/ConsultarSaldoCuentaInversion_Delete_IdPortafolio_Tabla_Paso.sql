@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.CuentaInversion.BD::GBL.ConsultarSaldoCuentaInversion_Proceso_Paso";

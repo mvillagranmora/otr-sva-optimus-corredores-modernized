@@ -1,0 +1,138 @@
+ <div id="ConfigurarMensajes" class="row" ng-controller='ConfigurarMensajesCtrl as msj'> 
+	<!--- INICIO FORMULARIO -->
+	<div class="row bcs-cuerpo">
+		<form name="formConfiguracionMensaje" class="col-xs-12 form-horizontal">    
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TITULO</label>
+				<bcs-input-texto
+						id="formConfiguracionMensaje_titulo"
+						class="col-xs-8"
+						ng-model="msj.Mensaje.Titulo"
+						name="Titulo"
+						maxlength="40"
+						bcs-requerido="'true'"
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_MENSAJE</label>
+				<bcs-combobox-base
+					id="formConfiguracionMensaje_tipoMensaje"
+					class="col-xs-8"
+					auto-cargar="'true'"
+					tipo="'combobox-tipo-mensaje'"
+					id-actual="msj.Mensaje.IdTipoMensaje"
+					id-defecto="msj.MensajeOriginal.IdTipoMensaje ? msj.MensajeOriginal.IdTipoMensaje : 'AVISO'"
+					todos="'N'"
+					seleccionado="msj.Mensaje.TipoMensajeObj"
+					bcs-requerido="'true'"
+				></bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_DESTINATARIO</label>
+				<bcs-combobox-base
+					id="formConfiguracionMensaje_tipoEntidadDestinatario"
+					class="col-xs-8"
+					auto-cargar="'true'"
+					tipo="'combobox-tipo-socio-negocio'"
+					id-actual="msj.Mensaje.IdTipoEntidadDestinatario"
+					seleccionado="msj.Mensaje.TipoEntidadDestinatarioObj"
+					id-defecto= "'CLI'"
+					todos= "'S'" 
+					item-post-filtro= "'1'"
+					activado="'false'"
+				></bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MENSAJE_CORTO  </label> <!-- Tipo de proceso / tarea  -->
+				<bcs-input-texto 
+					id="formConfiguracionMensaje_mensajeCorto" 
+					tipo-campo="'textarea'"
+					atributos="margin: 0px; height: 40px; width:380px; overflow: auto;"
+					class="col-xs-3"
+					maxlength="50"
+					name="MensajeCorto"
+					ng-model="msj.Mensaje.MensajeCorto"
+					bcs-requerido="'true'">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MENSAJE_LARGO  </label> <!-- Tipo de proceso / tarea  -->
+				<bcs-input-texto 
+					id="formConfiguracionMensaje_mensajeLargo" 
+					tipo-campo="'textarea'"
+					atributos="margin: 0px; height: 90px; width:380px; overflow: auto;"
+					class="col-xs-3"
+					maxlength="300"
+					name="MensajeLargo"
+					ng-model="msj.Mensaje.MensajeLargo"
+					bcs-requerido="'true'">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<div class ="col-xs-12">
+					<label class="col-xs-3" translate>UI_VIGENCIA </label>
+					<div>
+						<label class="col-xs-2" translate>UI_VIGENCIA_DESDE </label>
+						<bcs-input-date
+							id="formConfiguracionMensaje_fechaVigenciaDesde"
+							class="col-xs-2"
+							k-options="msj.kOptFechaVigenciaDesde"
+							k-ng-model="msj.Mensaje.FechaVigenciaDesde"
+							k-ng-readonly="false"
+							todo-dias="true"
+							bcs-requerido="'true'">
+						</bcs-input-date>
+						<label class="col-xs-2" translate>UI_VIGENCIA_HASTA </label>
+						<bcs-input-date
+							id="formConfiguracionMensaje_fechaVigenciaHasta"
+							class="col-xs-2"
+							k-options="msj.kOptFechaVigenciaHasta"
+							k-ng-model="msj.Mensaje.FechaVigenciaHasta"
+							k-ng-readonly="false"
+							todo-dias="true"
+							bcs-requerido="'true'">
+						</bcs-input-date>
+					</div>
+					
+				</div>
+			</div>
+			<div class="row">
+	           	<div class="col-xs-12">
+	           		<label class="col-xs-3" translate>UI_HABILITADO</label>
+					<bcs-input-checkbox
+						id = "formConfiguracionMensaje_habilitado"
+						class="col-xs-3"
+						name="Habilitado"
+						ng-model="msj.Mensaje.Habilitado">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+			<div class="row">
+	           	<div class="col-xs-12">
+	           		<label class="col-xs-3" translate>UI_MUESTRA_MENSAJE_CORTO</label>
+					<bcs-input-checkbox
+						id = "formConfiguracionMensaje_muestraMensajeCorto"
+						class="col-xs-3"
+						name="MuestraMensajeCorto"
+						ng-model="msj.Mensaje.MuestraMensajeCorto">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+			<div class="row" ></div>
+			<div class="row bcs-panel-comandos">
+			<div class = "col-xs-12">
+	 		    <bcs-button class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="'false'" bcs-texto="'UI_GUARDAR' | translate" bcs-clic="msj.Aceptar()" bcs-habilitado="'true'"></bcs-button>
+				<bcs-button bcs-habilitado="'true'" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="'false'" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="msj.Cancelar()"></bcs-button>
+			
+			</div>
+			</div>
+		</form>
+	</div>
+	<!--- TERMINO FORMULARIO -->
+</div>
+
+
+
+
+
+                                          

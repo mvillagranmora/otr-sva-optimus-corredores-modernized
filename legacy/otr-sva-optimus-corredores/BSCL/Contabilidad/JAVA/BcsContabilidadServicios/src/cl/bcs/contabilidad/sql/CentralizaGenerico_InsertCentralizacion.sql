@@ -1,0 +1,23 @@
+INSERT INTO "BSCL.Contabilidad.BD::ITZ.Centralizacion"  
+("IdCentralizacion"  
+,"IdTipoCentralizacion"  
+,"IdEmpresa"  
+,"FechaProceso"  
+,"HoraProceso"  
+,"FechaContable"  
+,"Glosa"  
+,"CodigoUsuario"  
+,"TipoGeneracion"  
+,"Estado")
+VALUES(
+:IdCentralizacion
+,:IdTipoCentralizacion
+,:IdEmpresa
+,:FechaProceso
+,:HoraProceso
+,:FechaContable
+,:Glosa
+,:CodigoUsuario
+,:TipoGeneracion
+,:Estado
+);

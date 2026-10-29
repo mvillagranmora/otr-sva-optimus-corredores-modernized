@@ -1,0 +1,145 @@
+<div id="CargaTasas" class="row" ng-controller="CargaTasasCtrl as cTas">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_FECHA_CREACION_SOLICITUD</label>
+					<bcs-input-date class="col-xs-7" 
+						k-ng-model="cTas.filtro.Fecha"
+						k-ng-disabled="cTas.filtro.UltimaCurvaPublicada">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-1"></div>
+				<!--
+				<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_TIPO_TASA</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-tipo-tasa'"
+						id-actual="cTas.filtro.IdTipoTasa"
+						id-defecto="'0'"
+						filtros="cTas.cmbbx.TipoTasa.filtros"
+						todos="'S'"
+						seleccionado="cTas.dataFiltros.TipoTasaObj">
+					</bcs-combobox-base>
+				</div>
+				-->
+				<div class="col-xs-5">
+			  		<label class="col-xs-4" translate>UI_FUENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-fuente'"
+						id-actual="cTas.filtro.Codigo"
+						id-defecto="'0'"
+						filtros="cTas.cmbbx.Fuente.filtros"
+						todos="'S'"
+						seleccionado="cTas.dataFiltros.FuenteObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						id-actual="cTas.filtro.IdClasificacionTipoInstrumento"
+						id-defecto="'0'"
+						filtros="cTas.cmbbx.ClasificacionTipoInstrumento.filtros"
+						todos="'S'"
+						seleccionado="cTas.dataFiltros.ClasificacionTipoInstrumentoObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-5">
+					<label class="col-xs-4" translate>UI_MONEDA</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-moneda'"
+						id-actual="cTas.filtro.IdMoneda"
+						id-defecto="'0'"
+						filtros="cTas.cmbbx.Moneda.filtros"
+						todos="'S'"
+						seleccionado="cTas.dataFiltros.MonedaObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_TIPO_REGISTRO</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-configuracion-tasas'"
+						id-actual="cTas.filtro.Valor"
+						id-defecto="'0'"
+						filtros="cTas.cmbbx.TipoRegistro.filtros"
+						todos="'S'"
+						configuracion="cTas.cmbbx.TipoRegistro.configuracion"
+						seleccionado="cTas.dataFiltros.TipoRegistroObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-5">
+			  		<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-estado-tasa'"
+						id-actual="cTas.filtro.IdEstado"
+						id-defecto="'0'"
+						filtros="cTas.cmbbx.Estado.filtros"
+						todos="'S'"
+						seleccionado="cTas.dataFiltros.EstadoObj"
+						activado="!cTas.filtro.UltimaCurvaPublicada">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+					<label class="col-xs-5" translate>UI_ULTIMA_CURVA_PUBLICADA</label>
+					<bcs-input-checkbox ng-model="cTas.filtro.UltimaCurvaPublicada"></bcs-input-checkbox>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="cTas.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="cTas.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		
+	<div class="row">
+		<bcs-grid
+		    id = "grid-carga-mantenedor-tasas"
+			configuracion="cTas.grilla.PreciosTasas"
+			seleccionado="cTas.grilla.precioTasaSel"
+			fn-doble-click="cTas.win.modificar(cTas.grilla.precioTasaSel)"
+			fn-exportar-excel="cTas.exportarExcel">
+		</bcs-grid>
+	</div>
+	<br>
+	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-8">
+			<bcs-button id="CargaTasas_leerArchivo" class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_LEER_ARCHIVO' | translate" bcs-habilitado="'true'" bcs-clic="cTas.fn.leerArchivo()">
+			</bcs-button>
+			<bcs-button id="CargaTasas_oficializar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_OFICIALIZAR' | translate" bcs-habilitado="'true'" bcs-clic="cTas.fn.cambioEstado('OFI')">
+			</bcs-button>
+			<bcs-button id="CargaTasas_publicar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_PUBLICAR' | translate" bcs-habilitado="'true'" bcs-clic="cTas.fn.cambioEstado('PUB')">
+			</bcs-button>
+			<bcs-button id="CargaTasas_agregar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'" bcs-clic="cTas.win.agregar()">
+			</bcs-button>
+			<bcs-button id="CargaTasas_modificar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="cTas.grilla.precioTasaSel !== undefined && cTas.grilla.precioTasaSel.length === 1" bcs-clic="cTas.win.modificar(cTas.grilla.precioTasaSel)">
+			</bcs-button>
+			<bcs-button id="CargaTasas_eliminar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" bcs-habilitado="'true'" bcs-clic="cTas.fn.cambioEstado('ELI')">
+			</bcs-button>
+		</div>
+		<div class="col-xs-2"></div>
+		<bcs-menu class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="cTas.exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

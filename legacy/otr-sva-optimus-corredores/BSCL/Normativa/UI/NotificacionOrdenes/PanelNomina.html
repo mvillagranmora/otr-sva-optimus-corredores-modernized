@@ -1,0 +1,98 @@
+<div id="PanelNomina" class="row" ng-controller="PanelNominaCtrl as pLCP">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+					<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pLCP.FecInicio"
+				></bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_HASTA</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pLCP.FecTermino"></bcs-input-date>
+			</div>
+		  	</div>
+		
+			<div class="row">
+				<div class="col-xs-6">
+					  		
+					<label class="col-xs-3" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pLCP.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pLCP.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pLCP.SocioDeNegocioObj">
+					</bcs-combobox-base>					  		
+					  		
+				</div>
+			
+				<div class="col-xs-6">
+				<!-- 
+				<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"
+								tipo = "'combobox-tipo-documento-normativaUI'"
+								id-actual = "pLCP.cmbbx.IdTipoDocumento"
+								filtros="pLCP.cmbbx.TipoDocumento.filtros"
+								auto-cargar="true"
+								item-post-filtro="'1'"
+								id-defecto="'CIR1985'"
+								todos="'N'"
+								seleccionado="pLCP.cmbbx.IdTipoDocumentoObj">
+				 	</bcs-combobox-base >					  		
+			  	 -->	
+				</div>	 
+		  	</div>
+	 	
+		  	
+		  	<div class="row">
+		  		<div class="col-xs-6">
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pLCP.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pLCP.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		
+	<div class="row">
+		<bcs-grid
+			id="gridNomina"
+			configuracion="pLCP.grilla.Nomina"
+			seleccionado="pLCP.grilla.limiteSel"
+			fn-exportar-excel="excelNomina"
+			api="gridApi">
+			
+		</bcs-grid>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12" style="top:10px; padding-bottom: 10px;">
+		<!-- 
+			<bcs-button class="col-xs-2 pull-left"   bcs-tipo="'principal'"     bcs-auto-desactivar="false" bcs-texto="'UI_CIRCULARIZACION' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.SolicitarCircularizacion()"></bcs-button>
+			<bcs-button class="col-xs-2 pull-left"   bcs-tipo="''"     bcs-auto-desactivar="false" bcs-texto="'UI_PARAMETROS' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.ModificarParametros()"></bcs-button>
+ -->			
+			<bcs-button id="NotificacionOrdenes_verCarta" class="col-xs-2 pull-left"   bcs-tipo="'bcs-button-primary'"     bcs-auto-desactivar="false" bcs-texto="'UI_VER_CARTA' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.VerCarta(pLCP.grilla.limiteSel)"></bcs-button>
+			<bcs-button id="NotificacionOrdenes_notificarCliente" class="col-xs-2 pull-left"   bcs-tipo="'bcs-button-secondary'"     bcs-auto-desactivar="false" bcs-texto="'UI_NOTIFICAR_CLIENTE' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.Notificar(pLCP.grilla.limiteSel)"></bcs-button>
+			<bcs-menu 
+				class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'"
+				bcs-habilitado="'true'" 
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelNomina('Nomina')">						  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+				<li id="NotificacionOrdenes_generarCartas" ng-click="pLCP.fn.GenerarCartas()">							{{'UI_GENERAR_CARTAS' 		| translate}}</li>
+			</bcs-menu>	
+		</div>
+		
+	</div>
+	
+	
+	
+	
+</div>

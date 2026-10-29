@@ -1,0 +1,84 @@
+<div id="MantenedorDiasFeriados" class="row"
+	ng-controller="MantenedorDiasFeriadosCtrl as manDF">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_TIPO_DIA_FERIADO</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-tipo-dia-feriado'"
+						id-actual="manDF.filtro.IdTipoDiaFeriado" id-defecto="'0'"
+						filtros="manDF.cmbbx.TipoDiaFeriado.filtros" todos="'S'"
+						seleccionado="manDF.dataFiltros.TipoDiaFeriadoObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_DIA</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-parametro-mesa'"
+						id-actual="manDF.filtro.ValorParametro" id-defecto="'0'"
+						filtros="manDF.cmbbx.Dia.filtros" todos="'S'"
+						configuracion="manDF.cmbbx.Dia.configuracion"
+						seleccionado="manDF.dataFiltros.DiaObj"> </bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_AGNO_CARGA</label>
+					<bcs-input-numero class="col-xs-7"
+						k-ng-model="manDF.filtro.AgnoCarga" decimales="0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_PAIS</label>
+					<bcs-combobox-base class="col-xs-7" tipo="'combobox-pais'"
+						id-actual="manDF.filtro.IdPais" id-defecto="'0'" todos="'S'"
+						seleccionado="manDF.dataFiltros.PaisObj"> </bcs-combobox-base>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"
+					bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+					bcs-habilitado="true" bcs-clic="manDF.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"
+					bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+					bcs-habilitado="true" bcs-clic="manDF.fn.limpiar()"></bcs-button>
+			</div>
+		</div>
+	</div>
+	<br>
+
+	<div class="row">
+		<bcs-grid configuracion="manDF.grilla.DiasFeriados"
+			seleccionado="manDF.grilla.diaFeriadoSel"
+			fn-doble-click="manDF.win.modificar(manDF.grilla.diaFeriadoSel)"
+			fn-exportar-excel="exportarExcel"> </bcs-grid>
+	</div>
+	<br>
+
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-8">
+			<bcs-button id="MantenedorDiasFeriados_agregar" class="col-xs-3"
+				bcs-tipo="'principal'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'"
+				bcs-clic="manDF.win.agregar()"> </bcs-button>
+			<bcs-button id="MantenedorDiasFeriados_modificar" class="col-xs-3"
+				bcs-tipo="''" bcs-auto-desactivar="false"
+				bcs-texto="'UI_MODIFICAR' | translate"
+				bcs-habilitado="manDF.grilla.diaFeriadoSel"
+				bcs-clic="manDF.win.modificar(manDF.grilla.diaFeriadoSel)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-2"></div>
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'"
+			bcs-texto="'UI_OPCIONES' | translate">
+		<li ng-click="exportarExcel('DiasFeriados')">{{'UI_EXPORTAR_EXCEL'
+			| translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

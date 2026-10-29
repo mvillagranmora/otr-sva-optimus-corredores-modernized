@@ -1,0 +1,1 @@
+SELECT "IdInstrumento","IdMoneda","ISIN","Nemotecnico","IdClasificacionTipoInstrumento" FROM "BSCL.Plataforma.BD.Vistas::INS.ConsultarInstrumento" WHERE "ISIN" in(:ISIN)

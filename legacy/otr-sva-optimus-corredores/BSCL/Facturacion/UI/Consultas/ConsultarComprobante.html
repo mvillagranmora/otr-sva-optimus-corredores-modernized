@@ -1,0 +1,205 @@
+<div class="row" ng-controller="ConsultarComprobanteCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-10"
+							id="ConsultarComprobanteCtrl_UI_SOCIO_NEGOCIO"
+							bcs-requerido="'true'" auto-cargar="'false'"
+							ng-style="{'width' : data.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oClientePortafolio.seleccionado  ? '81%' : '83.33333333%'}"
+							id-actual="filtros.IdPortafolio"
+							tipo="data.oClientePortafolio.tipo"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							configuracion="data.oClientePortafolio.configuracion"
+							filtros="filtrosPortafolio"> </bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="ConsultarComprobanteCtrl_UI_ESTADO" auto-cargar="'true'"
+							tipo="data.oEstadoComprobante.tipo"
+							configuracion="data.oEstadoComprobante.configuracion"
+							id-actual="data.oEstadoComprobante.idActual"
+							seleccionado="data.oEstadoComprobante.seleccionado"
+							filtros="data.oEstadoComprobante.filtros" todos="'S'"
+							id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_COMPROBANTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="ConsultarComprobanteCtrl_UI_TIPO_COMPROBANTE"
+							auto-cargar="'true'" tipo="data.oTipoComprobante.tipo"
+							configuracion="data.oTipoComprobante.configuracion"
+							id-actual="data.oTipoComprobante.idActual"
+							seleccionado="data.oTipoComprobante.seleccionado"
+							filtros="data.oTipoComprobante.filtros" todos="'S'"
+							id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_MONEDA_LIQUIDACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="ConsultarComprobanteCtrl_UI_MONEDA_LIQUIDACION"
+							auto-cargar="'true'" tipo="data.oMonedaLiquidacion.tipo"
+							configuracion="data.oMonedaLiquidacion.configuracion"
+							id-actual="data.oMonedaLiquidacion.idActual"
+							seleccionado="data.oMonedaLiquidacion.seleccionado"
+							filtros="data.oMonedaLiquidacion.filtros" todos="'S'"
+							id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="ConsultarComprobanteCtrl_UI_CLASIFICACION"
+							auto-cargar="'true'"
+							tipo="data.oClasificacionTipoInstrumento.tipo"
+							configuracion="data.oClasificacionTipoInstrumento.configuracion"
+							seleccionado="data.oClasificacionTipoInstrumento.seleccionado"
+							filtros="data.oClasificacionTipoInstrumento.filtros"
+							id-actual="data.oClasificacionTipoInstrumento.idActual"
+							cascada-a="data.oTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'" todos="'S'"
+							item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+
+				</div>
+
+				<div class="row">
+
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="ConsultarComprobanteCtrl_UI_TIPO_INSTRUMENTO"
+							auto-cargar="'false'" tipo="data.oTipoInstrumento.tipo"
+							configuracion="data.oTipoInstrumento.configuracion"
+							id-actual="data.oTipoInstrumento.idActual"
+							seleccionado="data.oTipoInstrumento.seleccionado"
+							filtros="data.oTipoInstrumento.filtros" todos="'S'"
+							item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FOLIO_COMPROBANTE</label>
+						<bcs-input-numero class="col-xs-4"
+							id="ConsultarComprobanteCtrl_UI_FOLIO_COMPROBANTE_DESDE"
+							decimales="'0'" k-ng-model="data.oFolioComprobanteDesde">
+						</bcs-input-numero>
+						<bcs-input-numero class="col-xs-4"
+							id="ConsultarComprobanteCtrl_UI_FOLIO_COMPROBANTE_HASTA"
+							decimales="'0'" k-ng-model="data.oFolioComprobanteHasta">
+						</bcs-input-numero>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_SUCURSAL</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="ConsultarComprobanteCtrl_UI_SUCURSAL" auto-cargar="'true'"
+							tipo="data.oSucursal.tipo"
+							configuracion="data.oSucursal.configuracion"
+							id-actual="data.oSucursal.idActual"
+							seleccionado="data.oSucursal.seleccionado"
+							filtros="data.oSucursal.filtros"
+							cascada-a="data.oEmpleado.filtros.IdSucursal"
+							cascada-valor="'IdSucursal'" todos="'S'" id-defecto="'0'"
+							item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_EJECUTIVO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="ConsultarComprobanteCtrl_UI_EJECUTIVO" auto-cargar="'false'"
+							tipo="data.oEmpleado.tipo"
+							configuracion="data.oEmpleado.configuracion"
+							id-actual="data.oEmpleado.idActual"
+							seleccionado="data.oEmpleado.seleccionado"
+							filtros="data.oEmpleado.filtros" todos="'S'" id-defecto="'0'"
+							item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_COMPROBANTE</label>
+						<bcs-input-date class="col-xs-4"
+							id="ConsultarComprobanteCtrl_UI_FECHA_COMPROBANTE_DESDE"
+							k-ng-model="data.oFechaComprobanteDesde"> </bcs-input-date>
+						<bcs-input-date class="col-xs-4"
+							id="ConsultarComprobanteCtrl_UI_FECHA_COMPROBANTE_HASTA"
+							k-ng-model="data.oFechaComprobanteHasta"> </bcs-input-date>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="data.btnActivo" bcs-clic="buscar()">
+					</bcs-button>
+				</div>
+
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="true" bcs-clic="limpiarFiltros()"> </bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+
+		</div>
+
+		<!-- INICIO SUB GRILLA DETALLE REGISTRO -->
+		<div class="row">
+			<bcs-grid id="grid-consultar-comprobantes-facturacion"
+				fn-exportar-excel="exportarExcel"
+				configuracion="confBasicaConsultarComprobantes"
+				seleccionado="seleccionConsultarComprobantes"
+				api="gridApiConsultarComprobantes">
+			<div bcs-grid-detail ng-non-bindable>
+				<div style="width: 830px;">
+					<uib-tabset> <uib-tab
+						heading="{{'UI_DETALLE' | translate}}"> <bcs-grid
+						configuracion="confBasicaConsultarComprobanteDetalle(dataItem)"
+						seleccionado="seleccionConsultarComprobanteDetalle">
+
+					<div bcs-grid-detail ng-non-bindable>
+						<bcs-grid
+							configuracion="confBasicaConsultarMovimientoComprobanteDetalle(dataItem)"
+							seleccionado="seleccionConsultarMovimientoComprobanteDetalle">
+						</bcs-grid>
+					</div>
+					</bcs-grid> </uib-tab> <uib-tab heading="{{'UI_COBROS' | translate}}"> <bcs-grid
+						configuracion="confBasicaConsultarComprobanteCobro(dataItem)"
+						seleccionado="seleccionConsultarComprobanteCobro"> </bcs-grid> </uib-tab> <uib-tab
+						heading="{{'UI_FORMA_DE_PAGO' | translate}}"> <bcs-grid
+						configuracion="confBasicaConsultarComprobanteFormaDePago(dataItem)"
+						seleccionado="seleccionConsultarComprobanteFormaDePago">
+					</bcs-grid> </uib-tab> </uib-tabset>
+				</div>
+			</div>
+			</bcs-grid>
+		</div>
+		<!-- FIN SUB GRILLA DETALLE REGISTRO -->
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+
+		<div class="row col-xs-12 bcs-panel-comandos">
+			<bcs-menu class="col-xs-1 pull-right"  bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'"
+				bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' |
+				translate}}</li>
+			</bcs-menu>
+		</div>
+	
+	<!-- FIN PANEL COMANDOS -->
+</div>

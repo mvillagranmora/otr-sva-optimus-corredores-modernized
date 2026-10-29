@@ -1,0 +1,80 @@
+<div id="PanelEventoPosicion" class="row" ng-controller="PanelEventoPosicionCtrl as pEvPos">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_TIPO_EVENTO_POSICION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pEvPos_TipoEvento"
+						tipo="'combobox-parametro-mesa'"
+						id-actual="pEvPos.filtro.IdTipoEvento"
+						id-defecto="'0'"
+						filtros="pEvPos.cmbbx.TipoEvento.filtros"
+						todos="'S'"
+						configuracion="pEvPos.cmbbx.TipoEvento.configuracion" 
+						seleccionado="pEvPos.dataFiltros.TipoEventoObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_INDICADOR_ACCION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pEvPos_IndicadorAccion"
+						tipo="'combobox-parametro-mesa'"
+						id-actual="pEvPos.filtro.IndicadorAccion"
+						id-defecto="'0'"
+						filtros="pEvPos.cmbbx.IndicadorAccion.filtros"
+						todos="'S'"
+						configuracion="pEvPos.cmbbx.IndicadorAccion.configuracion" 
+						seleccionado="pEvPos.dataFiltros.IndicadorAccionObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pEvPos_Estado"
+						tipo="'combobox-estado-mesas'"
+						id-actual="pEvPos.filtro.IdEstado"
+						id-defecto="'0'"
+						filtros="pEvPos.cmbbx.Estado.filtros"
+						todos="'S'"
+						seleccionado="pEvPos.dataFiltros.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pEvPos.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pEvPos.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<br>
+	
+	<div class="row">
+		<bcs-grid
+			configuracion="pEvPos.grilla.EventosPosicion"
+			seleccionado="pEvPos.grilla.eventoPosicionSel"
+			fn-doble-click="pEvPos.fn.modificar(pEvPos.grilla.eventoPosicionSel)"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	
+	<div class="row bcs-panel-buttons">
+		<bcs-button id="PanelEventoPosicion_agregar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'" bcs-clic="pEvPos.fn.agregar()">
+		</bcs-button>
+		<bcs-button id="PanelEventoPosicion_modificar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="!((pEvPos.grilla.eventoPosicionSel.NombreOperacion === 'LIQUIDACION FACTURAS SPOT COMPRAS') || (pEvPos.grilla.eventoPosicionSel.NombreOperacion === 'LIQUIDACION FACTURAS SPOT VENTAS'))" bcs-clic="pEvPos.fn.modificar(pEvPos.grilla.eventoPosicionSel)">
+		</bcs-button>
+		
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel('EventoPosicion')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

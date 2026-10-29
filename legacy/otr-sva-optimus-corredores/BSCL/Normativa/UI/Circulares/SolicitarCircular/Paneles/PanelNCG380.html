@@ -1,0 +1,375 @@
+<div id="PanelNCG380" class="row" ng-controller="PanelNCG380Ctrl as pcn">
+<form class="col-xs-12 form-horizontal">
+	<div class="row">
+	<label class="col-xs-4" translate>UI_TIPO_REGISTRO</label>
+	</div>
+	<div class="row">
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroCliente"
+					ng-disabled="pcn.modoLectura">
+				</bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_CLIENTE</label>
+			</div>
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroOrdenes"
+					ng-disabled="pcn.modoLectura">
+				 </bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_ORDENES</label>
+			</div>
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroAsignacion"
+					ng-disabled="pcn.modoLectura">
+				</bcs-input-checkbox>
+				<label class="col-xs-2" translate>UI_ASIGNACION</label>
+			</div>
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroCustodia"
+					ng-disabled="pcn.modoLectura">
+				 </bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_CUSTODIA</label>
+			</div>			
+	</div>
+		<div class="row">
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroAutorizado"
+					ng-disabled="pcn.modoLectura">
+				</bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_AUTORIZADO</label>
+			</div>
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroOperaciones"
+					ng-disabled="pcn.modoLectura">
+				 </bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_OPERACIONES</label>
+			</div>
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroFacturacion"
+					ng-disabled="pcn.modoLectura">
+				</bcs-input-checkbox>
+				<label class="col-xs-2" translate>UI_FACTURACION</label>
+			</div>
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroTrabajador"
+					ng-disabled="pcn.modoLectura">
+				 </bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_TRABAJADORES</label>
+			</div>			
+	</div>
+	
+	<div class="row">
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroInstrucciones"
+					ng-disabled="pcn.modoLectura">
+				</bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_INSTRUCCIONES</label>
+			</div>	
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroRepactaciones"
+					ng-disabled="pcn.modoLectura">
+				</bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_REPACTACIONES</label>
+			</div>	
+			<div class="col-xs-3">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pcn.registroDeudores"
+					ng-disabled="pcn.modoLectura">
+				</bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_DEUDORES</label>
+				
+			</div>
+	</div>
+	
+	<br><hr>
+	<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-3" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-6" k-ng-model="pcn.FecInicio"
+				k-ng-disabled="seleccionFecInicio || data.modoLectura"
+				></bcs-input-date>
+			</div>
+	</div>
+	<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-3" translate>UI_FECHA_HASTA</label>
+				<bcs-input-date class="col-xs-6" k-ng-model="pcn.FecTermino"
+				k-ng-disabled="seleccionFecFin || data.modoLectura"
+				></bcs-input-date>
+			</div>
+
+	</div>
+	<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-3" translate>UI_FECHA_REALIZACION</label>
+				<bcs-input-date class="col-xs-6" k-ng-model="pcn.FechaRealizacion"
+					k-ng-disabled="seleccionFechaRealizacion || data.modoLectura"
+					></bcs-input-date>
+			</div>
+	</div>
+	<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-3" translate>UI_OFICIO</label>
+				<bcs-input-texto class="col-xs-6" ng-model="data.Filtros.Oficio"
+					k-ng-disabled="seleccionOficio || data.modoLectura"></bcs-input-texto>
+			</div>
+	</div>	
+	<!-- PARAMETROS CLIENTES -->
+	<div class="row" ng-show="!modoVisualizacion">
+		<div class="col-xs-3">
+			<label class="col-xs-5" translate>Cliente</label>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="!pcn.muestraListaClientes" ng-click="pcn.muestraListaClientes = !pcn.muestraListaClientes">({{'+' | translate}})</em>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="pcn.muestraListaClientes" ng-click="pcn.muestraListaClientes = !pcn.muestraListaClientes">({{'-' | translate}})</em>
+		</div>
+		<bcs-combobox-base 
+			class="col-xs-6" 
+			id="comboboxSocioNegocio"
+			auto-cargar="'false'" 
+			tipo="'combobox-socio-negocio'"
+			configuracion="datapcn.oConfiguracionSocioNegocio.configuracion"
+			id-Actual="pcn.oConfiguracionSocioNegocio.idActual"
+			seleccionado="pcn.oConfiguracionSocioNegocio.seleccionado"
+			activado="activadoCli && !data.Filtros.TodosCli"
+			filtros="data.oConfiguracionSocioNegocio.filtros">
+		</bcs-combobox-base>
+		<div class="col-xs-2">
+			<label class="col-xs-5">Todos</label>
+			<bcs-input-checkbox class="col-xs-3" ng-model="data.Filtros.TodosCli" ng-disabled="seleccionTodosRut || data.modoLectura">
+		</bcs-input-checkbox>
+		</div>
+	</div>
+	<div class="row"  ng-show="pcn.muestraListaClientes">	
+		<div class="row" ng-show="!modoVisualizacion">
+			<label class="col-xs-3">Listado Rut</label> 
+			<input
+				class="col-xs-9" type="file" data-disabled="true"
+				ng-disabled="listRut" file-reader="data.FiltrosRut.fileContent"
+				style="display: inline" />
+		</div>
+		<div class="row" ng-show="modoVisualizacion">
+			<label class="col-xs-1" translate>UI_RUT</label>
+			<em class="col-xs-11" style="text-decoration: underline;" ng-show="!ingresarSolicitud.muestraRuts" ng-click="ingresarSolicitud.muestraRuts = !ingresarSolicitud.muestraRuts">({{'+' | translate}})</em> 
+			<em class="col-xs-11" style="text-decoration: underline;" ng-show="ingresarSolicitud.muestraRuts" ng-click="ingresarSolicitud.muestraRuts = !ingresarSolicitud.muestraRuts">({{'-'| translate}})</em>
+		</div>
+		<div class="row" ng-show="ingresarSolicitud.muestraRuts">
+			<bcs-grid id="gridListadoRut"
+				configuracion="confBasicaListadoRut"
+				seleccionado="seleccionListadoRut" 
+				fn-click="">
+			</bcs-grid>
+		</div>
+	</div>	
+	<!-- FIN PARAMETROS CLIENTE -->
+	
+<div class="row">
+				<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+				<bcs-combobox-base class="col-xs-6"
+					tipo="'combobox-clasificacion-tipo-instrumento'"
+					todos="'S'" 
+					id-defecto="'S'"
+					seleccionado="filtros.clasificacionTipoInstrumento"
+					id-actual="filtros.IdClasificacionTipoInstrumento"
+					cascada-a="datos.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+					cascada-valor="'IdClasificacionTipoInstrumento'"
+					cascada1-a="datos.oConfiguracionTipoOperacion.filtros.IdClasificacionTipoInstrumento"
+					cascada1-valor="'IdClasificacionTipoInstrumento'"
+					activado="seleccionMcdo"
+					ng-disabled="data.modoLectura"> </bcs-combobox-base>
+				
+	</div>
+
+	<!-- PARAMETROS NEMO -->
+	
+	
+	<div class="row" ng-show="!modoVisualizacion">
+		<div class="col-xs-3">
+			<label class="col-xs-5" translate>Nemo</label>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="!pcn.muestraListaNemos" ng-click="pcn.muestraListaNemos = !pcn.muestraListaNemos">({{'+' | translate}})</em>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="pcn.muestraListaNemos" ng-click="pcn.muestraListaNemos = !pcn.muestraListaNemos">({{'-' | translate}})</em>
+		</div>
+		<!-- 
+		<bcs-input-texto class="col-xs-6" ng-model="data.Filtros.Nemo" k-ng-disabled="!seleccionNemo && data.Filtros.TodosNemo"></bcs-input-texto>
+		 -->
+		 
+		<bcs-input-instrumentos
+			class="col-xs-6"
+			id="UI_INSTRUMENTO"
+			name="uInstrumento"
+			datos-instrumento="data.instrumentoDatos"
+			buscar-instrumento="data.oConfiguracionInstrumento.buscar"
+			filtro-clasificacion="filtros.IdClasificacionTipoInstrumento"
+			k-ng-disabled="!seleccionNemo && data.Filtros.TodosNemo"
+			filtro-estado = "'ACT'">
+		</bcs-input-instrumentos>
+
+		
+		<div class="col-xs-2">
+			<label class="col-xs-5">Todos</label>
+			<bcs-input-checkbox class="col-xs-3" ng-model="data.Filtros.TodosNemo"	ng-disabled="seleccionTodosNemo || data.modoLectura"> </bcs-input-checkbox>
+			
+		</div>
+	</div>
+	
+	<div class="row"  ng-show="pcn.muestraListaNemos">	
+		<div class="row" ng-show="!modoVisualizacion">
+			<label class="col-xs-3">Listado Nemo</label>
+				<input class="col-xs-9" type="file" ng-disabled="listNemo"
+				file-reader="data.FiltrosNemo.fileContent"
+				style="display: inline" />
+		</div>
+		<div class="row" ng-show="modoVisualizacion">
+			<label class="col-xs-1" translate>UI_Nemo</label>
+			<em class="col-xs-11" style="text-decoration: underline;" ng-show="!ingresarSolicitud.muestraNemos" ng-click="ingresarSolicitud.muestraNemos = !ingresarSolicitud.muestraNemos">({{'+' | translate}})</em> 
+			<em class="col-xs-11" style="text-decoration: underline;" ng-show="ingresarSolicitud.muestraNemos" ng-click="ingresarSolicitud.muestraNemos = !ingresarSolicitud.muestraNemos">({{'-'| translate}})</em>
+		</div>
+		<div class="row" ng-show="ingresarSolicitud.muestraNemos">
+			<bcs-grid id="gridListadoNemo"
+				configuracion="confBasicaListadoNemo"
+				seleccionado="seleccionListadoNemo" 
+				fn-click="">
+			</bcs-grid>
+		</div>
+	</div>	
+	<!-- FIN PARAMETROS NEMO -->	
+	
+	
+	
+							
+<!-- PARAMETROS EMPLEADOS -->
+
+	<div class="row" ng-show="!modoVisualizacion">
+		<div class="col-xs-3">
+			<label class="col-xs-5" translate>UI_EMPLEADO</label>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="!pcn.muestraListaEmpleados" ng-click="pcn.muestraListaEmpleados = !pcn.muestraListaEmpleados">({{'+' | translate}})</em>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="pcn.muestraListaEmpleados" ng-click="pcn.muestraListaEmpleados = !pcn.muestraListaEmpleados">({{'-' | translate}})</em>
+		</div>
+		<bcs-combobox-base class="col-xs-6" id="comboboxSocioNegocio"
+			auto-cargar="'false'" tipo="'combobox-socio-negocio'"
+			configuracion="data.oConfiguracionEmpleado.configuracion"
+			id-Actual="data.oConfiguracionEmpleado.idActual"
+			seleccionado="data.oConfiguracionEmpleado.seleccionado"
+			ng-model="data.Filtros.RutTrabajador" activado="activadoEmpl && !data.Filtros.TodosEmpl">
+		</bcs-combobox-base>
+		<div class="col-xs-2">
+			<label class="col-xs-5">Todos</label>
+			<bcs-input-checkbox class="col-xs-3" ng-model="data.Filtros.TodosEmpl" ng-disabled="seleccionTodosEmpl">
+			</bcs-input-checkbox>
+		</div>
+	</div>
+	<div class="row"  ng-show="pcn.muestraListaEmpleados">	
+		<div class="row" ng-show="!modoVisualizacion">
+			<label class="col-xs-3">Listado Rut Empleado</label>
+			<input class="col-xs-9" type="file" ng-disabled="listRutEmpl" ng-model="data.Filtros.ListRutEmpl"
+			file-reader="data.FiltrosRutEmpl.fileContent"style="display: inline" />				
+		</div>
+		<div class="row" ng-show="modoVisualizacion">
+			<label class="col-xs-1" translate>UI_EMPLEADO</label>
+			<em class="col-xs-11" style="text-decoration: underline;" ng-show="!ingresarSolicitud.muestraEmpleados" ng-click="ingresarSolicitud.muestraEmpleados = !ingresarSolicitud.muestraRuts">({{'+' | translate}})</em> 
+			<em class="col-xs-11" style="text-decoration: underline;" ng-show="ingresarSolicitud.muestraEmpleados" ng-click="ingresarSolicitud.muestraEmpleados = !ingresarSolicitud.muestraEmpleados">({{'-'| translate}})</em>
+		</div>
+		<div class="row" ng-show="ingresarSolicitud.muestraEmpleados">
+		</div>
+	</div>	
+
+<!-- FIN PARAMETROS EMPLEADOS -->	
+	
+<!-- PARAMETROS AUTORIZADOS -->
+	<div class="row" ng-show="!modoVisualizacion">
+		<div class="col-xs-3">
+			<label class="col-xs-5" translate>UI_AUTORIZADO</label>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="!pcn.muestraListaAutorizados" ng-click="pcn.muestraListaAutorizados = !pcn.muestraListaAutorizados">({{'+' | translate}})</em>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="pcn.muestraListaAutorizados" ng-click="pcn.muestraListaAutorizados = !pcn.muestraListaAutorizados">({{'-' | translate}})</em>
+		</div>
+		<bcs-combobox-base class="col-xs-6" id="comboboxSocioNegocio"
+			auto-cargar="'false'" tipo="'combobox-socio-negocio'"
+			configuracion="data.oConfiguracionAutorizado.configuracion"
+			id-Actual="data.oConfiguracionAutorizado.idActual"
+			seleccionado="data.oConfiguracionAutorizado.seleccionado"
+			activado="activadoAut && !data.Filtros.TodosAut">
+		</bcs-combobox-base>		
+		<div class="col-xs-2">
+			<label class="col-xs-5">Todos</label>
+			<bcs-input-checkbox class="col-xs-3" ng-model="data.Filtros.TodosAut" ng-disabled="seleccionTodosAut">
+			</bcs-input-checkbox>
+		</div>
+	</div>
+	
+	<div class="row"  ng-show="pcn.muestraListaAutorizados">	
+		<div class="row" ng-show="!modoVisualizacion">
+			<label class="col-xs-3">Listado Rut Aut</label>
+			<input class="col-xs-9" type="file" ng-disabled="listRutAut" ng-model="data.Filtros.ListRutAut"
+					file-reader="data.FiltrosRutAut.fileContent" style="display: inline" /> 				
+		</div>
+		<div class="row" ng-show="modoVisualizacion">
+			<label class="col-xs-1" translate>UI_AUTORIZADO</label>
+			<em class="col-xs-11" style="text-decoration: underline;" ng-show="!ingresarSolicitud.muestraAutorizados" ng-click="ingresarSolicitud.muestraAutorizados = !ingresarSolicitud.muestraAutorizados">({{'+' | translate}})</em> 
+			<em class="col-xs-11" style="text-decoration: underline;" ng-show="ingresarSolicitud.muestraAutorizados" ng-click="ingresarSolicitud.muestraAutorizados = !ingresarSolicitud.muestraAutorizados">({{'-'| translate}})</em>
+		</div>
+		<div class="row" ng-show="ingresarSolicitud.muestraAutorizados">
+			<!-- <bcs-grid id="gridListadoNemo"
+					configuracion="confBasicaListadoNemo"
+					seleccionado="seleccionListadoNemo" fn-click="">
+			</bcs-grid> -->
+		</div>
+	</div>	
+	
+	<div class="row">
+	
+	<div class="col-xs-3">
+			<label class="col-xs-8" translate>UI_TIPO_RELACION</label>
+	</div>
+	
+	<bcs-combobox-base class="col-xs-6" id="comboboxRelaciones"
+			tipo="pcn.oConfiguracionRelaciones.tipo"			        
+			configuracion="pcn.oConfiguracionRelaciones"
+			id-Actual="pcn.oConfiguracionRelaciones.idActual"
+			seleccionado="pcn.oConfiguracionRelaciones.seleccionado"
+			filtros="pcn.oConfiguracionRelaciones.filtros"
+			activado="activadoRel && !data.Filtros.TodosRel"	
+			>
+		</bcs-combobox-base>	
+		<div class="col-xs-2">
+			<label class="col-xs-5">Todos</label>
+			<bcs-input-checkbox class="col-xs-3" ng-model="data.Filtros.TodosRel" ng-disabled="seleccionTodosRel">
+			</bcs-input-checkbox>
+		</div>
+	</div>
+	
+	
+
+
+
+
+<!-- FIN PARAMETROS AUTORIZADOS -->	
+	
+	
+	
+</form>		
+	<div class="row bcs-panel-comandos">
+	
+					
+		<div class="col-xs-12" style="top: 10px; padding-bottom: 10px;">
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EMITIR' | translate"
+				bcs-habilitado="seleccionGrabar"
+			    bcs-clic="pcn.solicitar()">
+			 </bcs-button>
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+				bcs-habilitado="true" bcs-clic="pcn.clear()">
+			</bcs-button>
+			
+		</div>
+	
+	</div>
+	
+</div>

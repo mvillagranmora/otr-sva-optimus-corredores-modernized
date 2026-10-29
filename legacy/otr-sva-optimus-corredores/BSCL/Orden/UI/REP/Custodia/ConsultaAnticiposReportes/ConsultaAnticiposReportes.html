@@ -1,0 +1,106 @@
+<div ng-controller="ConsultaAnticiposReportesCtrl as ConAntReportes">
+  	<!-- FILTROS -->	
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<label class="col-xs-2" translate>UI_SOCIO_NEGOCIO</label>
+				<bcs-combobox-base class="col-xs-4"
+				 	id="UI_SOCIO_NEGOCIO"
+				 	auto-cargar="'false'"
+				 	id-actual="ConAntReportes.oConfiguracionSocioNegocio.idActual"
+				    tipo="'combobox-socio-negocio'"
+				    seleccionado="ConAntReportes.oConfiguracionSocioNegocio.seleccionado"
+				    filtros="ConAntReportes.oConfiguracionSocioNegocio.filtros"
+				    configuracion= "ConAntReportes.oConfiguracionSocioNegocio.configuracion"
+					cascada-a="ConAntReportes.oConfiguracionPortafolio.filtros.IdCliente"
+					cascada-valor="'IdCliente'"
+					cascada-defecto="-1" >
+				</bcs-combobox-base >
+				<label class="col-xs-2" translate style="padding-left: 15px">UI_PORTAFOLIO</label>
+				<bcs-combobox-base class="col-xs-4"
+				 	id="UI_PORTAFOLIO"
+				 	id-actual="ConAntReportes.oConfiguracionPortafolio.idActual"
+				 	auto-cargar="'false'"
+				    tipo="'combobox-portafolio'"
+				    seleccionado="ConAntReportes.oConfiguracionPortafolio.seleccionado"
+				    filtros="ConAntReportes.oConfiguracionPortafolio.filtros"
+					item-post-filtro="'1'"
+				    configuracion= "ConAntReportes.oConfiguracionPortafolio.configuracion"  >
+				</bcs-combobox-base >													
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-2" translate>UI_TIPO_OPERACION</label>
+				<bcs-combobox-base class="col-xs-4" 
+					auto-cargar="'true'"
+					tipo="ConAntReportes.oConfiguracionTipoOperacion.tipo"  
+					filtros="ConAntReportes.oConfiguracionTipoOperacion.filtros"
+					configuracion= "ConAntReportes.oConfiguracionTipoOperacion.configuracion" 
+					id-actual="ConAntReportes.oConfiguracionTipoOperacion.idActual" 
+					seleccionado="ConAntReportes.oConfiguracionTipoOperacion.seleccionado"
+					todos="'S'"
+					id-defecto="'0'" 
+				></bcs-combobox-base>
+				<label class="col-xs-2 txt-left" translate style="padding-left: 15px">UI_INSTRUMENTO</label>	
+				<bcs-input-instrumentos class="col-xs-4" 
+					name="uInstrumento" 
+					datos-instrumento="ConAntReportes.instrumento"
+					buscar-instrumento="ConAntReportes.buscarinstrumento" 
+					filtro-estado = "'ACT'" 
+					filtro-tipo-instrumento = "ConAntReportes.oConfiguracionTipoOperacion.seleccionado.IdTipoInstrumento"
+					filtro-subyacente = "'SIM'"
+				></bcs-input-instrumentos>														
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_FECHA_ANTICIPO</label>
+				<bcs-input-date class="col-xs-2"
+					k-ng-model="ConAntReportes.kngFechaInicio"
+					ng-model="ConAntReportes.fechaInicio"	
+					k-options="ConAntReportes.fechaInicioOpt"				
+				></bcs-input-date>
+		
+				<bcs-input-date class="col-xs-2"
+					k-ng-model="ConAntReportes.kngFechaTermino"
+					ng-model="ConAntReportes.fechaTermino"
+					k-ng-disabled = "'true'"
+				></bcs-input-date>													
+			</div>
+		</div>
+					
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" 
+					bcs-tipo="''"  
+					bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_BUSCAR' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="ConAntReportes.buscar()"
+				></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" 
+					bcs-tipo="'default'"  
+					bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_LIMPIAR' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="ConAntReportes.limpiar()"
+				></bcs-button>
+			</div>
+		</div>
+	</div>					
+	<!-- GRILLA -->
+	<div class="row">
+		<bcs-grid id="grid-anticipos-reportes"
+		 	configuracion = "ConAntReportes.confBasicaAnticipos"
+			seleccionado = "ConAntReportes.seleccionAnticiposReportes"
+			fn-exportar-excel="exportarExcel"
+			>
+		</bcs-grid>
+	</div>
+  	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>	            
+		</bcs-menu>
+	</div>
+</div>

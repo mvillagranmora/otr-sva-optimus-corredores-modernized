@@ -1,0 +1,168 @@
+<div ng-controller="AsignacionClienteCtrl">
+	
+	<form class="row" style="min-height:100px" name="asignacionClienteForm">
+		<div class="row">
+			<label translate class="col-xs-3">UI_CLIENTE_PORTAFOLIO</label>
+			<bcs-combobox-base 
+				id = "asignacionClienteForm_comboClientePortafolio"
+				class="col-xs-9"
+			 	tipo="'combobox-cliente-portafolio'"
+			    filtros="formData.configuracionPortafolio.filtros"
+	            bcs-requerido
+			    muestra-enlace = "'S'"
+			    seleccionado = "formData.portafolioSeleccionado"
+			    cascada-a="formData.filtrosCuentaCustodio.IdPortafolio"
+				cascada-valor="'IdPortafolio'">
+			</bcs-combobox-base >
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-3" translate>UI_CUENTA_CUSTODIO</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				bcs-requerido = "SesionLocale === 'PE'"
+				usa-filtros-completos = "'S'"
+				tipo="'combobox-cuenta-custodio-portafolio'"
+				seleccionado="formData.cuentaCustodioSeleccionada"
+				filtros="formData.filtrosCuentaCustodio"
+				cascada-a="formData.filtrosBoveda.IdBoveda"
+				cascada-valor="'IdBoveda'">
+			</bcs-combobox-base>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FORMA_CUSTODIA</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				bcs-requerido
+				activado = "!formData.esVentaCorta"
+				id-actual = "idFormaCustodiaPortafolio"
+				tipo="'combobox-forma-custodia-orden'"
+				seleccionado="formData.formaCustodiaSeleccionada">
+			</bcs-combobox-base>
+		</div>
+		<div class="row">
+			<label class="col-xs-3" translate>UI_BOVEDA</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				bcs-requerido
+				activado = "SesionLocale === 'CL'"
+				auto-seleccion  = "'true'"
+				id-defecto = "idBovedaDefecto"
+				tipo="'combobox-boveda'"
+				filtros = "formData.filtrosBoveda"
+				seleccionado="formData.bovedaSeleccionada">
+			</bcs-combobox-base>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_MONEDA_LIQUIDACION</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				bcs-requerido
+				tipo="'combobox-tipo-instrumento-moneda-liquidacion'"
+				id-defecto = "formData.idMonedaLiquidacionDefecto"
+				filtros = "formData.filtrosMonedaLiquidacion"
+				seleccionado = "formData.monedaLiquidacionSeleccionada"
+				cascada-a="formData.filtrosPreferenciaPago.IdMoneda"
+				cascada-valor="'IdMonedaLiquidacion'">
+			</bcs-combobox-base>
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-3" translate>UI_CODIGO_IFRS</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				activado ="formData.portafolioSeleccionado.EsCuentaPropia==='S'"
+				bcs-requerido = "formData.portafolioSeleccionado.EsCuentaPropia==='S'"
+				seleccionado = "formData.codigoIFRSSeleccionado"
+				id-actual = "formData.codigoIfrs"
+				tipo="'combobox-codigo-ifrs'">
+			</bcs-combobox-base>
+			<label class="col-xs-2  col-xs-offset-1" translate>UI_TIPO_CAMBIO</label>
+			<bcs-input-monetario
+				class="col-xs-3"
+				decimales = "'2'"
+				simbolo="SesionIdMonedaSistema"
+				k-ng-disabled="formData.idMoneda !== SesionMonedaSistema" 
+				k-ng-model="formData.tipoCambio" >
+			</bcs-input-monetario>
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-3" translate>UI_PAGO_COBRO_CON_CTA_INVERSION</label>
+			<bcs-input-checkbox class="col-xs-3"
+				ng-disabled="formData.pagoCobroCuentaInversionDisabled" 
+				ng-model="formData.pagoCobroCuentaInversion">
+			</bcs-input-checkbox>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FORMA_DE_PAGO_COBRO</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				usa-filtros-completos = "'S'"
+				activado = "!formData.pagoCobroCuentaInversion"
+				tipo="'combobox-preferencia-pago-portafolio'"
+				filtros = "formData.filtrosPreferenciaPago"
+				id-actual = "formData.IdPreferenciaPagoPortafolio"
+				seleccionado="formData.formaDePagoSeleccionada"
+				item-post-filtro = "!formData.pagoCobroCuentaInversion ? '1' : '0'">
+			</bcs-combobox-base>
+		</div>
+		<div class="row">
+			<label class="col-xs-3" translate>UI_PLAZO_VENTA_CORTA</label>
+			<bcs-input-plazo
+				class="col-xs-3"
+				activa-fecha = "formData.esVentaCorta"
+				activa-plazo = "formData.esVentaCorta"
+				bcs-requerido = "formData.esVentaCorta"
+				bcs-mayor-que = "'0'"
+				fecha-inicial = "formData.fechaInicial"
+				fecha-vencimiento = "formData.fechaVencimiento"
+				plazo = "formData.plazoVentaCorta"
+				id-tipo-operacion = "formData.IdTipoOperacion"
+				id-condicion-de-liquidacion="'T0'">
+			</bcs-input-plazo>	
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_TASA_VENTA_CORTA</label>
+			<bcs-input-numero
+				k-ng-disabled = "!formData.esVentaCorta"
+				bcs-requerido = "formData.esVentaCorta"
+				class="col-xs-3"
+				k-ng-model = "formData.tasaVentaCorta">
+			</bcs-input-numero>
+		</div>
+
+		<div class="row">
+			<label class="col-xs-3" translate>UI_GLOSA</label>
+			<bcs-input-texto 
+			ng-show="true" 
+			tipo-campo="'textarea'" 
+			atributos="height:50px;resize:none;width: 100%" 
+			ng-model="formData.glosa"	>
+		</div>
+		
+		<div class="row" ng-show="SesionLocale === 'PE'">
+			<label class="col-xs-3" translate>UI_PORCENTAJE_ALL_IN</label>
+			<bcs-input-porcentaje
+				class="col-xs-3"
+				k-ng-model="formData.porcentajeAllIn">
+			</bcs-input-porcentaje>
+			
+		</div>
+
+	</form>
+	
+	<div class="row alignButtonsToRight">
+		<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="asignacionClienteForm.$valid"  
+			bcs-clic="formData.aceptarAsignacion()"></bcs-button>
+	</div>
+    
+	
+	
+	<!-- <div class="btn-group" uib-dropdown>
+      <button id="split-button" type="button" class="btn btn-danger">Action</button>
+      <button type="button" class="btn btn-danger" uib-dropdown-toggle>
+        <span class="caret"></span>
+        <span class="sr-only">Split button!</span>
+      </button>
+      <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+        <li role="menuitem"><a href="#">Action</a></li>
+        <li role="menuitem"><a href="#">Another action</a></li>
+        <li role="menuitem"><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li role="menuitem"><a href="#">Separated link</a></li>
+      </ul>
+    </div>-->
+</div>

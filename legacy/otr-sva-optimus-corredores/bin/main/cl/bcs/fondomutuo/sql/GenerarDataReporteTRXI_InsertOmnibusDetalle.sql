@@ -1,0 +1,33 @@
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.OmnibusDetalle"
+("IdOmnibusDetalle",
+ "IdOmnibus",
+ "IdSerieFondo",
+ "FechaCertificacion",
+ "CantidadOperaciones",
+ "ValorCuota",
+ "UltimoValorCuota",
+ "Monto",
+ "CantidadCuotas",
+ "ValorCuotaAGF",
+ "MontoAGF",
+ "CantidadCuotasAGF",
+ "DiferenciaValorCuota",
+ "DiferenciaValorCuotaAGF",
+ "IdEstado")
+VALUES(
+:IdOmnibusDetalle,
+:IdOmnibus,
+:IdSerieFondo,
+:FechaCertificacion,
+:CantidadOperaciones,
+0,
+0,
+:Monto,
+:CantidadCuotas,
+0,
+0,
+0,
+0,
+0,
+'PEN'
+);

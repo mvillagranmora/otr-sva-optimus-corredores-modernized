@@ -1,0 +1,1 @@
+DELETE FROM "TBRELMTK" where left("FEC_INI_MKT",4)=:Periodo;

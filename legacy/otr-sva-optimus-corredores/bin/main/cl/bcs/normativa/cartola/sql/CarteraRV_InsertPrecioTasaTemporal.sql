@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Normativa.BD::CAR.PrecioTasaPaso" ("IdPortafolio","IdInstrumento","Precio","IdTrabajo") VALUES (:IdPortafolio,:IdInstrumento,:Precio,:IdTrabajo)

@@ -1,0 +1,74 @@
+<div ng-controller="ConsultaAnticiposCtrl as ConAntSIM">
+	<!-- FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<bcs-combobox-base class="col-xs-8" style="width: 81.5%;" id="UI_SOCIO_NEGOCIO"
+					auto-cargar="'false'" id-actual="filtros.IdPortafolio"
+					tipo="ConAntSIM.oClientePortafolio.tipo"
+					seleccionado="ConAntSIM.oClientePortafolio.seleccionado"
+					filtros="filtrosPortafolio"
+					configuracion="ConAntSIM.oClientePortafolio.configuracion">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_TIPO_OPERACION</label>
+				<bcs-combobox-base class="col-xs-4" auto-cargar="'true'"
+					tipo="ConAntSIM.oConfiguracionTipoOperacion.tipo"
+					filtros="ConAntSIM.oConfiguracionTipoOperacion.filtros"
+					configuracion="ConAntSIM.oConfiguracionTipoOperacion.configuracion"
+					id-actual="ConAntSIM.oConfiguracionTipoOperacion.idActual"
+					seleccionado="ConAntSIM.oConfiguracionTipoOperacion.seleccionado"
+					todos="'S'" id-defecto="'0'"></bcs-combobox-base>
+				<label class="col-xs-2 txt-left" translate
+					style="padding-left: 15px">UI_INSTRUMENTO</label>
+				<bcs-input-instrumentos class="col-xs-4" name="uInstrumento"
+					datos-instrumento="ConAntSIM.instrumento"
+					buscar-instrumento="ConAntSIM.buscarinstrumento"
+					filtro-estado="'ACT'"
+					filtro-tipo-instrumento="ConAntSIM.oConfiguracionTipoOperacion.seleccionado.IdTipoInstrumento ? ConAntSIM.oConfiguracionTipoOperacion.seleccionado.IdTipoInstrumento : 'SIM'"
+					filtro-subyacente="'SIM'"></bcs-input-instrumentos>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_FECHA_ANTICIPO</label>
+				<bcs-input-date class="col-xs-2"
+					k-ng-model="ConAntSIM.kngFechaInicio"
+					ng-model="ConAntSIM.fechaInicio"
+					k-options="ConAntSIM.fechaInicioOpt"></bcs-input-date>
+
+				<bcs-input-date class="col-xs-2"
+					k-ng-model="ConAntSIM.kngFechaTermino"
+					ng-model="ConAntSIM.fechaTermino" k-ng-disabled="'true'"></bcs-input-date>
+			</div>
+		</div>
+
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+					bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+					bcs-habilitado="'true'" bcs-clic="ConAntSIM.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate"
+					bcs-habilitado="'true'" bcs-clic="ConAntSIM.limpiar()"></bcs-button>
+			</div>
+		</div>
+	</div>
+	<!-- GRILLA -->
+	<div class="row">
+		<bcs-grid id="grid-simultaneas-historicas"
+			configuracion="ConAntSIM.confBasicaAnticipos"
+			seleccionado="ConAntSIM.seleccionSimultaneasHistoricas"
+			fn-exportar-excel="exportarExcel"> </bcs-grid>
+	</div>
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+			bcs-texto="'UI_OPCIONES' | translate">
+		<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' |
+			translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

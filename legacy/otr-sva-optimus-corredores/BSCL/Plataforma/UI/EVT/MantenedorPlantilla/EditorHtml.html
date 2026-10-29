@@ -1,0 +1,78 @@
+ <div class="row" ng-controller='EditorVisualCtrl'>
+	<!--- INICIO FORMULARIO -->
+	<form class="col-xs-12 form-horizontal">    
+  		<div class="col-xs-12">
+  		 
+
+ 			<div class="col-xs-12"> 
+ 			 
+ 			 	<label class="col-xs-1" translate style="padding-left:20px;">UI_NOMBRE_PLANTILLA</label>
+ 			 	<label class="col-xs-2" translate style="padding-left:20px;">{{data.descripcion}}</label>
+ 			 	
+ 			 	<label class="col-xs-1" translate style="padding-left:8px;" >UI_ASUNTO</label>
+ 			 	<bcs-input-texto class="col-xs-3" ng-model="data.Asunto"></bcs-input-texto>
+ 			 	
+ 			 	
+ 				<div class="col-xs-1"></div>
+				<label style="padding-left:13px" class="col-xs-1" translate>UI_EVENTO</label>
+ 					<bcs-combobox-base class="col-xs-2"
+						tipo="'combobox-tipo-evento-notificacion'"
+						seleccionado="filtros.codigoTipoEvento"
+						filtros = "conf.oTipoEvento.filtros"
+						id-defecto="conf.dataDespues"    
+						todos="'N'"   
+						activado="true">
+					</bcs-combobox-base>  
+			</div>
+			</br>
+			</br> 
+			 
+			<div class="col-xs-12">     
+			 	<div class="container">     
+			 		 <div class="col-xs-8">
+             			 <bcs-input-texto 
+             			 	 ng-blur="lostfocus()"
+             			 	 id="editor"
+              			 	 tipo-campo="'textarea'"
+             			 	 ng-model = "html"
+             			 	 atributos="margin: 0px; height:400px;resize:none;width: 100%;text-indent: 50px"
+             			 	 solo-mayusculas = "N"
+             			 	 
+ 	             			 >
+             			  </bcs-input-texto>
+		     		 </div> 
+		     		 <div class="col-xs-4">
+		     		 	 <table class="table">    
+		     		 		<thead>
+		     		 		<tr>
+		     		 		 <th style="padding-left:8px"><h5 translate>UI_LLAVE</h5></th>
+							 <th style="padding-left:8px"><h5 translate>UI_VALOR_PREDETERMINADO</h5></th>
+							 </tr>
+		     		 		</thead>
+							 <tr ng-repeat="row in tags |filter:filtros.codigoTipoEvento.CodigoTipoEvento track by $index ">
+							   <td style="padding-left:8px"><h6>{{ row.Llave }}</h6></td>
+							   <td style="padding-left:8px"><h6>{{ row.ValorDefault }}</h6></td>
+							 </tr>
+					 </table>
+		     		 </div>        
+			 </div>
+			</div> 
+		   	
+	 
+		</div> 
+		    
+		<div class="row" ></div>
+		<div class="row" ></div>
+		<div class = "bcs-panel-buttons col-xs-12">
+		    <bcs-button   class="col-xs-2"  bcs-habilitado="'true'" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_GUARDAR' | translate" bcs-clic="EditarPlantilla()"></bcs-button>
+			<bcs-button bcs-habilitado="'true'" class="col-xs-2"   bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_PREVISUALIZAR' | translate" bcs-clic="evaluar()"></bcs-button>
+		</div>
+	</form>
+	<!--- TERMINO FORMULARIO -->
+</div>
+ 
+
+
+
+
+                                          

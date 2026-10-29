@@ -1,0 +1,20 @@
+SELECT "IdCuentaInversion", "SaldoAnterior", CAST("FechaAnterior" AS VARCHAR) AS "FechaAnterior", "SaldoCargoPendienteAnterior", "SaldoAbonoPendienteAnterior"
+FROM (SELECT row_number() OVER (partition by B."IdCuentaInversion" order BY B."FechaCertificacion" DESC, B."IdCargoAbonoMovimiento" DESC) AS "Row"
+             ,B."IdCuentaInversion"
+             ,B."Saldo" AS "SaldoAnterior"
+             ,R."FechaAnterior"
+             ,R."MontoCargoPendiente" AS "SaldoCargoPendienteAnterior"
+             ,R."MontoAbonoPendiente" AS "SaldoAbonoPendienteAnterior"
+      FROM "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento" B
+        INNER JOIN (SELECT c."IdCuentaInversion"
+                           ,MAX(CASE WHEN c."IdEstado" = 'CRT' THEN c."FechaEfectivaMovimiento" END) as "FechaAnterior"
+                           ,SUM(CASE WHEN c."IdEstado" = 'PEN' AND c."IdTipoMovimiento" = 'MOVCAR' THEN c."Monto" ELSE 0 END) AS "MontoCargoPendiente"
+                           ,SUM(CASE WHEN c."IdEstado" = 'PEN' AND c."IdTipoMovimiento" = 'MOVABN' THEN c."Monto" ELSE 0 END) AS "MontoAbonoPendiente"
+                    FROM "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento" as c 
+                    WHERE c."IdEstado" IN ('CRT','PEN') 
+                      AND COALESCE(c."FechaEfectivaMovimiento",TO_DATE(:FechaOperacionHasta)) <= :FechaOperacionDesde
+                    GROUP BY c."IdCuentaInversion") AS R 
+           ON B."FechaEfectivaMovimiento" = R."FechaAnterior"
+          AND B."IdCuentaInversion" = R."IdCuentaInversion"
+      WHERE B."IdEstado" = 'CRT') 
+WHERE "Row" = 1

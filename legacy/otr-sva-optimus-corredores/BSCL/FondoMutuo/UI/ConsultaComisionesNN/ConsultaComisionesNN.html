@@ -1,0 +1,132 @@
+<div id="ConsultaComisionesNNFFM" class="col-xs-12" ng-controller="ConsultaComisionesNNFFMCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-5">
+						<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base
+							class="col-xs-9"
+							id="UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							item-post-filtro="data.oClientePortafolio.itemPostFiltro"
+							tipo="data.oClientePortafolio.tipo"
+							filtros="filtrosPortafolio"
+							configuracion= "data.oClientePortafolio.configuracion"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							id-actual="filtros.IdPortafolio">
+						</bcs-combobox-base>
+					</div>		
+
+					<div class="col-xs-3">
+						<label class="col-xs-3" style="padding-left:15px" translate>UI_ANIO</label>
+						<bcs-combobox-base
+							ng-model="data.anio"
+							class="col-xs-7"
+							id="UI_ANIO"
+							auto-cargar="'true'"
+							tipo="data.oComboAnios.tipo"
+							id-actual="data.oComboAnios.idActual"
+							seleccionado="data.oComboAnios.seleccionado">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_TRIMESTRE</label>
+						<bcs-combobox-base
+							ng-model="data.trimestre"
+							style="padding-left:13px"
+							class="col-xs-8"
+							id="UI_TRIMESTRES"
+							auto-cargar="'true'"
+							tipo="data.oComboTrimestres.tipo"
+							id-actual="data.oComboTrimestres.idActual"
+							seleccionado="data.oComboTrimestres.seleccionado">
+						</bcs-combobox-base>
+					</div>
+					
+				</div>
+				
+				<div class="row">
+					
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+						<bcs-input-date
+							style="padding-left:20px;
+							padding-right:1px;"
+							class="col-xs-8"
+							bcs-requerido
+							k-ng-disabled="'true'"
+							k-ng-model="data.kngFechaDesde"
+							k-options="data.FechaConsultaOpt">
+						</bcs-input-date>	
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-6" style="padding-left:128px" translate>UI_FECHA_HASTA</label>
+						<bcs-input-date
+							style="padding-left: 20px;
+							padding-right: 8px;"
+							class="col-xs-5"
+							bcs-requerido
+							k-ng-disabled="'true'"
+							k-ng-model="data.kngFechaHasta"
+							k-options="data.FechaConsultaOpt">
+						</bcs-input-date>	
+					</div>
+					
+					
+					<div class="col-xs-4">
+					   <label class="col-xs-7" translate>UI_PROCESAR_MASIVO_NN</label>
+						<bcs-input-checkbox 
+						    class="col-xs-1"
+						    ng-model="seleccionarTodoNN">
+						</bcs-input-checkbox>
+				    </div>
+				 	
+				 
+				 </div>		 
+				 
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="habilitadoBotonBuscar"  bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>	
+								
+				
+		</div>
+			
+			
+		</div>
+		
+		<div class="row">
+			<bcs-grid 
+				id="grid-custodia-ffm"
+			 	configuracion="defaultOptions"
+				api = "apiGridCustodiaFondosMutuos"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+		
+		<div class="row bcs-panel-comandos">
+		<div class="col-xs-12">
+			<bcs-button class="col-xs-2 pull-right" id="ConsultaCustodiaFondosMutuos_procesarFFM" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_PROCESAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.procesar(datos.kNgModel)">
+			</bcs-button>
+		</div>		
+		
+		
+	</div>
+	
+	</div>
+	
+	
+</div>

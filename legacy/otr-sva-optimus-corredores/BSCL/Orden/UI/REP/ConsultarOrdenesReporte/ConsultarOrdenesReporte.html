@@ -1,0 +1,180 @@
+<div id="ConsultarOrdenesReporte" class="row" ng-controller="ConsultarOrdenesReporteCtrl" tabindex="1">
+	<div class="row bcs-cuerpo">
+   		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-3">
+		  				<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+		  				<bcs-combobox-base 
+		  					class="col-xs-8" 
+							auto-cargar="'true'"
+							todos="'S'"
+							item-post-filtro = "'1'"
+							tipo="'combobox-tipo-operacion'"  
+							filtros="oConfiguracionTipoOperacion.filtros"
+							id-actual="filtros.tipoOperacion"
+							seleccionado="formData.tipoOperacion" 
+							cascada1-a="oConfiguracionCondicionLiquidacion.filtros.IdTipoOperacion"
+							cascada1-valor="'IdTipoOperacion'">			
+						</bcs-combobox-base>	 
+			  		</div>
+			  		<div class="col-xs-3">
+			  			<label class="col-xs-4" translate>UI_OPERACION</label>					
+						<bcs-combobox-base
+							class="col-xs-8"
+							todos = "'S'"
+							id-post-filtro = "'0'"
+							tipo="'combobox-operacion'"
+							id-actual="filtros.AccionOrden"
+							filtros="oConfiguracionOperacion.filtros"
+							cascada-a="oConfiguracionCondicionLiquidacion.filtros.AccionTipoOperacion"
+							cascada-valor="'AccionOrden'">
+						</bcs-combobox-base>
+			  		</div>
+			  		<div class="col-xs-3">
+			  			<label class="col-xs-4" translate>UI_INSTRUMENTO</label>					
+						<bcs-input-instrumentos 
+			  				class="col-xs-8" 
+							datos-instrumento="filtros.instrumentoSubyacente"
+							buscar-instrumento="filtros.buscarInstrumento"
+							bcs-requerido>
+						</bcs-input-instrumentos>
+			  		</div>
+			  		<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_CONDICION_LIQUIDACION</label>
+						<bcs-combobox-base 
+							class="col-xs-7"
+							filtros = "oConfiguracionCondicionLiquidacion.filtros"
+							tipo="'combobox-condicion-liquidacion'"
+							id-actual="filtros.IdCondicionDeLiquidacion"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base >
+					</div>
+		  		</div>
+
+		  		<div class="row">
+		  			<div class="col-xs-3">
+			  			<label class="col-xs-4" translate>UI_FECHA_ORDEN</label>
+						<bcs-input-date class="col-xs-4" k-ng-model="filtros.fechaDesde"></bcs-input-date>
+						<bcs-input-date class="col-xs-4" k-ng-model="filtros.fechaHasta"></bcs-input-date>
+			  		</div>
+			  		<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_SOCIO_NEGOCIO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_CLIENTE"
+					 		auto-cargar="'false'"
+					    	tipo="'combobox-socio-negocio'"
+					    	seleccionado="formData.SocioNegocio"
+					    	filtros="oSocioNegocio.filtros"
+							cascada-a="oPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+							cascada1-a="filtros.IdCliente"
+							cascada1-valor="'IdCliente'"
+	                    	cascada-defecto="'-1'"
+	                    	id-actual="filtros.IdSocioNegocio">		
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_PORTAFOLIO"
+					 		auto-cargar="'false'"
+					    	tipo="'combobox-portafolio'"
+					    	seleccionado="formData.Portafolio"
+					    	filtros="oPortafolio.filtros"
+	                    	id-actual="filtros.IdPortafolio">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_ORDENES_ASOCIAR</label>
+						<bcs-input-checkbox 
+					     	class="col-xs-7"
+					     	ng-model="filtros.OrdenesPorAsociar">
+						</bcs-input-checkbox>
+					</div>
+		  		</div>
+			</div>
+			<div class="col-xs-2">
+		
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarOrdenesReportes(apiGridOrdenesReportes,filtros)"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			
+	  		</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-consulta-reportes"
+			 	configuracion="formData.confGridOrdenesReportes"
+			 	fn-doble-click="abrirDetalle(datos.kNgModel)"
+			 	api = "apiGridOrdenesReportes"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-9">
+			<div class="row">
+		   		<bcs-button class="col-xs-3" id="BlotterOrdenesReportes_ingresarOrdenReportante" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_INGRESAR_REPORTANTE' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="crearOrdenReportante()">
+				</bcs-button>
+			
+				<bcs-button class="col-xs-3" id="BlotterOrdenesReportes_ingresarOrdenReportado" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_INGRESAR_REPORTADO' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="crearOrdenReportado()">
+				</bcs-button>
+				<bcs-button class="col-xs-1" id="BlotterOrdenesReportes_editarOrdenReporte" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false"
+					bcs-habilitado="datos.kNgModel && datos.kNgModel[0].AccionTipoOperacion!='COMPRA' && datos.kNgModel[0].EsConfirmada!='S'"  
+					bcs-texto="'UI_EDITAR' | translate" 
+					bcs-clic="editarOrden(datos.kNgModel)">
+				</bcs-button>
+						
+				<bcs-button class="col-xs-1" id="BlotterOrdenesReportes_anularOrdenReporte" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false"
+					bcs-habilitado="datos.kNgModel"  
+					bcs-texto="'UI_ANULAR' | translate" 
+					bcs-clic="anularOrden(datos.kNgModel)">
+				</bcs-button>
+				<bcs-button class="col-xs-2" id="BlotterOrdenesReportes_confirmarOrdenReporte" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false"
+					bcs-habilitado="datos.kNgModel && datos.kNgModel[0].EsConfirmada !='S' "  
+					bcs-texto="'UI_CONFIRMAR' | translate" 
+					bcs-clic="confirmarDesconfirmarOrden(datos.kNgModel,'S')">
+				</bcs-button>
+				<bcs-button class="col-xs-2" id="BlotterOrdenesReportes_desconfirmarOrdenReporte" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false"
+					bcs-habilitado="datos.kNgModel && datos.kNgModel[0].EsConfirmada !='N'" 
+					bcs-texto="'UI_DESCONFIRMAR' | translate" 
+					bcs-clic="confirmarDesconfirmarOrden(datos.kNgModel,'N')">
+				</bcs-button>
+			</div>
+		</div>
+		<div class="col-xs-2"></div>
+		<div class="col-xs-1">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"  bcs-texto="'UI_OPCIONES' | translate" >
+				<li ng-click="anticiparOrden(datos.kNgModel)">{{'UI_ANTICIPAR' | translate}}</li>
+				<li ng-click="verReportantes(datos.kNgModel)">{{'UI_VER_REPORTANTES' | translate}}</li>
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+	            
+			</bcs-menu>
+		</div>
+	</div>
+</div>

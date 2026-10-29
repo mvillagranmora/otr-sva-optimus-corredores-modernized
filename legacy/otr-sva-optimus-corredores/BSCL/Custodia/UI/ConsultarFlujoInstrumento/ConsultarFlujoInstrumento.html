@@ -1,0 +1,196 @@
+<div class="col-xs-12" ng-controller="ConsultarFlujoInstrumentoCtrl">
+    <div class="col-xs-12 bcs-cuerpo">
+    	<!--- INICIO FORMULARIO -->
+        <form name="FormFlujoInstrumento" class="filters-formulario">
+            <div class="row">
+			<!-- FILTROS -->
+				<div class="col-xs-10">	            
+		            <div class="row">
+		            	<div class="col-xs-8">
+							<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base class="col-xs-10"
+								id="frmCartolaMovimiento_clientePortafolio"
+								carga-cliente-automatico="'S'" 
+								bcs-requerido="'true'"
+								style="width: 81%;"
+								auto-cargar="'false'" 
+								tipo="'combobox-cliente-portafolio'"
+								seleccionado="data.oSocioNegocio2.seleccionado"
+								filtros="filtrosPortafolio"
+								id-actual="data.oSocioNegocio2.idActual"
+								id-defecto="data.oSocioNegocio2.idDefecto"
+								configuracion="data.oSocioNegocio2.configuracion">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_FECHA_CONSULTA</label>
+							<bcs-input-date class="col-xs-8"
+								bcs-requerido
+								id			= "bcs-requerido_FechaConsulta"
+								k-ng-model	="data.kngFechaConsulta"
+								k-options	="data.FechaOptions">	
+							</bcs-input-date>
+						</div>
+		            </div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_CLASIFICACION_ABR</label>
+							<bcs-combobox-base
+								class="col-xs-8"
+								tipo         = "data.oConfiguracionClasificacionTipoInstrumento.tipo"
+								id-actual    = "data.oConfiguracionClasificacionTipoInstrumento.idActual"
+								seleccionado = "data.oConfiguracionClasificacionTipoInstrumento.seleccionado"
+								id-post-filtro = "data.oConfiguracionClasificacionTipoInstrumento.idDefecto"
+								bcs-requerido
+								filtros="data.oConfiguracionClasificacionTipoInstrumento.filtros"
+								configuracion= "data.oConfiguracionClasificacionTipoInstrumento.configuracion" 
+								cascada1-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+								cascada1-valor="'IdClasificacionTipoInstrumento'" 	
+								cascada2-a="data.oConfiguracionInstrumento.filtros.IdClasificacionTipoInstrumento"
+								cascada2-valor="'IdClasificacionTipoInstrumento'"
+								todos="'N'">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO_ABR</label>
+							<bcs-combobox-base
+								class="col-xs-8"
+								auto-cargar="'false'"
+								bcs-requerido
+								tipo="data.oConfiguracionTipoInstrumento.tipo"  
+								filtros="data.oConfiguracionTipoInstrumento.filtros"
+								configuracion= "data.oConfiguracionTipoInstrumento.configuracion" 
+								id-actual = "data.oConfiguracionTipoInstrumento.idActual"
+								id-defecto = "data.oConfiguracionTipoInstrumento.idDefecto"
+								seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+								cascada1-a="data.oConfiguracionInstrumento.filtros.IdTipoInstrumento"
+								cascada1-valor="'IdTipoInstrumento'" 	
+								todos="'N'">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+							<bcs-input-instrumentos class="col-xs-8" 
+								id="UI_INSTRUMENTO" 
+								name="uInstrumento"
+								datos-instrumento="instrumentoDatos"
+								buscar-instrumento="data.oConfiguracionInstrumento.buscar"
+								filtro-tipo-instrumento = "data.oConfiguracionTipoInstrumento.idActual"
+								filtro-clasificacion="data.oConfiguracionClasificacionTipoInstrumento.idActual" 
+								filtro-estado = "'ACT'"
+								bcs-requerido	
+							></bcs-input-instrumentos>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_EMISOR</label>
+							<bcs-combobox-base
+								class="col-xs-8"
+								auto-cargar="'true'"
+								id="UI_EMISOR"
+								bcs-requerido = "data.oDesplegar.showEmisor"
+								tipo="'combobox-emisor'" 
+								id-actual="data.oConfiguracionEmisor.idActual" 
+								id-defecto="data.oConfiguracionEmisor.idDefecto" 
+								configuracion= "data.oConfiguracionEmisor.configuracion"
+								seleccionado="data.oConfiguracionEmisor.seleccionado" 
+								filtros="data.oConfiguracionEmisor.filtros"
+								activado="data.oDesplegar.showEmisor"
+							>
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_TIPO_REAJUSTE</label>
+							<bcs-combobox-base
+								class="col-xs-8"
+								auto-cargar="'false'"
+								id="UI_TIPO_REAJUSTE"
+								tipo="'combobox-instrumento-tipo-reajuste'"
+								configuracion= "data.oConfiguracionTipoReajuste.configuracion"
+								seleccionado="data.oConfiguracionTipoReajuste.seleccionado"
+								filtros="data.oConfiguracionTipoReajuste.filtros"
+								id-actual="data.oConfiguracionTipoReajuste.idActual"
+								id-defecto="data.oConfiguracionTipoReajuste.idDefecto"
+								activado="data.oDesplegar.showTipoReajuste"
+							>
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_VENCIMIENTO</label>
+							<bcs-input-date class="col-xs-8"					
+								bcs-requerido = "data.oDesplegar.showFechaVencimiento"
+								k-ng-model   = "data.kngFechaVencimiento"
+								k-ng-disabled="!data.oDesplegar.showFechaVencimiento"
+								>
+							</bcs-input-date>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_BOVEDA</label>
+							<bcs-combobox-base class="col-xs-8"
+								id="UI_BOVEDA"
+								bcs-requerido
+								tipo="'combobox-boveda'"
+								filtros="data.oConfiguracionBoveda.filtros" 
+								id-actual="data.oConfiguracionBoveda.idActual"
+								id-post-filtro="data.oConfiguracionBoveda.idDefecto"
+								todos="'S'"
+								seleccionado="data.oConfiguracionBoveda.seleccionado">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_FLUJO</label>
+							<bcs-combobox-base class="col-xs-8"
+								id="UI_TIPO_FLUJO"
+								bcs-requerido
+								tipo="'combobox-uso-flujo-custodia'"
+								filtros="data.oConfiguracionTipoFlujo.filtros" 
+								id-actual="data.oConfiguracionTipoFlujo.idActual"
+								id-post-filtro="data.oConfiguracionTipoFlujo.idDefecto"								
+								seleccionado="data.oConfiguracionTipoFlujo.seleccionado">
+							</bcs-combobox-base>
+						</div>
+					</div>
+				</div>
+			
+				<!-- INICIO BOTONES -->
+				<div class="col-xs-2">
+					<div class="row">
+						<bcs-button class="col-xs-12" 
+							bcs-tipo="'bcs-button-search'" 
+							bcs-auto-desactivar="'false'" 
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-habilitado="'true' && FormFlujoInstrumento.$valid" 
+							bcs-clic="btnBuscar()"
+						></bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" 
+							bcs-tipo="'bcs-button-secondary'"  
+							bcs-auto-desactivar="'false'" 
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="btnLimpiar()"
+						></bcs-button>
+					</div>
+				</div>
+				<!-- FIN BOTONES -->
+			</div>
+        </form>
+		<div class="row">
+			<bcs-grid id="grid-flujo-instrumento"
+				configuracion="confBasicaFlujoInstrumento"
+				seleccionado="seleccionFlujoInstrumento"
+				fn-exportar-excel="excelFlujoInstrumento"
+			>
+			</bcs-grid>
+		</div>
+		<div class= "row">
+			<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"  bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelFlujoInstrumento('FlujoInstrumento')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+    </div>
+</div>

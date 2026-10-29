@@ -1,0 +1,19 @@
+INSERT INTO "BSCL.Contabilidad.BD::ITZ.EventoPreComprobanteAsiento"
+(
+ "IdPreComprobanteAsiento"  
+,"IdEvento"  
+,"Operador"  
+,"Linea" 
+,"Estado"
+,"GlosaDetalle"
+,"DebeHaber"
+)
+VALUES(
+:IdPreComprobanteAsiento
+,:IdEvento
+,:Operador
+,:Linea
+,:Estado
+,:GlosaDetalle
+,:DebeHaber
+);

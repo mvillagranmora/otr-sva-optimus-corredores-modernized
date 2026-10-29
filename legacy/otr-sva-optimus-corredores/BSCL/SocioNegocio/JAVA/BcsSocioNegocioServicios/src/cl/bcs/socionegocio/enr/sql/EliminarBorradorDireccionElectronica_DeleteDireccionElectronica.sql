@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.SocioNegocio.BD::ENR.DireccionElectronica" WHERE "IdDireccionElectronica" = :IdDireccionElectronica;

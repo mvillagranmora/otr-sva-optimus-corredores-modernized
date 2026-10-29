@@ -1,0 +1,119 @@
+<div ng-controller="GestionBonificacionCtrl as gesBon">
+	<form name="formGestionBonificacion" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_GESTION_BONIFICACION|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="row" style="margin-bottom: 10px">
+				<div class="col-xs-2">
+			  		<label class="col-xs-3" translate>UI_CLIENTE</label>
+					<bcs-combobox-base 
+						id				= "UI_CLIENTE"
+						class			= "col-xs-9"
+					 	auto-cargar		= "'true'"
+					    tipo			= "'combobox-clientes'"
+					    seleccionado	= "gesBon.datosForm.SocioNegocioSeleccionado"
+	                    id-actual		= "gesBon.datosForm.SocioNegocioidActual"   
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+			  		<label class="col-xs-5" translate>UI_ANO_AHORRO</label>
+					<bcs-combobox-base 
+						id				= "UI_ANO_AHORRO"
+						class			= "col-xs-7"
+					 	auto-cargar		= "'true'"
+					    tipo			= "'combobox-ano-ahorro-bonificacion'"
+					    seleccionado	= "gesBon.datosForm.AnoAhorroSeleccionado"
+	                    id-actual		= "gesBon.datosForm.AnoAhorroIdActual"   
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+			  		<label class="col-xs-5" translate>UI_ANO_PROCESO</label>
+					<bcs-combobox-base 
+						id				= "UI_ANO_PROCESO"
+						class			= "col-xs-7"
+					 	auto-cargar		= "'true'"
+					    tipo			= "'combobox-ano-proceso-bonificacion'"
+					    seleccionado	= "gesBon.datosForm.AnoProcesoSeleccionado"
+	                    id-actual		= "gesBon.datosForm.AnoProcesoIdActual"   
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base 
+						class="col-xs-8"
+						id="UI_ESTADO"
+						auto-cargar="'true'"
+						tipo="'combobox-estado-apv'"
+						todos="'S'"
+						filtros="gesBon.filtroEstadoBonificacion"
+						id-actual="gesBon.EstadoIdActual"
+						seleccionado="gesBon.EstadoSeleccionado"
+						item-post-filtro="'1'"	
+						>
+					</bcs-combobox-base >
+				</div>
+				<!-- BOTON -->
+				<div class="col-xs-1">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true"
+						bcs-clic="gesBon.buscar()"	
+					></bcs-button>
+				</div>
+				<div class="col-xs-1">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="true"
+						bcs-clic="gesBon.limpiar()"	
+					></bcs-button>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<bcs-grid id="gridBonificacion"
+					configuracion 		= "gesBon.confBonificacion"
+					seleccionado 		= "gesBon.seleccionBonificacion"
+					fn-exportar-excel 	= "excelGridBonificacion"
+				>
+				</bcs-grid>
+			</div>
+			<div class="row bcs-panel-comandos">
+				<bcs-button class="col-xs-2" 
+					bcs-tipo="'bcs-button-primary'"  
+					bcs-auto-desactivar="false"  
+					bcs-texto="'UI_PROCESAR' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="gesBon.fnProcesarBonificacion()"
+				>
+				</bcs-button>
+				<bcs-button class="col-xs-2" 
+					bcs-tipo="'bcs-button-secondary'"  
+					bcs-auto-desactivar="false"  
+					bcs-texto="'UI_EJECUTAR' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="gesBon.fnEjecutarBonificacion()">
+				</bcs-button>
+				<bcs-button class="col-xs-2" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"  
+					bcs-texto="'UI_GUARDAR' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="gesBon.fnGuardarBonificacion()">
+				</bcs-button>
+				<div class="col-xs-6 alignButtonsToRight">
+					<bcs-menu class="col-xs-3" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'" >
+						<li ng-click="excelGridBonificacion('IngresoDetalleEmpleador')">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>					
+					</bcs-menu>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

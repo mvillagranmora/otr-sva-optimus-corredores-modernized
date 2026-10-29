@@ -1,0 +1,255 @@
+<div id="PanelEgresos" ng-controller="PanelEgresosCtrl as panEgr" >
+	<div class="row">
+		<form name="formGestionIngresoEgresoAPV" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_SOCIO_NEGOCIO</label>
+					<bcs-combobox-base 
+							id				= "UI_SOCIO_NEGOCIO"
+							class			= "col-xs-8"
+						 	auto-cargar		= "'false'"
+						 	bcs-requerido
+						    tipo			= "'combobox-socio-negocio'"
+						    seleccionado	= "panEgr.datosForm.SocioNegocioSeleccionado"
+						    filtros			= "panEgr.ConfiguracionCmbo.SocioNegocio"
+			                   id-actual		= "panEgr.datosForm.SocioNegocioIdActual">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-5" ng-show="false">
+					<label class="col-xs-3" translate>UI_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-8"
+						id="UI_PORTAFOLIO"
+					 	auto-cargar		= "'false'"
+					 	bcs-requerido
+					    tipo			= "'combobox-portafolio'"				    
+					    seleccionado	= "panEgr.oPortafolioSeleccionado"
+					    filtros			= "panEgr.oPortafolio.filtros"
+		                   id-actual		= "panEgr.oPortafolioidActual"
+		                   id-defecto		= "panEgr.oPortafolioidDefecto">
+		              </bcs-combobox-base> 
+				</div>
+				<div class="col-xs-5" ng-show="true">
+				</div>
+				<div class="col-xs-2 col-xs-2">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true"  							
+						bcs-clic="panEgr.consulta.GestionIngresoEgreso()">
+					</bcs-button>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-3">
+				  	<label class="col-xs-5" translate>UI_FECHA_TRASPASO</label> 
+					<bcs-input-date
+						class="col-xs-6"
+						k-ng-model="panEgr.datosForm.fechaTraspaso" 
+						bcs-requerido>
+					</bcs-input-date>	
+				</div>
+				<!-- <div class="col-xs-5">
+					<label class="col-xs-3" translate>UI_RANGO_DIAS</label>
+					<bcs-combobox-base 
+						class			= "col-xs-7"
+						id				= "UI_RANGO_DIAS"
+					 	auto-cargar		= "'true'"
+					 	bcs-requerido
+						todos			= "'S'"
+					    tipo			= "'combobox-rango-dias-traspaso'"
+					    seleccionado	= "panEgr.RangoDiasTraspasoSeleccionado"
+		                   id-actual		= "panEgr.RangoDiasTraspasoidActual"
+		                   id-defecto		= "panEgr.RangoDiasTraspasoidDefecto">
+					</bcs-combobox-base> 
+				</div> -->
+				<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_TIPO_TRASPASO</label>
+						<bcs-combobox-base 
+							id				= "UI_TIPO_TRASPASO" 
+							class			= "col-xs-6"
+							bcs-requerido
+							tipo			= "'combobox-tipo-traspaso'"
+							id-actual		= "panEgr.TipoTraspasoIdActual"
+							seleccionado	= "panEgr.TipoTraspasoSeleccionado"
+							activado		= "panEgr.habilitoTipoTraspaso">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-3" translate>UI_RAZON_RETIRO</label>
+			    			<bcs-combobox-base 
+								id				= "UI_RAZON_RETIRO"
+								class			= "col-xs-7" 
+								todos			= "'N'"
+								tipo			= "'combobox-razon-retiro'"
+								auto-cargar		= "'true'"
+								activado		= "panEgr.HabilitoControlesBusqueda"
+								seleccionado	= "panEgr.datosForm.RazonRetiroSeleccionado"
+								id-actual		= "panEgr.datosForm.RazonRetiroIdActual"
+								filtros			= "panEgr.ConfiguracionCmbo.RazonRetiro.filtros"
+							>
+							</bcs-combobox-base>
+					</div>
+					<div class="col-xs-offset-1 col-xs-2">
+						<bcs-button class="col-xs-12" 
+							bcs-tipo="'bcs-button-secondary'"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-habilitado="true"  							
+							bcs-clic="panEgr.fn.Limpiar()">
+						</bcs-button>
+					</div>
+			</div>
+			<!-- 	GRILLAS 	-->
+			<div class="row">
+				<div class="col-xs-12">											
+					<strong class="col-xs-4"  translate>UI_GESTION_EGRESO</strong>
+					<div class="col-xs-12">
+						<bcs-grid 
+							id				= "gridEgreso"
+							configuracion 	= "panEgr.datasource.GestionIngresoEgreso"
+							seleccionado 	= "panEgr.datasource.GestionIngresoEgresoSeleccion"
+							fn-click		= "panEgr.consulta.ConsultaDetalleTraspaso(panEgr.datasource.GestionIngresoEgresoSeleccion)">
+						</bcs-grid> 
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-xs-12">
+					<uib-tabset	>							
+					<!-- TAB 2 -->
+					<!-- DETALLE CARTERA CLIENTE -->
+						<uib-tab heading="{{'UI_DETALLE_FONDOS' | translate}}"> 
+							
+							<div class="row">
+								<div class="col-xs-12">
+									<bcs-grid 
+										id					= "gridinvAPVSaldos"
+										configuracion 		= "panEgr.datasource.SaldoCuentaInversion"
+										seleccionado 		= "panEgr.datasource.SaldoCuentaInversionSeleccion"
+										fn-exportar-excel	= "excelGestionContratosSAAPV"
+									>
+									</bcs-grid>
+								</div>
+							</div>
+						</uib-tab>					
+					<!-- TAB 1 -->	
+					<!-- DETALLE FONDOS -->
+						<uib-tab heading="{{'UI_DETALLE_CARTERA_CLIENTE' | translate}}"> 
+												
+							<div class="row">
+								<strong class="col-xs-4"  translate>UI_DETALLE_CARTERA_CLIENTE</strong>
+								<strong class="col-xs-8"  translate>UI_DISTRIBUCION_REGIMEN_CARTERA</strong>
+							</div>
+							<div class="row">
+								<div class="col-xs-4">
+									<bcs-grid 
+										id					= "gridDetalleCartera"
+										configuracion 		= "panEgr.datasource.DetalleCartera"
+										seleccionado 		= "panEgr.datasource.DetalleCarteraSeleccion">
+									</bcs-grid>
+								</div>
+								<div class="col-xs-8">
+									<bcs-grid 
+										id					= "gridDetalleRegimen"
+										configuracion 		= "panEgr.datasource.DetalleRegimen"
+										seleccionado 		= "panEgr.datasource.DetalleRegimenSeleccion">
+									</bcs-grid>
+								</div>
+							</div>
+						</uib-tab>  				
+					</uib-tabset>
+				</div>
+			</div>
+			<br>			
+			<div class="row">
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_INGRESO_TRASPASO_APV"
+								bcs-tipo			= "'bcs-button-primary'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_INGRESO_TRASPASO_APV' | translate"
+								bcs-habilitado		= "true"   										
+								bcs-clic			= "panEgr.VentanaIngresoTraspaso()"
+					>
+					</bcs-button>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_COMPLETAR_TRASPASO"
+								bcs-tipo			= "'bcs-button-secondary'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_COMPLETAR_TRASPASO' | translate"
+								bcs-habilitado		= "true"   										
+								bcs-clic			= "panEgr.fn.CompletarTraspaso(panEgr.datasource.GestionIngresoEgresoSeleccion)"
+					>
+					</bcs-button>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_DESINVERSION"
+								bcs-tipo			= "'bcs-button-secondary'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_DESINVERSION' | translate"
+								bcs-habilitado		= "true"   										
+								bcs-clic			= "panEgr.fn.Desinversion(panEgr.datasource.GestionIngresoEgresoSeleccion)"
+					>
+					</bcs-button>
+				</div>
+				
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_NOMINA"
+								bcs-tipo			= "'bcs-button-secondary'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_NOMINA' | translate"
+								bcs-habilitado		= "true"  
+								bcs-clic            = "panEgr.VentanaNomina()" 										
+								
+					>
+					</bcs-button>
+				</div>
+			
+				<div class="col-xs-2">
+                    <bcs-button class               = "col-xs-12" 
+                                id                  = "UI_MODIFICA_TRASPASO_APV"
+                                bcs-tipo            = "'bcs-button-secondary'" 
+                                bcs-auto-desactivar = "false" 
+                                bcs-texto           = "'UI_MODIFICA_TRASPASO_APV' | translate"
+                                bcs-habilitado      = "panEgr.datasource.GestionIngresoEgresoSeleccion !== undefined"
+                                bcs-clic            = "panEgr.VentanaContratoSAAPV('M')"                                        
+                    >
+                    </bcs-button>
+                </div>
+                
+                <div class="col-xs-2">
+                    <bcs-button class               = "col-xs-12" 
+                                id                  = "UI_ANULAR_TRASPASO_EGRESO"
+                                bcs-tipo            = "'bcs-button-secondary'" 
+                                bcs-auto-desactivar = "false" 
+                                bcs-texto           = "'UI_ANULAR_TRASPASO_EGRESO' | translate" 
+                                bcs-habilitado      = "true"    
+                                bcs-clic            = "panEgr.fn.Anular(panEgr.datasource.GestionIngresoEgresoSeleccion)"
+                                                                    
+                    >
+                    </bcs-button>
+                </div>
+				<!-- 
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_DETALLE_EGRESO"
+								bcs-tipo			= "'bcs-button-secondary'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_DETALLE_EGRESO' | translate" 
+								bcs-habilitado		= "panEgr.fn.ValidoBotones('DT')" 							
+								bcs-clic			= "panEgr.fn.IngresoTraspaso('M')"
+					>
+					</bcs-button>
+				</div>
+				 -->
+			</div>
+		</form>
+	</div>
+</div>

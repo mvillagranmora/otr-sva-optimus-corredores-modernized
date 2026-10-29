@@ -1,0 +1,60 @@
+SET SCHEMA "BSCL";
+DROP VIEW "BSCL.Custodia.BD.Vistas::CUS.ConsultarMovimientosEnTransitoAgrupados";
+CREATE VIEW "BSCL.Custodia.BD.Vistas::CUS.ConsultarMovimientosEnTransitoAgrupados" 
+AS
+SELECT 
+"IdCliente"
+,"DocumentoIdentidad" 
+,"NombreCliente"
+,"IdTipoOperacion"
+,"NombreTipoOperacion"
+,"IdClasificacionTipoInstrumento" 
+,"EsNominal"
+,"FechaOperacion"
+,"FechaLiquidacion"
+,"IdCondicionLiquidacion" 
+,"IdConcepto"
+,"NombreConcepto"
+,CASE 
+    WHEN "IdClasificacionTipoInstrumento" = 'IF' THEN "NemoSVS" 
+    ELSE "Nemotecnico"
+  END AS "Nemotecnico"
+,"IdInstrumento"
+,"IdTipoInstrumento"
+,"IndicadorIngEgr" 
+,"IdMonedaInstrumento" 
+,"IdBoveda"
+,"NombreBoveda"
+,"IdEstado"
+,"PermiteCertificacionPorUsuario"
+,SUM("Cantidad") AS "CantidadAgrupada"
+,SUM("MontoCompra") AS "MontoCompraAgrupado"
+,SUM("MontoCompraMonedaInstrumento") AS "MontoAgrupadoMonedaInstrumento"
+FROM "BSCL.Custodia.BD.Vistas::CUS.ConsultarMovimientoCarteraEnTransito"
+GROUP BY
+"IdCliente"
+,"DocumentoIdentidad" 
+,"NombreCliente"
+,"IdTipoOperacion"
+,"NombreTipoOperacion"
+,"IdClasificacionTipoInstrumento" 
+,"EsNominal"
+,"FechaOperacion"
+,"FechaLiquidacion"
+,"IdCondicionLiquidacion" 
+,"IdConcepto"
+,"NombreConcepto"
+,CASE 
+    WHEN "IdClasificacionTipoInstrumento" = 'IF' THEN "NemoSVS"
+    ELSE "Nemotecnico"
+  END
+,"IdInstrumento"
+,"IdTipoInstrumento"
+,"IndicadorIngEgr" 
+,"IdMonedaInstrumento" 
+,"IdBoveda"
+,"NombreBoveda"
+,"IdEstado"
+,"PermiteCertificacionPorUsuario";
+
+GRANT SELECT ON "BSCL.Custodia.BD.Vistas::CUS.ConsultarMovimientosEnTransitoAgrupados" TO  BCS_DESARROLLADOR WITH GRANT OPTION; 

@@ -1,0 +1,72 @@
+<div id="ConsultarPerfiles" ng-controller="ConsultarPerfilesCtrl">
+	<div class="row">
+		<div class="col-xs-9">
+				<!-- Inicio filtros de búsqueda -->
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_PERFIL</label>
+						<bcs-input-texto class="col-xs-9" ng-model="data.NombrePerfil"></bcs-input-texto>
+					</div>
+			  	</div>
+			  	<div class="row">
+			  		<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_ESTADO</label>
+				  		<bcs-combobox-base  class="col-xs-9"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionEstadoPerfiles.tipo"
+							configuracion= "data.oConfiguracionEstadoPerfiles.configuracion"
+							id-actual="data.oConfiguracionEstadoPerfiles.idActual"
+							seleccionado="data.oConfiguracionEstadoPerfiles.seleccionado"
+							filtros="data.oConfiguracionEstadoPerfiles.filtros"
+							memoria= "" 
+							todos="'S'"
+							id-defecto="'0'"
+							item-post-filtro="'1'">	
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+		</div>
+		<div class="col-xs-3">
+			<!-- botones -->
+			<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="true"  bcs-clic="buscarPerfiles()"></bcs-button>
+			<bcs-button class=" col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<bcs-grid id="grid-listado-perfiles"
+	 	configuracion = "confBasicaPerfiles"
+	 	fn-exportar-excel ="perfiles.exportarExcel"
+		seleccionado = "seleccionPerfiles">
+			<div bcs-grid-detail ng-non-bindable >
+			<div style="width:100%;">
+              	<uib-tabset>
+                  	<uib-tab heading="{{'UI_ACCESOS' | translate}}">
+                  		
+                  		<bcs-grid
+                            configuracion = "confBasicaAccesos(dataItem)"
+                            seleccionado = "seleccionAccesos"
+                            fn-exportar-excel = "accesos.exportarExcel"
+                            >
+						</bcs-grid>
+                  	</uib-tab>
+				</uib-tabset>
+				</div>
+			</div>
+		</bcs-grid>
+	</div>
+
+ 	
+	<div class="row bcs-panel-comandos" style="padding-top: 5px !important;">
+		<bcs-button id="ConsultarPerfiles_crearPerfil"  class="col-xs-3" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_CREAR_PERFIL' | translate" bcs-habilitado="'true'"  bcs-clic="crearPerfil()"></bcs-button>
+		<bcs-button id="ConsultarPerfiles_modificarPerfil" class="col-xs-3" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR_PERFIL' | translate" bcs-habilitado="'false'"  bcs-clic="modificarPerfil()"></bcs-button>
+		<div class="col-xs-4"></div>
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="accesos.exportarExcel()">{{'UI_EXPORTAR_EXCEL_PERFIL' | translate}}</li>
+            <li ng-click="exportarPerfilesCompletos()">{{'UI_EXPORTAR_PERFILES' | translate}}</li>
+		</bcs-menu>
+	</div>
+		
+			
+	
+	

@@ -1,0 +1,59 @@
+<div ng-controller="ProgressCtrl" ng-show="rightProgress" class="sidebar-open" style="border-radius: 10px" id="right-progress">
+    <div class="sidebar-container" full-scroll>
+        <ul class="nav nav-tabs navs-3">
+            <li class="center-tab" ng-class="{active: tab1}"><a ng-click="tab1 = true; tab2 = false; tab3 = false; tab4 = false" style="border-radius: 10px 10px 0 0;" ng-init="tab1 = true">
+                <h5 style="text-align: center;">Seguimiento de programas</h5>
+            </a></li>
+            
+        </ul>
+        <div class="tab-content">
+            
+            <div id="msgModal" class="tab-pane" ng-class="{active: tab1}">                  
+                
+                <div ng-if="procesos.length == 0">
+                    <div class="row" style="width: 25rem;">
+                        <div class="col-xs-12" style="padding: 6px 6px 6px 3px;">
+                            <strong >No existen programas encolados.</strong>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="procesos.length > 0">
+                    <div ng-repeat="proceso in procesos track by $index">
+                        <hr ng-if="$index != 0">
+                        <div class="row" style="width: 25rem;">
+                            <div class="col-xs-12" style=" padding: 2px 0px 0px 0px;">
+                               <strong style="float: left; padding: 0px 0px 0px 3px;">{{proceso.Servicio}}</strong> 
+                               <strong style="float: right; padding: 0px 3px 0px 0px;">Id: {{proceso.IdTrabajo}}</strong>
+                            </div>
+                        </div>
+                        <div class="row" style="width: 25rem;">
+                            <div class="col-xs-12">
+                                <div class="progress" style="margin: 2px;">
+                                    <div class="progress-bar" role="progressbar"
+                                        aria-valuenow="{{proceso.PorcentajeProgreso}}" aria-valuemin="0" aria-valuemax="100"
+                                        ng-style="{ width: proceso.PorcentajeProgreso + '%' }">
+                                    {{proceso.PorcentajeProgreso}} %
+                                    <i ng-show="proceso.PorcentajeProgreso == 100" class="glyphicon glyphicon-remove" ng-click="eliminarProceso(proceso.IdTrabajo)"  style="cursor: pointer;float: right; padding: 3px 3px 3px 0px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row" style="width: 25rem;">
+                            <div class="col-xs-12">
+                                <em ng-show="proceso.PorcentajeProgreso < 100" style="font-size: 0.875em;float: right;">{{proceso.JsonData}}</em>
+                               <a><em ng-show="proceso.PorcentajeProgreso == 100" ng-click="consultarResultadoPrograma(proceso.IdTrabajo)"  style="cursor: pointer; font-size: 0.875em;float: right;">Ver resultado de programa.</em></a> 
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+       
+            <!-- CONFIGURACION ESCRITORIO -->
+            <!-- FIN -->
+        </div>
+    </div>
+  </div>
+

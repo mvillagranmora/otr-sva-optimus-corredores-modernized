@@ -1,0 +1,49 @@
+<div ng-controller="NominaCartolasController">
+    <div class="col-xs-12">
+        <bcs-grid id="gridCartolas"
+            fn-exportar-excel = "exportarExcel"
+            configuracion="configuracionGrillaCartolas"
+            seleccionado="CartolasSeleccionadas"
+            fn-click=""
+            fn-doble-click="mostrarDetalleCartola()">
+        </bcs-grid>
+    </div>
+    <div class="row bcs-panel-buttons">
+        <bcs-button class="col-xs-2"
+            bcs-tipo="'bcs-button-primary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_VER_CARTOLA' | translate"
+            bcs-habilitado="CartolasSeleccionadas && CartolasSeleccionadas.length > 0 && CartolasSeleccionadas[0].EstadoProceso === 'TER'"
+            ng-show = "'true'"
+            bcs-clic="verCartola()">
+        </bcs-button>
+        <bcs-button class="col-xs-2"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_MARCAR_REPROCESO' | translate"
+            bcs-habilitado="CartolasSeleccionadas && CartolasSeleccionadas.length > 0 && (Nomina && Nomina.EstadoProceso === 'TER' && Nomina.Certificada === 'N')"
+            bcs-clic="marcarReproceso('S')">
+        </bcs-button>
+        <bcs-button class="col-xs-2"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_QUITAR_REPROCESO' | translate"
+            bcs-habilitado="CartolasSeleccionadas && CartolasSeleccionadas.length > 0 && (Nomina && Nomina.EstadoProceso === 'TER' && Nomina.Certificada === 'N')"
+            bcs-clic="marcarReproceso('N')">
+        </bcs-button>
+        <bcs-button class="col-xs-2"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_VER_FILTRO_NOMINA' | translate"
+            bcs-habilitado="'true'"
+            ng-show = "'true'"
+            bcs-clic="verFiltroNomina()">
+        </bcs-button>
+        <bcs-menu class="col-xs-1 pull-right"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-habilitado="'true'"
+            bcs-texto="'UI_OPCIONES' | translate">
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+    </div>
+</div>

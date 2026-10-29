@@ -1,0 +1,47 @@
+<div id="PanelProveedorDatosGenerales" class="row" ng-controller="PanelProveedorDatosGeneralesCtrl as pprdg" >
+	<ng-form name="formProveedorDatosGenerales" class="col-xs-12 form-horizontal">
+		<div class="row">
+			<div class="col-xs-6">
+		  		<label class="col-xs-4" translate>UI_AREA</label>
+				<bcs-combobox-base
+					class="col-xs-7"
+					tipo="'combobox-area-proveedor'"
+					filtros="pprdg.oConfiguracionAreaProveedor.filtros"
+					id-actual="pprdg.dataProveedor.IdAreaProveedor"
+					id-post-filtro="pprdg.dataProveedorOriginal.IdAreaProveedor"	
+					activado="pprdg.pantalla.modoEdicion" bcs-requerido>
+				</bcs-combobox-base>
+		  	</div>
+	  	</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_ESTADO</label>
+				<bcs-combobox-base
+					id="proveedorComboEstado"
+					class="col-xs-7"
+					auto-cargar="true"
+					tipo="'combobox-estado-proveedor'"
+					id-actual="pprdg.dataProveedor.IdEstado"
+					id-post-filtro="pprdg.dataProveedorOriginal.IdEstado"
+					activado="false"> <!-- "pprdg.pantalla.modoEdicion" -->
+				</bcs-combobox-base>
+			</div>	
+  		</div>	
+		<br>
+	
+	<div class="row"></div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="PanelProveedorDatosGenerales_editar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" ng-show="!pprdg.pantalla.modoEdicion" bcs-auto-desactivar="false" bcs-texto="'UI_EDITAR' | translate" bcs-habilitado="!pprdg.pantalla.modoEdicion && !pprdg.dataSolicitudCambio.CambiosPendientes"  bcs-clic="pprdg.editarpprdg()"></bcs-button>
+		<bcs-button id="PanelProveedorDatosGenerales_guardar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" ng-show="pprdg.pantalla.modoEdicion" bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="formProveedorDatosGenerales.$valid"  bcs-clic="pprdg.guardarpprdg()"></bcs-button>
+		<bcs-button id="PanelProveedorDatosGenerales_cancelar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="pprdg.pantalla.modoEdicion" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'"  bcs-clic="pprdg.cancelarpprdg()"></bcs-button>
+		<bcs-button id="PanelProveedorDatosGenerales_mostrarCambios" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="!pprdg.pantalla.modoEdicion && pprdg.dataSolicitudCambio.CambiosPendientes" bcs-auto-desactivar="false" bcs-texto="'UI_MOSTRAR_CAMBIOS' | translate" bcs-habilitado="'true'"  bcs-clic="pprdg.mostrarCambios()"></bcs-button>
+		<bcs-button id="PanelProveedorDatosGenerales_bloquear" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="!pprdg.pantalla.modoEdicion && pprdg.dataProveedor.IdEstado === 'ACT'" bcs-auto-desactivar="false" bcs-texto="'UI_BLOQUEAR' | translate" bcs-habilitado="'true'"  bcs-clic="pprdg.bloquearProveedor()"></bcs-button>
+		<bcs-button id="PanelProveedorDatosGenerales_desbloquear" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="!pprdg.pantalla.modoEdicion && pprdg.dataProveedor.IdEstado === 'BLO'" bcs-auto-desactivar="false" bcs-texto="'UI_DESBLOQUEAR' | translate" bcs-habilitado="'true'"  bcs-clic="pprdg.desbloquearProveedor()"></bcs-button>
+		<bcs-button id="PanelProveedorDatosGenerales_solAutEnrol" class="col-xs-3 pull-right" bcs-tipo="'bcs-button-secondary'"  ng-show="!pprdg.pantalla.modoEdicion && pprdg.dataProveedor.IdEstado === 'PEN'" bcs-auto-desactivar="false" bcs-texto="'UI_SOLICITAR_AUTORIZACION_ENROLAMIENTO' | translate" bcs-habilitado="'true'"  bcs-clic="pprdg.solicitarEventoAutorizacion()"></bcs-button>
+		<span ng-show="!pprdg.pantalla.modoEdicion && pprdg.dataSolicitudCambio.CambioEstadoPendiente" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIO_DE_ESTADO_POR_AUTORIZAR</label> </span>				
+		<span ng-show="!pprdg.pantalla.modoEdicion && pprdg.dataSolicitudCambio.CambiosPendientes" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIOS_POR_AUTORIZAR</label> </span>
+		<span ng-show="!pprdg.pantalla.modoEdicion && pprdg.dataProveedor.IdEstado === 'PEN'" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_ENROLAMIENTO_POR_AUTORIZAR</label> </span>
+
+	</div>
+	</ng-form>	
+</div>

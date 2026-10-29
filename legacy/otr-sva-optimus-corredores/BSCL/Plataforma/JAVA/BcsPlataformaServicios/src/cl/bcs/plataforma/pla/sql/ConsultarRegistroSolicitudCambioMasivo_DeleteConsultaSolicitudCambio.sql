@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::PLA.ConsultarSolicitudCambioMasivo" WHERE "IdTrabajo" = :IdTrabajo

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Normativa.BD::TRI.DatosDJ1" WHERE "ID"=:ID;

@@ -1,0 +1,4 @@
+SELECT GRUPO_DIRECCION_DETALLE."IdGrupoDireccionDetalle"
+FROM "BSCL.SocioNegocio.BD::PER.GrupoDireccionDetalle" AS GRUPO_DIRECCION_DETALLE
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.GrupoDireccion" AS GRUPO_DIRECCION ON GRUPO_DIRECCION_DETALLE."IdGrupoDireccion" = GRUPO_DIRECCION."IdGrupoDireccion"
+WHERE "IdPersona" IN (:IdPersona) AND GRUPO_DIRECCION_DETALLE."Borrado" = 'N'

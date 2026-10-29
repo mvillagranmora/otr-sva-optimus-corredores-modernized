@@ -1,0 +1,37 @@
+-- Actualiza los datos del Fatca de la Persona
+UPDATE  FATCA 
+SET     FATCA."IdEstado" = COALESCE( :IdEstado, FATCA."IdEstado"),
+		FATCA."IdClasificacionFatca" = COALESCE( :IdClasificacionFatca, FATCA."IdClasificacionFatca"),
+		FATCA."IdClasificacionEmpresaFatca" = COALESCE(:IdClasificacionEmpresaFatca, FATCA."IdClasificacionEmpresaFatca"),
+		FATCA."NumeroGIIN" = COALESCE( :NumeroGIIN, FATCA."NumeroGIIN"),
+		FATCA."FechaFirmaFormulario" = COALESCE( :FechaFirmaFormulario, FATCA."FechaFirmaFormulario"),
+		FATCA."AutorizacionInformarOrganismo" = COALESCE( :AutorizacionInformarOrganismo, FATCA."AutorizacionInformarOrganismo"),
+		FATCA."NACEEUU" = COALESCE( :NACEEUU, FATCA."NACEEUU"),
+		FATCA."NACEEUUExplicacion" = COALESCE( :NACEEUUExplicacion, FATCA."NACEEUUExplicacion"),
+		FATCA."EntidadFinanciera" = COALESCE( :EntidadFinanciera, FATCA."EntidadFinanciera"),
+		FATCA."TipoInstitucionFinanciera" = COALESCE( :TipoInstitucionFinanciera, FATCA."TipoInstitucionFinanciera"),
+		FATCA."EntidadGestionada" = COALESCE( :EntidadGestionada, FATCA."EntidadGestionada"),
+		FATCA."IngresosPasivos" = COALESCE( :IngresosPasivos, FATCA."IngresosPasivos"),
+		FATCA."GenerarIngresosPasivos" = COALESCE( :GenerarIngresosPasivos, FATCA."GenerarIngresosPasivos"),
+		FATCA."CategoriaEntidad" = COALESCE( :CategoriaEntidad, FATCA."CategoriaEntidad"),
+		FATCA."GIINEntidad" = COALESCE( :GIINEntidad, FATCA."GIINEntidad"),
+		FATCA."RazonSocial" = COALESCE( :RazonSocial, FATCA."RazonSocial"),
+		FATCA."FechaLiquidacion" = COALESCE( :FechaLiquidacion, FATCA."FechaLiquidacion"),
+		FATCA."NombreMercado" = COALESCE( :NombreMercado, FATCA."NombreMercado"),
+		FATCA."FechaConstitucion" = COALESCE( :FechaConstitucion, FATCA."FechaConstitucion"),
+		FATCA."ObligacionesFiscales" = COALESCE( :ObligacionesFiscales, FATCA."ObligacionesFiscales"),
+		FATCA."ObligacionesFiscalesExplicacion" = COALESCE( :ObligacionesFiscalesExplicacion, FATCA."ObligacionesFiscalesExplicacion"),
+		FATCA."IndividuoControl" = COALESCE( :IndividuoControl, FATCA."IndividuoControl"),
+		FATCA."OrdenPermanente" = COALESCE( :OrdenPermanente, FATCA."OrdenPermanente"),
+		FATCA."DeclaracionCRS" = COALESCE( :DeclaracionCRS, FATCA."DeclaracionCRS"),
+		--EXCEPCIONES
+		FATCA."ExcepcionResidente" = COALESCE( :ExcepcionResidente, FATCA."ExcepcionResidente"),
+		FATCA."ExcepcionNacimiento" = COALESCE( :ExcepcionNacimiento, FATCA."ExcepcionNacimiento"),
+		FATCA."ExcepcionDomicilio" = COALESCE( :ExcepcionDomicilio, FATCA."ExcepcionDomicilio"),
+		FATCA."ExcepcionTelefono" = COALESCE( :ExcepcionTelefono, FATCA."ExcepcionTelefono"),
+		FATCA."ExcepcionOrdenPermanente" = COALESCE( :ExcepcionOrdenPermanente, FATCA."ExcepcionOrdenPermanente"),
+		FATCA."ExcepcionFirma" = COALESCE( :ExcepcionFirma, FATCA."ExcepcionFirma"),
+		FATCA."ParticipacionSociedadesUSA" = COALESCE( :ParticipacionSociedadesUSA, FATCA."ParticipacionSociedadesUSA"),
+		FATCA."FechaModificacion" = CURRENT_UTCTIMESTAMP
+FROM	"BSCL.SocioNegocio.BD::PER.Fatca" FATCA
+WHERE FATCA."IdPersona" = :IdPersona;

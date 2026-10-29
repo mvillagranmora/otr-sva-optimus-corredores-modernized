@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="demo4" applyPrivilegeType="SQL_ANALYTIC_PRIVILEGE" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" analyticViewCompatibilityMode="true" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" runWithInvokerPrivileges="false" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="demo4"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="Id"/>
+        <viewAttribute datatype="NVARCHAR" id="Nombre" length="10"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 
+	
+ 	--EXECUTE IMMEDIATE('insert into &quot;BSCL.Custodia.BD::CUS.PasoCustodiaPortafolio&quot; (&quot;IdEmpresa&quot;,&quot;TipoFechaConsulta&quot;) select 1,''HOA'' from dummy');
+ 	declare idempresa bigint;
+ 	declare fecha nvarchar(10);
+ 	idempresa = 1;
+ 	fecha = '2017-05-12';
+ 	
+ 	var_x = select * from &quot;BSCL.Custodia.BD.Vistas::ConsultarCustodiaPortafolioAnalitica&quot;(
+ 		PLACEHOLDER.&quot;$$p_idempresa$$&quot; => :idempresa,
+ 		PLACEHOLDER.&quot;$$p_fechaconsulta$$&quot; => :fecha,
+ 		PLACEHOLDER.&quot;$$p_tipofechaconsulta$&quot; => 'ADQ');
+ 		
+		--'PLACEHOLDER' = ('$$p_idempresa$$','1'),
+		--'PLACEHOLDER' = ('$$p_fechaconsulta$$','2017-05-12'),
+		--'PLACEHOLDER' = ('$$p_tipofechaconsulta$$','ADQ'));
+		
+		--(PLACEHOLDER.&quot;$$ZIP_PARAMETER$$&quot; => :ZIP_PARAMETER)
+		
+ 	 var_d = select 1 as &quot;Id&quot;,'HOLA' as &quot;Nombre&quot; from dummy;
+ 	 var_out = select * from :var_d;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="Nombre" order="2">
+        <descriptions defaultDescription="Nombre"/>
+        <keyMapping columnObjectName="Script_View" columnName="Nombre"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures>
+      <measure id="Id" order="1" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Id"/>
+        <measureMapping columnObjectName="Script_View" columnName="Id"/>
+      </measure>
+    </baseMeasures>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

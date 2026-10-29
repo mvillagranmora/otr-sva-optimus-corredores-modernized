@@ -1,0 +1,672 @@
+<div id="modificarPlantilla" ng-controller='InterfazContableCtrl'>
+	<div class="col-xs-12 bcs-cuerpo" style="margin-bottom: 10px">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA_SISTEMA</label>
+					<bcs-input-texto class="col-xs-6" k-ng-disabled="'true'" id="UI_FECHA_SISTEMA"
+					ng-model="filtros.FechaSistema"> </bcs-input-texto>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_EMPRESA</label>
+					<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'"
+						ng-model="Empresa"> </bcs-input-texto>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA_CONTABLE</label>
+					<bcs-input-date class="col-xs-6" id="UI_FECHA_CONTABLE"
+						bcs-requerido k-ng-model="filtros.kngFechaContable"
+						todo-dias="true"
+						bcs-clic="obtnerPeriodoContable()">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_PERIODO_CONTABLE</label>
+					<bcs-input-texto class="col-xs-8" id=""
+						ng-model="filtros.periodoContable" k-ng-disabled="'true'">
+					</bcs-input-texto>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+					bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+					bcs-clic="btnBuscar()" bcs-habilitado="true"> </bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+					bcs-habilitado="true" bcs-clic="btnLimpiarFiltros()">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+	
+	<uib-tabset> <!-- ********************************* CENTRALIZACIONES ********************************* -->
+		<uib-tab select="select('Centralizaciones')" heading="{{'UI_CENTRALIZACIONES' | translate}}">
+			<div class="row" style="margin-bottom: 5px; margin-top: 8px">
+				<div class="col-xs-12">
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_TIPO_CENTRALIZACION</label>
+						<bcs-combobox-base
+							id = "InterfazContable_comboTipoCentralizacion"
+							class="col-xs-9"
+							tipo="'combobox-tipo-centralizacion'"
+							id-actual="filtros.IdTipoCentralizacion"
+							todos="'S'"
+							id-defecto="'0'"
+							filtros="TipoCentralizacion.filtros"
+							seleccionado = "filtros.TipoCentralizacion">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-3" style="padding-left: 15px" translate>UI_ESTADO</label>
+						<bcs-combobox-base
+							id = "InterfazContable_comboEstadoContabilidad"
+							class="col-xs-9"
+							tipo="'combobox-estado-contabilidad'"
+							id-actual="filtros.IdEstadoCent"
+							todos="'S'"
+							id-defecto="'0'"
+							seleccionado = "filtros.EstadoCent">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<div class="col-xs-6">
+							<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-input-form'"
+							bcs-auto-desactivar="'false'" bcs-texto="'UI_APLICAR' | translate"
+							bcs-clic="aplicarFiltros()" bcs-habilitado="true"> </bcs-button>						
+						</div>
+						<div class="col-xs-6">
+							<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-input-form'"
+							bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate"
+							bcs-clic="btnLimpiarFiltrosProcesados()" bcs-habilitado="true"> </bcs-button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 5px">
+				<div class="col-xs-7">
+					<label class="col-xs-4" translate>UI_PROCESADAS_FECHA_CONTABLE</label>
+				</div>
+				<div class="col-xs-5">
+					<label class="col-xs-4" translate>UI_TIPO_CENTRALIZACIONES</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-7" style="padding-right: 5px">				
+					<bcs-grid id="gridCentralizacionesProcesadas" class="Centralizaciones"
+						seleccionado="grid.seleccionCentralizacion"
+						configuracion="centralizaciones.confCentralizacionesProcesadas"
+						fn-exportar-excel="exportarExcelCentralizacion"
+						fn-click="cargarMovimientosEventos()"> </bcs-grid>							
+					<bcs-button id="InterfazContable_Anular" class="row col-xs-3" bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_ANULAR' | translate"
+						bcs-clic="btnAnularCentralizacion()" bcs-habilitado="true"> </bcs-button>
+						
+					<bcs-button id="InterfazContable_Detalle" class="row col-xs-3" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_DETALLE' | translate"
+						bcs-clic="btnConsultarCentralizacion()" bcs-habilitado="true"> </bcs-button>						
+										
+				</div>
+				<div class="col-xs-5">
+					<bcs-grid id="gridListaCentralizaciones" class="Centralizaciones" 
+						seleccionado="grid.seleccionListaCentralizacion"
+						fn-exportar-excel="exportarExcelTipoCentralizacion"
+						configuracion="centralizaciones.confListaCentralizaciones"
+						api = "grid.Apic"> </bcs-grid>					
+					<div class=col-xs-12>				
+						<bcs-button id="InterfazContable_Procesar" class="row col-xs-4" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="'false'" bcs-texto="'UI_PROCESAR' | translate"
+							bcs-clic="btnProcesarCentralizacion()" bcs-habilitado="true"> </bcs-button>
+
+						<bcs-button id="InterfazContable_Procesar_Todos" class="row col-xs-4" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="'false'" bcs-texto="'UI_PROCESAR_TODOS' | translate"
+							bcs-clic="btnProcesarCentralizacionTodos()" bcs-habilitado="true"> </bcs-button>
+
+						
+						<bcs-menu class="row col-xs-4 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+							bcs-texto="'UI_OPCIONES' | translate">
+							<li ng-click="exportarExcelCentralizacion()">{{'UI_EXPORTAR_EXCEL_CENTRALIZACIONES' | translate}}</li>
+							<li ng-click="exportarExcelTipoCentralizacion()">{{'UI_EXPORTAR_EXCEL_TIPO_CENTRALIZACIONES' | translate}}</li>
+						</bcs-menu>
+					</div>
+				</div>
+			</div>
+		</uib-tab> <!-- ********************************* MOVIMIENTOS ********************************* -->		
+		<uib-tab select="select('Movimientos')" heading="{{'UI_MOVIMIENTOS' | translate}}"><!--click=cargarMovimientosEventos();-->
+			<div class="row" style="margin-bottom: 5px">
+				<div class="col-xs-7">
+					<label class="col-xs-2" translate>UI_CENTRALIZACION</label>
+					<bcs-input-texto class="col-xs-10" id=""
+						ng-model="filtros.tipoMovimiento" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-1">
+					<bcs-input-texto class="col-xs-12" id=""
+						ng-model="filtros.fechaContable" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-1">
+					<bcs-input-texto class="col-xs-12" id=""
+						ng-model="filtros.horaProceso" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-1">
+					<bcs-input-texto class="col-xs-12" id=""
+						ng-model="filtros.nombreEstadoCentralizacion" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-2 pull-right">
+					<bcs-button 
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="true" bcs-clic="limpiarMovimientosFiltros()">
+					</bcs-button>
+				</div>				
+			</div>			
+			<div class="row">
+				<div class="col-xs-8"><label class="col-xs-4" translate>UI_MOVIMIENTOS_CENTRALIZACION</label></div>
+				<div class="col-xs-4"><label class="col-xs-4" translate>UI_APLICAR_FILTROS</label></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">
+					<bcs-grid id="Movimientos" class="Movimientos"
+						seleccionado="grid.seleccionMovimientos"  
+						configuracion="movimientos.confMovimientosCentralizacion"
+						fn-exportar-excel="exportarExcelMovimientos"
+						fn-click=cargarMovimientosDatosFiltros();> </bcs-grid>
+									
+					<bcs-button id="InterfazContable__movimiento_Anular" class="row col-xs-2" bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_ANULAR' | translate"
+						bcs-clic="btnAnularMovimiento()" bcs-habilitado="true"></bcs-button>
+					<div class="col-xs-2" ></div>	
+					<span class="row">
+						<label translate>UI_SUMA_MONTO</label><label>:</label>{{sumaMontoMovimientos}}
+					</span>				
+				</div>
+				
+				<div class="col-xs-4">
+					<div class="col-xs-12">
+						<bcs-grid id="grid.gridMovimientosFiltros" class="Movimientos"
+						seleccionado="grid.seleccionadoFiltrosMovimientos"  
+						configuracion="movimientos.confMovimientosFiltros"
+						fn-click=filtrosGrillas();> </bcs-grid>
+					</div>
+									
+					<div class="col-xs-12" style="height: 34px">
+						<div ng-show="movFiltrosInput">
+							<div class="col-xs-3">
+								<label class="col-xs-4" translate>UI_FILTROS</label>
+							</div>
+							<div class="col-xs-5">
+								<input type="text" class="col-xs-12" id=""
+									data-ng-model="inputs.MovInput"> </input>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button id="InterfazContable__movimiento_Agregar" bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_AGREGAR' | translate"
+									bcs-habilitado="true" bcs-clic="actualizarGrillaFiltrosInput(inputs.MovInput)">
+								</bcs-button>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button id="InterfazContable__movimiento_Aplicar" bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_APLICAR' | translate"
+									bcs-habilitado="true" bcs-clic="aplicarFiltros()">
+								</bcs-button>
+							</div>
+						</div>
+						<div ng-show="movFiltrosCombo">
+							<div class="col-xs-3">
+								<label class="col-xs-4"  translate>UI_FILTROS</label>
+							</div>
+							<div class="col-xs-5">
+								<select class="col-xs-12" ng-model="inputs.movSel"
+									ng-options="movimientos as movimientos.Descripcion for movimientos in inputs.comboboxMovimientos">
+								</select>
+								<!-- <option ng-repeat="x in comboboxMovimientos">{{x.Valor}}</option> -->
+							</div>
+							<div class="col-xs-2">
+								<bcs-button id="InterfazContable__movimiento_Agregar_Combo" bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_AGREGAR' | translate"
+									bcs-habilitado="true" bcs-clic="actualizarGrillaFiltrosCombo(inputs.movSel)">
+								</bcs-button>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_APLICAR' | translate"
+									bcs-habilitado="true" bcs-clic="aplicarFiltros()">
+								</bcs-button>
+							</div>
+						</div>													
+					</div>
+					
+					<div class="col-xs-12">
+						<div class="col-xs-12">
+							<label class="col-xs-4" translate>UI_DATOS_MOVIMIENTO</label> <br>
+							<bcs-grid id="gridMovimientosDatos" class="Movimientos" 
+								seleccionado=""  
+								configuracion="movimientos.confMovimientosDatos"> </bcs-grid>							
+							<bcs-menu class="row col-xs-4 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+								bcs-texto="'UI_OPCIONES' | translate">
+								<li ng-click="exportarExcelMovimientos()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>							 
+							</bcs-menu>
+						</div>	
+					</div>		
+				</div>
+			</div>
+			
+				
+		
+		</uib-tab> <!-- ********************************* EVENTOS ********************************* -->
+		<uib-tab select="select('Eventos')" heading="{{'UI_EVENTOS' | translate}}">
+			<div class="row" style="margin-bottom: 5px">
+				<div class="col-xs-7">
+					<label class="col-xs-2" translate>UI_CENTRALIZACION</label>
+					<bcs-input-texto class="col-xs-10" id=""
+						ng-model="filtros.tipoMovimiento" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-1">
+					<bcs-input-texto class="col-xs-12" id=""
+						ng-model="filtros.fechaContable" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-1">
+					<bcs-input-texto class="col-xs-12" id=""
+						ng-model="filtros.horaProceso" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-2 pull-right">
+					<bcs-button 
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="true" bcs-clic="limpiarEventosFiltros()">
+					</bcs-button>
+				</div>			
+			</div>
+			<div class="row">
+				<div class="col-xs-8"><label class="col-xs-4" translate>UI_EVENTOS</label></div>
+				<div class="col-xs-4"><label class="col-xs-4" translate>UI_APLICAR_FILTROS</label></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">
+					<bcs-grid id="Eventos" class="Eventos"  
+						seleccionado="grid.seleccionEventos"
+						fn-exportar-excel="exportarExcelEventos"
+						configuracion="eventos.confEventos"
+						fn-click=cargarEventosDatosFiltros();> </bcs-grid>
+						
+					<bcs-button id="InterfazContable__evento_Anular" class="row col-xs-2" bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_ANULAR' | translate"
+						bcs-clic="btnAnularEventos()" bcs-habilitado="true"> </bcs-button>
+					<div class="col-xs-2" ></div>	
+					<span class="row">
+						<label translate>UI_SUMA_MONTO</label><label>:</label>{{sumaMontoEventos}}
+					</span>	
+				</div>
+				<div class="col-xs-4">
+					<div class="col-xs-12">
+						<bcs-grid id="gridEventosFiltros" class="Eventos"
+							seleccionado="grid.seleccionadoFiltrosEventos"  
+							configuracion="eventos.confEventosFiltros"
+							fn-click=filtrosGrillas();> </bcs-grid>
+					</div>
+					<div class="col-xs-12" style="height: 34px">
+						<div ng-show="eventosFiltrosInput">
+						
+							<div class="col-xs-3">
+								<label class="col-xs-4" translate>UI_FILTROS</label>
+							</div>
+							<div class="col-xs-5">
+								<input type="text" class="col-xs-12" id=""
+									ng-model="inputs.EventInput" k-ng-disabled=""> </input>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button id="InterfazContable__evento_Agregar" bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_AGREGAR' | translate"
+									bcs-habilitado="true" bcs-clic="actualizarGrillaFiltrosInput(inputs.EventInput)">
+								</bcs-button>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button id="InterfazContable__evento_Aplicar" bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_APLICAR' | translate" 
+									bcs-habilitado="true" bcs-clic="aplicarFiltros()">
+								</bcs-button>
+							</div>
+						</div>
+						<div ng-show="eventosFiltrosCombo">
+							<div class="col-xs-3">
+								<label class="col-xs-4" translate>UI_FILTROS</label>
+							</div>
+							<div class="col-xs-7">
+								<select class="col-xs-12" ng-model="inputs.evenSel" ng-click="actualizarGrillaFiltrosCombo(inputs.evenSel)"
+									ng-options="eventos as eventos.Descripcion for eventos in inputs.comboboxEventos">
+								</select>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_APLICAR' | translate" 
+									bcs-habilitado="true" bcs-clic="aplicarFiltros()">
+								</bcs-button>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_DATOS_EVENTO</label> <br>
+						<bcs-grid id="gridEventosDatos" class="Eventos"
+							seleccionado="grid.seleccionadosEventosDatos"  
+							configuracion="eventos.confEventosDatos" fn-click=prueba();>
+						</bcs-grid>
+						<bcs-menu class="row col-xs-4 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+							bcs-texto="'UI_OPCIONES' | translate">
+							<li ng-click="exportarExcelEventos()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>							 
+						</bcs-menu>
+					</div>
+				</div>
+			</div>
+		</uib-tab>	<!-- ********************************* PRE COMPROBANTES ********************************* -->
+		<uib-tab select="select('PreComprobantes')" heading="{{'UI_PRE_COMPROBANTES' | translate}}">
+			<div class="row">
+				<div class="col-xs-7">
+					<label class="col-xs-4" translate>UI_COMPROBANTES_FECHA_CONTABLE</label>
+					<div class="col-xs-1 pull-right">
+		                 <i id='toolConsultarPreComprobanteEnvioContabilidad' class="glosa-icono"></i>
+		                 <label translate>UI_GLOSA</label>
+	              	</div>
+				</div>
+				<div class="col-xs-5"><label class="col-xs-4" translate>UI_LISTA_COMPROBANTES</label></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-7" style="padding-right: 5px">
+					<bcs-grid id="gridComprobantesFecha" class="PreComprobantes"
+						seleccionado="grid.seleccionadoComprobante"  
+						configuracion="comprobantes.confComprobantesFecha"
+						fn-exportar-excel="exportarExcelComprobantes"
+						api = "grid.ApiP"
+						fn-click=cargarAsientos();> </bcs-grid>
+						
+					<bcs-button id="InterfazContable_preComprobante_Reversar" class="row col-xs-1" style="width: 10%;" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_REVERSAR' | translate"
+						bcs-clic="btnReversarPreComprobantes()" bcs-habilitado="grid.seleccionadoComprobante && (grid.seleccionadoComprobante[0].Estado !=='A' && grid.seleccionadoComprobante[0].Estado !=='D')"> </bcs-button>
+					
+					<bcs-button id="InterfazContable_preComprobante_Enviar" class="row col-xs-1" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_ENVIAR' | translate"
+						bcs-clic="btnEnviarPreComprobantes()" bcs-habilitado="grid.seleccionadoComprobante"> </bcs-button>
+
+						
+					<bcs-button id="InterfazContable_preComprobante_EnviarTodos" class="row col-xs-2" style="width: 14%;" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_ENVIAR_TODOS' | translate"
+						bcs-clic="btnEnviarPreComprobantesTodos()" bcs-habilitado="true"> </bcs-button>
+				
+					<bcs-button id="InterfazContable_preComprobante_Anular" class="row col-xs-1" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_ANULAR' | translate"
+						bcs-clic="btnAnularPreComprobantes()" bcs-habilitado="true"> </bcs-button>
+					
+					<bcs-button id="InterfazContable_preComprobante_Detalle" class="row col-xs-1" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_DETALLE' | translate"
+						bcs-clic="btnConsultarPreComprobantes()" bcs-habilitado="true"> </bcs-button>
+						
+					<bcs-button id="InterfazContable_preComprobante_Previsualizar" class="row col-xs-2" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_PREVISUALIZAR' | translate"
+						bcs-clic="btnConsultarPreComprobanteEnvioContabilidad()" bcs-habilitado="grid.seleccionadoComprobante && grid.seleccionadoComprobante[0] && (grid.seleccionadoComprobante[0].Estado !== 'A')"> </bcs-button>
+						
+					<div class="col-xs-4">
+						<span class="row">
+						<label translate>UI_SUMA_DEBE</label><label>:</label>{{sumaMontoDebeComprobante}}
+						</span>	
+						<span class="row">
+						<label translate>UI_SUMA_HABER</label><label>:</label>{{sumaMontoHaberComprobante}}
+						</span>	
+					</div>
+				</div>
+				<div class="col-xs-5">
+					<bcs-grid id="PreComprobantes" class="PreComprobantes"   
+						seleccionado="grid.seleccionadoListaComprobante" 
+						fn-exportar-excel="exportarExcelTipoComprobantes"
+						configuracion="comprobantes.confListaComprobantes"
+						api = "grid.Api"> </bcs-grid>
+				
+					<bcs-button id="InterfazContable_preComprobante_Procesar" class="row col-xs-4" bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_PROCESAR' | translate"
+						bcs-clic="btnProcesarPreComprobantes()" bcs-habilitado="true"> </bcs-button>
+				
+					<bcs-button id="InterfazContable_preComprobante_ProcesarTodos" class="row col-xs-4" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_PROCESAR_TODOS' | translate"
+						bcs-clic="btnProcesarPreComprobantesTodos()" bcs-habilitado="true"> </bcs-button>				
+				
+					<bcs-menu class="row col-xs-4 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">
+						<li ng-click="exportarExcelComprobantes()">{{'UI_EXPORTAR_EXCEL_COMPROBANTES' | translate}}</li>
+						<li ng-click="exportarExcelTipoComprobantes()">{{'UI_EXPORTAR_EXCEL_TIPO_COMPROBANTES' | translate}}</li>							 
+					</bcs-menu>				
+				</div>
+			</div>
+		</uib-tab>	<!-- ********************************* ASIENTOS ********************************* -->
+		<uib-tab select="select('Asientos')" heading="{{'UI_ASIENTOS' | translate}}">
+			<div class="row" style="margin-bottom: 5px">
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_COMPROBANTE</label>
+					<bcs-input-texto class="col-xs-10" id=""
+						ng-model="filtros.comprobante" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-4" style="padding-left: 15px" translate>UI_DEBE</label>
+					<bcs-input-numero class="col-xs-8" id="" 
+						ng-model="filtros.debe"
+						k-options="filtros.debeKOptions"
+						k-ng-disabled="true"> 
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-4" style="padding-left: 15px" translate>UI_HABER</label>
+					<bcs-input-numero class="col-xs-8" id="" 
+						ng-model="filtros.haber"
+						k-options="filtros.haberKOptions"
+						k-ng-disabled="true"> 
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-4" style="padding-left: 15px" translate>UI_ESTADO</label>
+					<bcs-input-texto class="col-xs-8" id="" ng-model="filtros.nombreEstado"
+						k-ng-disabled="true"> </bcs-input-texto>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-7"><label class="col-xs-4" translate>UI_ASIENTOS</label></div>
+				<div class="col-xs-5"><label class="col-xs-4" translate>UI_EVENTOS_ASIENTO</label></div>
+			</div>
+						
+			<div class="row">
+				<div class="col-xs-7">
+					<bcs-grid id="" class="Asientos"
+						seleccionado="grid.seleccionadoAsientos"  
+						configuracion="asientos.confAsientos"
+						fn-exportar-excel="exportarExcelAsientos"
+						fn-click=cargarDetallesAsientos();> </bcs-grid>
+					<div class="row">
+						<span class="col-xs-5">
+						<label translate>UI_SUMA_DEBE</label><label>:</label>{{sumaMontoDebeAsiento}}
+						</span>	
+						<span class="col-xs-5">
+						<label translate>UI_SUMA_HABER</label><label>:</label>{{sumaMontoHaberAsiento}}
+						</span>	
+					</div>
+				</div>
+				<div class="col-xs-5">
+					<div class="col-xs-12">
+						<bcs-grid id="" class="Asientos" seleccionado=""   
+							configuracion="asientos.confEventosAsientos"> </bcs-grid>
+					</div>
+					<div class="col-xs-12" style="margin-top: 10px">
+						<label class="col-xs-12" translate>UI_CONFIGURACION_TIPO_COMPROBANTE</label>
+					</div>
+					<div class="col-xs-12">
+						<bcs-grid id="" class="Asientos" seleccionado=""  
+							configuracion="asientos.confComprobanteConfiguracion"></bcs-grid>						
+					</div>
+					<bcs-menu class="row col-xs-3 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+						bcs-texto="'UI_OPCIONES' | translate">							
+						<li ng-click="exportarExcelAsientos()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>							 
+					</bcs-menu>
+				</div>
+			</div>			
+		</uib-tab> <!-- ********************************* DETALLE ASIENTOS ********************************* -->
+		<uib-tab select="select('DetalleAsientos')" heading="{{'UI_DETALLE_ASIENTOS' | translate}}">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-3" translate>UI_COMPROBANTE</label>
+					<bcs-input-texto class="col-xs-9" id=""
+						ng-model="filtrosDetAsientos.comprobante" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-4" style="padding-left: 5px" translate>UI_LINEA</label>
+					<bcs-input-texto class="col-xs-8" id=""
+						ng-model="filtrosDetAsientos.linea" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" style="padding-left: 5px" translate>UI_CUENTA_CONTABLE</label>
+					<bcs-input-texto class="col-xs-8" id=""
+						ng-model="filtrosDetAsientos.cuentaContable" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-3" style="padding-left: 5px" translate>UI_ESTADO</label>
+					<bcs-input-texto class="col-xs-9" id=""
+						ng-model="filtrosDetAsientos.estado" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-3" translate>UI_NOMBRE_CUENTA</label>
+					<bcs-input-texto class="col-xs-9" id=""
+						ng-model="filtrosDetAsientos.nombreCuenta" k-ng-disabled="true">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-4" style="padding-left: 5px" translate>UI_DEBE</label>
+					<bcs-input-numero class="col-xs-8" id=""
+						ng-model="filtrosDetAsientos.debe" 
+						k-options="filtros.debeDetKOptions"
+						k-ng-disabled="true">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" style="padding-left: 5px" translate>UI_HABER</label>
+					<bcs-input-numero class="col-xs-8" id=""
+						ng-model="filtrosDetAsientos.haber" 
+						k-options="filtros.haberDetKOptions"
+						k-ng-disabled="true">
+					</bcs-input-numero>
+				</div>				
+				<div class="col-xs-1 pull-right" style="width: 12.4%;">
+					<bcs-button 
+					    id="InterfazContable_detalleAsientos_Aplicar"
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_APLICAR' | translate"
+						bcs-habilitado="true" bcs-clic="aplicarFiltros()">
+					</bcs-button>
+				</div>
+			</div>
+
+			<div class="row" style="margin-top: 5px">
+				<div class="col-xs-8"><label class="col-xs-4" translate>UI_DETALLES_ASIENTOS</label></div>
+				<div class="col-xs-4"><label class="col-xs-4" translate>UI_APLICAR_FILTROS</label></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-8">				
+					<bcs-grid id="DetalleAsientos" class="DetalleAsientos"
+						seleccionado="grid.seleccionadoDetAsiento"  
+						configuracion="detallesAsientos.confDetallesAsientos"
+						fn-exportar-excel="exportarExcelDetalleAsientos"
+						fn-click=cargarAsientosDatosFiltros();> </bcs-grid>
+					<div class="row">
+						<span class="col-xs-5">
+						<label translate>UI_SUMA_DEBE</label><label>:</label>{{sumaMontoDebeDetalleAsiento}}
+						</span>	
+						<span class="col-xs-5">
+						<label translate>UI_SUMA_HABER</label><label>:</label>{{sumaMontoHaberDetalleAsiento}}
+						</span>	
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="col-xs-12">
+						<bcs-grid id="gridDetalleAsientosFiltros" class="DetalleAsientos"
+							seleccionado="grid.selecccionadoFiltrosDetalleAsientos"						 
+							configuracion="detallesAsientos.confDetallesAsientosFiltros"
+							fn-click=filtrosGrillas();> </bcs-grid>						
+					</div>				
+					<div class="col-xs-12" style="height: 34px">
+						<div ng-show="detAsientosFiltrosInput" class="row">
+							<div class="col-xs-3"><label class="col-xs-12"  translate>UI_FILTROS</label></div>
+							<div class="col-xs-5">
+								<input type="text" class="col-xs-12" id=""
+									ng-model="inputs.DetAsiento" k-ng-disabled=""> </input>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_AGREGAR' | translate"
+									bcs-habilitado="true" bcs-clic="actualizarGrillaFiltrosInput(inputs.DetAsiento)">
+								</bcs-button>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_LIMPIAR' | translate"
+									bcs-habilitado="true" bcs-clic="limpiarDetalleAsientosFiltros()">
+								</bcs-button>
+							</div>
+						</div>
+						<div ng-show="detAsientosFiltrosCombo" class="row">
+							<div class="col-xs-4"><label class="col-xs-12" style="padding-left: 15px" translate>UI_FILTROS</label></div>
+							<div class="col-xs-7">
+								<select class="col-xs-12" ng-model="inputs.detAsSel" ng-click="actualizarGrillaFiltrosCombo(inputs.detAsSel)"
+									ng-options="detAsientos as detAsientos.Descripcion for detAsientos in inputs.comboboxDetalleAsientos">
+								</select>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_LIMPIAR' | translate"
+									bcs-habilitado="true" bcs-clic="limpiarDetalleAsientosFiltros()">
+								</bcs-button>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_DATOS_EVENTO</label> <br>
+						<bcs-grid id="" class="DetalleAsientos" seleccionado=""  
+							configuracion="detallesAsientos.confDetallesAsientosDatos">
+						</bcs-grid>						
+						<bcs-menu class="row col-xs-3 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+							bcs-texto="'UI_OPCIONES' | translate">							
+							<li ng-click="exportarExcelDetalleAsientos()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>							 
+						</bcs-menu>								
+					</div>
+				</div>
+			</div>
+		</uib-tab>
+	</uib-tabset>
+</div>	

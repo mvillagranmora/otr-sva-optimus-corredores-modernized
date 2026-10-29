@@ -1,0 +1,1 @@
+DROP TABLE #CargarArchivoTasasNemo_p_DataTasas;

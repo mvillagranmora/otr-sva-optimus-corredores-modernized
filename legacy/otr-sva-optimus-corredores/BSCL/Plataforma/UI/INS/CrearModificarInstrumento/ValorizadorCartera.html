@@ -1,0 +1,97 @@
+<div ng-controller='ValorizadorCarteraController'>
+    <form name="ValorizarForm">
+        <div class="col-xs-8">
+            <div class="row">
+                <label class="col-xs-2" translate>UI_NEMOTECNICO</label>
+		        <bcs-input-instrumentos class="col-xs-4"
+			        bcs-requerido
+			        name="uInstrumento"
+			        datos-instrumento="form.instrumento"
+			        muestra-precio="'N'"
+			        filtro-clasificacion="'RF'"
+			        filtro-estado="'ACT'"
+			        filtro-tipo-instrumento="tiposDeBonos"
+			        filtro-bolsa = "'BCS'">
+		        </bcs-input-instrumentos>
+                <label class="col-xs-1 col-xs-offset-1" translate>UI_PRECIO</label>
+                <bcs-input-numero
+                    class="col-xs-4"
+                    atributos="width:100%"
+                    decimales="'4'"
+                    k-options="{format : 'n4', spinners : false}"
+                    ng-model="params.Precio">
+                </bcs-input-numero>
+            </div>
+            <div class="row">
+                <label class="col-xs-2" translate>UI_VALOR_NOMINAL</label>
+                <bcs-input-numero
+                    class="col-xs-4"
+                    atributos="width:100%"
+                    bcs-requerido
+                    decimales="'2'"
+                    k-options="{format : 'n2', spinners : false}"
+                    ng-model="params.ValorNominal">
+                </bcs-input-numero>
+                <label class="col-xs-1 col-xs-offset-1" translate>UI_TASA</label>
+                <bcs-input-numero
+                    class="col-xs-4"
+                    atributos="width:100%"
+                    decimales="'4'"
+                    k-options="{format : 'n4', spinners : false}"
+                    ng-model="params.Tasa">
+                </bcs-input-numero>
+            </div>
+        </div>
+        
+		<div class="col-xs-4">
+			<div class="row">
+                <label class="col-xs-4 col-xs-offset-1" translate>UI_FECHA</label>
+                <bcs-input-date class="col-xs-7"
+                    ng-disabled="'false'"
+                    bcs-requerido
+                    k-ng-model="params.Fecha">
+                </bcs-input-date>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-7 col-xs-offset-5" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="ValorizarForm.$valid"  bcs-clic="agregar()"></bcs-button>
+			</div>
+		</div>
+
+        <div class="col-xs-12">
+            <bcs-grid id="gridCartera"
+                configuracion="configuracionGrillaCartera"
+                seleccionado="filaSeleccionada"
+                fn-click=""
+                fn-doble-click="">
+            </bcs-grid>
+        </div>
+
+        <div class="row bcs-panel-comandos">
+            <bcs-button
+                id="UI_VALORIZAR"
+                class="col-xs-3"
+                bcs-tipo="'principal'"
+                bcs-auto-desactivar="'false'"
+                bcs-texto="'UI_VALORIZAR' | translate"
+                bcs-habilitado="'true'"
+                bcs-clic="valorizar()">
+            </bcs-button>
+            <bcs-button
+                id="UI_ELIMINAR"
+                class="col-xs-3"
+                bcs-auto-desactivar="'false'"
+                bcs-texto="'UI_ELIMINAR' | translate"
+                bcs-habilitado="'true'"
+                bcs-clic="eliminar()">
+            </bcs-button>
+            <bcs-button
+                id="UI_CANCELAR"
+                class="col-xs-3"
+                bcs-auto-desactivar="'false'"
+                bcs-texto="'UI_CANCELAR' | translate"
+                bcs-habilitado="'true'"
+                bcs-clic="cancelar()">
+            </bcs-button>
+       </div>
+    </form>
+</div>

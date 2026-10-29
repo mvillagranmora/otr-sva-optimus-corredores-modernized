@@ -1,0 +1,59 @@
+<div id="CertificadoCustodiaCtrl" class="col-xs-12" ng-controller="CertificadoCustodiaCtrl as cerCif">
+	<div class="bcs-cuerpo">
+		<div class="row">
+			<form name="formCertificados" class="col-xs-12 form-horizontal">
+				<div class="row">
+					<div class="col-xs-10">
+						<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="UI_CLIENTE"
+							bcs-requerido="'true'" auto-cargar="'false'" tipo="data.oClientePortafolio.tipo"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							configuracion="data.oClientePortafolio.configuracion"
+							filtros="filtrosPortafolio"> </bcs-combobox-base>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-10">
+						<label class="col-xs-4" translate>UI_FECHA</label>
+						<bcs-input-date class="col-xs-8" bcs-requerido="'true'"
+							k-ng-model="data.fechahasta" k-Options="data.fechahastaOptions" todo-dias="'true'">
+						</bcs-input-date>
+					</div>
+				</div>
+				<div class="row">
+		  			<bcs-input-checkbox class="col-xs-1" ng-disabled="true" ng-model="data.configuracionVerCarta"></bcs-input-checkbox>
+					<label class="col-xs-10" ng-show="data.configVerCarta['P']" translate>UI_CONFIGCARTA_P</label>
+					<label class="col-xs-10" ng-show="data.configVerCarta['UP']" translate>UI_CONFIGCARTA_UP</label>
+					<label class="col-xs-10" ng-show="data.configVerCarta['CP']" translate>UI_CONFIGCARTA_CP</label>
+			  	</div>
+				<div class="row">
+		  			<bcs-input-checkbox class="col-xs-1"  ng-model="data.cartaConfirmacionCliente"></bcs-input-checkbox>
+					<label class="col-xs-10" translate>UI_CARTA_CONFIRMACION_CLIENTE</label>
+			  	</div>
+			</form>
+		</div>
+		<hr>
+		<form class="col-xs-12 form-horizontal">
+			<br>
+				<div class="col-xs-12" >
+				<uib-tabset>
+						<uib-tab id="TabCartas" heading="{{cerCif.panelTitulo | translate}}" select="cerCif.fnTabCartas()" >
+							<div class="row" >
+								<div id="PanelCartasCertif"></div>
+							</div>
+						</uib-tab>
+																
+				</uib-tabset>
+				</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos alignButtonsToRight" style="padding-top: 10px !important;">
+		<br>
+		<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_IMPRIMIR' | translate"
+			bcs-habilitado="$scope.data.oPortafolio.seleccionado.IdPortafolio!=0"
+			bcs-clic="VerCarta()"></bcs-button>
+
+	</div>
+</div>

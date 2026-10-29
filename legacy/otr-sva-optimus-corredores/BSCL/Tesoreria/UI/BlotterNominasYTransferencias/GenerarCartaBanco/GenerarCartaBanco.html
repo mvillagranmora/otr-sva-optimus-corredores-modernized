@@ -1,0 +1,67 @@
+<div ng-controller="GenerarCartaBancoCtrl">
+	<div class="row bcs-cuerpo">
+	<form name="frmGenerarCartaBanco" class="col-xs-12 form-horizontal">
+
+			<div class="row">			
+				<label class="col-xs-3" translate>UI_BANCO</label>				
+				<div class="col-xs-9">{{parametros.NombreBanco}}</div>
+			</div>
+			
+			<div class="row">			
+				<label class="col-xs-3" translate>UI_CUENTA_BANCARIA</label>				
+				<div class="col-xs-9">{{parametros.NombreCuentaBancariaFull}}</div>
+			</div>			
+			
+			<div class="row">			
+				<label class="col-xs-3" translate>UI_MONEDA</label>				
+				<div class="col-xs-9">{{parametros.NombreMoneda}}</div>
+			</div>			
+
+			<div class="row">			
+				<label class="col-xs-3" translate>UI_MONTO</label>				
+				<div class="col-xs-9">{{parametros.Monto | kformat:'c':parametros.IdMoneda:'monto':'GEN'}}</div>
+			</div>
+
+			<div class="row"><hr></div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PRIMERA_FIRMA</label>
+				<bcs-combobox-base class="col-xs-9"
+					bcs-requerido
+					auto-cargar   = "true"
+					id			  = "frmGenerarCartaBanco_PrimeraFirma"
+					tipo          = "oConfiguracionEmpleadoFirma1.tipo"
+					id-actual     = "oConfiguracionEmpleadoFirma1.idActual"
+					configuracion = "oConfiguracionEmpleadoFirma1.configuracion"
+					seleccionado  = "oConfiguracionEmpleadoFirma1.seleccionado"							
+					filtros       = "oConfiguracionEmpleadoFirma1.filtros"
+					id-post-filtro= "oConfiguracionEmpleadoFirma1.idPostFiltro">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO_SEGUNDA_FIRMA</label>
+				<bcs-input-numero class="col-xs-9" decimales = "0" k-ng-model="MontoSegundaFirma" id="frmGenerarCartaBanco_MontoSegundaFirma" bcs-requerido></bcs-input-numero>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_SEGUNDA_FIRMA</label>
+				<bcs-combobox-base class="col-xs-9"
+					bcs-requerido					
+					auto-cargar   = "true"
+					id			  = "frmGenerarCartaBanco_SegundaFirma"
+					tipo          = "oConfiguracionEmpleadoFirma2.tipo"
+					id-actual     = "oConfiguracionEmpleadoFirma2.idActual"													
+					configuracion = "oConfiguracionEmpleadoFirma2.configuracion"
+					seleccionado  = "oConfiguracionEmpleadoFirma2.seleccionado"							
+					filtros       = "oConfiguracionEmpleadoFirma2.filtros"
+					id-post-filtro= "oConfiguracionEmpleadoFirma2.idPostFiltro">
+				</bcs-combobox-base>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos alignButtonsToRight">	    
+		<bcs-button class="col-xs-2" id="frmGenerarCartaBanco_BtnGenerar"  bcs-habilitado="frmGenerarCartaBanco.$valid" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_GENERAR' | translate"  bcs-clic="generar()"></bcs-button>
+		<bcs-button id="btnCancelGenerarCartaBanco" class="col-xs-2" id="frmGenerarCartaBanco_BtnCancelar" bcs-habilitado="'true'"                      bcs-tipo="'bcs-button-anular'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="cancelar()"></bcs-button>				
+	</div>
+</div>

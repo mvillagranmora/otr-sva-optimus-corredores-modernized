@@ -1,0 +1,185 @@
+<div class="row" ng-controller='InterfazAsignacionCtrl'>
+	<div class="col-xs-12 bcs-cuerpo">
+		<div class="row">
+		
+			<div class="col-xs-3">
+				<label class="col-xs-4" translate>UI_FECHA</label>
+				<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="configuracionInterfaz.FechaOperacionString"></bcs-input-texto>
+			</div>
+			<div class="col-xs-3">
+				<label class="col-xs-4" translate>UI_LIBRO_ORDENES</label>
+				<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="configuracionInterfaz.NombreLibroOrdenes"></bcs-input-texto>
+			</div>
+			<div class="col-xs-3">
+				<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+				<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="configuracionInterfaz.NombreCondicionDeLiquidacion"></bcs-input-texto>
+			</div>
+			
+		</div>
+		
+		<div class="row">
+			<uib-tabset class="col-xs-6">
+				<uib-tab heading="{{ 'UI_TRANSACCIONES' | translate}}" select="select('gridTransacciones')">
+					<div class="row">
+					
+						<bcs-grid
+							id="gridTransacciones"
+							fn-exportar-excel = "formData.exportarExcelGridTransacciones"
+							seleccionado = "formData.transaccionesSeleccionadas"
+							api="formData.apiTransacciones"
+							configuracion="formData.confTransacciones">
+						</bcs-grid>
+					
+					</div>
+				</uib-tab>
+				<uib-tab ng-if="formData.formaAsignacion !== 'NORMAL'" heading="{{ 'UI_ASIGNACIONES' | translate}}" select="select('gridAsignaciones')">
+					<div class="row">
+						<bcs-grid 
+							id="gridAsignaciones"
+							fn-exportar-excel = "formData.exportarExcelGridAsignaciones"
+							seleccionado = "formData.asignacionesSeleccionadas"
+							api="formData.apiAsignaciones"
+							configuracion="formData.confAsignaciones">
+						</bcs-grid>
+					</div>
+				</uib-tab>
+				<uib-tab ng-if="formData.formaAsignacion !== 'NORMAL'" heading="{{ 'UI_COMPROBANTES' | translate}}" select="select('gridComprobantes')">
+					<div class="row">
+						<bcs-grid 
+							id="gridComprobantes"
+							fn-exportar-excel = "formData.exportarExcelGridComprobantes"
+							seleccionado = "formData.comprobantesSeleccionadas"
+							api="formData.apiComprobantes"
+							configuracion="formData.confComprobantes">
+						</bcs-grid>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+			<uib-tabset class="col-xs-6">
+				<uib-tab select="updateTabs()" heading="{{ 'UI_CLIENTES' | translate}}" active="formData.tabClientesActiva">
+					<div class="row">
+						<bcs-grid
+							id="gridClientes"
+							fn-exportar-excel = "formData.exportarExcelGridClientes"
+							seleccionado = "formData.clientesSeleccionados"
+							api="formData.apiClientes"
+							configuracion="formData.confClientes">
+						</bcs-grid>
+					</div>
+				</uib-tab>
+				<uib-tab select="updateTabs()" heading="{{ 'UI_ORDENES' | translate}}" disable="formData.tabOrdenesDeshabilitada" active="formData.tabOrdenesActiva">
+					<div class="row">
+						<bcs-grid
+							id="gridOrdenes"
+							fn-exportar-excel = "formData.exportarExcelGridOrdenes"
+							seleccionado = "formData.ordenesSeleccionadas"
+							api="formData.apiOrdenes"
+							configuracion="formData.confOrdenes">
+						</bcs-grid>
+					</div>
+				</uib-tab>
+				<uib-tab select="updateTabs()" heading="{{ 'UI_CARTERAS' | translate}}" disable="formData.tabCarterasDeshabilitada" active="formData.tabCarterasActiva">
+					<div class="row">
+						<bcs-grid
+							id="gridCarteras"
+							fn-exportar-excel = "formData.exportarExcelGridCarteras"
+							seleccionado = "formData.carterasSeleccionadas"
+							api="formData.apiCarteras"
+							configuracion="formData.confCarteras">
+						</bcs-grid>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" ng-show = "formData.formaAsignacion === 'NORMAL'" bcs-habilitado="'true'"  bcs-clic="formData.ventanaAgregarTransacciones()"></bcs-button>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate"  ng-show = "formData.formaAsignacion === 'NORMAL'" bcs-habilitado="'true'"  bcs-clic="formData.ventanaQuitarTransacciones()"></bcs-button>
+			</div>
+			
+			<!-- CLIENTES -->
+			<div class="col-xs-6" ng-show="formData.tabClientesActiva">
+				<bcs-button bcs-tipo="'bcs-button-input-form'"  class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaAgregarElementos()"></bcs-button>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaQuitarElementos()"></bcs-button>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_CARGAR' | translate" bcs-habilitado="'true'" ng-show="configuracionInterfaz.IdTipoLibroOrden === 'OPA'"  bcs-clic="formData.cargarArchivoOpas()"></bcs-button>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_CARGAR' | translate" bcs-habilitado="'true'" ng-show="formData.tabClientesActiva" bcs-clic="formData.cargarGrupoPortafolios(formData.grupoPortafoliosSeleccionado)"></bcs-button>
+				<bcs-button-dropdown bcs-tipo="'bcs-new-dropdown-form'" ng-show="formData.tabClientesActiva" class="col-xs-2" opciones="formData.opcionesClientes"></bcs-button-dropdown>
+				<bcs-combobox-base
+					class="col-xs-4"
+					ng-show="formData.tabClientesActiva"
+					filtros = "formData.filtrosGrupoPortafolio"
+					seleccionado = "formData.grupoPortafoliosSeleccionado"
+					tipo="'combobox-grupos-clientes'">
+				</bcs-combobox-base>
+			</div>
+			
+			<!-- CARTERAS -->
+			<div class="col-xs-6" ng-show="formData.tabCarterasActiva">
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaAgregarElementos()"></bcs-button>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaQuitarElementos()"></bcs-button>
+				<bcs-button-dropdown bcs-tipo="'bcs-new-dropdown-form'" ng-show="formData.tabCarterasActiva" class="col-xs-2 pull-right" opciones="formData.opcionesCartera"></bcs-button-dropdown>
+			</div>
+			
+			<!-- ORDENES -->
+			<div class="col-xs-6" ng-show="formData.tabOrdenesActiva">
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaAgregarElementos()"></bcs-button>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaQuitarElementos()"></bcs-button>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2 col-xs-offset-3" bcs-auto-desactivar="false" bcs-texto="'UI_CARGAR' | translate" bcs-habilitado="'true'" bcs-clic="formData.cargarOrdenes()"></bcs-button>
+				
+				<bcs-button-dropdown bcs-tipo="'bcs-new-dropdown-form'" ng-show="formData.tabOrdenesActiva" class="col-xs-3 pull-right" opciones="formData.opcionesOrdenes"></bcs-button-dropdown>
+			</div>
+						
+		</div>
+		<div class="row">
+			<uib-tabset>
+				<uib-tab heading="{{ 'UI_ASIGNACIONES' | translate}}">
+					<bcs-grid 
+						id="gridSimulacionAsignaciones"
+						fn-exportar-excel = "formData.exportarExcelGridSimulacionAsignaciones"
+							seleccionado = "formData.asignacionSeleccionada"
+						fn-doble-click="formData.editarAsignacion(formData.asignacionSeleccionada)"
+						configuracion="formData.confSimulacionAsignaciones">
+					</bcs-grid>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+
+
+	</div>		
+	<div class="row bcs-panel-comandos">
+		<bcs-button bcs-tipo="'bcs-button-primary'" id="InterfazAsignacion_AceptarAsignacion" class="col-xs-1" bcs-tipo="'principal'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-habilitado="formData.apiSimulacionAsignaciones.dataSource.data().length"  bcs-clic="formData.ejecutarAsignacion()"></bcs-button>
+			<bcs-button bcs-tipo="'bcs-button-secondary'" class="col-xs-1 " bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate" bcs-habilitado="'true'" bcs-clic="formData.eliminarAsignacion()"></bcs-button>
+			<bcs-button bcs-tipo="'bcs-button-secondary'" class="col-xs-1" style="width: 11%;" bcs-auto-desactivar="false" bcs-texto="'UI_ED_MULTIPLE' | translate" bcs-habilitado="formData.asignacionSeleccionada.length > 0" bcs-clic="formData.editarCobros()"></bcs-button>
+		
+		<label class="col-xs-2 col-xs-offset-6" style="margin-left: 47.3%;">
+			<bcs-input-checkbox ng-model="formData.muestraResultado"></bcs-input-checkbox>&nbsp;{{'UI_MUESTRA_RESULTADOS' | translate}}
+		</label>
+		<bcs-menu class="col-xs-1" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+			<li id="cargarArchivoInterfazAsignacion" ng-click="cargarArchivoInterfazAsignacion()">{{'UI_CARGAR_ARCHIVO_INTERFAZ_ASIGNACION' | translate}}</li>
+			<li ng-click="formData.guardarCambiosGrupo()">{{'UI_GUARDAR_GRUPO' | translate}}</li>
+		    <li ng-click="formData.crearGrupo()">{{'UI_CREAR_GRUPO' | translate}}</li>
+            <li ng-click="formData.exportarExcelGridTransacciones()">{{'UI_EXPORTAR_EXCEL_TRANSACCIONES' | translate}}</li>
+            <!-- <li ng-click="formData.exportarExcelGridAsignaciones()">{{'UI_EXPORTAR_EXCEL_ASIGNACIONES' | translate}}</li> -->
+            <!-- <li ng-click="formData.exportarExcelGridComprobantes()">{{'UI_EXPORTAR_EXCEL' | translate}}</li> -->
+            <li ng-click="formData.exportarExcelGridClientes()">{{'UI_EXPORTAR_EXCEL_CLIENTES' | translate}}</li>
+            <li ng-click="formData.exportarExcelGridOrdenes()">{{'UI_EXPORTAR_EXCEL_ORDENES' | translate}}</li>
+            <li ng-click="formData.exportarExcelGridCarteras()">{{'UI_EXPORTAR_EXCEL_CARTERAS' | translate}}</li>
+            <li ng-click="formData.exportarExcelGridSimulacionAsignaciones()">{{'UI_EXPORTAR_EXCEL_ASIGNACIONES' | translate}}</li>
+		</bcs-menu>	
+		
+		
+
+
+
+
+
+
+		
+		<!-- <bcs-menu class="col-xs-1" bcs-habilitado="'true'" bcs-texto="'UI_CARGAR_ARCHIVO' | translate" >
+            <li ng-click="formData.cargarArchivo('ASIGNACION_MANUAL')">{{'UI_ASIGNACION_MANUAL' | translate}}</li>
+			<li ng-click="formData.cargarArchivo('ASIGNACION_POSTRERA')">{{'UI_ASIGNACION_POSTRERA' | translate}}</li>
+		</bcs-menu>
+		-->
+	</div>
+</div>

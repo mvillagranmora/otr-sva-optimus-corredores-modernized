@@ -1,0 +1,215 @@
+<div ng-controller="CrearSuscripcionClienteModalCtrl">
+	<div class	="row bcs_titulo" translate>
+		UI_INGRESO_SUSCRIPCION
+	</div>
+	<!-- 
+	<div 	ng-show	="data.Accion=='Modificar'"
+			class="row bcs_titulo" translate>
+		UI_MODIFICAR_EVENTO
+	</div>
+	 -->
+	 
+	 <form name="formSuscripcionClienteModal">
+
+			<div class="row">
+			<label class="col-xs-2" translate>UI_TIPO_EVENTO_ABR</label>
+			  	<bcs-input-texto
+	               	class			="col-xs-4"
+	                id				="UI_TIPOEVENTOTXT"
+	               	maxlength		="200"
+					ng-model		="data.TipoEventoTXT"
+					k-ng-disabled	= "'true'">
+               	</bcs-input-texto>
+			</div>
+			
+		<div class="row"> 
+			<label class="col-xs-2" translate>UI_INSTRUMENTO</label>
+			<bcs-input-texto
+               	class			="col-xs-4"
+                id				="UI_INSTRUMENTOTXT"
+               	maxlength		="200"
+				ng-model		="data.idInstrumentoTXT"
+				k-ng-disabled 	= "'true'">
+	         </bcs-input-texto>							  				  			  	  
+		</div>
+		
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_SECUENCIA</label>					
+			<bcs-input-numero
+               	class			="col-xs-2"
+                id				="UI_SECUENCIATXT"
+               	bcs-mayor-que="'0'"
+				k-ng-model		="data.kngSecuenciaTXT"
+				k-ng-disabled	= "'true'">
+	        </bcs-input-numero>			
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_DESCRIPCION</label>
+               <bcs-input-texto 
+		            class			="col-xs-6"
+		            id				="UI_DESCRIPCION"
+		            maxlength		="100"
+					ng-model		="data.DescripcionTXT"
+					k-ng-disabled 	= "'true'">
+               </bcs-input-texto>	
+		</div>
+		
+		<div class="col-xs-12">
+			<hr>
+		</div>
+			 
+	 
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CLIENTE</label>
+				<bcs-input-texto
+					ng-show			="data.Accion=='Modificar'"
+					bcs-requerido	="data.Accion=='Modificar'"  
+	               	class			="col-xs-6"
+	                id				="UI_CLIENTETXT"
+	               	maxlength		="200"
+					ng-model		="data.ClienteTXT"
+					k-ng-disabled	= "'true'">
+               	</bcs-input-texto>
+	               	
+				<bcs-combobox-base 
+					class				="col-xs-6"
+					bcs-requerido		="data.Accion=='Crear'" 
+					ng-show				="data.Accion=='Crear'" 
+					id					="UI_CLIENTE"
+				 	auto-cargar			="'false'"
+				    tipo				="'combobox-socio-negocio'"
+				    seleccionado		="oSocioNegocio.seleccionado"
+				    filtros				="oSocioNegocio.filtros"
+				    item-post-filtro	="oSocioNegocio.idActual"
+					cascada-a			="oPortafolio.filtros.IdCliente"
+					cascada-valor		="'IdCliente'"
+                    cascada-defecto		="'-1'"
+                    id-actual			="oSocioNegocio.idActual"
+				    configuracion		="oSocioNegocio.configuracion">
+				</bcs-combobox-base>	
+								  			  	  
+		</div>
+		
+		<div class="row">
+		
+			<label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+				<bcs-input-texto
+					ng-show			="data.Accion=='Modificar'"
+					bcs-requerido	="data.Accion=='Modificar'"  
+	               	class			="col-xs-4"
+	                id				="UI_PORTAFOLIOTXT"
+	               	maxlength		="200"
+					ng-model		="data.PortafolioTXT"
+					k-ng-disabled	= "'true'">
+               	</bcs-input-texto>
+
+				<bcs-combobox-base 
+					class			="col-xs-4"
+					ng-show			="data.Accion=='Crear'" 
+				 	id				="UI_PORTAFOLIO"
+				 	auto-cargar		="'false'"
+				 	bcs-requerido	="data.Accion=='Crear'" 
+				    tipo			="'combobox-portafolio'"
+				    filtros			="oPortafolio.filtros"
+                    id-post-filtro	="data.IdPortafolio"
+				    configuracion	="oPortafolio.configuracion"  
+				    id-actual		="oPortafolio.idActual"
+				    seleccionado 	="oPortafolio.seleccionado">
+				</bcs-combobox-base >
+		</div>
+		
+	
+
+		<div class="col-xs-12">
+			<hr>
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANTIDAD_DISPONIBLE</label>					
+				<bcs-input-numero
+					class				="col-xs-2"
+					bcs-requerido	    ="'true'"
+					k-ng-model			="data.kngDisponibleTXT"
+					k-options 			="data.Disponible"
+					k-ng-disabled 		="true">
+				</bcs-input-numero>
+					
+				<bcs-button
+					class="col-xs-3"
+					id="UI_CONSULTA_CARTERA" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_CONSULTA_CARTERAS' | translate"
+					bcs-clic="data.btnConsultarCarteras()"
+					bcs-habilitado="data.accionDisabled"
+					k-ng-disabled 	="false">
+				</bcs-button>							
+		</div>
+				
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANTIDAD_GARANTIA</label>					
+						
+					<bcs-input-numero
+						class				="col-xs-2"
+						k-ng-model			="data.kngGarantiaTXT"
+						k-options 			="data.Garantia"
+						k-ng-disabled 		="true">
+					</bcs-input-numero>		
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANTIDAD_TRAMITE_SUSCRIPCION</label>					
+					
+				<bcs-input-numero					
+					class				="col-xs-2"
+					k-ng-model			="data.kngTramiteSuscripcionTXT"
+					k-options 			="data.TramiteSuscripcion"
+					k-ng-disabled 		="true">
+				</bcs-input-numero>		
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANTIDAD_DISPONIBLE_SUSCRIPCION</label>					
+					
+				<bcs-input-numero					
+					class				="col-xs-2"
+					k-ng-model			="data.kngDisponibleSuscripcionTXT"
+					k-options 			=""
+					k-ng-disabled 		="true">
+				</bcs-input-numero>		
+		</div>		
+
+		<div class="row">
+			<label class="col-xs-2" translate ng-show="data.oDatosEvento.EventoCapitalCliente.SuscripcionComplementaria=='S'">UI_CANTIDAD_SUSCRITA</label>								
+				<bcs-input-numero
+					class				="col-xs-2"
+					k-ng-model			="data.kngCantidadSuscritaTXT"
+					k-options 			="data.CantidadSuscrita"
+					k-ng-disabled 		="true"
+					ng-show 			= "data.oDatosEvento.EventoCapitalCliente.SuscripcionComplementaria=='S'">
+				</bcs-input-numero>		
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANTIDAD_SUSCRIPCION</label>					
+					
+				<bcs-input-numero
+					class				="col-xs-2"
+					bcs-mayor-que		="'0'"
+					k-ng-model			="data.kngSuscripcionTXT"
+					k-options 			="data.Suscripcion"
+					k-ng-disabled 		="data.disablekngSuscripcionTXT">
+				</bcs-input-numero>		
+		</div>
+		
+	</form>
+	
+
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" ng-show="'true'" bcs-tipo="'principal'" bcs-auto-desactivar="false" bcs-texto="'UI_GRABAR' | translate" bcs-habilitado="data.accionDisabled && formSuscripcionClienteModal.$valid" bcs-clic="data.CrearSuscripcionCliente()"></bcs-button>
+		<bcs-button class="col-xs-2" ng-show="'true'" bcs-tipo="''"          bcs-auto-desactivar="false" bcs-texto="'UI_CERRAR' | translate" bcs-habilitado="data.accionDisabled" bcs-clic="data.btnCerrar(false)"></bcs-button>
+	</div>
+
+	</div> 
+</div>

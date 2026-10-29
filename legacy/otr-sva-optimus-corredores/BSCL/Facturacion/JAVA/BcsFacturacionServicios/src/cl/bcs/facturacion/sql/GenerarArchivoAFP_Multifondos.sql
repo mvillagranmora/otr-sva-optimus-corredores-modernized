@@ -1,0 +1,1 @@
+SELECT COUNT(*) AS "Multifondos" FROM "BSCL.Facturacion.BD::FAC.Multifondos";

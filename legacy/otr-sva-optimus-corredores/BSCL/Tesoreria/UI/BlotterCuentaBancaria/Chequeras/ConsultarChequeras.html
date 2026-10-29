@@ -1,0 +1,135 @@
+<div class="row" ng-controller='ConsultarChequerasCtrl'>	
+	<div class="row bcs-cuerpo">
+	 
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_BANCO</label>
+						<bcs-combobox-base  
+							class          = "col-xs-9"
+							auto-cargar    = "true"									
+							tipo           = "oConfiguracionBanco.tipo"
+							id-actual      = "oConfiguracionBanco.idActual"													
+							configuracion  = "oConfiguracionBanco.configuracion"
+							seleccionado   = "oConfiguracionBanco.seleccionado"							
+							filtros        = "oConfiguracionBanco.filtros"
+							todos          = "'S'"
+							id-post-filtro = "'0'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_MONEDA</label>
+						<bcs-combobox-base 
+						    class            = "col-xs-9"
+							auto-cargar      = "true"			
+							tipo             = "oConfiguracionMoneda.tipo"
+							id-actual        = "oConfiguracionMoneda.idActual"													
+							configuracion    = "oConfiguracionMoneda.configuracion"
+							seleccionado     = "oConfiguracionMoneda.seleccionado"							
+							filtros          = "oConfiguracionMoneda.filtros"
+							todos            = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>				
+				</div>
+
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_TIPO_CUENTA</label>
+						<bcs-combobox-base
+							class            = "col-xs-9"					
+							auto-cargar      = "true"
+							tipo             = "oConfiguracionTipoCuenta.tipo"
+							id-actual        = "oConfiguracionTipoCuenta.idActual"													
+							configuracion    = "oConfiguracionTipoCuenta.configuracion"
+							seleccionado     = "oConfiguracionTipoCuenta.seleccionado"
+							filtros          = "oConfiguracionTipoCuenta.filtros"	
+							todos            = "'S'"						
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_ESTADO</label>
+						<bcs-combobox-base
+							class            = "col-xs-9"							
+							auto-cargar      = "true"
+							tipo             = "oConfiguracionEstado.tipo"
+							id-actual        = "oConfiguracionEstado.idActual"													
+							configuracion    = "oConfiguracionEstado.configuracion"
+							seleccionado     = "oConfiguracionEstado.seleccionado"
+							filtros          = "oConfiguracionEstado.filtros"
+							id-defecto		 = "'ACT'"
+							todos            = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>				
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_FECHA_DESDE</label>
+						<bcs-input-date  class="col-xs-9"
+							k-ng-model="fecInicio">
+						</bcs-input-date>
+					</div>
+					
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_FECHA_HASTA</label>
+						<bcs-input-date class="col-xs-9"
+						    k-ng-model="fecTermino">
+						</bcs-input-date>
+					</div>				
+				</div>			
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="btnActivo" bcs-clic="buscarChequeras()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="btnActivo"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+		
+		<div class="row">
+			<!-- GRILLA CHEQUERAS -->
+			<bcs-grid    
+			    id ="grid-chequeras"
+			    configuracion = "confBasicaChequeras"
+			    seleccionado = "seleccionChequeras"
+			    fn-exportar-excel = "exportarExcel"
+			    fn-doble-click="modificarChequera(seleccionChequeras)">
+			</bcs-grid>
+		</div>		
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+	
+		<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-primary'"   bcs-auto-desactivar="false"  bcs-texto="'UI_CREAR' | translate"      bcs-habilitado="btnActivo"  bcs-clic="crearChequera()"></bcs-button>
+		<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"  bcs-texto="'UI_MODIFICAR' | translate"  bcs-habilitado="seleccionChequeras"  bcs-clic="modificarChequera(seleccionChequeras)"></bcs-button>
+		<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+			ng-show="seleccionChequeras.IdEstado ==='ACT' || !seleccionChequeras"
+			bcs-auto-desactivar="false" bcs-texto="'UI_BLOQUEAR' | translate"
+			bcs-habilitado="seleccionChequeras" bcs-clic="bloquearDesbloquear('INA')"></bcs-button>
+		<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+			ng-show="seleccionChequeras.IdEstado ==='INA'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_DESBLOQUEAR' | translate"
+			bcs-habilitado="seleccionChequeras" bcs-clic="bloquearDesbloquear('ACT')"></bcs-button>
+		
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">	
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+	</div>
+
+</div>
+

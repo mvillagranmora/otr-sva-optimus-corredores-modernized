@@ -1,0 +1,212 @@
+<div id="PanelCartas" class="row" ng-controller="PanelCartasCtrl as pc1">
+<form class="col-xs-12 form-horizontal">
+	
+	<!-- PARAMETROS CLIENTES -->
+	<div class="row" ng-show="pc1.UIModo === 'CIRCULARIZACION'">
+		<div class="col-xs-3">
+			<label class="col-xs-5" translate>Cliente</label>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="!pc1.muestraListaClientes" ng-click="pc1.muestraListaClientes = !pc1.muestraListaClientes">({{'+' | translate}})</em>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="pc1.muestraListaClientes" ng-click="pc1.muestraListaClientes = !pc1.muestraListaClientes">({{'-' | translate}})</em>
+		</div>
+		<bcs-combobox-base class="col-xs-6" id="comboboxSocioNegocio"
+			auto-cargar="'false'" tipo="'combobox-socio-negocio'"
+			id-Actual="pc1.oConfiguracionSocioNegocio.idActual"
+			seleccionado="pc1.oConfiguracionSocioNegocio.seleccionado"
+			filtros="pc1.oConfiguracionSocioNegocio.filtros"
+			todos="'N'"
+			activado="activadoCli">
+		</bcs-combobox-base>
+		<div class="col-xs-2">
+			
+			<bcs-input-checkbox class="col-xs-3" ng-model="pc1.control.TodosCli" >
+			
+		</bcs-input-checkbox>
+		<label class="col-xs-5">Todos</label>
+		</div>
+	</div>
+	<div class="row"  ng-show="pc1.muestraListaClientes">	
+		<div class="row" ng-show="!modoVisualizacion">
+			<label class="col-xs-3">Listado Rut</label> <input
+				class="col-xs-9" type="file" data-disabled="true"
+				ng-disabled="listRut" file-reader="pc1.control.FiltrosRut.fileContent"
+				style="display: inline" />
+		</div>
+
+	</div>	
+	<div class="row">
+		<div class="col-xs-6">
+			<bcs-input-checkbox class="col-xs-2"
+				ng-model="pc1.control.filtraContratoCustodia"
+				ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+				>
+			</bcs-input-checkbox>
+			<label class="col-xs-8" translate>UI_CIR_CLIENTES_CONTRATO_CUSTODIA</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">
+			<bcs-input-checkbox class="col-xs-2"
+				ng-model="pc1.control.filtraIncluirClientesSinCustodia"
+				ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+				>
+			</bcs-input-checkbox>
+			<label class="col-xs-8" translate>UI_CIR_CLIENTES_SIN_CUSTODIA</label>
+		</div>
+	</div>
+	<!-- FIN PARAMETROS CLIENTE -->	
+	<br>
+	<hr>
+	<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_CLASE_INSTRUMENTO</label>
+			</div>
+	</div>
+	<!-- 
+	<div class="row">
+			<div class="col-xs-6">	
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroTODOS"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_TODOS</label>
+			</div>	
+	</div>
+ 	-->
+ 		
+	<div class="row">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroRV"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_RENTA_VARIABLE</label>
+			</div>
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroRF"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				 </bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_RENTA_FIJA</label>
+			</div>
+	</div>
+	
+	<div class="row">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroIIF"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-7" translate>UI_INTERMEDIACION_FINANCIERA</label>
+			</div>
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroFFMM"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				 </bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_FFM</label>
+			</div>
+	</div>
+	<hr>
+	<br>	
+	<div class="row">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroPACTOS"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-7" translate>UI_INCLUIR_OPERACION_DE_PACTO</label>
+			</div>
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroVENTACORTA"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				 </bcs-input-checkbox>
+				<label class="col-xs-7" translate>UI_INCLUIR_OPERACION_DE_VENTA_CORTA</label>
+			</div>
+	</div>	
+	<div class="row">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroSIMULTANEA"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-7" translate>UI_INCLUIR_OPERACION_DE_SIMULTANEA</label>
+			</div>
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroFORWARD"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-7" translate>UI_INCLUIR_OPERACION_DE_FORWARDS</label>
+			</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">
+			<bcs-input-checkbox class="col-xs-2"
+				ng-model="pc1.control.registroPRESTAMOS"
+				ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+				>
+			</bcs-input-checkbox>
+			<label class="col-xs-7" translate>UI_INCLUIR_OPERACION_DE_PRESTAMOS</label>
+		</div>
+	</div>
+	<hr>
+	<br>	
+	<div class="row">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pc1.control.registroMONTOCOMPROM"
+					ng-disabled="pc1.UIModo === 'CIRCULARIZACION'"
+					>
+				</bcs-input-checkbox>
+				 <label class="col-xs-9" translate>UI_CONSIDERAR_MONTO_COMPROMETIDO</label> 
+			</div>
+	</div>	
+	<hr>
+</form>		
+	<div class="row bcs-panel-comandos">
+	
+				<!-- bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR_PARAMETROS' | translate" -->		
+		<div class="col-xs-12" style="top: 10px; padding-bottom: 10px;">
+			 <bcs-button class="col-xs-4 pull-right"   bcs-tipo="'bcs-button-primary'"    			
+			 	bcs-auto-desactivar="false" bcs-texto="'Guardar Parametros' | translate"
+			 	bcs-habilitado="true" 
+			 	bcs-clic="pc1.guardarParametros()"
+			 	ng-show="pc1.UIModo === 'PARAMETRO'">
+			 </bcs-button>
+			 <bcs-button class="col-xs-4 pull-right" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_SOLICITAR_CIRCULARIZACION' | translate"
+				bcs-habilitado="true"
+			    bcs-clic="pc1.solicitarCircularizacion()"
+			    ng-show="pc1.UIModo === 'CIRCULARIZACION'">
+			 </bcs-button>
+
+	<!--  
+			 <bcs-button  class="col-xs-2" id="frmPanelCartas_btn_imprimir"
+				bcs-tipo=""
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_IMPRIMIR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="imprimirCircular()">
+			</bcs-button>
+			 
+			<bcs-button class="col-xs-2 pull-left" bcs-tipo="'default'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+				bcs-habilitado="true" bcs-clic="pc1.clear()">
+			</bcs-button>
+		 -->	
+		</div>
+	
+	</div>
+	
+</div>

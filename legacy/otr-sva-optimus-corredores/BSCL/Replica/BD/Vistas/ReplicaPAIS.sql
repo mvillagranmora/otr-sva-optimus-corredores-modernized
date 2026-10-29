@@ -1,0 +1,19 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaPAIS"; 
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaPAIS" AS
+
+SELECT
+	WST."IdStack"  AS "IDSTACK" ,
+	"Action" AS ACTION,
+	CAST (PAIS."IdPais" AS NVARCHAR)  AS TABLE_KEY,
+	PAI_ISO, 		--CHAR(2)
+	PAI_NOMBRE,		--VARCHAR(50)
+	PAI_GENTILICIO	--VARCHAR(50)
+
+FROM "BSCL.Replica.BD.Vistas::Sebra.PAIS" PAIS
+LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'PAIS' AND WST."Key" = CAST(PAIS."IdPais" AS NVARCHAR)
+						
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaPAIS" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

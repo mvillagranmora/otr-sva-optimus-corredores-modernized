@@ -1,0 +1,16 @@
+SELECT GDD."IdGrupoDireccionDetalle"
+     , GD."IdPersona"
+     , CASE PER."Tipo"
+           WHEN 'N' THEN PER."Nombres" || ' ' || PER."ApellidoPaterno" || ' ' || PER."ApellidoMaterno"
+           ELSE PER."RazonSocial"
+    END AS "NombreCompleto"
+     , DI."DocumentoIdentidad"
+     , GDD."IdDireccionElectronica"
+     , GDD."IdTipoDestinatario"
+     , GDD."IdEstado"
+     , GDD."IdEstadoAutorizacion"
+FROM "BSCL.SocioNegocio.BD::PER.GrupoDireccionDetalle" AS GDD
+     LEFT JOIN "BSCL.SocioNegocio.BD::PER.GrupoDireccion" AS GD ON GD."IdGrupoDireccion" = GDD."IdGrupoDireccion"
+     LEFT JOIN "BSCL.SocioNegocio.BD::PER.Persona" AS PER ON PER."IdPersona" = GD."IdPersona"
+     LEFT JOIN "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" AS DI ON PER."IdDocumentoIdentidad" = DI."IdDocumentoIdentidad"
+WHERE GDD."IdGrupoDireccionDetalle" IN (:IdGrupoDireccionDetalle);

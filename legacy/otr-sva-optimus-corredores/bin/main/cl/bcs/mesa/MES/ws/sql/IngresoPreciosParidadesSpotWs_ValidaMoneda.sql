@@ -1,0 +1,1 @@
+SELECT "IdMoneda" FROM "BSCL.Plataforma.BD::PLA.Moneda" WHERE "IdMoneda" = ?

@@ -1,0 +1,35 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaTBPLPASI"; 
+-- select  *  from "BSCL.Replica.BD.Vistas::ReplicaTBPLPASI"
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaTBPLPASI" AS
+
+        Select WST."IdStack" AS "IDSTACK", "Action" AS ACTION,
+        	CONF."RUT_CORR" AS TABLE_KEY,
+			CONF."COD_SIS",
+			CONF."CASILLA_CORR",
+			CONF."CIUDAD_CORR",
+			CONF."COD_CORR",
+			CONF."COMUNA_CORR",
+			CONF."DIRECCION_CORR",
+			CONF."FAX_CORR",
+			CONF."FEC_PRO",
+			CONF."FONO_CORR",
+			CONF."IND_CORR_DUAL",
+			CONF."IND_SIS_CON",
+			CONF."IND_SIS_CTA_PRO",
+			CONF."IND_SIS_CTA_TER",
+			CONF."IND_SIS_FIN",
+			CONF."IND_SIS_MON",
+			CONF."IND_SIS_ORDEN",
+			CONF."NEMO_CORR",
+			CONF."NOMBRE_CORR",
+			CONF."RUT_CORR",
+			CONF."SEC_RUT_CORR",
+			CONF."ZGLOSA"
+           
+		FROM  "BSCL.Replica.BD.Vistas::Sebra.TBPLPASI" CONF
+        LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'TBPLPASI' AND WST."Key" = CONF."RUT_CORR"
+
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaTBPLPASI" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

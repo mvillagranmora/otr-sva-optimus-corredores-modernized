@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Portafolio" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Portafolio_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="Proposito" length="520"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="CHAR" id="FechaBloqueo" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="ComentarioBloqueo" length="520"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoBloqueo" length="40"/>
+        <viewAttribute datatype="CHAR" id="FechaCreacion" length="19"/>
+        <viewAttribute datatype="CHAR" id="FechaIngreso" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="IdPerfilComercialBaseOrigen" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdPerfilProductos" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdPerfilCobros" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdPerfilLimites" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="DescripcionPortafolio" length="100"/>
+        <viewAttribute datatype="CHAR" id="FechaModificacion" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoDesbloqueo" length="40"/>
+        <viewAttribute datatype="CHAR" id="FechaDesbloqueo" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="ComentarioDesbloqueo" length="520"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolio" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdTelefonoContacto"/>
+        <viewAttribute datatype="BIGINT" id="IdDireccionEnvioCorrespondencia"/>
+        <viewAttribute datatype="NVARCHAR" id="Nombres" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="ApellidoPaterno" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="ApellidoMaterno" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidad" length="40"/>
+        <viewAttribute datatype="CHAR" id="FechaCambioPerfil" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuarioModificacionPerfil"/>
+        <viewAttribute datatype="NVARCHAR" id="ALIASGRUPO" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdEjecutivoPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="AsesorPortafolio" length="500"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoAsesorPortafolio" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoSucursal" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="Sucursal" length="520"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+     var_out =  select                    
+                 POR.&quot;IdPortafolio&quot;
+                ,CAST(POR.&quot;Proposito&quot; AS NVARCHAR(520)) AS &quot;Proposito&quot;
+                ,CASE WHEN POR.&quot;IdCliente&quot; = 0 THEN NULL ELSE POR.&quot;IdCliente&quot; END AS &quot;IdCliente&quot; 
+                ,CASE WHEN POR.&quot;IdEstado&quot; = '' THEN NULL ELSE POR.&quot;IdEstado&quot; END AS &quot;IdEstado&quot;  
+                ,CASE WHEN IFNULL(POR.&quot;FechaBloqueo&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+                                  ELSE  
+                                      CASE WHEN  POR.&quot;FechaBloqueo&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' 
+                                        ELSE LEFT(TO_CHAR(ADD_SECONDS (POR.&quot;FechaBloqueo&quot;, CONFIGURACION.&quot;Valor&quot;)),19)
+                                      END 
+                      END AS &quot;FechaBloqueo&quot;
+                ,CAST(POR.&quot;ComentarioBloqueo&quot; AS NVARCHAR(520)) AS &quot;ComentarioBloqueo&quot;
+                ,CASE WHEN POR.&quot;IdTipoBloqueo&quot; = '' THEN NULL ELSE CAST(POR.&quot;IdTipoBloqueo&quot; AS NVARCHAR(40)) END AS &quot;IdTipoBloqueo&quot;
+                ,CASE WHEN IFNULL(POR.&quot;FechaCreacion&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+                                  ELSE  
+                                      CASE WHEN  POR.&quot;FechaCreacion&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' 
+                                        ELSE LEFT(TO_CHAR(ADD_SECONDS (POR.&quot;FechaCreacion&quot;, CONFIGURACION.&quot;Valor&quot;)),19)
+                                      END 
+                 END AS &quot;FechaCreacion&quot;
+                ,CASE WHEN IFNULL(POR.&quot;FechaIngreso&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+                                  ELSE  
+                                      CASE WHEN  POR.&quot;FechaIngreso&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' 
+                                        ELSE LEFT(TO_CHAR(ADD_SECONDS (POR.&quot;FechaIngreso&quot;, CONFIGURACION.&quot;Valor&quot;)),19)
+                                      END 
+                 END AS &quot;FechaIngreso&quot;
+                ,CASE WHEN POR.&quot;IdPerfilComercialBaseOrigen&quot; = '' THEN NULL ELSE CAST(POR.&quot;IdPerfilComercialBaseOrigen&quot; AS NVARCHAR(40)) END AS &quot;IdPerfilComercialBaseOrigen&quot;
+                ,CASE WHEN POR.&quot;IdPerfilProductos&quot; = '' THEN NULL ELSE CAST(POR.&quot;IdPerfilProductos&quot; AS NVARCHAR (40)) END AS &quot;IdPerfilProductos&quot;
+                ,CASE WHEN POR.&quot;IdPerfilCobros&quot; = '' THEN NULL ELSE CAST(POR.&quot;IdPerfilCobros&quot; AS NVARCHAR(40)) END AS &quot;IdPerfilCobros&quot;
+                ,CASE WHEN POR.&quot;IdPerfilLimites&quot; = '' THEN NULL ELSE CAST(POR.&quot;IdPerfilLimites&quot; AS NVARCHAR(40)) END AS &quot;IdPerfilLimites&quot;
+                ,CAST(POR.&quot;DescripcionPortafolio&quot; AS NVARCHAR(100)) AS &quot;DescripcionPortafolio&quot;
+                ,CASE WHEN IFNULL(POR.&quot;FechaModificacion&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+                                  ELSE  
+                                      CASE WHEN  POR.&quot;FechaModificacion&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' 
+                                        ELSE LEFT(TO_CHAR(ADD_SECONDS (POR.&quot;FechaModificacion&quot;, CONFIGURACION.&quot;Valor&quot;)),19)
+                                      END 
+                 END AS &quot;FechaModificacion&quot;
+                ,CASE WHEN POR.&quot;IdTipoDesbloqueo&quot; = '' THEN NULL ELSE CAST(POR.&quot;IdTipoDesbloqueo&quot; AS NVARCHAR(40)) END AS &quot;IdTipoDesbloqueo&quot;
+                ,CASE WHEN IFNULL(POR.&quot;FechaDesbloqueo&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+                                  ELSE  
+                                      CASE WHEN  POR.&quot;FechaDesbloqueo&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' 
+                                        ELSE LEFT(TO_CHAR(ADD_SECONDS (POR.&quot;FechaDesbloqueo&quot;, CONFIGURACION.&quot;Valor&quot;)),19)
+                                      END 
+                 END AS &quot;FechaDesbloqueo&quot;
+                ,CAST(POR.&quot;ComentarioDesbloqueo&quot; AS NVARCHAR(520)) AS &quot;ComentarioDesbloqueo&quot;
+                ,CASE WHEN POR.&quot;CodigoPortafolio&quot; = '' THEN NULL ELSE CAST(POR.&quot;CodigoPortafolio&quot; AS NVARCHAR(100)) END AS &quot;CodigoPortafolio&quot;
+                ,CASE WHEN POR.&quot;IdTelefonoContacto&quot; = 0 THEN NULL ELSE POR.&quot;IdTelefonoContacto&quot; END AS &quot;IdTelefonoContacto&quot; 
+                ,CASE WHEN POR.&quot;IdDireccionEnvioCorrespondencia&quot; = 0 THEN NULL ELSE POR.&quot;IdDireccionEnvioCorrespondencia&quot; END AS &quot;IdDireccionEnvioCorrespondencia&quot; 
+                ,CAST(PER.&quot;Nombres&quot; AS NVARCHAR(100)) AS &quot;Nombres&quot;
+                ,CAST(PER.&quot;ApellidoPaterno&quot; AS NVARCHAR(100)) AS &quot;ApellidoPaterno&quot;
+                ,CAST(PER.&quot;ApellidoMaterno&quot; AS NVARCHAR(100)) AS &quot;ApellidoMaterno&quot;
+                ,CASE WHEN PER.&quot;IdPersona&quot; = 0 THEN NULL ELSE PER.&quot;IdPersona&quot; END AS &quot;IdPersona&quot; 
+                ,CAST(DOC.&quot;DocumentoIdentidad&quot;  AS NVARCHAR(40)) AS &quot;DocumentoIdentidad&quot;
+                ,TO_CHAR(COALESCE(MODPERFIL.&quot;FechaCambioPerfil&quot;,'0001-01-01')) as &quot;FechaCambioPerfil&quot;
+                ,CASE WHEN MODPERFIL.&quot;IdUsuario&quot; = 0 THEN NULL ELSE MODPERFIL.&quot;IdUsuario&quot; END  as &quot;IdUsuarioModificacionPerfil&quot;
+                ,' ' as &quot;ALIASGRUPO&quot; -- grupo al qe pertenece el portafolio
+                ,CASE WHEN POR.&quot;IdEmpleadoEjecutivo&quot; = 0 THEN NULL ELSE POR.&quot;IdEmpleadoEjecutivo&quot; END  as &quot;IdEjecutivoPortafolio&quot;
+                ,CASE WHEN POR.&quot;IdEmpleadoEjecutivo&quot; = 0 THEN NULL ELSE EMPPOR.&quot;NombreCompleto&quot; END  as &quot;AsesorPortafolio&quot;
+                ,CASE WHEN POR.&quot;IdEmpleadoEjecutivo&quot; = 0 THEN NULL ELSE EMPPOR.&quot;CodigoEmpleado&quot; END  as &quot;CodigoAsesorPortafolio&quot;
+                ,CASE WHEN CLI.&quot;IdSucursalPreferencia&quot; = 0 THEN NULL ELSE SUC.&quot;CodigoSucursal&quot; END  as &quot;CodigoSucursal&quot; 
+                ,CASE WHEN CLI.&quot;IdSucursalPreferencia&quot; = 0 THEN NULL ELSE SUC.&quot;NombreSucursal&quot; END  as &quot;Sucursal&quot;
+                FROM &quot;BSCL.Portafolio.BD::POR.Portafolio&quot;  as POR
+                INNER JOIN &quot;BSCL.SocioNegocio.BD::CLI.Cliente&quot; as CLI
+                    ON CLI.&quot;IdCliente&quot; = POR.&quot;IdCliente&quot;
+                INNER JOIN &quot;BSCL.SocioNegocio.BD::PER.Persona&quot; as PER
+                    ON CLI.&quot;IdPersona&quot; = PER.&quot;IdPersona&quot;
+                INNER JOIN &quot;BSCL.SocioNegocio.BD::PER.DocumentoIdentidad&quot; as DOC
+                    ON PER.&quot;IdDocumentoIdentidad&quot; = DOC.&quot;IdDocumentoIdentidad&quot;
+                LEFT JOIN &quot;BSCL.SocioNegocio.BD.Vistas::EMP.ConsultarEmpleado&quot; EMPPOR
+                    ON POR.&quot;IdEmpleadoEjecutivo&quot;  = EMPPOR.&quot;IdEmpleado&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::PLA.Sucursal&quot; SUC
+                    ON CLI.&quot;IdSucursalPreferencia&quot; = SUC.&quot;IdSucursal&quot;
+                CROSS JOIN (select top 1 &quot;Valor&quot; from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Configuracion&quot;
+                                where &quot;CodigoParametro&quot; = 'PLA.SegundosZonaHoraria') AS CONFIGURACION
+                LEFT JOIN (                      
+                            select   
+                                    RANK() over (partition by  &quot;IdRegistro&quot;  order by L.&quot;IdLog&quot; DESC) as RANK
+                                    , L.&quot;IdRegistro&quot;
+                                    , L.&quot;IdUsuario&quot;
+                                    , L.&quot;FechaLog&quot; as &quot;FechaCambioPerfil&quot;
+                                    , L.&quot;IdLog&quot;
+                                    , L.&quot;IdPortafolio&quot;
+                                    from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Log&quot; as L
+                                        JOIN &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.DetalleLog&quot; as DL ON L.&quot;IdLog&quot; = DL.&quot;IdLog&quot;
+                                    where L.&quot;IdTipoRegistro&quot; = 'PORTAFOLIO' 
+                                       and upper(DL.&quot;CampoRegistro&quot;) = 'IDPERFILCOMERCIALBASEORIGEN'
+                         ) AS MODPERFIL
+                    ON MODPERFIL.&quot;IdPortafolio&quot; = POR.&quot;IdPortafolio&quot;||''
+                    AND RANK = 1;    
+                         
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdPortafolio" order="1">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="Proposito" order="2">
+        <descriptions defaultDescription="Proposito"/>
+        <keyMapping columnObjectName="Script_View" columnName="Proposito"/>
+      </attribute>
+      <attribute id="IdCliente" order="3">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="IdEstado" order="4">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="FechaBloqueo" order="5">
+        <descriptions defaultDescription="FechaBloqueo"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaBloqueo"/>
+      </attribute>
+      <attribute id="ComentarioBloqueo" order="6">
+        <descriptions defaultDescription="ComentarioBloqueo"/>
+        <keyMapping columnObjectName="Script_View" columnName="ComentarioBloqueo"/>
+      </attribute>
+      <attribute id="IdTipoBloqueo" order="7">
+        <descriptions defaultDescription="IdTipoBloqueo"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoBloqueo"/>
+      </attribute>
+      <attribute id="FechaCreacion" order="8">
+        <descriptions defaultDescription="FechaCreacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="FechaIngreso" order="9">
+        <descriptions defaultDescription="FechaIngreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaIngreso"/>
+      </attribute>
+      <attribute id="IdPerfilComercialBaseOrigen" order="10">
+        <descriptions defaultDescription="IdPerfilComercialBaseOrigen"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPerfilComercialBaseOrigen"/>
+      </attribute>
+      <attribute id="IdPerfilProductos" order="11">
+        <descriptions defaultDescription="IdPerfilProductos"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPerfilProductos"/>
+      </attribute>
+      <attribute id="IdPerfilCobros" order="12">
+        <descriptions defaultDescription="IdPerfilCobros"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPerfilCobros"/>
+      </attribute>
+      <attribute id="IdPerfilLimites" order="13">
+        <descriptions defaultDescription="IdPerfilLimites"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPerfilLimites"/>
+      </attribute>
+      <attribute id="DescripcionPortafolio" order="14">
+        <descriptions defaultDescription="DescripcionPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="DescripcionPortafolio"/>
+      </attribute>
+      <attribute id="FechaModificacion" order="15">
+        <descriptions defaultDescription="FechaModificacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaModificacion"/>
+      </attribute>
+      <attribute id="IdTipoDesbloqueo" order="16">
+        <descriptions defaultDescription="IdTipoDesbloqueo"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoDesbloqueo"/>
+      </attribute>
+      <attribute id="FechaDesbloqueo" order="17">
+        <descriptions defaultDescription="FechaDesbloqueo"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaDesbloqueo"/>
+      </attribute>
+      <attribute id="ComentarioDesbloqueo" order="18">
+        <descriptions defaultDescription="ComentarioDesbloqueo"/>
+        <keyMapping columnObjectName="Script_View" columnName="ComentarioDesbloqueo"/>
+      </attribute>
+      <attribute id="CodigoPortafolio" order="19">
+        <descriptions defaultDescription="CodigoPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolio"/>
+      </attribute>
+      <attribute id="IdTelefonoContacto" order="20">
+        <descriptions defaultDescription="IdTelefonoContacto"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTelefonoContacto"/>
+      </attribute>
+      <attribute id="IdDireccionEnvioCorrespondencia" order="21">
+        <descriptions defaultDescription="IdDireccionEnvioCorrespondencia"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdDireccionEnvioCorrespondencia"/>
+      </attribute>
+      <attribute id="Nombres" order="22">
+        <descriptions defaultDescription="Nombres"/>
+        <keyMapping columnObjectName="Script_View" columnName="Nombres"/>
+      </attribute>
+      <attribute id="ApellidoPaterno" order="23">
+        <descriptions defaultDescription="ApellidoPaterno"/>
+        <keyMapping columnObjectName="Script_View" columnName="ApellidoPaterno"/>
+      </attribute>
+      <attribute id="ApellidoMaterno" order="24">
+        <descriptions defaultDescription="ApellidoMaterno"/>
+        <keyMapping columnObjectName="Script_View" columnName="ApellidoMaterno"/>
+      </attribute>
+      <attribute id="IdPersona" order="25">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" order="26">
+        <descriptions defaultDescription="DocumentoIdentidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="FechaCambioPerfil" order="27">
+        <descriptions defaultDescription="FechaCambioPerfil"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCambioPerfil"/>
+      </attribute>
+      <attribute id="IdUsuarioModificacionPerfil" order="28">
+        <descriptions defaultDescription="IdUsuarioModificacionPerfil"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuarioModificacionPerfil"/>
+      </attribute>
+      <attribute id="ALIASGRUPO" order="29">
+        <descriptions defaultDescription="ALIASGRUPO"/>
+        <keyMapping columnObjectName="Script_View" columnName="ALIASGRUPO"/>
+      </attribute>
+      <attribute id="IdEjecutivoPortafolio" order="30">
+        <descriptions defaultDescription="IdEjecutivoPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEjecutivoPortafolio"/>
+      </attribute>
+      <attribute id="AsesorPortafolio" hidden="false" order="31">
+        <descriptions defaultDescription="AsesorPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="AsesorPortafolio"/>
+      </attribute>
+      <attribute id="CodigoAsesorPortafolio" hidden="false" order="32">
+        <descriptions defaultDescription="CodigoAsesorPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoAsesorPortafolio"/>
+      </attribute>
+      <attribute id="CodigoSucursal" hidden="false" order="33">
+        <descriptions defaultDescription="CodigoSucursal"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoSucursal"/>
+      </attribute>
+      <attribute id="Sucursal" hidden="false" order="34">
+        <descriptions defaultDescription="Sucursal"/>
+        <keyMapping columnObjectName="Script_View" columnName="Sucursal"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

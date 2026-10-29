@@ -1,0 +1,150 @@
+SET SCHEMA "BSCL";
+
+/*==============================================================*/
+/* Delete Tables                                                */
+/*==============================================================*/
+
+--DELETE FROM "BSCL.Normativa.BD::DOC.Documento" WHERE "Esquema"='INFTRABCS';
+DELETE FROM "BSCL"."BSCL.Normativa.BD::DOC.Campo" WHERE "Esquema" = 'INFTRABCS';
+DELETE FROM "BSCL.Normativa.BD::DOC.Esquema" WHERE "Esquema"='INFTRABCS';
+DELETE FROM "BSCL.Normativa.BD::DOC.TipoDocumento" WHERE "IdTipoDocumento"='INFTRABCS';
+
+/*==============================================================*/
+/* Insert Table: TipoDocumento                     	            */
+/*==============================================================*/
+
+INSERT INTO "BSCL.Normativa.BD::DOC.TipoDocumento" ("IdTipoDocumento","Descripcion","IdNormativa","Esquema","IdTipoProgramaExportacion","ComprimirSalida")
+VALUES ('INFTRABCS','Informe de Transacciones por Oficio (BCS)','INFOTRANOFIC','INFTRABCS','EXPORTACIONINFTRABCS','S');
+--UPDATE  "BSCL.Normativa.BD::DOC.TipoDocumento" SET "ComprimirSalida"='S' WHERE "IdTipoDocumento"='INFTRABCS';
+
+/*==============================================================*/
+/* Insert Table: Esquema                     	                */
+/*==============================================================*/
+
+INSERT INTO "BSCL.Normativa.BD::DOC.Esquema" ("Esquema", "Version", "Modulo", "Periodicidad", "Objetivo", "PeriodoInicio", "IdEntidadReguladora", "FechaPresentacionLimite", "FechaDatosDesde", "FechaDatosHasta", "CodigoVersionSII")
+VALUES ('INFTRABCS', 'V1', 'NOR', '', '', '', 'SVS', '20160110', '20160101', '9999-01-01', 1);
+
+
+/*==============================================================*/
+/* Insert Table: Campo          	                            */
+/*==============================================================*/
+
+
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales") 
+VALUES ('INFTRABCS', 'V1', 'RutIntorma', '', '',  5, 'Rut Intermediario Informa', 'Ayuda de Rut Intermediario Informa', 'RUT',   15, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ('INFTRABCS', 'V1', 'FechaTransaccion', '', '',  6, 'Fecha Transaccion'  , 'Ayuda de Fecha Transaccion' , 'DATE',    8, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'HoraTransaccion' , '', '',  7, 'Hora Transaccion'         , 'Ayuda de Hora Transaccion'         , 'HORA',    6, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Mercado'   , '', '',  8, 'Mercado'                  , 'Ayuda de Mercado'                  , 'TEXT',    1, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'SistemaTransaccion'   , '', '',  9, 'Sistema Transaccion'      , 'Ayuda de Sistema Transaccion'      , 'TEXT',    4, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'NumeroBolsa'     , '', '', 10, 'Numero Bolsa'             , 'Ayuda de Numero Bolsa'             , 'ID' ,    2, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Folio'     , '', '', 11, 'Folio'                    , 'Ayuda de Folio'                    , 'ID' ,   12, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'RutContraparte'  , '', '', 12, 'Rut Intermediario Contraparte', 'Ayuda de Rut Intermediario Contraparte' , 'RUT',   15, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'NumeroOrden'     , '', '', 13, 'Numero Orden'             , 'Ayuda de Numero Orden'             , 'ID' ,    8, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Nemotecnico'     , '', '', 14, 'Nemotecnico'              , 'Ayuda de Nemotecnico'              , 'TEXT',   20, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'FechaVencimiento', '', '', 15, 'Fecha Vencimiento'        , 'Ayuda de Fecha Vencimiento'        , 'DATE',    8, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'HTipoInstrumento' , '', '', 16, 'Tipo Instrumento H'         , 'Ayuda de Tipo Instrumento'         , 'TEXT',    2, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'HTipoOperacion'   , '', '', 17, 'Tipo Operacion H'           , 'Ayuda de Tipo Operacion'           , 'TEXT',    2, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Persona'   , '', '', 18, 'Persona'                  , 'Ayuda de Persona'                  , 'TEXT',    1, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Plazo'     , '', '', 19, 'Plazo'                    , 'Ayuda de Plazo'                    , 'TEXT',    5, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'CondicionLiquidacion' , '', '', 20, 'Condicion Liquidacion'    , 'Ayuda de Condicion Liquidacion'    , 'TEXT',    2, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'TipoCliente'     , '', '', 21, 'Tipo Cliente'             , 'Ayuda de Tipo Cliente'             , 'TEXT',    1, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'UnidadesTransadas'    , '', '', 22, 'Unidades Transadas'       , 'Ayuda de Unidades Transadas'       , 'DECIMAL',   19, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 4);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Precio'    , '', '', 23, 'Precio'                   , 'Ayuda de Precio'                   , 'DECIMAL',   15, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 4);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Total'     , '', '', 24, 'Total'                    , 'Ayuda de Total'                    , 'DECIMAL',   21, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 4);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'TipoUnidadesTransadas', '', '', 25, 'Tipo Unidades Transadas'  , 'Ayuda de TipoUnidadesTransadas'    , 'TEXT',    2, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'ValorPar'  , '', '', 26, 'Valor Par'                , 'Ayuda de Valor Par'                , 'DECIMAL',    5, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 2);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'TIR'       , '', '', 27, 'TIR'                      , 'Ayuda de TIR'                      , 'DECIMAL',    6, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 2);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Rentabilidad'    , '', '', 28, 'Rentabilidad'             , 'Ayuda de Rentabilidad'             , 'DECIMAL',    6, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 2);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'Nacionalidad'    , '', '', 29, 'Nacionalidad'             , 'Ayuda de Nacionalidad'             , 'TEXT',    1, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'RutCliente', '', '', 30, 'Rut Cliente'              , 'Ayuda de Rut Cliente'              , 'RUT',   30, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'NombreCliente'   , '', '', 31, 'Nombre Cliente'           , 'Ayuda de Nombre Cliente'           , 'TEXT',   30, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'NumeroFactura'   , '', '', 32, 'Numero Factura'           , 'Ayuda de Numero Factura'           , 'ID' ,   12, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'RutAutorizado'   , '', '', 33, 'Rut Autorizado'           , 'Ayuda de Rut Autorizado'           , 'RUT',   10, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'NombreAutorizado', '', '', 34, 'Nombre Autorizado'        , 'Ayuda de Nombre Autorizado'        , 'TEXT',   30, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'TipoOperacion'   , '', '', 35, 'Tipo Operacion'           , 'Ayuda de Tipo Operacion'           , 'TEXT',    2, '', 'N',  'S',  'N', 'N', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'TipoInstrumento' , '', '', 36, 'Tipo Instrumento'         , 'Ayuda de Tipo Instrumento'         , 'TEXT',    2, '', 'N',  'S',  'N', 'N', 'N', 'N', 'N', 'N', '', 0, 0);
+insert into "BSCL"."BSCL.Normativa.BD::DOC.Campo"  ("Esquema", "Version","Nombre", "CodigoSII", "TipoDiccionario", "Orden", "Titulo", "Ayuda", "TipoDato", "Largo", "ValorDefecto", "Obligatorio", "Editable", "ModoMasivo",  "Exportable",  "OcultoEnGrilla", "OcultoEnMantenedor",  "Comun", "Clave", "Grupo", "OrdenCargaExterna", "CantidadDecimales")
+VALUES ( 'INFTRABCS', 'V1', 'CodigoOperador', '', '', 37, 'Codigo Operador'        , 'Ayuda de Codigo Operador'        , 'TEXT',   30, '', 'N',  'S',  'N', 'S', 'N', 'N', 'N', 'N', '', 0, 0);
+
+
+
+/*==============================================================*/
+/*                       Homologacion                           */
+/*==============================================================*/
+DELETE FROM  "BSCL.Normativa.BD::DOC.Homologacion"  WHERE "Esquema"='INFTRABCS' AND "Version"='V1';
+
+
+---BOLSA
+
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(445,'INFTRABCS','V1','BOLSA','BOLSA DE COMERCIO DE SANTIAGO','BCS','01','ACT');
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(446,'INFTRABCS','V1','BOLSA','FUERA DE RUEDA','FRD','00','ACT');
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(447,'INFTRABCS','V1','BOLSA','BOLSA ELECTRONICA','BEC','03','ACT');
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(448,'INFTRABCS','V1','BOLSA','BOLSA DE COMERCIO DE VALPARAISO','BCV','02','ACT');
+  
+---SistemaTransaccion
+
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(449,'INFTRABCS','V1','SISTEMABURSATIL','BCS TELEPREGON','BCSTELEPREGON','RUED','ACT');
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(450,'INFTRABCS','V1','SISTEMABURSATIL','INGRESO MANUAL','MANUAL','RUED','ACT');
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(451,'INFTRABCS','V1','SISTEMABURSATIL','BCS TELERENTA','BCSTELERENTA','RUED','ACT');
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(452,'INFTRABCS','V1','SISTEMABURSATIL','BCS REMATE SERIALIZADO','BCSREMATESERIALIZADO','REMT','ACT');
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(453,'INFTRABCS','V1','SISTEMABURSATIL','BCS REMATE HOLANDES','BCSREMATEHOLANDES','REMT','ACT');
+INSERT INTO "BSCL.Normativa.BD::DOC.Homologacion" ("IdHomologacion","Esquema","Version","Tipo","Descripcion","ValorOrigen","ValorDestino","IdEstado")
+ VALUES(454,'INFTRABCS','V1','SISTEMABURSATIL','BCS REMATE ELECTRONICO','BCSREMATEELECTRONICO','REMT','ACT');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

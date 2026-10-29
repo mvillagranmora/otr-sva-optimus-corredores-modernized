@@ -1,0 +1,373 @@
+<div ng-controller="RenovarPrestamoModalCtrl">
+	<div class="row bcs-cuerpo">
+		<form name="formPrestamo">
+			<div class="row">
+				<label class="col-xs-3 " translate>UI_TIPO_PRESTAMO</label>
+			    <bcs-input-texto
+			    	class = "col-xs-3"
+			    	ng-Model = "data.prtRenovado.NombreTipoPrestamo"
+			    	k-Ng-Disabled = "'true'"
+					>
+				</bcs-input-texto>
+				
+				<label class="col-xs-2  col-xs-offset-1" translate>UI_FOLIO_PRESTAMO</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					k-ng-model="data.FolioPrestamoRelacionado"
+					k-Ng-Disabled="'true'"
+					decimales="0"
+				>
+				</bcs-input-numero>
+
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_CUSTODIA</label>
+				<bcs-input-checkbox ng-disabled="true" ng-model="data.checkTipoCustodia" class="col-xs-4"> </bcs-input-checkbox>
+
+				<label class="col-xs-2" translate>UI_PLAZO_CONSUMIDO</label>
+			    <bcs-input-texto
+			    	class = "col-xs-3"
+			    	ng-Model = "data.PlazoConsumido"
+			    	k-Ng-Disabled = "'true'"
+				>
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MERCADO</label>
+				<bcs-input-texto class="col-xs-9"
+					ng-model="data.prtRenovado.NombreMercado"
+					k-Ng-Disabled="'true'"
+				>
+				</bcs-input-texto> 	
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+				<bcs-input-texto class="col-xs-9" 
+					ng-model="data.prtRenovado.NombreTipoInstrumentoSubyacente"
+					k-Ng-Disabled="'true'"
+					>
+				</bcs-input-texto> 	
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_INSTRUMENTO</label>				
+				<bcs-input-instrumentos class="col-xs-9"
+					ng-model="data.prtRenovado.NemoSubyacente"
+					k-Ng-Disabled="'true'" 
+					buscar-instrumento="data.prtRenovado.NemoSubyacente"
+					datos-instrumento="data.instrumento"
+				>
+				</bcs-input-instrumentos>
+			</div>
+
+			<div class="row" ng-show="data.muestraDatosRF">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_EMISOR</label>
+					<bcs-input-texto class="col-xs-9"
+						ng-model="data.prtRenovado.IdEmisorSubyacente"
+						k-Ng-Disabled="'true'" 
+					 >
+					 </bcs-input-texto >
+				</div>
+			</div>
+			
+			<div class="row" ng-show="data.muestraDatosRF">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_TIPO_REAJUSTE</label>
+					<bcs-input-texto class="col-xs-3"
+						ng-model="data.prtRenovado.IdTipoReajusteSubyacente"
+						k-Ng-Disabled="'true'" 
+					 >
+					</bcs-input-texto >
+					
+				<label class="col-xs-2 col-xs-offset-1" translate ng-show="data.muestraDatosRF">UI_CORTE_MINIMO</label>
+				<bcs-input-monetario ng-show="data.muestraDatosRF"
+					class="col-xs-3"
+					id="UI_CORTE_MINIMO"
+					k-ng-model="data.prtRenovado.CorteMinimo"
+					k-options ="data.corteMinimoOptions"
+					simbolo="data.monedaCorteMinimo"
+					decimales="data.oDecimales.corteMinimo.decimales"
+					k-ng-disabled = "'true'"
+				></bcs-input-monetario>
+					
+				</div>
+			</div>
+			
+	
+			<div class="row" ng-show="data.muestraDatosRF">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_VENCIMIENTO</label>
+					<bcs-input-date class="col-xs-3"
+						k-ng-model="data.kngFechaVencimientoInstr"
+						k-Ng-Disabled="'true'" 
+					>
+					</bcs-input-date>
+				</div>
+			</div>			
+			
+			
+			<hr>
+			<div class="row">
+                 <label class="col-xs-3" translate>UI_CLIENTE</label>
+				 <bcs-input-texto class="col-xs-9"
+					ng-model="data.prtRenovado.RazonSocial"
+					k-Ng-Disabled="'true'" 
+				 >
+				</bcs-input-texto >
+          	</div>
+            <div class="row">
+                 <label class="col-xs-3" translate>UI_PORTAFOLIO</label>
+				 <bcs-input-texto class="col-xs-3"
+					ng-model="data.prtRenovado.DescripcionPortafolio"
+					k-Ng-Disabled="'true'" 
+				 >
+				</bcs-input-texto >
+
+            </div>
+			<hr>
+		<!-- **************** -->
+		<!-- VALORES ACTUALES -->
+		<!-- **************** -->
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CANTIDAD_ACTUAL</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					k-ng-model="data.kngCantidadAct"
+					k-options ="data.cantidadActualOptions"
+					k-Ng-Disabled="'true'"
+					>
+				</bcs-input-numero>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_PRECIO_ACTUAL</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					k-options ="data.precioOptions"
+					simbolo="data.monedaInstrumento"
+					k-ng-model="data.kngPrecioAct"
+					k-Ng-Disabled="'true'"
+					>
+				</bcs-input-monetario>			
+			</div>
+			<div class="row" ng-show="data.muestraDatosRF">
+				<label class="col-xs-3" translate ng-show="data.muestraDatosRF">UI_TASA_ACTUAL</label>
+				<bcs-input-numero ng-show="data.muestraDatosRF"
+					class="col-xs-3"
+					k-ng-model="data.kngTasaAct"
+					k-options ="data.tasaOptions"
+					k-Ng-Disabled="'true'"
+					>
+				</bcs-input-numero>
+				
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO_ACTUAL</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					simbolo="data.monedaInstrumento"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMontoAct"
+					k-options ="data.montoOptions">
+				</bcs-input-monetario>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-3" translate>UI_FECHA_VENCIMIENTO_ACTUAL</label>
+				
+				<bcs-input-date
+					class="col-xs-3"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngFechaVencimientoAct"
+					k-options="data.FechaVencimientoOptions"
+				>
+				</bcs-input-date>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_PLAZO_ACTUAL</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngPlazoAct"
+					k-options ="data.plazoOptions">
+				</bcs-input-numero>
+
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PORCENTAJE_PRIMA_ABR_ACTUAL</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					k-ng-model="data.kngPorcentajePrimaAct"
+					k-ng-disabled="'true'"
+					k-options ="data.porcentajePrimaOptions">
+				</bcs-input-numero>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_PRIMA_ACTUAL</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMontoPrimaAct"
+					simbolo="data.monedaInstrumento"
+					k-options ="data.montoPrimaOptions">
+				</bcs-input-monetario>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO_PLAZO_ACTUAL</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMontoPlazoAct"
+					simbolo="data.monedaInstrumento"
+					k-options ="data.montoPlazoOptions">
+				</bcs-input-monetario>
+			</div>
+			
+		<!-- ******************** -->			
+		<!-- FIN VALORES ACTUALES -->
+		<!-- ******************** -->
+			<hr>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CANTIDAD</label>
+				<bcs-input-numero
+					class="col-xs-3"
+					bcs-requerido
+					k-ng-model="data.kngCantidad"
+					k-options="data.cantidadOptions"
+					k-ng-disabled="false"
+					>
+				</bcs-input-numero>
+				<label class="col-xs-2 col-xs-offset-1" translate ng-show="data.muestraDatosRF">UI_TASA</label>
+				
+				<bcs-input-numero ng-show="data.muestraDatosRF"
+					class="col-xs-3"
+					k-ng-model="data.kngTasa"
+					k-options ="data.tasaOptions"
+					k-ng-Disabled="false"
+					>
+				</bcs-input-numero>
+						
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PRECIO</label>
+                <bcs-input-monetario
+                    class="col-xs-3"
+                    bcs-mayor-que="'0'"
+                    k-options ="data.precioOptions"
+                    simbolo="data.monedaInstrumento"
+                    k-ng-model="data.kngPrecio"
+                    >
+                </bcs-input-monetario>
+				<bcs-button 
+					class="col-xs-2 col-xs-offset-3" 
+					ng-show="data.muestraDatosRF" 
+					style="width: 23%; position: absolute;"
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VALORIZAR' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="data.ObtenerValorizacion()">
+				</bcs-button>
+			</div>
+
+			<div class="row">				
+				<label class="col-xs-3" translate>UI_MONTO</label>
+                <bcs-input-monetario
+                    class="col-xs-3"
+                    bcs-mayor-que="'0'"
+                    simbolo="data.monedaInstrumento"
+                    k-ng-disabled="'true'"
+                    k-ng-model="data.kngMonto"
+                    k-options ="data.montoOptions">
+                </bcs-input-monetario>
+
+			</div>
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CONDICION_LIQUIDACION</label>
+				
+				<bcs-input-condicion-liquidacion
+					class = "col-xs-3"
+					bcs-requerido
+					set-id-condicion-liquidacion = "data.kngIdCondicionLiquidacion"
+					fecha-inicial 				 = "data.fechaInicial"
+					condicion-de-liquidacion 	 = "data.kngCondicionLiquidacion"
+					id-tipo-operacion 			 = "data.idTipoOperacion"
+					fecha-liquidacion 			 = "data.kngFechaLiquidacion"
+					activado 					 = "'true'">
+				</bcs-input-condicion-liquidacion>
+
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PLAZO_VENCIMIENTO</label>
+				<bcs-input-plazo
+					id="RenovarPrestamoModal_InputPlazoVencimiento"
+					class="col-xs-3"
+					activa-fecha="data.PlazoVencimientoActivaFecha"
+					activa-plazo="data.PlazoVencimientoActivaPlazo"
+					todo-dias="data.prtRenovado.EsDiaHabilPlazoPrestamo !== 'S'"
+					bcs-menor-igual-que="data.MaximoDiasPrestamo"
+					bcs-mayor-igual-que="data.MinimoDiasPrestamo"
+					fecha-inicial="data.UsaFechaLiquidacionEnVencimiento && data.kngFechaLiquidacion !== undefined? data.kngFechaLiquidacion : data.fechaSistema"
+					fecha-vencimiento="data.kngFechaVencimiento"
+					plazo="data.kngPlazo"
+					id-tipo-operacion="data.prtRenovado.IdTipoOperacion"
+					id-condicion-de-liquidacion="data.PlazoVencimientoIdCondicionLiquidacion"
+					bcs-requerido="true"
+					dias-habiles="data.prtRenovado.EsDiaHabilPlazoPrestamo"
+				>
+				</bcs-input-plazo>
+			</div>
+			<div class="row"  ng-show="false"> <!-- para mantener calculado el monto en moneda instrumento -->
+				<bcs-input-monetario
+					class="col-xs-3"
+					simbolo="data.monedaInstrumento"
+					k-ng-disabled="'true'"
+					k-ng-model="data.kngMontoMdaInstr"
+					k-options ="data.montoOptions">
+				</bcs-input-monetario>
+			</div>
+			<div class="row">
+                <label class="col-xs-3" translate>UI_PORCENTAJE_PRIMA_ABR</label>
+                <bcs-input-numero
+                    class="col-xs-3"
+                    bcs-mayor-que="'0'"
+                    k-ng-model="data.kngPorcentajePrima"
+                    k-options ="data.porcentajePrimaOptions"
+                    >
+                </bcs-input-numero>
+                <label class="col-xs-2 col-xs-offset-1" translate>UI_PRIMA</label>
+                <bcs-input-monetario
+                    class="col-xs-3"
+                    bcs-mayor-igual-que="'0'"
+                    k-ng-model="data.kngMontoPrima"
+                    simbolo="data.monedaInstrumento"
+                    k-options ="data.montoPrimaOptions"
+                    k-ng-disabled="'true'">
+                </bcs-input-monetario>
+            </div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO_PLAZO</label>
+                <bcs-input-monetario
+                    class="col-xs-3"
+                    bcs-mayor-que="'0'"
+                    k-ng-disabled="'true'"
+                    k-ng-model="data.kngMontoPlazo"
+                    simbolo="data.monedaInstrumento"
+                    k-options ="data.montoPlazoOptions">
+                </bcs-input-monetario>
+			</div>					
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button 
+			class="col-xs-2" 
+			ng-show="'true'" 
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GRABAR' | translate" 
+			bcs-habilitado="data.yaValorizo && data.accionDisabled && formPrestamo.$valid" 
+			bcs-clic="data.RenovarPrestamo()">
+		</bcs-button>
+
+		<bcs-button 
+			class="col-xs-2" 
+			ng-show="'true'" 
+			bcs-tipo="'bcs-button-secondary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CERRAR' | translate" 
+			bcs-habilitado="data.accionDisabled" 
+			bcs-clic="data.btnCerrar(false)">
+		</bcs-button>
+	</div>
+</div>

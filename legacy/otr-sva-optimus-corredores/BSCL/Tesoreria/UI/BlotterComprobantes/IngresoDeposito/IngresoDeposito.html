@@ -1,0 +1,137 @@
+<div class="col-xs-12" ng-controller="IngresoDepositosCtrl">
+	<div class="bcs-cuerpo">
+		<div class="row">
+			<!--- INICIO FORMULARIO -->
+			<form name="frmCrearDeposito" class="col-xs-12 form-horizontal">
+				<div class="row">
+					
+					<div class="col-xs-12">						
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_CUENTAS_BANCARIAS</label>
+							<bcs-combobox-base class="col-xs-9"
+								bcs-requerido							
+								tipo			= "data.oConfiguracionCuentaBancoCorredora.tipo" 
+								configuracion	= "data.oConfiguracionCuentaBancoCorredora.configuracion" 				
+								seleccionado	= "data.oConfiguracionCuentaBancoCorredora.seleccionado"
+								filtros			= "data.oConfiguracionCuentaBancoCorredora.filtros" 
+								id-actual		= "data.oConfiguracionCuentaBancoCorredora.idActual"
+								id-defecto		= "data.oConfiguracionCuentaBancoCorredora.idDefecto">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_TIPO_CUENTA_BANCARIA</label>
+							<bcs-input-texto class="col-xs-8"
+								name="uTipoCuentaCorredora" 
+								ng-model="data.TipoCuentaCorredora" 
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>
+					</div>
+
+					<div class="col-xs-12">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_BANCO</label>
+							<bcs-input-texto class="col-xs-9"
+								name="uBancoCuentaCorredora" 
+								ng-model="data.BancoCuentaCorredora" 
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_NUMERO_CUENTA</label>
+							<bcs-input-texto class="col-xs-8"
+								name="uNumeroCuentaCorredora" 
+								ng-model="data.NumeroCuentaCorredora" 
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>
+					</div>
+					
+					<div class="col-xs-12">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_SUCURSAL</label>
+							<bcs-input-texto class="col-xs-9"
+								name="uSucursal" 
+								ng-model="data.Sucursal" 
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_PLAZA</label>
+							<bcs-input-texto class="col-xs-8"
+								name="uPlaza" 
+								ng-model="data.Plaza" 
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>
+					</div>
+
+					<div class="col-xs-12">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_MONEDA</label>
+							<bcs-input-texto class="col-xs-9"
+								name="uMonedaCuentaCorredora" 
+								ng-model="data.MonedaCuentaCorredora" 
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>
+
+						<div class="col-xs-2 bcs-checkLabel">
+							<label style="padding-left: 15px; padding-right: 5px;" translate>UI_MISMO_BANCO</label>
+						  	<bcs-input-checkbox id="frmCrearDeposito_MismoBanco" ng-model="data.MismoBanco" ></bcs-input-checkbox>
+						</div>
+						<div class="col-xs-2 bcs-checkLabel">
+						  	<label style="padding-left: 15px; padding-right: 5px;" translate>UI_OTROS_BANCOS</label>
+						  	<bcs-input-checkbox type="checkbox" id="frmCrearDeposito_OtroBanco" ng-model="data.OtrosBanco" ></bcs-input-checkbox>
+						</div>
+						<div class="col-xs-2 bcs-checkLabel">
+						  	<label style="padding-left: 15px; padding-right: 5px;" translate>UI_SOLO_EFECTIVO</label>
+						  	<bcs-input-checkbox type="checkbox" id="frmCrearDeposito_SoloEfectivo" ng-model="data.SoloEfectivo"></bcs-input-checkbox>
+						</div>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+		<div class="row">
+			<bcs-grid 	id = "grid-documentos-tesoreria"
+				configuracion     = "confBasicaDocumentos"
+				seleccionado      = "seleccionDocumentos"
+				fn-exportar-excel = "exportarExcel">
+			</bcs-grid>
+		</div>
+	</div>
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-2" 
+			bcs-tipo="'bcs-button-primary'"  
+			bcs-auto-desactivar="false"  
+			bcs-texto="'UI_INGRESO' | translate" 
+			bcs-habilitado="seleccionDocumentos"  
+			bcs-clic="ingresarDeposito()"
+		></bcs-button>
+		<bcs-button  class="col-xs-2" 
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="false"  
+			bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-habilitado="true"  
+			bcs-clic="cancelar()"
+		></bcs-button>
+		
+		<!--<div class="col-xs-2">-->
+			<label class="col-xs-2" style="padding-left: 15px; padding-top: 8px;" translate>UI_TOTAL_DEPOSITO</label>
+			<bcs-input-monetario  class="col-xs-2" style="padding-top: 5px;"
+				id="frmCrearDeposito_TotalDeposito" 
+				ng-model		="data.TotalDeposito" 
+				k-ng-disabled	="'true'"
+				simbolo			="data.TotalDepositoSimbolo"
+				decimales		="data.TotalDepositoDecimales">
+			</bcs-input-monetario>
+		<!--</div>-->
+
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+	</div> 	
+	
+</div>

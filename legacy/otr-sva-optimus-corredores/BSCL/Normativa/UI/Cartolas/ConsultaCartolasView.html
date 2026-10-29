@@ -1,0 +1,91 @@
+<div ng-controller="ConsultaCartolasController">
+    <div class="col-xs-9">
+        <div class="row">
+            <label class="col-xs-2" translate>UI_CLIENTE</label>
+            <bcs-combobox-base class="col-xs-10"
+                id="UI_CLIENTE"
+                auto-cargar="'false'"
+                bcs-requerido
+                tipo="'combobox-socio-negocio'"
+                filtros="configSocioNegocio.filtros"
+                cascada-a="configPortafolio.filtros.IdCliente"
+                cascada-valor="'IdCliente'"
+                cascada-defecto="'-1'"
+                id-actual="IdCliente"
+                seleccionado="ClienteSeleccionado">
+            </bcs-combobox-base>
+        </div>
+        <div class="row">
+            <label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+            <bcs-combobox-base class="col-xs-10"
+                id="UI_PORTAFOLIO"
+                auto-cargar="'false'"
+                bcs-requerido
+                tipo="'combobox-portafolio'"
+                filtros="configPortafolio.filtros"
+                item-post-filtro="'1'"
+                id-actual="IdPortafolio"
+                seleccionado="PortafolioSeleccionado">
+            </bcs-combobox-base>
+        </div>
+        <div class="row">
+            <label class="col-xs-2" translate>UI_ANO</label>
+            <bcs-input-date-month class="col-xs-5" k-options="pct.FecOptions" k-ng-model="pct.FecInicio"></bcs-input-date-month>
+            <bcs-input-date-month class="col-xs-5" k-options="pct.FecOptions" k-ng-model="pct.FecFin"></bcs-input-date-month>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="row col-xs-12">
+            <bcs-button
+				bcs-tipo="'bcs-button-search'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_BUSCAR' | translate"
+				bcs-habilitado="'true'"
+				bcs-clic="buscarCartolas()">
+			</bcs-button>
+        </div>
+        <div class="row col-xs-12">
+            <bcs-button
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="'false'"
+				bcs-texto="'UI_LIMPIAR' | translate"
+				bcs-habilitado="'true'"
+				bcs-clic="limpiarFiltros()">
+			</bcs-button>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <bcs-grid id="gridDescargaCartolas"
+            configuracion="configuracionGrillaDescargaCartolas"
+            seleccionado="CartolaSeleccionada"
+            >
+        </bcs-grid>
+    </div>
+    <div class="row bcs-panel-comandos">
+        <hr>
+        <label class="col-xs-1" translate>UI_FECHA</label>
+        <bcs-input-date class="col-xs-3" style="width: 26%;" todo-dias="true" k-ng-model="FechaHasta"></bcs-input-date>
+        
+   		<label class="col-xs-1" translate>UI_MONEDA</label>
+		<bcs-combobox-base 
+			
+			class="col-xs-4"
+			id="MonedaCartola"
+			auto-cargar="'true'"
+			id-post-filtro="'CLP'"
+            style="width: 26%;"
+			tipo = "'combobox-moneda'"							
+			seleccionado="MonedaCartola.seleccionado"
+			filtros="MonedaCartola.filtroMoneda"
+   	        id-actual="MonedaCartola.idActual">
+		</bcs-combobox-base>
+        <bcs-button class="col-xs-3 pull-right"
+            bcs-tipo="'bcs-button-input-form'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_OBTENER_ONLINE' | translate"
+            bcs-habilitado="verCartolaHabilitado"
+            ng-show = "'true'"
+            bcs-clic="obtenerOnline()">
+        </bcs-button> 
+    </div>
+</div>

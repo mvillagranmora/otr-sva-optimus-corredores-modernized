@@ -1,0 +1,27 @@
+/********************************************************** 
+Proposito	: 
+autor		: NRM
+fecha		: 08/02/2018
+***********************************************************/
+
+
+INSERT INTO "BSCL.Normativa.BD::CAR.Cartola" (
+	"IdNomina", 
+	"IdCartola", 
+	"IdCliente", 
+	"IdPortafolio", 
+	"MensajeProceso", 
+	"EstadoProceso", 
+	"Notificar", 
+	"Reprocesar"
+)
+VALUES(
+	:IdNomina, 
+	"BSCL.Normativa.BD.Secuencias::CAR.Global".NEXTVAL, 
+	:IdCliente, 
+	:IdPortafolio, 
+	:MensajeProceso, 
+	:EstadoProceso, 
+	'NO', 
+	'NO'
+);

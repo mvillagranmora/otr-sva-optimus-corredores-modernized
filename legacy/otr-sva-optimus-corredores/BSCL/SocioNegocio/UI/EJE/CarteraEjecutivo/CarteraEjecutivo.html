@@ -1,0 +1,103 @@
+<div ng-controller="CarteraEjecutivoCtrl as ci">	
+	<div class="row" ng-show="ci.vista=='MASTER'">
+		<div class="row">
+			<label class="col-xs-2" translate>UI_NOMBRE</label>
+			<bcs-input-texto 
+				k-ng-disabled="false" 
+				class="col-xs-6"
+				ng-model="ci.maestro.nombre"
+				bcs-requerido="false">
+			</bcs-input-texto>
+			<bcs-button 
+				class="col-xs-3 col-xs-offset-1" 
+				bcs-tipo="'bcs-button-primary'" 
+				ng-show="true" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CREAR' | translate" 
+				bcs-habilitado="ci.maestro.nombre"  
+				bcs-clic="ci.maestro.crear()">
+			</bcs-button>	
+		</div>
+		<br>
+		<div class="row">
+			<bcs-grid 
+				configuracion="ci.maestro.configTabla"
+				seleccionado="ci.maestro.seleccionado">
+			</bcs-grid>		
+		</div>
+		<div class="row bcs-panel-comandos alignButtonsToRight">
+			<bcs-button
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-primary'" 
+				ng-show="true" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_DETALLE' | translate" 
+				bcs-habilitado="ci.maestro.seleccionado"  
+				bcs-clic="ci.maestro.verDetalle()">
+			</bcs-button>
+			<bcs-button
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-secondary'" 
+				ng-show="true" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="ci.maestro.seleccionado"  
+				bcs-clic="ci.maestro.eliminar()">
+			</bcs-button>
+		</div>		
+ 	</div>
+ 	<div class="row" ng-show="ci.vista=='DETAIL'">
+ 		<div class="row">
+			<label class="col-xs-3">{{'Nombre Cartera: '+ci.maestro.seleccionado.NombreCarteraEjecutivo}}</label>
+		</div>
+		<hr><br>
+ 		<div class="row">
+			<label class="col-xs-2" translate>UI_EJECUTIVO</label>
+			<bcs-combobox-base 
+                id = "CarteraEjecutivoForm_comboEjecutivo"
+                class="col-xs-6"
+                tipo="'combobox-ejecutivo'"
+                filtros="ci.detalle.configuracionEjecutivos.filtros"
+                bcs-requerido
+                id-actual = "ci.detalle.configuracionEjecutivos.idActual"
+                seleccionado = "ci.detalle.configuracionEjecutivos.Seleccionado">
+            </bcs-combobox-base >
+			<bcs-button 
+				class="col-xs-3 col-xs-offset-1" 
+				bcs-tipo="'bcs-button-primary'" 
+				ng-show="true" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_AGREGAR' | translate" 
+				bcs-habilitado="ci.detalle.configuracionEjecutivos.idActual"  
+				bcs-clic="ci.detalle.agregar()">
+			</bcs-button>	
+		</div>
+		<br>
+		<div class="row">
+			<bcs-grid 
+				configuracion="ci.detalle.configTabla"
+				seleccionado="ci.detalle.seleccionado">
+			</bcs-grid>		
+		</div>
+		<div class="row bcs-panel-comandos alignButtonsToRight">
+			<bcs-button
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-primary'" 
+				ng-show="true" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_VOLVER' | translate" 
+				bcs-habilitado="true"  
+				bcs-clic="ci.detalle.volver()">
+			</bcs-button>
+			<bcs-button
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-secondary'" 
+				ng-show="true" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="ci.detalle.seleccionado"  
+				bcs-clic="ci.detalle.eliminar()">
+			</bcs-button>
+		</div>				
+ 	</div>
+</div>

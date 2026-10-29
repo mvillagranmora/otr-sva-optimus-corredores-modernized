@@ -1,0 +1,218 @@
+<div id="ConsultarMovimientosEnTransitoHistorico" class="row" ng-controller='ConsultarMovimientosEnTransitoHistoricoCtrl'>
+	<form name="frmCarteras">
+		<div class="col-xs-10">
+			<div class="row" ng-if="!MostrarProducto">
+				<div class="col-xs-8">
+					<label class="col-xs-3"  style="width: 20.8333% !important;" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-9" style="width: 79.1667%;"
+						id="UI_SOCIO_NEGOCIO"
+						auto-cargar="'false'" 
+						carga-cliente-automatico="'S'"
+						id-actual="data.filtros.IdPortafolio"
+						id-defecto="data.oClientePortafolio.idDefecto"
+						tipo="data.oClientePortafolio.tipo"
+						seleccionado="data.oClientePortafolio.seleccionado"
+						filtros="filtrosPortafolio"
+						activado="data.oClientePortafolio.activado"
+						configuracion="data.oClientePortafolio.configuracion">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row" ng-if="MostrarProducto">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_CLIENTE</label>
+					<bcs-combobox-base
+						class				= "col-xs-7"
+						id					= "UI_CLIENTE"
+						auto-cargar			= "'false'"
+						tipo				= "'combobox-socio-negocio'"
+						seleccionado		= "oSocioNegocio.seleccionado"
+						filtros				= "oSocioNegocio.filtros"
+						cascada-a			= "oPortafolio.filtros.IdCliente"
+						cascada-valor		= "'IdCliente'"
+						id-actual			= "oSocioNegocio.idActual">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+				    <label class="col-xs-5" translate>UI_PRODUCTO</label>
+				    <bcs-combobox-base
+				    	class				= "col-xs-7"
+				        id					= "UI_PRODUCTO"
+				        auto-cargar			= "'true'"
+				        tipo				= "'combobox-otro-producto-agrupador'"
+				        seleccionado		= "oProducto.seleccionado"
+						cascada-a			= "oPortafolio.filtros.IdProductoAgrupador"
+						cascada-valor		= "'IdProductoAgrupador'"
+						id-actual			= "oProducto.idActual"
+						item-post-filtro    ="'1'">
+				    </bcs-combobox-base >
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_PORTAFOLIO</label> 
+					<bcs-combobox-base
+						class				= "col-xs-7"
+						id					= "UI_PORTAFOLIO"
+						auto-cargar			= "'false'"
+						tipo				= "'combobox-portafolio'"
+						seleccionado		= "oPortafolio.seleccionado"
+						filtros				= "oPortafolio.filtros"
+						id-actual			= "oPortafolio.idActual"
+						usa-filtros-completos = "'S'"
+						activado			= "oSocioNegocio.seleccionado && oProducto.seleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base
+						class="col-xs-7"
+						tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+						id-actual="filtro.clasificacionTipoInstrumento"
+						seleccionado="filtro.clasificacionTipoInstrumentoObj" 
+						cascada-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada-valor="'IdClasificacionTipoInstrumento'"
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_TIPO_INSTRUMENTO_ABR</label>
+					<bcs-combobox-base
+						class="col-xs-7"
+						tipo="data.oConfiguracionTipoInstrumento.tipo"
+						filtros="data.oConfiguracionTipoInstrumento.filtros"
+						id-actual="filtro.tipoInstrumento"
+						seleccionado="filtro.tipoInstrumentoObj" 
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos 
+						class="col-xs-7" 
+						datos-instrumento="filtro.instrumento"
+						buscar-instrumento="filtro.buscarinstrumento" 
+						filtro-estado = "'ACT'">
+					</bcs-input-instrumentos>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_ESTADO</label>
+					<bcs-combobox-base
+						class="col-xs-7" 
+						tipo="data.oConfiguracionEstadoMovimiento.tipo"
+						filtros="data.oConfiguracionEstadoMovimiento.filtros"
+						id-actual="filtro.estado"
+						seleccionado="filtro.estadoObj"
+						todos="'S'"
+						item-post-filtro="'1'" >
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_MONEDA</label>
+					<bcs-combobox-base
+						class="col-xs-7"
+						tipo="data.oConfiguracionMoneda.tipo"
+						id-actual="filtro.moneda"
+						seleccionado="filtro.monedaObj"
+						todos="'S'"
+						item-post-filtro="'1'" >
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_OPERACION</label>
+					<bcs-combobox-base
+						class="col-xs-7"
+						tipo="data.oConfiguracionTipoOperacionCustodia.tipo"
+						id-actual="filtro.accion.idActual"
+						seleccionado="filtro.accion.seleccionado" 
+						todos="'S'"
+						item-post-filtro="'1'" >
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_FECHA_DESDE</label>
+					<bcs-input-date class="col-xs-7" ng-model="filtro.fecIniciong" k-ng-model="filtro.fecInicio"></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_FECHA_HASTA</label> 
+					<bcs-input-date class="col-xs-7" ng-model="filtro.fecTerminong" k-ng-model="filtro.fecTermino"></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_CONCEPTO</label>
+					<bcs-combobox-base
+						class="col-xs-7"
+						tipo="data.oConfiguracionConceptoCustodia.tipo"
+						id-actual="filtro.concepto.idActual"
+						seleccionado="filtro.concepto.seleccionado"
+						todos="'S'"
+						item-post-filtro="'1'" >
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row">
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_FECHA_LIQUIDACION_DESDE</label>
+                    <bcs-input-date class="col-xs-7" ng-model="filtro.fecIniciong"
+                        k-ng-model="filtro.fecInicioLiq"></bcs-input-date>
+                </div>
+                <div class="col-xs-4">
+                    <label class="col-xs-5" translate>UI_FECHA_LIQUIDACION_HASTA</label>
+                    <bcs-input-date class="col-xs-7" ng-model="filtro.fecTerminong"
+                        k-ng-model="filtro.fecTerminoLiq"></bcs-input-date>
+                </div>
+            </div>
+			
+			<div class="row">			
+				<div class="col-xs-2">
+					<label class="col-xs-7" translate>UI_GENERA_TRASPASO</label>
+					<bcs-input-checkbox 
+						class="col-xs-2"
+						ng-model="filtro.generaTraspaso">
+					</bcs-input-checkbox>
+				</div>
+			</div>				
+		</div>
+	</form>
+	
+	<div class="col-xs-2">
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="buscarHistorico()"></bcs-button>
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="limpiarFiltros()"></bcs-button>
+  	</div>
+	
+	<div class="col-xs-12">
+		<div class="row" >
+			<bcs-grid
+				id="grid-movimientos-en-transito-historico"
+				configuracion = "confBasicaMovimientosEnTransitoHistorico"
+				seleccionado = "seleccionMovimientosEnTransitoHistorico"
+				fn-exportar-excel="excelTransitoHistorico">
+			</bcs-grid>
+		</div>
+		
+		<div class= "row">
+			<div class="col-xs-12 bcs-panel-comandos">
+				<bcs-button id="CartaTraspaso" class="col-xs-2" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-habilitado="seleccionMovimientosEnTransitoHistorico"  bcs-texto="'UI_VER_CARTA_TRASPASO' | translate"       bcs-habilitado="true"   bcs-clic="descargarCartaTraspaso()"></bcs-button>
+				<bcs-button id="ConsultarMovimientosEnTransitoHistorico_ObtenerComprobante" bcs-tipo="'bcs-button-secondary'"  class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_OBTENER_COMPROBANTE' | translate" bcs-habilitado="'true'" bcs-clic="obtenerComprobante()"></bcs-button>
+				<bcs-button id="AnularMovimientosEnTransitoHistorico"  class="col-xs-1" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="true" bcs-habilitado="seleccionMovimientosEnTransitoHistorico" bcs-texto="'UI_ANULAR_MOVIMIENTO' | translate" bcs-clic="anularComprobante()"></bcs-button>
+				<bcs-button id="ContrapartidaMovimientosEnTransitoHistorico"  class="col-xs-3" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="true" bcs-habilitado="seleccionMovimientosEnTransitoHistorico" bcs-texto="'UI_GENERAR_CONTRAPARTIDA_GARANTIA' | translate" bcs-clic="generarContrapartidaComprobante()"></bcs-button>
+				<bcs-button id="TraspasoCustodiaEmisorHistorico" class="col-xs-3" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-habilitado="seleccionMovimientosEnTransitoHistorico"  bcs-texto="'UI_VER_TRASPASO_CUSTODIA_EMISOR' | translate"       bcs-habilitado="true"   bcs-clic="descargarTraspasoHistoricoCustodiaEmisor()"></bcs-button>
+				<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">		            
+					<li ng-click="excelTransitoHistorico('MovimientosEnTransitoHistorico')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+				</bcs-menu>
+			</div>
+			<!--<bcs-button  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="'false'" bcs-texto="'UI_ANULAR' | translate"  bcs-habilitado="'true'" bcs-clic="enviarAnular()"></bcs-button>-->
+			
+		</div>
+	</div>
+</div>

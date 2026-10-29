@@ -1,0 +1,250 @@
+<div id="PrestamosVigentes" class="row"
+	ng-controller="PrestamosVigentesCtrl">
+	<div class="col-xs-12 bcs-cuerpo">
+		<!--- INICIO FORMULARIO -->
+		<div class="row">
+			<form name="formPrestamos">
+				<!-- FILTROS -->
+				<div class="col-xs-10">
+					<div class="row">
+						<div class="col-xs-5">
+							<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base class="col-xs-9" id="UI_SOCIO_NEGOCIO"
+								carga-cliente-automatico="'S'" auto-cargar="'true'"
+								id-actual="filtros.IdPortafolio" 
+								tipo="oClientePortafolio.tipo"
+								seleccionado="oClientePortafolio.seleccionado"
+								filtros="filtrosPortafolio"
+								configuracion="oClientePortafolio.configuracion">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-5">
+							<label class="col-xs-3" style="padding-left: 15px" translate>UI_FOLIO_PRESTAMO</label>
+							<bcs-input-numero class="col-xs-7" ng-model="folioPrestamo"
+								k-ng-model="folioPrestamoObj"
+								k-options="{ format : 'n0', min:0, spinners: false }">
+							</bcs-input-numero>
+						</div>
+						<div class="col-xs-2">
+							<div class="col-xs-2">
+								<bcs-input-checkbox id="formPrestamos_chkFechaOperacion"
+									ng-model="chkFechaOperacion"></bcs-input-checkbox>
+							</div>
+							<label class="col-xs-9" translate>UI_FECHA_OPERACION</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-5">
+							<label class="col-xs-3" translate>UI_TIPO_PRESTAMO</label>
+							<bcs-combobox-base class="col-xs-9" auto-cargar="'true'"
+								bcs-requerido tipo="oConfiguracionTipoPrestamo.tipo"
+								filtros="oConfiguracionTipoPrestamo.filtros"
+								configuracion="oConfiguracionTipoPrestamo.configuracion"
+								id-actual="oConfiguracionTipoPrestamo.idActual"
+								seleccionado="oConfiguracionTipoPrestamo.seleccionado"
+								todos="'S'" item-post-filtro="'1'"> </bcs-combobox-base>
+						</div>
+						<div class="col-xs-5">
+							<label class="col-xs-3" style="padding-left: 15px" translate>UI_FECHA_CONSULTA</label>
+							<bcs-input-date class="col-xs-7" bcs-requerido
+								k-ng-model="kngFecha" k-options="FechaConsultaOpt">
+							</bcs-input-date>
+						</div>
+						<div class="col-xs-2">
+							<div class="col-xs-2">
+								<bcs-input-checkbox id="formPrestamos_chkFechaVencimiento"
+									ng-model="chkFechaVencimiento"></bcs-input-checkbox>
+							</div>
+							<label class="col-xs-10" translate>UI_FECHA_VENCIMIENTO</label>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-5">
+							<label class="col-xs-3" translate>UI_MERCADO</label>
+							<bcs-combobox-base 
+								class="col-xs-9" 
+								auto-cargar="'true'"
+								bcs-requerido 
+								tipo="oConfiguracionClasificacionTipoInstrumento.tipo"
+								filtros="oConfiguracionClasificacionTipoInstrumento.filtros"
+								configuracion="oConfiguracionClasificacionTipoInstrumento.configuracion"
+								id-actual="oConfiguracionClasificacionTipoInstrumento.idActual"
+								seleccionado="oConfiguracionClasificacionTipoInstrumento.seleccionado"
+								todos="'S'" item-post-filtro="'1'"> 
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-5">
+							<label class="col-xs-10" style="padding-left: 15px" translate></label>
+						</div>
+						<div class="col-xs-2">
+							<div class="col-xs-2"></div>
+							<label class="col-xs-10" translate></label>
+						</div>
+					</div>
+					
+
+
+				</div>
+				<!-- INICIO BOTONES -->
+				<div class="col-xs-2">
+					<div class="row">
+						<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+							bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+							bcs-habilitado="'true' && formPrestamos.$valid"
+							bcs-clic="btnBuscar()"></bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="'false'"
+							bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="'true'"
+							bcs-clic="btnLimpiar()"></bcs-button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+
+		<div class="row">
+			<uib-tabset> <uib-tab index="1" active="tab.t1"
+				id="tab-grid-prestamos" select="select('grid-prestamos')"
+				heading="{{'UI_PRESTATARIOS' | translate}}"> <!-- api = "prestamos.apiPrestamos" -->
+			<bcs-grid id="grid-prestamos"
+				configuracion="prestamos.confBasicaPrestamos"
+				fn-exportar-excel="prestamos.exportarExcel"
+				seleccionado="prestamos.selPrestamos">
+			<div bcs-grid-detail ng-non-bindable>
+				<div class="row" >
+					<uib-tabset style="width: 900px;"> <uib-tab
+						heading="{{'UI_EMPRESTITOS' | translate}}"> <!-- api 			= "grid.prestamos.emprestitos.apiPrestamoEmprestitos" -->
+					<bcs-grid id="grid-prestamo-emprestitos"
+						configuracion="prestamos_emprestitos_confGridPrestamoEmprestitos(dataItem)"
+						seleccionado="grid.prestamos.emprestitos.selPrestamoEmprestitos">
+					</bcs-grid>
+					<div class="row bcs-panel-comandos">
+						<bcs-button class="col-xs-1" ng-show="'true'" bcs-tipo="'bcs-button-primary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_ASIGNAR' | translate"
+							bcs-habilitado="'true'"
+							bcs-clic="grid.prestamos.emprestitos.btnIngresarDetalle()"></bcs-button>
+						<bcs-button class="col-xs-1" ng-show="'true'" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_DESASIGNAR'   | translate"
+							bcs-habilitado="grid.prestamos.emprestitos.selPrestamoEmprestitos.IdEstado == 'VIG'"
+							bcs-clic="grid.prestamos.emprestitos.btnAnularDetalle()"></bcs-button>
+						<!-- rfernandez: no se pueden anticipar ni reversar anticipos 	
+						<bcs-button class="col-xs-1" ng-show="'true'" bcs-tipo="''"
+							bcs-auto-desactivar="false" bcs-texto="'UI_REVERSAR' | translate"
+							bcs-habilitado="reversarDetalleDisabled"
+							bcs-clic="btnReversarDetalle()"></bcs-button>
+						-->
+						<bcs-button class="col-xs-1" style="width: 150px" ng-show="'true'" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_ANTICIPAR_PRESTAMISTA' | translate"
+							bcs-habilitado="grid.prestamos.emprestitos.selPrestamoEmprestitos.IdEstado == 'VIG'"
+							bcs-clic="grid.prestamos.emprestitos.btnAnticiparDetalle()"></bcs-button>
+							
+						<!-- La tasa se debe modificas desde el prestatario
+						<bcs-button class="col-xs-1" ng-show="'true'" bcs-tipo="''"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_MODIFICAR'  | translate"
+							bcs-habilitado="grid.prestamos.emprestitos.selPrestamoEmprestitos.IdEstado == 'VIG'"
+							bcs-clic="grid.prestamos.emprestitos.btnModificarEmprestito()"></bcs-button>
+						-->
+						<bcs-button class="col-xs-1" ng-show="'true'" bcs-tipo="'bcs-button-secondary'"
+							id="rtre"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_ANEXO_2'  | translate"
+							bcs-habilitado="grid.prestamos.emprestitos.selPrestamoEmprestitos"
+							bcs-clic="grid.prestamos.emprestitos.anexo2()"></bcs-button>
+					</div>
+					<div class="row">
+						<br>
+					</div>
+					</uib-tab> <uib-tab heading="{{'UI_ANTICIPOS' | translate}}"> <!-- api 			= "grid.prestamos.anticipos.apiPrestamoAnticipos" -->
+					<bcs-grid id="grid-prestamo-anticipos"
+						configuracion="prestamos_anticipos_confGridPrestamoAnticipos(dataItem)"
+						seleccionado="grid.prestamos.anticipos.selPrestamoAnticipos">
+					</bcs-grid>
+					<div class="row bcs-panel-comandos">
+						<bcs-button class="col-xs-1" ng-show="'true'" bcs-tipo="'bcs-button-primary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_INGRESAR' | translate"
+							bcs-habilitado="'true'"
+							bcs-clic="grid.prestamos.emprestitos.btnIngresarDetalle()">
+						</bcs-button>
+					</div>
+					</uib-tab> </uib-tabset>
+				</div>
+			</div>
+			</bcs-grid> </uib-tab> <uib-tab index="2" active="tab.t2" id="tab-grid-emprestitos"
+				select="select('grid-emprestitos');"
+				heading="{{'UI_PRESTAMISTAS'| translate}}"> <!-- api = "emprestitos.apiEmprestitos" -->
+			<bcs-grid id="grid-emprestitos"
+				configuracion="emprestitos.confBasicaEmprestitos"
+				fn-exportar-excel="emprestitos.exportarExcel"
+				seleccionado="emprestitos.selEmprestitos">
+			<div bcs-grid-detail ng-non-bindable>
+				<div class="row">
+					<uib-tabset> <uib-tab
+						heading="{{'UI_PRESTAMO' | translate}}"> <bcs-grid
+						id="grid-emprestito-prestamo"
+						configuracion="emprestitos_prestamo_confGridEmprestitoPrestamo(dataItem)"
+						seleccionado="grid.emprestitos.prestamo.selEmprestitoPrestamo">
+					</bcs-grid> </uib-tab> </uib-tabset>
+				</div>
+			</div>
+			</bcs-grid> </uib-tab> </uib-tabset>
+		</div>
+		<!--- TERMINO FORMULARIO -->
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="PrestamosVigentes_Crear" class="col-xs-1"
+			ng-show="showBtnAccionPrestamos" bcs-tipo="'bcs-button-primary'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_CREAR'  | translate"
+			bcs-habilitado="botonDisabled" bcs-clic="btnIngresar()"></bcs-button>
+
+		<bcs-button id="PrestamosVigentes_Modificar" class="col-xs-1"
+			ng-show="showBtnAccionPrestamos" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR'    | translate"
+			bcs-habilitado="prestamos.selPrestamos.IdEstado === 'VIG' && botonDisabled"
+			bcs-clic="btnModificarPrestatario()">
+		</bcs-button>
+		
+				
+			
+ 		<bcs-button id="PrestamosVigentes_Anular" class="col-xs-1"
+			ng-show="showBtnAccionPrestamos" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_ANULAR'    | translate"
+			bcs-habilitado="prestamos.selPrestamos.IdEstado === 'VIG' && botonDisabled"
+			bcs-clic="btnAnular()">
+		</bcs-button>
+
+		<bcs-button id="PrestamosVigentes_Anticipar" class="col-xs-1"
+			ng-show="showBtnAccionPrestamos" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_ANTICIPAR' | translate"
+			bcs-habilitado="prestamos.selPrestamos.IdEstado === 'VIG' && botonDisabled"
+			bcs-clic="btnAnticipar()"></bcs-button>
+			
+		<bcs-button class="col-xs-1" ng-show="'true'" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_ANEXO_2'  | translate"
+			bcs-habilitado="prestamos.selPrestamos"
+			bcs-clic="generarAnexo2('PRT')"></bcs-button>
+
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+			bcs-texto="'UI_OPCIONES' | translate">
+		<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		
+		</bcs-menu>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

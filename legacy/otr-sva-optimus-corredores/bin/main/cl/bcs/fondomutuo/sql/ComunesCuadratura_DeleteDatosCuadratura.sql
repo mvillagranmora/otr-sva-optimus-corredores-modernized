@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.FondoMutuo.BD::FMM.CuadraturaCustodia" WHERE "IdCuadraturaCustodia" = :IdCuadraturaCustodia

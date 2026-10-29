@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::BAT.Programa" WHERE "IdPrograma" = :IdPrograma;

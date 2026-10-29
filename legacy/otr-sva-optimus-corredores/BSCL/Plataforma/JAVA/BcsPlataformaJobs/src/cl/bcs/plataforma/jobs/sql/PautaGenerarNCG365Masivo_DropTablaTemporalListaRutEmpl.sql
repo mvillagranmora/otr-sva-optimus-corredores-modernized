@@ -1,0 +1,1 @@
+DROP TABLE #GenerarNCG365Masivo_TemporalListaRutEmpl;

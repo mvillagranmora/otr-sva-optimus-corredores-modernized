@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="MovimientosCuentaInversion" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true" hierarchiesSQLEnabled="false" translationRelevant="true">
+  <descriptions defaultDescription="MovimientosCuentaInversion_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdCargoAbonoMovimiento"/>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="CHAR" id="FechaMovimiento" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaIngresoRegistro" length="27"/>
+        <viewAttribute datatype="NVARCHAR" id="EsIngresoManual" length="1"/>
+        <viewAttribute datatype="BIGINT" id="IdCuentaInversion"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoCuentaInversion" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCuentaInversion" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidad" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCliente" length="302"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="DescripcionPortafolio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Proposito" length="520"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoMoneda" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMoneda" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="SimboloMoneda" length="3"/>
+        <viewAttribute datatype="INTEGER" id="DecimalesMoneda"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoMovimiento" length="6"/>
+        <viewAttribute datatype="DECIMAL" id="Monto" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdConcepto" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreConcepto" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Descripcion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdCondicionDeLiquidacion" length="2"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoCondicionDeLiquidacion" length="2"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCondicionDeLiquidacion" length="40"/>
+        <viewAttribute datatype="DECIMAL" id="PlazoCondicionDeLiquidacion" length="26" scale="8"/>
+        <viewAttribute datatype="CHAR" id="FechaEfectivaMovimiento" length="10"/>
+        <viewAttribute datatype="DECIMAL" id="Cargo" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="Abono" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoPorFechaLiquidacion" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoPorFechaMovimiento" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoComprobante" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoTipoComprobante" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoComprobante" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobante"/>
+        <viewAttribute datatype="NVARCHAR" id="FolioComprobante" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobanteDetalle"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobanteFormaDePago"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoMovimientoAsociado" length="6"/>
+        <viewAttribute datatype="BIGINT" id="IdMovimientoAsociado"/>
+        <viewAttribute datatype="CHAR" id="FechaComprobante" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoOperacion" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoTipoOperacion" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoOperacion" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdOperacion"/>
+        <viewAttribute datatype="CHAR" id="FechaOperacion" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaLiquidacionOperacion" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaVencimientoOperacion" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaOperacion" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="MontoOperacion" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="TipoCambioOperacion" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoProducto" length="4"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoTipoProducto" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoProducto" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoInstrumento" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdClasificacionTipoInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreClasificacionTipoInstrumento" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdInstrumento"/>
+        <viewAttribute datatype="NVARCHAR" id="Nemotecnico" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="EsCargoAbonoPorTraspaso" length="1"/>
+        <viewAttribute datatype="BIGINT" id="IdCargoAbonoRelacionadoTraspaso"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreClienteRelacionado" length="302"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolioRelacionado" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="EsCertificadoAutomatico" length="1"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuarioCertificador"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoUsuarioCertificador" length="40"/>
+        <viewAttribute datatype="CHAR" id="FechaCertificacion" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdPersonaPagoCobro"/>
+        <viewAttribute datatype="BIGINT" id="IdContraparte"/>
+        <viewAttribute datatype="NVARCHAR" id="EsIndicadorBilateral" length="1"/>
+        <viewAttribute datatype="BIGINT" id="IdEmpleadoDigitador"/>
+        <viewAttribute datatype="BIGINT" id="IdEjecutivo"/>
+        <viewAttribute datatype="BIGINT" id="IdSucursal"/>
+        <viewAttribute datatype="NVARCHAR" id="IdModulo" length="3"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuario"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoUsuarioCreador" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreUsuario" length="302"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEstado" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdCarga"/>
+        <viewAttribute datatype="BIGINT" id="SecuenciaMovimientoMigracion"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition>&#xD;
+ /********* Begin Procedure Script ************/ &#xD;
+  &#xD;
+ BEGIN &#xD;
+ 	 var_out =  &#xD;
+SELECT&#xD;
+	CASE WHEN cargoabonomov.&quot;IdCargoAbonoMovimiento&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdCargoAbonoMovimiento&quot; END AS &quot;IdCargoAbonoMovimiento&quot;,&#xD;
+	cargoabonomov.&quot;IdEmpresa&quot;,&#xD;
+	LEFT(TO_CHAR(IFNULL(cargoabonomov.&quot;FechaSistema&quot;,'0001-01-01')),10) AS &quot;FechaMovimiento&quot;,&#xD;
+	CASE WHEN IFNULL(cargoabonomov.&quot;FechaIngresoRegistro&quot;,'')= '' THEN '0001-01-01 00:00:00' &#xD;
+					 	                              ELSE  &#xD;
+					 	                                  CASE WHEN  cargoabonomov.&quot;FechaIngresoRegistro&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' &#xD;
+					 	                                  	ELSE LEFT(TO_CHAR(ADD_SECONDS (cargoabonomov.&quot;FechaIngresoRegistro&quot;, CONFIGURACION.&quot;Valor&quot;)),27)&#xD;
+					 	                                  END &#xD;
+	END AS &quot;FechaIngresoRegistro&quot;,&#xD;
+	cargoabonomov.&quot;EsIngresoManual&quot;,&#xD;
+	CASE WHEN cuentainversion.&quot;IdCuentaInversion&quot; = 0 THEN NULL ELSE cuentainversion.&quot;IdCuentaInversion&quot; END AS &quot;IdCuentaInversion&quot;,&#xD;
+	CAST(cuentainversion.&quot;Codigo&quot; AS NVARCHAR(40)) AS &quot;CodigoCuentaInversion&quot; ,&#xD;
+	CAST(cuentainversion.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreCuentaInversion&quot; ,&#xD;
+	CASE WHEN cuentainversion.&quot;IdCliente&quot; = 0 THEN NULL ELSE cuentainversion.&quot;IdCliente&quot; END AS &quot;IdCliente&quot;,&#xD;
+	CAST(cliente.&quot;DocumentoIdentidad&quot; AS NVARCHAR(40)) AS &quot;DocumentoIdentidad&quot;,&#xD;
+	CAST(cliente.&quot;NombreCompleto&quot; AS NVARCHAR(302)) AS &quot;NombreCliente&quot;,&#xD;
+	CASE WHEN cuentainversion.&quot;IdPortafolio&quot; = 0 THEN NULL ELSE cuentainversion.&quot;IdPortafolio&quot; END AS &quot;IdPortafolio&quot;,&#xD;
+	CAST(COALESCE(portafolio.&quot;CodigoPortafolio&quot;,'') AS NVARCHAR(100)) as &quot;CodigoPortafolio&quot;,&#xD;
+	CAST(COALESCE(portafolio.&quot;DescripcionPortafolio&quot;,'') AS NVARCHAR(100)) as &quot;DescripcionPortafolio&quot; ,&#xD;
+	CAST(COALESCE(portafolio.&quot;Proposito&quot;,'') AS NVARCHAR(520)) as &quot;Proposito&quot; ,&#xD;
+	CASE WHEN cuentainversion.&quot;IdMoneda&quot; = '' THEN NULL ELSE cuentainversion.&quot;IdMoneda&quot; END AS &quot;IdMoneda&quot;,&#xD;
+	CAST(moneda.&quot;Codigo&quot; AS NVARCHAR(40)) AS &quot;CodigoMoneda&quot; ,&#xD;
+	CAST(moneda.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreMoneda&quot; ,&#xD;
+	moneda.&quot;Simbolo&quot; AS &quot;SimboloMoneda&quot; ,&#xD;
+	moneda.&quot;Decimales&quot; AS &quot;DecimalesMoneda&quot; ,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdTipoMovimiento&quot; = 'MOVABN' THEN 'ABONO'&#xD;
+	ELSE 'CARGO'&#xD;
+	END AS &quot;TipoMovimiento&quot;,&#xD;
+	cargoabonomov.&quot;Monto&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdConcepto&quot; = '' THEN NULL ELSE cargoabonomov.&quot;IdConcepto&quot; END  AS &quot;IdConcepto&quot; ,&#xD;
+	CAST(COALESCE(conceptomov.&quot;Nombre&quot;,'') AS NVARCHAR(100)) AS &quot;NombreConcepto&quot;,&#xD;
+	CAST(cargoabonomov.&quot;Descripcion&quot; AS NVARCHAR(100)) AS &quot;Descripcion&quot;,&#xD;
+	cargoabonomov.&quot;IdCondicionDeLiquidacion&quot; AS &quot;IdCondicionDeLiquidacion&quot;,&#xD;
+	coalesce(condiciondeliquidacion.&quot;Codigo&quot;,'') AS &quot;CodigoCondicionDeLiquidacion&quot; ,&#xD;
+	coalesce(CAST(condiciondeliquidacion.&quot;Nombre&quot; AS NVARCHAR(40)),'') AS &quot;NombreCondicionDeLiquidacion&quot; ,&#xD;
+	coalesce(condiciondeliquidacion.&quot;PlazoEnDias&quot;,0) AS &quot;PlazoCondicionDeLiquidacion&quot;,&#xD;
+	LEFT(TO_VARCHAR(IFNULL(cargoabonomov.&quot;FechaEfectivaMovimiento&quot;,'0001-01-01')),10) AS &quot;FechaEfectivaMovimiento&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdTipoMovimiento&quot; = 'MOVCAR' &#xD;
+	      THEN cargoabonomov.&quot;Monto&quot; &#xD;
+	      ELSE 0 &#xD;
+	END AS &quot;Cargo&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdTipoMovimiento&quot; = 'MOVABN' &#xD;
+	      THEN cargoabonomov.&quot;Monto&quot; &#xD;
+	      ELSE 0 &#xD;
+	END AS &quot;Abono&quot;,&#xD;
+	cargoabonomov.&quot;Saldo&quot; as &quot;SaldoPorFechaLiquidacion&quot;,&#xD;
+	cargoabonomov.&quot;SaldoPorFechaMovimiento&quot;,  &#xD;
+	cargoabonomov.&quot;IdTipoComprobante&quot; AS &quot;IdTipoComprobante&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdModulo&quot; = 'FAC' &#xD;
+	THEN coalesce(TipoComprobanteFAC.&quot;Codigo&quot;,'') WHEN cargoabonomov.&quot;IdModulo&quot; = 'TES' &#xD;
+	THEN '' WHEN cargoabonomov.&quot;IdModulo&quot; = 'FMM' &#xD;
+	THEN '' &#xD;
+	else ''&#xD;
+	END AS &quot;CodigoTipoComprobante&quot;,&#xD;
+	      CASE WHEN cargoabonomov.&quot;IdModulo&quot; = 'FAC' &#xD;
+	THEN coalesce(CAST(TipoComprobanteFAC.&quot;Nombre&quot; AS NVARCHAR(100)),'') WHEN cargoabonomov.&quot;IdModulo&quot; = 'TES' &#xD;
+	THEN coalesce(CAST(TipoComprobanteTES.&quot;Nombre&quot; AS NVARCHAR(100)),'') WHEN cargoabonomov.&quot;IdModulo&quot; = 'FMM' &#xD;
+	THEN 'OPERACION FFMM' &#xD;
+	else ''&#xD;
+	END AS &quot;NombreTipoComprobante&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdComprobante&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdComprobante&quot; END AS &quot;IdComprobante&quot;,&#xD;
+	CAST(cargoabonomov.&quot;FolioComprobante&quot; AS NVARCHAR(40)) AS &quot;FolioComprobante&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdComprobanteDetalle&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdComprobanteDetalle&quot; END AS &quot;IdComprobanteDetalle&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdComprobanteFormaDePago&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdComprobanteFormaDePago&quot; END AS &quot;IdComprobanteFormaDePago&quot;,&#xD;
+	cargoabonomov.&quot;IdTipoMovimientoAsociado&quot; AS &quot;IdTipoMovimientoAsociado&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdMovimientoAsociado&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdMovimientoAsociado&quot; END AS &quot;IdMovimientoAsociado&quot;,&#xD;
+	LEFT(TO_VARCHAR(IFNULL(cargoabonomov.&quot;FechaComprobante&quot;,'0001-01-01')),10) as &quot;FechaComprobante&quot;,&#xD;
+	cargoabonomov.&quot;IdTipoOperacion&quot; AS &quot;IdTipoOperacion&quot;,&#xD;
+	CAST(COALESCE(tipooperacion.&quot;Codigo&quot;,'') AS NVARCHAR(40)) AS &quot;CodigoTipoOperacion&quot;,&#xD;
+	CAST(COALESCE(tipooperacion.&quot;Nombre&quot;,'') AS NVARCHAR(100)) AS &quot;NombreTipoOperacion&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdOperacion&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdOperacion&quot; END AS &quot;IdOperacion&quot;,&#xD;
+	LEFT(TO_CHAR(IFNULL(cargoabonomov.&quot;FechaOperacion&quot;,'0001-01-01')),10) AS &quot;FechaOperacion&quot;,&#xD;
+	LEFT(TO_CHAR(IFNULL(cargoabonomov.&quot;FechaLiquidacionOperacion&quot;,'0001-01-01')),10) AS &quot;FechaLiquidacionOperacion&quot;,&#xD;
+	LEFT(TO_CHAR(IFNULL(cargoabonomov.&quot;FechaVencimientoOperacion&quot;,'0001-01-01')),10) AS &quot;FechaVencimientoOperacion&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdMonedaOperacion&quot; = '' THEN NULL ELSE cargoabonomov.&quot;IdMonedaOperacion&quot; END AS &quot;IdMonedaOperacion&quot;,&#xD;
+	cargoabonomov.&quot;MontoOperacion&quot;,&#xD;
+	cargoabonomov.&quot;TipoCambioOperacion&quot;,&#xD;
+	cargoabonomov.&quot;IdTipoProducto&quot; AS &quot;IdTipoProducto&quot;,&#xD;
+	coalesce(CAST(tipoproducto.&quot;Codigo&quot; AS NVARCHAR(40)),'') AS &quot;CodigoTipoProducto&quot; ,&#xD;
+	coalesce(CAST(tipoproducto.&quot;Nombre&quot; AS NVARCHAR(100)),'') AS &quot;NombreTipoProducto&quot; ,&#xD;
+	cargoabonomov.&quot;IdTipoInstrumento&quot;  AS &quot;IdTipoInstrumento&quot;,&#xD;
+	CAST(COALESCE ( viewconsultarins.&quot;NombreTipoInstrumento&quot; ,      '' ) AS NVARCHAR(100)) AS &quot;NombreTipoInstrumento&quot; ,&#xD;
+	coalesce(viewconsultarins.&quot;IdClasificacionTipoInstrumento&quot;,'')  AS &quot;IdClasificacionTipoInstrumento&quot; ,&#xD;
+	CAST(COALESCE ( viewconsultarins.&quot;NombreClasificacionTipoInstrumento&quot; ,'' ) AS NVARCHAR(100))AS &quot;NombreClasificacionTipoInstrumento&quot; , &#xD;
+	CASE WHEN cargoabonomov.&quot;IdInstrumento&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdInstrumento&quot; END AS &quot;IdInstrumento&quot; ,&#xD;
+	CAST(COALESCE ( cargoabonomov.&quot;Nemo&quot; ,  '' ) AS NVARCHAR(40)) AS &quot;Nemotecnico&quot; ,&#xD;
+	cargoabonomov.&quot;EsCargoAbonoPorTraspaso&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdCargoAbonoRelacionadoTraspaso&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdCargoAbonoRelacionadoTraspaso&quot; END AS &quot;IdCargoAbonoRelacionadoTraspaso&quot;,&#xD;
+	coalesce(CAST(RelTransferencia.&quot;NombreClienteRelacionado&quot; AS NVARCHAR(302)),'') AS &quot;NombreClienteRelacionado&quot;,&#xD;
+	coalesce(CAST(RelTransferencia.&quot;CodigoPortafolioRelacionado&quot; AS NVARCHAR(150)),'')  AS &quot;CodigoPortafolioRelacionado&quot;, &#xD;
+	cargoabonomov.&quot;EsCertificadoAutomatico&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdUsuarioCertificador&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdUsuarioCertificador&quot; END AS &quot;IdUsuarioCertificador&quot;,&#xD;
+	coalesce(CAST(UsuarioCertificador.&quot;CodigoUsuario&quot; AS NVARCHAR(40)),'') AS &quot;CodigoUsuarioCertificador&quot;,&#xD;
+	LEFT(TO_CHAR(IFNULL(cargoabonomov.&quot;FechaCertificacion&quot;,'0001-01-01')),10) AS &quot;FechaCertificacion&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdPersonaPagoCobro&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdPersonaPagoCobro&quot; END AS &quot;IdPersonaPagoCobro&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdContraparte&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdContraparte&quot; END AS &quot;IdContraparte&quot;,&#xD;
+	coalesce(cargoabonomov.&quot;EsIndicadorBilateral&quot;,'') as &quot;EsIndicadorBilateral&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdEjecutivo&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdEjecutivo&quot; END AS &quot;IdEmpleadoDigitador&quot;,&#xD;
+	CASE WHEN cliente.&quot;IdEmpleadoEjecutivo&quot; = 0 THEN NULL ELSE cliente.&quot;IdEmpleadoEjecutivo&quot; END AS &quot;IdEjecutivo&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdSucursal&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdSucursal&quot; END AS &quot;IdSucursal&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdModulo&quot; = '' THEN NULL ELSE cargoabonomov.&quot;IdModulo&quot; END AS &quot;IdModulo&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdUsuario&quot; = 0 THEN NULL ELSE cargoabonomov.&quot;IdUsuario&quot; END AS &quot;IdUsuario&quot;,&#xD;
+	CAST(UsuarioCreador.&quot;CodigoUsuario&quot; AS NVARCHAR(40)) AS &quot;CodigoUsuarioCreador&quot;,&#xD;
+	CAST(COALESCE ( UsuarioCreador.&quot;CodigoUsuario&quot; ,'' ) AS NVARCHAR(302)) AS &quot;NombreUsuario&quot;,&#xD;
+	CASE WHEN cargoabonomov.&quot;IdEstado&quot; = '' THEN NULL ELSE cargoabonomov.&quot;IdEstado&quot; END AS &quot;IdEstado&quot;,&#xD;
+	CAST(estadoctainv.&quot;Nombre&quot; AS NVARCHAR(100))  AS &quot;NombreEstado&quot;,&#xD;
+	cargoabonomov.&quot;IdCarga&quot; AS &quot;IdCarga&quot;,&#xD;
+	cargoabonomov.&quot;SecuenciaMovimientoMigracion&quot; AS &quot;SecuenciaMovimientoMigracion&quot;&#xD;
+	FROM &quot;BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento&quot; AS cargoabonomov &#xD;
+	INNER JOIN &quot;BSCL.CuentaInversion.BD::CTA.CuentaInversion&quot; AS cuentainversion ON cuentainversion.&quot;IdCuentaInversion&quot; = cargoabonomov.&quot;IdCuentaInversion&quot; &#xD;
+	INNER JOIN &quot;BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente&quot; AS cliente ON cliente.&quot;IdCliente&quot; = cuentainversion.&quot;IdCliente&quot; &#xD;
+	INNER JOIN &quot;BSCL.Portafolio.BD.Vistas::ConsultarPortafolio&quot; as portafolio ON portafolio.&quot;IdPortafolio&quot; = cuentainversion.&quot;IdPortafolio&quot; &#xD;
+	INNER JOIN &quot;BSCL.Plataforma.BD.Vistas::ACC.ConsultarUsuarioCompleto&quot; as UsuarioCreador ON UsuarioCreador.&quot;IdUsuario&quot; = cargoabonomov.&quot;IdUsuario&quot; &#xD;
+	CROSS JOIN (select top 1 &quot;Valor&quot; from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Configuracion&quot;&#xD;
+			            where &quot;CodigoParametro&quot; = 'PLA.SegundosZonaHoraria') AS CONFIGURACION &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD.Vistas::ACC.ConsultarUsuarioCompleto&quot; as UsuarioCertificador ON UsuarioCertificador.&quot;IdUsuario&quot; = cargoabonomov.&quot;IdUsuarioCertificador&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.CondicionDeLiquidacion&quot; AS condiciondeliquidacion ON condiciondeliquidacion.&quot;IdCondicionDeLiquidacion&quot; = cargoabonomov.&quot;IdCondicionDeLiquidacion&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Moneda&quot; AS moneda ON moneda.&quot;IdMoneda&quot; = cuentainversion.&quot;IdMoneda&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Concepto&quot; AS conceptomov ON conceptomov.&quot;IdConcepto&quot; = cargoabonomov.&quot;IdConcepto&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Estado&quot; AS estadoctainv ON (estadoctainv.&quot;IdEstado&quot; = cargoabonomov.&quot;IdEstado&quot;) &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.TipoMovimiento&quot; AS TipoMovimiento ON TipoMovimiento.&quot;IdTipoMovimiento&quot; = cargoabonomov.&quot;IdTipoMovimiento&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD.Vistas::INS.ConsultarInstrumento&quot; AS viewconsultarins ON viewconsultarins.&quot;IdInstrumento&quot; = cargoabonomov.&quot;IdInstrumento&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::INS.TipoOperacion&quot; AS tipooperacion ON tipooperacion.&quot;IdTipoOperacion&quot; = cargoabonomov.&quot;IdTipoOperacion&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::INS.TipoProducto&quot; AS tipoproducto ON tipoproducto.&quot;IdTipoProducto&quot; = cargoabonomov.&quot;IdTipoProducto&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Tesoreria.BD.Vistas::ConsultarTipoComprobante&quot; AS TipoComprobanteTES ON TipoComprobanteTES.&quot;IdTipoComprobante&quot; = cargoabonomov.&quot;IdTipoComprobante&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.Facturacion.BD.Vistas::ConsultarTipoComprobante&quot; AS TipoComprobanteFAC ON TipoComprobanteFAC.&quot;IdTipoComprobante&quot; = cargoabonomov.&quot;IdTipoComprobante&quot; &#xD;
+	LEFT OUTER JOIN &quot;BSCL.CuentaInversion.BD.Vistas::ConsultarCargosAbonosRelacionadoTransferencia&quot; AS RelTransferencia ON RelTransferencia.&quot;IdCargoAbonoMovimiento&quot; = cargoabonomov.&quot;IdCargoAbonoRelacionadoTraspaso&quot;;&#xD;
+END /********* End Procedure Script ************/&#xD;
+</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdCargoAbonoMovimiento" order="1">
+        <descriptions defaultDescription="IdCargoAbonoMovimiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCargoAbonoMovimiento"/>
+      </attribute>
+      <attribute id="IdEmpresa" order="2">
+        <descriptions defaultDescription="IdEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="FechaMovimiento" order="3">
+        <descriptions defaultDescription="FechaSistema"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaMovimiento"/>
+      </attribute>
+      <attribute id="FechaIngresoRegistro" order="4">
+        <descriptions defaultDescription="FechaIngresoRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaIngresoRegistro"/>
+      </attribute>
+      <attribute id="EsIngresoManual" order="5">
+        <descriptions defaultDescription="EsIngresoManual"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsIngresoManual"/>
+      </attribute>
+      <attribute id="IdCuentaInversion" order="6">
+        <descriptions defaultDescription="IdCuentaInversion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCuentaInversion"/>
+      </attribute>
+      <attribute id="CodigoCuentaInversion" order="7">
+        <descriptions defaultDescription="CodigoCuentaInversion"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoCuentaInversion"/>
+      </attribute>
+      <attribute id="NombreCuentaInversion" order="8">
+        <descriptions defaultDescription="NombreCuentaInversion"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCuentaInversion"/>
+      </attribute>
+      <attribute id="IdCliente" order="9">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" order="10">
+        <descriptions defaultDescription="DocumentoIdentidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="NombreCliente" order="11">
+        <descriptions defaultDescription="NombreCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCliente"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="12">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="CodigoPortafolio" order="13">
+        <descriptions defaultDescription="CodigoPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolio"/>
+      </attribute>
+      <attribute id="DescripcionPortafolio" order="14">
+        <descriptions defaultDescription="DescripcionPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="DescripcionPortafolio"/>
+      </attribute>
+      <attribute id="Proposito" order="15">
+        <descriptions defaultDescription="Proposito"/>
+        <keyMapping columnObjectName="Script_View" columnName="Proposito"/>
+      </attribute>
+      <attribute id="IdMoneda" order="16">
+        <descriptions defaultDescription="IdMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="CodigoMoneda" order="17">
+        <descriptions defaultDescription="CodigoMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoMoneda"/>
+      </attribute>
+      <attribute id="NombreMoneda" order="18">
+        <descriptions defaultDescription="NombreMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMoneda"/>
+      </attribute>
+      <attribute id="SimboloMoneda" order="19">
+        <descriptions defaultDescription="SimboloMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="SimboloMoneda"/>
+      </attribute>
+      <attribute id="DecimalesMoneda" order="20">
+        <descriptions defaultDescription="DecimalesMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="DecimalesMoneda"/>
+      </attribute>
+      <attribute id="TipoMovimiento" order="21">
+        <descriptions defaultDescription="TipoMovimiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoMovimiento"/>
+      </attribute>
+      <attribute id="Monto" order="22">
+        <descriptions defaultDescription="Monto"/>
+        <keyMapping columnObjectName="Script_View" columnName="Monto"/>
+      </attribute>
+      <attribute id="IdConcepto" order="23">
+        <descriptions defaultDescription="IdConcepto"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdConcepto"/>
+      </attribute>
+      <attribute id="NombreConcepto" order="24">
+        <descriptions defaultDescription="NombreConcepto"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreConcepto"/>
+      </attribute>
+      <attribute id="Descripcion" order="25">
+        <descriptions defaultDescription="Descripcion"/>
+        <keyMapping columnObjectName="Script_View" columnName="Descripcion"/>
+      </attribute>
+      <attribute id="IdCondicionDeLiquidacion" order="26">
+        <descriptions defaultDescription="IdCondicionDeLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCondicionDeLiquidacion"/>
+      </attribute>
+      <attribute id="CodigoCondicionDeLiquidacion" order="27">
+        <descriptions defaultDescription="CodigoCondicionDeLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoCondicionDeLiquidacion"/>
+      </attribute>
+      <attribute id="NombreCondicionDeLiquidacion" order="28">
+        <descriptions defaultDescription="NombreCondicionDeLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCondicionDeLiquidacion"/>
+      </attribute>
+      <attribute id="PlazoCondicionDeLiquidacion" order="29">
+        <descriptions defaultDescription="PlazoCondicionDeLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="PlazoCondicionDeLiquidacion"/>
+      </attribute>
+      <attribute id="FechaEfectivaMovimiento" order="30">
+        <descriptions defaultDescription="FechaEfectivaMovimiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaEfectivaMovimiento"/>
+      </attribute>
+      <attribute id="Cargo" order="31">
+        <descriptions defaultDescription="Cargo"/>
+        <keyMapping columnObjectName="Script_View" columnName="Cargo"/>
+      </attribute>
+      <attribute id="Abono" order="32">
+        <descriptions defaultDescription="Abono"/>
+        <keyMapping columnObjectName="Script_View" columnName="Abono"/>
+      </attribute>
+      <attribute id="SaldoPorFechaLiquidacion" order="33">
+        <descriptions defaultDescription="Saldo"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoPorFechaLiquidacion"/>
+      </attribute>
+      <attribute id="SaldoPorFechaMovimiento" order="34">
+        <descriptions defaultDescription="SaldoPorFechaMovimiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoPorFechaMovimiento"/>
+      </attribute>
+      <attribute id="IdTipoComprobante" order="35">
+        <descriptions defaultDescription="IdTipoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoComprobante"/>
+      </attribute>
+      <attribute id="CodigoTipoComprobante" order="36">
+        <descriptions defaultDescription="CodigoTipoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoTipoComprobante"/>
+      </attribute>
+      <attribute id="NombreTipoComprobante" order="37">
+        <descriptions defaultDescription="NombreTipoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoComprobante"/>
+      </attribute>
+      <attribute id="IdComprobante" order="38">
+        <descriptions defaultDescription="IdComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobante"/>
+      </attribute>
+      <attribute id="FolioComprobante" order="39">
+        <descriptions defaultDescription="FolioComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FolioComprobante"/>
+      </attribute>
+      <attribute id="IdComprobanteDetalle" order="40">
+        <descriptions defaultDescription="IdComprobanteDetalle"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobanteDetalle"/>
+      </attribute>
+      <attribute id="IdComprobanteFormaDePago" order="41">
+        <descriptions defaultDescription="IdComprobanteFormaDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobanteFormaDePago"/>
+      </attribute>
+      <attribute id="IdTipoMovimientoAsociado" order="42">
+        <descriptions defaultDescription="IdTipoMovimientoAsociado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoMovimientoAsociado"/>
+      </attribute>
+      <attribute id="IdMovimientoAsociado" order="43">
+        <descriptions defaultDescription="IdMovimientoAsociado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMovimientoAsociado"/>
+      </attribute>
+      <attribute id="FechaComprobante" order="44">
+        <descriptions defaultDescription="FechaComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaComprobante"/>
+      </attribute>
+      <attribute id="IdTipoOperacion" order="45">
+        <descriptions defaultDescription="IdTipoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoOperacion"/>
+      </attribute>
+      <attribute id="CodigoTipoOperacion" order="46">
+        <descriptions defaultDescription="CodigoTipoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoTipoOperacion"/>
+      </attribute>
+      <attribute id="NombreTipoOperacion" order="47">
+        <descriptions defaultDescription="NombreTipoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoOperacion"/>
+      </attribute>
+      <attribute id="IdOperacion" order="48">
+        <descriptions defaultDescription="IdOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdOperacion"/>
+      </attribute>
+      <attribute id="FechaOperacion" order="49">
+        <descriptions defaultDescription="FechaOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaOperacion"/>
+      </attribute>
+      <attribute id="FechaLiquidacionOperacion" order="50">
+        <descriptions defaultDescription="FechaLiquidacionOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaLiquidacionOperacion"/>
+      </attribute>
+      <attribute id="FechaVencimientoOperacion" order="51">
+        <descriptions defaultDescription="FechaVencimientoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaVencimientoOperacion"/>
+      </attribute>
+      <attribute id="IdMonedaOperacion" order="52">
+        <descriptions defaultDescription="IdMonedaOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaOperacion"/>
+      </attribute>
+      <attribute id="MontoOperacion" order="53">
+        <descriptions defaultDescription="MontoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoOperacion"/>
+      </attribute>
+      <attribute id="TipoCambioOperacion" order="54">
+        <descriptions defaultDescription="TipoCambioOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoCambioOperacion"/>
+      </attribute>
+      <attribute id="IdTipoProducto" order="55">
+        <descriptions defaultDescription="IdTipoProducto"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoProducto"/>
+      </attribute>
+      <attribute id="CodigoTipoProducto" order="56">
+        <descriptions defaultDescription="CodigoTipoProducto"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoTipoProducto"/>
+      </attribute>
+      <attribute id="NombreTipoProducto" order="57">
+        <descriptions defaultDescription="NombreTipoProducto"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoProducto"/>
+      </attribute>
+      <attribute id="IdTipoInstrumento" order="58">
+        <descriptions defaultDescription="IdTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoInstrumento"/>
+      </attribute>
+      <attribute id="NombreTipoInstrumento" order="59">
+        <descriptions defaultDescription="NombreTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdClasificacionTipoInstrumento" order="60">
+        <descriptions defaultDescription="IdClasificacionTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdClasificacionTipoInstrumento"/>
+      </attribute>
+      <attribute id="NombreClasificacionTipoInstrumento" order="61">
+        <descriptions defaultDescription="NombreClasificacionTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreClasificacionTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdInstrumento" order="62">
+        <descriptions defaultDescription="IdInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumento"/>
+      </attribute>
+      <attribute id="Nemotecnico" order="63">
+        <descriptions defaultDescription="Nemotecnico"/>
+        <keyMapping columnObjectName="Script_View" columnName="Nemotecnico"/>
+      </attribute>
+      <attribute id="EsCargoAbonoPorTraspaso" order="64">
+        <descriptions defaultDescription="EsCargoAbonoPorTraspaso"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsCargoAbonoPorTraspaso"/>
+      </attribute>
+      <attribute id="IdCargoAbonoRelacionadoTraspaso" order="65">
+        <descriptions defaultDescription="IdCargoAbonoRelacionadoTraspaso"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCargoAbonoRelacionadoTraspaso"/>
+      </attribute>
+      <attribute id="NombreClienteRelacionado" order="66">
+        <descriptions defaultDescription="NombreClienteRelacionado"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreClienteRelacionado"/>
+      </attribute>
+      <attribute id="CodigoPortafolioRelacionado" order="67">
+        <descriptions defaultDescription="CodigoPortafolioRelacionado"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolioRelacionado"/>
+      </attribute>
+      <attribute id="EsCertificadoAutomatico" order="68">
+        <descriptions defaultDescription="EsCertificadoAutomatico"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsCertificadoAutomatico"/>
+      </attribute>
+      <attribute id="IdUsuarioCertificador" order="69">
+        <descriptions defaultDescription="IdUsuarioCertificador"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuarioCertificador"/>
+      </attribute>
+      <attribute id="CodigoUsuarioCertificador" order="70">
+        <descriptions defaultDescription="CodigoUsuarioCertificador"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoUsuarioCertificador"/>
+      </attribute>
+      <attribute id="FechaCertificacion" order="71">
+        <descriptions defaultDescription="FechaCertificacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCertificacion"/>
+      </attribute>
+      <attribute id="IdPersonaPagoCobro" order="72">
+        <descriptions defaultDescription="IdPersonaPagoCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersonaPagoCobro"/>
+      </attribute>
+      <attribute id="IdContraparte" order="73">
+        <descriptions defaultDescription="IdContraparte"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdContraparte"/>
+      </attribute>
+      <attribute id="EsIndicadorBilateral" order="74">
+        <descriptions defaultDescription="EsIndicadorBilateral"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsIndicadorBilateral"/>
+      </attribute>
+      <attribute id="IdEmpleadoDigitador" order="75">
+        <descriptions defaultDescription="IdEmpleadoDigitador"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpleadoDigitador"/>
+      </attribute>
+      <attribute id="IdEjecutivo" order="76">
+        <descriptions defaultDescription="IdEjecutivo"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEjecutivo"/>
+      </attribute>
+      <attribute id="IdSucursal" order="77">
+        <descriptions defaultDescription="IdSucursal"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdSucursal"/>
+      </attribute>
+      <attribute id="IdModulo" order="78">
+        <descriptions defaultDescription="IdModulo"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdModulo"/>
+      </attribute>
+      <attribute id="IdUsuario" order="79">
+        <descriptions defaultDescription="IdUsuario"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuario"/>
+      </attribute>
+      <attribute id="CodigoUsuarioCreador" order="80">
+        <descriptions defaultDescription="CodigoUsuarioCreador"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoUsuarioCreador"/>
+      </attribute>
+      <attribute id="NombreUsuario" order="81">
+        <descriptions defaultDescription="NombreUsuario"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreUsuario"/>
+      </attribute>
+      <attribute id="IdEstado" order="82">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="NombreEstado" order="83">
+        <descriptions defaultDescription="NombreEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEstado"/>
+      </attribute>
+      <attribute id="IdCarga" order="84">
+        <descriptions defaultDescription="IdCarga"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCarga"/>
+      </attribute>
+      <attribute id="SecuenciaMovimientoMigracion" order="85">
+        <descriptions defaultDescription="SecuenciaMovimientoMigracion"/>
+        <keyMapping columnObjectName="Script_View" columnName="SecuenciaMovimientoMigracion"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

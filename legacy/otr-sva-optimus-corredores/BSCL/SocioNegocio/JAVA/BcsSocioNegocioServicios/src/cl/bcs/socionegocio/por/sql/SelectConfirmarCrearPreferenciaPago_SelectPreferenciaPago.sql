@@ -1,0 +1,11 @@
+SELECT "IdPreferenciaPago"
+,"IdTipoOperacion"
+,"IdMedioDePago"
+,"IdMoneda"
+,"UsaPersonaRelacionada"
+,"FechaCreacion"
+,"FechaModificacion"
+,"IdEstado"
+,"IdEmpresa"
+FROM "BSCL.Plataforma.BD::PAG.PreferenciaPago"
+WHERE "IdPreferenciaPago" = :p_IdPreferenciaPago AND "IdEmpresa" = :p_IdEmpresa; 

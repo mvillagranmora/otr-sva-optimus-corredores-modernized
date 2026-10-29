@@ -1,0 +1,136 @@
+<div class="row" ng-controller='InterfazRefacturacionCtrl'>
+	<div class="row">
+		<div class="row">	
+			<div class="col-xs-6">
+				<uib-tabset>
+					<uib-tab heading="{{ 'UI_TRANSACCIONES' | translate}}" active="formData.tabTransaccionesActiva" select="select('gridTransacciones')">
+						<div class="row">
+							<bcs-grid
+								id="gridTransacciones"
+								seleccionado = "formData.transaccionesSeleccionadas"
+								api="formData.apiTransacciones"
+								configuracion="formData.confTransacciones">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+					
+					<uib-tab ng-show="SesionLocale==='PE'" heading="{{ 'UI_ASIGNACIONES' | translate}}" active="formData.tabAsignacionesActiva" select="select('gridAsignaciones')">
+						<div class="row">
+							<bcs-grid
+								id="gridAsignaciones"
+								seleccionado = "formData.asignacionesSeleccionados"
+								api="formData.apiAsignacionesResum"
+								configuracion="formData.confAsignacionesResum">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+					
+					<uib-tab ng-show="parametros.Origen==='COMP'" heading="{{ 'UI_COMPROBANTES' | translate}}" active="formData.tabComprobantesActiva" select="select('gridComprobantes')">
+						<div class="row">
+							<bcs-grid
+								id="gridComprobantes"
+								seleccionado = "formData.comprobantesSeleccionados"
+								api="formData.apiComprobantes"
+								configuracion="formData.confComprobantes">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+				
+				
+				
+			</div>
+			<div class="col-xs-6">
+				<uib-tabset>
+					<uib-tab heading="{{ 'UI_CLIENTES' | translate}}" select="select('gridClientes')">
+						<div class="row">
+							<bcs-grid
+								id="gridClientes"
+								seleccionado = "formData.clientesSeleccionados"
+								api="formData.apiClientes"
+								configuracion="formData.confClientes">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-input-form'" ng-show = "formData.tabComprobantesActiva" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaAgregarComprobantes()"></bcs-button>
+				<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-input-form'" ng-show = "formData.tabComprobantesActiva" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate"  bcs-habilitado="'true'"  bcs-clic="formData.ventanaQuitarComprobantes()"></bcs-button>
+				
+
+				<bcs-button-dropdown class="col-xs-5"  style="width: 107px;" bcs-tipo="'bcs-new-dropdown-form'" ng-show = "formData.tabTransaccionesActiva"  opciones="formData.opcionesCargarSaldos"></bcs-button-dropdown>
+				
+	
+				<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-input-form'" ng-show = "formData.tabTransaccionesActiva" bcs-auto-desactivar="false" bcs-texto="'UI_AGRUPAR' | translate"  bcs-habilitado="formData.transaccionesSeleccionadas.length == 1"  bcs-clic="formData.agruparTransacciones()"></bcs-button>
+				
+			
+				<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-input-form'" ng-show = "formData.tabTransaccionesActiva" bcs-auto-desactivar="false" bcs-texto="'UI_RESERVAR' | translate" bcs-habilitado="formData.transaccionesSeleccionadas"   bcs-clic="formData.reservarLiberarTransaccion('Reservar')"></bcs-button>
+				<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-input-form'" ng-show = "formData.tabTransaccionesActiva" bcs-auto-desactivar="false" bcs-texto="'UI_LIBERAR' | translate"  bcs-habilitado="formData.transaccionesSeleccionadas"   bcs-clic="formData.reservarLiberarTransaccion('Liberar')"></bcs-button>
+				
+				
+			</div>
+			<!-- CLIENTES -->
+			<div class="col-xs-6">
+				<bcs-button-dropdown bcs-tipo="'bcs-new-dropdown-form'" class="col-xs-2 " opciones="formData.opcionesClientes"></bcs-button-dropdown>
+				<bcs-button-dropdown bcs-tipo="'bcs-new-dropdown-form'" ng-show="SesionLocale==='PE'" class="col-xs-2" opciones="formData.opcionesCargaClientes"></bcs-button-dropdown>
+				<bcs-button-dropdown bcs-tipo="'bcs-new-dropdown-form'" style="width: 75px;" class="col-xs-2 " opciones="formData.opcionesArchivos"></bcs-button-dropdown>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaAgregarElementos()"></bcs-button>
+				<bcs-button bcs-tipo="'bcs-button-input-form'" class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" bcs-habilitado="'true'"  bcs-clic="formData.ventanaQuitarElementos()"></bcs-button>
+				<bcs-combobox-base
+					class="col-xs-4"
+					ng-style="{'width' : SesionLocale==='PE'  ? '20.3%%' : '35%'}"
+					filtros = "formData.filtrosGrupoPortafolio"
+					seleccionado = "formData.grupoPortafoliosSeleccionado"
+					tipo="'combobox-grupos-clientes'">
+				</bcs-combobox-base>
+				
+				<!-- bcs-button ng-show="SesionLocale==='CL'"  class="col-xs-2" bcs-auto-desactivar="false" bcs-texto="'UI_CARGAR' | translate" bcs-habilitado="'true'" bcs-clic="formData.cargarGrupoPortafolios(formData.grupoPortafoliosSeleccionado)"></bcs-button-->				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-1" 
+					id="UI_COBROS_ORDEN" 
+					ng-model="formData.CobrosOrdenArrastre" 
+					k-ng-model="formData.kngCobrosOrdenArrastre">			
+				</bcs-input-checkbox>
+				<label class="col-xs-11" translate="">UI_COBROS_ORDEN</label>
+			</div>
+			  
+		</div>
+		<div class="row">
+			<uib-tabset>
+				<uib-tab heading="{{ 'UI_ASIGNACIONES' | translate}}" select="select('gridSimulacionAsignaciones')">
+					<div class="row">
+						<bcs-grid
+							id="gridSimulacionAsignaciones"
+							seleccionado = "formData.asignacionSeleccionada"
+							fn-doble-click="formData.editarAsignacion(formData.asignacionSeleccionada)"
+							configuracion="formData.confSimulacionAsignaciones">
+						</bcs-grid>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+
+	</div>		
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="InterfazAsignacion_AceptarAsignacion" class="col-xs-1" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-habilitado="formData.apiSimulacionAsignaciones.dataSource.data().length"  bcs-clic="formData.ejecutarAsignacion()"></bcs-button>
+		
+		<bcs-button  class="col-xs-1 " bcs-auto-desactivar="false" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_ELIMINAR' | translate" bcs-habilitado="'true'" bcs-clic="formData.eliminarAsignacion()"></bcs-button>
+		<bcs-button  class="col-xs-2" bcs-auto-desactivar="false" bcs-tipo="'bcs-button-secondary'"  bcs-texto="'UI_ED_MULTIPLE' | translate" bcs-habilitado="formData.asignacionSeleccionada.length > 0" bcs-clic="formData.editarCobros()"></bcs-button>
+		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'"  bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+			<li ng-click="formData.guardarCambiosGrupo()">{{'UI_GUARDAR_GRUPO' | translate}}</li>
+		    <li ng-click="formData.crearGrupo()">{{'UI_CREAR_GRUPO' | translate}}</li>
+		    <li ng-click="formData.ExportarExcel('Transacciones')">{{'UI_EXPORTAR_EXCEL_TRANSACCIONES' | translate}} </li>
+            <li ng-click="formData.ExportarExcel('Comprobantes')">{{'UI_EXPORTAR_EXCEL_COMPROBANTES' | translate}}</li>
+            <li ng-click="formData.ExportarExcel('Clientes')">{{'UI_EXPORTAR_EXCEL_CLIENTES' | translate}}</li>
+            <li ng-click="formData.ExportarExcel('Asignaciones')">{{'UI_EXPORTAR_EXCEL_ASIGNACIONES' | translate}}</li>
+
+		</bcs-menu>	
+	</div>
+</div>

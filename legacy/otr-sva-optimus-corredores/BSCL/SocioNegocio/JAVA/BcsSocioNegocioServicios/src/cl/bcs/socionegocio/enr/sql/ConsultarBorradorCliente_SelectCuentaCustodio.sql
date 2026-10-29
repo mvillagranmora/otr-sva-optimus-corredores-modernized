@@ -1,0 +1,16 @@
+SELECT 
+"IdCuentaCustodioPortafolio"
+,"IdEnrolamiento"
+,"IdBoveda"
+,"Codigo"
+,"IdModeloCustodia"
+,"IdTipoCustodia"
+,"IdTipoCuentaCustodia"
+,"LiquidaDividendos"
+,"LiquidaCupones"
+,"LiquidaPrepagos"
+,"IdPersonaBancoCustodio"
+,"IdPersonaBancoLiquidador"
+,"LiquidaVencimientos"
+FROM "BSCL.SocioNegocio.BD::ENR.CuentaCustodioPortafolio"
+WHERE "IdEnrolamiento" IN (:IdEnrolamiento);

@@ -1,0 +1,160 @@
+<div class="row" ng-controller='CuadraturaComprobantesCuentaInversionCtrl'>
+	<div class="row bcs-cuerpo" ng-form="frmCuadraturaComprobantesCuentaInversion">
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_MOVIMIENTO</label>
+						<bcs-combobox-base  class="col-xs-8" id="frmCuadraturaComprobantesCuentaInversion_tipoMovimiento"
+							auto-cargar			="'true'"										
+							tipo				="oConfiguracionTipoMovimiento.tipo"						
+							configuracion		="oConfiguracionTipoMovimiento.configuracion"
+							seleccionado		="oConfiguracionTipoMovimiento.seleccionado"
+							id-actual			="oConfiguracionTipoMovimiento.idActual"
+							filtros				="oConfiguracionTipoMovimiento.filtros"						
+							cascada1-a			="oConfiguracionConcepto.filtros.TipoConceptoTesoreria"
+							cascada1-valor		="'TipoConcepto'"
+							cascada1-defecto	="-1"
+							todos="'S'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>					
+					<div class="col-xs-4" style="padding-left: 10px">
+						<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-4" id="frmCuadraturaComprobantesCuentaInversion_fechaLiquidacionDesde" k-ng-model="kngFechaLiquidacionDesde"></bcs-input-date>
+						<bcs-input-date class="col-xs-4" id="frmCuadraturaComprobantesCuentaInversion_fechaLiquidacionHasta" k-ng-model="kngFechaLiquidacionHasta"></bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-5" style="padding-left: 10px" translate>UI_TIPO_SOCIO_NEGOCIO</label>
+						<bcs-input-texto class="col-xs-7" id="frmCuadraturaComprobantesCuentaInversion_TipoSocioNegocio"
+							name			="tipoSocioNegocio" 
+							ng-model		="ngTipoSocioNegocio" 
+							k-ng-disabled 	="true">
+						</bcs-input-texto>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-2" translate>UI_SOCIO_NEGOCIO</label>
+						 <bcs-combobox-base class="col-xs-10" id="frmCuadraturaComprobantesCuentaInversion_socioNegocio"								
+							auto-cargar		="'false'"
+							tipo			="'combobox-socio-negocio'"
+							id-Actual		="oConfiguracionSocioNegocio.idActual"
+							seleccionado	="oConfiguracionSocioNegocio.seleccionado"
+							filtros			="oConfiguracionSocioNegocio.filtros"
+							cascada-a		="oConfiguracionPortafolio.filtros.IdCliente"
+							cascada-valor	="'IdCliente'"
+							cascada-defecto	="-1"
+							configuracion	= "oConfiguracionSocioNegocio.configuracion"  >
+						</bcs-combobox-base >
+					</div> 
+					<div class="col-xs-4">
+						<label class="col-xs-5" style="padding-left: 10px" translate>UI_ESTADO_COMPROBANTE</label>
+						<bcs-combobox-base  class="col-xs-7" id="frmCuadraturaComprobantesCuentaInversion_estadoComprobante"
+							auto-cargar		="'true'"					
+							tipo			="oConfiguracionEstadoTesoreria.tipo"
+							configuracion	="oConfiguracionEstadoTesoreria.configuracion"
+							seleccionado	="oConfiguracionEstadoTesoreria.seleccionado"
+							id-actual		="oConfiguracionEstadoTesoreria.idActual"
+							filtros			="oConfiguracionEstadoTesoreria.filtros"
+							memoria			="IngresoEgreso"				
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>            
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+						 <bcs-combobox-base class="col-xs-10" id="frmCuadraturaComprobantesCuentaInversion_portafolio"								
+							auto-cargar				="'false'"
+							tipo					="'combobox-portafolio'"
+							usa-filtros-completos 	="'S'"
+							seleccionado			="oConfiguracionPortafolio.seleccionado"
+							filtros					="oConfiguracionPortafolio.filtros"
+							item-post-filtro		="'1'"
+							configuracion			= "oConfiguracionPortafolio.configuracion"  >
+						</bcs-combobox-base >
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-5" style="padding-left: 10px" translate>UI_MONEDA</label>					
+						<bcs-combobox-base  class="col-xs-7" id="frmCuadraturaComprobantesCuentaInversion_moneda"									
+							tipo			="oConfiguracionCajaMoneda.tipo"						
+							configuracion	="oConfiguracionCajaMoneda.configuracion"
+							seleccionado	="oConfiguracionCajaMoneda.seleccionado"
+							id-actual		="oConfiguracionCajaMoneda.idActual"
+							filtros			="oConfiguracionCajaMoneda.filtros"
+							todos="'S'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+				</div> 
+
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-2" translate>UI_CONCEPTO</label>
+						<bcs-combobox-base  class="col-xs-10" id="frmCuadraturaComprobantesCuentaInversion_concepto"
+							auto-cargar		="'false'"
+							tipo			="oConfiguracionConcepto.tipo"						
+							configuracion	="oConfiguracionConcepto.configuracion"
+							seleccionado	="oConfiguracionConcepto.seleccionado"
+							id-actual		="oConfiguracionConcepto.idActual"
+							filtros			="oConfiguracionConcepto.filtros"
+							memoria			= "oConfiguracionTipoMovimiento.idActual"
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-5" style="padding-left: 10px" translate>UI_SEC_COMPROBANTE</label>
+						<bcs-input-numero class="col-xs-7" id="frmCuadraturaComprobantesCuentaInversion_SecuenciaComprobante"
+							name		="secuenciaComprobante" 
+							k-ng-model	="kngSecuenciaComprobante"
+							decimales	="'0'">
+						</bcs-input-numero>			
+					</div>				
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+
+
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmCuadraturaComprobantesCuentaInversion_btnBuscar"
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado='true' 
+						bcs-clic="buscarComprobantes()"
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmCuadraturaComprobantesCuentaInversion_btnLimpiar"
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado='true'
+						bcs-clic="limpiarFiltros()"
+					></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+		<div class="row">
+			<bcs-grid id="frmCuadraturaComprobantesCuentaInversion_gridCuadratura"
+				configuracion 		= "confCuadratura"
+				seleccionado 		= "seleccionCuadratura"
+				fn-exportar-excel 	= "exportarExcel"
+				fn-doble-click 		= "detalleComprobante(seleccionCuadratura)">		
+			</bcs-grid>
+		</div>		 
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>
+

@@ -1,0 +1,20 @@
+SELECT 
+	 "FechaOperacion"
+	,"NumeroContrato"
+	,"NumeroContratoCalce"
+	,"RutCliente"
+	,"NombreCliente"
+	,"ClienteRelacionado"
+	,"TipoOperacion"
+	,"FechaVencimiento"
+	,"ModalidadLiquidacion"
+	,"MonedaTasa"
+	,"ValorNominal"
+	,"TipoCambioPactado"
+	,"MontoPactado"
+	,"TipoCambioMercado"
+	,"ValorizacionMercado"
+	,"ResultadoOperacion"
+FROM "BSCL.Normativa.BD::GBL.ForwardsVigentesEBox_TablaPaso"
+WHERE "SecuenciaSolicitud" = :SecuenciaSolicitud
+ORDER BY "FechaOperacion", "NumeroContrato" DESC;

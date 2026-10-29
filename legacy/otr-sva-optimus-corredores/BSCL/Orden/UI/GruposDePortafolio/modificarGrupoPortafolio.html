@@ -1,0 +1,77 @@
+<div id="ModificarGrupo" ng-controller="ModificarGrupoCtrl">
+	<div class="row">
+		<form name="FormModificarGrupoPortafolio">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_NOMBRE</label>
+				<bcs-input-texto class="col-xs-8" bcs-requerido	ng-model="datosGrupo.nombreGrupo">
+				</bcs-input-texto>	
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CODIGO</label>
+				<bcs-input-texto class="col-xs-8" bcs-requerido	ng-model="datosGrupo.codigoGrupo">
+				</bcs-input-texto>	
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_ESTADO</label>
+				<bcs-combobox-base  class="col-xs-8"
+					bcs-requerido
+					tipo="'combobox-estado-grupo-portafolio'"
+					id-actual="datosGrupo.IdEstado"
+					id-defecto="datosForm.IdEstado">
+				</bcs-combobox-base>
+			</div>
+		</form>
+		<hr>
+				
+		<div class="row">
+			<div class="col-xs-12" style="font-size:12px;" translate>
+				UI_AGREGAR_CLIENTE
+			</div>
+		</div>
+		<div class="row">
+			<form name="formBuscarCliente" class="col-xs-12 form-horizontal">
+				<label translate class="col-xs-4">UI_CLIENTE_PORTAFOLIO</label>
+				<bcs-combobox-base 
+					class="col-xs-8"
+				 	tipo="'combobox-cliente-portafolio'"
+					ng-style="{'width' : datosGrupo.portafolioSeleccionado.IdEstadoCliente !== 'ACT' && datosGrupo.portafolioSeleccionado  ? '55%' : '66.66666667%'}"
+				    bcs-requerido
+				    filtros = "datosForm.filtrosPortafolio" 
+				    muestra-enlace = "'S'"
+				    seleccionado="datosGrupo.portafolioSeleccionado"
+				    id-actual="datosForm.IdPortafolioSeleccionado">
+				</bcs-combobox-base >
+			</form>
+		</div>
+		<div class="row">
+			<bcs-button id="ModificarGrupo_agregarCliente"  class="col-xs-3 pull-right" bcs-tipo="'bcs-button-input-form'"  bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR_CLIENTE' | translate" 
+				bcs-habilitado="datosGrupo.portafolioSeleccionado"  bcs-clic="agregarClienteGrupo()"></bcs-button>
+			<bcs-button id="ModificarGrupo_eliminarCliente" class="col-xs-3 pull-right" bcs-tipo="'bcs-button-input-form'"  bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="datosForm.seleccionClientesGrupo"  bcs-clic="eliminarClienteGrupo()"></bcs-button>
+			
+		</div>
+		
+		<br>
+				
+		<div class="row">
+			<div class="col-xs-12" style="font-size:12px;" translate>
+				UI_CLIENTES
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<bcs-grid id="grid-clientes-grupo"
+				fn-exportar-excel = "exportarExcel" 
+			 	configuracion = "confBasicaClientesGrupo"
+				seleccionado = "datosForm.seleccionClientesGrupo">
+				</bcs-grid>
+			</div>
+		</div>
+		<div class="row">
+			<bcs-button id="ModificarGrupo_actualizarGrupo" bcs-tipo="'bcs-button-primary'" class="col-xs-2 pull-right"  bcs-auto-desactivar="false" 
+				bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="FormModificarGrupoPortafolio.$valid"  bcs-clic="actualizarGrupo()"></bcs-button>
+			<bcs-button id="ModificarGrupo_actualizarGrupo" bcs-tipo="'bcs-button-secondary'" class="col-xs-2 pull-right" 	bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true"  bcs-clic="cancelar()"></bcs-button>
+		</div>
+	</div>
+</div>

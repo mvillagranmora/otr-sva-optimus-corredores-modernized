@@ -1,0 +1,82 @@
+<div class="" ng-controller="PopUpNuevaLineaPlantillaEmpleadoCtrl">
+	<div class="row bcs-cuerpo">
+		<form name="formCuentaBancaria" class="col-xs-12 form-horizontal">
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO_PRODUCTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-tipo-producto'"
+						filtros = "conf.TipoProducto.filtros"
+						id-actual="conf.TipoProducto.IdTipoProducto"
+						id-post-filtro="conf.TipoProducto.IdTipoProductoDef"
+						todos="'N'"
+						activado="!(mavpd.parametros.lineaDetalle)"
+						seleccionado="conf.TipoProducto.TipoProductoObj"
+						cascada1-a="conf.TipoOperacion.filtros.IdTipoProducto"
+						cascada1-valor="'IdTipoProducto'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-tipo-operacion'"
+						filtros="conf.TipoOperacion.filtros"
+						id-actual="conf.TipoOperacion.IdTipoOperacion"
+						id-defecto="conf.TipoOperacion.IdTipoOperacionDef"
+						todos="'S'"
+						seleccionado="conf.TipoOperacion.TipoOperacionObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_DESCUENTO_COMISION</label>
+					<bcs-input-porcentaje 
+					class="col-xs-8" 
+					k-ng-model="data.descuento"
+					bcs-requerido></bcs-input-porcentaje>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_MONTO_MAXIMO_OPERACION</label>
+					<bcs-input-monetario 
+						class="col-xs-8"
+						simbolo = "SesionIdMonedaSistema"
+						k-ng-model="data.montoMaximoOperacion"
+						bcs-requerido>
+					</bcs-input-monetario>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_PERMITE_RUTEO</label>
+					<bcs-input-checkbox class="col-xs-8" ng-model="data.PermiteRuteo"></bcs-input-checkbox>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="conf.oConfiguracionEstado.tipo"
+						id-post-filtro="conf.oConfiguracionEstado.idDefecto"
+						id-actual="conf.oConfiguracionEstado.IdEstado"
+						todos="'N'"
+						activado="true"
+						seleccionado="conf.oConfiguracionEstado.seleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-3" bcs-tipo="'principal'"  bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="formCuentaBancaria.$valid"  bcs-clic="guardar();"></bcs-button>
+		<bcs-button  class="col-xs-3" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true"  bcs-clic="cancelar();"></bcs-button>
+	</div>
+</div>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>        
+    </style>
+    </head>
+<body>
+    <h1 id="progress">Tu Navegador no tiene javascript o es muy lento.</h1>
+    <h2 id="test1"></h12>
+    <h2 id="test2"></h12>
+    <h2 id="test3"></h12>
+    <h2 id="test4"></h12>
+    <h2 id="test5"></h12>    
+    <h2 id="test6"></h12>    
+    <h2 id="test7"></h12>    
+    <h1 id="end1"></h1>
+    <h1 id="end2"></h1>
+    <script type="text/javascript">
+        
+//1 es para ping
+var imageAddr = ["images/1x1.png","images/FondoSistema.jpg","images/chicago-bg.jpg","images/santiago-bg.jpg","images/santiago2-bg.jpg"]; 
+var downloadSize = [95,1191720,498938,456279,772627]; //bytes
+
+
+var testNum = 0;
+var speedkBpsMedia = 0;
+var pingI1 = 0;
+var pingF1 = 0;
+
+function InitiateSpeedDetection() {
+	 document.getElementById("progress").innerHTML = "Iniciando prueba velocidad. Favor espera hasta que termine...";		 
+     window.setTimeout(MeasureConnectionSpeed, 2000);
+};    
+
+if (window.addEventListener) {
+    window.addEventListener('load', InitiateSpeedDetection, false);
+} else if (window.attachEvent) {
+    window.attachEvent('onload', InitiateSpeedDetection);
+}
+
+function MeasureConnectionSpeed() {
+    var startTime, endTime;
+    var download = new Image();
+    
+    testNum++;
+    
+	document.getElementById("test"+testNum).innerHTML = "Descargando "+downloadSize[testNum-1]+" bytes...";
+
+	//EXITO
+    download.onload = function () {
+        endTime = (new Date()).getTime();
+        
+       
+                
+        var duration = (endTime - startTime) / 1000;
+        var bitsLoaded = downloadSize[testNum-1] * 8;
+        var speedBps = (bitsLoaded / duration).toFixed(2);
+        var speedKbps = (speedBps / 1024).toFixed(2);
+        var speedMbps = (speedKbps / 1024).toFixed(2);        
+       
+        	
+        if ( testNum == 1 ) { 
+        	pingI1=startTime;  pingF1=endTime; 
+        	var pingMedio= Math.abs ( (pingF1 -  pingI1)  );
+        	document.getElementById("test"+testNum).innerHTML = "Prueba #"+testNum+": "+ pingMedio + " msegs";
+        }
+        else {
+        	 speedkBpsMedia+= (bitsLoaded / duration)/1024;
+        	document.getElementById("test"+testNum).innerHTML = "Prueba #"+testNum+": "+ speedMbps + " Mbps";
+        }
+                
+        if (testNum < imageAddr.length) {     
+        	window.setTimeout(MeasureConnectionSpeed, 2000 );
+        }else {
+        	speedkBpsMedia=(speedkBpsMedia/1024/(imageAddr.length-1)).toFixed(2);        	        
+        	var pingMedio= Math.abs ( (pingF1 -  pingI1)  );
+        	document.getElementById("progress").innerHTML = "Prueba terminada";
+        	document.getElementById("end1").innerHTML = "Ping: <b>"+ pingMedio + " mseg</b>";        	
+        	document.getElementById("end2").innerHTML = "Velocidad Media: <b>"+ speedkBpsMedia + " Mbps</b>";
+        }
+    }
+    //ERRROR
+    download.onerror = function (err, msg) {
+    	 document.getElementById("progress").innerHTML = "Error en la prueba de velocidad...";
+    }
+    
+    startTime = (new Date()).getTime();
+    var cacheBuster = "?nnn=" + startTime;
+    download.src = imageAddr[testNum-1] + cacheBuster;
+
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+SET SCHEMA "BSCL";
+
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaSocioNegocio_PersonaFatca";
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaSocioNegocio_PersonaFatca" AS
+SELECT
+    FATCA."IdPersona" AS TABLE_KEY,
+    DOC."DocumentoIdentidad" AS "DOCUMENTOIDENTIDAD",
+    FATCA."IdPersona" AS "IDPERSONA",
+    TO_NVARCHAR(FATCA."FechaFirmaFormulario", 'YYYY-MM-DD') AS "FECHAFIRMAFORMULARIO",
+    FATCA."IdClasificacionFatca" AS "IDCLASIFICACIONFATCA",
+    CLASIFFATCA."Nombre" AS "NOMBRECLASIFICACIONFATCA",
+    FATCA."IdClasificacionEmpresaFatca" AS "IDCLASIFICACIONEMPRESAFATCA",
+    CLASIFEMPFATCA."Nombre" AS "NOMBRECLASIFICACIONEMPRESAFATCA",
+    FATCA."AutorizacionInformarOrganismo" AS "AUTORIZACIONINFORMARORGANISMO",
+    FATCA."ParticipacionSociedadesUSA" AS "PARTICIPACIONSOCIEDADESUSA",
+    FATCA."OrdenPermanente" AS "ORDENPERMANENTE",
+    CASE WHEN FATCA."NACEEUU" = 'UI_CERTIFICADO_NAC_EEUU1' THEN 'S' ELSE 'N' END AS "CERTIFICADOPERDIDANACIONALIDAD",
+    CASE WHEN FATCA."NACEEUU" = 'UI_CERTIFICADO_NAC_EEUU2' THEN 'S' ELSE 'N'  END AS "NOHAYOBLIGACIONESPAIS",
+    FATCA."NACEEUU" AS "NACEEUU",
+    FATCA."NACEEUUExplicacion" AS "NACEEUUEXPLICACION",
+    FATCA."ExcepcionResidente" AS "EXCEPCIONRESIDENTE",
+    FATCA."ExcepcionNacimiento" AS "EXCEPCIONNACIMIENTO",
+    FATCA."ExcepcionDomicilio" AS "EXCEPCIONDOMICILIO",
+    FATCA."ExcepcionTelefono" AS "EXCEPCIONTELEFONO",
+    FATCA."ExcepcionOrdenPermanente" AS "EXCEPCIONORDENPERMANENTE",
+    FATCA."ExcepcionFirma" AS "EXCEPCIONFIRMA"
+FROM "BSCL.SocioNegocio.BD::PER.Fatca" AS FATCA
+INNER JOIN "BSCL.SocioNegocio.BD::PER.Persona" AS PER ON PER."IdPersona" = FATCA."IdPersona"
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.ClasificacionFatca" AS CLASIFFATCA ON CLASIFFATCA."IdClasificacionFatca" = FATCA."IdClasificacionFatca"
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.ClasificacionEmpresaFatca" AS CLASIFEMPFATCA ON CLASIFEMPFATCA."IdClasificacionEmpresaFatca" = FATCA."IdClasificacionEmpresaFatca"
+LEFT JOIN "BSCL.Plataforma.BD::PLA.Estado" AS ESTFATCA  ON ESTFATCA."IdEstado" = FATCA."IdEstado"
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" AS DOC ON DOC."IdPersona" = FATCA."IdPersona" AND DOC."Borrado" = 'N' AND DOC."Predeterminado" = 'S'
+WHERE FATCA."Borrado" = 'N'
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaSocioNegocio_PersonaFatca" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

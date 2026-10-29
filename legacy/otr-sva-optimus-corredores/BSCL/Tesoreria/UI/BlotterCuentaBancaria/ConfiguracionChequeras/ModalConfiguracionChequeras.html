@@ -1,0 +1,166 @@
+<div ng-controller="ModalConfiguracionChequerasCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<form name="formBusquedaConfChequeras" class="col-xs-12 form-horizontal">
+				<div class="row">
+						<label class="col-xs-3" translate>UI_CONFIGURACION_CHEQUERA</label>
+						<bcs-combobox-base  
+							class="col-xs-5"
+							bcs-requerido
+							auto-cargar   = "true"									
+							tipo          = "oConfiguracionConfChequera.tipo"
+							id-actual     = "oConfiguracionConfChequera.idActual"	
+							id-defecto    = "oConfiguracionConfChequera.idDefecto"													
+							configuracion = "oConfiguracionConfChequera.configuracion"
+							seleccionado  = "oConfiguracionConfChequera.seleccionado"							
+							filtros       = "oConfiguracionCuentaBancaria.filtros"
+							id-post-filtro= "oConfiguracionConfChequera.idPostFiltro"
+							activado="busquedaHabilitada">
+						</bcs-combobox-base>
+						<bcs-button
+							class="col-xs-3 col-xs-offset-1" bcs-auto-desactivar="false" bcs-tipo="'bcs-button-search'"
+							bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="formBusquedaConfChequeras.$valid && busquedaHabilitada" 
+							bcs-clic="buscarConfChequera()">
+						</bcs-button>
+				</div>
+				<div class="col-xs-12">
+				</div>
+			</form>
+		</div>
+		<hr>
+		<div class="row">
+			<form name="formConfiguracionChequeras" class="col-xs-12 form-horizontal">
+				<div class="row">
+					<label class="col-xs-3" translate>UI_NOMBRE_CONFIGURACION</label>
+					<bcs-input-texto bcs-requerido class="col-xs-5" 
+						ng-model="nombreConfiguracion"
+						k-ng-disabled="busquedaHabilitada"></bcs-input-texto>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_ANCHO_CHEQUE</label>
+					<bcs-input-numero bcs-requerido class="col-xs-5" 
+						k-ng-model="anchoCheque"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_ALTO_CHEQUE</label>
+					<bcs-input-numero bcs-requerido class="col-xs-5" 
+						k-ng-model="altoCheque"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+					<div class="col-xs-1"></div>
+					<label class="col-xs-2" translate>UI_SIGLO_IMPRESO</label>
+					<bcs-input-checkbox class="col-xs-1"
+						ng-model="sigloImpreso"
+						ng-disabled="busquedaHabilitada"> </bcs-input-checkbox>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-xs-3"><label translate>UI_POSICION</label></div>
+					<div class="col-xs-1"><label translate>UI_FILA</label> {{UnidadMedidaImpresionCheques}}</div>
+					<div class="col-xs-3" translate></div>
+					<div class="col-xs-2"><label translate>UI_COLUMNA</label> {{UnidadMedidaImpresionCheques}}</div>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_MONTO</label>				
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="montoFila"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+					<div class="col-xs-3" translate></div>
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="montoColumna"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_PROVINCIA</label>				
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="provinciaFila"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+					<div class="col-xs-3" translate></div>
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="provinciaColumna"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_MES</label>				
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="mesFila"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+					<div class="col-xs-3" translate></div>	
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="mesColumna"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_ANIO</label>				
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="anioFila"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+					<div class="col-xs-3" translate></div>	
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="anioColumna"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_EXTENDIDO_A</label>				
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="extendidoAFila"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+					<div class="col-xs-3" translate></div>	
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="extendidoAColumna"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_PRIMERA_CANTIDAD</label>				
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="primeraCantidadFila"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+					<div class="col-xs-3" translate></div>	
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="primeraCantidadColumna"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_SEGUNDA_CANTIDAD</label>				
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="segundaCantidadFila"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+					<div class="col-xs-3" translate></div>	
+					<bcs-input-numero bcs-requerido class="col-xs-1" 
+						k-ng-model="segundaCantidadColumna"
+						k-ng-disabled="busquedaHabilitada"
+						decimales="decimales"></bcs-input-numero>
+				</div>		
+			</form>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button class="col-xs-2" bcs-habilitado="formConfiguracionChequeras.$valid && !busquedaHabilitada" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate"  bcs-clic="grabarConfiguracionChequera()"></bcs-button>		
+		<bcs-button class="col-xs-3" bcs-habilitado="!busquedaHabilitada"				  bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_USAR_OTRA_CONFIGURACION' | translate" bcs-clic="habilitarBusqueda()"></bcs-button>
+		<bcs-button class="col-xs-2" bcs-habilitado="'true'"              bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="cancelar(false)"></bcs-button>				
+	</div>
+</div>

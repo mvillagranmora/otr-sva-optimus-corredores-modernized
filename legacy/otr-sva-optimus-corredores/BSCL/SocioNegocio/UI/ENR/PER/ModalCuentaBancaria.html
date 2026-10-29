@@ -1,0 +1,210 @@
+<div id="ModalCuentaBancaria" ng-controller="ModalCuentaBancariaEnrolCtrl as mcb">
+	<div class="row bcs-cuerpo">
+		<form name="formCuentaBancaria" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_BANCO</label>
+				<bcs-combobox-base 
+					id="formCuentaBancaria_IdTipoBanco"
+					class="col-xs-9"
+					bcs-requerido	 = "mcb.camposRequeridos['formCuentaBancaria_IdTipoBanco'].Requerido === 'S'"
+					auto-cargar   	 = "true"									
+					tipo          	 = "'combobox-tipo-banco'"
+					id-actual     	 = "mcb.cmbbxTipoBanco.idActual"												
+					seleccionado  	 = "mcb.cmbbxTipoBanco.seleccionado"							
+					filtros       	 = "mcb.cmbbxTipoBanco.filtros"
+					id-post-filtro	 = "mcb.CuentaBancariaOriginal.IdTipoBanco"					
+					cascada1-a     	 = "mcb.cmbbxCuentaBancaria.filtros.IdTipoBanco"
+					cascada1-valor 	 = "'IdTipoBanco'"
+					cascada1-defecto = "-1">
+				</bcs-combobox-base>
+			</div>
+		
+			<div class="row">
+				<label class="col-xs-3" translate>UI_BANCO</label>
+				<bcs-combobox-base
+					id="formCuentaBancaria_IdBanco"
+					class="col-xs-9" 
+					auto-cargar   	 = "true"
+					bcs-requerido = "mcb.camposRequeridos['formCuentaBancaria_IdBanco'].Requerido === 'S'"
+					tipo="'combobox-banco'" 
+					filtros = "mcb.cmbbxCuentaBancaria.filtros"
+					seleccionado   = "mcb.cmbbxCuentaBancaria.seleccionado"
+					id-actual="mcb.CuentaBancaria.IdBanco"
+					id-defecto="mcb.CuentaBancariaOriginal.IdBanco"
+					id-post-filtro="mcb.CuentaBancariaOriginal.IdBanco"
+					cascada1-a       = "mcb.cmbbxPlaza.filtros.IdPais"
+					cascada1-valor   = "'IdPaisOperacion'"
+					cascada1-defecto = "-1"
+					>
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_CUENTA_BANCO</label>
+				<bcs-combobox-base
+					id="formCuentaBancaria_IdTipoCuentaBancaria"
+					class="col-xs-9"
+					auto-cargar="true"
+					bcs-requerido = "mcb.camposRequeridos['formCuentaBancaria_IdTipoCuentaBancaria'].Requerido === 'S'"
+					filtros = "mcb.cmbbxCuentaBancariaFiltrarCuentas.filtros"
+					tipo="'combobox-tipo-cuenta-banco'" 
+					id-actual="mcb.CuentaBancaria.IdTipoCuentaBancaria"
+					id-defecto="mcb.CuentaBancariaOriginal.IdTipoCuentaBancaria"
+					id-post-filtro="mcb.CuentaBancariaOriginal.IdTipoCuentaBancaria">			
+			</div>
+			
+			<div class="row" ng-show="SesionLocale=='PE' && mcb.CodigoTipoPersona==='M'">
+				<label class="col-xs-3" translate>UI_PERSONA_RELACIONADA</label>
+				<bcs-combobox-base
+					id="formCuentaBancaria_IdPersonaRelacionada"
+					class="col-xs-9"
+					bcs-requerido = "SesionLocale=='PE' && mcb.CodigoTipoPersona==='M'"
+					filtros = "mcb.cmbbxCotitular.filtros"
+					tipo="'combobox-cotitulares'" 
+					id-actual="mcb.CuentaBancaria.IdPersonaRelacionada"
+					id-post-filtro="mcb.CuentaBancariaOriginal.IdPersonaRelacionada">
+				</bcs-combobox-base>	
+			</div>
+			<div class="row" ng-show="SesionLocale=='PE'">
+				<label class="col-xs-3" translate>UI_IDENTIFICADOR_CUENTA</label>
+				<bcs-input-documento-identidad
+					id="formCuentaBancaria_IdTipoIdentificadorCuenta"
+					class="col-xs-9"
+					requerido = "SesionLocale=='PE'"
+					bcs-requerido = "SesionLocale=='PE'"
+					ng-model="mcb.CuentaBancaria.IdTipoCuentaBancariaIup"
+					cambiar-documento-identidad="mcb.CuentaBancaria.IdentificadorCuenta"
+					id-defecto="mcb.CuentaBancaria.IdTipoIdentificadorCuenta"
+					id-tipo-persona="mcb.CodigoTipoPersona"
+					id-tipo-documento-asociado="mcb.CuentaBancaria.IdTipoCuentaBancariaX"
+					documento-asociado="mcb.CuentaBancaria.IdCuentaBancariaX"					
+					tipo="'combobox-tipo-documento-identidad'"
+					tipo-documento-identidad-activado="true"
+					documento-identidad-activado="true"
+					focus="false">
+				</bcs-input-documento-identidad> 		
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONEDA</label>
+				<bcs-combobox-base
+					id="formCuentaBancaria_IdMoneda"
+					class="col-xs-9"
+					auto-cargar="true"
+					bcs-requerido = "mcb.camposRequeridos['formCuentaBancaria_IdMoneda'].Requerido === 'S'"
+					tipo="'combobox-moneda'" 
+					id-actual="mcb.CuentaBancaria.IdMoneda"
+					id-post-filtro="mcb.CuentaBancariaOriginal.IdMoneda">			
+				</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_NUMERO_CUENTA</label>
+				<bcs-input-texto
+					id="formCuentaBancaria_NumeroCuentaBancaria"
+					bcs-requerido = "mcb.camposRequeridos['formCuentaBancaria_NumeroCuentaBancaria'].Requerido === 'S'"
+					class="col-xs-9" 
+					ng-model="mcb.CuentaBancaria.NumeroCuentaBancaria"
+					maxlength="{{SesionValoresDefectoSistema.LargoMaximoCuentaBancaria}}">
+				</bcs-input-texto>
+			</div>
+			
+			
+			
+			<!-- Codigo CCI (Para Cuentas Nacionales)-->
+			<div class="row"  ng-show="mcb.cmbbxCuentaBancaria.seleccionado.IdTipoBanco == 'NAC' && SesionLocale=='PE'">
+				<label class="col-xs-3" translate>UI_CODIGO_CUENTA_INTERBANCARIO</label>
+				<bcs-input-texto 
+				class="col-xs-9" 
+				maxlength="40" 
+				ng-model="mcb.CuentaBancaria.CodigoCuentaInterbancario" 
+				id="formCuentaBancaria_CodigoCuentaInterbancario"
+				bcs-requerido = "mcb.cmbbxCuentaBancaria.seleccionado.IdTipoBanco == 'NAC' && SesionLocale=='PE'">
+				</bcs-input-texto>
+			</div>
+			
+			<!-- Codigo ABA (Para Bancos Extranjeros)-->
+			<div class="row" ng-show="mcb.cmbbxCuentaBancaria.seleccionado.IdTipoBanco == 'EXT'">
+					<label class="col-xs-3" translate>UI_CODIGO_ABA</label>
+					<bcs-input-texto 
+					class="col-xs-3" 
+					maxlength="50" 
+					ng-model="mcb.CuentaBancaria.CodigoAba"
+					id="formCuentaBancaria_CodigoAba"
+					bcs-requerido = "mcb.cmbbxCuentaBancaria.seleccionado.IdTipoBanco == 'EXT' && mcb.camposRequeridos['formCuentaBancaria_CodigoAba'].Requerido === 'S'">
+					</bcs-input-texto>
+					<div class="col-xs-3"><label class="col-xs-offset-1" translate>UI_CODIGO_BANCO_EXTRANJERO</label></div>
+					<bcs-input-texto 
+					class="col-xs-3" 
+					maxlength="50" 
+					ng-model="mcb.CuentaBancaria.OtroCodigoBancoExtranjero" 
+					id="formCuentaBancaria_OtroCodigoBancoExtranjero"
+					bcs-requerido = "mcb.cmbbxCuentaBancaria.seleccionado.IdTipoBanco == 'EXT' &&  mcb.camposRequeridos['formCuentaBancaria_OtroCodigoBancoExtranjero'].Requerido === 'S'">
+					</bcs-input-texto>
+			</div>
+			
+			<!-- Codigo IBAN (Para Cuentas Extranjeros)-->
+			<div class="row" ng-show="mcb.cmbbxCuentaBancaria.seleccionado.IdTipoBanco == 'EXT'">
+					<label class="col-xs-3" translate>UI_CODIGO_IBAN</label>
+					<bcs-input-texto 
+					class="col-xs-3" 
+					maxlength="50" 
+					ng-model="mcb.CuentaBancaria.CodigoIban"  
+					id="formCuentaBancaria_CodigoIban"
+					bcs-requerido = "mcb.cmbbxCuentaBancaria.seleccionado.IdTipoBanco == 'EXT' && mcb.camposRequeridos['formCuentaBancaria_CodigoIban'].Requerido === 'S'">
+					</bcs-input-texto>
+					<div class="col-xs-3"><label class="col-xs-offset-1" translate>UI_CODIGO_CUENTA_EXTRANJERO</label></div>
+					<bcs-input-texto 
+					class="col-xs-3" 
+					maxlength="100" 
+					ng-model="mcb.CuentaBancaria.OtroCodigoCuentaExtranjero" 
+					id="formCuentaBancaria_OtroCodigoCuentaExtranjero" 
+					bcs-requerido = "mcb.cmbbxCuentaBancaria.seleccionado.IdTipoBanco == 'EXT' && mcb.camposRequeridos['formCuentaBancaria_OtroCodigoCuentaExtranjero'].Requerido === 'S'">
+					</bcs-input-texto>
+			</div>
+		
+			
+			<div class="row" ng-show="false">
+				<label class="col-xs-3" translate>UI_ESTADO</label>
+				<bcs-combobox-base
+					id="formCuentaBancaria_IdEstado"
+					class="col-xs-9"
+					bcs-requerido = "false"
+					auto-cargar="true"
+					filtros = "mcb.cmbbxCuentaBancaria.filtros.IdEstado"
+					tipo="'combobox-estado-cuenta-bancaria'"
+					id-actual="mcb.CuentaBancaria.IdEstado"
+					id-post-filtro="mcb.CuentaBancariaOriginal.IdEstado">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row">
+			<label class="col-xs-3" translate>UI_PLAZA</label>
+				<bcs-combobox-base
+					id="formCuentaBancaria_IdPlaza"
+					class="col-xs-9"
+					bcs-requerido = "mcb.camposRequeridos['formCuentaBancaria_IdPlaza'].Requerido === 'S'"
+					auto-cargar   = "true"									
+					filtros       = "mcb.cmbbxPlaza.filtros"
+					tipo          = "'combobox-plaza'"
+					id-actual     = "mcb.CuentaBancaria.IdPlaza"													
+					seleccionado  = "mcb.cmbbxPlaza.seleccionado"							
+					id-post-filtro= "mcb.CuentaBancariaOriginal.IdPlaza">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				  	<label class="col-xs-3" translate>UI_PAC</label>
+					  <bcs-input-checkbox 
+					  id="formCuentaBancaria_EsPac"
+					  class="col-xs-8" 
+					  name="PacObj" 
+					  ng-model="mcb.CuentaBancaria.EsPac">
+					</bcs-input-checkbox>
+			</div>
+			
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="ModalCuentaBancaria_aceptar" class="col-xs-2 pull-right" bcs-habilitado="formCuentaBancaria.$valid && mcb.CuentaBancariaValida" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="mcb.aceptar()"></bcs-button>
+		<bcs-button id="ModalCuentaBancaria_cancelar" class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mcb.cancelar()"></bcs-button>
+	</div>
+</div>

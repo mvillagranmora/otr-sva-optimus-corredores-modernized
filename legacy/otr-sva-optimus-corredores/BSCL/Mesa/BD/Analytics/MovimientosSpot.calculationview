@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="MovimientosSpot" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="MovimientosFWD_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="CHAR" id="FechaIngresoRegistro" length="27"/>
+        <viewAttribute datatype="BIGINT" id="IdOperacion"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoOperacion" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoOperacion" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdMesa"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMesa" length="30"/>
+        <viewAttribute datatype="CHAR" id="FechaOperacion" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidadCliente" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCliente" length="302"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePortafolio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaPrincipal" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="MontoMonedaPrincipal" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaSecundaria" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="MontoMonedaSecundaria" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ParidadCosto" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="TipoCambioCosto" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ParidadCierre" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="TipoCambioCierre" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="Margen" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="OrigenForward" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="Producto" length="4"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreProducto" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdInstrumento"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreInstrumento" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMedioPagoEntregamos" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMedioPagoEntregamos" length="100"/>
+        <viewAttribute datatype="DECIMAL" id="MontoPagoEntregamos" length="26" scale="8"/>
+        <viewAttribute datatype="CHAR" id="FechaLiquidacionEntregamos" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMedioPagoRecibimos" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMedioPagoRecibimos" length="100"/>
+        <viewAttribute datatype="DECIMAL" id="MontoPagoRecibimos" length="26" scale="8"/>
+        <viewAttribute datatype="CHAR" id="FechaLiquidacionRecibimos" length="10"/>
+        <viewAttribute datatype="DECIMAL" id="PuntaCompra" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PuntaVenta" length="26" scale="8"/>
+        <viewAttribute datatype="BIGINT" id="CodigoComercio"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCodigoComercio" length="255"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobanteFacturacion"/>
+        <viewAttribute datatype="NVARCHAR" id="OperacionFicticia" length="1"/>
+        <viewAttribute datatype="BIGINT" id="IdAgente"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreAgente" length="201"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuario"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoUsuario" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdCanalIngreso" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCanalIngreso" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEmpresa" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEstado" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdSolicitudAporteRescate"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out =
+ 	 	SELECT
+ 	 		 &quot;IdEmpresa&quot;
+			,&quot;FechaIngresoRegistro&quot;
+			,&quot;IdOperacion&quot;
+			,&quot;IdTipoOperacion&quot;
+			,&quot;NombreTipoOperacion&quot;
+			,&quot;IdMesa&quot;
+			,&quot;NombreMesa&quot;
+			,&quot;FechaOperacion&quot;
+			,&quot;IdPersona&quot;
+			,&quot;IdCliente&quot;
+			,&quot;DocumentoIdentidadCliente&quot;
+			,&quot;NombreCliente&quot;
+			,&quot;IdPortafolio&quot;
+			,&quot;NombrePortafolio&quot;
+			,&quot;CodigoPortafolio&quot;
+			,&quot;IdMonedaPrincipal&quot;
+			,&quot;MontoMonedaPrincipal&quot;
+			,&quot;IdMonedaSecundaria&quot;
+			,&quot;MontoMonedaSecundaria&quot;
+			,&quot;ParidadCosto&quot;
+			,&quot;TipoCambioCosto&quot;
+			,&quot;ParidadCierre&quot;
+			,&quot;TipoCambioCierre&quot;
+			,&quot;Margen&quot;
+			,&quot;OrigenForward&quot;
+			,&quot;Producto&quot;
+			,&quot;NombreProducto&quot;
+			,&quot;IdInstrumento&quot;
+			,&quot;NombreInstrumento&quot;
+			,&quot;IdMedioPagoEntregamos&quot;
+			,&quot;NombreMedioPagoEntregamos&quot;
+			,&quot;MontoPagoEntregamos&quot;
+			,&quot;FechaLiquidacionEntregamos&quot;
+			,&quot;IdMedioPagoRecibimos&quot;
+			,&quot;NombreMedioPagoRecibimos&quot;
+			,&quot;MontoPagoRecibimos&quot;
+			,&quot;FechaLiquidacionRecibimos&quot;
+			,&quot;PuntaCompra&quot;
+			,&quot;PuntaVenta&quot;
+			,&quot;CodigoComercio&quot;
+			,&quot;NombreCodigoComercio&quot;
+			,&quot;IdComprobanteFacturacion&quot;
+			,&quot;OperacionFicticia&quot;
+			,&quot;IdAgente&quot;
+			,&quot;NombreAgente&quot;
+			,&quot;IdUsuario&quot;
+			,&quot;CodigoUsuario&quot;
+			,&quot;IdCanalIngreso&quot;
+			,&quot;NombreCanalIngreso&quot;
+			,&quot;NombreEmpresa&quot;
+			,&quot;IdEstado&quot;
+			,&quot;NombreEstado&quot;
+			,&quot;IdSolicitudAporteRescate&quot;
+		FROM &quot;BSCL.Mesa.BD.Vistas::SPT.ConsultarMovimientosSpotAnalitica&quot;;
+
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdEmpresa" order="1">
+        <descriptions defaultDescription="IdEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="FechaIngresoRegistro" order="2">
+        <descriptions defaultDescription="FechaIngresoRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaIngresoRegistro"/>
+      </attribute>
+      <attribute id="IdOperacion" order="3">
+        <descriptions defaultDescription="IdOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdOperacion"/>
+      </attribute>
+      <attribute id="IdTipoOperacion" order="4">
+        <descriptions defaultDescription="IdTipoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoOperacion"/>
+      </attribute>
+      <attribute id="NombreTipoOperacion" order="5">
+        <descriptions defaultDescription="NombreTipoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoOperacion"/>
+      </attribute>
+      <attribute id="IdMesa" order="6">
+        <descriptions defaultDescription="IdMesa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMesa"/>
+      </attribute>
+      <attribute id="NombreMesa" order="7">
+        <descriptions defaultDescription="NombreMesa"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMesa"/>
+      </attribute>
+      <attribute id="FechaOperacion" order="8">
+        <descriptions defaultDescription="FechaOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaOperacion"/>
+      </attribute>
+      <attribute id="IdPersona" order="9">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="IdCliente" order="10">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="DocumentoIdentidadCliente" order="11">
+        <descriptions defaultDescription="DocumentoIdentidadCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidadCliente"/>
+      </attribute>
+      <attribute id="NombreCliente" order="12">
+        <descriptions defaultDescription="NombreCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCliente"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="13">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="NombrePortafolio" order="14">
+        <descriptions defaultDescription="NombrePortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePortafolio"/>
+      </attribute>
+      <attribute id="CodigoPortafolio" order="15">
+        <descriptions defaultDescription="CodigoPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolio"/>
+      </attribute>
+      <attribute id="IdMonedaPrincipal" order="16">
+        <descriptions defaultDescription="IdMonedaPrincipal"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaPrincipal"/>
+      </attribute>
+      <attribute id="MontoMonedaPrincipal" order="17">
+        <descriptions defaultDescription="MontoMonedaPrincipal"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoMonedaPrincipal"/>
+      </attribute>
+      <attribute id="IdMonedaSecundaria" order="18">
+        <descriptions defaultDescription="IdMonedaSecundaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaSecundaria"/>
+      </attribute>
+      <attribute id="MontoMonedaSecundaria" order="19">
+        <descriptions defaultDescription="MontoMonedaSecundaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoMonedaSecundaria"/>
+      </attribute>
+      <attribute id="ParidadCosto" order="20">
+        <descriptions defaultDescription="ParidadCosto"/>
+        <keyMapping columnObjectName="Script_View" columnName="ParidadCosto"/>
+      </attribute>
+      <attribute id="TipoCambioCosto" order="21">
+        <descriptions defaultDescription="TipoCambioCosto"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoCambioCosto"/>
+      </attribute>
+      <attribute id="ParidadCierre" order="22">
+        <descriptions defaultDescription="ParidadCierre"/>
+        <keyMapping columnObjectName="Script_View" columnName="ParidadCierre"/>
+      </attribute>
+      <attribute id="TipoCambioCierre" order="23">
+        <descriptions defaultDescription="TipoCambioCierre"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoCambioCierre"/>
+      </attribute>
+      <attribute id="Margen" order="24">
+        <descriptions defaultDescription="Margen"/>
+        <keyMapping columnObjectName="Script_View" columnName="Margen"/>
+      </attribute>
+      <attribute id="OrigenForward" order="25">
+        <descriptions defaultDescription="OrigenForward"/>
+        <keyMapping columnObjectName="Script_View" columnName="OrigenForward"/>
+      </attribute>
+      <attribute id="Producto" order="26">
+        <descriptions defaultDescription="Producto"/>
+        <keyMapping columnObjectName="Script_View" columnName="Producto"/>
+      </attribute>
+      <attribute id="NombreProducto" order="27">
+        <descriptions defaultDescription="NombreProducto"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreProducto"/>
+      </attribute>
+      <attribute id="IdInstrumento" order="28">
+        <descriptions defaultDescription="IdInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumento"/>
+      </attribute>
+      <attribute id="NombreInstrumento" order="29">
+        <descriptions defaultDescription="NombreInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreInstrumento"/>
+      </attribute>
+      <attribute id="IdMedioPagoEntregamos" order="30">
+        <descriptions defaultDescription="IdMedioPagoEntregamos"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMedioPagoEntregamos"/>
+      </attribute>
+      <attribute id="NombreMedioPagoEntregamos" order="31">
+        <descriptions defaultDescription="NombreMedioPagoEntregamos"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMedioPagoEntregamos"/>
+      </attribute>
+      <attribute id="MontoPagoEntregamos" order="32">
+        <descriptions defaultDescription="MontoPagoEntregamos"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoPagoEntregamos"/>
+      </attribute>
+      <attribute id="FechaLiquidacionEntregamos" order="33">
+        <descriptions defaultDescription="FechaLiquidacionEntregamos"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaLiquidacionEntregamos"/>
+      </attribute>
+      <attribute id="IdMedioPagoRecibimos" order="34">
+        <descriptions defaultDescription="IdMedioPagoRecibimos"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMedioPagoRecibimos"/>
+      </attribute>
+      <attribute id="NombreMedioPagoRecibimos" order="35">
+        <descriptions defaultDescription="NombreMedioPagoRecibimos"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMedioPagoRecibimos"/>
+      </attribute>
+      <attribute id="MontoPagoRecibimos" order="36">
+        <descriptions defaultDescription="MontoPagoRecibimos"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoPagoRecibimos"/>
+      </attribute>
+      <attribute id="FechaLiquidacionRecibimos" order="37">
+        <descriptions defaultDescription="FechaLiquidacionRecibimos"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaLiquidacionRecibimos"/>
+      </attribute>
+      <attribute id="PuntaCompra" order="38">
+        <descriptions defaultDescription="PuntaCompra"/>
+        <keyMapping columnObjectName="Script_View" columnName="PuntaCompra"/>
+      </attribute>
+      <attribute id="PuntaVenta" order="39">
+        <descriptions defaultDescription="PuntaVenta"/>
+        <keyMapping columnObjectName="Script_View" columnName="PuntaVenta"/>
+      </attribute>
+      <attribute id="CodigoComercio" order="40">
+        <descriptions defaultDescription="CodigoComercio"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoComercio"/>
+      </attribute>
+      <attribute id="NombreCodigoComercio" order="41">
+        <descriptions defaultDescription="NombreCodigoComercio"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCodigoComercio"/>
+      </attribute>
+      <attribute id="IdComprobanteFacturacion" order="42">
+        <descriptions defaultDescription="IdComprobanteFacturacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobanteFacturacion"/>
+      </attribute>
+      <attribute id="OperacionFicticia" order="43">
+        <descriptions defaultDescription="OperacionFicticia"/>
+        <keyMapping columnObjectName="Script_View" columnName="OperacionFicticia"/>
+      </attribute>
+      <attribute id="IdAgente" order="44">
+        <descriptions defaultDescription="IdAgente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdAgente"/>
+      </attribute>
+      <attribute id="NombreAgente" order="45">
+        <descriptions defaultDescription="NombreAgente"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreAgente"/>
+      </attribute>
+      <attribute id="IdUsuario" order="46">
+        <descriptions defaultDescription="IdUsuario"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuario"/>
+      </attribute>
+      <attribute id="CodigoUsuario" order="47">
+        <descriptions defaultDescription="CodigoUsuario"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoUsuario"/>
+      </attribute>
+      <attribute id="IdCanalIngreso" order="48">
+        <descriptions defaultDescription="IdCanalIngreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCanalIngreso"/>
+      </attribute>
+      <attribute id="NombreCanalIngreso" order="49">
+        <descriptions defaultDescription="NombreCanalIngreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCanalIngreso"/>
+      </attribute>
+      <attribute id="NombreEmpresa" order="50">
+        <descriptions defaultDescription="NombreEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEmpresa"/>
+      </attribute>
+      <attribute id="IdEstado" order="51">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="NombreEstado" order="52">
+        <descriptions defaultDescription="NombreEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEstado"/>
+      </attribute>
+      <attribute id="IdSolicitudAporteRescate" order="53">
+        <descriptions defaultDescription="IdSolicitudAporteRescate"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdSolicitudAporteRescate"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

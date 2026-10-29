@@ -1,0 +1,3 @@
+UPSERT "BSCL.Plataforma.BD::INS.BolsaInstrumentoPrecio"
+("IdInstrumento","IdBolsa","Fecha","FechaActualizacionArchivo","PrecioMayor","PrecioMenor","PrecioMedio","PrecioApertura","PrecioCierre","UnidadesTransadas","MontoTransado","Variacion","HoraPrecioMaximo","HoraPrecioMinimo") 
+VALUES (:IdInstrumento,:IdBolsa,:Fecha,CURRENT_UTCTIMESTAMP,:PrecioMayor,:PrecioMenor,:PrecioMedio,:PrecioApertura,:PrecioCierre,:UnidadesTransadas,:MontoTransado,:Variacion,:HoraPrecioMaximo, :HoraPrecioMinimo) WHERE "IdInstrumento" = :IdInstrumento AND "IdBolsa" = :IdBolsa AND "Fecha" = :Fecha;

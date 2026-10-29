@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Normativa.BD::PRO.CuadraturaCustodiaCircular1720" NOR WHERE NOR."FechaCuadraturaCustodia"=:v_FechaOperacion;

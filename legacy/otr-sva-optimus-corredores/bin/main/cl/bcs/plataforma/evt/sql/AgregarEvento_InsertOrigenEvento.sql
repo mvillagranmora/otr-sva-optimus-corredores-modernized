@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.Plataforma.BD::EVT.OrigenEvento"("IdOrigenEvento", "IdEmpresa", "IdUsuario", "IdModulo", "FechaIngreso", "CodigoTipoEvento", "CantidadEventos", "IdEstado", "DescripcionOrigen", "SecuenciaOrigen", "TipoEventoOrigen")
+VALUES(:IdOrigenEvento, :IdEmpresa, :IdUsuario, :IdModulo, CURRENT_UTCTIMESTAMP, :CodigoTipoEvento, :CantidadEventos, :IdEstado, :DescripcionOrigen, :SecuenciaOrigen, :TipoEventoOrigen);

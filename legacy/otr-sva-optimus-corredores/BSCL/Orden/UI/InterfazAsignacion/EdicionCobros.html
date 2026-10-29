@@ -1,0 +1,98 @@
+<div ng-controller="EdicionCobrosCtrl">
+	<form name="EdicionMultipleForm">
+		<div class="row">
+			<table class="table">
+			  	<thead>
+				    <tr>
+			        	<th width="5%"></th>
+			        	<th width="20%" translate>{{'UI_TIPO'}}</th>
+						<th width="15%" translate>{{'UI_CODIGO'}}</th>
+						<th width="20%" translate>{{'UI_MINIMO'}}</th>
+						<th width="20%" translate>{{'UI_MAXIMO'}}</th>
+						<th width="20%" translate>{{'UI_VALOR'}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="cobro in cobros">
+				    	<td><bcs-input-checkbox ng-model="cobro.Seleccionado"></bcs-input-checkbox></td>
+				    	<td>{{cobro.CodigoCobroClasificacion}}</td>
+				    	<td>{{cobro.IdCobro}}</td>
+				    	<td>
+				    		<span ng-if="cobro.FormaCobro === 'F'" >{{cobro.Minimo | kformat:'c':cobro.IdMoneda:'monto':'ORD'}}</span>
+				    		<span ng-if="cobro.FormaCobro === 'V'" >{{cobro.Minimo | kformat:'x'}}</span>
+				    	</td>
+				    	<td>
+				    		<span ng-if="cobro.FormaCobro === 'F'" >{{cobro.Maximo | kformat:'c':cobro.IdMoneda:'monto':'ORD'}}</span>
+				    		<span ng-if="cobro.FormaCobro === 'V'" >{{cobro.Maximo | kformat:'x'}}</span>
+				    	</td>
+				    	<td>
+				    		<bcs-input-monetario ng-if="cobro.FormaCobro === 'F'"  k-ng-model="cobro.ValorNuevo" k-ng-disabled="cobro.PermiteCambiarValor === 'N'" decimales="cobro.Decimales" simbolo="cobro.IdMoneda"></bcs-input-monetario>
+				    		<bcs-input-porcentaje ng-if="cobro.FormaCobro === 'V'" k-ng-model="cobro.ValorNuevo" k-ng-disabled="cobro.PermiteCambiarValor === 'N'" ></bcs-input-porcentaje>
+				    	</td>
+				    </tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<label class="col-xs-3"><bcs-input-checkbox ng-model="cambiaBoveda" class="col-xs-2"></bcs-input-checkbox>{{ 'UI_BOVEDA' | translate }}</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				bcs-requerido = "cambiaBoveda"
+				tipo="'combobox-boveda'"
+				filtros = "filtrosBoveda"
+				todos = "'S'"
+				seleccionado="bovedaSeleccionada">
+			</bcs-combobox-base>	
+			<label class="col-xs-3" translate><bcs-input-checkbox ng-model="cambiaFormaCustodia" class="col-xs-2"></bcs-input-checkbox>{{ 'UI_FORMA_CUSTODIA' | translate }}</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				bcs-requerido = "cambiaFormaCustodia"
+				tipo="'combobox-forma-custodia-orden'"
+				seleccionado="formaCustodiaSeleccionada">
+			</bcs-combobox-base>
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-3" translate><bcs-input-checkbox ng-model="cambiaTipoCambio" class="col-xs-2"></bcs-input-checkbox>{{ 'UI_TIPO_CAMBIO' | translate }}</label>
+			<bcs-input-monetario
+				class="col-xs-3"
+				bcs-requerido = "cambiaTipoCambio"
+				decimales = "'2'"
+				simbolo="SesionIdMonedaSistema" 
+				k-ng-model="tipoCambio">
+			</bcs-input-monetario>
+			<label class="col-xs-3" translate><bcs-input-checkbox ng-model="cambiaMonedaLiquidacionOrden" class="col-xs-2"></bcs-input-checkbox>{{ 'UI_MONEDA_LIQUIDACION_ORDEN' | translate }}</label>
+			<bcs-combobox-base
+				class="col-xs-3"
+				bcs-requerido = "cambiaMonedaLiquidacionOrden"
+				filtros = "filtrosMonedaLiquidacion"
+				tipo="'combobox-tipo-instrumento-moneda-liquidacion'"
+				seleccionado="monedaLiquidacionOrdenSeleccionada">
+			</bcs-combobox-base>
+		</div>
+		
+		<div class="row" ng-show="esVentaCorta">
+			<label class="col-xs-3" translate><bcs-input-checkbox ng-model="cambiaPlazoVentaCorta" class="col-xs-2"></bcs-input-checkbox>{{ 'UI_PLAZO_VENTA_CORTA' | translate }}</label>
+			<bcs-input-plazo
+				class="col-xs-3"
+				bcs-requerido = "esVentaCorta && cambiaPlazoVentaCorta"
+				bcs-mayor-que = "'0'"
+				fecha-inicial = "fechaInicial"
+				plazo = "plazoVentaCorta"
+				id-tipo-operacion = "idTipoOperacion"
+				id-condicion-de-liquidacion="'T0'">
+			</bcs-input-plazo>
+			<label class="col-xs-3" translate><bcs-input-checkbox ng-model="cambiaTasaVentaCorta" class="col-xs-2"></bcs-input-checkbox>{{ 'UI_TASA_VENTA_CORTA' | translate }}</label>
+			<div class="col-xs-3">
+				<bcs-input-numero
+					bcs-requerido = "esVentaCorta && cambiaTasaVentaCorta"
+					k-ng-model="tasaVentaCorta">
+				</bcs-input-numero>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<bcs-button class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ACEPTAR' | translate"  bcs-habilitado="EdicionMultipleForm.$valid" bcs-clic="aceptar()"></bcs-button>
+			<bcs-button class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="'false'" bcs-texto="'UI_CANCELAR' | translate"  bcs-habilitado="'true'" bcs-clic="cancelar()"></bcs-button>
+		</div>
+	</form>
+</div>

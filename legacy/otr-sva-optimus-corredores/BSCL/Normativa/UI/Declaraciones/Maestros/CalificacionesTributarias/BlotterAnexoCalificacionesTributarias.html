@@ -1,0 +1,88 @@
+<div id="BlotterAnexoCalificacionesTributarias" class="col-xs-12" ng-controller="BlotterAnexoCalificacionesTributariasCtrl">
+	<div class="row bcs-cuerpo">
+   	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_ANIO</label>
+					<bcs-input-date
+						class="col-xs-6"
+						id="UI_ANIO"
+						k-options="configuraciones.date"
+						ng-model="filtros.Anio">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 col-xs-offset-1" translate>UI_MERCADO</label>
+					<bcs-combobox-base
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						class="col-xs-6"
+						todos = "'S'"
+						item-post-filtro = "'1'"
+						id-actual="filtros.IdClasificacionTipoInstrumento">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+			  		<label class="col-xs-4 col-xs-offset-1" translate>UI_INSTRUMENTO</label>
+			  		<bcs-input-instrumentos class="col-xs-6" 
+						datos-instrumento="filtros.instrumento"
+						buscar-instrumento="filtros.buscarInstrumento"
+						bcs-requerido
+						filtro-clasificacion="filtros.IdClasificacionTipoInstrumento">
+					</bcs-input-instrumentos>
+			  	</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarAnexo(apiGridAnexo,filtros)"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-consulta-anexo"
+			 	configuracion="defaultOptions"
+			 	fn-doble-click="abrirDetalle(datos.kNgModel)"
+				api = "apiGridAnexo"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-3" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="ingresarAnexo()">
+			</bcs-button>
+			<bcs-button class="col-xs-3" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_MODIFICAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="modificarAnexo(datos.kNgModel)">
+			</bcs-button>		
+			<bcs-button class="col-xs-3" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="eliminarAnexo(datos.kNgModel)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+				<li ng-click="calculoAnexo(datos.kNgModel)">{{'UI_CALCULO_FACTORES' | translate}}</li>
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

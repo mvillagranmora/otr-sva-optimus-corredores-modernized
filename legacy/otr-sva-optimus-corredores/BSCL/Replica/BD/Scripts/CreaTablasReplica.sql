@@ -1,0 +1,104 @@
+SET SCHEMA "BSCL";
+GO
+
+DROP TABLE  "BSCL.Plataforma.BD::PLA.Replica.WorkStack"; GO
+
+CREATE TABLE "BSCL.Plataforma.BD::PLA.Replica.WorkStack" (
+	"IdStack" BIGINT not null primary key ,
+	"Key" VARCHAR(200),
+	"Table" VARCHAR(200), ---curv
+	"Action" char(1),
+	"Status" INTEGER ,--
+	 "Stamp"    Timestamp 
+) ;  GO 
+
+
+DROP sequence "BSCL.Plataforma.BD.Secuencias::WorkStack"; GO 
+create sequence "BSCL.Plataforma.BD.Secuencias::WorkStack"
+		increment by 1 start with 1 minvalue 1  no cycle ; GO 
+
+
+		
+go		
+
+DROP TABLE  "BSCL.PLataforma.BD::Replica.ConfigTablas"; GO
+
+		
+CREATE TABLE "BSCL.PLataforma.BD::Replica.ConfigTablas" (
+	"NombreTabla" VARCHAR(100),
+	"Habilitado" INTEGER,
+	"BatchLimit" INTEGER,
+	CONSTRAINT "_BSCL_PLataforma_BD_Replica_ConfigTablas__PK" PRIMARY KEY ("NombreTabla")
+) ;
+
+
+GO 
+
+DROP TABLE  "BSCL.Plataforma.BD::PLA.Replica.VIF_DYNAMIC_ROUTE"; GO
+
+CREATE TABLE "BSCL.Plataforma.BD::PLA.Replica.VIF_DYNAMIC_ROUTE" (
+	"DYNAMIC_ROUTE_ID" INTEGER NOT NULL, 
+	"ROUTE_INSTANCE" VARCHAR(100),
+	"ROUTE_NAME"  VARCHAR(100),
+	"DESCRIPTION"  VARCHAR(1000),
+	
+	"ROUTE_FROM"  VARCHAR(1000),
+	"ROUTE_TO"  VARCHAR(1000),
+	"ERROR_HANDLER_NAME" VARCHAR(100),
+	"ENABLED" INTEGER DEFAULT 0,
+	
+	CONSTRAINT "_BSCL.Plataforma.BD::PLA.Replica.VIF_DYNAMIC_ROUTE__PK" PRIMARY KEY ("DYNAMIC_ROUTE_ID")
+) ;
+
+GO 
+
+
+DROP TABLE  "BSCL.Plataforma.BD::PLA.Replica.VIF_CONFIG_PARAM"; GO
+
+CREATE TABLE "BSCL.Plataforma.BD::PLA.Replica.VIF_CONFIG_PARAM" (
+	"DYNAMIC_ROUTE_ID" INTEGER NOT NULL, 
+	"ROUTE_INSTANCE" VARCHAR(100),
+	"ROUTE_NAME"  VARCHAR(100),
+	"DESCRIPTION"  VARCHAR(1000),
+	
+	"ROUTE_FROM"  VARCHAR(1000),
+	"ROUTE_TO"  VARCHAR(1000),
+	"ERROR_HANDLER_NAME" VARCHAR(100),
+	"ENABLED" INTEGER DEFAULT 0,
+	
+	CONSTRAINT "_BSCL.Plataforma.BD::PLA.Replica.VIF_CONFIG_PARAM_pk" PRIMARY KEY ("DYNAMIC_ROUTE_ID")
+) ;
+
+GO 
+
+
+
+DROP TABLE VIF_CONFIG_PARAM;
+CREATE TABLE "BSCL.Plataforma.BD::PLA.Replica.VIF_CONFIG_PARAM" ( 
+PARAM_ID INTEGER NOT NULL, 
+PARAM_NAME VARCHAR2(150) NOT NULL, 
+PARAM_TYPE VARCHAR2(20), 
+PARAM_VALUE VARCHAR2(3000), 
+DESCRIPTION VARCHAR2(3000), 
+CONFIG_GROUP VARCHAR2(150), PRIMARY KEY (PARAM_ID), 
+CONSTRAINT VIF_CONFIG_PARAMS_IX1 UNIQUE (CONFIG_GROUP, PARAM_NAME) );
+
+
+
+CREATE TABLE "BSCL.Plataforma.BD::PLA.Replica.VIF_GENERALPROPERTIES"
+    
+    (
+        PROPERTY_KEY VARCHAR2(200) NOT NULL,
+        PROPERTY_VALUE VARCHAR2(600),
+        CONSTRAINT GENERAL_PROPERTIES_PK PRIMARY KEY (PROPERTY_KEY)
+    );
+    
+
+    
+    
+DROP TABLE  "BSCL.Plataforma.BD::PLA.Replica.EstadoReplica"; GO
+
+CREATE TABLE "BSCL.Plataforma.BD::PLA.Replica.EstadoReplica" (
+	"Service" varchar(50) not null primary key ,--
+	 "Stamp"    Timestamp 
+) ;  GO 

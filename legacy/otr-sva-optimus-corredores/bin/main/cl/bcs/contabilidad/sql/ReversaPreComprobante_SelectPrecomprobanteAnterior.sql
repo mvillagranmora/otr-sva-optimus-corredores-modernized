@@ -1,0 +1,16 @@
+SELECT 
+"IdPreComprobante"
+,"IdTipoContabilidad"
+,"IdEmpresa"
+,"Ejercicio"
+,"Tipo"
+,"FechaContable"
+,"Glosa"
+,"FechaProceso"
+,"HoraProceso"
+,"CodigoUsuario"
+,"FolioContabilidad"
+,"IdReversa"  
+,"Estado"
+FROM "BSCL.Contabilidad.BD::ITZ.PreComprobante"
+WHERE "IdPreComprobante" IN (:IdPreComprobanteAnt)

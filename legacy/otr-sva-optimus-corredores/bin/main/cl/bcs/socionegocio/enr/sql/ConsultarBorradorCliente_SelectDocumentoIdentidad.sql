@@ -1,0 +1,15 @@
+SELECT 
+"IdDocumentoIdentidad"
+,"IdEnrolamiento"
+,"IdTipoDocumentoIdentidad"
+,"DocumentoIdentidad"
+,"NumeroSerie"
+,TO_VARCHAR("FechaEmision", 'YYYY-MM-DD') AS "FechaEmision"
+,TO_VARCHAR("FechaVencimiento",'YYYY-MM-DD') AS "FechaVencimiento"
+,"Predeterminado"
+,"IdTipoDocumentoIdentidadAsociado"
+,"TipoPersona"
+,"DocumentoIdentidadAsociado"
+,"IdDocumentoIdentidadPersona"
+FROM "BSCL.SocioNegocio.BD::ENR.DocumentoIdentidad"
+WHERE "IdEnrolamiento" IN (:IdEnrolamiento);

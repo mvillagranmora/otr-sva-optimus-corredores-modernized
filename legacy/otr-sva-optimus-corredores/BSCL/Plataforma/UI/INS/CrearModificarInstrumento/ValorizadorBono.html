@@ -1,0 +1,156 @@
+<div ng-controller='ValorizadorBonoCtrl'>
+    <form name="ValorizarForm">
+        <div class="row">
+            <label class="col-xs-6" translate>UI_NEMOTECNICO</label>
+		    <bcs-input-instrumentos class="col-xs-6"
+			    bcs-requerido
+			    name="uInstrumento"
+			    datos-instrumento="params.instrumento"
+			    muestra-precio="'N'"
+			    filtro-clasificacion="'RF'"
+			    filtro-estado="'ACT'"
+			    filtro-tipo-instrumento="tiposDeBonos"
+			    filtro-bolsa = "'BCS'">
+		    </bcs-input-instrumentos>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_FECHA_VALORIZACION</label>
+            <bcs-input-date class="col-xs-6"
+                ng-disabled="'false'"
+                bcs-requerido
+                k-ng-model="params.FechaValorizacion">
+            </bcs-input-date>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_VALOR_NOMINAL</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                bcs-requerido
+                decimales="'2'"
+                k-ng-model="params.ValorNominal">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_PRECIO</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaPrecios"
+                k-ng-model="params.Precio">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_TASA</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaTasas"
+                k-ng-model="params.Tasa"
+                k-options="{min:-999999999999999999999}">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_TASA_360</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaTasas"
+            	k-ng-disabled="true"
+                k-ng-model="params.Tasa360"
+                k-options="{min:-999999999999999999999}">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_MONTO_CAPITAL</label>
+            <bcs-input-monetario
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaMontos"
+            	k-ng-disabled="true"
+                k-ng-model="params.MontoCapital"
+                simbolo = "params.Moneda">
+            </bcs-input-monetario>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_MONTO_INTERESES</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaMontos"
+            	k-ng-disabled="true"
+                k-ng-model="params.MontoIntereses">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_MONTO_REAJUSTE</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaMontos"
+            	k-ng-disabled="true"
+                k-ng-model="params.MontoReajuste">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_MONTO_TOTAL</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaMontos"
+                k-ng-model="params.MontoTotal">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_DURATION</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaDuration"
+            	k-ng-disabled="true"
+                k-ng-model="params.Duration">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_CONVEXIDAD</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaConvexidad"
+            	k-ng-disabled="true"
+                k-ng-model="params.Convexidad">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row bcs-panel-comandos">
+            <bcs-button
+                id="UI_VALORIZAR"
+                class="col-xs-6"
+                bcs-tipo="'principal'"
+                bcs-auto-desactivar="'false'"
+                bcs-texto="'UI_VALORIZAR' | translate"
+                bcs-habilitado="ValorizarForm.$valid"
+                bcs-clic="valorizar()">
+            </bcs-button>
+            <bcs-button
+                id="UI_LIMPIAR"
+                class="col-xs-6"
+                bcs-auto-desactivar="'false'"
+                bcs-texto="'UI_LIMPIAR' | translate"
+                bcs-habilitado="'true'"
+                bcs-clic="limpiar()">
+            </bcs-button>
+       </div>
+    </form>
+</div>

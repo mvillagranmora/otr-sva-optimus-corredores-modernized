@@ -1,0 +1,247 @@
+<div class="row" ng-controller='CartolaDeMovimientosCtrl'>
+	<form name="frmCartolaMovimiento"  class="col-xs-12 form-horizontal">
+
+		<div class="row bcs-cuerpo">
+			<div class="row">	
+				<div class="col-xs-10">
+				
+				
+					<div class="row" ng-if ="!MostrarProducto">
+						<div class="row" ng-show="showSeleccionSocioDeNegocio">
+							<div class="col-xs-12">
+								<label translate class="col-xs-2" style="width: 11.1%;">UI_CLIENTE_PORTAFOLIO</label>
+								<bcs-combobox-base id = "frmCartolaMovimiento_clientePortafolio" style="width: 88.9%;" class="col-xs-10"
+									bcs-requerido
+									auto-cargar		 = "'true'"
+									carga-cliente-automatico="'S'"
+									muestra-enlace 	 = "'N'"
+									tipo			 = "'combobox-cliente-portafolio'"
+									id-actual		 ="filtros.oConfiguracionPortafolio.idActual"								
+									filtros			 = "filtros.oConfiguracionPortafolio.filtros"
+									seleccionado	 = "filtros.oConfiguracionPortafolio.seleccionado"
+									configuracion	 = "filtros.oConfiguracionPortafolio.configuracion"
+									
+									cascada1-a		 = "filtros.oConfiguracionCuentaInversion.filtros.IdCliente"
+									cascada1-valor	 = "'IdCliente'"
+									cascada1-defecto = "-1"	
+									
+									cascada2-a		 = "filtros.oConfiguracionCuentaInversion.filtros.IdPortafolio"
+									cascada2-valor	 = "'IdPortafolio'"
+									cascada2-defecto = "-1"								
+									
+									item-post-filtro = "'1'">
+								</bcs-combobox-base>				
+							</div>
+						</div>
+					</div>
+					
+				
+					
+					<div class="row" ng-if ="MostrarProducto">
+						<div class="row" ng-show="showSeleccionSocioDeNegocio">
+							<div class="col-xs-4"><!-- Clinte APV-->
+								<label class="col-xs-4" translate>UI_CLIENTE</label>
+								<bcs-combobox-base
+									class				= "col-xs-8"
+									id					= "UI_CLIENTE"
+									auto-cargar			= "'false'"
+									tipo				= "'combobox-socio-negocio'"
+									seleccionado		= "filtros.oSocioNegocio.seleccionado"
+									filtros				= "filtros.oSocioNegocio.filtros"								
+									cascada-a			= "filtros.oPortafolio.filtros.IdCliente"
+									cascada-valor		= "'IdCliente'"								
+									cascada1-a		 	= "filtros.oConfiguracionCuentaInversion.filtros.IdCliente"
+									cascada1-valor	 	= "'IdCliente'"
+									cascada1-defecto 	= "-1"			
+									id-actual			= "filtros.oSocioNegocio.idActual"
+									carga-cliente-automatico="'S'">
+								</bcs-combobox-base>
+								
+							</div>
+							
+							<div class="col-xs-4">
+							    <label class="col-xs-4" style="padding-left: 15px" translate>UI_PRODUCTO</label>
+							    <bcs-combobox-base
+							    	class				= "col-xs-8"
+							        id					= "UI_PRODUCTO"
+							        auto-cargar			= "'true'"
+							        tipo				= "'combobox-otro-producto-agrupador'"
+					                filtros             = "filtros.oProducto.filtros"
+					                envia-todos         = "'S'"
+							        seleccionado		= "filtros.oProducto.seleccionado"
+									cascada-a			= "filtros.oPortafolio.filtros.IdProductoAgrupador"
+									cascada-valor		= "'IdProductoAgrupador'"
+									id-actual			= "filtros.oProducto.idActual"
+									item-post-filtro    = "'1'">
+							    </bcs-combobox-base >
+							</div>
+							
+							<div class="col-xs-4">
+								<label class="col-xs-4" style="padding-left: 15px" translate>UI_PORTAFOLIO</label>
+								<bcs-combobox-base
+									class				= "col-xs-8"
+									id					= "UI_PORTAFOLIO"
+									auto-cargar			= "'false'"
+									tipo				= "'combobox-portafolio'"
+									seleccionado		= "filtros.oPortafolio.seleccionado"
+									filtros				= "filtros.oPortafolio.filtros"
+									usa-filtros-completos = "'S'"
+									cascada-a		 	= "filtros.oConfiguracionCuentaInversion.filtros.IdPortafolio"
+									cascada-valor	 	= "'IdPortafolio'"
+									cascada-defecto 	= "-1"			
+									id-actual			= "filtros.oPortafolio.idActual"
+									activado			= "filtros.oSocioNegocio.seleccionado && filtros.oProducto.seleccionado">
+								</bcs-combobox-base>
+							</div>
+						</div>	
+					</div>
+					<div class="row" ng-show="showSocioDeNegocio">	
+						<div class="col-xs-8">
+							<label class="col-xs-2" translate>UI_CLIENTE</label>
+							<bcs-input-texto class="col-xs-10" id="frmCartolaMovimiento_Socio"
+								ng-model="filtros.socioDeNegocio" 
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_PORTAFOLIO</label>
+							<bcs-input-texto class="col-xs-8" id="frmCartolaMovimiento_PortafolioSocio"
+								ng-model="filtros.portafolioSocio" 
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>  
+					</div>	 
+
+					<div class="row">
+						<div class="col-xs-4">					
+							<div class="col-xs-4">
+							<label translate>UI_CUENTA_INVERSION</label></div>
+							<bcs-combobox-base class="col-xs-8" id="frmCartolaMovimiento_CUENTA_INVERSION"
+								auto-cargar		 = "false"	
+								usa-filtros-completos = "'S'"
+								bcs-requerido 	 = "showSeleccionSocioDeNegocio"					    
+								tipo			 = "filtros.oConfiguracionCuentaInversion.tipo"  
+								configuracion	 = "filtros.oConfiguracionCuentaInversion.configuracion" 
+								id-actual		 = "filtros.oConfiguracionCuentaInversion.idActual"								
+								seleccionado	 = "filtros.oConfiguracionCuentaInversion.seleccionado"
+								filtros			 = "filtros.oConfiguracionCuentaInversion.filtros"
+								item-post-filtro = "'1'"
+								activado         = "activadoCuentaInversion">
+							</bcs-combobox-base>
+						</div>
+						
+						<div class="col-xs-4">					
+							<div class="col-xs-4">
+							<label style="padding-left: 15px" translate>UI_FECHA_DESDE</label></div>
+							<bcs-input-date class="col-xs-8" id="frmCartolaMovimiento_FECHA_DESDE" 
+								bcs-requerido 								
+								k-ng-model		= "filtros.kngFechaInicio" 
+								ng-model		= "filtros.FechaInicio"
+								k-ng-disabled	= "disabledFechaConsulta">
+							</bcs-input-date>				
+						</div>
+						<div class="col-xs-4">
+							<div class="col-xs-4">
+							<label style="padding-left: 15px" translate>UI_FECHA_HASTA</label></div>
+							<bcs-input-date class="col-xs-8" id="frmCartolaMovimiento_FECHA_HASTA"							 
+								bcs-requerido 								
+								k-ng-model		= "filtros.kngFechaTermino" 
+								ng-model		= "filtros.FechaTermino"
+								k-ng-disabled	= "disabledFechaConsulta">
+							</bcs-input-date>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-xs-4">					
+							<label class="col-xs-4" translate>UI_ESTADO</label>							
+							<bcs-combobox-base class="col-xs-8" id="frmCartolaMovimiento_ESTADO"
+								tipo			= "filtros.oConfiguracionEstadoCuentaInversion.tipo"						  
+								configuracion	= "filtros.oConfiguracionEstadoCuentaInversion.configuracion"						 
+								id-actual		= "filtros.oConfiguracionEstadoCuentaInversion.idActual" 
+								seleccionado	= "filtros.oConfiguracionEstadoCuentaInversion.seleccionado"
+								filtros			= "filtros.oConfiguracionEstadoCuentaInversion.filtros"
+								todos			= "'S'"
+								id-defecto		= "'0'"
+								activado        = "activadoEstado">
+							</bcs-combobox-base>						
+						</div>
+						<div class="col-xs-4">					
+							  <label class="col-xs-4" style="padding-left: 15px" translate>UI_SALDO_INICIAL</label>
+							  <bcs-input-monetario class="col-xs-8" id="frmCartolaMovimiento_SALDO_INICIAL"									
+									k-ng-model="filtros.SaldoInicialKng" 
+									simbolo = "filtros.Simbolo"
+								  	decimales= "filtros.SaldoInicialDecimal"  
+								  	k-options = " { min : -999999999999 } "
+									k-ng-disabled = "'false'">
+							  </bcs-input-monetario>					
+						</div>
+						<div class="col-xs-4">
+							  <label class="col-xs-4" style="padding-left: 15px" translate>UI_SALDO_FINAL</label>
+							  <bcs-input-monetario class="col-xs-8" id="frmCartolaMovimiento_SALDO_FINAL"								  
+								  k-ng-model="filtros.SaldoFinalKng"
+								  simbolo = "filtros.Simbolo"
+								  decimales= "filtros.SaldoFinalDecimal"
+								  k-options = " { min : -999999999999 } "
+								  k-ng-disabled = "'false'">
+							  </bcs-input-nonetario>
+						</div>
+					</div>
+
+					<div class="row labelCheck">
+						<bcs-input-checkbox id="frmCartolaMovimiento_SaldoPorFechaMovimiento" 
+							ng-model="filtros.SaldoPorFechaMovimiento">
+						</bcs-input-checkbox>&nbsp;{{'UI_SALDO_POR_FECHA_MOVIMIENTO' | translate}}
+						<bcs-input-checkbox style="padding-left: 15px" id="frmCartolaMovimiento_SaldoPorFechaEfectiva" 
+							ng-model="filtros.SaldoPorFechaEfectiva">
+						</bcs-input-checkbox>&nbsp;{{'UI_SALDO_POR_FECHA_EFECTIVA' | translate}}
+						<bcs-input-checkbox style="padding-left: 15px" id="frmCartolaMovimiento_SaldoSimulado" 
+							ng-model="filtros.VerSaldoSimulado">
+						</bcs-input-checkbox>&nbsp;{{'UI_INCLUIR_SALDO_SIMULADO' | translate}}	  
+					</div>					
+					<!-- FIN FILTROS -->		
+				</div>
+				<div class="col-xs-2">
+					<!-- BOTONES -->
+					<div class="row">
+						<bcs-button class="col-xs-12" id="frmCartolaMovimiento_BUSCAR"
+							bcs-tipo="'bcs-button-search'"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-habilitado="frmCartolaMovimiento.$valid"  
+							bcs-clic="buscarMovimientos()">
+						</bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" id="frmCartolaMovimiento_LIMPIAR"
+							bcs-tipo="'bcs-button-secondary'"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-habilitado="habilitarBtnLimpiar"  
+							bcs-clic="limpiarFiltros()">
+						</bcs-button>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<bcs-grid id="frmCartolaMovimiento_grid-cartola-movimiento"
+					configuracion = "confBasicaCartolaMovimiento"
+					seleccionado = "seleccionCartolaMovimiento"
+					fn-doble-click = "detalleComprobanteFacturacion(seleccionCartolaMovimiento)"
+					fn-exportar-excel="excelCartolaMovimientoCuentaInversion">
+				</bcs-grid>
+			</div>
+		</div>
+
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos">
+			<bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+			   <li ng-click="excelCartolaMovimientoCuentaInversion('CartolaMovimientosCuentaInversion')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+
+	</form>	
+</div>
+

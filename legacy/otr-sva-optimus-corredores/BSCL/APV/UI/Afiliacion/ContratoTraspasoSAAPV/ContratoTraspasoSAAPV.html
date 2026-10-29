@@ -1,0 +1,494 @@
+<div id="ContratoSAAPV" class="row" ng-controller="ContratoTraspasoSAAPVCtrl as ctrasp">
+	<div class="row">
+		<form name="formContratoSAAPV" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+<!--------------------------------->
+<!---------- PLAN AHORRO ---------->
+<!--------------------------------->
+			<div class="row">
+				<div class="col-xs-3">
+					<strong> <div class="ng-scope" translate="">UI_PLAN_AHORRO</div></strong>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate="">UI_TIPO_TRASPASO</label>
+					<bcs-combobox-base 
+						id				= "UI_TIPO_ORIGEN_TRASPASO" 
+						class			= "col-xs-6"
+						tipo			= "'combobox-origen-traspaso'"
+						id-actual		= "ctrasp.OrigenTraspasoIdActual"
+						id-post-filtro	= "ctrasp.OrigenTraspasoIdActualPost"
+						seleccionado	= "ctrasp.OrigenTraspasoSeleccionado"
+						activado		= "ctrasp.habilitoOrigenTraspaso"
+						ng-blur			= "ctrasp.fnOrigenTraspaso()">
+					</bcs-combobox-base>
+				</div>
+	    		<div class="col-xs-3"> 
+					<label class="col-xs-5" translate="">UI_FECHA_SUSCRIPCION</label>
+					<bcs-input-date 
+						id				= "UI_FECHA_SUSCRIPCION" 
+						class			= "col-xs-7"
+						bcs-requerido
+						k-ng-model		= "ctrasp.kngFechaSuscripcion"
+						k-options		= "ctrasp.kOptFechaSuscripcion">
+					</bcs-input-date>
+	    		</div>
+				<div class="col-xs-3">
+	      			<label class="col-xs-4" translate="">UI_FOLIO_CONTRATO</label>
+					<bcs-input-numero
+						class			= "col-xs-7"
+						bcs-requerido
+						decimales		= "0"
+						ng-model		= "ctrasp.FolioContrato"
+						k-ng-model		= "ctrasp.kngFolioContrato"
+						k-ng-disabled	= "false">
+					</bcs-input-numero>
+				</div>
+    		</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+	      			<label class="col-xs-4" translate="">UI_NOMBRE_PLAN_AHORRO</label>
+					<bcs-combobox-base 
+						id				= "UI_NOMBRE_PLAN_AHORRO" 
+						class			= "col-xs-7"
+						bcs-requerido
+						tipo			= "'combobox-nombre-plan-ahorro'"
+						id-actual		= "ctrasp.PlanAhorroIdActual"
+						id-post-filtro	= "ctrasp.PlanAhorroIdActualPost"
+						cascada-a		= "ctrasp.ppcs.FiltroProductoAgrupador.filtros.IdPlanTipoInversion"
+					    cascada-valor	= "'IdPlanTipoInversion'"
+						seleccionado	= "ctrasp.NombrePlanAhorroSeleccionado"
+						activado		= "!ctrasp.habilitoPlanAhorro">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+      				<label class="col-xs-5" translate="">UI_TIPO_SOLICITUD</label>
+					<bcs-combobox-base 
+						id				= "UI_TIPO_SOLICITUD" 
+						class			= "col-xs-7"
+						tipo			= "'combobox-tipo-solicitud'"
+						id-actual		= "ctrasp.TipoSolicitudIdActual"
+						id-post-filtro	= "ctrasp.TipoSolicitudIdPostFiltro"
+						seleccionado	= "ctrasp.TipoSolicitudSeleccionado"
+						activado		= "!ctrasp.habilitoTipoSolicitud">
+					</bcs-combobox-base>
+    			</div>
+				<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_FOLIO</label>
+					<bcs-input-texto 
+						class			= "col-xs-7"
+						ng-model		= "ctrasp.FolioBusqueda"
+						k-ng-model		= "ctrasp.kngFolioBusqueda"
+						k-ng-disabled	= "true">
+					</bcs-input-texto>
+    			</div>
+			</div>
+<!----------------------------------------------->
+<!---------- IDENTIFICACION TRABAJADOR ---------->
+<!----------------------------------------------->
+			<div class="row"> 
+				<div class="col-xs-6">
+					<strong> <div class="col-xs-4 ng-scope" translate="">UI_IDENTIFICACION_TRABAJADOR</div></strong>
+				</div>
+			</div>			
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+			  		<label class="col-xs-2" translate>UI_CLIENTE</label>
+					<bcs-combobox-base 
+						id				= "UI_CLIENTE"
+						class			= "col-xs-9"
+					 	auto-cargar		= "'false'"
+					    tipo			= "'combobox-socio-negocio'"
+					    seleccionado	= "ctrasp.datosForm.SocioNegocioSeleccionado"
+					    filtros			= "ctrasp.datosForm.SocioNegocio"
+						cascada-a		= "ctrasp.ConfiguracionCmbo.Portafolio.filtros.IdCliente"
+						cascada-valor	= "'IdCliente'"
+	                    cascada-defecto	= "'-1'"
+	                    id-actual		= "ctrasp.datosForm.SocioNegocioidActual"   
+	                    activado		= "ctrasp.parametrosEntrada.modoVentana === 'M' ? false : true">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+      				<label class="col-xs-6 ng-scope" translate="">UI_DOCUMENTO_IDENTIDAD</label>
+					<bcs-input-texto
+						class			= "col-xs-6"
+						bcs-requerido	= "ctrasp.DocumentoIdentidadRequerido"
+						ng-model		= "ctrasp.DocumentoIdentidadCliente"							
+						place-holder	= "ctrasp.documentoIdentidadPlaceHolder"
+						ng-blur			= "ctrasp.ValidaDocumentoIdentidad('R','CLI')"
+						k-ng-disabled	= "ctrasp.datosForm.DoctoIdentDeshabilitado">
+					</bcs-input-texto>	
+    			</div>	
+			</div>
+    		<div class="row">
+				<div class="col-xs-6">
+      				<label class="col-xs-2 ng-scope" translate="">UI_NOMBRES</label>
+					<bcs-input-texto
+						class			= "col-xs-9"
+						bcs-requerido	= "ctrasp.NombresRequerido"
+						ng-model		= "ctrasp.Nombres"
+						k-ng-model		= "ctrasp.kngNombres"
+						k-ng-disabled	= "ctrasp.datosForm.NombreDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<label class="col-xs-6 ng-scope" translate="">UI_APELLIDO_PATERNO</label>
+					<bcs-input-texto 
+						class			= "col-xs-6"
+						bcs-requerido	= "ctrasp.ApellidoPaternoRequerido"
+						ng-model		= "ctrasp.ApellidoPaterno"
+						k-ng-model		= "ctrasp.kngApellidoPaterno"
+						k-ng-disabled	= "ctrasp.datosForm.ApellidoPatDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_APELLIDO_MATERNO</label>
+					<bcs-input-texto 
+						class			= "col-xs-8"
+						bcs-requerido	= "ctrasp.ApellidoMaternoRequerido"
+						ng-model		= "ctrasp.ApellidoMaterno"
+						k-ng-model		= "ctrasp.kngApellidoMaterno"
+						k-ng-disabled	= "ctrasp.datosForm.ApellidoMatDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    		</div>
+    		<div class="row">
+    			<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_FECHA_NACIMIENTO</label>
+					<bcs-input-date 
+						id="UI_FECHA_NACIMIENTO" 
+						class			= "col-xs-7" 
+						k-ng-model 		= "ctrasp.kngFechaNacimiento"
+						k-options		= "kOptFechaNacimiento"
+						todo-dias		= "true"
+						ng-blur			= "validaFechaNacimiento()"
+						k-ng-disabled	= "ctrasp.datosForm.FechaNacDeshabilitado"
+						>
+					</bcs-input-date>	
+				</div>    				    			
+				
+    			<div class="col-xs-3">
+     				<label class="col-xs-4" translate="">UI_ESTADO_CIVIL</label>
+					<bcs-combobox-base 
+						id				= "UI_ESTADO_CIVIL" 
+						class			= "col-xs-6"
+						tipo			= "'combobox-estado-civil'"
+						id-actual 		= "ctrasp.EstadoCivilIdActual"
+						id-post-filtro	= "ctrasp.EstadoCivilIdActualPost"
+						seleccionado	= "ctrasp.EstadoCivil.Seleccionado"
+						activado		= "!ctrasp.datosForm.EstadoCivilDeshabilitado" 
+						>
+					</bcs-combobox-base>
+    			</div> 
+    			<div class="col-xs-3">
+      				<label class="col-xs-6" translate="">UI_GENERO</label>
+					<bcs-combobox-base 
+						id				= "UI_GENERO" 
+						class			= "col-xs-6"
+						tipo			= "'combobox-tipo-genero'"
+						id-actual 		= "ctrasp.GeneroIdActual"
+						id-post-filtro	= "ctrasp.GeneroIdActualPost"
+						seleccionado	= "ctrasp.Genero.Seleccionado"
+						activado		= "!ctrasp.datosForm.GeneroDeshabilitado"
+						>
+					</bcs-combobox-base>
+    			</div>
+    			<div class="col-xs-3">                                                           
+					<label class="col-xs-4" translate>UI_PAIS_RESIDENCIA</label>            
+					<bcs-combobox-base 
+						id				= "UI_PAIS_RESIDENCIA"
+						class			= "col-xs-8"
+						bcs-requerido	= "ctrasp.PaisResidenciaRequerido"
+						auto-cargar		= "true"
+						cache			= "true"						
+						id-actual 		= "ctrasp.IdPaisResidenciaIdActual"
+						id-post-filtro	= "ctrasp.IdPaisResidenciaIdActualPost"
+						tipo			= "'combobox-pais'"
+						seleccionado	= "ctrasp.paisResidenciaSeleccionado"
+						cascada1-a		= "ctrasp.filtroCiudad.IdPais"
+						cascada1-valor	= "'IdPais'"
+						cascada2-a		= "ctrasp.filtroDivisionPais.IdPais"
+						cascada2-valor	= "'IdPais'"
+						activado		= "!ctrasp.datosForm.PaisDeshabilitado"
+						>
+					</bcs-combobox-base>	
+				</div>  			
+    		</div>  
+    		<div class="row" ng-if="ctrasp.parametrosEntrada.modoVentana === 'M'">
+	    		<div class="col-xs-6" ng-show="ctrasp.paisResidenciaSeleccionado.NombrePais !== 'CHILE'">		
+					<label class="col-xs-2" translate>UI_CIUDAD</label>
+					<bcs-input-texto
+						class			= "col-xs-9"
+						ng-model		= "ctrasp.Ciudad"
+						k-ng-model		= "ctrasp.Ciudad"
+						k-ng-disabled	= "true"
+					>
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-6" ng-show="ctrasp.paisResidenciaSeleccionado.NombrePais === 'CHILE'">
+					<label class="col-xs-2" translate>{{paisResidenciaSeleccionado.NombreDivisionPais || 'UI_COMUNA'}}</label>
+					<bcs-input-texto
+						class			= "col-xs-9"
+						ng-model		= "ctrasp.Comuna"
+						k-ng-model		= "ctrasp.Comuna"
+						k-ng-disabled	= "true"
+					>
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-6">
+      				<label class="col-xs-3 ng-scope" translate="">UI_CALLE</label>
+					<bcs-input-texto 
+						class			= "col-xs-9"
+						ng-model		= "ctrasp.Calle"
+						k-ng-model		= "ctrasp.kngCalle"
+						k-ng-disabled	= "ctrasp.datosForm.CalleDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+			</div>
+			<div class="row" ng-if="ctrasp.parametrosEntrada.modoVentana === 'I'">
+				<div class="col-xs-6" ng-show="ctrasp.paisResidenciaSeleccionado.NombrePais !== 'CHILE'">
+					<label class="col-xs-2" translate>UI_CIUDAD</label>
+					<bcs-combobox-base 
+						id				= "UI_CIUDAD"
+						class			= "col-xs-9"
+						bcs-requerido	= "ctrasp.CiudadRequerido"
+						auto-cargar		= "true"
+						cache			= "true"
+						bcs-requerido	= "ctrasp.paisResidenciaSeleccionado.NombrePais !== 'CHILE'"
+						activado		= "!ctrasp.bloqueoPersona"
+						filtros			= "ctrasp.filtroCiudad"
+						id-actual 		= "ctrasp.CiudadIdActual"
+						id-post-filtro	= "ctrasp.CiudadIdActualPost"
+						tipo			= "'combobox-ciudad'"
+						seleccionado	= "ctrasp.ciudadSeleccionada"
+						activado		= "!ctrasp.datosForm.CiudadDeshabilitado"
+						
+						>
+					</bcs-combobox-base>
+				</div> 
+				<div class="col-xs-6" ng-show="ctrasp.paisResidenciaSeleccionado.NombrePais === 'CHILE'">
+					<label class="col-xs-2" translate>{{paisResidenciaSeleccionado.NombreDivisionPais || 'UI_COMUNA'}}</label>
+					<bcs-combobox-base 
+						id				= "UI_COMUNA"
+						class			= "col-xs-9"
+						bcs-requerido	= "ctrasp.DivisionPaisRequerido"
+						auto-cargar		= "true"
+						bcs-requerido	= "ctrasp.paisResidenciaSeleccionado.NombrePais === 'CHILE'"
+						filtros			= "ctrasp.filtroDivisionPais"
+						id-actual 		= "ctrasp.idDivisionPaisComuna"
+						id-post-filtro	= "ctrasp.idDivisionPaisComunaPost"
+						tipo			= "'combobox-division-pais'"
+						seleccionado	= "ctrasp.comunaSeleccionada"
+						activado		= "!ctrasp.datosForm.ComunaDeshabilitado"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+      				<label class="col-xs-3 ng-scope" translate="">UI_CALLE</label>
+					<bcs-input-texto 
+						class			= "col-xs-9"
+						bcs-requerido	= "ctrasp.CalleRequerido"
+						ng-model		= "ctrasp.Calle"
+						k-ng-model		= "ctrasp.kngCalle"
+						k-ng-disabled	= "ctrasp.datosForm.CalleDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+			</div>	
+			<div class="row">
+			    <div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_NUMERO</label>
+					<bcs-input-numero 
+						class			= "col-xs-7"
+						bcs-requerido	= "ctrasp.NumeroDireccionRequerido"
+						k-ng-model		= "ctrasp.kngNumeroDireccionCliente"
+						decimales		= "0"
+						k-ng-disabled	= "ctrasp.datosForm.CalleNumeroDeshabilitado">
+					</bcs-input-numero>
+    			</div>
+			
+				<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_ACTIVIDAD/CARGO</label>
+					<bcs-combobox-base
+						class			= "col-xs-6"
+						tipo			= "'combobox-profesion'"
+						id-actual		= "ctrasp.IdActividadCargo"
+						id-post-filtro	= "ctrasp.IdActividadCargoPost"
+						seleccionado	= "ctrasp.ActividadCargoSeleccionado"
+						activado		= "!ctrasp.datosForm.ActividadCargoDeshabilitado"
+						>
+					</bcs-combobox-base>
+    			</div>
+    			<div class="col-xs-3">
+					<label class="col-xs-6" translate>UI_CATEGORIA_INVERSIONISTA</label>
+					<bcs-combobox-base
+						class			= "col-xs-6"
+						tipo			= "'combobox-categoria-inversionista'"
+						filtros			= "ctrasp.oConfiguracionCategoriaInversionista.filtros"
+						id-actual		= "ctrasp.IdCategoriaInversionista"
+						id-post-filtro	= "ctrasp.IdCategoriaInversionistaPost"
+						seleccionado    = "ctrasp.CategoriaInversionistaSeleccionado"
+						cascada-a		= "ctrasp.oConfPerfilComercial.filtros.IdCategoriaInversionista"
+					    cascada-valor	= "'IdCategoriaInversionista'"	
+						activado		= "!ctrasp.datosForm.CatInverDeshabilitado"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_PERFIL_COMERCIAL</label>
+					<bcs-combobox-base 
+						class			= "col-xs-8"
+						tipo			= "'combobox-perfil-comercial'"
+						id-actual		= "ctrasp.IdPerfilComercialBaseOrigen"
+						id-post-filtro	= "ctrasp.IdPerfilComercialBaseOrigenPost"
+						todos			= "'N'"
+						filtros			= "ctrasp.oConfPerfilComercial.filtros"
+						seleccionado	= "ctrasp.PerfilComercialSeleccionado"
+						activado		= "!ctrasp.datosForm.PerfilDeshabilitado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div ng-show="ctrasp.paisResidenciaSeleccionado.NombrePais === 'CHILE'">		
+						<label class="col-xs-2" translate>UI_CIUDAD</label>
+						<bcs-input-texto
+							class			= "col-xs-9"
+							ng-model		= "ctrasp.CiudadTrabajador"
+							k-ng-model		= "ctrasp.CiudadTrabajador"
+							k-ng-disabled	= "true">
+						</bcs-input-texto>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_EJECUTIVO</label>
+					<bcs-combobox-base 
+						class="col-xs-9"
+						tipo="'combobox-ejecutivo'"  
+						bcs-requerido = "ctrasp.EjecutivoRequerido"
+						filtros="ctrasp.filtroEjecutivo" 
+						id-actual="ctrasp.IdEmpleadoEjecutivo"
+						id-post-filtro="ctrasp.IdEmpleadoEjecutivoPost"
+						seleccionado="ctrasp.EjecutivoSeleccionado" 
+						activado = "!ctrasp.datosForm.EjecutivoDeshabilitado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row">
+    			<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_TELEFONO_FIJO</label>
+					<bcs-input-texto 
+						class			= "col-xs-7"
+						ng-model		= "ctrasp.TelefonoFijo"
+						ng-blur			= "ctrasp.validaFormatoTelefono(ctrasp.TelefonoFijo,'TFIJO')"
+						placeholder		= "ctrasp.placeholderTelefono"
+						k-ng-disabled	= "ctrasp.datosForm.telefonoFijoDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_TELEFONO_MOVIL</label>
+					<bcs-input-texto 
+						class			= "col-xs-6"		
+						ng-model		= "ctrasp.TelefonoMovil"		
+						ng-blur			= "ctrasp.validaFormatoTelefono(ctrasp.TelefonoMovil,'TMOVIL')"
+						placeholder		= "ctrasp.placeholderTelefono"
+						k-ng-disabled	= "ctrasp.datosForm.telefonoMovilDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<label class="col-xs-6 ng-scope" translate="">UI_TELEFONO_LABORAL</label>
+					<bcs-input-texto 
+						class			= "col-xs-6"
+						ng-model		= "ctrasp.TelefonoLaboral"
+						ng-blur			= "ctrasp.validaFormatoTelefono(ctrasp.TelefonoLaboral,'TLABO')"
+						placeholder		= "ctrasp.placeholderTelefono"
+						k-ng-disabled	= "ctrasp.datosForm.telefonoLaboralDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_EMAIL</label>
+					<bcs-input-texto 
+						class			= "col-xs-8"
+						ng-model		= "ctrasp.EmailCliente" 
+						placeholder     = "SesionValoresDefectoSistema.PLACEHOLDER_EMAIL"
+						ng-blur			= "ctrasp.validaFormatoEmail('CLI')"
+						k-ng-disabled	= "ctrasp.datosForm.EmailDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+			</div> 
+			
+			<!-- NO BORRAR -->
+			<!-- Esta "row" con el "button" hacen que al presionar Enter no se limpie el Formulario -->
+    		<div class="row">
+				<bcs-button 
+					class				= "col-xs-11"
+					bcs-auto-desactivar	= "false"
+					bcs-texto			= "'UI_LIMPIAR' | translate" 
+					bcs-mostrar			= "false"
+					bcs-clic			= "">
+				</bcs-button>
+			</div>
+			<!-- NO BORRAR -->
+
+    		<div class="row">
+    			<div class="col-xs-6">
+				</div>
+				<div class="col-xs-4">
+				</div>
+    			<div class="col-xs-2">	
+	    			<div class="col-xs-12">
+		    			<div class="row">  
+							<bcs-button 
+								class				= "col-xs-11"
+								bcs-habilitado		= "ctrasp.limpiarClienteHabilitado"
+								bcs-auto-desactivar	= "false"
+								bcs-texto			= "'UI_LIMPIAR' | translate" 
+								bcs-clic			= "ctrasp.limpiarCliente()">
+							</bcs-button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!------------------------------>
+			<!---------- PESTAÑAS ---------->
+			<!------------------------------> 	
+			<div class="row">
+				<uib-tabset	>							
+					<!-- TAB 1 PORTAFOLIO -->		  					
+					<uib-tab id	= "TabPortafolio" 
+						heading	= "{{'UI_ORIGEN_TRASPASO' | translate}}" 
+						active	= "ctrasp.tabs['PanelPortafolioContratoTraspaso'].active" 
+						select 	= "ctrasp.fnTabSelect('Portafolio','PanelPortafolioContratoTraspaso')">  		
+						<div id	= "{{ctrasp.tabs['PanelPortafolioContratoTraspaso'].id}}"></div>	
+					</uib-tab> 	
+					<!-- TAB 2 EMPLEADOR -->	  					
+					<uib-tab id	= "TabEmpleador" ng-show="ctrasp.OrigenTraspasoSeleccionado.Codigo === 'ING'"
+						heading	= "{{'UI_EMPLEADOR' | translate}}" 
+						active	= "ctrasp.tabs['PanelEmpleadoContratoTraspaso'].active"
+						select	= "ctrasp.fnTabSelect('Empleado','PanelEmpleadoContratoTraspaso')">  
+						<div id	= "{{ctrasp.tabs['PanelEmpleadoContratoTraspaso'].id}}"></div>		  			
+					</uib-tab> 		
+				<!-- FIN --> 
+				</uib-tabset>
+				<br>
+				<div class="row">
+					<bcs-button class="col-xs-offset-8 col-xs-2"
+						bcs-tipo=""
+						bcs-habilitado="
+						'true'" 
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_DISTRIBUIR_INVERSION' | translate" 
+						bcs-clic="ctrasp.DistribuirInversionSAAPV()">
+					</bcs-button>
+					<bcs-button class="col-xs-2"
+						bcs-tipo="'principal'"
+						bcs-habilitado="ctrasp.fnValidaContrato()"
+						bcs-auto-desactivar="false"
+						bcs-texto="ctrasp.parametrosEntrada.modoVentana === 'M' ? 'UI_GUARDAR' : 'UI_INGRESAR' | translate" 
+						bcs-clic="ctrasp.crearContrato()">
+					</bcs-button> 
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,203 @@
+<div id="PanelINFTRABCS" class="row" ng-controller="PanelINFTRABCSCtrl as pse">
+<form name="PanelINFTRASEIL" class="col-xs-12 form-horizontal">
+	
+	<!-- PARAMETROS FECHAS -->
+	<div class="row">
+		<div class="col-xs-12">
+			<label class="col-xs-3" translate>UI_FECHA_DESDE</label>
+			<bcs-input-date class="col-xs-4" k-ng-model="pse.FecInicio"></bcs-input-date>
+		</div> 
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<label class="col-xs-3" translate>UI_HASTA</label>
+			<bcs-input-date class="col-xs-4" k-ng-model="pse.FecTermino"></bcs-input-date>
+		</div>
+	</div>
+	
+	<!-- PARAMETRO OFICIO -->
+	<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-3" translate>UI_OFICIO</label>
+				<bcs-input-texto bcs-requerido  maxlength="10" class="col-xs-4" ng-model="pse.Filtros.Oficio"
+					k-ng-disabled="seleccionOficio"></bcs-input-texto>
+			</div>
+	</div>
+	<!-- FIN PARAMETRO OFICIO -->
+	
+	<!-- PARAMETROS CLIENTES -->
+	<div class="row">
+		<div class="col-xs-3">
+			<label class="col-xs-5" translate>Cliente</label>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="!pse.muestraListaClientes" ng-click="pse.muestraListaClientes = !pse.muestraListaClientes">({{'+' | translate}})</em>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="pse.muestraListaClientes" ng-click="pse.muestraListaClientes = !pse.muestraListaClientes">({{'-' | translate}})</em>
+		</div>
+		<bcs-combobox-base class="col-xs-6" id="comboboxSocioNegocio"
+			auto-cargar="'false'" tipo="'combobox-socio-negocio'"
+			id-Actual="pse.oConfiguracionSocioNegocio.idActual"
+			seleccionado="pse.oConfiguracionSocioNegocio.seleccionado"
+			activado="!pse.control.TodosCli">
+		</bcs-combobox-base>
+		<div class="col-xs-2">
+			<label class="col-xs-5">Todos</label>
+			<bcs-input-checkbox class="col-xs-3" ng-model="pse.control.TodosCli"></bcs-input-checkbox>
+		</div>
+	</div>
+	<div class="row"  ng-show="pse.muestraListaClientes">	
+		<div class="row" ng-show="!modoVisualizacion">
+			<label class="col-xs-3">Listado Rut</label> <input
+				class="col-xs-9" type="file" data-disabled="true"
+				ng-disabled="listRut" file-reader="pse.FiltrosRut.fileContent"
+				style="display: inline" />
+		</div>
+		<div class="row" ng-show="pse.UIModo === 'SEIL'">
+			<label class="col-xs-1" translate>UI_RUT</label>
+			<em class="col-xs-10" style="text-decoration: underline;" ng-show="!ingresarSolicitud.muestraRuts" ng-click="ingresarSolicitud.muestraRuts = !ingresarSolicitud.muestraRuts">({{'+' | translate}})</em> 
+			<em class="col-xs-10" style="text-decoration: underline;" ng-show="ingresarSolicitud.muestraRuts" ng-click="ingresarSolicitud.muestraRuts = !ingresarSolicitud.muestraRuts">({{'-'| translate}})</em>
+		</div>
+		<div class="row" ng-show="ingresarSolicitud.muestraRuts">
+			<bcs-grid id="gridListadoRut"
+				configuracion="confBasicaListadoRut"
+				seleccionado="seleccionListadoRut" 
+				fn-click="">
+			</bcs-grid>
+		</div>
+	</div>	
+	<!-- FIN PARAMETROS CLIENTE -->	
+	
+	<!-- PARAMETROS NEMO -->
+	<div class="row">
+		<div class="col-xs-3">
+			<label class="col-xs-5" translate>Nemo</label>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="!pse.muestraListaNemos" ng-click="pse.muestraListaNemos = !pse.muestraListaNemos">({{'+' | translate}})</em>
+			<em class="col-xs-1" style="text-decoration: underline;" ng-show="pse.muestraListaNemos" ng-click="pse.muestraListaNemos = !pse.muestraListaNemos">({{'-' | translate}})</em>
+		</div>
+		<bcs-input-texto class="col-xs-6" ng-model="pse.Filtros.Nemo" k-ng-disabled="pse.control.TodosNemo"></bcs-input-texto>
+		
+		<div class="col-xs-2">
+			<label class="col-xs-5">Todos</label>
+			<bcs-input-checkbox class="col-xs-3" ng-model="pse.control.TodosNemo"> </bcs-input-checkbox>
+		</div>
+	</div>
+	
+	<div class="row"  ng-show="pse.muestraListaNemos">	
+		<div class="row" ng-show="!modoVisualizacion">
+			<label class="col-xs-3">Listado Nemo</label>
+				<input class="col-xs-9" type="file" ng-disabled="listNemo"
+				file-reader="pse.FiltrosNemo.fileContent"
+				style="display: inline" />
+		</div>
+		<div class="row" ng-show="modoVisualizacion">
+			<label class="col-xs-1" translate>UI_Nemo</label>
+			<em class="col-xs-10" style="text-decoration: underline;" ng-show="!ingresarSolicitud.muestraNemos" ng-click="ingresarSolicitud.muestraNemos = !ingresarSolicitud.muestraNemos">({{'+' | translate}})</em> 
+			<em class="col-xs-10" style="text-decoration: underline;" ng-show="ingresarSolicitud.muestraNemos" ng-click="ingresarSolicitud.muestraNemos = !ingresarSolicitud.muestraNemos">({{'-'| translate}})</em>
+		</div>
+		<div class="row" ng-show="ingresarSolicitud.muestraNemos">
+			<bcs-grid id="gridListadoNemo"
+				configuracion="confBasicaListadoNemo"
+				seleccionado="seleccionListadoNemo" 
+				fn-click="">
+			</bcs-grid>
+		</div>
+	</div>	
+	<!-- FIN PARAMETROS NEMO -->
+	
+	<!-- PARAMETROS CLASIFICACION -->
+	<!-- 
+	<div class="row">
+		<span class="col-xs-3">
+			<label class="col-xs-4" translate>UI_CLASE_INSTRUMENTO&nbsp;&nbsp;</label>
+			<em class="col-xs-4" style="text-decoration: underline;" ng-show="!pse.muestraClasificacion" ng-click="pse.muestraClasificacion = !pse.muestraClasificacion">({{'UI_MOSTRAR' | translate}})</em>
+			<em class="col-xs-4" style="text-decoration: underline;" ng-show="pse.muestraClasificacion" ng-click="pse.muestraClasificacion = !pse.muestraClasificacion">({{'UI_OCULTAR' | translate}})</em>
+		</span>
+	</div>
+ -->	
+	<hr>
+
+	<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_CLASE_INSTRUMENTO</label>
+			</div>
+	</div>
+	
+	<div class="row" ng-show="!pse.muestraClasificacion">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pse.control.registroRV"
+					
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_RENTA_VARIABLE</label>
+			</div>
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pse.control.registroRF"
+				
+					>
+				 </bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_RENTA_FIJA</label>
+			</div>
+	</div>
+	
+	<div class="row" ng-show="!pse.muestraClasificacion">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pse.control.registroIIF"
+				
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-7" translate>UI_INTERMEDIACION_FINANCIERA</label>
+			</div>
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pse.control.registroSPOT"
+				
+					>
+				</bcs-input-checkbox>
+				<label class="col-xs-7" translate>UI_SPOT</label>
+			</div>
+	</div>
+	<!-- 
+	<div class="row" ng-show="!pse.muestraClasificacion">
+			<div class="col-xs-6">
+				<bcs-input-checkbox class="col-xs-2"
+					ng-model="pse.control.registroFFMM"
+					>
+				 </bcs-input-checkbox>
+				<label class="col-xs-4" translate>UI_FFM</label>
+			</div>
+			
+	</div>
+	 -->
+	
+	
+	<!-- FIN PARAMETROS CLASIFICACION -->
+	
+</form>
+
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-12" style="top: 10px; padding-bottom: 10px;">
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" ng-show="true"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EMITIR' | translate"
+				bcs-habilitado="pse.habilitado"
+			    bcs-clic="pse.solicitar()">
+			 </bcs-button>
+
+			 <bcs-button class="col-xs-2 pull-right"   bcs-tipo="'bcs-button-secondary'" ng-show="false"			
+			 	bcs-auto-desactivar="false" bcs-texto="'UI_VER_DATOS' | translate"  
+			 	bcs-habilitado="true" 
+			 	bcs-clic="pse.visorCircular()">
+			 </bcs-button>
+			 
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+				bcs-habilitado="true" bcs-clic="pse.clear()">
+			</bcs-button>
+			
+		</div>
+	
+	</div>
+
+</div>

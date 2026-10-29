@@ -1,0 +1,3 @@
+SELECT
+	TO_NVARCHAR(CURRENT_DATE,'yyyy-mm-dd') as "Fecha"
+FROM DUMMY;

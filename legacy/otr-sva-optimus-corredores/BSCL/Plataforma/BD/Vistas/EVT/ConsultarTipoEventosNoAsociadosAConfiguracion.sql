@@ -1,0 +1,33 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Plataforma.BD.Vistas::EVT.ConsultarTipoEventosNoAsociadosAConfiguracion"; 
+ 
+CREATE VIEW "BSCL.Plataforma.BD.Vistas::EVT.ConsultarTipoEventosNoAsociadosAConfiguracion"  
+AS
+SELECT 
+tipo."CodigoTipoEvento",
+CASE "DireccionEvento" 
+	WHEN 'SYSEMP' THEN 'Del Sistema al Empleado'
+	WHEN 'EMPCLI' THEN 'Del Empleado al Cliente'
+	WHEN 'EMPEMP' THEN 'Del Empleado al Empleado'
+	WHEN 'CLIEMP' THEN 'Del cliente al Empleado'
+END AS "DireccionEvento",
+"DireccionEvento" as "DirEvt",
+tipo."Descripcion" as "DescripcionTipoEvento",
+ce."IdConfiguracionEvento",
+ce."Descripcion" as "DescripcionConfiguracion",
+"IdConfiguracionEventoDetalle",
+ce."FechaCreacion",
+MAP(configdet."IdEstado",'ACT','UI_ACT','UI_INA') as "IdEstadoDetalle",
+MAP(ce."IdEstado",'ACT','UI_ACT','UI_INA') as "IdEstado"
+FROM "BSCL.Plataforma.BD::EVT.ConfiguracionEventoDetalle" configdet
+LEFT JOIN "BSCL.Plataforma.BD::EVT.TipoEvento" tipo
+on tipo."CodigoTipoEvento" = configdet."CodigoTipoEvento" 
+INNER JOIN  "BSCL.Plataforma.BD::EVT.ConfiguracionEvento" ce
+ON ce."IdConfiguracionEvento" = configdet."IdConfiguracionEvento";
+
+
+
+GRANT SELECT ON "BSCL.Plataforma.BD.Vistas::EVT.ConsultarTipoEventosNoAsociadosAConfiguracion" TO  BCS_DESARROLLADOR WITH GRANT OPTION; 
+
+
+ 

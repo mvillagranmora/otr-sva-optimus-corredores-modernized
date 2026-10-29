@@ -1,0 +1,38 @@
+SET SCHEMA "BSCL";
+
+DROP TYPE BSCL."BSCL.Normativa.BD::NOR.SALIDA_ART171CARTA2EXP" CASCADE;
+
+CREATE TYPE "BSCL"."BSCL.Normativa.BD::NOR.SALIDA_ART171CARTA2EXP" AS TABLE (
+"NombreDestinatario" NVARCHAR(100) CS_STRING,
+"CargoDestinatario" NVARCHAR(40) CS_STRING,
+"FechaOperacion" NVARCHAR(15) CS_STRING,
+"IdTipoOperacion" NVARCHAR(6) CS_STRING,
+"NombreTipoOperacion" NVARCHAR(100) CS_STRING,
+"IdClasificacionTipoInstrumento" NVARCHAR(15) CS_STRING,
+"IdInstrumento" BIGINT CS_FIXED,
+"Nemotecnico" NVARCHAR(40) CS_STRING,
+"Cantidad" DECIMAL(28,
+8) CS_FIXED,
+"Precio" DECIMAL(28,
+8) CS_FIXED,
+"Monto" DECIMAL(28,
+8) CS_FIXED,
+"IdMoneda" NVARCHAR(3) CS_STRING,
+"Moneda" NVARCHAR(100) CS_STRING,
+"IdCliente" BIGINT CS_FIXED,
+"NombreCliente" NVARCHAR(100) CS_STRING,
+"DocumentoIdentidad" NVARCHAR(40) CS_STRING,
+"TipoDocumentoIdentidad" NVARCHAR(10) CS_STRING,
+"NombreTipoDocumentoIdentidad" NVARCHAR(5) CS_STRING,
+"IdTipoRelacion" NVARCHAR(6) CS_STRING,
+"NombreTipoRelacion" NVARCHAR(520) CS_STRING,
+"CodigoRelacionNorma" NVARCHAR(10) CS_STRING,
+"DescripcionRelacionNorma" NVARCHAR(100) CS_STRING,
+"MesSistema" NVARCHAR(30) CS_STRING,
+"MesConsulta" NVARCHAR(30) CS_STRING,
+"YearSistema" NVARCHAR(30) CS_STRING,
+"YearConsulta" NVARCHAR(30) CS_STRING,
+"DiaSistema" NVARCHAR(30) CS_STRING,
+"DiaConsulta" NVARCHAR(30) CS_STRING )
+
+commit;

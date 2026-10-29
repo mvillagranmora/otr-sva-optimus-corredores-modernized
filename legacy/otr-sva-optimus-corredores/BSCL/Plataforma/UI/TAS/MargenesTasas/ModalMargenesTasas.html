@@ -1,0 +1,86 @@
+<div id="ModalMargenesTasas" class="row" ng-controller="ModalMargenesTasasCtrl as mMT">
+	<div class="row">
+		<form name="ModalMargenesTasas" class="col-xs-12">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MONEDA</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-tipo-reajuste'"
+					id-actual="mMT.datosMargen.IdTipoReajuste"
+					id-defecto="mMT.datosMargen.IdTipoReajusteDef"
+					todos="'N'"
+					bcs-requerido
+					activado="!mMT.win.modoEditar"
+					filtros="mMT.cmbbx.Moneda.filtros"
+					configuracion="mMT.cmbbx.Moneda.configuracion"
+					seleccionado="mMT.datosMargen.MonedaObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row" style="margin-top:15px;">
+				<label class="col-xs-4" translate>UI_MONTO_DESDE</label>
+				<bcs-input-numero class="col-xs-8"
+					k-ng-model="mMT.datosMargen.MontoDesde" 
+					k-ng-disabled="mMT.win.modoEditar"
+					bcs-requerido="!mMT.win.modoEditar"
+					decimales="(mMT.datosMargen.IdMoneda === 'CLP') ? 0 : mMT.win.MontoDecimal">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_MONTO_HASTA</label>
+				<bcs-input-numero class="col-xs-8"
+					k-ng-model="mMT.datosMargen.MontoHasta" 
+					k-ng-disabled="mMT.win.modoEditar"
+					bcs-requerido="!mMT.win.modoEditar"
+					decimales="(mMT.datosMargen.IdMoneda === 'CLP') ? 0 : mMT.win.MontoDecimal">
+				</bcs-input-numero>
+			</div>
+			<div class="row" style="margin-top:15px;">
+				<label class="col-xs-4" translate>UI_PLAZO_DESDE</label>
+				<bcs-input-numero class="col-xs-8"
+					k-ng-model="mMT.datosMargen.PlazoDesde" 
+					k-ng-disabled="mMT.win.modoEditar"
+					bcs-requerido="!mMT.win.modoEditar"
+					decimales="0">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PLAZO_HASTA</label>
+				<bcs-input-numero class="col-xs-8"
+					k-ng-model="mMT.datosMargen.PlazoHasta" 
+					k-ng-disabled="mMT.win.modoEditar"
+					bcs-requerido="!mMT.win.modoEditar"
+					decimales="0">
+				</bcs-input-numero>
+			</div>
+			<div class="row" style="margin-top:15px;">
+				<label class="col-xs-4" translate>UI_TASA</label>
+				<bcs-input-numero class="col-xs-8" 
+					k-ng-model="mMT.datosMargen.Tasa"
+					bcs-requerido 
+					decimales="mMT.win.TasaDecimal">
+				</bcs-input-numero>
+			</div>
+			<div class="row" style="margin-top:15px;">
+				<label class="col-xs-4" translate>UI_ESTADO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-estado-tasa'"
+					id-actual="mMT.datosMargen.IdEstado"
+					id-defecto="mMT.datosMargen.IdEstadoDef"
+					filtros="mMT.cmbbx.Estado.filtros"
+					todos="'N'"
+					bcs-requerido
+					activado="mMT.win.modoEditar"
+					seleccionado="mMT.datosMargen.EstadoObj">
+				</bcs-combobox-base>
+			</div>
+		</form>
+	</div>
+	<br>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id={{mMT.IdBotonAceptar}} class="col-xs-3" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalMargenesTasas.$valid" bcs-clic="mMT.fn.aceptar();">
+		</bcs-button>
+		<bcs-button id="ModalMargenesTasas_cancelar" class="col-xs-3" bcs-tipo="''" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="mMT.fn.cancelar();">
+		</bcs-button>
+	</div>
+</div>

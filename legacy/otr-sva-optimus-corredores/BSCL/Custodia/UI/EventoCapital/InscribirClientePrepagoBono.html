@@ -1,0 +1,392 @@
+<div ng-controller="InscribirClientePrepagoBonoCtrl">
+	 
+	 <form name="frmInscribirClientePrepagoBono">
+
+		<!-- INICIO INFORMACION DEL EVENTO CAPITAL -->
+		<div class="row">
+			<label class="col-xs-2" translate>UI_TIPO_EVENTO</label>
+			  	<bcs-input-texto
+	               	class			="col-xs-4"
+	                id				="frmInscribirClientePrepagoBono_TIPOEVENTOTXT"
+	               	maxlength		="200"
+					ng-model		="data.TipoEventoTXT"
+					k-ng-disabled	= "'true'">
+               	</bcs-input-texto>
+		</div>
+			
+		<div class="row"> 
+			<label class="col-xs-2" translate>UI_INSTRUMENTO</label>
+			<bcs-input-texto
+               	class			="col-xs-4"
+                id				="frmInscribirClientePrepagoBono_INSTRUMENTOTXT"
+               	maxlength		="200"
+				ng-model		="data.idInstrumentoTXT"
+				k-ng-disabled 	= "'true'">
+	         </bcs-input-texto>							  				  			  	  
+		</div>
+		
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_SECUENCIA</label>					
+			<bcs-input-numero
+               	class			= "col-xs-2"
+                id				= "frmInscribirClientePrepagoBono_SECUENCIATXT"
+               	bcs-mayor-que   = "'0'"
+				k-ng-model		= "data.kngSecuenciaTXT"
+				k-ng-disabled	= "'true'">
+	        </bcs-input-numero>			
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_DESCRIPCION</label>
+               <bcs-input-texto 
+		            class			= "col-xs-6"
+		            id				= "frmInscribirClientePrepagoBono_DESCRIPCION"
+		            maxlength		= "100"
+					ng-model		= "data.DescripcionTXT"
+					k-ng-disabled 	= "'true'">
+               </bcs-input-texto>	
+		</div>
+		<!-- FIN INFORMACION DEL EVENTO CAPITAL -->
+				
+		<hr> 
+			 
+	 	<!-- SELECCION DEL CLIENTE / PORTAFOLIO -->
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CLIENTE</label>
+				<bcs-input-texto
+					ng-show			= "parametros.accion === 'Modificar'"
+					bcs-requerido	= "parametros.accion === 'Modificar'"  
+	               	class			= "col-xs-6"
+	                id				= "frmInscribirClientePrepagoBono_CLIENTETXT"
+	               	maxlength		= "200"
+					ng-model		= "data.ClienteTXT"
+					k-ng-disabled	= "'true'">
+               	</bcs-input-texto>
+	               	
+				<bcs-combobox-base 
+					class				= "col-xs-6"
+					bcs-requerido		= "parametros.accion == 'Crear'" 
+					ng-show				= "parametros.accion == 'Crear'" 
+					id					= "frmInscribirClientePrepagoBono_CLIENTE"
+				 	auto-cargar			= "'false'"
+				    tipo				= "'combobox-socio-negocio'"
+				    seleccionado		= "oSocioNegocio.seleccionado"
+				    filtros				= "oSocioNegocio.filtros"
+				    item-post-filtro	= "oSocioNegocio.idActual"
+					cascada-a			= "oPortafolio.filtros.IdCliente"
+					cascada-valor		= "'IdCliente'"
+                    cascada-defecto		= "'-1'"
+                    id-actual			= "oSocioNegocio.idActual"
+				    configuracion		= "oSocioNegocio.configuracion">
+				</bcs-combobox-base>		  	  
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+				<bcs-input-texto
+					ng-show			= "parametros.accion === 'Modificar'"
+					bcs-requerido	= "parametros.accion === 'Modificar'"  
+	               	class			= "col-xs-4"
+	                id				= "frmInscribirClientePrepagoBono_PORTAFOLIOTXT"
+	               	maxlength		= "200"
+					ng-model		= "data.PortafolioTXT"
+					k-ng-disabled	= "'true'">
+               	</bcs-input-texto>
+
+				<bcs-combobox-base 
+					class			="col-xs-4"
+					ng-show			="parametros.accion == 'Crear'" 
+				 	id				="frmInscribirClientePrepagoBono_PORTAFOLIO"
+				 	auto-cargar		="'false'"
+				 	bcs-requerido	="parametros.accion === 'Crear'" 
+				    tipo			="'combobox-portafolio'"
+				    filtros			="oPortafolio.filtros"
+                    id-post-filtro	="data.IdPortafolio"
+				    configuracion	="oPortafolio.configuracion"  
+				    id-actual		="oPortafolio.idActual"
+				    seleccionado 	="oPortafolio.seleccionado">
+				</bcs-combobox-base >
+		</div>
+		<!-- FIN SELECCION DEL CLIENTE / PORTAFOLIO -->
+			
+		<hr>
+		
+		
+		
+		<!-- INICIO CARTERA PREPAGO BONO -->
+		<div class="row">  
+		
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_FOLIO_CARTERA</label>
+					<bcs-input-numero
+						class			= "col-xs-2"
+						id				= "frmInscribirClientePrepagoBono_FOLIO_CARTERA" 
+						k-options		= "data.folioCarteraOptions"
+						k-ng-model		= "data.kngFolioCartera"
+						k-ng-disabled	= "'true'">
+					</bcs-input-numero>
+					
+					<div class="col-xs-1"></div>
+					
+					<bcs-button
+						class="col-xs-3"
+						id="frmInscribirClientePrepagoBono_CONSULTA_CARTERAS" 
+						bcs-tipo="'default'"
+						bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_CONSULTA_CARTERAS' | translate"
+						bcs-habilitado="(!data.oDesplegar.showBusquedaInstrumentoEgreso || (data.oDesplegar.showBusquedaInstrumentoEgreso && data.checkPorCartera)) && (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT')"
+						bcs-clic="data.btnConsultarCarteras()">
+					</bcs-button>
+				</div>
+			</div>
+
+			
+ 			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_BOVEDA</label>
+					<bcs-input-texto 
+						class			="col-xs-2"
+						bcs-requerido	="'false'"
+						id				="frmInscribirClientePrepagoBono_BOVEDA_TEXTO"
+						k-ng-disabled	="'true'"
+						ng-model		="instrumentoCustodia.NombreBoveda">
+					</bcs-input-texto>
+					
+					<div class="col-xs-2"></div>
+
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_CUENTA_CUSTODIO</label>
+					
+					<bcs-input-texto 
+						class			="col-xs-2"
+						bcs-requerido	="'false'"
+						id				="frmInscribirClientePrepagoBono_CUENTA_CUSTODIO"
+						k-ng-disabled	="'true'"
+						ng-model		="instrumentoCustodia.CodigoCuentaCustodio">
+					</bcs-input-texto>
+
+				</div>
+			</div>
+			
+						
+
+			
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_INSTRUMENTO</label>
+					<bcs-input-texto 
+						class			= "col-xs-3"
+						id				= "frmInscribirClientePrepagoBono_INSTRUMENTO_TEXTO"						
+						k-ng-disabled	= "'true'"
+						ng-model		= "instrumentoCustodia.Nemotecnico">
+					</bcs-input-texto>
+
+				</div>
+			</div>
+
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_EMISOR</label>
+					<bcs-input-texto 
+						class			= "col-xs-2"						
+						id				= "frmInscribirClientePrepagoBono_EMISOR_TEXTO"
+						k-ng-disabled	= "'true'"
+						ng-model		= "instrumentoCustodia.RazonSocialEmisor">
+					</bcs-input-texto>
+				</div>
+			</div>
+
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_TIPO_REAJUSTE</label>
+					<bcs-input-texto 
+						class			= "col-xs-2"
+						id				= "frmInscribirClientePrepagoBono_TIPO_REAJUSTE_TEXTO"
+						k-ng-disabled	= "'true'"
+						ng-model		= "instrumentoCustodia.NombreCompletoTipoReajuste">
+					</bcs-input-texto>
+				</div>
+			</div>
+			
+			<hr>
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_CANTIDAD_REPETICIONES</label>
+					
+					<bcs-input-numero
+						class				= "col-xs-2"
+						id					= "frmInscribirClientePrepagoBono_CANTIDAD"
+						bcs-requerido   	= "'true'"
+						k-ng-model			= "data.kngCantidad"
+						decimales 			= "data.oDecimales.cantidad"
+						bcs-mayor-que		= "'0'"
+						ng-blur             = "data.blurCantidadRepeticiones()">
+					</bcs-input-numero>
+					
+					<div class="col-xs-2"></div>
+						
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO_CAPITAL</label>
+					
+					<bcs-input-monetario 
+						id 					= "frmInscribirClientePrepagoBono_MONTO_CAPITAL" 
+						class				= "col-xs-2" 
+						bcs-requerido 		= "false"
+						k-ng-disabled		= "true"
+						simbolo				= "data.valorValorizadoSimbolo" 
+						decimales 			= "data.valorValorizadoDecimales"
+						k-ng-model			= "data.kngValorValorizado">
+		 			</bcs-input-monetario>
+					
+				</div>
+			</div>
+					
+					
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_CORTE_MINIMO</label>
+					
+					<bcs-input-monetario
+						class			= "col-xs-2"
+						id				= "frmInscribirClientePrepagoBono_CORTE_MINIMO"
+						k-ng-disabled	= "true"
+						k-ng-model		= "data.kngCorteMinimo"
+						k-options 		= "data.corteMinimoOptions"
+						simbolo			= "data.monedaCorteMinimo"
+						decimales		= "data.oDecimales.corteMinimo.decimales">
+					</bcs-input-monetario>
+					
+					<div class="col-xs-2"></div>
+							
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_INTERESES_CORRIDOS</label>
+					
+					<bcs-input-monetario
+						id 					= "frmInscribirClientePrepagoBono_INTERESES_CORRIDOS" 
+						class				= "col-xs-2" 
+						bcs-requerido 		= "false"
+						k-ng-disabled		= "true"
+						simbolo				= "data.interesesCorridosSimbolo" 
+						decimales 			= "data.interesesCorridosDecimales"
+						k-ng-model			= "data.kngInteresesCorridos">
+		 			</bcs-input-monetario>
+					
+				</div>
+			</div>
+			
+										
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_VALOR_NOMINAL</label>
+					<bcs-input-monetario
+						class				= "col-xs-2"
+						id					= "frmInscribirClientePrepagoBono_VALOR_NOMINAL"
+						bcs-requerido		= "'true'"
+						k-options 			= "data.valorNominalOptions"
+						k-ng-model			= "data.kngValorNominal"
+						simbolo				= "data.monedaValorNominal"
+						decimales			= "data.oDecimales.valorNominal.decimales"
+						bcs-mayor-que		= "'0'"
+						bcs-menor-igual-que	= "instrumentoCustodia.ValorNominal"
+						ng-blur				= "data.blurValorNominal()">
+					</bcs-input-monetario>
+					
+			
+					
+					<div class="col-xs-2"></div>
+					
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_REAJUSTES_VAC_CORRIDO</label>
+					
+					<bcs-input-monetario
+						id 					= "frmInscribirClientePrepagoBono_REAJUSTES_VAC_CORRIDO" 
+						class				= "col-xs-2" 
+						bcs-requerido 		= "false"
+						k-ng-disabled		= "true"
+						simbolo				= "data.reajustesVacCorridoSimbolo" 
+						decimales 			= "data.reajustesVacCorridoDecimales"
+						k-ng-model			= "data.kngReajustesVacCorrido">
+		 			</bcs-input-monetario>
+					 			
+					 								
+				</div>			
+			</div>
+			
+			
+			<div class="row">
+				<label class="col-xs-2" translate>UI_PRECIO</label>
+				
+				<bcs-input-porcentaje
+					id 					= "frmInscribirClientePrepagoBono_PRECIO" 
+					class				= "col-xs-2" 
+					bcs-requerido 		= "'true'"
+					k-ng-disabled		= "false"
+					simbolo				= "data.precioSimbolo" 
+					decimales 			= "data.precioDecimales"
+					k-ng-model			= "data.kngPrecio">
+	 			</bcs-input-porcentaje>
+	 			
+	 			<bcs-button 
+	 				id					= "frmInscribirClientePrepagoBono_BOTON_PRECIO"  
+	 				bcs-clic			= "data.valorizar('TASA')"
+	 				class				= "col-xs-2" 
+	 				bcs-tipo			= "''" 
+	 				bcs-auto-desactivar	= "false" 
+	 				bcs-texto			= "'UI_VALORIZAR_TIR' | translate" 
+	 				bcs-habilitado		= "'true'">
+	 			</bcs-button>
+	 			
+	 			
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO_TOTAL</label>
+				
+				<bcs-input-monetario 
+					id 					= "frmInscribirClientePrepagoBono_MONTO_TOTAL" 
+					class				= "col-xs-2" 
+					bcs-requerido 		= "'true'"
+					k-ng-disabled		= "true"
+					simbolo				= "data.valorActualizadoSimbolo" 
+					decimales 			= "data.valorActualizadoDecimales"
+					k-ng-model			= "data.kngValorActualizado">
+				</bcs-input-monetario>
+					
+			</div>
+							
+			<div class="row">
+				<label class="col-xs-2" translate>UI_TIR</label>
+				<bcs-input-porcentaje
+					id 					= "frmInscribirClientePrepagoBono_TIR" 
+					class				= "col-xs-2" 
+					bcs-requerido 		= "'true'"
+					k-ng-disabled		= "false"
+					simbolo				= "data.tirSimbolo" 
+					decimales 			= "data.tirDecimales"
+					k-ng-model			= "data.kngTir"
+					permite-negativo	= "true">
+	 			</bcs-input-porcentaje>
+	 			<bcs-button 
+	 				id					= "frmInscribirClientePrepagoBono_btnValorizar"  
+	 				bcs-clic			= "data.valorizar('PRECIO')"
+	 				class				= "col-xs-2" 
+	 				bcs-tipo			= "''" 
+	 				bcs-auto-desactivar	= "false" 
+	 				bcs-texto			= "'UI_VALORIZAR_PRECIO' | translate" 
+	 				bcs-habilitado		= "'true'">
+	 			</bcs-button>
+			</div>
+			
+		</div>
+		<!-- FIN CARTERA PREPAGO BONO -->
+		
+		
+	</form>
+	
+
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" ng-show="'true'" bcs-tipo="'principal'" bcs-auto-desactivar="false" bcs-texto="'UI_GRABAR' | translate" bcs-habilitado="frmInscribirClientePrepagoBono.$valid" bcs-clic="data.InscribirClientePrepagoBono()"></bcs-button>
+		<bcs-button class="col-xs-2" ng-show="'true'" bcs-tipo="''"          bcs-auto-desactivar="false" bcs-texto="'UI_CERRAR' | translate" bcs-habilitado="'true'" bcs-clic="data.Cerrar(false)"></bcs-button>
+	</div>
+
+	</div> 
+</div>

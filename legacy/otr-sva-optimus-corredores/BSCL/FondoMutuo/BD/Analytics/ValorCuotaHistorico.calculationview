@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="ValorCuotaHistorico" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="ValorCuotaHistorico"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdValorCuotaHistorico"/>
+        <viewAttribute datatype="NVARCHAR" id="IdSerieFondo" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaValorCuota" length="10"/>
+        <viewAttribute datatype="DECIMAL" id="ValorCuota" length="28" scale="6"/>
+        <viewAttribute datatype="NVARCHAR" id="IdFondo" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreSerieFondo" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoSerie" length="10"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = SELECT
+ 	   &quot;IdValorCuotaHistorico&quot;
+       ,&quot;IdSerieFondo&quot;
+       ,&quot;FechaValorCuota&quot;
+       ,&quot;ValorCuota&quot;
+       ,&quot;IdFondo&quot;
+       ,&quot;IdMoneda&quot;
+       ,&quot;NombreSerieFondo&quot;
+       ,&quot;CodigoSerie&quot;
+		FROM &quot;BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarValorCuotaHistoricoAnalitica&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdValorCuotaHistorico" order="1">
+        <descriptions defaultDescription="IdValorCuotaHistorico"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdValorCuotaHistorico"/>
+      </attribute>
+      <attribute id="IdSerieFondo" order="2">
+        <descriptions defaultDescription="IdSerieFondo"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdSerieFondo"/>
+      </attribute>
+      <attribute id="FechaValorCuota" order="3">
+        <descriptions defaultDescription="FechaValorCuota"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaValorCuota"/>
+      </attribute>
+      <attribute id="ValorCuota" order="4">
+        <descriptions defaultDescription="ValorCuota"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorCuota"/>
+      </attribute>
+      <attribute id="IdFondo" order="5">
+        <descriptions defaultDescription="IdFondo"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdFondo"/>
+      </attribute>
+      <attribute id="IdMoneda" order="6">
+        <descriptions defaultDescription="IdMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="NombreSerieFondo" order="7">
+        <descriptions defaultDescription="NombreSerieFondo"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreSerieFondo"/>
+      </attribute>
+      <attribute id="CodigoSerie" order="8">
+        <descriptions defaultDescription="CodigoSerie"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoSerie"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

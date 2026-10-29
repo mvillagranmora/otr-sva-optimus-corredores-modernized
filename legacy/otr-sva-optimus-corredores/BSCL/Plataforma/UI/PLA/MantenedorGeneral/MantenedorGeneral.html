@@ -1,0 +1,44 @@
+<div ng-controller="MantenedorGeneralCtrl">
+	<!--- INICIO FORMULARIO -->
+	<form class="col-xs-12 form-horizontal">
+		<div class="row">
+			<!-- LISTA DE MANTENEDORES  -->
+			<div class="col-xs-3">
+				<div class="row">
+					<div kendo-tree-view="uiTVListaMantenedoresDatos" 
+						 k-auto-bind="'true'"
+		            	 k-on-change="ListaMantenedoresClic(dataItem)">
+		             </div>
+	             </div>
+	             <div class="row">
+	             		    <bcs-button id='GENERAR_INFORME_PARAMETROS_SISTEMA' 
+	             		    	bcs-auto-desactivar="'false'"
+	             		        bcs-tipo="'normal'"
+	             		    	bcs-texto="'UI_GENERAR_INFORME_PARAMETROS_SISTEMA' | translate" 
+	             		    	bcs-habilitado="'true'" 
+	             		    	bcs-clic="generarInformeParametrosSistema()"  ></bcs-button>
+	             </div>
+			</div>
+			<!-- MANTENEDOR  -->
+				
+			<div class="col-xs-9" ng-show="data.mostrarGrid">
+			   <div class="row bcs_titulo no-margin">Mantenedor de Código</div>	
+			   <bcs-grid 
+			   		id					="mantenedorCodigoGeneral"
+			   		fn-exportar-excel	= "exportarExcel" 
+					seleccionado 		= "data.seleccion"
+					configuracion		="data.optionsGrillaAtributos">
+			   </bcs-grid>
+			   <div id="contenedorAcciones">
+			   	  <div class="col-xs-2" ng-repeat="btn in data.accionesMantenedor">  
+			   	  	<bcs-button id="btn.id" style = "padding-top: 4px;" class="col-xs-12" bcs-habilitado="btn.habilitado"  bcs-tipo="''"  bcs-auto-desactivar="false" bcs-clic="btn.fnclic()" bcs-texto="btn.NombreDiccionario|translate" ng-if="btn.NombreDiccionario!='UI_EXPORTAR'"></bcs-button>
+			   	  	
+			   	  	<bcs-menu class="col-xs-12 pull-right" style = "padding-top: 4px;" bcs-habilitado="btn.habilitado" bcs-texto="'UI_OPCIONES' | translate" ng-if="btn.NombreDiccionario==='UI_EXPORTAR'">
+			            <li ng-click="btn.fnclic()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			        </bcs-menu>
+			   	  </div>
+			   </div>
+			</div>      	
+		</div>
+	</form>			
+</div>

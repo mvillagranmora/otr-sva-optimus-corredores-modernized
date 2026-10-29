@@ -1,0 +1,122 @@
+<div>
+	<div class="col-xs-12">
+		<div class="row">
+			<!-- Cabecera -->
+			<div ng-show="modo==='MP'">
+				<div class="row">
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_CODIGO</label>
+						<bcs-input-texto class="col-xs-8" 
+							ng-model="datosCabeceraDespues.IdPlantillaLimite" 
+							k-ng-disabled="true">
+						</bcs-input-texto>
+					</div>
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+						<bcs-input-texto 
+							class="col-xs-8" 
+							ng-model="datosCabeceraDespues.DescripcionPlantillaLimite" 
+							k-ng-disabled="true">
+						</bcs-input-texto>
+				  	</div>
+			  	</div>
+			  	<div class="row">
+					<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+						<bcs-input-checkbox 
+							ng-model="datosCabeceraDespues.PorDefecto" 
+							ng-disabled="true">
+						</bcs-input-checkbox>
+				  	</div>
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_HABILITADO</label>
+						<bcs-input-checkbox 
+							ng-model="datosCabeceraDespues.IdEstado" 
+							ng-disabled="true">
+						</bcs-input-checkbox>
+				  	</div>
+				</div>
+		  	</div>
+		  	
+		  	<!-- Detalle -->
+		  	<div ng-show="true">
+				<div class="row">
+					<bcs-grid
+						id="grid-plantilla-limites"
+						configuracion="grilla.grillaPlantillaLimites"
+						seleccionado="grilla.plantillaLimitesSel" 
+						fn-doble-click="modo !== 'PB' ? win.modificarDetalle(grilla.plantillaLimitesSel) : false">
+					</bcs-grid>
+				</div>
+			</div>
+			
+			<!-- Botonera Principal -->
+			<div class="row col-xs-12 bcs-panel-comandos">
+				<div class="col-xs-8">	
+					<div ng-show="modo==='MP'">
+						<bcs-button id="AdmPla_PlantillaLimites_crear" class="col-xs-2" bcs-tipo="'bcs-button-primary'" 
+							ng-if="!win.plantillaCargado && !win.modoEditar" bcs-mostrar="!win.modoEditar" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CREAR_PLANTILLA' | translate" bcs-habilitado="'true'" bcs-clic="win.administrarCabecera()">
+						</bcs-button>
+						<!--
+						<bcs-button id="AdmPla_PlantillaLimites_editar" class="col-xs-2" bcs-tipo="''" 
+							ng-if="win.plantillaCargado && !win.modoEditar" bcs-mostrar="!win.modoEditar" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_PLANTILLA' | translate" bcs-habilitado="!dataSolicitudCambio.CambiosPendientes" bcs-clic="win.editar()">
+						</bcs-button>
+						-->
+					</div>
+					<div ng-show="modo==='MP' || modo==='PE'">
+						<bcs-button id="AdmPla_PlantillaLimites_crearDetalle" class="col-xs-2" bcs-tipo="'bcs-button-primary'" 
+							ng-if="win.plantillaCargado && win.modoEditar" bcs-mostrar="win.modoEditar" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_AGREGAR_DETALLE' | translate" bcs-habilitado="'true'" bcs-clic="win.administrarDetalle()">
+						</bcs-button>
+						<bcs-button id="AdmPla_PlantillaLimites_editarDetalle" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" 
+							ng-if="win.plantillaCargado && win.modoEditar" bcs-mostrar="win.modoEditar" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_DETALLE' | translate" bcs-habilitado="grilla.plantillaLimitesSel !== undefined && grilla.plantillaLimitesSel.IdEstado !== 'PEN'" bcs-clic="win.modificarDetalle(grilla.plantillaLimitesSel)">
+						</bcs-button>
+					</div>
+					<!--
+					<div ng-if="modo==='PE'">
+						<bcs-button id="AdmPla_PlantillaLimites_cancelar" class="col-xs-2" bcs-tipo="''" 
+							ng-if="win.modoEditar" bcs-mostrar="win.modoEditar" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'" bcs-clic="win.finalizarEdicion()">
+						</bcs-button>
+					</div>
+					-->
+					<div ng-show="modo==='MP'">
+						
+						<bcs-button id="AdmPla_PlantillaLimites_editarCabecera" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" 
+							ng-if="win.plantillaCargado && win.modoEditar" bcs-mostrar="win.modoEditar" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR_PLANTILLA' | translate" bcs-habilitado="'true'" bcs-clic="win.administrarCabecera(datosCabeceraDespues)">
+						</bcs-button>
+						<bcs-button id="AdmPla_PlantillaLimites_cancelar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" 
+							ng-if="win.plantillaCargado && win.modoEditar" bcs-mostrar="win.modoEditar" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'" bcs-clic="win.cancelar()">
+						</bcs-button>
+						<bcs-button id="AdmPla_PlantillaLimites_mostrarCambios" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" 
+							ng-if="win.plantillaCargado && !win.modoEditar && dataSolicitudCambio.CambiosPendientes" 
+							bcs-mostrar="win.plantillaCargado && !win.modoEditar && dataSolicitudCambio.CambiosPendientes" 
+							bcs-auto-desactivar="false" bcs-texto="'UI_MOSTRAR_CAMBIOS' | translate" bcs-habilitado="'true'" bcs-clic="win.mostrarCambios()">
+						</bcs-button>
+					</div>
+					<span ng-show="!win.modoEditar && dataSolicitudCambio.CambiosPendientes" class="pull-right">
+						<i class="fa fa-exclamation-triangle" style="padding-right:7px;color:orange"></i>
+						<label translate>UI_CAMBIOS_POR_AUTORIZAR</label>
+					</span>
+					<span ng-show="!win.modoEditar && dataSolicitudCambio.CambiosPendientesDetalle" class="pull-right">
+						<i class="fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i>
+						<label translate>UI_CAMBIO_DE_LIMITE_POR_AUTORIZAR</label>
+					</span>
+				</div>
+				<div ng-show="modo==='MP'">
+					<div class="col-xs-3"></div>
+					<bcs-menu class="col-xs-1" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			            <li ng-click="">{{'UI_EXTRAER_PLANTILLAS_POR_CORREDORA' | translate}}</li>
+			            <li ng-click="">{{'UI_EXTRAER_PLANTILLAS_POR_CLIENTE' | translate}}</li>
+			            <li ng-click="">{{'UI_IMPRIMIR' | translate}}</li>
+					</bcs-menu>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

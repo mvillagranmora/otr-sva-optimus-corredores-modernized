@@ -1,0 +1,78 @@
+<div id="Traspaso" ng-controller="TraspasoCtrl as solTra">
+	<form class="col-xs-12 form-horizontal">
+		<div class="row" >
+			<div class="col-xs-4" >
+				<label class="col-xs-4" translate>UI_TIPO_MOVIMIENTO</label>
+				<bcs-combobox-base class="col-xs-6"
+							tipo = "'combobox-tipo-movimiento-traspaso-ffmm'"
+							id-actual = "solTra.cmbbx.IdTipoMovimiento"
+							filtros="solTra.cmbbx.TipoMovimiento.filtros"
+							auto-cargar="true"
+							todos="'N'"
+							id-post-filtro="solTra.cmbbx.IdTipoMovimientoPost"
+							activado='solTra.cmbbx.IdTipoMovimientoActivo'>
+			 	</bcs-combobox-base >		
+			</div>
+			<div class="col-xs-4" >
+					<label class="col-xs-4" translate> UI_FECHA_SUSCRIPCION</label>
+					<bcs-input-date class="col-xs-5" bcs-requerido
+						k-ng-model="solTra.fechaInicioSol"
+						k-ng-disabled="readOnly">
+					</bcs-input-date>
+				
+			</div>
+			<div class="col-xs-4" >
+					<label class="col-xs-4" translate>UI_FOLIO</label> 
+			  		<bcs-input-numero class="col-xs-6"
+					 		ng-model="solTra.FolioTraspaso"
+					 		decimales="'0'">
+					 </bcs-input-numero>
+					
+			</div>
+		</div>
+			
+		<div class="row" >
+			<div class="col-xs-4" >
+				<label class="col-xs-4" translate>UI_LUGAR_SUSCRIPCION</label>
+					<bcs-combobox-base 
+						id				= "UI_COMUNA"
+						class			= "col-xs-6"
+						bcs-requerido	= "solTra.paisResidenciaSeleccionado.NombrePais === 'CHILE'"
+						filtros			= "solTra.cmbbx.DivisionPais.filtros"
+						id-actual 		= "solTra.idDivisionPaisComuna"
+						id-post-filtro	= "solTra.idDivisionPaisComunaPost"
+						tipo			= "'combobox-division-pais'"
+						seleccionado	= "solTra.comunaSeleccionada"
+						activado		= "!solTra.datosForm.ComunaDeshabilitado"
+						>
+					</bcs-combobox-base>	
+			</div>
+
+		</div>
+			
+	</form>
+				
+	<form class="col-xs-12 form-horizontal">
+		<hr>
+		<br>
+			<div class="col-xs-12" >
+			<uib-tabset>
+					<uib-tab id="TabEgresos" heading="{{'UI_EGRESOS' | translate}}" select="solTra.fnTabPanelEgreso()"  active="solTra.cmbbx.IdTipoMovimiento=='TRAEGR'" ng-show="solTra.cmbbx.IdTipoMovimiento=='TRAEGR'">
+						<div class="row" >
+							<div id="PanelEgreso"></div>
+						</div>
+					</uib-tab>
+					
+					<uib-tab id="TabIngresos" heading="{{'UI_INGRESOS' | translate}}" select="solTra.fnTabPanelIngreso()"  active="solTra.cmbbx.IdTipoMovimiento=='TRAING'" ng-show="solTra.cmbbx.IdTipoMovimiento=='TRAING'">
+						<div class="row">
+							<div id="PanelIngreso"></div>
+						</div>
+					</uib-tab>
+														
+			</uib-tabset> 
+			</div>
+	</form>
+	<form class="col-xs-12 form-horizontal">	
+		<br>
+	</form>	
+</div>

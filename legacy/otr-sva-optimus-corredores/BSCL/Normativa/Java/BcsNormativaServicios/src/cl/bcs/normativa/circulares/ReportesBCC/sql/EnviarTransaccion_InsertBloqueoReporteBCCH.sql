@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Normativa.BD::NOR.EnviarTransaccion_BloqueoReporteBCCH" ("IdBloqueoReporteBCCH") VALUES (:IdBloqueoReporteBCCH);

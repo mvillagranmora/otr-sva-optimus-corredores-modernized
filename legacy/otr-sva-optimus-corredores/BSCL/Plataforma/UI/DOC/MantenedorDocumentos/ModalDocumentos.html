@@ -1,0 +1,293 @@
+<div id="ModalDocumentos" ng-controller="ModalDocumentosCtrl">
+	<form name="formModalDocumentos">
+		<div class="row bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_CODIGO</label>
+					<bcs-input-texto class="col-xs-3" ng-model="data.CodigoDocumento"
+						bcs-requerido="data.Habilitado" k-ng-disabled="!data.Habilitado">
+					</bcs-input-texto>
+					<label class="col-xs-3" translate>UI_NOMBRE_DOCUMENTO</label>
+					<bcs-input-texto class="col-xs-3" ng-model="data.NombreDocumento"
+						bcs-requerido>
+					</bcs-input-texto>
+				</div>
+			</div>
+			<div class="row" ng-if="SesionLocale!=='PE'">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_CANTIDAD_FIRMAS_MINIMAS</label>
+					<bcs-input-numero class="col-xs-3" ng-model="data.NumFirmasMinimas" k-ng-model="data.NumFirmasMinimas" decimales="0"
+						bcs-requerido="SesionLocal !== 'PE'">
+					</bcs-input-numero>
+					<label class="col-xs-3" translate>UI_CANTIDAD_FIRMAS_MAXIMAS</label>
+					<bcs-input-numero
+							class="col-xs-3"
+							ng-model="data.NumFirmasMaximas"
+							k-ng-model="data.NumFirmasMaximas"
+							k-options="data.oNumFirmasMaximasOptions"
+							decimales="0"
+							bcs-requerido="SesionLocal !== 'PE'"
+					>
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_GLOSA</label>
+					<bcs-input-texto class="col-xs-3" ng-model="data.Glosa"
+						>
+					</bcs-input-texto>
+					<label ng-show="SesionLocale!=='PE'" class="col-xs-3" translate>UI_VALIDAR_FECHA</label>
+					<bcs-input-checkbox class="col-xs-3" ng-model="data.ValidaFecha"
+						ng-if="SesionLocale!=='PE'">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_TIPO_PERSONA</label>
+					<bcs-combobox-base 
+						class="col-xs-3" 
+						tipo="'combobox-tipo-persona'"
+						todos="'S'"
+						id-actual="data.IdTipoPersona"
+						id-defecto="data.IdTipoPersonaDef"
+						bcs-requerido>
+					</bcs-combobox-base>
+					<label class="col-xs-3" translate>UI_SOLICITAR_FECHA_FIRMA</label>
+					<bcs-input-checkbox class="col-xs-3" ng-model="data.SolicitarFechaFirma"></bcs-input-checkbox>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_CLASE_DOCUMENTO</label>
+					<bcs-combobox-base  
+						class="col-xs-3" 
+						tipo="'combobox-clase-documento'"
+						todos="'N'"
+						id-actual="data.IdClase" 
+						id-defecto="data.IdClaseDef"
+						bcs-requerido>
+					</bcs-combobox-base>
+					<label class="col-xs-3" ng-show="data.IdClase === 2 || data.IdClase === 3" translate>UI_CODIGO_NORMATIVA</label>
+					<bcs-input-texto
+						class="col-xs-3"
+						ng-model="data.CodigoNormativa"
+						ng-show="data.IdClase === 2 || data.IdClase === 3">
+					</bcs-input-texto>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+				<label class="col-xs-3" translate>UI_VALIDAR_CLIENTE_FULL</label>
+				<bcs-input-checkbox class="col-xs-3" ng-model="data.ValidaClienteFull"></bcs-input-checkbox>
+				
+					<label class="col-xs-3" translate ng-show="data.NumFirmasMinimas && data.NumFirmasMinimas > 0">UI_FECHA_FIRMA</label>
+					<bcs-input-checkbox class="col-xs-3" ng-model="data.FechaFirma" ng-show="data.NumFirmasMinimas && data.NumFirmasMinimas > 0">
+					</bcs-input-checkbox>
+				
+					
+					<label class="col-xs-3" translate ng-show="data.NumFirmasMinimas && data.NumFirmasMinimas > 0">UI_FECHA_FIRMA_2</label>
+					<bcs-input-checkbox class="col-xs-3" ng-model="data.FechaFirma" ng-show="data.NumFirmasMinimas && data.NumFirmasMinimas > 0">
+					</bcs-input-checkbox>
+				
+				
+				<label class="col-xs-3" translate ng-show= true >UI_REQUIERE_FIRMA_CLIENTE</label>
+				<bcs-input-checkbox class="col-xs-3" ng-model="data.RequiereFirmaCliente" 	ng-show = true >
+			      </bcs-input-checkbox>
+				      
+				      
+				   	<label class="col-xs-3" translate>UI_BLOQUEAR_AL_VENCER</label>
+					<bcs-input-checkbox class="col-xs-3" ng-model="data.BloquearAlVencer">
+					</bcs-input-checkbox>
+					
+					<label class="col-xs-3" translate>UI_FIRMA_AUTOMATICA</label>
+					<bcs-input-checkbox class="col-xs-3" ng-model="data.FirmaAutomatica">
+					</bcs-input-checkbox>
+					
+				</div>
+			</div>
+
+			<!-- GRILLA REQUISITOS -->
+			<div class="row">	
+				<div class="col-xs-12">
+					<label for="formModalDocumentos_comboboxIndicadoresRequisitos" class="col-xs-3" translate="">UI_REQUISITO</label>
+					<bcs-combobox-base
+							id="formModalDocumentos_comboboxIndicadoresRequisitos"
+							class="col-xs-3"
+							tipo="'combobox-tipo-indicador'"
+							todos="'N'"
+							filtros="filtrosFormulario.consultaIndicadoresRequisitos"
+							id-actual="data.IdTipoIndicador"
+							seleccionado="data.IndicadorRequisitoCombo"
+							
+					>
+					</bcs-combobox-base>
+					<bcs-button
+							class="col-xs-3"
+							bcs-tipo="'principal'"
+							bcs-habilitado="!!data.IndicadorRequisitoCombo"
+							bcs-auto-desactivar="false"
+							bcs-clic="agregarIndicadorRequisito(data.IndicadorRequisitoCombo)"
+							bcs-texto="'Agregar'"
+					>
+					</bcs-button>
+					<bcs-button
+							class="col-xs-3"
+							bcs-tipo="''"
+							bcs-habilitado="!!data.IndicadorRequisitoGrilla"
+							bcs-auto-desactivar="false"
+							bcs-clic="quitarIndicadorRequisito(data.IndicadorRequisitoCombo)"
+							bcs-texto="'Eliminar'"
+					>
+					</bcs-button>
+				</div>
+			</div>
+			<div class="row">
+				<bcs-grid
+						id="grilla"
+						seleccionado="data.IndicadorRequisitoGrilla"
+						configuracion="grillaIndicadoresRequisitosOptions"
+						fn-doble-click=""
+				>
+				</bcs-grid>
+			</div>
+
+
+			<!-- GRILLA CANALES Firma -->
+			<div class="row">	
+				<div class="col-xs-12">
+					<label for="formModalDocumentos_comboboxCanales" class="col-xs-3" translate="">UI_CANAL_FIRMA</label>
+					<bcs-combobox-base
+							id="formModalDocumentos_comboboxCanales"
+							class="col-xs-3"
+							tipo="'combobox-tipo-canal-ingreso'"
+							todos="'N'"
+							filtros="filtrosFormulario.consultaCanalesIngreso"
+							id-actual="data.IdCanal"
+							seleccionado="data.CanalCombo"
+					>
+					</bcs-combobox-base>
+					<bcs-button
+							class="col-xs-3"
+							bcs-tipo="'principal'"
+							bcs-auto-desactivar="false"
+							bcs-habilitado="!!data.CanalCombo"
+							bcs-clic="agregarCanal(data.CanalCombo)"
+							bcs-texto="'Agregar'"
+					>
+					</bcs-button>
+					<bcs-button
+							class="col-xs-3"
+							bcs-tipo="''"
+							bcs-auto-desactivar="false"
+							bcs-habilitado="!!data.canalesingresogrilla"
+							bcs-clic="quitarCanal(data.canalesingresogrilla)"
+							bcs-texto="'Eliminar'"
+					>
+					</bcs-button>
+				</div>
+			</div>
+			<div class="row">
+				<bcs-grid
+						id="grillaCanales"
+						seleccionado="data.canalesingresogrilla"
+						configuracion="GrillaCanalesOptions"
+						fn-doble-click=""
+				>
+				</bcs-grid>
+			</div>
+			<!-- GRILLA Canal Enrolamiento-->
+			<div class="row">	
+				<div class="col-xs-12">
+					<label for="formModalDocumentos_comboboxCanales" class="col-xs-3" translate="">UI_CANAL_ENROLAMIENTO</label>
+					<bcs-combobox-base
+							id="formModalDocumentos_comboboxCanales"
+							class="col-xs-3"
+							tipo="'combobox-tipo-canal-ingreso'"
+							todos="'N'"
+							filtros="filtrosFormulario.consultaCanalesEnrolamiento"
+							id-actual="data.IdCanalEnrolamiento"
+							seleccionado="data.CanalComboEnrolamiento"
+					>
+					</bcs-combobox-base>
+					<bcs-button
+							class="col-xs-3"
+							bcs-tipo="'principal'"
+							bcs-auto-desactivar="false"
+							bcs-habilitado="!!data.CanalComboEnrolamiento"
+							bcs-clic="agregarCanalEnrolamiento(data.CanalComboEnrolamiento)"
+							bcs-texto="'Agregar'"
+					>
+					</bcs-button>
+					<bcs-button
+							class="col-xs-3"
+							bcs-tipo="''"
+							bcs-auto-desactivar="false"
+							bcs-habilitado="!!data.CanalEnrolamientoGrilla"
+							bcs-clic="quitarCanalEnrolamiento(data.CanalEnrolamientoGrilla)"
+							bcs-texto="'Eliminar'"
+					>
+					</bcs-button>
+				</div>
+			</div>
+			<div class="row">
+				<bcs-grid
+						id="grillaCanalesEnrolamiento"
+						seleccionado="data.CanalEnrolamientoGrilla"
+						configuracion="GrillaCanalesEnrolamientoOptions"
+						fn-doble-click=""
+				>
+				</bcs-grid>
+			</div>  
+			
+			
+			<!-- GRILLA VERSION PLANTILLA DOCUMENTOS -->
+			<div class="row">
+				<div class="col-xs-12">
+					<label for="formModalDocumentos_comboboxPlantillaContrato" class="col-xs-3" translate="">UI_PLANTILLA_CONTRATO</label>
+					<bcs-combobox-base
+							id="formModalDocumentos_comboboxPlantillaContrato"
+							class="col-xs-3"
+							tipo="'combobox-archivos-contratos'"
+							todos="'N'"
+							filtros="filtrosFormulario.consultaPlantillasContrato"
+							id-actual="data.CodigoArchivo"
+							seleccionado="data.CodigoArchivoCombo"
+							id-defecto="data.CodigoArchivoDef"
+					>
+					</bcs-combobox-base>
+					<bcs-button
+							class="col-xs-3"
+							bcs-tipo="'principal'"
+							bcs-habilitado="!!data.CodigoArchivoCombo"
+							bcs-auto-desactivar="false"
+							bcs-clic="agregarVersionPlantilla(data.CodigoArchivoCombo)"
+							bcs-texto="'Agregar'"
+					>
+					</bcs-button>
+
+				</div>
+			</div>
+			<div class="row">
+				<bcs-grid
+						id="grillaPCD"
+						seleccionado="data.plantillaContratoGrilla"
+						configuracion="grillaVersionPlantillaContrato"
+						fn-doble-click=""
+				>
+				</bcs-grid>
+			</div>
+		</div>
+	</form>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="ModalDocumentosCtrl_guardar" class="col-xs-2"
+			bcs-habilitado="formModalDocumentos.$valid" bcs-tipo="'principal'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR' | translate"
+			bcs-clic="AbreVentanaConfirmacion()"></bcs-button>
+		<bcs-button id="ModalDocumentosCtrl_cerrar" class="col-xs-2" bcs-habilitado="'true'"
+			bcs-tipo="''" bcs-auto-desactivar="false"
+			bcs-texto="'UI_CERRAR' | translate" bcs-clic="Cerrar()"></bcs-button>
+	</div>
+
+</div>

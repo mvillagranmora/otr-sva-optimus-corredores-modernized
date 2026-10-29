@@ -1,0 +1,1 @@
+DELETE FROM #PatrimonioCaja_CobroComisionTablaPaso;

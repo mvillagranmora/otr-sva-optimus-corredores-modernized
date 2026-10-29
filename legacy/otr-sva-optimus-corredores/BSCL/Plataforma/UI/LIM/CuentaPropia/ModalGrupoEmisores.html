@@ -1,0 +1,63 @@
+<div id="ModalGrupoEmisores" class="row" ng-controller="ModalGrupoEmisoresCtrl as modGE">
+	<div class="row">
+		<div ng-class="modGE.win.modoEditar ? 'col-xs-8' : 'col-xs-12'">
+			<form name="ModalGrupoEmisores" class="col-xs-12">
+				<div class="row">
+			  		<label class="col-xs-4" translate>UI_CODIGO</label>
+					<bcs-input-texto class="col-xs-8" 
+						ng-model="modGE.respuesta.IdGrupoEmisor" 
+						bcs-requerido="!modGE.win.modoEditar"
+						k-ng-disabled="modGE.win.modoEditar">
+					</bcs-input-texto>
+				</div>
+			  	<div class="row">
+			  		<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+					<bcs-input-texto class="col-xs-8" 
+						ng-model="modGE.respuesta.Descripcion"
+						bcs-requerido="!modGE.win.modoEditar">
+					</bcs-input-texto>
+			  	</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-estado-limites'"
+						id-actual="modGE.respuesta.IdEstado"
+						id-defecto="modGE.respuesta.IdEstadoDef"
+						todos="'N'"
+						bcs-requerido
+						filtros="modGE.cmbbx.Estado.filtros"
+						seleccionado="modGE.dataModal.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+			</form>
+		</div>
+	</div>
+	<br>
+	
+	<div ng-if="modGE.win.modoEditar">
+		<div class="row">
+			<bcs-grid
+				configuracion="modGE.grilla.Emisores"
+				seleccionado="modGE.grilla.emisorSel"
+				fn-doble-click="modGE.win.modificarEmisor(modGE.grilla.emisorSel)">
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<div ng-class="modGE.win.modoEditar ? 'col-xs-10' : 'col-xs-12'">
+			<bcs-button id={{modGE.IdBotonAceptar}} class="col-xs-3" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalGrupoEmisores.$valid" bcs-clic="modGE.win.aceptar();">
+			</bcs-button>
+			<bcs-button id="ModalGrupoEmisores_AgregarEmisor" class="col-xs-3" ng-if="modGE.win.modoEditar" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_AGREGAR_EMISOR' | translate" bcs-habilitado="true" bcs-clic="modGE.win.agregarEmisor();">
+			</bcs-button>
+			<bcs-button id="ModalGrupoEmisores_ModificarEmisor" class="col-xs-3" ng-if="modGE.win.modoEditar" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_MODIFICAR_EMISOR' | translate" bcs-habilitado="modGE.grilla.emisorSel !== undefined && modGE.grilla.emisorSel.IdEstado !== 'PEN'" bcs-clic="modGE.win.modificarEmisor(modGE.grilla.emisorSel);">
+			</bcs-button>
+			<bcs-button id="ModalGrupoEmisores_cancelar" class="col-xs-3" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="modGE.win.cancelar();">
+			</bcs-button>
+		</div>
+	</div>
+</div>

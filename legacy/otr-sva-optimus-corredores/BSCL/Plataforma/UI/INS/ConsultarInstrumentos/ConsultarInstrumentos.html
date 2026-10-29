@@ -1,0 +1,78 @@
+<div id="ConsultarInstrumentos" class="row" ng-controller='ConsultarInstrumentosCtrl'>
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						class="col-xs-8"
+						id-defecto = "'RV'"
+						item-post-filtro = "'1'"
+						seleccionado="filtros.clasificacionTipoInstrumento"
+						id-actual="filtros.IdClasificacionTipoInstrumento"
+						cascada-a="formData.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada-valor="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						item-post-filtro = "'1'"
+						id-defecto = "'ACN'"
+						todos = "'S'"
+						filtros="formData.oConfiguracionTipoInstrumento.filtros"
+						id-actual="filtros.IdTipoInstrumento"
+						seleccionado="filtros.tipoInstrumento">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-estado-instrumento'"
+						todos = "'S'"
+						item-post-filtro = "'1'"
+						id-actual="filtros.IdEstado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+		</div>
+		<!-- FIN FILTROS -->
+		<!-- INICIO BOTONES -->
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="formData.buscar(filtros)"></bcs-button>
+			</div>
+		</div>
+	</div>
+	<!-- FIN BOTONES -->
+	<div class="row">
+		<bcs-grid id="ejemplo"
+			fn-doble-click="formData.modificar(formData.instrumentoSeleccionado)"
+			api = "formData.apiGrid"
+			fn-exportar-excel="formData.exportarExcel"
+			seleccionado = "formData.instrumentoSeleccionado"
+			configuracion="formData.defaultOptions">
+		</bcs-grid>
+	</div>
+	<!-- INICIO PANEL COMANDOS -->
+
+	<div class="row">
+		<bcs-button id="ConsultarInstrumentos_ingresar"  bcs-tipo = "'bcs-button-primary'" class="col-xs-1" bcs-habilitado="'true'" bcs-auto-desactivar="false" bcs-texto="'UI_INGRESAR' | translate" bcs-clic="formData.ingresar()"></bcs-button>
+		<bcs-button id="ConsultarInstrumentos_modificar" bcs-tipo = "'bcs-button-secondary'" class="col-xs-1" bcs-habilitado="'true'" bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate" bcs-clic="formData.modificar(formData.instrumentoSeleccionado)"></bcs-button>
+		<bcs-button id="ConsultarInstrumentos_autorizar" bcs-tipo = "'bcs-button-secondary'" class="col-xs-1" bcs-habilitado="data.btnAutorizar" bcs-auto-desactivar="false" bcs-texto="'UI_AUTORIZAR' | translate" bcs-clic="formData.autorizar(formData.instrumentoSeleccionado)"></bcs-button>
+		<bcs-button id="ConsultarInstrumentos_desautorizar" bcs-tipo = "'bcs-button-secondary'" class="col-xs-1" bcs-habilitado="data.btnDesAutorizar" bcs-auto-desactivar="false" bcs-texto="'UI_DESAUTORIZAR' | translate" bcs-clic="formData.desautorizar(formData.instrumentoSeleccionado)"></bcs-button>
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo = "'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="formData.CrearModificarTasasGenericas()">{{'UI_CREAR_TASAS_GENERICAS' | translate}}</li>
+            <li ng-click="formData.exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+	
+	
+  	
+
+</div>

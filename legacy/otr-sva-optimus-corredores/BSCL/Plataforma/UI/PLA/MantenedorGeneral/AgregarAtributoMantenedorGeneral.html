@@ -1,0 +1,46 @@
+<div class = "row" id="contenedorAtributos" ng-controller="AgregarAtributoCtrl">
+<form name="frmAtributos" class="col-xs-12 form-horizontal" style="padding: 10px;">
+	
+	<div ng-repeat="btn in atributosMantenedor">
+		<div ng-if="btn.ComponenteUI == 'bcs-input-numero'">
+		  <label class="col-xs-4" style="padding-left: 10px;">{{btn.NombreDiccionario|translate}}</label>	  
+		  <bcs-input-numero
+		  	  bcs-requerido="btn.RequeridoCampo"
+			  ng-model="agregar[btn.NombreCampo]"
+			  style = "padding-top: 4px;" 
+			  class="col-xs-8"
+			  maxlength="{{btn.maxLength}}">
+		  </bcs-input-numero>
+		</div>
+		
+		<div ng-if="btn.ComponenteUI == 'bcs-input-texto'">
+		  <label class="col-xs-4" style="padding-left: 10px;">{{btn.NombreDiccionario|translate}}</label>	  
+		  <bcs-input-texto
+		  	  bcs-requerido="btn.RequeridoCampo"
+			  ng-model="agregar[btn.NombreCampo]" 
+			  style = "padding-top: 4px;" 
+			  class="col-xs-8"
+			  maxlength="{{btn.maxLength}}">
+		  </bcs-input-texto>
+		</div>
+		<div ng-if="btn.ComponenteUI == 'bcs-combobox-base'">
+			<label class="col-xs-4" style="padding-left: 10px;">{{btn.NombreDiccionario|translate}}</label>
+			<bcs-combobox-base 
+			    bcs-requerido="btn.RequeridoCampo"
+				id-post-filtro="agregarAntes[btn.NombreCampo]" 
+				id-actual="agregar[btn.NombreCampo]"
+				tipo="btn.Formato" 
+				filtros="btn.filtros" 
+				style = "padding-top: 4px;" 
+				class="col-xs-8">
+			</bcs-combobox-base >
+		</div>
+	</div>
+ 	<div class = "row">
+ 	  <div class="row bcs-panel-comandos">
+         <bcs-button class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="true" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="frmAtributos.$valid" bcs-mostrar = "data.mostrar" bcs-clic="agregarMantenedor()"></bcs-button>
+         <bcs-button class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="true" bcs-texto="'UI_CERRAR' | translate" bcs-habilitado="true" bcs-mostrar = "data.mostrar" bcs-clic="cerrarMantenedor()"></bcs-button>
+      </div>
+    </div>
+</form>
+</div>

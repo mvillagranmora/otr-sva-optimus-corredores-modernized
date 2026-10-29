@@ -1,0 +1,176 @@
+<div class="row" ng-controller='ConsultarInstruccionesCtrl as self' bcs-enter="self.form.buscarInstrucciones()" tabindex="1">
+    <div class="row">
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="row">
+                
+               		<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUCCION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-instrumento'"
+							id-actual="self.filtros.IdTipoInstrumento"
+							filtros= "self.form.filtrosTipoInstrumento"
+							cascada-a="self.form.filtrosOperacion.IdTipoInstrumento"
+							cascada-valor="'IdTipoInstrumento'"
+							cascada1-a="self.form.filtrosTipoInstrumentoSubyacente.IdTipoInstrumento"
+							cascada1-valor="'IdTipoInstrumento'"
+							todos="'S'"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+                	
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_OPERACION</label>
+						<bcs-combobox-base
+							class="col-xs-8" 
+							tipo="'combobox-tipo-operacion'"
+							id-actual="self.filtros.IdTipoOperacion"
+							filtros="self.form.filtrosOperacion"
+							todos="'S'"
+							item-post-filtro="'1'"
+							> 
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-instrumento-subyacente-instrucciones'"
+							id-actual="self.filtros.IdTipoInstrumentoSubyacente"
+							filtros="self.form.filtrosTipoInstrumentoSubyacente"
+							todos="'S'"
+							item-post-filtro="'1'"
+							>
+						</bcs-combobox-base>
+					</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label class="col-xs-4" translate>UI_ESTADO</label>
+                        <bcs-combobox-base
+	                        class="col-xs-8"
+	                        tipo="'combobox-estado-instruccion'"
+	                        filtros= "self.form.filtrosEstado"
+	                        id-actual="self.filtros.IdEstadoInstruccion"
+	                        todos="'S'"
+	                        item-post-filtro="'1'"
+                        >
+                        </bcs-combobox-base>
+                    </div>
+                    <div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CANAL_INGRESO</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							filtros = "self.form.filtrosTipoCanalIngreso"
+							tipo="'combobox-tipo-canal-ingreso'"
+							id-actual="self.filtros.IdTipoCanalIngreso"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base >
+					</div>
+                </div>
+                <div class="row">
+                	<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_CONSULTA</label>
+						<bcs-input-date class="col-xs-4" k-ng-model="self.filtros.fechaConsultaDesde"></bcs-input-date>
+						<bcs-input-date class="col-xs-4" k-ng-model="self.filtros.fechaConsultaHasta"></bcs-input-date>
+					</div>			
+					<div class="col-xs-2">
+						<div class="col-xs-2">
+							<bcs-input-checkbox id="frmInstrucciones_chkFechaLiquidacion" ng-model="self.filtros.chkFechaLiquidacion"></bcs-input-checkbox>
+						</div>
+						<label class="col-xs-8" translate>UI_FECHA_LIQUIDACION</label>
+					</div>	
+					<div class="col-xs-2">					
+						<div class="col-xs-2">
+							<bcs-input-checkbox id="frmInstrucciones_chkFechaTrade" ng-model="self.filtros.chkFechaTrade"></bcs-input-checkbox>
+						</div>
+						<label class="col-xs-8" translate>UI_FECHA_TRADE</label>
+					</div>
+					<div class="col-xs-2">					
+						<div class="col-xs-2">
+							<bcs-input-checkbox id="frmInstrucciones_chkInstruccionesVigentes" ng-model="self.filtros.chkInstruccionesVigentes"></bcs-input-checkbox>
+						</div>
+						<label class="col-xs-8" translate>UI_INSTRUCCION_VIGENTE</label>
+					</div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="row">
+                    <bcs-button
+                            class="col-xs-12"
+                            bcs-tipo="'bcs-button-search'"
+                            bcs-auto-desactivar="false"
+                            bcs-texto="'UI_BUSCAR' | translate"
+                            bcs-habilitado="true"
+                            bcs-clic="self.form.buscarInstrucciones(self.filtros)"
+                    >
+                    </bcs-button>
+                </div>
+                <div class="row">
+                    <bcs-button
+                            class="col-xs-12"
+                            bcs-tipo="'bcs-button-secondary'"
+                            bcs-auto-desactivar="false"
+                            bcs-texto="'UI_LIMPIAR' | translate"
+                            bcs-habilitado="true"
+                            bcs-clic="self.form.limpiarFiltros()"
+                    >
+                    </bcs-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <bcs-grid
+                id="grid-transacciones"
+                api="self.form.gridInstruccionesApi"
+                seleccionado="self.form.kNgModel"
+                configuracion="self.form.gridInstruccionesConfig"
+                fn-doble-click="self.form.abrirDetalleInstruccion(self.form.kNgModel)"
+                fn-exportar-excel="self.form.exportarExcel"
+        >
+        </bcs-grid>
+    </div>
+
+    <div class="row bcs-panel-comandos">
+        <bcs-button
+                class="col-xs-1" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_INGRESAR' | translate" id="ConsultarTransacciones_ingresarTransaccion"
+                bcs-habilitado="self.form.accion.puedeIngresar" bcs-clic="self.form.ingresarInstruccion()"
+        ></bcs-button>
+        <bcs-button
+                class="col-xs-1" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_BITACORA' | translate" id="ConsultarTransacciones_modificarTransaccion"
+                bcs-habilitado="self.form.accion.puedeVerBitacora" bcs-clic="self.form.abrirBitacora(self.form.kNgModel)"
+        ></bcs-button>
+        <bcs-button
+                class="col-xs-1" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_CONFIRMAR' | translate" id="ConsultarTransacciones_anularTransaccion"
+                bcs-habilitado="self.form.accion.puedeConfirmar" bcs-clic="self.form.confirmarInstruccion()"
+        ></bcs-button>
+        <bcs-button
+                class="col-xs-1" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_LIQUIDAR' | translate" id="ConsultarTransacciones_reservarTransaccion"
+                bcs-habilitado="self.form.accion.puedeLiquidar" bcs-clic="self.form.liquidarInstruccion(self.form.kNgModel)"
+        ></bcs-button>
+        <bcs-button
+                class="col-xs-1" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_RECHAZAR' | translate" id="ConsultarTransacciones_liberarTransaccion"
+                bcs-habilitado="self.form.accion.puedeRechazar" bcs-clic="self.form.rechazarInstruccion(self.form.kNgModel)"
+        ></bcs-button>
+        <bcs-button
+                class="col-xs-1" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_CANCELAR' | translate" id="ConsultarTransacciones_cancelarTransaccion"
+                bcs-habilitado="self.form.accion.puedeCancelar" bcs-clic="self.form.cancelarInstruccion(self.form.kNgModel)"
+        ></bcs-button>
+        <bcs-button
+                class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ACEPTAR_CANCELACION' | translate" id="ConsultarTransacciones_aceptarSolCancelacion"
+                bcs-habilitado="self.form.accion.puedeAceptarCancelacion" bcs-clic="self.form.aceptarCancelacionInstruccion(self.form.kNgModel)"
+        ></bcs-button>
+        <bcs-button
+                class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_RECHAZAR_CANCELACION' | translate" id="ConsultarTransacciones_rechazarSolCancelacion"
+                bcs-habilitado="self.form.accion.puedeRechazarCancelacion" bcs-clic="self.form.rechazarCancelacionInstruccion(self.form.kNgModel)"
+        ></bcs-button>
+        <bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+            <li ng-click="self.form.exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+            <li ng-click="self.form.seleccionarTodo()">{{'UI_SELECCIONAR_TODO' | translate}}</li>
+        </bcs-menu>
+    </div>
+</div>

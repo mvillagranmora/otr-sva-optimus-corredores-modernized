@@ -1,0 +1,3 @@
+INSERT INTO "BSCL.Plataforma.BD::EVT.Mensaje"
+("IdMensaje","IdTipoMensaje", "IdTipoEntidadDestinatario", "Titulo", "MensajeCorto","MensajeLargo","FechaVigenciaDesde", "FechaVigenciaHasta", "Habilitado", "MuestraMensajeCorto" , "UrlAviso", "IdTipoCanal")
+VALUES(:IdMensaje, :IdTipoMensaje, :IdTipoEntidadDestinatario, :Titulo, :MensajeCorto,:MensajeLargo, :FechaVigenciaDesde, :FechaVigenciaHasta, :Habilitado, :MuestraMensajeCorto , :UrlAviso, :IdTipoCanal);

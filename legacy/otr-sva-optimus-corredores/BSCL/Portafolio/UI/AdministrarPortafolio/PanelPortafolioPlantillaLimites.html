@@ -1,0 +1,98 @@
+<div class="row" ng-controller="PanelPortafolioPlantillaLimitesCtrl as pPortLim">
+	<form class="row" name="formPortafolioClientePerfilComercialPerfilLimites">
+		<uib-tabset>
+			<uib-tab id="AdmPortPlanLim_PerfilComercial" heading="{{'UI_BASE'| translate}}" select="admPort.fnTabPortafolioPerfilComercial()">
+				<div class="row">
+					<div class="col-xs-9">
+						<div class="col-xs-7"></div>
+						<div class="col-xs-2 text-center">
+							<label class="col-xs-12" translate>UI_MOSTRAR_TODOS</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-9">
+						<label class="col-xs-2" translate>UI_PLANTILLA_LIMITES</label>
+						<bcs-combobox-base
+								id="formPortafolioClientePerfilComercialPerfilCobros_plantillaLimites"
+								bcs-requerido="pPortLim.camposRequeridos['formPortafolioClientePerfilComercialPerfilCobros_plantillaLimites'].Requerido === 'S'"
+								class="col-xs-5"
+								tipo="'combobox-plantilla-limites'"
+								id-actual="pPortLim.datosDespues.IdPlantillaLimite"
+								id-defecto="pPortLim.datosDespues.IdPlantillaLimiteDef"
+								seleccionado="pPortLim.PlantillaLimiteObj"
+								todos="'N'"
+								filtros="pPortLim.cmbbx.PlantillaLimitesBase.filtros"
+								activado="!pPortLim.winBase.modoLectura"
+								disabled="pPortLim.winBase.modoLectura"
+						></bcs-combobox-base>
+						<div class="col-xs-2">
+							<div class="col-xs-5"></div>
+							<bcs-input-checkbox class="col-xs-7" ng-model="pPortLim.AllPlantillasLimites" ng-disabled="pPortLim.winBase.modoLectura" >
+							</bcs-input-checkbox>
+						</div>
+						<div class="col-xs-4" style="margin-left:10px">
+							<span ng-show="pPortLim.PlantillaLimiteObj.PorDefecto === 'S'" class="pull-right">
+								<i class="fa fa-exclamation-triangle" style="padding-right:7px;color:orange"></i>
+								<label translate>UI_PLANTILLA_LIMITES_POR_DEFECTO</label>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<bcs-plantilla-limites
+						id-plantilla="pPortLim.PlantillaLimiteObj.IdPlantillaLimite"
+						modo="'PB'">
+					</bcs-plantilla-limites>
+				</div>
+				<div class="row col-xs-12 bcs-panel-comandos">
+					<div class="col-xs-8">
+						<bcs-button id="AdmPortPlanLim_PlantillaLimites_editar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" 
+							ng-if="pPortLim.winBase.modoLectura" bcs-mostrar="pPortLim.winBase.modoLectura" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR' | translate" bcs-habilitado="'true'" bcs-clic="pPortLim.winBase.editar();">
+						</bcs-button>
+						<bcs-button id="AdmPortPlanLim_PlantillaLimites_guardar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" 
+							ng-if="!pPortLim.winBase.modoLectura" bcs-mostrar="!pPortLim.winBase.modoLectura" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="formPortafolioClientePerfilComercialPerfilLimites.$valid" bcs-clic="pPortLim.winBase.guardar();">
+						</bcs-button>
+						<bcs-button id="AdmPortPlanLim_PlantillaLimites_cancelar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" 
+							ng-if="!pPortLim.winBase.modoLectura" bcs-mostrar="!pPortLim.winBase.modoLectura" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'" bcs-clic="pPortLim.winBase.cancelar();">
+						</bcs-button>
+					</div>
+				</div>
+			</uib-tab>
+			<uib-tab id="AdmPortPlanLim_PlantillaLimites" heading="{{'UI_EXTRA' | translate}}" select="admPort.fnTabPortafolioPerfilProductos()">
+				<div class="row" ng-if="pPortLim.datosDespues.IdPlantillaLimiteExtra">
+					<bcs-plantilla-limites
+						id="grid-plantilla-limites"
+						id-plantilla="pPortLim.datosDespues.IdPlantillaLimiteExtra"
+						modo="'PE'"
+						accion-btn="pPortLim.accionExtra"
+						guardar-ok = "pPortLim.ok"
+						finalizar-ok = "pPortLim.finalizarOk"
+						id-entidad = "pPortLim.datosDespues.IdPortafolio">
+					</bcs-plantilla-limites>
+				</div>
+				<!--
+				<div class="row col-xs-12 bcs-panel-comandos">
+					<div class="col-xs-8">
+						<bcs-button id="AdmPortPlanLim_PlantillaLimites_editar" class="col-xs-2" bcs-tipo="'principal'" 
+							ng-if="pPortLim.winExtra.modoLectura" bcs-mostrar="pPortLim.winExtra.modoLectura" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR' | translate" bcs-habilitado="'true'" bcs-clic="pPortLim.winExtra.editar();">
+						</bcs-button>
+						-->
+						<!-- <bcs-button id="AdmPortPlanLim_PlantillaLimites_guardar" class="col-xs-2" bcs-tipo="'principal'" 
+							ng-if="!pPortLim.winExtra.modoLectura" bcs-mostrar="!pPortLim.winExtra.modoLectura" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="'true'" bcs-clic="pPortLim.winExtra.guardar();">
+						</bcs-button>
+						<bcs-button id="AdmPortPlanLim_PlantillaLimites_cancelar" class="col-xs-2" bcs-tipo="''" 
+							ng-if="!pPortLim.winExtra.modoLectura" bcs-mostrar="!pPortLim.winExtra.modoLectura" bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'" bcs-clic="pPortLim.winExtra.cancelar();">
+						</bcs-button> -->
+					<!-- </div>
+				</div> -->
+			</uib-tab>
+		</uib-tabset>
+	</form>
+</div>

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Mesa.BD::MES.ComprobantePagoOperacion" WHERE "IdOperacion" = :IdOperacion

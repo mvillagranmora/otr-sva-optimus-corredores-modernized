@@ -1,0 +1,1 @@
+DROP TABLE #ModificarEstadoTasasNemo_p_TablaTasa

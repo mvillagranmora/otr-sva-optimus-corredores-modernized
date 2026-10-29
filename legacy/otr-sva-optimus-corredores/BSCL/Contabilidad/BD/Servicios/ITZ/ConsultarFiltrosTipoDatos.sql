@@ -1,0 +1,162 @@
+SET SCHEMA BSCL;
+DROP PROCEDURE "BSCL.Contabilidad.BD.Servicios::ITZ.ConsultarFiltrosTipoDatos";
+CREATE PROCEDURE 
+-- 
+--  Proposito: Vista 
+--			   
+--  Empresa: Ingeniería ProNet IT SpA.
+--  Autor: Hans Muller :: HMR
+--  Fecha Creacion: 06/09/2016
+--  Id Servicio = 12005
+--  
+"BSCL.Contabilidad.BD.Servicios::ITZ.ConsultarFiltrosTipoDatos" (
+	IN p_IdTipoCentralizacion		SMALLINT		default 0,
+	IN p_IdTipoMovimiento			NVARCHAR(10)	default '',
+	IN p_IdTipoContabilidad			SMALLINT		default 0,
+	IN p_TipoConsulta				NVARCHAR(15)	default '',
+	IN p_IdPrecomprobante			BIGINT			default 0,
+	IN p_Estado						NVARCHAR(1)		default '',
+	-- Parametros salida del servicio publico
+  	OUT p_out_TabFiltrosTipoDatos TABLE ( 
+										"IdTipoDatoEvento"			NVARCHAR(30),
+										"Valor"						NVARCHAR(1),
+										"TipoDato"					NVARCHAR(1),
+										"DatosPreDefinidos"			NVARCHAR(1)
+                                     	),
+	-- Sección Fija ----
+	--Salidas para mensajes de advertencias y errores
+	OUT p_out_ResultadoProceso          table ("Campo" VARCHAR(40),"Id" BIGINT, "Servicio" VARCHAR(250), "Resultado" VARCHAR(40)),
+	OUT p_out_AdvertenciasContador      int,
+	OUT p_out_AdvertenciasDetalle       table ("IdComprobante" BIGINT, "Codigo" nvarchar(100),"RequiereAutorizacion" nvarchar(40),"Descripcion" nvarchar(5000)),  
+	OUT p_out_ErroresContador           int,   
+	OUT p_out_ErroresDetalle            table ("IdComprobante" BIGINT, "Codigo" nvarchar(100),"Descripcion" nvarchar(5000))
+	-- FIN Sección Fija
+	)
+      LANGUAGE SQLSCRIPT
+      SQL SECURITY INVOKER
+      DEFAULT SCHEMA "BSCL"
+      --READS SQL DATA
+AS
+BEGIN
+	--------------------
+	--DECLARE Manejo de Errores
+	--------------------	  
+	DECLARE SALIDA_CONTROLADA 			CONDITION; 
+	DECLARE SALIDA_CONTROLADA_NO_DATA 	CONDITION;
+	DECLARE v_resultadoRegla 			NVARCHAR(40);
+	DECLARE v_ErroresDetalle			TABLE ("IdComprobante" BIGINT, "Codigo" NVARCHAR(40),"Descripcion" NVARCHAR(520)); 	
+    DECLARE v_RechazadosPorValidacion	TABLE("IdComprobante" BIGINT);	        	
+
+	DECLARE EXIT HANDLER FOR SALIDA_CONTROLADA	 
+	BEGIN
+		--salida/error/advertencia controlado por este servicio
+		SELECT count(1) into p_out_ErroresContador FROM :p_out_ErroresDetalle;
+		SELECT count(1) into p_out_AdvertenciasContador FROM :p_out_AdvertenciasDetalle;
+	END;
+	DECLARE EXIT HANDLER FOR SALIDA_CONTROLADA_NO_DATA     
+	BEGIN		
+		v_hash= Select 0 As "IdInterno", '' As "Codigo", '' As "CodigoDato1", '' As "ValorDato1", '' As "CodigoDato2",
+                '' As "ValorDato2" From Dummy;	
+        v_out_hash = Select 0 As "IdInterno", '' As "Codigo", '' As "Descripcion" From Dummy;
+
+        Call "BSCL.Plataforma.BD.Servicios::ConsultarMensajesDiccionarioMasivo"(:v_hash, :v_out_hash);
+
+		p_out_ErroresDetalle = Select "IdInterno" As "IdComprobante", "Codigo"  as "Codigo",
+		                              "Descripcion" As "Descripcion" 
+		                       From :v_out_hash Union All
+		                       Select * From :p_out_ErroresDetalle; 
+
+		SELECT COUNT(1) INTO p_out_ErroresContador
+		FROM :p_out_ErroresDetalle;
+	END;
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		declare v_errorExt NVARCHAR(40);
+		IF ::SQL_ERROR_CODE > 10000 THEN 
+			--error pseudo-controlado pero desde un Sub-SP
+			call "BSCL.Plataforma.BD.Servicios::ConsultarCodigoMensajeError" (::SQL_ERROR_CODE,v_errorExt);			
+			p_out_ErroresDetalle = SELECT * FROM :p_out_ErroresDetalle UNION ALL  
+								   SELECT 0 As "IdComprobante", v_errorExt,::SQL_ERROR_MESSAGE FROM dummy;				
+			SELECT count(1) into p_out_ErroresContador 
+			FROM :p_out_ErroresDetalle;										
+		ELSE
+			--Error interno no manejado  (El log será captado por la capa de XS control)		
+			RESIGNAL; 
+		END IF;		
+	END;	
+
+	p_out_AdvertenciasContador := 0;
+	p_out_ErroresContador		:= 0;
+	p_out_AdvertenciasDetalle	= select 0 As "IdComprobante",'' as "Codigo",'' as "RequiereAutorizacion",'' as "Descripcion" from dummy where 1=2;
+	p_out_ErroresDetalle		= select 0 As "IdComprobante", '' as "Codigo",'' as "Descripcion" from dummy where 1=2;
+	p_out_ResultadoProceso	    = select '' as "Campo",    0 as "Id", '' as "Servicio", '' as "Resultado" From dummy where 1=2;	
+	v_RechazadosPorValidacion   = select 0 As "IdComprobante" from dummy where 1=2;
+
+	BEGIN
+		IF TRIM(:p_TipoConsulta) = 'MOVIMIENTO' THEN
+			p_out_TabFiltrosTipoDatos = 
+				SELECT DISTINCT  
+					CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento" 	AS "IdTipoDatoEvento"
+					,'' 													AS "Valor"
+					,CTB_itzEventoTipoDato."TipoDato" 						AS "TipoDato"
+					,CTB_itzEventoTipoDato."DatosPreDefinidos" 				AS "DatosPreDefinidos"
+	 			FROM "BSCL.Contabilidad.BD::ITZ.EventoTipoDatoMovimientoTipo" as CTB_itzEventoTipoDatoMovimientoTipo
+					LEFT OUTER JOIN  "BSCL.Contabilidad.BD::ITZ.EventoTipoDato" as CTB_itzEventoTipoDato ON 
+						CTB_itzEventoTipoDato."IdTipoDatoEvento" = CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento"
+				WHERE
+					(TRIM(CTB_itzEventoTipoDatoMovimientoTipo."IdTipoMovimiento") = p_IdTipoMovimiento OR p_IdTipoMovimiento = '')
+				AND (CTB_itzEventoTipoDato."Estado" = p_Estado OR p_Estado = '')
+				ORDER BY CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento";
+		END IF;
+
+		IF TRIM(:p_TipoConsulta) = 'CENTRALIZACION' THEN
+			p_out_TabFiltrosTipoDatos = 
+				SELECT DISTINCT  
+					CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento" 	AS "IdTipoDatoEvento"
+					,'' 													AS "Valor"
+					,CTB_itzEventoTipoDato."TipoDato" 						AS "TipoDato"
+					,CTB_itzEventoTipoDato."DatosPreDefinidos" 				AS "DatosPreDefinidos"
+	 			FROM "BSCL.Contabilidad.BD::ITZ.EventoTipoDatoMovimientoTipo" as CTB_itzEventoTipoDatoMovimientoTipo
+					LEFT OUTER JOIN  "BSCL.Contabilidad.BD::ITZ.EventoTipoDato" as CTB_itzEventoTipoDato ON 
+						CTB_itzEventoTipoDato."IdTipoDatoEvento" = CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento"
+				WHERE
+					CTB_itzEventoTipoDatoMovimientoTipo."IdTipoMovimiento" IN (SELECT CTB_itzMovimientoTipoCentralizacionTipo."IdTipoMovimiento"
+																				 FROM "BSCL.Contabilidad.BD::ITZ.MovimientoTipoCentralizacionTipo" AS CTB_itzMovimientoTipoCentralizacionTipo
+																				WHERE (CTB_itzMovimientoTipoCentralizacionTipo."IdTipoCentralizacion" = p_IdTipoCentralizacion or p_IdTipoCentralizacion = 0))
+				AND(CTB_itzEventoTipoDato."Estado"	= p_Estado OR p_Estado = '')
+				ORDER BY CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento";
+		END IF;
+
+		IF TRIM(:p_TipoConsulta) = 'CONTABILIZACION' THEN
+			BEGIN
+					--+Si viene en cero se busca el tipo de contabilidad por el Id del Pre-Comprobante
+				IF :p_IdTipoContabilidad = 0 AND :p_IdPrecomprobante <> 0 THEN
+						SELECT TOP 1 ctb_itzprecomprobante."IdTipoContabilidad" 
+						  INTO p_IdTipoContabilidad
+						  FROM "BSCL.Contabilidad.BD::ITZ.PreComprobante" AS ctb_itzprecomprobante
+						 WHERE ctb_itzprecomprobante."IdPreComprobante" = p_IdPrecomprobante;
+				END IF;
+	
+				p_out_TabFiltrosTipoDatos = 
+					SELECT DISTINCT  
+						CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento" 	AS "IdTipoDatoEvento"
+						,'' 													AS "Valor"
+						,CTB_itzEventoTipoDato."TipoDato" 						AS "TipoDato"
+						,CTB_itzEventoTipoDato."DatosPreDefinidos" 				AS "DatosPreDefinidos"
+		 			FROM "BSCL.Contabilidad.BD::ITZ.EventoTipoDatoMovimientoTipo" as CTB_itzEventoTipoDatoMovimientoTipo
+						LEFT OUTER JOIN  "BSCL.Contabilidad.BD::ITZ.EventoTipoDato" as CTB_itzEventoTipoDato ON 
+							CTB_itzEventoTipoDato."IdTipoDatoEvento" = CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento"
+					WHERE
+						CTB_itzEventoTipoDatoMovimientoTipo."IdTipoMovimiento" IN (SELECT CTB_itzMovimientoTipoCentralizacionTipo."IdTipoMovimiento" 
+					  																 FROM "BSCL.Contabilidad.BD::ITZ.MovimientoTipoCentralizacionTipo" AS CTB_itzMovimientoTipoCentralizacionTipo
+																					WHERE CTB_itzMovimientoTipoCentralizacionTipo."IdTipoCentralizacion" IN 
+																							(SELECT CTB_itzContabilidadTipoCentralizacionTipo."IdTipoCentralizacion"
+													  										   FROM "BSCL.Contabilidad.BD::ITZ.ContabilidadTipoCentralizacionTipo" AS CTB_itzContabilidadTipoCentralizacionTipo
+													 										  WHERE (CTB_itzContabilidadTipoCentralizacionTipo."IdTipoContabilidad" = p_IdTipoContabilidad  or p_IdTipoContabilidad = 0)))
+					AND	(CTB_itzEventoTipoDato."Estado"	= p_Estado OR p_Estado = '')
+					ORDER BY CTB_itzEventoTipoDatoMovimientoTipo."IdTipoDatoEvento";
+			END;
+		END IF;
+	END;
+END;

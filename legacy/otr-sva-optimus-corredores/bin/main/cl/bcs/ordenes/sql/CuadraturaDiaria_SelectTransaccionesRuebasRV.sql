@@ -1,0 +1,16 @@
+SELECT
+	NEMO,
+	HORA,
+	FOLIO,
+	CANTIDAD,
+	FECHA,
+	FEC_LIQ,
+	MONTO,
+	PRECIO,
+	RUEDA
+FROM
+	TBRVTR x
+WHERE
+	FECHA = :FechaConsulta
+	AND (COD_CORR_VEN = :CodCorredora
+		OR COD_CORR_COM = :CodCorredora);

@@ -1,0 +1,30 @@
+ INSERT INTO "BSCL.Plataforma.BD::GTA.ExigibilidadGarantia" (
+ "IdExigibilidadGarantia"
+,"IdBolsa"
+,"IdTipoInstrumento"
+,"IdTipoInstrumentoSubyacente"
+,"Nemo"
+,"IdTipoClasificacionRiesgo"
+,"PlazoTope"
+,"UnidadPlazo"
+,"ExigibilidadEntidad"
+,"ExigibilidadCorredora"
+,"IdEstado"
+,"IdInstrumento"
+,"IdEntidadClasificadoraRiesgo"
+,"ClasificacionRiesgo")
+VALUES(
+"BSCL.Plataforma.BD.Secuencias::ExigibilidadGarantia".NEXTVAL,
+:IdBolsa,
+:IdTipoInstrumento,
+:IdTipoInstrumentoSubyacente,
+:Nemotecnico,
+:IdTipoClasificacionRiesgo,
+0,
+'',
+:ExigibilidadEntidad,
+:ExigibilidadCorredora,
+'ACT',
+:IdInstrumento,
+:IdEntidadClasificadoraRiesgo,
+:ClasificacionRiesgo);

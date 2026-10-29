@@ -1,0 +1,218 @@
+<div ng-controller="ConsultaOperacionesCtrl as mntOperaciones">
+	<form name="formConsultaOperaciones" class="filters-formulario">
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-6" 
+						id="UI_FECHA"
+						bcs-requerido
+						k-ng-model="data.kngFecha" 
+						k-ng-disabled="'true'"
+						k-options="data.fechaOptions">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-3" translate>UI_MESA</label>
+					<bcs-combobox-base class="col-xs-6"
+						id="UI_MESA"
+					 	auto-cargar="'true'"
+					 	todos="data.todos"
+					 	activado="data.habilita"
+					    tipo="'combobox-mesas'"
+					    filtros="data.oConfiguracionMesa.filtros"
+						id-actual="data.oConfiguracionMesa.idActual"
+					    seleccionado="data.oConfiguracionMesa.seleccionado"
+					    item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-7"
+						bcs-requerido
+						id="UI_TIPO_INSTRUMENTO"
+						auto-cargar="'true'"
+						tipo="'combobox-tipoinstrumento-mesa'"
+						todos="'S'"
+						seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"	
+						filtros="data.oConfiguracionTipoInstrumento.filtros"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<!-- BOTON -->
+				<div class="col-xs-2">
+					<bcs-button class="col-xs-12"
+						bcs-tipo="''"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true"
+						bcs-clic="data.filtrarMovimientos(1,undefined)">
+					</bcs-button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-3" ng-show="data.txtFD">
+					<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+					<bcs-input-date class="col-xs-6" 
+						id="UI_FECHA_DESDE"
+						bcs-requerido
+						k-ng-model="data.kngFechaDesde" 
+						k-ng-disabled="data.HabilitaFecha"
+						k-options="data.fechaOptions"> 
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-3" ng-show="data.txtFH">
+					<label class="col-xs-3" translate>UI_FECHA_HASTA</label>
+					<bcs-input-date class="col-xs-6" 
+						id="UI_FECHA_HASTA"
+						bcs-requerido
+						k-ng-model="data.kngFechaHasta" 
+						k-ng-disabled="data.HabilitaFecha"
+						k-options="data.fechaOptions"> 
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="UI_OPERACION"
+						auto-cargar="'true'"
+						tipo="'combobox-operacion-mesa'"
+						todos="'S'"
+						filtros="data.oConfiguracionOperacion.filtros"
+						seleccionado="data.oConfiguracionOperacion.seleccionado"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-xs-4"  ng-show="HabilitoCheckFFMM">
+				  	<bcs-input-checkbox class="col-xs-1"
+							ng-model="data.FmDolar">
+				 	</bcs-input-checkbox>
+			 		<label class="col-xs-5" translate>UI_FONDOS_MUTUOS_DOLAR</label>
+				</div>
+			</div>
+			<hr>
+<!-- GRILLAS -->
+			<uib-tabset>
+<!-- TAB MOVIMIENTOS-->
+				<uib-tab heading="{{'UI_MOVIMIENTOS' | translate}}" active="data.tabMovimientoActive">
+					<div class="row">
+						<div class="row">
+							<div class="col-xs-12">
+								<bcs-grid 	
+									id="grid-movimientos" 
+									fn-exportar-excel="exportarExcel"
+									configuracion="confMovimientos"
+								    seleccionado="ObjSeleccionGrilla.seleccionGrillaMovimiento"
+									fn-doble-click="ConsultarOperacionUI()">
+								</bcs-grid>
+							</div>
+						</div>
+						<div class="row bcs-panel-comandos">
+							<div class="col-xs-2">
+								<bcs-button class="col-xs-12"
+									bcs-tipo="''"
+									id="ConsultaOperacionesFwd_movimiento_modificar"
+									bcs-texto="'UI_MODIFICAR' | translate" 
+									bcs-habilitado="(HabilitoBotonModificar)" 
+									bcs-clic="ModificaOperacionUI()"
+									bcs-auto-desactivar="false">
+								</bcs-button>
+							</div>
+							<div class="col-xs-2">
+								<bcs-button  class="col-xs-12"
+									bcs-tipo="''"
+									id="ConsultaOperacionesFwd_movimiento_anular"
+									bcs-texto="'UI_ANULAR' | translate" 
+									bcs-habilitado="(HabilitoBotonAnular)"
+									bcs-clic="AnularOperacionUI()"
+									bcs-auto-desactivar="false">
+								</bcs-button>
+							</div>
+							<div class="col-xs-2"></div>
+							<div class="col-xs-2">
+							
+								<bcs-button  class="col-xs-12"
+									bcs-tipo="''"
+									id="ConsultaOperacionesFwd_ActualizarSpotFm"
+									bcs-texto="'UI_TC_CIERRE' | translate" 
+									bcs-habilitado="HabilitoBotonFFMM"
+									bcs-clic="ActualizarSpotFondoMutuo()"
+									ng-show="HabilitoBotonFFMM"
+									bcs-auto-desactivar="false">
+								</bcs-button>
+							
+							</div>
+							<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_GENERAR_REPORTES' | translate">
+								<li id="ConsultaOperacionesFwd_generarPapeleta"
+									ng-click="generarPapeleta()">{{'UI_GENERAR_PAPELETA' | translate}}</li>
+								<li id="ConsultaOperacionesFwd_generarConfirmacion" ng-show="ObjSeleccionGrilla.seleccionGrillaMovimiento.Mesa === 'MEFW'"
+									ng-click="generarReportesFWD('CONFIRMACION')">{{'UI_GENERAR_CONFIRMACION' | translate}}</li>
+								<li id="ConsultaOperacionesFwd_generarContrato" ng-show="ObjSeleccionGrilla.seleccionGrillaMovimiento.Mesa === 'MEFW'"
+									ng-click="generarReportesFWD('CONTRATO')">{{'UI_GENERAR_CONTRATO' | translate}}</li>
+							</bcs-menu>
+							
+							<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+								<li ng-click="exportarExcel('Movimientos')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+							</bcs-menu>
+						</div>
+					</div>
+					<bcs-websocket bcs-msg='msgWebsocket(message)'></bcs-websocket>
+				</uib-tab>
+				
+<!-- TAB CARTERA -->
+				<uib-tab heading="{{'UI_CARTERA' | translate}}" active="data.tabCarteraActive">
+					<div class="row">
+						<div class="col-xs-12">
+							<bcs-grid 
+								id="grid-cartera"
+								fn-exportar-excel="exportarExcel2"
+								configuracion="confCartera"
+								seleccionado="ObjSeleccionGrilla.seleccionGrillaCartera"
+								fn-doble-click="ConsultarOperacionUI()">
+							</bcs-grid>
+						</div>
+					</div>
+					<div class="row bcs-panel-comandos">
+						<div class="col-xs-2">
+							<bcs-button class="col-xs-12"
+								bcs-tipo="'principal'"
+								id=""
+								bcs-texto="'UI_ANTICIPO' | translate" 
+								bcs-habilitado="(HabilitoBotonAnticipo)" 
+								bcs-clic="AnticipoOperacionUI()"
+								bcs-auto-desactivar="false">
+							</bcs-button>
+						</div>
+						<div class="col-xs-8"></div>
+						<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+							<li ng-click="exportarExcel2('Cartera')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+						</bcs-menu>
+					</div>
+				</uib-tab>
+<!-- TAB VENCIMIENTO -->			
+				<uib-tab heading="{{'UI_VENCIMIENTO' | translate}}" active="data.tabVencimientoActive">
+					<div class="row">
+						<div class="col-xs-12">
+							<bcs-grid
+								id="grid-vencimiento"
+								configuracion="confVencimiento"
+								seleccionado="ObjSeleccionGrilla.seleccionGrillaVencimiento"
+								fn-exportar-excel="exportarExcel3"
+								fn-doble-click="ConsultarOperacionUI()">
+							</bcs-grid>
+						</div>
+					</div>
+					<div class="row bcs-panel-comandos">
+						<div class="col-xs-10"></div>
+						<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+							<li ng-click="exportarExcel3('Vencimientos')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+						</bcs-menu>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+	</form>
+</div>

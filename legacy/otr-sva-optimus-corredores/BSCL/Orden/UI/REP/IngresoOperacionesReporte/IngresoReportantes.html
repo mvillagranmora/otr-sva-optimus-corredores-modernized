@@ -1,0 +1,307 @@
+<div class="row" ng-controller="IngresoReportantesCtrl">
+
+		<div class="col-xs-12 bcs-cuerpo">
+			
+			<form name="FormIngresoReportantes" class="filters-formulario" ng-show="formData.modo === 'INGRESO'">
+	  			  		<div class="row">
+	  			  			<label class="col-xs-5" translate>UI_TIPO_INSTRUMENTO</label>
+							<bcs-combobox-base 
+			  					class="col-xs-6"
+			  					tipo="'combobox-tipo-instrumento'"
+			  					id-actual ="formData.idTipoInstrumento"
+			  					id-defecto="formData.idTipoInstrumentoDefecto"
+			  					id-post-filtro = "formData.idTipoInstrumentoPostFiltro"
+			  					filtros="oConfiguracionTipoInstrumento.filtros"
+			  					seleccionado="formData.TipoInstrumento"
+			  					todos="'N'"
+			  					bcs-requerido
+			  					activado="esReportado"
+			  					cascada-a="oConfiguracionPreferenciaPagoPortafolio.filtros.IdTipoOperacion"
+			  					cascada-valor="'IdTipoOperacion'">
+			  				</bcs-combobox-base>
+			  				
+			  				
+		 				</div>		
+						<div class="row">
+		  					<label class="col-xs-5" translate>UI_CLIENTE_PORTAFOLIO</label>
+					  		<bcs-combobox-base 
+								id = "FormIngresoReportantes_comboPortafolio"
+							 	class="col-xs-6"
+							 	tipo="'combobox-cliente-portafolio'"
+							    filtros="oConfiguracionPortafolio.filtros"
+					            bcs-requerido
+							    muestra-enlace = "'S'"
+							    cascada-a="oConfiguracionMonedaPortafolio.filtros.IdPortafolio"
+								cascada-valor="'IdPortafolio'"
+								seleccionado = "formData.clienteSeleccionado"
+								id-actual="formData.IdSocioNegocio"
+								cascada1-a="oConfiguracionPreferenciaPagoPortafolio.filtros.IdPortafolio"
+			  					cascada1-valor="'IdPortafolio'"
+			  					cascada2-a="filtros.configuracionCuentaCustodio.IdPortafolio"
+                                cascada2-valor="'IdPortafolio'">
+							</bcs-combobox-base>
+						</div>
+						<div class="row">
+ 							<label class="col-xs-5" translate>UI_AUTORIZADOR</label>
+							<bcs-combobox-base
+								class					= "col-xs-6"
+								bcs-requerido 			= "formData.clienteSeleccionado.TipoPersona === 'J' || formData.clienteSeleccionado.TipoPersona === 'M'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "formData.idAutorizadoDarOrdenes"
+								id-defecto				= "formData.idAutorizadoDarOrdenesDefecto"
+								seleccionado			= "formData.autorizadoDarOrdenes"
+								filtros					= "filtros.autorizadoDarOrdenes">
+							</bcs-combobox-base>
+ 																				
+ 						</div>
+ 						<div class="row">
+ 							<label class="col-xs-5" translate>UI_MECANISMO_DE_CAPTACION</label>							
+							<bcs-combobox-base
+								class="col-xs-6"
+								bcs-requerido
+								tipo="'combobox-detalle-tipo-atributo-entidad-json'"
+								seleccionado="formData.mecanismoDeCaptacion.seleccionado"
+								filtros="formData.configuracionMecanismoCaptacion.filtros"								
+								auto-seleccion="'true'"
+								id-actual= "formData.mecanismoDeCaptacion.idActual">
+							</bcs-combobox-base> 					
+ 						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_MONEDA</label>
+							<bcs-combobox-base 
+								class			="col-xs-6"
+								id				="FormIngresoReportantes_comboMoneda"
+								bcs-requerido
+							 	auto-cargar		="'false'"
+							 	filtros			="oConfiguracionMonedaPortafolio.filtros"
+							 	item-post-filtro="'1'" 
+							 	id-actual		="formData.idMonedaReportante"
+							 	seleccionado	="formData.monedaSeleccionada"
+							 	tipo			="'combobox-cuenta-inversion'"
+							 	cascada-a		="oConfiguracionPreferenciaPagoPortafolio.filtros.IdMoneda"
+			  					cascada-valor	="'IdMoneda'"
+			  					ng-show="!parametros.ordenReportado"
+							 	>
+							</bcs-combobox-base>
+							
+							<bcs-input-texto k-ng-disabled="'true'" ng-show="parametros.ordenReportado" class="col-xs-6" ng-model="formData.MonedaReporte" ></bcs-input-texto>			
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_TASA</label>
+							<bcs-input-porcentaje class="col-xs-6"
+								id="FormIngresoReportantes_tasa"
+					  			maxlength="100"
+					  			bcs-requerido
+					  			decimales="2"
+					  			
+					  			k-ng-model="formData.tasaReportante">
+			  				</bcs-input-porcentaje>
+			  				<!-- k-ng-disabled="desdeReportado" -->
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_PLAZO_VENCIMIENTO_DIAS</label>
+							<bcs-input-plazo
+								id="FormIngresoReportantes_plazoVencimiento"
+								class="col-xs-6"
+								bcs-requerido
+								bcs-mayor-que = "'0'"
+								fecha-inicial = "formData.fechaSistema"
+								fecha-vencimiento = "formData.fechaVencimiento"
+								plazo = "formData.plazoReportante"
+								id-tipo-operacion = "formData.TipoInstrumento.IdTipoOperacion?formData.TipoInstrumento.IdTipoOperacion:'COMRRV'"
+								id-condicion-de-liquidacion="formData.idCondicionDeLiquidacionDefecto"
+								activa-plazo = "!desdeReportado"
+								activa-fecha = "!desdeReportado">
+							</bcs-input-plazo>
+													 
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_BASE_TASA</label>
+							<bcs-combobox-base 
+			  					class="col-xs-6"
+								bcs-requerido
+								activado = "'true'"
+								id-defecto="formData.idBaseTasaDefecto"
+								id-actual = "formData.idBaseTasa"
+								seleccionado = "formData.baseTasa" 
+								tipo="'combobox-base-tasa'">
+							</bcs-combobox-base>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_VIGENCIA</label>
+								<bcs-input-plazo
+								id="FormIngresoReportantes_vigencia"
+								class="col-xs-6"
+								bcs-requerido
+								bcs-mayor-que = "'-1'"
+								fecha-inicial = "formData.fechaSistema"
+								fecha-vencimiento = "formData.fechaVencimientoVigencia"
+								plazo = "formData.vigenciaReportado"
+								activa-plazo = "'true'"
+								activa-fecha = "'true'"
+								id-tipo-operacion = "formData.TipoInstrumento.IdTipoOperacion?formData.TipoInstrumento.IdTipoOperacion:'COMRRV'"
+								id-condicion-de-liquidacion="formData.idCondicionDeLiquidacionDefecto">
+							</bcs-input-plazo>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_MONTO</label>
+							<bcs-input-monetario class="col-xs-6"
+								id="FormIngresoReportantes_monto"
+					  			maxlength="100"
+					  			simbolo="formData.monedaSeleccionada.IdMoneda"
+					  			bcs-requerido
+					  			k-ng-model="formData.montoReportante">
+			  				</bcs-input-monetario>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_USA_CUENTA_INVERSION</label>
+							<bcs-input-checkbox 
+			     				class="col-xs-6"
+			     				ng-model="formData.cuentaInversion">
+							</bcs-input-checkbox>
+			  			</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_PREFERENCIA_PAGO</label> 
+						  	<bcs-combobox-base 
+						  		class="col-xs-6"
+								tipo="'combobox-preferencia-pago-portafolio'" 				
+								seleccionado="formData.PreferenciaPagoPortafolioseleccionado"
+								id-actual="formData.idPreferenciaPagoPortafolio"
+								filtros="oConfiguracionPreferenciaPagoPortafolio.filtros"
+								activado	="!formData.cuentaInversion">
+							</bcs-combobox-base>
+			  			</div>
+						<div class="row">
+						  	<label class="col-xs-5" translate>UI_GLOSA</label> 
+					  		<bcs-input-texto class="col-xs-6"
+					  			id="UI_GLOSA"
+						  		maxlength="100"
+								tipo-campo="'textarea'"
+								ng-model="formData.comentario"
+								atributos="margin: 0px; height:50px;resize:none;width: 100%">
+					  		</bcs-input-texto>
+			  			</div>
+			  			<div class="row">
+							<label class="col-xs-5" translate>UI_SALDO_CAJA</label>
+							<bcs-saldo-cta-inversion
+								class="col-xs-6"
+								uso = "'ORDENES_DE_COMPRA'"
+								id-moneda = "formData.monedaSeleccionada.IdMoneda"
+								id-portafolio = "formData.clienteSeleccionado.IdPortafolio"
+								fecha-saldo = "formData.fechaSistema">
+							</bcs-saldo-cta-inversion>
+							
+						</div> 
+						<div class="row">
+		                <label class="col-xs-5" translate>UI_FORMA_CUSTODIA</label>
+			                <bcs-combobox-base
+			                        class="col-xs-6"
+			                        bcs-requerido
+			                        id-defecto = "'CUS'"
+			                        id-actual = "formData.formaCustodiaActual"
+			                        tipo="'combobox-forma-custodia-orden'"
+			                        seleccionado="formData.formaCustodiaSeleccionada"
+			                        filtros="filtros.filtrosFormaCustodia"
+			                        activado ="'false'">
+			                </bcs-combobox-base>
+		                </div>
+		                <div class="row">
+		                <label class="col-xs-5" translate>UI_CUENTA_CUSTODIO</label>
+		                    <bcs-combobox-base
+		                        id = "FormIngresoReportantes_comboCuentaCustodio" 
+		                        class="col-xs-6"
+		                        bcs-requerido
+		                        usa-filtros-completos = "'S'"
+		                        envia-todos = "'S'"
+		                        tipo="'combobox-cuenta-custodio-portafolio'"
+		                        seleccionado="formData.cuentaCustodioSeleccionada"
+		                        filtros="filtros.configuracionCuentaCustodio"
+		                        auto-seleccion = "'true'">
+		                    </bcs-combobox-base>
+	                    </div>
+						<br>
+						<div class="row">
+							
+						</div>
+			  			<br>
+			  			<div class="row bcs-panel-comandos">
+							<bcs-button class="col-xs-3 pull-right" id="IngresarOrdenReportante"
+								bcs-tipo="'bcs-button-primary'" 
+			 					bcs-auto-desactivar="'true'"
+								bcs-texto="'UI_INGRESAR_ORDEN' | translate" 
+								bcs-habilitado="FormIngresoReportantes.$valid"
+								bcs-clic="formData.ingresarOrdenReportante()">
+							</bcs-button>
+							<bcs-button class="col-xs-3 pull-right" id="RetirarReportante"
+								bcs-tipo="'bcs-button-secondary'" 
+								bcs-auto-desactivar="'false'" 
+								bcs-texto="'UI_LIMPIAR' | translate" 
+								bcs-habilitado="'true'" 
+								bcs-clic="formData.cleanData()">
+							</bcs-button>
+						</div>
+			  			  					
+			</form>
+			
+			<form ng-show="formData.modo === 'RESUMEN'" name="FormIngresoReportantesResumen">
+						<div class="row">
+			 				<label class="col-xs-5" translate>UI_CLIENTE_PORTAFOLIO</label>
+		  					<bcs-input-texto k-ng-disabled="'true'" class="col-xs-6" ng-model="datosResumen.clientePortafolio" ></bcs-input-texto>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_MONEDA</label>
+							<bcs-input-texto k-ng-disabled="'true'" class="col-xs-6" ng-model="datosResumen.moneda" ></bcs-input-texto>
+							
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_TASA</label>
+							<bcs-input-porcentaje class="col-xs-6" decimales="2" k-ng-disabled="'true'" k-ng-model="datosResumen.tasa"></bcs-input-porcentaje>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_PLAZO_VENCIMIENTO_DIAS</label>
+							<bcs-input-date k-ng-disabled="'true'" class="col-xs-6" k-ng-model="datosResumen.fechaVencimiento" ></bcs-input-date>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_BASE_TASA</label>
+							<bcs-input-numero class="col-xs-6" decimales="datosResumen.decimalesCantidad" k-ng-disabled="'true'" k-ng-model="datosResumen.base"></bcs-input-numero>
+						</div>
+						<div class="row">	
+							<label class="col-xs-5" translate>UI_VIGENCIA</label>
+							<bcs-input-date k-ng-disabled="'true'" class="col-xs-6" k-ng-model="datosResumen.fechaVigencia" ></bcs-input-date>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_MONTO</label>
+							<bcs-input-monetario simbolo="datosResumen.idMonedaLiquidacion" decimales="datosResumen.decimalesMonto" k-ng-disabled="'true'" class="col-xs-6" k-ng-model="datosResumen.monto" ></bcs-input-monetario>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_USA_CUENTA_INVERSION</label>
+							<bcs-input-checkbox class="col-xs-6" ng-model="formData.cuentaInversion" ng-disabled="'true'"></bcs-input-checkbox>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_PREFERENCIA_PAGO</label>
+							<bcs-input-texto class="col-xs-6" ng-model="datosResumen.preferenciaPago" k-ng-disabled="'true'"></bcs-input-texto>
+						</div>
+						<div class="row">
+							<label class="col-xs-5" translate>UI_GLOSA</label>
+							<bcs-input-texto k-ng-disabled="'true'" class="col-xs-6" maxlength="100" tipo-campo="'textarea'"  ng-model="datosResumen.comentario" atributos="margin: 0px; height:73px;resize:none;width: 100%"></bcs-input-texto>
+						</div>
+						<div class="row">
+						<div class="row">
+                            <label class="col-xs-5" translate>UI_FORMA_CUSTODIA</label>
+			                <bcs-input-texto class="col-xs-6" ng-model="datosResumen.nombreFormaCustodia" k-ng-disabled   ="'true'">
+			                </bcs-input-texto> 
+                        </div>
+							
+						</div>
+						<br>
+						<div class="row">
+							<div class="row bcs-panel-comandos">
+								<bcs-button id="UI_VER_COMPROBANTE" class="col-xs-3" bcs-tipo="'principal'" bcs-auto-desactivar="'false'" bcs-texto="'UI_VER_COMPROBANTE' | translate"  bcs-habilitado="'true'" bcs-clic="verComprobante()"></bcs-button>
+								<bcs-button id="UI_VER_DETALLE"  bcs-clic="verDetalle()"  class="col-xs-3" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_VER_DETALLE' | translate" bcs-habilitado="'true'"></bcs-button>			
+								<bcs-button id="UI_VOLVER" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="'false'" bcs-texto="'UI_VOLVER' | translate" bcs-habilitado="'true'" bcs-clic="formData.volver()"></bcs-button>
+							</div>
+						</div>
+			</form>
+			<br>
+		</div>
+</div>

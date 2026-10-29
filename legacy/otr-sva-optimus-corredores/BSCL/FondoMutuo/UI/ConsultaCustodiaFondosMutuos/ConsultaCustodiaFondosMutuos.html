@@ -1,0 +1,175 @@
+<div id="ConsultaCustodiaFFM" class="col-xs-12" ng-controller="ConsultaCustodiaFFMCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+				<div ng-if="!MostrarProducto">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base
+								class="col-xs-9"
+								id="UI_SOCIO_NEGOCIO"
+								auto-cargar="'false'"
+								item-post-filtro="data.oClientePortafolio.itemPostFiltro"
+								tipo="data.oClientePortafolio.tipo"
+								filtros="filtrosPortafolio"
+								configuracion= "data.oClientePortafolio.configuracion"
+								seleccionado="data.oClientePortafolio.seleccionado"
+								id-actual="filtros.IdPortafolio">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-3">
+							<label class="col-xs-6" style="padding-left:15px" translate>UI_FECHA_CONSULTA</label>
+							<bcs-input-date
+								class="col-xs-6"
+								bcs-requerido
+								k-ng-model="data.kngFecha"
+								k-options="data.FechaConsultaOpt">
+							</bcs-input-date>	
+						</div>
+						<div class="col-xs-3">
+							<label class="col-xs-6" style="padding-left:15px" translate>UI_FECHA_VALOR_CUOTA</label>
+							<bcs-input-date
+								class="col-xs-6"
+								k-ng-model="data.kngFechaValor"
+								k-ng-disabled="'true'">
+							</bcs-input-date>	
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_INSTRUMENTO</label> 
+							<bcs-combobox-buscador-fondos
+								class="col-xs-9" style="width: 70.5%;"
+								muestra-valor-cuota = "'N'"
+								datos-fondo="filtros.FondoMutuo"
+								buscar-fondo="formData.setFondo"
+								id-ventana="winID">
+							</bcs-combobox-buscador-fondos>
+						</div>
+					</div>
+				</div>
+				
+				<div ng-if="MostrarProducto">
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_CLIENTE</label>
+							<bcs-combobox-base
+								class				= "col-xs-7"
+								id					= "UI_CLIENTE"
+								auto-cargar			= "'false'"
+								tipo				= "'combobox-socio-negocio'"
+								seleccionado		= "oSocioNegocio.seleccionado"
+								filtros				= "oSocioNegocio.filtros"
+								cascada-a			= "oPortafolio.filtros.IdCliente"
+								cascada-valor		= "'IdCliente'"
+								id-actual			= "oSocioNegocio.idActual">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_FECHA_CONSULTA</label>
+							<bcs-input-date
+								class="col-xs-7"
+								bcs-requerido
+								k-ng-model="data.kngFecha"
+								k-options="data.FechaConsultaOpt">
+							</bcs-input-date>	
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_FECHA_VALOR_CUOTA</label>
+							<bcs-input-date
+								class="col-xs-7"
+								k-ng-model="data.kngFechaValor"
+								k-ng-disabled="'true'">
+							</bcs-input-date>	
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_PRODUCTO</label>
+							<bcs-combobox-base
+								class				= "col-xs-7"
+								id					= "UI_PRODUCTO"
+								auto-cargar			= "'true'"
+								tipo				= "'combobox-otro-producto-agrupador'"
+								seleccionado		= "oProducto.seleccionado"
+								cascada-a			= "oPortafolio.filtros.IdProductoAgrupador"
+								cascada-valor		= "'IdProductoAgrupador'"
+								id-actual			= "oProducto.idActual">
+							</bcs-combobox-base >
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_PORTAFOLIO</label> 
+							<bcs-combobox-base
+								class				= "col-xs-7"
+								id					= "UI_PORTAFOLIO"
+								auto-cargar			= "'false'"
+								tipo				= "'combobox-portafolio'"
+								seleccionado		= "oPortafolio.seleccionado"
+								filtros				= "oPortafolio.filtros"
+								id-actual			= "oPortafolio.idActual"
+								usa-filtros-completos="'S'"
+								activado			= "oSocioNegocio.seleccionado && oProducto.seleccionado">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_INSTRUMENTO</label> 
+							<bcs-combobox-buscador-fondos
+								class="col-xs-7" 
+								muestra-valor-cuota = "'N'"
+								datos-fondo="filtros.FondoMutuo"
+								buscar-fondo="formData.setFondo"
+								id-ventana="winID">
+							</bcs-combobox-buscador-fondos>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="(oSocioNegocio.seleccionado || data.oClientePortafolio.seleccionado) ?  true : false"  bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<bcs-grid 
+				id="grid-custodia-ffm"
+			 	configuracion="defaultOptions"
+				api = "apiGridCustodiaFondosMutuos"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-3" id="ConsultaCustodiaFondosMutuos_ingresarAporteNormalFFM" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR_APORTE_NORMAL' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="ingresarAporteNormal(datos.kNgModel)">
+			</bcs-button>	
+			<bcs-button class="col-xs-3" id="ConsultaCustodiaFondosMutuos_ingresarRescateNormalFFM" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR_RESCATE_NORMAL' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="ingresarRescateNormal(datos.kNgModel)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

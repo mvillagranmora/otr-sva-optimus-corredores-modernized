@@ -1,0 +1,28 @@
+INSERT INTO "BSCL.Portafolio.BD::POR.PreferenciaPagoPortafolio"(					
+"IdPreferenciaPagoPortafolio",
+"IdPortafolio",
+"IdPreferenciaPago",
+"IdCuentaBancaria",
+"IdTarjetaBancaria",
+"FechaCreacion",
+"FechaModificacion",
+"IdUsuarioCreador",
+"IdEstado",
+"IdEmpresa",			
+"FechaIngreso",					 
+"IdEstadoAutorizacion",
+"PorDefecto"
+) VALUES (
+:IdPreferenciaPagoPortafolio,
+:IdPortafolio,
+:IdPreferenciaPago,
+:IdCuentaBancaria,
+:IdTarjetaBancaria,
+:FechaCreacion,
+:FechaModificacion,
+:IdUsuarioCreador,
+:IdEstado,
+:IdEmpresa,
+:FechaIngreso,
+:IdEstadoAutorizacion,
+:PorDefecto);

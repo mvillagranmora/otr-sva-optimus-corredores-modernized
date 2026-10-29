@@ -1,0 +1,54 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaTBCTTRTP"; 
+
+--SELECT  *  FROM "BSCL.Replica.BD.Vistas::ReplicaTBCTTRTP"
+
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaTBCTTRTP" AS
+
+	SELECT 
+		WST."IdStack" AS IDSTACK,
+		WST."Action" AS ACTION,
+		COD_PER || ':' ||  FEC_VCTO_TP || ':' ||  trim(NEMO) || ':' || trim(RUT_CLI) || ':' ||  SEC_RUT_CLI || ':' || SEC_MOVTO || ':' ||  MERCADO AS TABLE_KEY, 
+		SIM."COD_PER",
+		SIM."FEC_VCTO_TP",
+		SIM."NEMO",
+		SIM."RUT_CLI",
+		SIM."SEC_RUT_CLI",
+		SIM."SEC_MOVTO",
+		SIM."CANTIDAD",
+		SIM."CANTIDAD_ACUM_VC",
+		SIM."COD_AGENTE",
+		SIM."COD_CORR_CONTRA",
+		SIM."COD_SUC",
+		SIM."FEC_LIQ_ANTICIP",
+		SIM."FEC_LIQUID",
+		SIM."FEC_TRANS",
+		SIM."FOLIO_COMP_ADJ",
+		SIM."FOLIO_TRANS",
+		SIM."IND_BOLSA",
+		SIM."IND_TIT_CUS",
+		SIM."INTERES_DIA",
+		SIM."LIN_COMP_ADJ",
+		SIM."MONTO",
+		SIM."MONTO_ACUM_VC",
+		SIM."PRECIO",
+		SIM."SPREAD",
+		SIM."TASA",
+		SIM."TIPO_COMP_ADJ",
+		SIM."TIPO_OPERAC",
+		SIM."IND_LIQUID",
+		SIM."PRECIO_CONTADO",
+		SIM."IND_SIMUL",
+		SIM."SEC_MOVTO_CTDO",
+		SIM."MERCADO"
+		
+	FROM  
+		"BSCL.Replica.BD.Vistas::Sebra.TBCTTRTP" SIM
+		LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'TBCTTRTP' 
+			AND WST."Key" = (COD_PER || ':' ||  FEC_VCTO_TP || ':' ||  trim(NEMO) || ':' || trim(RUT_CLI) || ':' ||  SEC_RUT_CLI || ':' || SEC_MOVTO || ':' ||  MERCADO)
+		
+WITH READ ONLY; 
+
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaTBCTTRTP" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

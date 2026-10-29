@@ -1,0 +1,211 @@
+SET SCHEMA "BSCL";
+
+DROP VIEW "BSCL.Normativa.BD.Vistas::TRI.ConsultarCalificacionTributaria";
+
+CREATE VIEW "BSCL.Normativa.BD.Vistas::TRI.ConsultarCalificacionTributaria" (
+"Ejercicio"
+,"Mercado"              
+,"Nemo"                     
+,"FechaPago"
+,"SecuenciaEvento"
+,"IdEventoCapital"
+,"Descripcion"
+,"FactorAct"
+--,"Factor06"
+--,"Factor07"
+,"Factor08"
+,"Factor09"
+,"Factor10"
+,"Factor11"
+,"Factor12"
+,"Factor13"
+,"Factor14"
+,"Factor15"
+,"Factor16"
+,"Factor17"
+,"Factor18"
+,"Factor19"
+,"Factor20"
+,"Factor21"
+,"Factor22"
+,"Factor23"
+,"Factor24"
+,"Factor25"
+,"Factor26"
+,"Factor27"
+,"Factor28"
+,"Factor29"
+,"Factor30"
+,"Factor31"
+,"Factor32"
+,"Factor33"
+,"Factor34"
+,"Factor35"
+,"Factor36"
+,"Factor37"
+,"Factor38"
+,"AcogidoISFUT"
+,"IdOrigen"
+,"Origen"
+,"TipoCalificacion"
+,"NumeroDividendo"
+,"TipoSociedad"
+,"IdInstrumento"                    
+                                    
+)
+AS 
+
+SELECT 
+     YEAR(EVENTO_CAPITAL."FechaPago")                   AS "Ejercicio"
+    ,CASE
+	    WHEN EVENTO_CAPITAL."IdClasificacionTipoInstrumento" = 'RV' AND LEFT(INSTRUMENTO."Nemotecnico", 3) = 'CFI' THEN 'CF'
+	    WHEN EVENTO_CAPITAL."IdClasificacionTipoInstrumento" = 'RV' THEN 'AC'
+        WHEN EVENTO_CAPITAL."IdClasificacionTipoInstrumento" = 'FM' THEN 'FFM'
+	    ELSE EVENTO_CAPITAL."IdClasificacionTipoInstrumento" 
+	 END AS "Mercado"
+    ,COALESCE(INSTRUMENTO."Nemotecnico", 
+    EVENTO_VARIACION_CAPITAL."NEMO")                    AS "Nemo"                   
+    ,EVENTO_CAPITAL."FechaPago"                         AS "FechaPago"
+    ,COALESCE(EVENTO_CAPITAL."Secuencia" ,0)            AS "SecuenciaEvento"
+    ,COALESCE(EVENTO_CAPITAL."IdEventoCapital"  ,0)     AS "IdEventoCapital"
+    ,COALESCE(EVENTO_CAPITAL."Descripcion",'')          AS "Descripcion"
+    ,COALESCE(EVENTO_VARIACION_CAPITAL."FACTORACT",0)   AS "FactorAct"
+    --,COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_06",0)   AS "Factor06"
+    --,COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_07",0)   AS "Factor07"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_08",0) AS VARCHAR(50)) AS "Factor08"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_09",0) AS VARCHAR(50)) AS "Factor09"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_10",0) AS VARCHAR(50)) AS "Factor10"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_11",0) AS VARCHAR(50)) AS "Factor11"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_12",0) AS VARCHAR(50)) AS "Factor12"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_13",0) AS VARCHAR(50)) AS "Factor13"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_14",0) AS VARCHAR(50)) AS "Factor14"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_15",0) AS VARCHAR(50)) AS "Factor15"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_16",0) AS VARCHAR(50)) AS "Factor16"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_17",0) AS VARCHAR(50)) AS "Factor17"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_18",0) AS VARCHAR(50)) AS "Factor18"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_19",0) AS VARCHAR(50)) AS "Factor19"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_20",0) AS VARCHAR(50)) AS "Factor20"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_21",0) AS VARCHAR(50)) AS "Factor21"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_22",0) AS VARCHAR(50)) AS "Factor22"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_23",0) AS VARCHAR(50)) AS "Factor23"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_24",0) AS VARCHAR(50)) AS "Factor24"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_25",0) AS VARCHAR(50)) AS "Factor25"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_26",0) AS VARCHAR(50)) AS "Factor26"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_27",0) AS VARCHAR(50)) AS "Factor27"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_28",0) AS VARCHAR(50)) AS "Factor28"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_29",0) AS VARCHAR(50)) AS "Factor29"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_30",0) AS VARCHAR(50)) AS "Factor30"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_31",0) AS VARCHAR(50)) AS "Factor31"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_32",0) AS VARCHAR(50)) AS "Factor32"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_33",0) AS VARCHAR(50)) AS "Factor33"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_34",0) AS VARCHAR(50)) AS "Factor34"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_35",0) AS VARCHAR(50)) AS "Factor35"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_36",0) AS VARCHAR(50)) AS "Factor36"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_37",0) AS VARCHAR(50)) AS "Factor37"
+    ,CAST(COALESCE(EVENTO_VARIACION_CAPITAL."FACTOR_38",0) AS VARCHAR(50)) AS "Factor38"
+    ,COALESCE(EVENTO_CAPITAL."ISFUT",'')                AS "AcogidoISFUT"
+    ,CASE
+        WHEN EVENTO_VARIACION_CAPITAL."IDORIGEN" IS NULL THEN ''
+        ELSE EVENTO_VARIACION_CAPITAL."IDORIGEN"
+     END AS "IdOrigen"
+    ,CASE
+        WHEN EVENTO_VARIACION_CAPITAL."IDORIGEN" IS NULL THEN ''
+        WHEN EVENTO_VARIACION_CAPITAL."IDORIGEN" = 'COR' THEN 'CORREDOR'
+        WHEN EVENTO_VARIACION_CAPITAL."IDORIGEN" = 'BCS' THEN 'BOLSA'
+        ELSE ''
+    END AS "Origen"
+    ,CASE
+        WHEN EVENTO_VARIACION_CAPITAL."IDORIGEN" = '' OR EVENTO_VARIACION_CAPITAL."IDORIGEN" IS NULL THEN 'PENDIENTE'
+        ELSE 'INGRESADA'
+    END AS "TipoCalificacion"
+    ,COALESCE(EVENTO_CAPITAL."NumeroDividendo",0)       AS "NumeroDividendo"    
+    ,COALESCE(EVENTO_VARIACION_CAPITAL."TIPO_SOC",'')   AS "TipoSociedad"
+    ,COALESCE(INSTRUMENTO."IdInstrumento",0)            AS "IdInstrumento"
+FROM "BSCL.Custodia.BD.Vistas::CUS.ConsultarEventoCapital" AS EVENTO_CAPITAL               
+LEFT JOIN  "BSCL.Normativa.BD::TRI.TBSICAVC" AS EVENTO_VARIACION_CAPITAL 
+    ON (EVENTO_CAPITAL."Secuencia" = EVENTO_VARIACION_CAPITAL.SEC_EVE
+    AND EVENTO_CAPITAL."IdClasificacionTipoInstrumento" = EVENTO_VARIACION_CAPITAL.MERCADO 
+    AND TRIM(EVENTO_VARIACION_CAPITAL.NEMO) = TRIM(EVENTO_CAPITAL."Nemo")
+    AND EVENTO_CAPITAL."FechaPago" = EVENTO_VARIACION_CAPITAL.FEC_PAGO 
+    AND EVENTO_VARIACION_CAPITAL.EJERCICIO = YEAR(EVENTO_CAPITAL."FechaPago")   
+) 
+LEFT OUTER JOIN "BSCL.Plataforma.BD.Vistas::INS.ConsultarInstrumento" 
+    AS INSTRUMENTO ON INSTRUMENTO."IdInstrumento"  = EVENTO_CAPITAL."IdInstrumento"  
+LEFT OUTER JOIN (SELECT DISTINCT "IdClasificacionTipoInstrumento", "Nombre" FROM "BSCL.Plataforma.BD.Vistas::INS.ConsultarClasificacionTipoInstrumento") 
+    AS CLASIFICACION ON CLASIFICACION."IdClasificacionTipoInstrumento" = EVENTO_CAPITAL."IdClasificacionTipoInstrumento" 
+LEFT OUTER JOIN (SELECT * FROM "BSCL.Normativa.BD::DOC.Diccionario" DICC WHERE DICC."Tipo" = 'OrigenCalificacion') 
+    AS DICC ON EVENTO_VARIACION_CAPITAL."IDORIGEN" = DICC."Codigo"
+WHERE EVENTO_CAPITAL."IdTipoEventoCapital" IN ('DV','DF') AND EVENTO_CAPITAL."IdEstado" != 'ANU'
+
+UNION 
+
+SELECT
+    EVC."EJERCICIO"                 AS "Ejercicio" 
+    ,EVC."MERCADO"                  AS "Mercado"        
+    ,COALESCE(EVC.NEMO, 
+    INSTRUMENTO."Nemotecnico")      AS "Nemo"                   
+    ,EVC."FEC_PAGO"                 AS "FechaPago"
+    ,EVC."SEC_EVE"                  AS "SecuenciaEvento"
+    ,COALESCE(0, 0)                 AS "IdEventoCapital"
+    ,COALESCE(EVC."DESCRIPCION",'') AS "Descripcion"
+    ,COALESCE(EVC."FACTORACT",0)    AS "FactorAct"
+    --,COALESCE(EVC."FACTOR_07",0)    AS "Factor07"
+    --,COALESCE(EVC."FACTOR_06",0)    AS "Factor06"
+    ,CAST(COALESCE(EVC."FACTOR_08",0) AS VARCHAR(50)) AS "Factor08"
+    ,CAST(COALESCE(EVC."FACTOR_09",0) AS VARCHAR(50)) AS "Factor09"
+    ,CAST(COALESCE(EVC."FACTOR_10",0) AS VARCHAR(50)) AS "Factor10"
+    ,CAST(COALESCE(EVC."FACTOR_11",0) AS VARCHAR(50)) AS "Factor11"
+    ,CAST(COALESCE(EVC."FACTOR_12",0) AS VARCHAR(50)) AS "Factor12"
+    ,CAST(COALESCE(EVC."FACTOR_13",0) AS VARCHAR(50)) AS "Factor13"
+    ,CAST(COALESCE(EVC."FACTOR_14",0) AS VARCHAR(50)) AS "Factor14"
+    ,CAST(COALESCE(EVC."FACTOR_15",0) AS VARCHAR(50)) AS "Factor15"
+    ,CAST(COALESCE(EVC."FACTOR_16",0) AS VARCHAR(50)) AS "Factor16"
+    ,CAST(COALESCE(EVC."FACTOR_17",0) AS VARCHAR(50)) AS "Factor17"
+    ,CAST(COALESCE(EVC."FACTOR_18",0) AS VARCHAR(50)) AS "Factor18"
+    ,CAST(COALESCE(EVC."FACTOR_19",0) AS VARCHAR(50)) AS "Factor19"
+    ,CAST(COALESCE(EVC."FACTOR_20",0) AS VARCHAR(50)) AS "Factor20"
+    ,CAST(COALESCE(EVC."FACTOR_21",0) AS VARCHAR(50)) AS "Factor21"
+    ,CAST(COALESCE(EVC."FACTOR_22",0) AS VARCHAR(50)) AS "Factor22"
+    ,CAST(COALESCE(EVC."FACTOR_23",0) AS VARCHAR(50)) AS "Factor23"
+    ,CAST(COALESCE(EVC."FACTOR_24",0) AS VARCHAR(50)) AS "Factor24"
+    ,CAST(COALESCE(EVC."FACTOR_25",0) AS VARCHAR(50)) AS "Factor25"
+    ,CAST(COALESCE(EVC."FACTOR_26",0) AS VARCHAR(50)) AS "Factor26"
+    ,CAST(COALESCE(EVC."FACTOR_27",0) AS VARCHAR(50)) AS "Factor27"
+    ,CAST(COALESCE(EVC."FACTOR_28",0) AS VARCHAR(50)) AS "Factor28"
+    ,CAST(COALESCE(EVC."FACTOR_29",0) AS VARCHAR(50)) AS "Factor29"
+    ,CAST(COALESCE(EVC."FACTOR_30",0) AS VARCHAR(50)) AS "Factor30"
+    ,CAST(COALESCE(EVC."FACTOR_31",0) AS VARCHAR(50)) AS "Factor31"
+    ,CAST(COALESCE(EVC."FACTOR_32",0) AS VARCHAR(50)) AS "Factor32"
+    ,CAST(COALESCE(EVC."FACTOR_33",0) AS VARCHAR(50)) AS "Factor33"
+    ,CAST(COALESCE(EVC."FACTOR_34",0) AS VARCHAR(50)) AS "Factor34"
+    ,CAST(COALESCE(EVC."FACTOR_35",0) AS VARCHAR(50)) AS "Factor35"
+    ,CAST(COALESCE(EVC."FACTOR_36",0) AS VARCHAR(50)) AS "Factor36"
+    ,CAST(COALESCE(EVC."FACTOR_37",0) AS VARCHAR(50)) AS "Factor37"
+    ,CAST(COALESCE(EVC."FACTOR_38",0) AS VARCHAR(50)) AS "Factor38"
+    ,EVC."AcogidoISFUT"             AS "AcogidoISFUT"
+    ,EVC."IDORIGEN"                 AS "IdOrigen"
+    ,CASE
+        WHEN EVC."IDORIGEN" = 'COR' THEN 'CORREDOR'
+        ELSE 'BOLSA'
+     END                            AS "Origen" 
+    ,'INGRESADA'                    AS "TipoCalificacion"
+    ,COALESCE(EVC."NUM_DIVDO",0)        AS "NumeroDividendo"
+    ,COALESCE(EVC."TIPO_SOC",'')                        AS "TipoSociedad"
+    ,COALESCE(INSTRUMENTO."IdInstrumento",0)            AS "IdInstrumento"
+FROM "BSCL.Normativa.BD::TRI.TBSICAVC" AS EVC
+LEFT JOIN "BSCL.Plataforma.BD.Vistas::INS.ConsultarInstrumento" AS INSTRUMENTO 
+    ON (TRIM(INSTRUMENTO."Nemotecnico") = TRIM(EVC."NEMO"))
+    AND INSTRUMENTO."IdClasificacionTipoInstrumento" = CASE 
+														 WHEN EVC."MERCADO" IN ('AC', 'CF') THEN 'RV'															
+														 ELSE EVC."MERCADO" 
+													   END
+WHERE NOT EXISTS (SELECT 1 FROM "BSCL.Custodia.BD.Vistas::CUS.ConsultarEventoCapital" AS CEC 
+                    WHERE EVC.SEC_EVE = CEC."Secuencia"
+                    AND CEC."FechaPago" = EVC.FEC_PAGO 
+                    AND YEAR(CEC."FechaPago") = EVC.EJERCICIO
+                    AND TRIM(CEC."Nemo") = TRIM(EVC.NEMO)
+                    AND CEC."IdClasificacionTipoInstrumento" = EVC.MERCADO
+                    )
+WITH read ONLY;
+
+GRANT SELECT ON "BSCL.Normativa.BD.Vistas::TRI.ConsultarCalificacionTributaria" TO bcs_desarrollador WITH GRANT OPTION;

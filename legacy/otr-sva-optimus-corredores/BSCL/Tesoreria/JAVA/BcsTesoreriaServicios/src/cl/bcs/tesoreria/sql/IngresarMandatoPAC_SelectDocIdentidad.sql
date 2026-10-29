@@ -1,0 +1,1 @@
+SELECT top 1 "DocumentoIdentidad"  FROM  "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" WHERE "DocumentoIdentidad" in (:DocumentoIdentidad) 

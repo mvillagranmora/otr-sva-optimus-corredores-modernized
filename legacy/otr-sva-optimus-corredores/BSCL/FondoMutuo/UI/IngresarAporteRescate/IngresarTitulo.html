@@ -1,0 +1,319 @@
+<div class="col-xs-12" ng-controller="IngresarTituloFFMCtrl as ingresoTitulo">
+	<!-- Pre-Ingreso -->
+	<div class="row bcs-cuerpo" ng-show="ingresoTitulo.formData.IngresoConfirmacion === 'I'">
+	 <div>	
+	 	<form name="FormIngresoFFM" class="filters-formulario">
+		   	<div class="row">
+				<div class="col-xs-12">
+				  	<div class="row">
+				  	<!-- Inicio GCMBIPAPAS-1 Filtro de clientes por Perfiles-->	
+				  	<!--				  	
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_CLIENTE"
+						 	auto-cargar="false"
+						 	bcs-requerido
+						    tipo="'combobox-socio-negocio'"
+						    carga-cliente-automatico="'S'"
+						    seleccionado="ingresoTitulo.oSocioNegocio.seleccionado"
+						    filtros="ingresoTitulo.oSocioNegocio.filtros"
+							cascada-a="ingresoTitulo.oPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+		                    cascada1-a="ingresoTitulo.formData.IdCategoriaInversionista"
+		                    cascada1-valor="'IdCategoriaInversionista'"
+		                    cascada2-a="ingresoTitulo.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada2-valor="'IdCliente'"
+		                    cascada-defecto="'-1'"
+		                    id-actual="ingresoTitulo.oSocioNegocio.idActual"
+						    configuracion= "ingresoTitulo.oSocioNegocio.configuracion"
+						    id-defecto="ingresoTitulo.oSocioNegocio.idDefecto">
+						</bcs-combobox-base>
+						-->
+						<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							bcs-requerido
+							id-actual="filtros.IdPortafolio"
+							tipo="ingresoTitulo.oClientePortafolio.tipo"
+							carga-cliente-automatico="'S'" 
+							seleccionado="ingresoTitulo.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio"
+							item-post-filtro="'1'"
+							ng-style="{'width' : ingresoTitulo.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && ingresoTitulo.oClientePortafolio.seleccionado  ? '50%' : '66.66666667%'}"
+		                    cascada1-a="ingresoTitulo.formData.IdCategoriaInversionista"
+		                    cascada1-valor="'IdCategoriaInversionista'"
+		                    cascada2-a="ingresoTitulo.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada2-valor="'IdCliente'"
+		                    
+		                    cascada-a="ingresoTitulo.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada-valor="'IdPortafolio'"
+		                    cascada1-a="ingresoTitulo.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada1-valor="'IdPortafolio'"
+		                    cascada2-a="ingresoTitulo.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="ingresoTitulo.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+		                    		                    
+		                    cascada-defecto="'-1'"							
+							
+							configuracion="ingresoTitulo.oClientePortafolio.configuracion">
+						</bcs-combobox-base>						
+					</div>      
+					<!--
+		 			<div class="row">
+						<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_PORTAFOLIO"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-portafolio'"						    
+						    seleccionado="ingresoTitulo.oPortafolio.seleccionado"
+						    filtros="ingresoTitulo.oPortafolio.filtros"
+		                    item-post-filtro="'1'"
+		                    id-actual="ingresoTitulo.oPortafolio.idActual"
+		                    id-defecto="ingresoTitulo.oPortafolio.idDefecto"
+		                    cascada-a="ingresoTitulo.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada-valor="'IdPortafolio'"
+		                    cascada1-a="ingresoTitulo.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada1-valor="'IdPortafolio'"
+		                    cascada2-a="ingresoTitulo.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="ingresoTitulo.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+						    configuracion= "ingresoTitulo.oPortafolio.configuracion">
+						</bcs-combobox-base >
+					</div>
+					-->
+					<!-- Fin GCMBIPAPAS-1 -->
+										
+					<div class="row">
+ 						<label class="col-xs-4" translate>UI_AUTORIZADOR</label>
+						<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "ingresoTitulo.oClientePortafolio.seleccionado.portafolio.TipoPersona === 'J'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "ingresoTitulo.formData.idAutorizadoDarOrdenes"
+								id-defecto				= "ingresoTitulo.formData.idAutorizadoDarOrdenesDefecto"
+								seleccionado			= "autorizadoDarOrdenes" 
+								filtros					= "ingresoTitulo.formData.FiltrosAutorizarOrden "	>
+						</bcs-combobox-base>						
+ 					</div>
+					
+				  	<hr>
+				  	<bcs-combobox-buscador-fondos
+							id="UI_BUSCADOR_FONDO_APORTE"
+							datos-fondo="ingresoTitulo.datosFondo" 
+							muestra-valor-cuota = "'S'"
+							buscar-fondo="ingresoTitulo.formData.setFondo"
+							id-ventana="ingresoTitulo.winID"
+							id-defecto="ingresoTitulo.datosFondoDefecto.IdDefecto"
+							muestra-detalle="'S'"
+							es-detalle="'S'"
+							mas-informacion="ingresoTitulo.masInformacion"
+							filtros="ingresoTitulo.formData.FiltrosBusquedaFondo"
+							filtros-combobox="ingresoTitulo.formData.FiltrosComboFondo">
+					</bcs-combobox-buscador-fondos>
+			  		<hr>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="ingresoTitulo.formData.fechaSistema" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+			  		</div>
+			  		<div class="row" ng-if="ingresoTitulo.datosFondo && ingresoTitulo.oClientePortafolio.seleccionado.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_REGIMEN</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-regimen-serie-fondo'"
+				  			id-actual="ingresoTitulo.formData.IdRegimenFondoMutuo"
+				  			seleccionado="ingresoTitulo.formData.regimenFondoMutuo"
+							id-defecto="ingresoTitulo.formData.RegimenDefecto"
+				  			item-post-filtro="'1'"
+				  			filtros="ingresoTitulo.formData.filtrosRegimen"
+				  			bcs-requerido
+				  			todos="'N'">
+						</bcs-combobox-base>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+				  		<bcs-input-numero class="col-xs-8"
+				  			id="UI_NUMERO_CUOTAS"
+							decimales = "ingresoTitulo.formData.decimalesCantidad"
+							bcs-requerido
+							k-ng-model="ingresoTitulo.formData.numeroCuotas">
+						</bcs-input-numero> 
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+				  		<bcs-input-texto class="col-xs-8"
+				  			id="UI_GLOSA"
+					  		maxlength="100"
+							tipo-campo="'textarea'"
+							ng-model="ingresoTitulo.formData.comentario"
+							atributos="margin: 0px; height:73px;resize:none;width: 100%">
+				  		</bcs-input-texto>
+			  		</div>	 	
+				</div>
+			</div>
+			
+			</form>
+        
+			<div class="row bcs-panel-comandos">
+				<div class=col-xs-12>
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarTituloFFM" 
+						bcs-texto="'UI_INGRESAR' | translate" 
+						bcs-habilitado="FormIngresoFFM.$valid"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar="true"
+						bcs-clic="ingresoTitulo.formData.ingresarTitulo()">
+					</bcs-button>	
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="ingresoTitulo.limpiarFMM()"
+						bcs-blur="ingresoTitulo.formData.resetFoco()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Solicitud Ingresada -->
+	<div class="row bcs-cuerpo" ng-show="ingresoTitulo.formData.IngresoConfirmacion === 'C'">
+		<div class="row">
+			<div class="col-xs-12">
+			    <div class="row" ng-show="true">
+				  	<label class="col-xs-4" translate>UI_SECUENCIA_OPERACION</label> 
+			  		<bcs-input-texto 
+			  		class="col-xs-8" 
+			  		ng-model="ingresoTitulo.formData.ResultadoSolicitudAporteRescate.SecuenciaOperacion" 
+			  		k-ng-disabled="'true'"></bcs-input-texto>
+		  		</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="oOperacion.seleccionado.Descripcion"
+			  			k-ng-disabled="'true'"
+			  		> 
+			  	</div>
+			  	<hr>
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="ingresoTitulo.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>      
+	 			<div class="row">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="ingresoTitulo.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>
+			  	<hr>
+			  	<div class="row">
+			  	    <label class="col-xs-4" translate>UI_FONDO_MUTUO</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="ingresoTitulo.datosFondo.IdSerieFondo"
+			  			k-ng-disabled="'true'"
+			  		>
+		  		</div>
+		  		
+		  		<div class="row">
+					<span class="col-xs-6">
+						<label class="col-xs-8" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresoFFM.ingresoTitulo.muestraDetalle" ng-click="ingresoFFM.ingresoTitulo.muestraDetalle = !ingresoFFM.ingresoTitulo.muestraDetalle;ajustaVentana()">({{'+' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresoFFM.ingresoTitulo.muestraDetalle" ng-click="ingresoFFM.ingresoTitulo.muestraDetalle = !ingresoFFM.ingresoTitulo.muestraDetalle;ajustaVentana()">({{'-' | translate}})</em>
+					</span>
+				</div>
+				<div class="row" ng-show="ingresoFFM.ingresoTitulo.muestraDetalle">
+					<div class="row">
+					  	<label class="col-xs-3" translate>UI_TIPO_FONDO</label> 
+				  		<label class="col-xs-3" translate>{{ingresoTitulo.datosFondo.NombreCorto}}</label>
+				  		<label class="col-xs-3" translate>UI_PERFIL</label> 
+				  		<label class="col-xs-3" translate>{{ingresoTitulo.datosFondo.IdCategoriaPerfilFondoMutuo}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+				  		<label class="col-xs-3" translate>{{ingresoTitulo.datosFondo.IdRegimenTributario}}</label>
+				  		<label class="col-xs-3" translate>UI_PROPOSITO_SERIE</label> 
+				  		<label class="col-xs-3" translate>{{ingresoTitulo.datosFondo.PropositoSerie}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_ENTRADA</label> 
+				  		<label class="col-xs-3" translate>{{ingresoTitulo.datosFondo.EsComisionEntradaUI}}</label>
+				  		<label class="col-xs-3" translate>UI_MINIMO_PATRIMONIO</label> 
+				  		<label class="col-xs-3" translate>{{ingresoTitulo.datosFondo.EsPatrimonioMinimoUI}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+				  		<label class="col-xs-3" translate>{{ingresoTitulo.datosFondo.EsComisionSalidaUI}}</label>
+		  			</div>
+				</div>
+		  		<hr>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+			  		<bcs-input-date
+						class="col-xs-8"
+						k-ng-model="ingresoTitulo.formData.fechaSistema" 
+						bcs-requerido
+						k-ng-disabled="'true'">
+					</bcs-input-date>
+			  	</div>
+		  		<div class="row">
+			  		<label class="col-xs-4" translate>UI_REGIMEN</label>
+				 	<bcs-input-texto class="col-xs-8"
+				 		k-ng-disabled="'true'"
+				 		ng-model="ingresoTitulo.formData.regimenFondoMutuo.Descripcion">
+				 	</bcs-input-texto>
+				</div>    		
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="ingresoTitulo.formData.ResultadoSolicitudAporteRescate.MontoInicial"
+			  			decimales = "ingresoTitulo.formData.decimalesMonto"
+			  			k-ng-disabled="'true'"
+			  			simbolo="ingresoTitulo.formData.IdMonedaAporte">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="ingresoTitulo.formData.ResultadoSolicitudAporteRescate.NumeroCuotas"
+			  			k-ng-disabled="'true'"	
+			  		>
+			  		</bcs-input-texto>
+		  		</div>
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+			  		<bcs-input-texto class="col-xs-8"
+				  		maxlength="260"
+						tipo-campo="'textarea'"
+						ng-model="ingresoTitulo.formData.comentario"
+						atributos="margin: 0px; height:73px;resize:none;width: 100%"
+						k-ng-disabled="'true'"	
+					>
+			  		</bcs-input-texto>
+		  		</div>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class=col-xs-12>
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VOLVER' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="ingresoTitulo.limpiarFMM('true')"
+					foco = "ingresoTitulo.formData.focoVolver">
+				</bcs-button>	
+			</div>
+		</div>
+	</div>
+	
+</div>

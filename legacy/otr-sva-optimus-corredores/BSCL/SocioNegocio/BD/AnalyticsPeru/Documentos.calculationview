@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Documentos" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Persona_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="Grupo_Documentos" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreDocumento" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="NVARCHAR" id="Estado" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaVencimiento" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaCreacion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaModificacion" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	  	 var_out = SELECT
+					SOC.&quot;IdPersona&quot;
+					,TPO.&quot;IdTipoDocumento&quot; AS &quot;Grupo_Documentos&quot; 
+					,TPO.&quot;NombreDocumento&quot;
+					,DOC.&quot;IdCliente&quot;
+					,EST.&quot;Nombre&quot; AS &quot;Estado&quot;
+					,TO_NVARCHAR(ANX.&quot;FechaVigencia&quot;) AS &quot;FechaVencimiento&quot;
+					,TO_NVARCHAR(ANX.&quot;FechaIngreso&quot;) AS &quot;FechaCreacion&quot;
+					,TO_NVARCHAR(ANX.&quot;FechaModificacion&quot;) AS &quot;FechaModificacion&quot;
+				from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::DOC.TipoDocumento&quot; TPO 
+				INNER JOIN &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::DOC.Documento&quot; DOC ON TPO.&quot;IdTipoDocumento&quot; = DOC.&quot;IdTipoDocumento&quot;
+				LEFT JOIN &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::DOC.Anexo&quot; ANX ON ANX.&quot;IdDocumento&quot; = DOC.&quot;IdDocumento&quot; 
+					AND ANX.&quot;IdAnexo&quot; = DOC.&quot;IdUltimoAnexo&quot; AND ANX.&quot;IdEstado&quot; != 'VCD'
+				INNER JOIN &quot;BSCL.SocioNegocio.BD.Vistas::SOC.UIBlotterConsultarSocioDeNegocio&quot; SOC ON DOC.&quot;IdCliente&quot; = SOC.&quot;IdCliente&quot;
+				JOIN &quot;BSCL.Plataforma.BD::PLA.Estado&quot; EST ON EST.&quot;IdEstado&quot; = IFNULL(ANX.&quot;IdEstado&quot;,'PEN')
+				WHERE IFNULL(SOC.&quot;IdCliente&quot;,0) &lt;> 0;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdPersona" hidden="true" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="Grupo_Documentos" hidden="true" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Grupo_Documentos"/>
+      </attribute>
+      <attribute id="NombreDocumento" hidden="true" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreDocumento"/>
+      </attribute>
+      <attribute id="IdCliente" hidden="true" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="Estado" hidden="true" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Estado"/>
+      </attribute>
+      <attribute id="FechaVencimiento" hidden="true" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaVencimiento"/>
+      </attribute>
+      <attribute id="FechaCreacion" hidden="true" order="7">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="FechaModificacion" hidden="true" order="8">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaModificacion"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

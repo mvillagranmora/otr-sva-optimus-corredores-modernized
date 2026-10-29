@@ -1,0 +1,160 @@
+<div class="col-xs-12" ng-controller="ComplementoCargaMasivaCtrl">
+	<form name="frmComplementoCargaMasiva" class="col-xs-12 form-horizontal">   
+
+		<div class="row bcs-cuerpo">
+		
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_CARGA</label>
+				<div class="col-xs-8">{{parametros.NombreTipoCargaMasiva}}</div>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>									
+				<bcs-input-date class="col-xs-8" name="uFechaLiquidacion" k-ng-disabled="'true'" configuracion="data.FechaLiquidacionOptions" after-render="missionCompled" ng-model="data.FechaLiquidacion" k-ng-model="data.kngFechaLiquidacion"></bcs-input-date>					 
+			</div>
+
+			<div class="row" ng-show="oConfiguracionCargaMasiva.EditableEnProceso === 'S'">
+				<label class="col-xs-4" translate>UI_CONCEPTO</label>
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido					
+					auto-cargar		 = "'true'"
+					tipo			 = "data.oConfiguracionConcepto.tipo" 
+					configuracion	 = "data.oConfiguracionConcepto.configuracion" 				
+					seleccionado	 = "data.oConfiguracionConcepto.seleccionado"
+					filtros			 = "data.oConfiguracionConcepto.filtros"
+					id-actual		 = "data.oConfiguracionConcepto.idActual"					
+					id-post-filtro	 = "data.oConfiguracionConcepto.idPostFiltro">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row" ng-show="oConfiguracionCargaMasiva.EditableEnProceso === 'S'">
+				<label class="col-xs-4" translate>UI_MONEDA</label>
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					tipo			= "data.oConfiguracionMoneda.tipo"
+					configuracion	= "data.oConfiguracionMoneda.configuracion" 				
+					seleccionado	= "data.oConfiguracionMoneda.seleccionado"
+					filtros			= "data.oConfiguracionMoneda.filtros"
+					id-defecto		= "data.oConfiguracionMoneda.idDefecto"
+					id-actual		= "data.oConfiguracionMoneda.idActual"				    
+				    cascada1-a		= "data.oConfiguracionCuentaBancoCorredora.filtros.IdMoneda"
+					cascada1-valor	= "'IdMoneda'"
+					id-post-filtro	= "data.oConfiguracionMoneda.idPostFiltro">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row" ng-show="oConfiguracionCargaMasiva.EditableEnProceso === 'S'">
+				<label class="col-xs-4" translate>UI_MEDIOS_DE_PAGO</label>
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					tipo			 = "data.oConfiguracionMedioDePago.tipo" 
+					configuracion	 = "data.oConfiguracionMedioDePago.configuracion" 				
+					seleccionado	 = "data.oConfiguracionMedioDePago.seleccionado"
+					id-actual		 = "data.oConfiguracionMedioDePago.idActual"
+					filtros			 = "data.oConfiguracionMedioDePago.filtros"
+					id-defecto		 = "data.oConfiguracionMedioDePago.idDefecto"
+					id-post-filtro = "data.oConfiguracionMedioDePago.idPostFiltro">
+				</bcs-combobox-base>				
+			</div>
+			
+			<div class="row" ng-show="oConfiguracionCargaMasiva.EditableEnProceso === 'S'">
+				<label class="col-xs-4" translate>UI_CUENTAS_CORREDORA</label>
+				<bcs-combobox-base class="col-xs-8" 
+					bcs-requerido
+					tipo			= "data.oConfiguracionCuentaBancoCorredora.tipo" 
+					configuracion	= "data.oConfiguracionCuentaBancoCorredora.configuracion" 				
+					seleccionado	= "data.oConfiguracionCuentaBancoCorredora.seleccionado"
+					id-actual		= "data.oConfiguracionCuentaBancoCorredora.idActual"
+					filtros			= "data.oConfiguracionCuentaBancoCorredora.filtros"
+					id-defecto		= "data.oConfiguracionCuentaBancoCorredora.idDefecto"
+					id-post-filtro	= "data.oConfiguracionCuentaBancoCorredora.idPostFiltro">
+				</bcs-combobox-base>
+			</div>
+			
+			<!-- Datos disabled de la cuenta bancaria corredora(cuando es editable) -->	
+			<div class="row" ng-show="oConfiguracionCargaMasiva.EditableEnProceso === 'S'">
+				<label class="col-xs-4" translate>UI_BANCO</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="data.oConfiguracionCuentaBancoCorredora.seleccionado.NombreBanco" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+			
+			<div class="row" ng-show="oConfiguracionCargaMasiva.EditableEnProceso === 'S'">
+				<label class="col-xs-4" translate>UI_CUENTA_BANCARIA</label>		
+				<bcs-input-texto class="col-xs-8"  ng-model="data.oConfiguracionCuentaBancoCorredora.seleccionado.NombreCuentaBancariaFull" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>		
+
+			<div class="row" ng-show="oConfiguracionCargaMasiva.EditableEnProceso === 'S'">
+				<label class="col-xs-4" translate>UI_TIPO_CUENTA</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="data.oConfiguracionCuentaBancoCorredora.seleccionado.NombreTipoCuentaBancaria" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>	
+						
+			<div class="row" ng-show="oConfiguracionCargaMasiva.EditableEnProceso === 'S'">
+				<label class="col-xs-4" translate>UI_NUMERO_CUENTA</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="data.oConfiguracionCuentaBancoCorredora.seleccionado.NumeroCuentaBancaria" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+				
+									
+		</div>
+		
+
+		<!-- Inicio ciclo datos de cuenta bancaria corredora(desde configuración y no editable) --> 
+		<div ng-repeat="config in oConfiguracionCargaMasiva">
+
+			<div class="row"><hr></div>
+
+			<div class="row" ng-if="config.NombreConcepto !== '' && config.NombreConcepto !== undefined && config.NombreConcepto !== null && oConfiguracionCargaMasiva.EditableEnProceso === 'N'">
+				<label class="col-xs-4" translate>UI_CONCEPTO</label>			
+				<bcs-input-texto class="col-xs-8" ng-model="config.NombreConcepto" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>						
+			
+			<div class="row" ng-if="config.NombreMoneda !== '' && config.NombreMoneda !== undefined && config.NombreMoneda !== null && oConfiguracionCargaMasiva.EditableEnProceso === 'N'">
+				<label class="col-xs-4" translate>UI_MONEDA</label>			
+				<bcs-input-texto class="col-xs-8" ng-model="config.NombreMoneda" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+					
+			<div class="row" ng-if="config.NombreMedioDePago !== '' && config.NombreMedioDePago !== undefined && config.NombreMedioDePago !== null && oConfiguracionCargaMasiva.EditableEnProceso === 'N'">
+				<label class="col-xs-4" translate>UI_MEDIO_DE_PAGO</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="config.NombreMedioDePago" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+
+			<div class="row" ng-if="config.NombreCuentaBancaria !== '' && config.NombreCuentaBancaria !== undefined && config.NombreCuentaBancaria !== null && oConfiguracionCargaMasiva.EditableEnProceso === 'N'"">
+				<label class="col-xs-4" translate>UI_CUENTA_BANCARIA</label>		
+				<bcs-input-texto class="col-xs-8"  ng-model="config.NombreCuentaBancaria" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>	
+						
+			<div class="row" ng-if="config.NombreBanco !== '' && config.NombreBanco !== undefined && config.NombreBanco !== null && oConfiguracionCargaMasiva.EditableEnProceso === 'N'"">
+				<label class="col-xs-4" translate>UI_BANCO</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="config.NombreBanco" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+			
+			<div class="row" ng-if="config.NombreTipoCuentaBancaria !== '' && config.NombreTipoCuentaBancaria !== undefined && config.NombreTipoCuentaBancaria !== null && oConfiguracionCargaMasiva.EditableEnProceso === 'N'"">
+				<label class="col-xs-4" translate>UI_TIPO_CUENTA</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="config.NombreTipoCuentaBancaria" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+						
+			
+			<div class="row" ng-if="config.NumeroCuentaBancaria !== '' && config.NumeroCuentaBancaria !== undefined && config.NumeroCuentaBancaria !== null && oConfiguracionCargaMasiva.EditableEnProceso === 'N'"">
+				<label class="col-xs-4" translate>UI_NUMERO_CUENTA</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="config.NumeroCuentaBancaria" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+			
+			<div class="row" ng-if="config.NombreEntidadRecaudadora !== '' && config.NombreEntidadRecaudadora !== undefined && config.NombreEntidadRecaudadora !== null">
+				<label class="col-xs-4" translate>UI_ENTIDAD_RECAUDADORA</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="config.NombreEntidadRecaudadora" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+			
+			<div class="row" ng-if="config.DocumentoIdentidadEntidadRecaudadora !== '' && config.DocumentoIdentidadEntidadRecaudadora !== undefined && config.DocumentoIdentidadEntidadRecaudadora !== null">
+				<label class="col-xs-4" translate>UI_DOCUMENTO_IDENTIDAD</label>			
+				<bcs-input-texto class="col-xs-8"  ng-model="config.DocumentoIdentidadEntidadRecaudadora" k-ng-disabled="'true'"><bcs-input-texto>
+			</div>
+			
+		</div> <!-- fin ciclo -->
+		 
+						
+		<div class="row bcs-panel-comandos alignButtonsToRight">
+			<bcs-button id="frmComplementoCargaMasiva_Procesar"  class="col-xs-2"  bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_PROCESAR' | translate"    bcs-habilitado="frmComplementoCargaMasiva.$valid" bcs-clic="procesarCargaMasiva()"></bcs-button>
+			<bcs-button id="frmComplementoCargaMasiva_Limpiar"   class="col-xs-2"  bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"     bcs-habilitado="frmComplementoCargaMasiva.$valid" bcs-clic="limpiarComplemento()"></bcs-button>
+		</div>
+	
+	</form>	
+</div>
+

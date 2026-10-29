@@ -1,0 +1,55 @@
+<div id="FusionarCarterasClientesPreviewModal" class="row" ng-controller="FusionarCarterasClientesPreviewModalCtrl">
+    <div class="col-xs-12">
+       
+        <div class="row" ng-show="cargando">
+            <div class="col-xs-12 text-center">
+                <span translate>UI_CARGANDO_PREVISUALIZACION</span>
+            </div>
+        </div>
+ 
+        <div class="row" ng-show="!cargando && !sinResultados">
+            <bcs-grid 
+            	id="grid-previewFusionCarteras"
+                configuracion="confBasicaPreviewFusion"
+                seleccionado="seleccionPreviewFusion">
+
+                <div bcs-grid-detail ng-non-bindable>
+                    <div style="width: 830px;">
+                        <uib-tabset>
+                            <uib-tab heading="{{'UI_DETALLE_FUSION_CARTERAS' | translate}}">
+                                <bcs-grid
+                                    id="grid-previewDetalleFusion"
+                                    configuracion="confDetallePreviewFusion(dataItem)"
+                                    seleccionado="dataItem.seleccionDetallePreview">
+                                </bcs-grid>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </bcs-grid>
+        </div>
+
+    </div>
+
+    <div class="row bcs-panel-comandos">
+        <bcs-button
+            id="FusionarCarterasClientesPreviewModal_fusionar"
+            class="col-xs-3"
+            bcs-tipo="'bcs-button-primary'"
+            bcs-habilitado="habilitadoFusion"
+            bcs-auto-desactivar="true"
+            bcs-texto="'UI_FUSIONAR_CARTERA' | translate"
+            bcs-clic="ejecutarFusion()">
+        </bcs-button>
+
+        <bcs-button
+            id="FusionarCarterasClientesPreviewModal_cancelar"
+            class="col-xs-2 pull-right"
+            bcs-tipo="'bcs-button-secondary'"
+            bcs-habilitado="true"
+            bcs-auto-desactivar="false"
+            bcs-texto="'UI_CANCELAR' | translate"
+            bcs-clic="cerrar()">
+        </bcs-button>
+    </div>
+</div>	

@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CarteraFMHis" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="false" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="CarteraFM"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="NVARCHAR" id="FechaRespaldo" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="BIGINT" id="IdCartera"/>
+        <viewAttribute datatype="BIGINT" id="FolioCartera"/>
+        <viewAttribute datatype="CHAR" id="FechaIngresoRegistro" length="27"/>
+        <viewAttribute datatype="CHAR" id="FechaModificacionRegistro" length="27"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="IdClasificacionTipoInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoInstrumento" length="3"/>
+        <viewAttribute datatype="BIGINT" id="IdInstrumento"/>
+        <viewAttribute datatype="NVARCHAR" id="Nemotecnico" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoReajuste" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEmisor" length="40"/>
+        <viewAttribute datatype="CHAR" id="FechaEmisionInstrumento" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaVencimientoInstrumento" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdBoveda" length="3"/>
+        <viewAttribute datatype="CHAR" id="FechaOperacionInicial" length="10"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadInicial" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioCompraInicial" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoCompraInicial" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoCompraMonedaInstrumentoInicial" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdCondicionLiquidacionInicial" length="2"/>
+        <viewAttribute datatype="CHAR" id="FechaLiquidacionInicial" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaOperacion" length="10"/>
+        <viewAttribute datatype="CHAR" id="EGRFechaOperacion" length="10"/>
+        <viewAttribute datatype="CHAR" id="EGRFechaLiquidacion" length="10"/>
+        <viewAttribute datatype="DECIMAL" id="Cantidad" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioCompra" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoCompraActualMonedaInstrumento" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioPromedioCompra" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoPrecioPromedioCompra" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoPrecioPromedioMonedaInstrumento" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdCondicionLiquidacion" length="2"/>
+        <viewAttribute datatype="CHAR" id="FechaLiquidacion" length="10"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioMercadoActual" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoMercadoActualMonedaInstrumento" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdConcepto" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoOperacion" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoProductoTIPOPE" length="4"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoComprobante" length="6"/>
+        <viewAttribute datatype="BIGINT" id="FolioComprobante"/>
+        <viewAttribute datatype="CHAR" id="FechaComprobante" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdSucursal"/>
+        <viewAttribute datatype="BIGINT" id="IdAgente"/>
+        <viewAttribute datatype="BIGINT" id="FolioCarteraRelacionada"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoProducto" length="4"/>
+        <viewAttribute datatype="NVARCHAR" id="ClasificacionRiesgoInstrumento" length="20"/>
+        <viewAttribute datatype="VARCHAR" id="IdRegimenTributario" length="20"/>
+        <viewAttribute datatype="DECIMAL" id="RentabilidadReal" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="CostoUF" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoMovimientoFondoMutuo" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdMatrizAgrupador"/>
+        <viewAttribute datatype="NVARCHAR" id="EsADC" length="1"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition>  /********* Begin Procedure Script ************/ 
+ --  SE HACE DE ESTA FORMA PARA QUE SIEMPRE MUESTRE EL ULTIMO MOVIMIENTO
+  -- EFECTUADO A UNA CARTERA A UN DIA ESPECIFICO INDEPENDIENTE DE SU ESTADO
+  -- LO UNICO QUE NO SE CONTEMPLARA SON LOS MOVIMIENTOS ANULADOS
+ BEGIN        
+ 	 var_out =   
+				SELECT
+					&quot;FechaRespaldo&quot;
+                    , &quot;IdEmpresa&quot;
+                    , &quot;IdCartera&quot;
+                    , &quot;FolioCartera&quot;
+                    , &quot;FechaIngresoRegistro&quot;
+                    , &quot;FechaModificacionRegistro&quot;
+                    , &quot;IdCliente&quot; 
+					, &quot;IdPortafolio&quot;  
+					, &quot;IdClasificacionTipoInstrumento&quot; 
+					, &quot;IdTipoInstrumento&quot; 
+					, &quot;IdInstrumento&quot; 
+                    , &quot;Nemotecnico&quot;
+                    , &quot;IdMonedaInstrumento&quot;
+                    , &quot;IdTipoReajuste&quot;
+					, &quot;IdEmisor&quot;
+                    , &quot;FechaEmisionInstrumento&quot;
+                    , &quot;FechaVencimientoInstrumento&quot;
+                    , &quot;IdBoveda&quot;
+                    , &quot;FechaOperacionInicial&quot;
+                    , &quot;CantidadInicial&quot; 
+                    , &quot;PrecioCompraInicial&quot;
+                    , &quot;MontoCompraInicial&quot;
+                    , &quot;MontoCompraMonedaInstrumentoInicial&quot;
+                    , &quot;IdCondicionLiquidacionInicial&quot;
+                    , &quot;FechaLiquidacionInicial&quot;
+                    , &quot;FechaOperacion&quot;
+                    , &quot;EGRFechaOperacion&quot;
+                    , &quot;EGRFechaLiquidacion&quot;
+                    , &quot;Cantidad&quot;
+                    , &quot;PrecioCompra&quot;
+                    , &quot;MontoCompraActualMonedaInstrumento&quot;
+                    , &quot;PrecioPromedioCompra&quot;
+                    , &quot;MontoPrecioPromedioCompra&quot;
+                    , &quot;MontoPrecioPromedioMonedaInstrumento&quot;
+                    , &quot;IdCondicionLiquidacion&quot;
+                    , &quot;FechaLiquidacion&quot;
+                    , &quot;PrecioMercadoActual&quot;
+                    , &quot;MontoMercadoActualMonedaInstrumento&quot;
+					, &quot;IdConcepto&quot; 
+                    , &quot;IdTipoOperacion&quot;
+					, &quot;IdTipoProductoTIPOPE&quot; 
+					, &quot;IdTipoComprobante&quot; 
+					, &quot;FolioComprobante&quot;
+                    , &quot;FechaComprobante&quot;
+ 		    		, &quot;IdSucursal&quot; 
+                    , &quot;IdAgente&quot; 
+                    , &quot;FolioCarteraRelacionada&quot;
+                    , &quot;IdEstado&quot; 
+                    , &quot;IdTipoProducto&quot; 
+                    , &quot;ClasificacionRiesgoInstrumento&quot;
+					
+					, &quot;IdRegimenTributario&quot;
+                    , &quot;RentabilidadReal&quot;
+                    , &quot;CostoUF&quot;
+                    , &quot;IdTipoMovimientoFondoMutuo&quot;
+                    , &quot;IdMatrizAgrupador&quot;
+                    , &quot;EsADC&quot;
+                FROM &quot;BSCL.Custodia.BD.Vistas::HIS.CarteraFMHisAnalitica&quot; AS car;
+				 	 
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="FechaRespaldo" order="1">
+        <descriptions defaultDescription="FechaRespaldo"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaRespaldo"/>
+      </attribute>
+      <attribute id="IdEmpresa" order="2">
+        <descriptions defaultDescription="IdEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="IdCartera" order="3">
+        <descriptions defaultDescription="IdCartera"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCartera"/>
+      </attribute>
+      <attribute id="FolioCartera" order="4">
+        <descriptions defaultDescription="FolioCartera"/>
+        <keyMapping columnObjectName="Script_View" columnName="FolioCartera"/>
+      </attribute>
+      <attribute id="FechaIngresoRegistro" order="5">
+        <descriptions defaultDescription="FechaIngresoRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaIngresoRegistro"/>
+      </attribute>
+      <attribute id="FechaModificacionRegistro" order="6">
+        <descriptions defaultDescription="FechaModificacionRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaModificacionRegistro"/>
+      </attribute>
+      <attribute id="IdCliente" order="7">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="8">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="IdClasificacionTipoInstrumento" order="9">
+        <descriptions defaultDescription="IdClasificacionTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdClasificacionTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdTipoInstrumento" order="10">
+        <descriptions defaultDescription="IdTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdInstrumento" order="11">
+        <descriptions defaultDescription="IdInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumento"/>
+      </attribute>
+      <attribute id="Nemotecnico" order="12">
+        <descriptions defaultDescription="Nemotecnico"/>
+        <keyMapping columnObjectName="Script_View" columnName="Nemotecnico"/>
+      </attribute>
+      <attribute id="IdMonedaInstrumento" order="13">
+        <descriptions defaultDescription="IdMonedaInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaInstrumento"/>
+      </attribute>
+      <attribute id="IdTipoReajuste" order="14">
+        <descriptions defaultDescription="IdTipoReajuste"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoReajuste"/>
+      </attribute>
+      <attribute id="IdEmisor" order="15">
+        <descriptions defaultDescription="IdEmisor"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmisor"/>
+      </attribute>
+      <attribute id="FechaEmisionInstrumento" order="16">
+        <descriptions defaultDescription="FechaEmisionInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaEmisionInstrumento"/>
+      </attribute>
+      <attribute id="FechaVencimientoInstrumento" order="17">
+        <descriptions defaultDescription="FechaVencimientoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaVencimientoInstrumento"/>
+      </attribute>
+      <attribute id="IdBoveda" order="18">
+        <descriptions defaultDescription="IdBoveda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdBoveda"/>
+      </attribute>
+      <attribute id="FechaOperacionInicial" order="19">
+        <descriptions defaultDescription="FechaOperacionInicial"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaOperacionInicial"/>
+      </attribute>
+      <attribute id="CantidadInicial" order="20">
+        <descriptions defaultDescription="CantidadInicial"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadInicial"/>
+      </attribute>
+      <attribute id="PrecioCompraInicial" order="21">
+        <descriptions defaultDescription="PrecioCompraInicial"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioCompraInicial"/>
+      </attribute>
+      <attribute id="MontoCompraInicial" order="22">
+        <descriptions defaultDescription="MontoCompraInicial"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoCompraInicial"/>
+      </attribute>
+      <attribute id="MontoCompraMonedaInstrumentoInicial" order="23">
+        <descriptions defaultDescription="MontoCompraMonedaInstrumentoInicial"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoCompraMonedaInstrumentoInicial"/>
+      </attribute>
+      <attribute id="IdCondicionLiquidacionInicial" order="24">
+        <descriptions defaultDescription="IdCondicionLiquidacionInicial"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCondicionLiquidacionInicial"/>
+      </attribute>
+      <attribute id="FechaLiquidacionInicial" order="25">
+        <descriptions defaultDescription="FechaLiquidacionInicial"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaLiquidacionInicial"/>
+      </attribute>
+      <attribute id="FechaOperacion" order="26">
+        <descriptions defaultDescription="FechaOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaOperacion"/>
+      </attribute>
+      <attribute id="EGRFechaOperacion" order="27">
+        <descriptions defaultDescription="EGRFechaOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="EGRFechaOperacion"/>
+      </attribute>
+      <attribute id="EGRFechaLiquidacion" order="28">
+        <descriptions defaultDescription="EGRFechaLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="EGRFechaLiquidacion"/>
+      </attribute>
+      <attribute id="Cantidad" order="29">
+        <descriptions defaultDescription="Cantidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="Cantidad"/>
+      </attribute>
+      <attribute id="PrecioCompra" order="30">
+        <descriptions defaultDescription="PrecioCompra"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioCompra"/>
+      </attribute>
+      <attribute id="MontoCompraActualMonedaInstrumento" order="31">
+        <descriptions defaultDescription="MontoCompraActualMonedaInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoCompraActualMonedaInstrumento"/>
+      </attribute>
+      <attribute id="PrecioPromedioCompra" order="32">
+        <descriptions defaultDescription="PrecioPromedioCompra"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioPromedioCompra"/>
+      </attribute>
+      <attribute id="MontoPrecioPromedioCompra" order="33">
+        <descriptions defaultDescription="MontoPrecioPromedioCompra"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoPrecioPromedioCompra"/>
+      </attribute>
+      <attribute id="MontoPrecioPromedioMonedaInstrumento" order="34">
+        <descriptions defaultDescription="MontoPrecioPromedioMonedaInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoPrecioPromedioMonedaInstrumento"/>
+      </attribute>
+      <attribute id="IdCondicionLiquidacion" order="35">
+        <descriptions defaultDescription="IdCondicionLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCondicionLiquidacion"/>
+      </attribute>
+      <attribute id="FechaLiquidacion" order="36">
+        <descriptions defaultDescription="FechaLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaLiquidacion"/>
+      </attribute>
+      <attribute id="PrecioMercadoActual" order="37">
+        <descriptions defaultDescription="PrecioMercadoActual"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioMercadoActual"/>
+      </attribute>
+      <attribute id="MontoMercadoActualMonedaInstrumento" order="38">
+        <descriptions defaultDescription="MontoMercadoActualMonedaInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoMercadoActualMonedaInstrumento"/>
+      </attribute>
+      <attribute id="IdConcepto" order="39">
+        <descriptions defaultDescription="IdConcepto"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdConcepto"/>
+      </attribute>
+      <attribute id="IdTipoOperacion" order="40">
+        <descriptions defaultDescription="IdTipoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoOperacion"/>
+      </attribute>
+      <attribute id="IdTipoProductoTIPOPE" order="41">
+        <descriptions defaultDescription="IdTipoProductoTIPOPE"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoProductoTIPOPE"/>
+      </attribute>
+      <attribute id="IdTipoComprobante" order="42">
+        <descriptions defaultDescription="IdTipoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoComprobante"/>
+      </attribute>
+      <attribute id="FolioComprobante" order="43">
+        <descriptions defaultDescription="FolioComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FolioComprobante"/>
+      </attribute>
+      <attribute id="FechaComprobante" order="44">
+        <descriptions defaultDescription="FechaComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaComprobante"/>
+      </attribute>
+      <attribute id="IdSucursal" order="45">
+        <descriptions defaultDescription="IdSucursal"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdSucursal"/>
+      </attribute>
+      <attribute id="IdAgente" order="46">
+        <descriptions defaultDescription="IdAgente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdAgente"/>
+      </attribute>
+      <attribute id="FolioCarteraRelacionada" order="47">
+        <descriptions defaultDescription="FolioCarteraRelacionada"/>
+        <keyMapping columnObjectName="Script_View" columnName="FolioCarteraRelacionada"/>
+      </attribute>
+      <attribute id="IdEstado" order="48">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="IdTipoProducto" order="49">
+        <descriptions defaultDescription="IdTipoProducto"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoProducto"/>
+      </attribute>
+      <attribute id="ClasificacionRiesgoInstrumento" order="50">
+        <descriptions defaultDescription="ClasificacionRiesgoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="ClasificacionRiesgoInstrumento"/>
+      </attribute>
+      <attribute id="IdRegimenTributario" hidden="false" order="51">
+        <descriptions defaultDescription="IdRegimenTributario"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdRegimenTributario"/>
+      </attribute>
+      <attribute id="RentabilidadReal" hidden="false" order="52">
+        <descriptions defaultDescription="RentabilidadReal"/>
+        <keyMapping columnObjectName="Script_View" columnName="RentabilidadReal"/>
+      </attribute>
+      <attribute id="CostoUF" hidden="false" order="53">
+        <descriptions defaultDescription="CostoUF"/>
+        <keyMapping columnObjectName="Script_View" columnName="CostoUF"/>
+      </attribute>
+      <attribute id="IdTipoMovimientoFondoMutuo" hidden="false" order="54">
+        <descriptions defaultDescription="IdTipoMovimientoFondoMutuo"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoMovimientoFondoMutuo"/>
+      </attribute>
+      <attribute id="IdMatrizAgrupador" order="55">
+        <descriptions defaultDescription="IdMatrizAgrupador"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMatrizAgrupador"/>
+      </attribute>
+      <attribute id="EsADC" order="56">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EsADC"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

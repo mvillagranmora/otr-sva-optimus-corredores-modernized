@@ -1,0 +1,34 @@
+<table class="table">
+  <thead>
+    <tr>
+      <tr>
+      	<th>
+        <th translate>{{'UI_SECUENCIA_ASIGNACION'}}</th>
+        <th translate>{{'UI_TRANSACCION'}}</th>
+        <th translate>{{'UI_SECUENCIA_ORDEN'}}</th>
+        <th translate ng-show="informacionCliente === 'S'">{{'UI_DOCUMENTO_IDENTIDAD'}}</th>
+        <th translate ng-show="informacionCliente === 'S'">{{'UI_CLIENTE'}}</th>
+        <th translate ng-show="informacionCliente === 'S'">{{'UI_PORTAFOLIO'}}</th>
+        <th translate>{{'UI_CANTIDAD'}}</th>
+        <th translate>{{'UI_PRECIO'}}</th>
+        <th translate>{{'UI_MONTO'}}</th>
+        <th translate>{{'UI_ESTADO'}}</th>
+      </tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="asignacion in asignaciones">
+      <td><bcs-link class="pull-right" link="'DetalleAsignacion'" params="{ IdAsignacion : asignacion.IdAsignacion }"></bcs-link></td>
+      <td>{{asignacion.IdAsignacion}}</td>
+      <td><label>{{asignacion.FolioTransaccion}}</label></td>
+      <td>{{asignacion.IdOrden}}</td>
+      <td ng-show="informacionCliente === 'S'"><label>{{asignacion.DocumentoIdentidad}}</label></td>
+      <td ng-show="informacionCliente === 'S'"><label>{{asignacion.NombreCompleto}}</label></td>
+      <td ng-show="informacionCliente === 'S'"><label>{{asignacion.CodigoPortafolio}}</label></td>
+      <td><label>{{asignacion.CantidadAsignada | kformat:'n':asignacion.IdMonedaOperacion:'cantidad':'GEN'}}</label></td>
+      <td><label>{{asignacion.PrecioAsignacion | kformat:'n':asignacion.IdMonedaOperacion:'precio':'GEN':'':asignacion.IdTipoInstrumento}}</label></td>
+      <td><label>{{asignacion.MontoAsignado | kformat:'c':asignacion.IdMonedaOperacion:'monto':'GEN'}}</label></td>
+      <td><label>{{asignacion.EstadoAsignacion}}</label></td>
+    </tr>
+  </tbody>
+</table>

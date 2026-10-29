@@ -1,0 +1,83 @@
+<div  ng-controller="MantenedorArchivosContratosCtrl">
+	
+	<div class="row">
+		<div class="col-xs-10">
+				<!-- Inicio filtros de búsqueda -->
+					
+				<div class="row">
+					<div class="col-xs-4">
+				  		<label class="col-xs-4" translate>UI_CODIGO_ARCHIVO</label>
+						<bcs-input-texto class="col-xs-8" ng-model="data.codigoArchivo"></bcs-input-texto>
+					</div>
+					 <div class="col-xs-4">
+				  		<label class="col-xs-4" translate>UI_NOMBRE_USUARIO</label>
+				  		<bcs-input-texto class="col-xs-8" ng-model="data.nombreUsuario"></bcs-input-texto>
+					</div>
+					 <div class="col-xs-4">
+					 	<label class="col-xs-4" translate>UI_ESTADO</label>
+				  		<bcs-combobox-base class="col-xs-8"
+						id-actual = 'data.estado'	
+						tipo="'combobox-estado-archivo-contrato'"
+						todos="'S'"
+						id-defecto="'0'"
+						item-post-filtro="data.idEstado">
+						</bcs-combobox-base>
+					 </div>
+			  	</div>
+				
+				<div class="row">
+				  	<div class="col-xs-4">
+			  			<label class="col-xs-4" translate>UI_TIPO_PERSONA</label>
+						<bcs-combobox-base
+							class="col-xs-8" 
+							tipo="'combobox-tipo-persona'"
+							id-post-filtro = "tipoPersonaDefecto"
+							id-actual = 'data.tipoPersona'
+							todos="'N'">
+						</bcs-combobox-base>
+			  		</div>
+			  		<div class="col-xs-4">
+				  		<label class="col-xs-4" translate>UI_TIPO_CLIENTE_CMF</label>
+						<bcs-combobox-base id="formCrearCrearCliente_tipoCliente_Cmf" 
+							class="col-xs-8"
+							id-defecto = "data.idTipoClienteCMF"
+							id-actual = "recordData.tipoClienteCMF"
+							tipo="'combobox-tipo-cliente-cmf'"
+							seleccionado = "tipoClienteCMFSeleccionado"
+							activado = "tipoClienteCmfEnabled"
+							filtros="configData.filtroTipoClienteCMF.filtros"
+							todos="'S'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4"></div>
+			  	</div>
+				<!-- Fin filtros de búsqueda -->
+		</div>
+		<div class="col-xs-2">
+			<!-- botones -->
+			<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="true"  bcs-clic="buscar()"></bcs-button>
+			<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<bcs-grid id="grid-listado-archivos"
+	 	configuracion = "confGridArchivosContratos"
+		seleccionado = "seleccionArchivoContrato"
+		fn-exportar-excel = "exportarExcel">
+		</bcs-grid>
+	</div>
+
+ 	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="MantenedorArchivosContratos_subir" class="col-xs-2" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_SUBIR' | translate" bcs-habilitado="'true'"  bcs-clic="subirArchivo()"></bcs-button>
+		<bcs-button id="MantenedorArchivosContratos_modificar" class="col-xs-3" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="seleccionArchivoContrato!=undefined"  bcs-clic="modificarArchivo()"></bcs-button>
+		<bcs-button id="MantenedorArchivosContratos_descargar" class="col-xs-3" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_DESCARGAR' | translate" bcs-habilitado="seleccionArchivoContrato!=undefined"  bcs-clic="imprimirArchivo()"></bcs-button>
+		
+		<div class="col-xs-2"></div>
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+	
+</div>

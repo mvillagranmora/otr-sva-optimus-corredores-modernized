@@ -1,0 +1,114 @@
+<div id="tesoConsultaEnvioDocumentos" class="row" ng-controller='ConsultarEnvioDocumentosCtrl'>	
+	<div class="row bcs-cuerpo" ng-form="frmConsultarEnvioDocumentos">
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+	                <div class="col-xs-7">
+						<label class="col-xs-3 bcs-label" translate>UI_MEDIOS_DE_PAGO</label>					
+						<bcs-combobox-base class="col-xs-9" id="frmConsultarEnvioDocumentos_MEDIOS_DE_PAGO"
+							tipo			="oConfiguracionMedioDePagoTesoreria.tipo" 
+							configuracion	="oConfiguracionMedioDePagoTesoreria.configuracion" 				
+							seleccionado	="oConfiguracionMedioDePagoTesoreria.seleccionado"
+							id-actual		="oConfiguracionMedioDePagoTesoreria.idActual"
+							filtros			="oConfiguracionMedioDePagoTesoreria.filtros"					
+							todos="'S'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4 bcs-label" style="padding-left: 10px" translate>UI_FECHA_ENVIO</label>
+						<bcs-input-date class="col-xs-4" id="frmConsultarEnvioDocumentos_fechaEnvioDesde" k-ng-model="kngFechaEnvioDocumentosDesde"></bcs-input-date>
+						<bcs-input-date class="col-xs-4" id="frmConsultarEnvioDocumentos_fechaEnvioHasta" k-ng-model="kngFechaEnvioDocumentosHasta"></bcs-input-date>
+					</div>
+				</div>
+
+								
+				<div class="row">
+					<div class="col-xs-7">
+						<label class="col-xs-3 bcs-label" translate>UI_CAJA</label>
+						<bcs-combobox-base  class="col-xs-9" id="frmConsultarEnvioDocumentos_CAJA"
+							tipo			="oConfiguracionCaja.tipo"						
+							configuracion	="oConfiguracionCaja.configuracion"
+							seleccionado	="oConfiguracionCaja.seleccionado"
+							id-actual		="oConfiguracionCaja.idActual"
+							filtros			="oConfiguracionCaja.filtros"
+							cascada1-a		="oConfiguracionCajaMoneda.filtros.IdCaja"
+							cascada1-valor	="'IdCaja'"
+							todos="'S'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4 bcs-label" style="padding-left: 10px" translate>UI_MONEDA</label>					
+						<bcs-combobox-base  class="col-xs-8" id="frmConsultarEnvioDocumentos_MONEDA"
+							tipo			="oConfiguracionCajaMoneda.tipo"						
+							configuracion	="oConfiguracionCajaMoneda.configuracion"
+							seleccionado	="oConfiguracionCajaMoneda.seleccionado"
+							id-actual		="oConfiguracionCajaMoneda.idActual"
+							filtros			="oConfiguracionCajaMoneda.filtros"
+							todos="'S'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				
+				<div class="row">	
+					<div class="col-xs-7">
+						<label class="col-xs-3 bcs-label" translate>UI_ESTADO</label>
+						<bcs-combobox-base  class="col-xs-9" id="frmConsultarEnvioDocumentos_ESTADO"
+							auto-cargar		="'true'"					
+							tipo			="oConfiguracionEstadoDocumentoTesoreria.tipo"
+							configuracion	="oConfiguracionEstadoDocumentoTesoreria.configuracion"
+							seleccionado	="oConfiguracionEstadoDocumentoTesoreria.seleccionado"
+							id-defecto		="oConfiguracionEstadoDocumentoTesoreria.idDefecto"
+							id-actual		="oConfiguracionEstadoDocumentoTesoreria.idActual"
+							filtros			="oConfiguracionEstadoDocumentoTesoreria.filtros"										
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>			
+					</div>
+					<div class="col-xs-5">					
+					</div>
+				</div>				
+			</div>
+			<!-- FIN FILTROS -->
+			
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12"  id="frmConsultarEnvioDocumentos_btnBuscar"
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado='true' 
+						bcs-clic="buscarEnvioDocumentos()"
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmConsultarEnvioDocumentos_btnLimpiar"  
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado='true'
+						bcs-clic="limpiarFiltros()"
+					></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->		
+		</div>
+		
+		<div class="row">
+			<bcs-grid id="grid-envio-documentos"
+			 	configuracion     = "confBasicaEnvioDocumentos"
+				seleccionado      = "seleccionEnvioDocumentos"
+				fn-exportar-excel = "exportarExcel"				
+				fn-doble-click    = "envioDocumentosDetalle(seleccionEnvioDocumentos)">				
+			</bcs-grid>
+		</div>
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>            
+        </bcs-menu>
+	</div> 	
+</div>

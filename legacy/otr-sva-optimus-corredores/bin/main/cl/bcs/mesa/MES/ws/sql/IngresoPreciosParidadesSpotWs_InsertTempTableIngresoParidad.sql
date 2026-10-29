@@ -1,0 +1,36 @@
+INSERT INTO #IngresoPrecioParidadesSpot_p_DatosParidadYTipoCambio
+(
+	"IdParidadYTipoCambio",
+	"IdMoneda",
+	"NombreMoneda",
+	"ParidadMercado",
+	"ParidadBID",
+	"ParidadASK",
+	"LimiteSuperiorParidad",
+	"LimiteInferiorParidad",
+	"ParidadSBIF",
+	"TipoCambioMercado",
+	"LimiteSuperiorTipoCambio",
+	"LimiteInferiorTipoCambio",
+	"PrecioSpotCompra",
+	"PrecioSpotVenta",
+	"PrecioSpotPromedio"
+)
+VALUES
+(
+	:IdParidadYTipoCambio,
+	:IdMoneda,
+	:NombreMoneda,
+	:ParidadMercado,
+	:ParidadBID,
+	:ParidadASK,
+	:LimiteSuperiorParidad,
+	:LimiteInferiorParidad,
+	:ParidadSBIF,
+	:TipoCambioMercado,
+	:LimiteSuperiorTipoCambio,
+	:LimiteInferiorTipoCambio,
+	:PrecioSpotCompra,
+	:PrecioSpotVenta,
+	:PrecioSpotPromedio
+)

@@ -1,0 +1,108 @@
+<div ng-controller="DatatecMonitorAutomaticoCtl">
+	<form name="formDatatecMonitorAutomaticoCtl" class="filters-formulario">
+		<!--<div class="row">
+			<label class="col-xs-4" translate>UI_RUTA_ARCHIVO_DATATEC</label>
+			<bcs-input-texto class="col-xs-8"
+				id="DatatecMonitorAutomatico_Ruta"
+				ng-model="data.RutaDatatec"
+				k-ng-model="data.kngRutaDatatec"
+				k-ng-disabled="'true'">
+			</bcs-input-texto>
+		</div>-->
+		<div class="row">
+			<div class="col-xs-2">
+				<bcs-button
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_DATATEC_BLOQUEAR' | translate"
+					bcs-habilitado="data.bloqueoEstado !== 'BLOQUEADO'"
+					bcs-clic="data.bloquearDatatec()">
+				</bcs-button>
+			</div>
+			<div class="col-xs-2">
+				<bcs-button
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_DATATEC_DESBLOQUEAR' | translate"
+					bcs-habilitado="data.bloqueoEstado === 'BLOQUEADO'"
+					bcs-clic="data.desbloquearDatatec()">
+				</bcs-button>
+			</div>
+			<div class="col-xs-6">
+				<label>
+					<span translate>UI_DATATEC_ESTADO_BLOQUEO</span>:
+					<b ng-show="data.bloqueoEstado === 'LIBRE'">{{ 'UI_DATATEC_BLOQUEO_LIBRE' | translate }}</b>
+					<b ng-show="data.bloqueoEstado === 'DESCONOCIDO'">{{ 'UI_DATATEC_BLOQUEO_DESCONOCIDO' | translate }}</b>
+					<b ng-show="data.bloqueoEstado === 'BLOQUEADO' || data.bloqueoEstado === 'BLOQUEADO_OTRO'">
+						{{ 'UI_DATATEC_BLOQUEO_BLOQUEADO_POR' | translate }} {{ data.bloqueoUsuario }}
+					</b>
+				</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">
+				<bcs-button
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_DATATEC_CONECTAR_ARCHIVO' | translate"
+					bcs-habilitado="data.fsSoportado && data.fsEstado === 'DESCONECTADO'"
+					bcs-clic="data.conectarArchivo()">
+				</bcs-button>
+			</div>
+			<div class="col-xs-2">
+				<bcs-button
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_DATATEC_DESCONECTAR_ARCHIVO' | translate"
+					bcs-habilitado="data.fsEstado !== 'DESCONECTADO'"
+					bcs-clic="data.desconectarArchivo()">
+				</bcs-button>
+			</div>
+			<div class="col-xs-6">
+				<label ng-show="!data.fsSoportado" style="color:red" translate>UI_DATATEC_FS_NO_SOPORTADO</label>
+				<label ng-show="data.fsSoportado">
+					<span translate>UI_DATATEC_ESTADO_MONITOR</span>:
+					<b>{{ ('UI_DATATEC_FS_' + data.fsEstado) | translate }}</b>
+					<span ng-show="data.fsUltimaLectura"> &mdash; <span translate>UI_DATATEC_ULTIMA_LECTURA</span>: {{ data.fsUltimaLectura }}</span>
+				</label>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-xs-4" translate>UI_DATATEC_ARCHIVO_CONECTADO</label>
+			<bcs-input-texto class="col-xs-8"
+				id="DatatecMonitorAutomatico_ArchivoConectado"
+				ng-model="data.fsArchivo"
+				k-ng-disabled="'true'">
+			</bcs-input-texto>
+		</div>
+		<div class="row">
+			<bcs-grid
+				id="grid-datatec-monitor-automatico"
+				configuracion = "confGrillaLog"
+				seleccionado = "seleccionGrillaLog"
+				fn-exportar-excel = "exportarExcel">
+			</bcs-grid>
+		</div>
+		<hr>
+		<div class="row" ng-show="data.texto">
+			<label class="col-xs-3" style="font-size: 150%" translate>UI_EN_ESPERA</label>
+		</div>
+		<div class="row">
+			<hr>
+			<div class="row">
+				<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_LIMPIAR_LOG' | translate"
+					bcs-habilitado="!data.enProceso"
+					bcs-clic="data.limpiarDatos()"
+				></bcs-button>
+				<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_SALIR' | translate"
+					bcs-habilitado="true"
+					bcs-clic="data.salir()"
+				></bcs-button>
+			</div>
+		</div>
+	</form>
+</div>

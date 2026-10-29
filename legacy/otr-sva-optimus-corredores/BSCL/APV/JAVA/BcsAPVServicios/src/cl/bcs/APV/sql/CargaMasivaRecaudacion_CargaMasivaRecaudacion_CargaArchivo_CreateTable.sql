@@ -1,0 +1,1 @@
+CREATE LOCAL TEMPORARY TABLE "#CargaMasivaRecaudacion_CargaArchivo" ("FolioCartola" BIGINT ,"FolioLineaCartola" BIGINT)

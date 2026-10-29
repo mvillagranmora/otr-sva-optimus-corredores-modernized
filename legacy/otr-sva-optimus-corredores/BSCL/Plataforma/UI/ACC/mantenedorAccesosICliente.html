@@ -1,0 +1,98 @@
+<div id="MantenedorAccesosICLiente" ng-controller="MantenedorAccesosICLienteCtrl">
+	<div class="row">
+		<div class="col-xs-10">
+				<!-- Inicio filtros de búsqueda -->
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-2" translate>UI_TIPO_PERFIL</label>	
+				  		<bcs-combobox-base  class="col-xs-10"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionTipoPerfil.tipo"
+							configuracion= "data.oConfiguracionTipoPerfil.configuracion"
+							id-actual="data.oConfiguracionTipoPerfil.idActual"
+							seleccionado="data.oConfiguracionTipoPerfil.seleccionado"
+							filtros="data.oConfiguracionTipoPerfil.filtros"
+							memoria= "" 
+							todos="'S'"
+							id-defecto="'0'"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+				<!-- Fin filtros de búsqueda -->
+		</div>
+		<div class="col-xs-2">
+			<!-- botones -->
+			<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="true"  bcs-clic="buscar()"></bcs-button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<bcs-grid 
+			configuracion="gridAutorizados"
+			id-actual="data.oConfiguracionAutorizados.idActual"
+			seleccionado="data.oConfiguracionAutorizados.seleccionado"
+			fn-exportar-excel="exportarExcel"
+			fn-doble-click="abrirDetalleAcc(data.oConfiguracionAutorizados.seleccionado)">
+			
+		</bcs-grid>
+		
+		<!-- 
+		<bcs-grid id="grid-listado-usuarios"
+		fn-exportar-excel = "exportarExcel"
+	 	configuracion = "confBasicaConsultaUsuarios"
+		seleccionado = "seleccionDetalleUsuarios"
+		fn-doble-click = "modificarUsuario()">
+			<div bcs-grid-detail ng-non-bindable >
+			<div style="width:30%;">
+              	<uib-tabset>
+                  	<uib-tab heading="{{'UI_ROLES_PERMISOS' | translate}}">
+                  		<bcs-grid
+                            configuracion = "confBasicaRolesPermisosUsuario(dataItem)"
+                            seleccionado = "seleccionRolesPermisosUsuario">
+						</bcs-grid>
+                  	</uib-tab>
+				</uib-tabset>
+				</div>
+			</div>
+		</bcs-grid>
+		-->
+	</div>
+
+ 	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-2 ">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-primary'" bcs-texto="'UI_CREAR' | translate" >					
+				<li ng-click="crearUsuarioRelacionado()">{{'UI_RELACIONADO' | translate}}</li>
+				<li ng-click="crearUsuario()">			 {{'UI_CLIENTE' 	| translate}}</li>		            
+			</bcs-menu>
+		</div>
+		<bcs-button id="AdministrarPortafolioAutorizaciones_bloquear" class="col-xs-2 " bcs-tipo="'bcs-button-secondary'" ng-show="showBloqueo" bcs-texto="'UI_BLOQUEAR' | translate" 
+			bcs-habilitado="data.oConfiguracionAutorizados.seleccionado" bcs-clic="bloquearAutorizado()">
+		</bcs-button>
+		<bcs-button id="AdministrarPortafolioAutorizaciones_desbloquear" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" ng-show="!showBloqueo" bcs-texto="'UI_DESBLOQUEAR' | translate" 
+			bcs-habilitado="data.oConfiguracionAutorizados.seleccionado" bcs-clic="desbloquearAutorizado()">
+		</bcs-button>
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+		<!-- <bcs-button id="MantenedorAccesosICLiente_modificarUsuario" class="col-xs-2" bcs-tipo="''"  bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="'false'"  bcs-clic="modificarUsuario()"></bcs-button>-->
+		<!-- <bcs-button id="MantenedorAccesosICLiente_modificarRolesUsuario"  class="col-xs-2" bcs-tipo="''"  bcs-auto-desactivar="false" bcs-texto="'UI_ADD_ROL' | translate" bcs-habilitado="'true'"  bcs-clic="modificarRolesUsuario()"></bcs-button> -->
+	
+		
+		
+		
+<!--  		<bcs-button id="MantenedorAccesosICLiente_crearUsuario"  class="col-xs-2" bcs-tipo="'principal'"  bcs-auto-desactivar="false" bcs-texto="'UI_CREAR' | translate" bcs-habilitado="'true'"  bcs-clic="crearUsuario()"></bcs-button>  -->
+			
+		
+		
+		
+		
+	</div>
+	
+		
+		
+			
+	
+	
+</div>

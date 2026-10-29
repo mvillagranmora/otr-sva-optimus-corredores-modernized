@@ -1,0 +1,590 @@
+<div id="CrearCliente" class="col-xs-12" ng-controller="CrearClienteCtrl" bcs-escape="ValidaSalidaESC()">
+    <div class="bcs-cuerpo">
+    	<form name="formCrearCliente" class="col-xs-12 form-horizontal">
+	    	<div class="row col-xs-10">
+	    		<div class="row">
+				<label class="col-xs-3" style="width: 29.5%" translate>UI_TIPO_ENROLAMIENTO</label>
+					<bcs-combobox-base
+						id="formCrearCliente_tipoEnrolamiento"
+						class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-tipo-enrolamiento'"
+						id-actual="recordData.tipoEnrolamiento"
+						cascada1-a="configData.filtroPerfilComercial.TipoEnrolamiento"
+						cascada1-valor="'Codigo'"
+						cascada2-a="configData.filtroTipoCliente.TipoEnrolamiento"
+						cascada2-valor="'Codigo'"
+						activado="(configData.bloqueoPersona && !configData.bloqueoBuscador)">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-3" style="width: 29.5%" translate>UI_TIPO_PERSONA</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_tipoPersona" 
+						class="col-xs-8" 
+						bcs-requerido
+						working-net="workingNet.TipoPersona"
+						activado="(configData.bloqueoPersona && !configData.bloqueoBuscador)"
+						tipo="'combobox-tipo-persona'"
+						id-defecto = "'N'"
+						id-actual = "recordData.tipoPersona"
+						filtros="formConfig.oConfiguracionIdTipoPersona.filtros">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-3" style="width: 29.5%" translate>{{formConfig.labelNumeroIdentidad||'UI_DOCUMENTO_IDENTIDAD'}}</label>
+					<bcs-input-documento-identidad
+					    class="col-xs-8"
+                        ng-model="searchData.NumeroDocumentoIdentidad"
+                        id-tipo-persona="recordData.tipoPersona"
+                        id-tipo-documento="searchData.IdTipoDocumentoIdentidad"
+                        id-tipo-documento-asociado="searchData.IdTipoDocumentoIdentidadAsociado"
+                        id-defecto="formConfig.tipoDocIdentidadDef"
+                        tipo="'combobox-tipo-documento-identidad'"
+                        tipo-documento-identidad-activado="!configData.TipoDocumentoIdentidadBloqueado"
+                        documento-identidad-activado="!configData.bloqueoBuscador||!configData.bloqueoPorRutInterno"
+                        working-net="workingNet.TipoDocumentoIdentidad"
+                        cambiar-documento-identidad="recordData.documentoIdentidadNuevo"
+                        focus="true"
+                        blur="blurDocumentoIdentidad(searchData.IdTipoDocumentoIdentidad,false)"
+                        requerido="true">
+                    </bcs-input-documento-identidad>
+				</div>      
+	            <div class="row" ng-show="formConfig.showNumeroAdicional"> 
+					<label class="col-xs-3" style="width: 29.5%" translate>UI_NUMERO_ADICIONAL</label>
+					<bcs-input-documento-identidad
+                        class="col-xs-8"
+                        ng-model="searchData.NumeroDocumentoIdentidadAdicional"
+                        id-tipo-persona="recordData.tipoPersona"
+                        id-tipo-documento="searchData.IdTipoDocumentoIdentidadAdicional"
+                        id-defecto="formConfig.tipoDocIdentidadAdicionalDef"
+                        tipo="'combobox-tipo-documento-identidad'"
+                        tipo-documento-identidad-activado="false"
+                        documento-identidad-activado="!configData.bloqueoBuscador"
+                        working-net="workingNet.TipoDocumentoIdentidadAdicional"
+                        cambiar-documento-identidad="recordData.NumeroDocumentoIdentidadAdicional"
+                        focus="false"
+                        blur="blurDocumentoIdentidad(searchData.IdTipoDocumentoIdentidadAdicional,true)"
+                        forzar-tipo-documento="'S'"
+                        activar-rut-interno="configData.rutInterno">
+                    </bcs-input-documento-identidad>       
+	            </div>
+	            
+	            <div class="col-xs-12" ng-show="!clienteFinal && SesionLocale==='PE'">
+	              <div class="row">
+					<label class="col-xs-3" style="width: 29.5%" translate>UI_IUP</label>
+					<bcs-input-texto 
+						id="formCrearCliente_iup"  
+						class="col-xs-4" 
+						k-ng-disabled="true"
+						ng-model="searchData.NumeroDocumentoIdentidad">
+					</bcs-input-texto>
+					<label class="col-xs-2" translate>UI_RUT_INTERNO</label>
+					<bcs-input-checkbox
+						id="formCrearCliente_rutInterno"
+						class="col-xs-1"
+						ng-model="configData.rutInterno"
+						ng-disabled="configData.deshabilitarRutInterno">
+					</bcs-input-checkbox>
+				  </div>
+			    </div>  			    
+		</div>
+		<div class="row col-xs-2">
+			<bcs-button 
+						ng-show="SesionLocale!=='PE'"
+						id="formCrearCliente_btnBuscar"
+						k-ng-disabled = 'configData.bloqueoBuscador' 
+						class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="(searchData.NumeroDocumentoIdentidad && !configData.bloqueoBuscador)" 
+						bcs-clic="configData.buscarCliente()">
+					</bcs-button> 
+					<bcs-button 
+						ng-show="!clienteFinal && SesionLocale==='PE'"
+						id="formCrearCliente_btnBuscar_PE"
+						k-ng-disabled = "configData.bloqueoBuscador" 
+						class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate"												 
+						bcs-habilitado="(searchData.NumeroDocumentoIdentidad
+										&&!errorValidarNumeroDocumentoIdentidad
+										&&!configData.bloqueoBuscador)||!configData.bloqueoPorRutInterno"
+						bcs-clic="configData.buscarCliente()">
+					</bcs-button>
+					<bcs-button 
+						ng-show="clienteFinal && SesionLocale==='PE'"
+						id="formCrearCliente_btnBuscar_PE"
+						k-ng-disabled = "configData.bloqueoBuscador" 
+						class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_INGRESAR' | translate"
+						bcs-habilitado="searchData.NumeroDocumentoIdentidad && !configData.bloqueoBuscador"
+						bcs-clic="configData.buscarCliente()">
+					</bcs-button> 
+		</div>
+		<hr>
+		<div class="row">
+			<!-- <form name="formCrearCliente" class="col-xs-12 form-horizontal"> -->
+				<div class="row" ng-show="recordData.tipoPersona === 'N'">
+					<label class="col-xs-3" translate>UI_NOMBRES</label>
+					<bcs-input-texto 
+						id="formCrearCliente_nombres"  
+						class="col-xs-9" 
+						bcs-requerido="recordData.tipoPersona === 'N' && camposRequeridosCC['formCrearCliente_nombres'].Requerido === 'S'"
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.nombres">
+					</bcs-input-texto>	
+				</div>
+				<div class="row" ng-show="recordData.tipoPersona === 'N'">
+					<label class="col-xs-3" translate>UI_APELLIDO_PATERNO</label>
+					<bcs-input-texto 
+						id="formCrearCliente_apellidoPaterno" 
+						class="col-xs-9" 
+						bcs-requerido="recordData.tipoPersona === 'N' && camposRequeridosCC['formCrearCliente_apellidoPaterno'].Requerido === 'S'" 
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.apellidoPaterno">
+					</bcs-input-texto>	
+				</div>
+				<div class="row" ng-show="recordData.tipoPersona === 'N'">
+					<label class="col-xs-3" translate>UI_APELLIDO_MATERNO</label>
+					<bcs-input-texto 
+						id="formCrearCliente_apellidoMaterno" 
+						class="col-xs-9"
+						bcs-requerido="recordData.tipoPersona === 'N' && camposRequeridosCC['formCrearCliente_apellidoMaterno'].Requerido === 'S'" 
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.apellidoMaterno">
+					</bcs-input-texto>	
+				</div>
+				<div class="row" ng-show="recordData.tipoPersona !== 'N'">
+					<label class="col-xs-3" translate>UI_RAZON_SOCIAL</label>
+					<bcs-input-texto 
+						id="formCrearCliente_razonSocial" 
+						class="col-xs-9" 
+						bcs-requerido="recordData.tipoPersona !== 'N' && camposRequeridosCC['formCrearCliente_razonSocial'].Requerido === 'S'"
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.razonSocial">
+					</bcs-input-texto>	
+				</div>
+				<div class="row" ng-show="!clienteFinal && recordData.tipoPersona === 'N'">
+					<label class="col-xs-3" translate>UI_PAIS_NACIMIENTO</label>					
+					<bcs-combobox-base 
+						id="formCrearCliente_paisNacimiento"  
+						class="col-xs-3"
+						activado="!configData.bloqueoPersona"
+						bcs-requerido="!clienteFinal && recordData.tipoPersona === 'N' && camposRequeridosCC['formCrearCliente_paisNacimiento'].Requerido === 'S'"
+						working-net="workingNet.PaisNacimiento"
+						id-actual = "recordData.idPaisNacimiento"
+						id-defecto = "recordData.idPaisNacimientoDefecto"				 
+						tipo="'combobox-pais'">
+					</bcs-combobox-base>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_NACIMIENTO</label>
+					<bcs-input-date 
+						id="formCrearCliente_fechaNacimiento" 
+						class="col-xs-3 "
+						bcs-requerido="!clienteFinal && recordData.tipoPersona === 'N' && camposRequeridosCC['formCrearCliente_fechaNacimiento'].Requerido === 'S'"
+						k-ng-disabled="configData.bloqueoPersona"
+						k-ng-model = "recordData.fechaNacimiento"
+						k-options="kOptFechaNacimiento"
+						k-ng-readonly="false"
+						todo-dias="true"
+						ng-blur="validaFechaNacimiento()">
+					</bcs-input-date>	
+				</div>
+				<div class="row" ng-show="!clienteFinal && recordData.tipoPersona === 'N'">
+					<div ng-show=" recordData.tipoEnrolamiento != 'EXPRESS'">
+					<label class="col-xs-3" translate>UI_ESTADO_CIVIL</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_estadoCivil"
+						class="col-xs-3" 
+						bcs-requerido="!clienteFinal && recordData.tipoPersona === 'N' && camposRequeridosCC['formCrearCliente_estadoCivil'].Requerido === 'S'"
+						working-net="workingNet.EstadoCivil"
+						id-actual ="recordData.idEstadoCivil"
+						id-defecto = "recordData.idEstadoCivilDefecto"
+						activado="!configData.bloqueoPersona && recordData.tipoPersona === 'N'"
+						tipo="'combobox-estado-civil'">
+					</bcs-combobox-base>
+				 	</div>
+				    <label ng-show="recordData.tipoEnrolamiento != 'EXPRESS'" class="col-xs-2 col-xs-offset-1" translate>UI_GENERO</label>
+					<label ng-show="recordData.tipoEnrolamiento === 'EXPRESS'" class="col-xs-3" translate>UI_GENERO</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_genero" 
+						class="col-xs-3" 
+						bcs-requerido="!clienteFinal && recordData.tipoPersona === 'N' && camposRequeridosCC['formCrearCliente_genero'].Requerido === 'S'"
+						activado="!configData.bloqueoPersona && recordData.tipoPersona === 'N'"
+						id-actual = "recordData.idGenero"
+						id-defecto="recordData.idGeneroOriginal"	
+						tipo="'combobox-tipo-genero'"
+						filtros="configData.filtroGenero">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="!clienteFinal && (recordData.idEstadoCivil === 'CA' || recordData.idEstadoCivil === 'CC')">
+	                <div class="row">
+	                    <label class="col-xs-3" translate>{{recordData.idEstadoCivil === 'CA'?'UI_CONYUGE':'UI_CONVIVIENTE_CIVIL'}}</label>
+	                    <bcs-combobox-base 
+	                    	id="formCrearCliente_conyuge" 
+	                    	class="col-xs-3"
+	                        working-net="workingNet.Conyuge"
+	                        tipo="'combobox-socio-negocio'"
+	                        filtros="configData.filtroConyuge" 
+	                        id-actual="recordData.IdSocNegPersonaConyuge"
+	                        id-defecto="recordData.IdSocNegPersonaConyugeOriginal"
+	                        seleccionado="recordData.RelacionadoObj"
+	                        activado="!configData.bloqueoPersona && recordData.tipoPersona === 'N'"
+	                        bcs-requerido="(!clienteFinal && (recordData.idEstadoCivil === 'CA' || recordData.idEstadoCivil === 'CC')) && camposRequeridosCC['formCrearCliente_conyuge'].Requerido === 'S'">
+	                    </bcs-combobox-base>
+                        <bcs-button 
+                        	id="formCrearCliente_btnCrearConyuge"
+                            class="col-xs-1" 
+                            bcs-tipo="'bcs-button-input-form'"
+                            bcs-habilitado="!configData.bloqueoPersona && recordData.tipoPersona === 'N' && !recordData.IdSocNegPersonaConyuge"
+                            bcs-auto-desactivar="false"     
+                            bcs-texto="'UI_NUEVO'|translate" 
+                            bcs-clic="crearConyuge()">
+                        </bcs-button>   
+	                    <label class="col-xs-2" translate>UI_REGIMEN_CONYUGAL</label>       
+                        <bcs-combobox-base 
+                        	id="formCrearCliente_regimenConyugal"
+                        	class="col-xs-3"                                 
+                            tipo="'combobox-regimen-conyugal'"                               
+                            working-net="workingNet.RegimenConyugal"                                                 
+                            filtros="formConfig.oConfiguracionRegimenConyugal.filtros"      
+                            id-actual="recordData.RegimenConyugal"
+                            seleccionado="recordData.RegimenConyugalObj"
+                            id-defecto="recordData.RegimenConyugalOriginal"                         
+                            activado="!configData.bloqueoPersona && recordData.tipoPersona === 'N'"
+                            bcs-requerido="(!clienteFinal && (recordData.idEstadoCivil === 'CA' || recordData.idEstadoCivil === 'CC')) && camposRequeridosCC['formCrearCliente_regimenConyugal'].Requerido === 'S'">                                             
+                        </bcs-combobox-base>  
+	                </div>                                               
+	            </div>                                                                      
+				<hr>                                                                        
+				<div class="row" ng-show="!clienteFinal">                                                           
+					<label class="col-xs-3" translate>UI_PAIS_RESIDENCIA</label>            
+					<bcs-combobox-base 
+						id="formCrearCliente_paisResidencia"
+						class="col-xs-9"
+						activado="!configData.bloqueoPersona"
+						id-actual = "recordData.idPaisResidencia"	
+						id-defecto = "recordData.idPaisResidenciaDefecto"			 
+						tipo="'combobox-pais'"
+						bcs-requerido = "!clienteFinal && camposRequeridosCC['formCrearCliente_paisResidencia'].Requerido === 'S'"
+						working-net="workingNet.PaisResidencia"
+						seleccionado="paisResidenciaSeleccionado"
+						cascada1-a="configData.filtroCiudad.IdPais"
+						cascada1-valor="'IdPais'"
+						cascada2-a="configData.filtroDivisionPais.IdPais"
+						cascada2-valor="'IdPais'">
+					</bcs-combobox-base>	
+				</div>
+				<div class="row" ng-show="!clienteFinal">
+					<div ng-show="paisResidenciaSeleccionado.UsaDivisionPais !== 'S'">		
+						<label class="col-xs-3" translate>UI_CIUDAD</label>
+						<bcs-combobox-base 
+							id="formCrearCliente_ciudadResidencia"
+							class="col-xs-9" 
+							cache="true"
+							working-net="workingNet.CiudadResidencia"
+							bcs-requerido = "!clienteFinal && paisResidenciaSeleccionado.UsaDivisionPais !== 'S'&& camposRequeridosCC['formCrearCliente_ciudadResidencia'].Requerido === 'S'"
+							activado="!configData.bloqueoPersona"
+							filtros = "configData.filtroCiudad"
+							id-actual = "recordData.idCiudad"
+							id-defecto = "recordData.idCiudadDefecto"
+							tipo="'combobox-ciudad'"
+							seleccionado="ciudadSeleccionado">
+						</bcs-combobox-base>
+					</div> 
+					<div ng-show="paisResidenciaSeleccionado.UsaDivisionPais === 'S'">
+						<label class="col-xs-3" translate>{{paisResidenciaSeleccionado.NombreDivisionPais || 'UI_COMUNA'}}</label>
+						<bcs-combobox-base 
+							id="formCrearCliente_divisionPais"
+							class="col-xs-9"
+							cache="false" 
+							working-net="workingNet.DivisionPaisResidencia"
+							bcs-requerido="!clienteFinal && paisResidenciaSeleccionado.UsaDivisionPais === 'S' && camposRequeridosCC['direccionFisica_divisionPais'].Requerido === 'S'"
+							activado="!configData.bloqueoPersona"
+							filtros = "configData.filtroDivisionPais"
+							id-actual = "recordData.idDivisionPais"
+							id-defecto = "recordData.idDivisionPaisDefecto"
+							tipo="'combobox-division-pais'"
+							seleccionado="divisionPaisSeleccionado">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_CALLE</label>
+					<bcs-input-texto 
+						id="formCrearCliente_direccionCalle"
+						class="col-xs-9" 
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_direccionCalle'].Requerido === 'S'"
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.direccionCalle">
+					</bcs-input-texto>
+				</div>
+				
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_NUMERO</label>
+					<bcs-input-texto 
+						id="formCrearCliente_direccionNumero"
+						class="col-xs-3" 
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_direccionNumero'].Requerido === 'S'"
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.direccionNumero">
+					</bcs-input-texto>	
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_COMPLEMENTO</label>
+					<bcs-input-texto 
+						id="formCrearCliente_direccionDepartamento"
+						class="col-xs-3"
+						k-ng-disabled="configData.bloqueoPersona"
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_direccionDepartamento'].Requerido === 'S'"
+						ng-model="recordData.direccionDepartamento">
+					</bcs-input-texto>	
+				</div>
+				<hr ng-show="!clienteFinal">
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_TIPO_TELEFONO</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_tipoTelefono"
+						class="col-xs-3" 
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_tipoTelefono'].Requerido === 'S'"
+						working-net="workingNet.TipoTelefono"
+						activado="!configData.bloqueoPersona"
+						id-actual = "recordData.idTipoTelefono"
+						id-defecto = "recordData.idTipoTelefonoDefecto"
+						tipo="'combobox-tipo-telefono'"
+						seleccionado="tipoTelefonoSeleccionado">
+					</bcs-combobox-base>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_TELEFONO</label>
+					<bcs-input-texto 
+						id="formCrearCliente_telefono"
+						class="col-xs-3" 
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_telefono'].Requerido === 'S'"
+						k-ng-disabled="configData.bloqueoPersona" 
+						ng-model="recordData.telefono"
+						placeholder="placeholder.telefono"
+						ng-blur="validaFormatoTelefono()">
+					</bcs-input-texto>	
+				</div>
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_EMAIL</label>
+					<bcs-input-texto 
+						id="formCrearCliente_email" 
+						class="col-xs-9"
+						placeholder="SesionValoresDefectoSistema.PLACEHOLDER_EMAIL"
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_email'].Requerido === 'S'"
+						k-ng-disabled="configData.bloqueoPersona" 
+						ng-model="recordData.email"
+						ng-blur="validaFormatoEmail()">
+					</bcs-input-texto>	
+				</div>
+				<hr ng-show="!clienteFinal">
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_CATEGORIA_INVERSIONISTA</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_categoriaInversionista" 
+						class="{{recordData.tipoEnrolamiento === 'EXPRESS' ? 'col-xs-3' : 'col-xs-4'}}" 
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_categoriaInversionista'].Requerido === 'S'"
+						filtros = "configData.filtroCategoriaInversionista"
+						working-net="workingNet.CategoriaInversionista"
+						activado = "!configData.bloqueoCliente"
+						id-actual = "recordData.idCategoriaInversionista"
+						id-defecto = "recordData.idCategoriaInversionistaDefecto"
+						cascada1-a="configData.filtroPerfilComercial.IdCategoriaInversionista"
+						cascada1-valor="'IdCategoriaInversionista'"
+						tipo="'combobox-categoria-inversionista'">
+					</bcs-combobox-base>
+					<div ng-show="recordData.tipoEnrolamiento === 'EXPRESS'&& recordData.tipoPersona === 'N'">
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_PROPOSITO_TRANSACCION</label>
+						<bcs-combobox-base 
+							id="formCrearCliente_propositoTransaccion" 
+							class="col-xs-3" 
+							bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_propositoTransaccion'].Requerido === 'S'"
+							working-net="workingNet.CodigoPropositoTransaccion"
+							activado = "!configData.bloqueoCliente"
+							id-actual = "recordData.CodigoPropositoTransaccion"
+							id-defecto = "recordData.CodigoPropositoTransaccion"
+							tipo="'combobox-proposito-transaccion'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_PERFIL_COMERCIAL</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_perfilComercial" 
+						class="col-xs-4"
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_perfilComercial'].Requerido === 'S'"
+						working-net="workingNet.PerfilComercial"
+						activado = '!configData.bloqueoCliente'
+						filtros = "configData.filtroPerfilComercial"
+						id-actual = "recordData.idPerfilComercialActual"
+						id-defecto = "recordData.idPerfilComercial"
+						id-post-filtro = "rec"
+						filtro-por-defecto="obtenerPerfilComercialPorDefecto"
+						tipo="'combobox-perfil-comercial'">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_TIPO_CLIENTE</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_tipoCliente" 
+						class="col-xs-4" 
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_tipoCliente'].Requerido === 'S'"
+						filtros="configData.filtroTipoCliente"
+						working-net="workingNet.TipoCliente"
+						activado = '!configData.bloqueoCliente'
+						id-defecto = "recordData.idTipoCliente"
+						id-actual = "recordData.idTipoCliente"
+						filtro-por-defecto="obtenerTipoClientePorDefecto"
+						tipo="'combobox-tipo-cliente'">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_TIPO_CLIENTE_CMF</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_tipoClienteCMF" 
+						class="col-xs-4" 
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_tipoClienteCMF'].Requerido === 'S'"
+						filtros="configData.filtroTipoClienteCMF.filtros"
+						working-net="workingNet.TipoClienteCMF"
+						activado = '!configData.bloqueoCliente'
+						id-defecto = "recordData.idTipoClienteCMF"
+						id-actual = "recordData.idTipoClienteCMF"
+						tipo="'combobox-tipo-cliente-cmf'">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_AREA_CLIENTE</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_areaCliente" 
+						class="col-xs-4" 
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_areaCliente'].Requerido === 'S'"
+						working-net="workingNet.AreaCliente"
+						activado = '!configData.bloqueoCliente'
+						id-defecto = "recordData.CodigoArea"
+						id-actual = "recordData.CodigoArea"
+						tipo="'combobox-area-cliente'">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="!clienteFinal && SesionLocale==='PE'">
+					<label class="col-xs-3" translate>UI_CLASE_CLIENTE</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_claseCliente" 
+						class="col-xs-4" 
+						bcs-requerido="!clienteFinal && SesionLocale==='PE'"
+						working-net="workingNet.ClaseCliente"
+						filtros="configData.filtroClaseCliente" 
+						activado = '!configData.bloqueoCliente'
+						id-defecto = "recordData.idClaseCliente"
+						id-actual = "recordData.idClaseCliente"
+						tipo="'combobox-clase-cliente'">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="!clienteFinal">
+					<label class="col-xs-3" translate>UI_EJECUTIVO</label>
+					<bcs-combobox-base 
+						id="formCrearCliente_ejecutivo" 
+						class="col-xs-4"
+						tipo="'combobox-ejecutivo'"  
+						bcs-requerido="!clienteFinal && camposRequeridosCC['formCrearCliente_ejecutivo'].Requerido === 'S'"
+						filtros="configData.filtroEjecutivo" 
+						working-net="workingNet.EmpleadoEjecutivo"
+						id-actual="recordData.idEmpleadoEjecutivo"
+						id-defecto="recordData.idEmpleadoEjecutivoDefecto"
+						seleccionado="recordData.EjecutivoObj" 
+						activado = "!configData.bloqueoCliente">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="!clienteFinal && formConfig.showCodigoAdicionalHolding">
+					<label class="col-xs-3" translate>UI_CODIGO_ADICIONAL_HOLDING</label>
+					<bcs-input-texto 
+						id="formCrearCliente_codigoAdicionalHolding" 
+						class="col-xs-4" 
+						bcs-requerido="!clienteFinal && formConfig.showCodigoAdicionalHolding"
+						k-ng-disabled="configData.bloqueoCliente" 
+						ng-model="recordData.codigoAdicionalHolding">
+					</bcs-input-texto>	
+				</div>				
+				<div class="row" ng-show="clienteFinal && SesionLocale==='PE'">
+				   <label class="col-xs-3" translate>UI_BROKER</label>
+				   <bcs-combobox-base
+				      id="formCrearCliente_broker" 
+				      bcs-requerido="clienteFinal && SesionLocale==='PE'"
+				      class="col-xs-5"
+					  tipo="'combobox-broker-extranjero'"
+					  filtros="configData.filtroBroker"
+					  id-actual="recordData.idBroker"
+					  activado="!configData.bloqueoCliente"
+					  id-defecto="data.idBrokerDefecto"
+					  seleccionado="recordData.BrokerObj">
+				   </bcs-combobox-base>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-7" ng-show="recordData.tipoEnrolamiento === 'EXPRESS'">
+			<bcs-button
+	            ng-show="((SesionLocale!=='PE') || (SesionLocale==='PE' && !clienteFinal))" 
+	            id="formCrearCliente_btnCrear"
+	            class="col-xs-4" 
+	            bcs-tipo="'bcs-button-primary'"
+	            bcs-auto-desactivar="false"
+	            bcs-texto="'UI_CREAR_CLIENTE' | translate" 
+	            bcs-habilitado="(formCrearCliente.$valid && validaFormatoEmail())" 
+	            bcs-clic="crearCliente()">
+	        </bcs-button>
+			<bcs-button 
+			    ng-show="clienteFinal && SesionLocale==='PE' && recordData.tipoPersona === 'N'"
+				id="formCrearCliente_btnCrear"
+				class="col-xs-4" 
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_CREAR_CLIENTE' | translate" 
+				bcs-habilitado="recordData.nombres && recordData.apellidoPaterno && recordData.BrokerObj" 
+				bcs-clic="crearCliente()">
+			</bcs-button>
+			
+			<bcs-button 
+			    ng-show="clienteFinal && SesionLocale==='PE' && recordData.tipoPersona !== 'N'"
+				id="formCrearCliente_btnCrear"
+				class="col-xs-4" 
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_CREAR_CLIENTE' | translate" 
+				bcs-habilitado="recordData.razonSocial && recordData.BrokerObj" 
+				bcs-clic="crearCliente()">
+			</bcs-button>
+		</div>
+		
+		<div class="col-xs-2" ng-show="recordData.tipoEnrolamiento === 'FULL'">
+			<bcs-button 
+				id="formCrearCliente_btnSiguiente"	
+				class="col-xs-12 pull-right" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-texto="'UI_SIGUIENTE' | translate" 
+				bcs-habilitado="formCrearCliente.$valid"
+				bcs-clic="siguiente()">
+			</bcs-button>
+		</div>
+		<bcs-button 
+			id="formCrearCliente_btnGuardarBorrador"	
+			class="col-xs-3 pull-right" 
+			bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GUARDAR_BORRADOR' | translate" 
+			bcs-habilitado="configData.bloqueoBuscador && configData.bloqueoPorRutInterno"
+			bcs-clic="guardarBorrador()">
+		</bcs-button>
+		<bcs-button 
+			id="formCrearCliente_btnCancelar"	
+			class="col-xs-2 pull-right" 
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-habilitado="configData.bloqueoBuscador && configData.bloqueoPorRutInterno"
+			bcs-clic="cancelar()">
+		</bcs-button>		
+	</div>
+</div>

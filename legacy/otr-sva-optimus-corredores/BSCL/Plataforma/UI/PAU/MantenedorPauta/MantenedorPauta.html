@@ -1,0 +1,58 @@
+<div class="row" ng-controller='MantenedorPautaCtrl as mpauta'>
+	<div class="row">
+		<div class="col-xs-10">
+			<div class ="row">  
+				<label class="col-xs-2" translate>UI_FECHA_EJECUCION</label>
+				<bcs-input-date class="col-xs-4" 
+					k-ng-model="mpauta.datos.Fecha" 
+					id-pais="$root.SesionIdPaisSistema">
+				</bcs-input-date>
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button 
+					class="col-xs-12" 
+					bcs-tipo="'bcs-button-search'"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_BUSCAR' | translate" 
+					bcs-habilitado="true"  
+					bcs-clic="mpauta.win.buscar()">
+				</bcs-button>
+			</div>
+		 </div>
+	</div>
+	<div class="row">
+		 <bcs-grid id="grid-agendaJob"
+		 	configuracion ="mpauta.grid.pauta"
+			seleccionado = "mpauta.datos.seleccionado">
+    	</bcs-grid> 
+	</div>
+	<div class="row bcs-panel-buttons alignButtonsToRight">
+		<bcs-button 
+			class="col-xs-2" 
+			bcs-tipo="'bcs-button-primary'"  
+			bcs-auto-desactivar="false" 
+			bcs-habilitado = "mpauta.datos.seleccionado"
+			bcs-texto="'UI_EJECUTAR_MANUAL' | translate"
+			bcs-clic="mpauta.win.ejecutarManual(mpauta.datos.seleccionado)">
+		</bcs-button>
+		<bcs-button 
+			class="col-xs-2" 
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="false"
+			bcs-habilitado = "mpauta.datos.seleccionado"
+			bcs-texto="'UI_VER_LOG' | translate"
+			bcs-clic="mpauta.win.descargarLog(mpauta.datos.seleccionado? mpauta.datos.seleccionado[0]:undefined)">
+		</bcs-button>
+		<bcs-button 
+			class="col-xs-2" 
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="false"
+			bcs-habilitado = "mpauta.win.tieneLogValorizadorPauta(mpauta.datos.seleccionado)"
+			bcs-texto="'UI_LOG_VALORIZADOR' | translate"
+			bcs-clic="mpauta.win.ConsultarLogValorizadorPauta(mpauta.datos.seleccionado? mpauta.datos.seleccionado[0]:undefined)">
+		</bcs-button>		
+		
+	</div>
+</div>

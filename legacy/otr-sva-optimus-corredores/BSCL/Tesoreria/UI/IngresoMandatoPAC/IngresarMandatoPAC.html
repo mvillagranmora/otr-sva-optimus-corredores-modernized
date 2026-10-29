@@ -1,0 +1,254 @@
+<div id="PanelIngresos" class="col-xs-12" ng-controller="IngresoMandatoPACCtrl as IMandatoPAC">
+	<div class="row bcs-cuerpo">
+	<form name="IngresoMandatoPAC" class="filters-formulario">
+		
+			<div class="row">
+				<div class="col-xs-12" style="padding-left: 0%;">
+			  		
+			  		<label class="col-xs-2" translate>UI_SOCIO_NEGOCIO</label>
+			  		
+			  		<bcs-combobox-base class="col-xs-4"
+			  		
+							id					="UI_CLIENTE"
+						 	auto-cargar			="'true'"
+						 	
+						 	
+						    tipo				="oClienteSocioNegocio.tipo"
+						    carga-cliente-automatico	="'false'"
+						    seleccionado		="oClienteSocioNegocio.seleccionado"
+						    
+		                    cascada-a			="folioCSC.filtros.IdCliente"
+		                   	cascada-valor		="'IdCliente'"
+		                   	
+		                   	cascada1-a			="CtaCorriente.filtros.IdPersona"
+		                    cascada1-valor		="'IdPersona'"
+		                    
+		                    cascada2-a			="folioSAAPV.filtros.IdCliente"
+		                    cascada2-valor		="'IdCliente'"
+		                   		                
+		                    
+						    configuracion		="oClienteSocioNegocio.configuracion"				   
+						    
+						   	activado			="!esPendienteAutorizacion"
+						   	
+						   	id-defecto 		    ="oClienteSocioNegocio.IdDefectoPortafolio"
+						   	
+						   	id-actual		    ="oClienteSocioNegocio.idActual"
+						    
+						    >
+					</bcs-combobox-base>
+				
+						<label class="col-xs-2" translate>UI_FOLIO_CSC</label> 
+						<bcs-combobox-base
+							class				= "col-xs-4"
+							auto-cargar         ="'true'"
+							id-actual           ="folioCSC.idActual"
+							filtros             ="folioCSC.filtros"
+							seleccionado		="folioCSC.seleccionado"							
+							activado		   	="formData.folioCSC && !esPendienteAutorizacion"
+							tipo				="folioCSC.tipo"
+							k-ng-model			="formData.IdFolioCSC"
+							id-post-filtro 	   = "formData.IdPostFiltroCSC"
+							id-defecto			="formData.IdDefectoCSC"
+						>
+						</bcs-combobox-base>
+			  			
+			  			<br>
+		  		</div>
+		 	</div>
+		 	<div class="row">
+				<div class="col-xs-12" style="padding-left: 0%;">
+		  			<label class="col-xs-2" translate>UI_CUENTA_BANCARIA</label> 
+		  			<bcs-combobox-base
+							class				  = "col-xs-4"
+							auto-cargar           ="'true'"
+							bcs-requerido
+							seleccionado		  ="CtaCorriente.seleccionado"
+							id-actual             ="CtaCorriente.idActual"
+							filtros               ="CtaCorriente.filtros"
+							tipo				  ="CtaCorriente.tipo"
+							activado			  ="!esPendienteAutorizacion"
+							id-defecto 			  ="CtaCorriente.IdDefectoCTACTE"
+							usa-filtros-completos = "'S'"
+					>
+					</bcs-combobox-base>
+					
+					<label class="col-xs-2" translate>UI_FOLIO_SAAPV</label> 
+		  			<bcs-combobox-base
+							class				= "col-xs-4"
+							auto-cargar         ="'true'"
+							id-actual           ="folioSAAPV.idActual"
+							filtros             ="folioSAAPV.filtros"
+							seleccionado		="folioSAAPV.seleccionado"
+							tipo				="folioSAAPV.tipo"
+							activado		   	="formData.folioSAAPV && !esPendienteAutorizacion"
+							id-post-filtro 	   = "formData.IdPostFiltroSAAPV"
+							id-defecto			="formData.IdDefectoSAAPV"
+					>
+					</bcs-combobox-base>
+
+		  			<br>
+		  		</div>	
+		 	</div>
+		 	
+		 	<div class="row">
+				<div class="col-xs-12" style="padding-left: 0%;">
+		  			<label class="col-xs-2" translate>UI_IDENT_SERVICIO</label> 		  			
+		  			<bcs-input-texto
+		  					id				= "Identificador"
+			  				class 			= "col-xs-4" 
+							ng-model		= "formData.IdentServicio"
+							k-ng-disabled   = "!formData.editarIndent || esPendienteAutorizacion"
+							minlength		= "17"
+							maxlength		= "17">
+			  			</bcs-input-texto>	
+		  			<br>
+		  		</div>	
+		 	</div>
+			 <div class="row">
+					<div class="col-xs-12" style="padding-left: 0%;">
+						<label class="col-xs-2">Editar Identificador</label>
+						<bcs-input-checkbox class="col-xs-4"
+						ng-model		= "formData.editarIndent" 
+						ng-disabled 	= "formData.deshabilitaCheckIndent || esPendienteAutorizacion" />	
+				 </div>
+			 </div>
+		 	<div class="row">
+		 			<label class="col-xs-2" translate>UI_DIA_DESCUENTO</label>
+		 			<bcs-input-numero class="col-xs-4" 
+				  			k-ng-model="formData.DiaDescuento"
+				  			bcs-requerido="'true'"
+				  			k-options="oConfiguracionDiaDescuento.conf"
+				  			k-ng-disabled="esPendienteAutorizacion"
+				  			auto-cargar="'true'"
+				  			decimales="'0'">
+				  	</bcs-input-numero>
+				  	<label class="col-xs-2" translate ng-show="estadoCSC.mostrar || estadoSAAPV.mostrar">UI_ESTADO_CONTRATO</label> 
+					<bcs-combobox-base
+							ng-show				="estadoCSC.mostrar"
+							bcs-requerido		="estadoCSC.mostrar"
+							activado		   	="!esPendienteAutorizacion"
+							class				="col-xs-4"
+							auto-cargar         ="'true'"
+							id-actual           ="estadoCSC.idActual"
+							tipo				="estadoCSC.tipo"
+							id-post-filtro 	   	="estadoCSC.IdPostFiltroEstadoCSC"
+							id-defecto			="estadoCSC.IdDefectoEstadoCSC">
+					</bcs-combobox-base>
+					<bcs-combobox-base
+							ng-show				="estadoSAAPV.mostrar"
+							bcs-requerido		="estadoSAAPV.mostrar"
+							activado		   	="!esPendienteAutorizacion"
+							class				="col-xs-4"
+							auto-cargar         ="'true'"
+							id-actual           ="estadoSAAPV.idActual"
+							filtros             ="estadoSAAPV.filtros"
+							tipo				="estadoSAAPV.tipo"
+							id-post-filtro 	   	="estadoSAAPV.IdPostFiltroEstadoSAAPV"
+							id-defecto			="estadoSAAPV.IdDefectoEstadoSAAPV">
+					</bcs-combobox-base>
+		 		</div>
+		 	</div>
+		 	<div class="row" ng-show="esEdicion">
+		 		<div class="col-xs-12">
+		 			<label class="col-xs-2" translate>UI_ESTADO_MANDATO</label>
+		 			<bcs-combobox-base
+							bcs-requerido		="esEdicion"
+							activado		   	="!esPendienteAutorizacion"
+							class				="col-xs-4"
+							auto-cargar         ="'true'"
+							id-actual           ="estadoMandatoPAC.idActual"
+							filtros             ="estadoMandatoPAC.filtros"
+							tipo				="estadoMandatoPAC.tipo"
+							id-post-filtro 	   	="estadoMandatoPAC.IdPostFiltroEstadoMandatoPAC"
+							id-defecto			="estadoMandatoPAC.IdDefectoEstadoMandatoPAC">
+					</bcs-combobox-base>
+			 		<div ng-show="formData.IdEstadoMandato === 'PAU'">
+			 			<label class="col-xs-2" translate>UI_ESTADO_AUTORIZACION</label>
+			 			<bcs-input-texto
+			  					id				= "EstadoAutorizacion"
+				  				class 			= "col-xs-4" 
+								ng-model		= "formData.NombreEstado"
+								k-ng-disabled   = "'true'">
+				  		</bcs-input-texto>
+			 		</div>
+		 		</div>
+		 	</div>
+
+		 	<div class="row">
+		  		<label class="col-xs-2 k-window-subtitle" translate>UI_AGREGAR_CUENTA_BANCARIA_PAC</label>
+		  		<br>
+		  		<br>
+		  		<bcs-button 
+		  			id="PanelPersonaCuentasBancarias_agregar" 
+		  			class="col-xs-2" 
+		  			bcs-tipo="'bcs-button-primary'" 
+		  			bcs-auto-desactivar="false" 
+		  			bcs-texto="'UI_AGREGAR' | translate" 
+		  			bcs-habilitado="!esPendienteAutorizacion"  
+		  			ng-show ="formData.AgregarCTA"
+		  			bcs-clic="IMandatoPAC.agregar()"></bcs-button>
+		  	</div>
+		  	<div class="row">
+				<div class="col-xs-12" style="padding-left: 0%;">
+					<div class="row">
+			  			<label class="col-xs-4 k-window-subtitle" translate>UI_USO_EXCLUSIVO_DEL_BANCO</label>
+			  		</div>
+			  		<hr>
+						<label class="col-xs-2" translate>UI_RECEPTOR</label> 
+			  			<bcs-input-texto
+			  				class="col-xs-4" 
+			  				ng-blur= ""
+			  				k-ng-disabled="esPendienteAutorizacion"
+			  				ng-model="formData.Receptor">
+			  			</bcs-input-texto>	
+			  			
+			  			<label class="col-xs-2" translate>UI_FECHA</label> 
+			  			
+			  			<bcs-input-date class="col-xs-4" 
+								id		= "FechaOperacion"
+								activado="'true'" 
+								k-ng-model="formData.Fecha"
+								k-ng-disabled="esPendienteAutorizacion"
+								k-options="dataCalendar.oConfiguracionFechaDesde">
+						</bcs-input-date>
+			  		
+			  			 
+			  			<br>
+		  		</div>
+		 	</div>
+		 	<div class="row">
+				<div class="col-xs-12" style="padding-left: 0%;">
+						<label class="col-xs-2" translate>UI_NUMERO_MANDATO</label> 
+			  			<bcs-input-numero 
+			  				class="col-xs-4"
+			  				decimales = "'0'"
+			  				ng-blur= ""
+			  				k-ng-disabled="esPendienteAutorizacion"
+			  				k-ng-model="formData.NumeroMandato">
+			  			</bcs-input-numero>	
+			  			
+			  			<label class="col-xs-2" translate>UI_FIRMA</label> 
+			  			<bcs-input-checkbox class="col-xs-4"
+			  				ng-disabled="esPendienteAutorizacion"
+							ng-model="formData.Firma"> 
+						</bcs-input-checkbox>			
+			  			<br>
+		  		</div>
+		 	</div>
+		  	
+			<div class="row bcs-panel-comandos alignButtonsToRight">
+				<bcs-button class="col-xs-2" id="GUARDAR_PAC" 
+						bcs-texto="'UI_GUARDAR' | translate" 
+						bcs-habilitado="IngresoMandatoPAC.$valid && !esPendienteAutorizacion"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar= "'true'"
+						bcs-clic="formData.IngresarPAC()">
+				</bcs-button>
+				<span ng-show="formData.IdEstadoMandato === 'PAU'" class="pull-left"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIOS_POR_AUTORIZAR</label> </span>
+		</div>
+	</form>
+	</div>
+		
+</div>
+	

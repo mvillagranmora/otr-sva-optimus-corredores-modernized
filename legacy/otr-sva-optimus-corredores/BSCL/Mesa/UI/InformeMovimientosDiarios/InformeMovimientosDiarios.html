@@ -1,0 +1,81 @@
+<div id="InformeMovimientosDiarios" class="row" ng-controller="InformeMovimientosDiariosCtrl as iMD">
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_NEGOCIACION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="UI_NEGOCIACION"
+						auto-cargar="'true'"
+						tipo="'combobox-negociacion'"
+						todos="'S'"
+						id-actual="iMD.configuracionNegociacion.idActual"
+						seleccionado="iMD.configuracionNegociacion.seleccionado"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_COMPROMISO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="UI_TIPO_COMPROMISO"
+						auto-cargar="'true'"
+						tipo="'combobox-tipo-operacion'"
+						todos="'S'"
+						filtros="iMD.configuracionTipoCompromiso.filtros"
+						id-actual="iMD.configuracionTipoCompromiso.idActual"
+						seleccionado="iMD.configuracionTipoCompromiso.seleccionado"
+						item-post-filtro="'1'"
+						activado="iMD.activarTipoCompromiso">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_MERCADO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="UI_MERCADO"
+						auto-cargar="'true'"
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						todos="'S'"
+						filtros="iMD.configuracionMercado.filtros"
+						id-actual="iMD.configuracionMercado.idActual"
+						seleccionado="iMD.configuracionMercado.seleccionado"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-7" k-ng-model="iMD.filtro.Fecha"></bcs-input-date>
+				</div>
+			</div>						
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="iMD.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="iMD.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<br>
+  	
+	<div class="row">
+		<bcs-grid
+			configuracion="iMD.grilla.MovimientosDiarios"
+			seleccionado="iMD.grilla.MovimientosDiariosSel"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	<br>
+	
+	<div class="row bcs-panel-buttons">
+		<div class="col-xs-8">
+			
+		</div>
+		<div class="col-xs-2"></div>
+		<bcs-menu class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

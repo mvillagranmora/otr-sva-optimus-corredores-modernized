@@ -1,0 +1,19 @@
+INSERT INTO "BSCL.Custodia.BD::CUS.ConsultarCustodiaMovimientos_Filtros"
+(
+"IdCliente"
+,"IdPortafolio"
+,"FolioCartera"
+,"IdClasificacionTipoInstrumento"
+,"IdTipoInstrumento"
+,"IdInstrumento"
+,"Nemotecnico"
+)
+VALUES(
+:IdCliente
+,:IdPortafolio
+,:FolioCartera
+,:IdClasificacionTipoInstrumento
+,:IdTipoInstrumento
+,:IdInstrumento
+,:Nemotecnico
+)

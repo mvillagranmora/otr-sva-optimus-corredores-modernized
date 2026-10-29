@@ -1,0 +1,1 @@
+SELECT TOP 1 "EsPauta" FROM "BSCL.Normativa.BD::NOR.SolicitudCircular" WHERE "IdTipoCircular" = 'NCG365' AND "IdSolicitudCircular" = :IdSolicitudCircular;

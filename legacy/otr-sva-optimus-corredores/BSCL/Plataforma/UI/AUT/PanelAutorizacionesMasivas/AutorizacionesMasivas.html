@@ -1,0 +1,97 @@
+<div id="AutorizacionesMasivas" ng-controller="AutorizacionesMasivasCtrl"
+	style="padding-right: 0px;">
+
+	<div class="row no-margin" style="padding-top: 0px;">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+						<bcs-input-datetime class="col-xs-8"
+							k-ng-model="filtros.fecInicio"></bcs-input-datetime>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+						<bcs-input-datetime class="col-xs-8"
+							ng-model="filtros.fecTerminong" k-ng-model="filtros.fecTermino"></bcs-input-datetime>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionEstadoEvento.tipo"
+							ng-model="filtros.estado" seleccionado="filtros.estadoObj"
+							todos="'S'" id-actual="filtros.idEstado"
+							filtros="data.oConfiguracionEstadoEvento.filtros"
+							id-defecto="filtros.idDefecto">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_EVENTO_AUTORIZACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionTipoEvento.tipo"
+							ng-model="filtros.tipoEvento"
+							seleccionado="filtros.tipoEventoObj" todos="'S'" id-defecto="'0'"
+							id-actual="filtros.idEvento"> </bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_AUTORIZACION</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="data.oConfiguracionTipoAutorizacion.tipo"
+							ng-model="data.oConfiguracionTipoAutorizacion.configuracion"
+							seleccionado="data.oConfiguracionTipoAutorizacion.filtros" todos="'N'" 
+							id-actual="data.oConfiguracionTipoAutorizacion.idActual"
+							id-defecto='data.oConfiguracionTipoAutorizacion.idDefecto'> </bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false"
+						bcs-texto="'Buscar'" bcs-habilitado="'true'" bcs-clic="Buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+						bcs-texto="'Limpiar'" bcs-habilitado="'true'" bcs-clic="limpiar()"></bcs-button>
+				</div>
+			</div>
+
+		</div>
+
+		<bcs-grid id="grid-evento-masivo" 
+			configuracion="EventoMasivo"
+			fn-exportar-excel = "exportarExcel" 
+			seleccionado="seleccionEvento" api="gridApiMasivo">
+				<div bcs-grid-detail ng-non-bindable>
+				    <div style="width: 1000px;">
+    					<bcs-grid id="grid-etapa-masivo" 
+    						configuracion="EtapaMasivo(dataItem)" 
+    						seleccionado="dataItem.seleccionEtapa">	
+    					</bcs-grid>
+					</div>
+				</div>
+		</bcs-grid>
+
+		<div class="row bcs-panel-comandos" style="padding-top: 5px !important;">
+			<div class=col-xs-9>
+				<bcs-button class="col-xs-2" id="AutorizacionesMasivas_Autorizar" bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="false" bcs-texto="'Autorizar'"
+				bcs-habilitado="botonesHabilitados" bcs-clic="modificarEstado('AUT')"></bcs-button>
+				<bcs-button class="col-xs-2" id="AutorizacionesMasivas_Rechazar" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" bcs-texto="'Rechazar'"
+				bcs-habilitado="botonesHabilitados"  bcs-clic="modificarEstado('RZD')"></bcs-button>
+			</div>
+			<div class=col-xs-2></div>
+			
+			<div class=col-xs-1>
+				<bcs-menu class="col-xs-12 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+					bcs-texto="'UI_OPCIONES' | translate">
+				<li id="AutorizacionesMasivas_MantenedorAutorizaciones" ng-click="abrirMantenedorAutorizaciones();">{{'UI_MANTENEDOR_AUTORIZACIONES' | translate}}</li>
+				<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+				</bcs-menu>
+			</div>
+		</div>
+	</div>
+</div>

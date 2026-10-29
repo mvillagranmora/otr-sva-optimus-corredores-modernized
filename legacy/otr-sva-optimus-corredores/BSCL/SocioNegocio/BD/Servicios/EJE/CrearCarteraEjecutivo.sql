@@ -1,0 +1,46 @@
+SET SCHEMA "BSCL";
+DROP PROCEDURE "BSCL.SocioNegocio.BD.Servicios::EJE.CrearCarteraEjecutivo";
+
+CREATE PROCEDURE
+--  Proposito: crear cartera Ejecutivo
+--  Autor: -
+--  Fecha Creacion: 09/04/2019 
+ 
+"BSCL.SocioNegocio.BD.Servicios::EJE.CrearCarteraEjecutivo" ( 
+    --VARIABLES OBLIGATORIAS
+    IN p_IdEmpresa          	    BIGINT, 
+    IN p_IdUsuario	                BIGINT,
+    IN p_IdModulo                   NVARCHAR(3),
+    IN p_NombreCarteraEjecutivo		NVARCHAR(40),
+	IN p_Descripcion				NVARCHAR(255),
+	IN p_IdEstado				    NVARCHAR(3) default 'ACT',					
+	OUT p_out_AdvertenciasContador		INT,
+	OUT p_out_AdvertenciasDetalle		TABLE ("IdInterno" BIGINT,"Codigo" NVARCHAR(100),"RequiereAutorizacion" NVARCHAR(100),"Descripcion" NVARCHAR(5000)),	
+	OUT p_out_ErroresContador 			INT,
+	OUT p_out_ErroresDetalle 			TABLE ("IdInterno" BIGINT,"Codigo" NVARCHAR(100),"Descripcion" NVARCHAR(5000))
+   )
+	LANGUAGE SQLSCRIPT
+	SQL SECURITY INVOKER 
+	DEFAULT SCHEMA "BSCL"
+AS
+BEGIN
+
+	p_out_AdvertenciasContador = 0;
+	p_out_ErroresContador = 0;
+	p_out_AdvertenciasDetalle = select 0 as "IdInterno",'' as "Codigo", '' as "RequiereAutorizacion",'' as "Descripcion" from dummy where 1=2;
+	p_out_ErroresDetalle = select 0 as "IdInterno",'' as "Codigo",'' as "Descripcion" from dummy where 1=2;
+	
+	---------------------------------------------------------------------------------------
+	insert into "BSCL.SocioNegocio.BD::EJE.CarteraEjecutivo" (
+		"NombreCarteraEjecutivo",
+		"IdEmpresa",
+		"Descripcion",
+		"IdEstado"
+	)select 
+		:p_NombreCarteraEjecutivo,
+		:p_IdEmpresa,
+		:p_Descripcion,
+		:p_IdEstado
+	from dummy;
+	
+END;

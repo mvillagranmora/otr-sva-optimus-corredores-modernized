@@ -1,0 +1,22 @@
+SELECT PORTAFOLIO."IdPortafolio"                 AS "IdPortafolio"
+     , CUENTACUSTODIO."IdBoveda"                 AS "IdBoveda"
+     , CUENTACUSTODIO."Codigo"                   AS "Codigo"
+     , CUENTACUSTODIO."FechaIngreso"             AS "FechaIngreso"
+     , CUENTACUSTODIO."FechaCreacion"            AS "FechaCreacion"
+     , CUENTACUSTODIO."FechaModificacion"        AS "FechaModificacion"
+     , CUENTACUSTODIO."IdUsuarioCreador"         AS "IdUsuarioCreador"
+     , CUENTACUSTODIO."IdEstado"                 AS "IdEstado"
+     , CUENTACUSTODIO."IdEstadoAutorizacion"     AS "IdEstadoAutorizacion"
+     , CUENTACUSTODIO."IdTipoCuentaCustodia"     AS "IdTipoCuentaCustodia"
+     , CUENTACUSTODIO."IdTipoCustodia"           AS "IdTipoCustodia"
+     , CUENTACUSTODIO."IdModeloCustodia"         AS "IdModeloCustodia"
+     , CUENTACUSTODIO."IdPersonaBancoCustodio"   AS "IdPersonaBancoCustodio"
+     , CUENTACUSTODIO."IdPersonaBancoLiquidador" AS "IdPersonaBancoLiquidador"
+     , CUENTACUSTODIO."LiquidaDividendos"        AS "LiquidaDividendos"
+     , CUENTACUSTODIO."LiquidaCupones"           AS "LiquidaCupones"
+     , CUENTACUSTODIO."LiquidaVencimientos"      AS "LiquidaVencimientos"
+     , CUENTACUSTODIO."LiquidaPrepagos"          AS "LiquidaPrepagos"
+FROM "BSCL.Portafolio.BD::POR.Portafolio" AS PORTAFOLIO
+     INNER JOIN "BSCL.Portafolio.BD::POR.CuentaCustodioPortafolio" AS CUENTACUSTODIO ON CUENTACUSTODIO."IdPortafolio" = PORTAFOLIO."IdPortafolio"
+WHERE CUENTACUSTODIO."IdCuentaCustodioPortafolio" = :IdCuentaCustodioPortafolio
+AND PORTAFOLIO."IdEstado" <> 'INA';

@@ -1,0 +1,124 @@
+<div id="PanelDOF" class="row" ng-controller="PanelDOFCtrl as pct">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecInicio"
+				></bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_HASTA</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecTermino"></bcs-input-date>
+			</div>
+		  	</div>
+		  	<div class="row">
+		  			<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_SUCURSAL</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-sucursal'"
+						id-actual="pct.IdSucursal"
+						id-defecto="'0'"
+						filtros="pct.cmbbx.Sucursal.filtros"
+						todos="'S'"
+						seleccionado="pct.dataModal.SucursalObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_AGENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-empleado'"
+						id-actual="pct.IdAgente"
+						id-defecto="'0'"
+						filtros="pct.cmbbx.Agente.filtros"
+						todos="'S'"
+						seleccionado="pct.dataModal.AgenteObj">
+					</bcs-combobox-base>
+				</div>
+		  
+		  
+		  	</div>
+		  	<div class="row">
+		  	<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pct.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pct.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pct.SocioDeNegocioObj">
+					</bcs-combobox-base>
+				</div>	 
+		  	</div>
+		  	
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<!-- configuracion="pct.grilla.DOF" -->
+		<!--configuracion="pct.grillaCong" -->
+	<div class="row">
+		<bcs-grid
+			id="gridDOF"
+			
+			configuracion="pct.grilla.DOF"
+			
+			seleccionado="pct.grilla.DOFSel"
+			fn-exportar-excel="excelDOF">
+			<div bcs-grid-detail ng-non-bindable>
+				<uib-tabset >
+				   <uib-tab  heading="{{'UI_DECLARACION'| translate}}" ng-if="dataItem.Declaracion == 'S'" >
+						
+					    <div class="row" style="min-height: 50px; width: 100%; text-align:left" >
+					    	<div class="row">
+						    	<div class="col-xs-11">
+									<label class="col-xs-4" translate>UI_TIPO_ORIGEN_FONDO</label>
+									<label class="col-xs-4" translate>UI_VALOR</label>
+								</div>
+							</div>
+							<div class="row">
+								<div style="overflow: auto; height: 120px; ">
+									<div ng-repeat="val in dataItem.detalleDOF">
+										<div class="col-xs-11">
+											<label class="col-xs-4" translate>{{val.NombreTipoOrigenFondo}}</label>
+											<label class="col-xs-4" translate>{{val.Valor}}</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				   </uib-tab>
+				</uib-tabset>
+			</div>
+		</bcs-grid>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12" style="top:10px; padding-bottom: 10px;">
+		  
+			<bcs-button id="Cumplimiento_imprimirDeclaracion" class="col-xs-2 pull-left"  bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_IMPRIMIR_DECLARACION' | translate"  bcs-habilitado="pct.grilla.DOFSel.Declaracion=='S'" bcs-clic="pct.fn.imprimirComprobante(pct.grilla.DOFSel)"></bcs-button>
+			<!-- 
+			<bcs-button id="Cumplimiento_demoSolicitarDeclaracion" class="col-xs-2 pull-left"   bcs-auto-desactivar="false" bcs-texto="'Demo solicitar Declaracion'"  bcs-habilitado="'true'" bcs-clic="pct.fn.SolicitarDeclaracion(pct.grilla.DOFSel)"></bcs-button>
+			 -->
+					<bcs-menu 
+				class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'"
+				bcs-habilitado="'true'" 
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelDOF('DOF')">						  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+			</bcs-menu>	
+		</div>
+		
+	</div>
+	
+	
+	
+	
+</div>

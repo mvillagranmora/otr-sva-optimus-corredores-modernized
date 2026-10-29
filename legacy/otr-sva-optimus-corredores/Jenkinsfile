@@ -1,0 +1,39 @@
+// Pipeline: otr-sva-optimus-corredores (TomEE 8 / GWJAVA)
+//
+// Usa gradlePipeline de la librería compartida.
+// Build Gradle multi-task (reemplaza los dos targets ANT):
+//   :pluginJar          → PLUGIN_OPTIMUS.jar  (era BcsJarOptimusTomEE8.xml)
+//   :plaWar             → PLA.war             (era BcsPlataformaWebTomEE8.xml)
+//   :collectRuntimeLibs → runtime JARs para ${TOMEE_HOME}/lib/lib/
+//
+// Compilación: JDK 11 (builder Docker) — bytecode Java 8 (sourceCompatibility=1.8)
+// Runtime:     JRE 8  (TomEE 8.0.16 en imagen final)
+//
+// Requisito en Jenkins: tool 'Gradle' y JDK 11 configurados en Global Tool Configuration.
+@Library('jenkins-shared-library') _
+
+gradlePipeline(
+    PROJECT_NAME        : 'corredores',
+
+    // Tareas Gradle equivalentes a los dos builds ANT originales
+    GRADLE_TASKS        : ':pluginJar :plaWar :collectRuntimeLibs --no-daemon -Dfile.encoding=UTF-8',
+
+    // Artefactos publicados en Jenkins y en S3 para trazabilidad
+    ARTIFACT_PATHS: [
+        'build/libs/PLUGIN_OPTIMUS.jar',
+        'build/libs/PLA.war'
+    ],
+    S3_BUCKET           : "${env.OPTIMUS_ARTIFACT_BUCKET}",
+
+    DOCKER_REGISTRY     : "${env.ECR_REGISTRY}/optimus/dev",
+    AWS_CREDENTIAL_DEV  : 'aws-optimus-dev',
+    AWS_CREDENTIAL_PROD : 'aws-optimus-prod',
+    EKS_CLUSTER_PROD    : 'optimus-dev',
+    NAMESPACE           : 'optimus',
+    REGION              : 'us-east-1',
+    DEPLOY_BRANCHES     : ['main', 'master'],
+    SONAR_ENV           : 'SonarQube',
+    SKIP_SONAR          : false,
+    SLACK_CHANNEL       : '#optimus-deploys',
+    FAIL_ON_HIGH        : true
+)

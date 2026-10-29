@@ -1,0 +1,1 @@
+SELECT "IdAnotacion" FROM "BSCL.SocioNegocio.BD::CLI.Anotacion" WHERE "IdAnotacion" IN (:idsAnotaciones);

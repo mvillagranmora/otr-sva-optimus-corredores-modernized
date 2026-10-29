@@ -1,0 +1,21 @@
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.TramoComision"
+(
+	"IdTramo", 
+	"IdComision", 
+	"DiasDesde", 
+	"DiasHasta", 
+	"PorcentajeComision", 
+	"Estado", 
+	"FechaSistema", 
+	"FechaIngresoRegistro"
+)
+VALUES(
+	:IdTramo, 
+	:IdComision, 
+	:DiasDesde, 
+	:DiasHasta, 
+	:PorcentajeComision, 
+	:Estado, 
+	:FechaSistema, 
+	:FechaSistema
+);

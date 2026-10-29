@@ -1,0 +1,34 @@
+INSERT INTO "BSCL.Plataforma.BD::COM.PerfilComercialBase"(
+	"IdPerfilComercialBase",
+	"DescripcionPerfilComercialBase",
+	"IdCategoriaInversionista",
+	"IdPerfilProductos",
+	"IdPerfilCobros",
+	"IdPerfilCobrosPeru",
+	"IdPerfilLimites",
+	"IdPerfilCondicionesOperativas",
+	"IdModeloFacturacion",
+	"FechaCreacion",
+	"FechaModificacion",
+	"IdEstado",
+	"PorDefecto",
+	"IdEmpresa",
+	"TipoEnrolamiento"
+)
+VALUES(
+	:IdPerfilComercialBase,
+	:DescripcionPerfilComercialBase,
+	:IdCategoriaInversionista,
+	:IdPerfilProductos,
+	:IdPerfilCobros,
+	:IdPerfilCobrosPeru,
+	:IdPerfilLimites,
+	:IdPerfilCondicionesOperativas,
+	:IdModeloFacturacion,
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	:IdEstado,
+	:PorDefecto,
+	:IdEmpresa,
+	:TipoEnrolamiento
+)

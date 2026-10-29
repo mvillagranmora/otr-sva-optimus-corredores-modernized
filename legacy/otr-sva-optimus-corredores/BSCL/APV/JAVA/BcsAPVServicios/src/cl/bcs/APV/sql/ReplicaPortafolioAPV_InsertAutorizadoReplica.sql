@@ -1,0 +1,34 @@
+INSERT INTO "BSCL.Portafolio.BD::POR.Autorizado"
+(
+    "IdAutorizado",
+    "IdPortafolio",
+    "IdPersona",
+    "IdTipoAutorizado",
+    "IdEstado",
+    "IdEstadoAutorizacion",
+    "FechaIngreso",
+    "FechaCreacion",
+    "FechaModificacion",
+    "IdUsuarioCreador",
+    "NumeroRegistroPublico",
+    "Asiento",
+    "FichaPartida",
+    "TipoFirma"
+)
+VALUES
+(
+    :IdAutorizado,
+    :IdPortafolio,
+    :IdPersona,
+    :IdTipoAutorizado,
+    :IdEstado,
+    :IdEstadoAutorizacion,
+    :FechaIngreso,
+    :FechaCreacion,
+    :FechaModificacion,
+    :IdUsuarioCreador,
+    :NumeroRegistroPublico,
+    :Asiento,
+    :FichaPartida,
+    :TipoFirma
+)

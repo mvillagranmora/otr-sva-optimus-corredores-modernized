@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Documentos" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Persona_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="NVARCHAR" id="NombreLimite" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Clasificacion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Instrumento" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoOperacion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Canal" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Moneda" length="106"/>
+        <viewAttribute datatype="DECIMAL" id="Porcentaje" length="26"/>
+        <viewAttribute datatype="DECIMAL" id="LineaAsignada" length="26"/>
+        <viewAttribute datatype="NVARCHAR" id="Estado" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	  	 var_out = SELECT 
+						"Nombre" AS "NombreLimite",
+						"NombreClasificacionTipoInstrumento" AS "Clasificacion",
+						"TipoInstrumento" AS "Instrumento",
+						"TipoOperacion",
+						"CanalIngreso" AS "Canal",
+						"Moneda",
+						"Porcentaje",
+						"MontoTotal" AS "LineaAsignada",
+						"NombreEstadoLimite" AS "Estado"
+					FROM "BSCL.Plataforma.BD.Vistas::LIM.ConsultarDetallePlantillaLimites";
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="NombreLimite" hidden="true" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreLimite"/>
+      </attribute>
+      <attribute id="Clasificacion" hidden="true" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Clasificacion"/>
+      </attribute>
+      <attribute id="Instrumento" hidden="true" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Instrumento"/>
+      </attribute>
+      <attribute id="TipoOperacion" hidden="true" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoOperacion"/>
+      </attribute>
+      <attribute id="Canal" hidden="true" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Canal"/>
+      </attribute>
+      <attribute id="Moneda" hidden="true" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Moneda"/>
+      </attribute>
+      <attribute id="Porcentaje" hidden="true" order="7">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Porcentaje"/>
+      </attribute>
+      <attribute id="LineaAsignada" hidden="true" order="8">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="LineaAsignada"/>
+      </attribute>
+      <attribute id="Estado" hidden="true" order="9">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Estado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

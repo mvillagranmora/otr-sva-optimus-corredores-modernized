@@ -1,0 +1,55 @@
+<div id="PanelItemsManualesPosicionMRF" class="row" ng-controller="PanelItemsManualesPosicionMRFCtrl as pIMPM">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-7" id="pIMPM_Fecha" k-ng-model="pIMPM.filtro.Fecha"></bcs-input-date>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" style="text-align:center" translate>UI_POSICION_MRF_TIPO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pIMPM_PosicionMRFTipo"
+						tipo="'combobox-metodo-posicion-mrf'"
+						id-actual="pIMPM.filtro.IdMetodo"
+						id-defecto="pIMPM.filtro.IdMetodoDef"
+						filtros="pIMPM.cmbbx.PosicionMRF.filtros"
+						todos="'N'"
+						seleccionado="pIMPM.dataFiltros.PosicionMRFObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pIMPM.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pIMPM.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<br>
+	
+	<div class="row">
+		<bcs-grid
+			configuracion="pIMPM.grilla.ItemsManualesPosicionMRF"
+			seleccionado="pIMPM.grilla.itemManualSel"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	
+	<div class="row bcs-panel-buttons">
+		<bcs-button id="PanelItemsManualesPosicionMRF_agregar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'" bcs-clic="pIMPM.fn.agregar()">
+		</bcs-button>
+		<bcs-button id="PanelItemsManualesPosicionMRF_grabar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GRABAR' | translate" bcs-habilitado="'true'" bcs-clic="pIMPM.fn.grabar()">
+		</bcs-button>
+		
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel('ItemsManualesPosicionMRF')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

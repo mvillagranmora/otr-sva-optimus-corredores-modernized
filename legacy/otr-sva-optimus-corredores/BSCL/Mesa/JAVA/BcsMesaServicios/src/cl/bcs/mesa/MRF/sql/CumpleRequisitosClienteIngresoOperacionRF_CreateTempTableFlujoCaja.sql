@@ -1,0 +1,1 @@
+CREATE LOCAL TEMPORARY TABLE #CumpleRequisitosClienteIngresoOperacionRF_FlujoCaja_Temp ("NombreUso" NVARCHAR(250),"FechaSaldo" NVARCHAR(10),"IdPortafolio" BIGINT,"IdMoneda" NVARCHAR(3),"Saldo" DECIMAL(27,8));

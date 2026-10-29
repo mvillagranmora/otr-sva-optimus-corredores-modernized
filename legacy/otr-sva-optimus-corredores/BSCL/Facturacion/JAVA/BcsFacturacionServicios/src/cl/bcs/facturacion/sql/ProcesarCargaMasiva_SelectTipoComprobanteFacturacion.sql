@@ -1,0 +1,1 @@
+SELECT "IdTipoComprobante","AfectoImpuesto" FROM "BSCL.Facturacion.BD::FAC.TipoComprobante";

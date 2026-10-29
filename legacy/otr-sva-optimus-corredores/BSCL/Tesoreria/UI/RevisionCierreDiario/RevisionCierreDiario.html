@@ -1,0 +1,87 @@
+<div id="RevisionCierreDiario" ng-controller="RevisionCierreDiarioCtrl">
+
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_EMPRESA</label>
+					<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="Empresa"></bcs-input-texto>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA_CIERRE</label>					
+					<!-- FECHA CIERRE DESHABILITADA (solo se puede cerrar la fecha de sistema) -->
+					<bcs-input-date class="col-xs-8" k-ng-model="kngFechaCierre"  ng-model="FechaCierre" k-ng-disabled="true"></bcs-input-date>																					
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" id="RevisionCierreDiario_btnBuscar"
+					 bcs-tipo			= "'bcs-button-search'"
+					 bcs-auto-desactivar= "'false'"
+					 bcs-texto			= "'UI_BUSCAR' | translate"
+					 bcs-habilitado     = "'true'"
+					 bcs-clic			= "buscarResumen()">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-5 k-window-subtitle" translate>UI_RESUMEN_REVISION</div>
+	</div>
+						
+	<div class="row">
+		<bcs-grid id = "grid-ResumenRevisionCierreDiario"
+		 	configuracion = "confBasicaResumenRevisionCierreDiario"
+			seleccionado  = "seleccionResumenRevisionCierreDiario">
+		</bcs-grid>
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-5 k-window-subtitle" translate>UI_DETALLE_REVISION</div>
+	</div>
+	
+	<!-- INICIO GRILLAS DETALLE -->
+	<div class="row">
+		<uib-tabset active="tab.active">
+			<!-- Comprobantes sin Liquidar -->
+			<uib-tab index="1" active="tab.t1" id="tab-comprobantes-sin-liquidar" heading="{{'UI_COMPROBANTES' | translate}}" select="select('grid-comprobantes-sin-liquidar')">
+				<div class="row">
+				   <bcs-grid
+				      id                = "grid-comprobantes-sin-liquidar"
+				      fn-exportar-excel = "tab.exportarExcel1"
+				 	  configuracion     = "confBasicaComprobantesSinLiquidar"
+					  seleccionado      = "seleccionComprobantesSinLiquidar">
+				   </bcs-grid>
+				</div>
+			</uib-tab>
+			
+			<!-- Documentos sin certificar -->					
+			<uib-tab index="2" active="tab.t2" id="tab-documentos-sin-certificar" heading="{{'UI_DOCUMENTOS' | translate}}" select="select('grid-documentos-sin-certificar')">
+				<div class="row">
+				   <bcs-grid
+				      id                = "grid-documentos-sin-certificar"
+				      fn-exportar-excel = "tab.exportarExcel2"
+				 	  configuracion     = "confBasicaDocumentosSinCertificar"
+					  seleccionado      = "seleccionDocumentosSinCertificar">					  
+				   </bcs-grid>
+				</div>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+	<!-- FIN GRILLAS DETALLE -->
+
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="RevisionCierreDiario_btnCierreDiario"  class="col-xs-2" bcs-tipo="'bcs-button-primary'"   bcs-auto-desactivar="false" bcs-texto="'UI_CERRAR_PROCESO' | translate" bcs-habilitado="seleccionResumenRevisionCierreDiario"  bcs-clic="cerrarProcesoFuncion()"></bcs-button>		
+		<bcs-button id="RevisionCierreDiario_btnCierreModulo"  class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CERRAR_MODULO' | translate"  bcs-habilitado="'true'"  bcs-clic="cerrarModulo()"></bcs-button>
+						 		
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>		
+	</div>
+		
+</div>
+	
+	

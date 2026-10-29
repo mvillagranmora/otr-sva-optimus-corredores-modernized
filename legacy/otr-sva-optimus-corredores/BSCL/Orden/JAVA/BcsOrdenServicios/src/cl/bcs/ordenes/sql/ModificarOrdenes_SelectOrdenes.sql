@@ -1,0 +1,37 @@
+SELECT
+
+"IdOrden",
+"BaseTasa",
+"Cantidad",
+"EsFungible",
+"EsPorMonto",
+"FechaOperacion",
+"IdBolsa",
+"IdCorredorCorresponsal",
+"IdEmisor",
+"IdInstrumento",
+"IdClasificacionTipoInstrumento",
+"IdMonedaLiquidacionOrden",
+"IdPortafolioCliente",
+"IdTipoCanalIngreso",
+"IdTipoOperacion",
+"IdProducto",
+"PlazoIF",
+"PlazoReporte",
+"PlazoSimultanea",
+"PlazoVentaCorta",
+"PrecioOrden",
+"TasaReporte",
+"TasaRFIF",
+"TasaSimultanea",
+"TasaVentaCorta",
+"TipoCambio",
+"ValorRescate",
+"IdEstadoOrden",
+"TipoInteres",
+"MontoOrden",
+"MontoInteresContado",
+"MontoInteresPlazo"
+
+FROM "BSCL.Orden.BD::ORD.Orden"
+WHERE "IdOrden" IN (:idsOrden)

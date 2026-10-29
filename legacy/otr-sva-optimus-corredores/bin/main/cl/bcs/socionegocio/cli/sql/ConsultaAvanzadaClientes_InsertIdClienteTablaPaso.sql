@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.SocioDeNegocio.BD::GBL.ConsultaAvanzadaClientes_Proceso_Paso" ("IdCliente", "IdTrabajo") VALUES (:IdCliente, :IdTrabajo);

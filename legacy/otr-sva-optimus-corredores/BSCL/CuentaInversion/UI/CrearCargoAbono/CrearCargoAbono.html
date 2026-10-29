@@ -1,0 +1,242 @@
+<div ng-controller="CrearCargoAbonoCtrl">
+    <div class="col-xs-12 bcs-cuerpo">
+		<form id="formCrearCargoAbono" name="formCrearCargoAbono" class="filters-formulario">
+			<div class="row">
+				<tabset>
+					<tab heading="{{'UI_DATOS_BASICOS' | translate}}" >
+						<div class="row" style="height: 250px">
+
+							<div class="row" ng-if="parametros.IdSocioDeNegocio == '' || parametros.IdSocioDeNegocio == undefined">
+								<label class="col-xs-4" translate>UI_CLIENTE</label>
+								<bcs-combobox-base id="formCrearCargoAbono_seleccionCliente" class="col-xs-8"
+									bcs-requerido = "data.showSeleccionClientePortafolio"
+									auto-cargar="'false'"
+									carga-cliente-automatico="'S'"
+									id-actual="data.oSocioNegocio.idActual"
+									id-defecto="data.oSocioNegocio.idDefecto"
+									tipo="'combobox-socio-negocio'"
+									seleccionado="data.oSocioNegocio.seleccionado"
+									configuracion= "data.oSocioNegocio.configuracion"
+									activado="data.oSocioNegocio.activado"
+									filtros="data.oSocioNegocio.filtros"
+									cascada-a="data.oPortafolio.filtros.IdCliente"
+									cascada-valor="'IdCliente'"
+									cascada-defecto="-1">
+								</bcs-combobox-base >							
+							</div>
+							
+							   
+							<div class="row" ng-if="parametros.IdSocioDeNegocio !== '' && parametros.IdSocioDeNegocio !== undefined">
+								<label class="col-xs-4" translate>UI_CLIENTE</label>
+								<bcs-input-texto class="col-xs-8" ng-model="parametros.NombreCliente" id="formCrearCargoAbono_SocioDeNegocioDisabled" k-ng-disabled="'true'"></bcs-input-texto>
+							</div>
+							
+														
+							<div class="row" ng-if="parametros.IdPortafolio == '' || parametros.IdPortafolio == undefined">
+								<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+								<bcs-combobox-base id="formCrearCargoAbono_seleccionPortafolio" class="col-xs-8"
+									bcs-requerido = "data.showSeleccionClientePortafolio"
+									id="UI_PORTAFOLIO"
+									auto-cargar="'false'"
+									tipo="'combobox-portafolio'"
+									id-defecto="data.oPortafolio.idDefecto"
+									seleccionado="data.oPortafolio.seleccionado"
+									filtros="data.oPortafolio.filtros"									
+									configuracion= "data.oPortafolio.configuracion"
+									activado="data.oPortafolio.activado"
+									item-post-filtro="'1'"
+									cascada1-a="data.oConfiguracionCuentaInversion.filtros.IdPortafolio"
+									cascada1-valor="'IdPortafolio'"
+									cascada1-defecto="-1"  
+									cascada2-a="data.oConfiguracionCuentaInversion.filtros.IdCliente"
+									cascada2-valor="'IdCliente'"
+									cascada2-defecto="-1">
+								</bcs-combobox-base >
+							</div>
+							
+							<div class="row" ng-if="parametros.IdPortafolio !== '' && parametros.IdPortafolio !== undefined">
+								<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+								<bcs-input-texto class="col-xs-8" id="formCrearCargoAbono_PortafolioDisabled" ng-model="parametros.NombrePortafolio" k-ng-disabled="'true'"></bcs-input-texto>															
+							</div>
+														
+							<div class="row">
+								<label class="col-xs-4" translate>UI_CUENTA_INVERSION</label>			
+								<bcs-combobox-base id="formCrearCargoAbono_cuenta" class="col-xs-8"
+									bcs-requerido ="data.showSeleccionCuentaInversion"
+									auto-cargar="'false'"
+									usa-filtros-completos = "'S'"
+									tipo="data.oConfiguracionCuentaInversion.tipo"  
+									configuracion= "data.oConfiguracionCuentaInversion.configuracion" 
+									id-actual="data.oConfiguracionCuentaInversion.idActual"
+									id-defecto="data.oConfiguracionCuentaInversion.idDefecto"
+									seleccionado="data.oConfiguracionCuentaInversion.seleccionado"
+									filtros="data.oConfiguracionCuentaInversion.filtros"
+									activado="data.oConfiguracionCuentaInversion.activado"
+									item-post-filtro="'1'"
+								></bcs-combobox-base >
+							</div>
+														
+							<div class="row">
+								<label class="col-xs-4" translate>UI_TIPO_MOVIMIENTO</label>			
+								<bcs-combobox-base id="formCrearCargoAbono_tipo_movimiento" class="col-xs-8" bcs-requerido
+									auto-cargar="'true'"
+									tipo="data.oConfiguracionTipoMovimiento.tipo"  
+									configuracion= "data.oConfiguracionTipoMovimiento.configuracion" 
+									id-actual="data.oConfiguracionTipoMovimiento.idActual"									
+									seleccionado="data.oConfiguracionTipoMovimiento.seleccionado" 
+									filtros="data.oConfiguracionTipoMovimiento.filtros"
+									item-post-filtro="'1'"							
+								></bcs-combobox-base >
+							</div>
+
+							<!---Ocultos -->
+							<div class="row" ng-show="data.showSocioNegocioTransferido">
+								<label class="col-xs-4" translate>UI_CLIENTE_TRANSFERIR</label>
+								<bcs-combobox-base id="formCrearCargoAbono_cliente_final"  class="col-xs-8"									
+									bcs-requerido = "data.showSocioNegocioTransferido"
+									auto-cargar="'false'"
+									id-Actual="data.oSocioNegocioTransferido.idActual"						
+									tipo="'combobox-socio-negocio'"
+									seleccionado="data.oSocioNegocioTransferido.seleccionado"
+									configuracion= "data.oSocioNegocioTransferido.configuracion"
+									filtros="data.oSocioNegocioTransferido.filtros"
+									cascada1-a="data.oPortafolioTransferido.filtros.IdCliente"
+									cascada1-valor="'IdCliente'"
+									cascada1-defecto="-1">
+								</bcs-combobox-base >							
+							</div>
+							<div class="row" ng-show="data.showPortafolioTransferido">
+								<label class="col-xs-4" translate>UI_PORTAFOLIO_TRANSFERIR</label>
+								<bcs-combobox-base id="formCrearCargoAbono_protafolio_final" class="col-xs-8"
+									bcs-requerido = "data.showPortafolioTransferido"
+									auto-cargar="'false'"
+									tipo="'combobox-portafolio'"
+									id-Actual="data.oPortafolioTransferido.idActual"
+									seleccionado="data.oPortafolioTransferido.seleccionado"
+									filtros="data.oPortafolioTransferido.filtros"
+									configuracion= "data.oPortafolioTransferido.configuracion"
+									item-post-filtro="'1'">
+								</bcs-combobox-base >
+							</div>
+							<!---Ocultos -->
+
+							<div class="row">
+								<label class="col-xs-4" translate>UI_CONCEPTO</label>
+								<bcs-combobox-base id="formCrearCargoAbono_concepto" class="col-xs-8" bcs-requerido
+									auto-cargar="'true'"
+									tipo="data.oConfiguracionConcepto.tipo"  
+									configuracion= "data.oConfiguracionConcepto.configuracion" 
+									id-actual="data.oConfiguracionConcepto.idActual" 
+									seleccionado="data.oConfiguracionConcepto.seleccionado" 
+									filtros="data.oConfiguracionConcepto.filtros"									
+									item-post-filtro="'1'" 
+								></bcs-combobox-base >					
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>
+								<bcs-input-date id="formCrearCargoAbono_fecha_liquidacion" class="col-xs-8"
+									k-ng-model="data.kngFechaSistema" 
+									ng-model="data.fechaSistema" 
+									k-ng-disabled = "'false'"
+								></bcs-input-date>								
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_MONTO</label>	
+								<bcs-input-monetario id="formCrearCargoAbono_monto" class="col-xs-8" bcs-requerido				
+									name="data.monto"
+									simbolo = "data.MontoSimbolo"
+								  	decimales= "data.MontoDecimales"
+									k-ng-model="data.kngMonto"
+								></bcs-input-monetario>				
+							</div>		
+							<div class="row">
+								<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+								<textarea class="col-xs-8" id="formCrearCargoAbono_descripcion" ng-model="data.descripcion"></textarea>
+							</div>
+						</div>
+					</tab>
+
+					<tab heading="{{'UI_DATOS_REFERENCIALES' | translate}}">
+						<div class="row" style="height: 250px">
+							<div class="row">
+								<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>	
+								<bcs-combobox-base id="formCrearCargoAbono_tipo_operacion" class="col-xs-8" 
+									auto-cargar="'true'"
+									tipo="data.oConfiguracionTipoOperacion.tipo"  
+									filtros="data.oConfiguracionTipoOperacion.filtros"
+									configuracion= "data.oConfiguracionTipoOperacion.configuracion" 
+									id-actual="data.oConfiguracionTipoOperacion.idActual" 
+									seleccionado="data.oConfiguracionTipoOperacion.seleccionado" 
+									cascada1-a="data.oConfiguracionCondicionLiquidacion.filtros.IdTipoOperacion"
+									cascada1-valor="'IdTipoOperacion'"			
+								></bcs-combobox-base >		
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_SECUENCIA_OPERACION</label>	
+								<bcs-input-monetario id="formCrearCargoAbono_folio" class="col-xs-8" 
+									ng-model="data.folio" 
+									k-ng-model="data.kngFolio" 
+									k-options="{ format : 'n0', min:0 }"
+								></bcs-input-monetario>		
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_FECHA_OPERACION</label>	
+								<bcs-input-date id="formCrearCargoAbono_fecha_operacion" class="col-xs-8" 
+									k-ng-model="data.kngFechaOperacion" 
+									ng-model="data.fechaOperacion"
+								></bcs-input-date>					
+							</div>			  	
+							<div class="row">
+								<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+								<bcs-combobox-base id="formCrearCargoAbono_condicion_liquidacion" class="col-xs-5"
+									auto-cargar="'false'" 
+									tipo="data.oConfiguracionCondicionLiquidacion.tipo"  
+									configuracion= "data.oConfiguracionCondicionLiquidacion.configuracion" 
+									id-actual="data.oConfiguracionCondicionLiquidacion.idActual" 
+									seleccionado="data.oConfiguracionCondicionLiquidacion.seleccionado" 
+									filtros="data.oConfiguracionCondicionLiquidacion.filtros"	
+									memoria= "data.oConfiguracionTipoOperacion.idActual"
+									item-post-filtro="'1'" 	
+								></bcs-combobox-base >
+								<bcs-input-date id="formCrearCargoAbono_fecha_condicion_liquidacion"  class="col-xs-3" 
+									k-ng-model="data.kngFechaCondicionLiquidacion" 
+									ng-model="data.fechaCondicionLiquidacion" 
+									k-ng-disabled = "'false'">
+								</bcs-input-date>					
+							</div>
+							<div class="row">					
+								<label class="col-xs-4" translate>UI_MONEDA</label>		
+								<bcs-combobox-base id="formCrearCargoAbono_moneda"  class="col-xs-8"
+									auto-cargar="'true'" 
+									tipo="'combobox-moneda'" 
+									configuracion= "data.oConfiguracionMoneda.configuracion" 
+									id-actual="data.oConfiguracionMoneda.idActual" 
+									seleccionado="data.oConfiguracionMoneda.seleccionado" 
+									filtros="data.oConfiguracionMoneda.filtros"
+								></bcs-combobox-base >		
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_TIPO_CAMBIO</label>
+								<bcs-input-monetario id="formCrearCargoAbono_tipo_cambio" class="col-xs-8"
+									name="data.tipoCabio"			 				
+									k-ng-model="data.kngTipoCambio"
+									k-options="data.optTipoCambio"
+								></bcs-input-monetario>				
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_INDICADOR_BILATERAL</label>		
+								<!-- <div class="col-xs-8"><switch name="IndicadorBilateral" ng-model="data.indicadorBilateral" on="{{ 'UI_SI' | translate }}" off="{{ 'UI_NO' | translate }}"></switch></div>-->
+								<div class="col-xs-8"><bcs-input-checkbox id="formCrearCargoAbono_IndicadorBilateral" name="IndicadorBilateral" ng-disabled="false" ng-model="data.indicadorBilateral"></bcs-input-checkbox></div>	
+							</div>
+						</div>
+					</tab>
+				</tabset>
+			</div>
+		</form>
+	</div>
+
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button id='formCrearCargoAbono_crear' class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="true" bcs-texto="'UI_CREAR' | translate" bcs-habilitado="formCrearCargoAbono.$valid" bcs-clic="data.CrearCargoAbono()"></bcs-button>
+		<bcs-button id='formCrearCargoAbono_limpiar' class="col-xs-2" bcs-tipo="'bcs-button-secondary'"          bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="'true'" bcs-clic="data.limpiar()"></bcs-button>
+	</div>
+</div>

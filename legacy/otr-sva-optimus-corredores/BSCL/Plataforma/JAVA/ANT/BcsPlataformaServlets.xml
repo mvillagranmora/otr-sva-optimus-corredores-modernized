@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="BcsServletsWeb">
+<!--
+
+
+ RECUERDE PASAR EN EL COMANDO SU RUTA DEL REPOSITORIO Y  
+ 
+ EJEMPLO: -DRUTA=C:\Users\cguzman\hana_work\DEV_02_CGUZMAN\__empty__\ -DDEPLOY=C:/BCS/DEPLOY/ -Dfile.encoding=UTF8
+ 
+ 
+-->
+    <property environment="env"/> 
+	<property name="fileName" value="SERVLETS"/>
+	<property name="web.xml" value="${RUTA}/BSCL/Plataforma/JAVA/ANT/config/Servlets.xml"/>
+	
+    <path id="src.path">
+    	<!-- Obligatorio valida sesion -->
+    	<!--
+    	    *********************
+    	     Fuentes del Modulo
+    	    *********************
+    	    -> Los fuentes deben ir en ${RUTA}/BSCL/[MODULO]/JAVA/PLA/Bcs[MODULO]Jobs/src
+    	       (no hay necesidad de una carpeta por job)
+    	    -> Casos especiales (API) pueden ir separado    	    
+    	-->
+    	
+    	<!-- API -->
+    	<pathelement location="${RUTA}/BSCL/Tesoreria/JAVA/BcsTesoreriaWebServices/src"/>
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsPlataformaServlets/src"/>
+    	
+    	<!-- DEPENDENCIAS SERVICIOS -->
+    	<pathelement location="${RUTA}/BSCL/Contabilidad/JAVA/BcsContabilidadServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/Normativa/Java/BcsNormativaServicios/src" />
+    	<pathelement location="${RUTA}/BSCL/Normativa/Java/BcsNormativaCore/src" />
+    	<pathelement location="${RUTA}/BSCL/Normativa/Java/BcsCartolasMaster/src" />
+    	<pathelement location="${RUTA}/BSCL/Normativa/Java/BcsCartolas/src" />
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsUtils/src"/>
+    	<pathelement location="${RUTA}/BSCL/Tesoreria/JAVA/BcsTesoreriaServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/Orden/JAVA/BcsOrdenServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/Custodia/JAVA/BcsCustodiaServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/FondoMutuo/JAVA/BcsFondoMutuoServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/SocioNegocio/JAVA/BcsSocioNegocioServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/APV/JAVA/BcsAPVServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsPlataformaServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/CuentaInversion/JAVA/BcsCuentaInversionServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/Facturacion/JAVA/BcsFacturacionServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsValo2/src"/>
+    	<pathelement location="${RUTA}/BSCL/Mesa/JAVA/BcsMesaServicios/src"/>
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsPlataformaReporteApi/src"/>
+    	<pathelement location="${RUTA}/BSCL/Portafolio/JAVA/BcsPortafolioServicios/src" />
+		<pathelement location="${RUTA}/BSCL/Replica/JAVA/BcsReplica/src"/>
+    </path>
+	<path id="dep.path">
+		
+	</path>
+	<fileset id="lib.jars" dir="${RUTA}/BSCL/Plataforma/JAVA/libs/">		
+		<include  name="kaiser-hana-1.12.02.jar"/>
+		<include  name="kaiser-odata-1.12.01.jar"/>			
+	</fileset>  
+	<fileset id="compile.jars" dir="${RUTA}/BSCL/Plataforma/JAVA/libs/">
+		<include  name="storedprocedure-2.0-SNAPSHOT.jar"/>
+		<include  name="kaiser-odata-1.12.01.jar"/>		
+		<include  name="pdfbox-app-3.0.2.jar"/>
+		<!-- ESTOS ARCHIVOS ESTAN EN jobm/lib -->		
+		<include  name="JDBInterface.jar"/>		
+		<include  name="commons-dbcp-1.4.jar"/>
+		<include  name="java-dogstatsd-client-4.2.0.jar"/>
+		<include  name="icu4j-71_1.jar"/>
+		<include  name="json-simple-1.1.1.jar"/>
+		<include  name="commons-pool-1.4.jar"/>
+		<include  name="ngdbc-120_37.jar"/>
+		<include  name="bcsvalo-0.0.jar"/>
+		<include  name="commons-fileupload-1.3.3.jar"/>
+        <include  name="commons-io-2.4.jar"/>
+        <include  name="commons-lang3-3.1.jar"/>
+        <include  name="opencsv-3.7.jar"/>
+		<include  name="bcprov-jdk16-1.46.jar"/>
+        <include  name="commons-lang-2.6.jar"/>
+		<include  name="itextpdf-5.0.6.jar"/>
+		<include  name="activation-1.1.1.jar"/>
+		<include  name="javax.mail-1.5.1.jar"/>
+		<include  name="jna-3.4.0.jar"/>
+		<include  name="gson-2.6.2.jar"/>
+		<include  name="commons-codec-1.10.jar"/>	
+		<include  name="json-20160212.jar"/>
+		<include  name="freemarker-2.3.23.jar"/>		
+		<include  name="log4j.jar"/>
+		<include  name="log4j-api-2.17.0.jar"/>  
+		<include  name="log4j-core-2.17.0.jar"/>
+		<include  name="commons-csv-1.5.jar"/>
+		<include  name="CrystalCommon2.jar"/>
+		<include  name="commons-collections-3.1.jar"/>
+		<include  name="commons-configuration-1.2.jar"/>
+		<include  name="cvom.jar"/>
+		<include  name="cxf-core-3.2.0.jar"/>
+		<include  name="cxf-rt-transports-http-3.2.0.jar"/>
+		<include  name="spring-context-4.3.10.RELEASE.jar"/>
+		<include  name="DatabaseConnectors.jar"/>
+		<include  name="icu4j.jar"/>		
+		<include  name="keycodeDecoder.jar"/>
+		<include  name="logging.jar"/>
+		<include  name="pfjgraphics.jar"/>
+		<include  name="poi-3.14-20160307.jar"/>
+		<include  name="poi-ooxml-3.14-20160307.jar"/>
+		<include  name="poi-scratchpad-3.14-20160307.jar"/>
+		<include  name="CrystalReportsRuntime.jar"/>
+		<include  name="avalon-framework-4.2.0.jar"/>
+		<include  name="barcode4j.jar"/>
+		<include  name="sql2o-1.5.4.jar"/>
+		<include  name="commons-net-3.6.jar"/>		
+		<!-- USADAS PARA LAS CARTOLAS -->
+		<include name="com.fasterxml.jackson.databind.jar"/>
+		<include name="com.lowagie.text-2.1.7.jar"/>
+		<include name="commons-beanutils-1.9.2.jar"/>
+		<include name="commons-digester-2.1.jar"/>
+		<include name="commons-logging-1.2.jar"/>
+		<include name="DynamicJasper-core-fonts-1.0.jar"/>
+		<include name="ecj-4.4.jar"/>
+		<include name="groovy-2.4.7.jar"/>
+		<include name="iReport-utils-2.0.1.jar"/>
+		<include name="jackson-annotations-2.1.2.jar"/>
+		<include name="jackson-core-2.2.3.jar"/>
+		<include name="jasperreports-6.3.0.jar"/>
+		<include name="jcommon-1.0.23.jar"/>
+		<include name="jfreechart-1.0.19.jar"/>
+		<include name="joda-time-2.4.jar"/>
+		<include name="org.springframework.beans.jar"/>
+		<include name="org.springframework.core.jar"/>
+		<include name="velocity-1.7.jar"/>
+		<!-- USADAS PARA LA VALORIZACION PERU -->
+		<include name="guava-18.0.jar"/>
+		<!-- SOLO COMPILACION -->
+		<include  name="servlet-api.jar"/>
+		<include  name="jsch-0.1.54.jar"/>
+		
+		<include  name="dd-trace-api-0.47.0.jar"/>
+		<include  name="opentracing-api-0.33.0.jar"/>
+		<include  name="opentracing-noop-0.33.0.jar"/>
+		<include  name="opentracing-util-0.33.0.jar"/>
+		<!-- USADAS PARA PDF -->
+		<include name="pdfbox-app-3.0.2.jar"/>
+	</fileset> 	
+<!-- NO SE META SI NO SABE -->
+    <path id="build.classpath">
+        <pathelement location="${DEPLOY}/bin"/>
+    	<fileset refid="lib.jars" />
+    	<fileset refid="compile.jars" />
+    </path>   	
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="jargs" value="-nowarn"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+	<pathconvert property="mf.classpath" pathsep=" ">
+		<path refid="build.classpath"/>
+		<mapper>
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*.jar" to="lib/*.jar"/>
+			</chainedmapper>
+		</mapper>
+	</pathconvert>  
+	<pathconvert property="mf.src" pathsep=",">
+		<path refid="src.path"/>
+	</pathconvert>   	
+    <target name="init">
+        <mkdir dir="${DEPLOY}/bin"/>
+        <mkdir dir="${DEPLOY}/deploy"/>	
+    	<mkdir dir="${DEPLOY}/libs"/>	
+    </target>
+    <target name="clean">
+        <delete dir="${DEPLOY}/bin"/>
+        <delete dir="${DEPLOY}/deploy"/>
+    	<delete dir="${DEPLOY}/libs"/>	
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="clean,build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+    	<copy todir="${DEPLOY}/libs">
+    		<fileset refid="lib.jars" />
+    	</copy>    	
+    	<copy file="${RUTA}/BSCL/Plataforma/JAVA/ANT/config/ConfiguracionCxf.xml" tofile="${DEPLOY}/cxf-servlet.xml"/>
+    	<copy todir="${DEPLOY}/bin" verbose="true">
+    		<multirootfileset basedirs="${mf.src}">
+	    		 <include name="**/*.properties"/>	
+		    		<include name="**/*.sql"/>	      			
+    		</multirootfileset>
+    	</copy>    	    	
+        <javac debug="true" debuglevel="${debuglevel}"  encoding="utf-8"
+        	   nowarn="true"
+        	   destdir="${DEPLOY}/bin" 
+               includeantruntime="false" 
+        	   source="${source}" 
+               target="${target}">
+            <src refid="src.path" />
+            <compilerarg value="${jargs}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+<!-- La magia del WAR Bundle -->
+        <war destfile="${DEPLOY}/deploy/${fileName}.war" webxml="${web.xml}" >
+          <lib dir="${DEPLOY}/libs" />
+          <webinf file="${DEPLOY}/cxf-servlet.xml"/>
+          <classes dir="${DEPLOY}/bin/" />          
+        </war>           	  	
+    </target>
+</project>

@@ -1,0 +1,90 @@
+<div class="row" ng-controller='ConsultarPatrimonioConsolidadoCtrl'>
+	<div class="col-xs-10">
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" style="width:12.4%;" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<bcs-combobox-base
+					class="col-xs-10"
+					ng-style="{'width' : data.oConfiguracionClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oConfiguracionClientePortafolio.seleccionado  ? '86%' : '87.5%'}"
+					carga-cliente-automatico="'S'"
+					auto-cargar="'false'" 
+					tipo="'combobox-cliente-portafolio'"								 				
+					seleccionado="data.oConfiguracionClientePortafolio.seleccionado"									
+					id-actual="data.oConfiguracionClientePortafolio.idActual">
+				</bcs-combobox-base>
+			</div>
+		</div>
+			
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+				<bcs-combobox-base
+					class="col-xs-9"
+					tipo         = "data.oConfiguracionClasificacion.tipo"
+					id-actual    = "data.oConfiguracionClasificacion.idActual"
+					seleccionado = "data.oConfiguracionClasificacion.seleccionado"
+					id-post-filtro = "data.oConfiguracionClasificacion.idPostFiltro"
+					configuracion= "data.oConfiguracionClasificacion.configuracion" 
+					cascada1-a="data.oConfiguracionInstrumento.filtros.IdClasificacionTipoInstrumento"
+					cascada1-valor="'IdClasificacionTipoInstrumento'"
+					todos="'S'"
+					bcs-requerido="'true'">
+				</bcs-combobox-base >
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+				<bcs-input-instrumentos
+					class="col-xs-8"
+					name="uInstrumento"
+					datos-instrumento="data.instrumentoDatos"
+					buscar-instrumento="data.oConfiguracionInstrumento.buscar"
+					filtro-clasificacion="data.oConfiguracionClasificacion.idActual"
+					filtro-estado = "'ACT'">
+				</bcs-input-instrumentos>
+			</div>
+		</div>
+			
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_FECHA_CONSULTA</label>
+				<bcs-input-date
+					class="col-xs-9"
+					k-ng-model="data.kngFecha"
+					k-options="data.FechaConsultaOpt">	
+			</div>
+			<div class="col-xs-2">
+				<div class="col-xs-2">
+					<bcs-input-checkbox ng-model="data.chkFechaLiquidacion"></bcs-input-checkbox>
+				</div>
+				<label class="col-xs-10" translate>UI_FECHA_LIQUIDACION</label>
+			</div>	
+			<div class="col-xs-2">					
+				<div class="col-xs-2">
+					<bcs-input-checkbox ng-model="data.chkFechaAdquisicion"></bcs-input-checkbox>
+				</div>
+				<label class="col-xs-10" translate>UI_FECHA_OPERACION</label>
+			</div>
+			<div class="col-xs-2">					
+				<div class="col-xs-2">
+					<bcs-input-checkbox ng-model="data.chkVigente"></bcs-input-checkbox>
+				</div>
+				<label class="col-xs-10" translate>UI_VIGENTE</label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-xs-2">
+		<div class="row">
+			<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="'true'" bcs-clic="buscar()" ></bcs-button>
+		</div>
+	</div>
+	
+	<div class="col-xs-12">
+		<div class="row" >
+			<bcs-grid
+				id="grid-custodia-patrimonio-consolidado"
+				configuracion="confGrillaPatrimonioConsolidado">
+			</bcs-grid>
+		</div>
+	</div>
+</div>

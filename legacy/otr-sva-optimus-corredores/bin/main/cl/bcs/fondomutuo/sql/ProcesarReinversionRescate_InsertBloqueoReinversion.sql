@@ -1,0 +1,22 @@
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion"(
+"IdBloqueaReinversion"
+,"IdPortafolio"
+,"IdRegimenTributario"
+,"IdSerieFondo"
+,"Monto" 
+,"NumeroCuotas"
+,"RescateTotal" 
+,"FechaSistema"
+,"IdCliente"
+,"IdGrupoRegimen")
+VALUES(
+:IdBloqueaReinversion
+,:IdPortafolio
+,:IdRegimenTributario
+,:IdSerieFondo
+,:Monto
+,:NumeroCuotas
+,:RescateTotal
+,:FechaSistema
+,:IdCliente
+,:IdGrupoRegimen);

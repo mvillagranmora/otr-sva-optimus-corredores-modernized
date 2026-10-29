@@ -1,0 +1,203 @@
+ <div class="row" ng-controller='ActualizarEventos'> 
+	<!--- INICIO FORMULARIO -->
+	<form name="myForm" class="col-xs-12 form-horizontal">     
+
+				<div class="col-xs-12"> 
+					<div class="row" ></div>
+					<label class="col-xs-3" translate>UI_DESCRIPCION  </label> <!-- Tipo de proceso / tarea  -->
+					<label class="col-xs-3" translate>{{Descripcion}}</label>
+				</div> 
+				<div class="col-xs-12">
+					<div class="row" ></div>
+					<label class="col-xs-3" translate>UI_TIEMPO_DESPACHO</label>
+ 					<bcs-combobox-base class="col-xs-3"
+						tipo="'combobox-tiempo-despacho-principal'"
+						seleccionado="conf.oTiempoDespacho"
+						filtros = "configuracionevento.oTiempoDespacho.filtros"
+						id-actual="configuracionEventoOriginalIdActual.TiempoDespacho"
+						id-post-filtro="configuracionEventoOriginal.TiempoDespacho"
+ 						todos="'N'" 
+ 						activado="true">
+					</bcs-combobox-base>  
+ 					<label class="col-xs-3" style="padding-left:8px" translate>UI_HORA</label>
+ 					<bcs-input-time 
+ 						class="col-xs-3" 
+ 						ng-model="data.hora" 
+ 						k-ng-disabled="conf.oTiempoDespacho.IdTiempoDespacho!=2">
+ 					</bcs-input-time>
+				</div> 
+				<div class="col-xs-12">
+					<div class="row" ></div>
+					<label class="col-xs-3" translate>UI_FORMA_DESPACHO</label>
+ 					<bcs-combobox-base class="col-xs-3"
+						tipo="'combobox-forma-despacho'"
+						seleccionado="conf.oFormaDespacho"
+						id-actual="configuracionEventoOriginalIdActual.FormaDespacho"
+						id-post-filtro="configuracionEventoOriginal.FormaDespacho"
+						filtros = "configuracionevento.oFormaDespacho.filtros"
+ 						todos="'N'"   
+						activado="true">
+					</bcs-combobox-base>   
+					<label class="col-xs-3" style="padding-left:8px" translate>UI_PLANTILLA</label>
+					<bcs-combobox-base class="col-xs-3"
+						tipo="'combobox-tipo-plantilla-notificacion'"
+						seleccionado="conf.oPlantillaNotificacion"
+						filtros = "configuracionevento.oPlantilla.filtros"
+						id-actual="configuracionEventoOriginalIdActual.IdPlantilla"
+						id-post-filtro="configuracionEventoOriginal.IdPlantilla" >
+					</bcs-combobox-base>
+				</div> 
+				
+				<div class="col-xs-12"> 
+					<div class="row" ></div>
+					<label class="col-xs-3" translate>UI_AGRUPA</label>
+ 					<bcs-input-checkbox  class="col-xs-3" ng-model="conf.Agrupa.value1" k-ng-model="conf.Agrupa.value1"></bcs-input-checkbox>
+  					<label class="col-xs-3" style="padding-left:8px" translate>UI_PERSONALIZABLE</label>
+ 					<bcs-input-checkbox  class="col-xs-3" ng-model="conf.Personalizable.value1" k-ng-model="conf.Personalizable.value1"></bcs-input-checkbox> 
+					</bcs-combobox-base>
+				</div>
+				
+				<div class="col-xs-12">  
+					<div class="row" ></div>
+ 					<label class="col-xs-3"  translate>UI_REQUIERE_CONFIRMACION</label>
+ 					<bcs-input-checkbox  class="col-xs-3" ng-model="conf.RequiereConfirmacion.value1" k-ng-model="conf.RequiereConfirmacion.value1" ></bcs-input-checkbox> 
+					
+ 					<label class="col-xs-3" style="padding-left:8px" translate>UI_FECHA_VENCIMIENTO_EVENTO</label>
+ 					<bcs-input-numero class="col-xs-3" 
+ 						k-ng-disabled="conf.RequiereConfirmacion.value1==false"
+						k-ng-model="conf.kngFechaVencimiento" 
+ 						decimales="0"
+					></bcs-input-numero>   
+				</div>
+				
+				<div class="col-xs-12"> 
+					<div class="row" ></div>
+					<label class="col-xs-3" translate>UI_REQUIERE_RECORDAR</label>
+ 					<bcs-input-checkbox  class="col-xs-3" ng-model="conf.RequiereRecordar.value1" ></bcs-input-checkbox> 
+
+					<label class="col-xs-3" style="padding-left:8px" translate>UI_CONTROL_PROCESO</label>
+ 					<bcs-input-checkbox  class="col-xs-3" ng-model="conf.ControlProceso.value1"  k-ng-model="conf.ControlProceso.value1"></bcs-input-checkbox>
+  				 
+				</div>
+				
+				<div class="col-xs-12">  
+					<div class="row" ></div>
+ 					<label class="col-xs-3" translate>UI_FECHA_RECORDATORIO_EVENTO</label>
+ 					<bcs-input-numero class="col-xs-3" 
+ 						decimales="0"
+						k-ng-model="conf.kngFechaRecordatorio" 
+ 						k-ng-disabled="conf.RequiereRecordar.value1==false"
+					></bcs-input-numero>
+					<label class="col-xs-3" style="padding-left:8px" translate>UI_PLANTILLA_RECORDATORIO</label>
+					<bcs-combobox-base class="col-xs-3"
+						tipo="'combobox-tipo-plantilla-notificacion'"
+						seleccionado="conf.oPlantillaNotificacionRecordatorio"
+						filtros = "configuracionevento.oPlantillaRecordatorio.filtros"
+						id-actual="configuracionEventoOriginalIdActual.IdPlantillaRecordatorio"
+						id-post-filtro="configuracionEventoOriginal.IdPlantillaRecordatorio"   
+						activado="conf.RequiereRecordar.value1"
+						    
+					 >
+					</bcs-combobox-base>
+				</div>
+				
+				<div class="col-xs-12">  
+					<div class="row" ></div>
+					
+					<label class="col-xs-3" translate>UI_EXCLUIR_DESTINATARIO</label>
+					<bcs-input-checkbox  class="col-xs-3" ng-model="ExcluirDestinatario.value1" ></bcs-input-checkbox> 
+				</div>
+				
+				
+				
+				<div class="col-xs-12">  
+ 					<div class="row" ></div>
+					<label class="col-xs-3" translate>UI_ENVIAR_USUARIOS_ROL</label>
+					<bcs-input-checkbox  class="col-xs-3" ng-model="EnviarUsuariosRol.value1"   k-ng-model="conf.EnviarUsuariosRol.value1"></bcs-input-checkbox> 
+					<bcs-combobox-base class="col-xs-3"
+ 						tipo="'combobox-rol'"
+						seleccionado="conf.Rol"
+						filtros = "conf.oRol.filtros" 
+						activado="EnviarUsuariosRol.value1"
+						todos ="'S'"
+						id-actual="configuracionEventoOriginalIdActual.IdUsuarioRol"
+						id-post-filtro="configuracionEventoOriginal.IdUsuarioRol"
+						>
+					</bcs-combobox-base> 
+				</div>
+				
+				<div class="col-xs-12">  
+					<div class="row" ></div>
+					<label class="col-xs-3" translate>UI_ENVIAR_REMITENTE</label>
+					<bcs-input-checkbox  class="col-xs-3" ng-model="EnviarRemitente.value1"  ></bcs-input-checkbox> 
+					
+					
+				</div>
+				
+				
+				<div class="col-xs-12">  
+ 					<div class="row" ></div>
+					<label class="col-xs-3" translate>UI_COPIAS_ADICIONALES</label> 
+					 <bcs-input-checkbox  class="col-xs-3" ng-model="AniadirCopias.value1" ></bcs-input-checkbox> 
+					
+					<bcs-input-texto type="email" name="correo" 
+						class="col-xs-3" 
+ 						k-ng-model="conf.Correo" 
+						ng-model="data.Correo"
+						ng-disabled="AniadirCopias.value1==false" 
+ 					></bcs-input-texto>
+ 					<bcs-button 
+ 						id="agregarNotificacion_agregarCorreo" 
+ 						 style="padding-left:8px" 
+ 						 class="col-xs-3"   
+ 						 bcs-tipo="'bcs-button-input-form'" 
+ 						 bcs-auto-desactivar="'false'"
+ 						 bcs-texto="'UI_AGREGAR' | translate"    
+ 						 bcs-habilitado="AniadirCopias.value1"  
+ 						 bcs-clic="agregarCorreo()"></bcs-button> 
+ 					    
+				</div>
+ 
+				  
+				
+				<br>
+				<br>
+				<div class="row">
+					<div class="col-xs-12 k-window-subtitle" style="font-size:12px;" translate>
+						UI_CORREOS   
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<bcs-grid id="grid-correos"
+					 	configuracion = "confCorreos"
+						seleccionado = "conf.seleccionCorreo"
+						api = "gridApiCorreos">
+						</bcs-grid>
+						<div class="row"></div> 
+						<div class="col-xs-9"></div>
+						<bcs-button bcs-habilitado="conf.seleccionCorreo" style="padding-left:8px"  class="col-xs-3" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ELIMINAR_CORREO' | translate" bcs-clic="eliminarCorreo()"></bcs-button>
+						
+					</div>
+				</div>
+				
+				
+				
+	       
+		<div class="row" ></div>
+		<div class="row" ></div>
+		<hr>
+		<div class="row bcs-panel-buttons alignButtonsToRight">
+		 
+		    <bcs-button bcs-habilitado="'true'" class="col-xs-3" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_GUARDAR' | translate" bcs-clic="ActualizarEventoConfiguracion()"></bcs-button>
+			<bcs-button bcs-habilitado="'true'" class="col-xs-3" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate" bcs-clic="Limpiar()"></bcs-button>
+		</div>
+	</form>
+	<!--- TERMINO FORMULARIO -->
+</div>
+
+
+
+
+
+                                          

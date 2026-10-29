@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.SocioNegocio.BD::SOC.ConsultarFichaSocioNegocio_IndicadorEntidad" WHERE "IdTrabajo" = :IdTrabajo;

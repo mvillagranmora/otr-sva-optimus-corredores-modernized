@@ -1,0 +1,1 @@
+INSERT INTO #CARGA_MASIVA VALUES(:IdInterno, :IdTipoCargaMasiva, :NombreArchivo);

@@ -1,0 +1,106 @@
+<div id="CriterioSeleccionTasas" class="row" ng-controller="CriterioSeleccionTasasCtrl as cSTas">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_TIPO_CARTERA</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-configuracion-tasas'"
+						id-actual="cSTas.filtro.Valor"
+						id-defecto="'0'"
+						filtros="cSTas.cmbbx.TipoCartera.filtros"
+						todos="'S'"
+						configuracion="cSTas.cmbbx.TipoCartera.configuracion"
+						seleccionado="cSTas.dataFiltros.TipoCarteraObj">
+					</bcs-combobox-base>
+				</div>
+		  		<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_USO_CRITERIO</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-uso-criterio'"
+						id-actual="cSTas.filtro.IdUso"
+						id-defecto="'0'"
+						filtros="cSTas.cmbbx.UsoCriterio.filtros"
+						todos="'S'"
+						seleccionado="cSTas.dataFiltros.UsoCriterioObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						id-actual="cSTas.filtro.IdClasificacionTipoInstrumento"
+						id-defecto="'0'"
+						filtros="cSTas.cmbbx.ClasificacionTipoInstrumento.filtros"
+						todos="'S'"
+						seleccionado="cSTas.dataFiltros.ClasificacionTipoInstrumentoObj">
+					</bcs-combobox-base>
+				</div>
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_TIPO_CRITERIO_TASA</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-tipo-criterio-tasa'"
+						id-actual="cSTas.filtro.IdTipoCriterioTasa"
+						id-defecto="'0'"
+						filtros="cSTas.cmbbx.TipoCriterioTasa.filtros"
+						todos="'S'"
+						seleccionado="cSTas.dataFiltros.TipoCriterioTasaObj">
+					</bcs-combobox-base>
+				</div>
+				<!--
+				<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-estado-tasa'"
+						id-actual="cSTas.filtro.IdEstado"
+						id-defecto="'0'"
+						filtros="cSTas.cmbbx.Estado.filtros"
+						todos="'S'"
+						seleccionado="cSTas.dataFiltros.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+				-->
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="cSTas.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="cSTas.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<br>
+		
+	<div class="row">
+		<bcs-grid
+			configuracion="cSTas.grilla.CriterioSeleccionTasas"
+			seleccionado="cSTas.grilla.criterioSeleccionSel"
+			fn-doble-click="cSTas.win.modificar(cSTas.grilla.criterioSeleccionSel)"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	<br>
+	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-8">
+			<bcs-button id="CriterioSeleccionTasas_agregar" class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'" bcs-clic="cSTas.win.agregar()">
+			</bcs-button>
+			<bcs-button id="CriterioSeleccionTasas_modificar" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="cSTas.grilla.criterioSeleccionSel !== undefined && cSTas.grilla.criterioSeleccionSel.IdEstado === 'ACT'" bcs-clic="cSTas.win.modificar(cSTas.grilla.criterioSeleccionSel)">
+			</bcs-button>
+			<bcs-button id="CriterioSeleccionTasas_eliminar" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" bcs-habilitado="cSTas.grilla.criterioSeleccionSel !== undefined && cSTas.grilla.criterioSeleccionSel.IdEstado === 'ACT'" bcs-clic="cSTas.fn.eliminar(cSTas.grilla.criterioSeleccionSel)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-2"></div>
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

@@ -1,0 +1,32 @@
+INSERT INTO "BSCL.CuentaInversion.BD::CAR.CargaMasivaDetalle"
+		(
+			"IdCargaMasivaDetalle", 
+			"IdCargaMasiva", 
+			"DocumentoIdentidad", 
+			"IdPortafolio", 
+			"IdMoneda", 
+			"IdTipoMovimiento", 
+			"IdConcepto", 
+			"Monto", 
+			"Descripcion", 
+			"IdEstado", 
+			"ObservacionValidacion",
+			"Plan",
+			"ProductoAgrupador"			
+			)
+VALUES
+	(
+		     :IdCargaMasivaDetalle
+			,:IdCargaMasiva
+			,:DocumentoIdentidad
+			,:IdPortafolio
+			,:IdMoneda
+			,:IdTipoMovimiento
+			,:IdConcepto
+			,:Monto
+			,:Descripcion
+			,:IdEstado
+			,:ObservacionValidacion
+			,:Plan
+			,:ProductoAgrupador
+	);

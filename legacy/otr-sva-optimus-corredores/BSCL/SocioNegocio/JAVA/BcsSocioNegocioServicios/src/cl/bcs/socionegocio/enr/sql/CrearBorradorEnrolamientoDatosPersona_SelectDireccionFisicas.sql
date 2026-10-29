@@ -1,0 +1,16 @@
+SELECT 
+"IdDireccionFisica"
+,"Calle"
+,"Numero"
+,"Departamento"
+,"Sector"
+,"CodigoPostal"
+,"IdCiudad"
+,"CodigoProposito"
+,"Comentario"
+,"IdPersona"
+,"IdDivisionPais"
+,"Predeterminado"
+,"CodigoCompuesto"
+FROM "BSCL.SocioNegocio.BD::PER.DireccionFisica"
+WHERE "IdPersona" IN (:IdPersona) AND "Borrado" = 'N';

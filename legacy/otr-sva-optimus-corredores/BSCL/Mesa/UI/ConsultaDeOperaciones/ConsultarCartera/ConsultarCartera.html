@@ -1,0 +1,138 @@
+<div class="row" ng-controller='ConsultarCarteraCtrl' tabindex="1">
+	<div class="row" >
+		<div class="row">
+			<div class="col-xs-10 bcs-cuerpo">
+				<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-7" 
+						id="UI_FECHA"
+						bcs-requerido
+						k-ng-model="data.kngFecha"
+						k-options="data.fechaOptions">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_MESA</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="UI_MESA"
+					 	auto-cargar="'true'"
+					 	todos="data.todos"
+					 	activado="data.habilita"
+					    tipo="'combobox-mesas'"
+					    filtros="data.oConfiguracionMesa.filtros"
+						id-actual="data.oConfiguracionMesa.idActual"
+					    seleccionado="data.oConfiguracionMesa.seleccionado"
+					    item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-7"
+						bcs-requerido
+						id="UI_TIPO_INSTRUMENTO"
+						auto-cargar="'true'"
+						tipo="'combobox-tipoinstrumento-mesa'"
+						todos="'S'"
+						seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+						id-actual="data.oConfiguracionTipoInstrumento.idActual"
+						filtros="data.oConfiguracionTipoInstrumento.filtros"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4" ng-show="data.txtFD">
+					<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+					<bcs-input-date class="col-xs-7" 
+						id="UI_FECHA_DESDE"
+						bcs-requerido
+						k-ng-model="data.kngFechaDesde" 
+						k-ng-disabled="data.HabilitaFecha"
+						k-options="data.fechaOptions"> 
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4" ng-show="data.txtFH">
+					<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+					<bcs-input-date class="col-xs-7" 
+						id="UI_FECHA_HASTA"
+						bcs-requerido
+						k-ng-model="data.kngFechaHasta" 
+						k-ng-disabled="data.HabilitaFecha"
+						k-options="data.fechaOptions"> 
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="UI_OPERACION"
+						auto-cargar="'true'"
+						tipo="'combobox-operacion-mesa'"
+						todos="'S'"
+						filtros="data.oConfiguracionOperacion.filtros"
+						id-actual="data.oConfiguracionOperacion.idActual"
+						seleccionado="data.oConfiguracionOperacion.seleccionado"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4"  ng-show="HabilitoCheckFFMM">
+				  	<bcs-input-checkbox class="col-xs-1"
+							ng-model="data.FmDolar">
+				 	</bcs-input-checkbox>
+			 		<label class="col-xs-5" translate>UI_FONDOS_MUTUOS_DOLAR</label>
+				</div>
+			</div>				    
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-11"
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true"
+						bcs-clic="data.filtrarMovimientos(1,undefined)">
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-11"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.limpiarFiltros()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<div class="row">
+		<div class="row">
+			<div class="col-xs-12">
+				<new-bcs-grid 
+					id="grid-cartera"
+					fn-exportar-excel="exportarExcel2"
+					configuracion="confCartera"
+					seleccionado="ObjSeleccionGrilla.seleccionGrillaCartera"
+					fn-doble-click="ConsultarOperacionUI()">
+				</new-bcs-grid>
+			</div>
+		</div>
+		<div class="col-xs-2"></div>
+		<div class="row bcs-panel-comandos">
+			<div class="col-xs-2">
+				<bcs-button class="col-xs-12"
+					bcs-tipo="'bcs-button-primary'"
+					id="ConsultaOperacionesFwd_cartera_anticipo"
+					bcs-texto="'UI_ANTICIPO' | translate" 
+					bcs-habilitado="(HabilitoBotonAnticipo) && !gridHistorico" 
+					bcs-clic="AnticipoOperacionUI()"
+					bcs-auto-desactivar="false">
+				</bcs-button>
+			</div>
+			<div class="col-xs-8"></div>
+		</div>
+	</div>
+</div>

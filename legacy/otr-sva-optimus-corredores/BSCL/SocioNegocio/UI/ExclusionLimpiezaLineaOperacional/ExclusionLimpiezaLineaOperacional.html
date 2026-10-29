@@ -1,0 +1,61 @@
+<div class="row" ng-controller='ExclusionLimpiezaLineaOperacionalCtrl'>
+	<form name="frmExclusionLimpiezaLineaOperacional">
+	<div class="row bcs-cuerpo">
+	 
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">		
+	
+				<div class="row">
+					<div class="col-xs-10">
+						<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base 
+							class="col-xs-10" 
+							id="ExclusionLimpiezaLineaOperacionalCtrl_UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							ng-style="{'width' : data.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oClientePortafolio.seleccionado  ? '81%' : '83.33333333%'}"
+							carga-cliente-automatico="'S'"  
+							tipo="data.oClientePortafolio.tipo"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio" 
+							id-actual="filtros.IdPortafolio"
+							configuracion="data.oClientePortafolio.configuracion"> 
+						</bcs-combobox-base>
+					</div>
+				</div>
+				
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_INGRESAR' | translate"  bcs-habilitado="data.oClientePortafolio.seleccionado" bcs-clic="ingresarExclusionLimpiezaLineaOperacional()"></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+
+		<div class="row">		
+			<bcs-grid id="grid-carga-masiva"
+				configuracion 		= "confGridExclusionLimpiezaLineaOperacional"
+				seleccionado  		= "seleccionExclusionLimpiezaLineaOperacional"
+				fn-exportar-excel 	= "exportarExcel"
+				api ="apiGridExclusionLimpiezaLineaOperacional">
+			</bcs-grid>
+		</div>
+		
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="true"  bcs-texto="'UI_QUITAR' | translate"   bcs-habilitado="seleccionExclusionLimpiezaLineaOperacional"  bcs-clic="eliminarExclusionLimpieza(seleccionExclusionLimpiezaLineaOperacional)"></bcs-button>
+ 
+		<bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">	
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+	</div>
+
+	</form>	
+</div>

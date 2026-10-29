@@ -1,0 +1,66 @@
+<div id="ConsultarTareasDte" ng-controller="ConsultarTareasDteCtrl">
+	<div class="row">
+		<div class="col-xs-10">
+				<!-- Inicio filtros de búsqueda -->
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_SECUENCIA_COMPROBANTE</label>
+						<bcs-input-texto class="col-xs-9" ng-model="data.IdComprobante"></bcs-input-texto>
+					</div>
+			  	</div>
+			  	<div class="row">
+			  		<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_ESTADO</label>
+				  		<bcs-combobox-base class="col-xs-9"
+							id="ComprobanteFacturacionCtrl_UI_ESTADO" auto-cargar="'true'"
+							tipo="data.oConfiguracionEstadoComprobante.tipo"
+							configuracion="data.oConfiguracionEstadoComprobante.configuracion"
+							id-actual="data.oConfiguracionEstadoComprobante.idActual"
+							seleccionado="data.oConfiguracionEstadoComprobante.seleccionado"
+							filtros="data.oConfiguracionEstadoComprobante.filtros"
+							memoria="COMPROBANTES" todos="'S'" id-defecto="'0'"
+							item-post-filtro="'1'"> 
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+				<div class="row">
+			  		<div class="col-xs-12">
+						<label class="col-xs-3" translate>UI_FECHA_TAREA_DESDE</label>
+						<bcs-input-date class="col-xs-9" 
+							k-ng-model="conf.kngFechaTareaDesde" 
+						    ng-model="FechaEnvioDte"
+						></bcs-input-date>
+					</div>
+			  	</div>
+		</div>
+		<div class="col-xs-2">
+			<!-- botones -->
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  	 bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="true"  bcs-clic="buscarTareas()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<bcs-grid id="grid-listado-tareas"
+	 	configuracion = "confBasicaTareas"
+	 	fn-exportar-excel ="tareas.exportarExcel"
+		seleccionado = "seleccionTareas">
+		</bcs-grid>
+	</div>
+
+ 	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-10"></div>
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="tareas.exportarExcel()">{{'UI_EXPORTAR_EXCEL_TAREAS' | translate}}</li>
+		</bcs-menu>
+	</div>
+	
+</div>
+			
+	
+	

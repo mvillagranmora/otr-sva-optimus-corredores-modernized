@@ -1,0 +1,163 @@
+<div id="PanelEgresos" class="row" ng-controller="PanelEgresosCtrl as pct">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecInicio"
+				></bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_HASTA</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecTermino"></bcs-input-date>
+			</div>
+		  	</div>
+		  	<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pct.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pct.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pct.SocioDeNegocioObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_TRASPASO</label>
+						<bcs-combobox-base class="col-xs-8"
+									tipo = "'combobox-tipo-traspaso-ffmm'"
+									id-actual = "pct.cmbbx.IdTipoTraspaso"
+									filtros="pct.cmbbx.TipoTraspaso.filtros"
+									auto-cargar="true"
+									item-post-filtro="'1'"
+									id-defecto="pct.params.PrevDocumento.IdTipoTraspaso"
+									todos="'S'"
+									seleccionado="pct.cmbbx.IdTipoTraspasoObj">
+					 	</bcs-combobox-base >							
+						
+				</div>
+		  	</div>
+		  	<div class="row">
+			  	<div class="col-xs-6">
+				  	<label class="col-xs-4" translate>UI_ADMINISTRADORA_DESTINO</label>
+					<bcs-combobox-base class="col-xs-8"
+								tipo = "'combobox-emisores'"
+								id-actual = "pct.cmbbx.IdEmisor"
+								filtros="pct.cmbbx.Emisor.filtros"
+								auto-cargar="true"
+								id-defecto="pct.params.PrevDocumento.IdEmisor"
+								todos="'N'"
+								seleccionado="pct.cmbbx.IdEmisorObj">
+				 	</bcs-combobox-base >	
+				</div>
+				<div class="col-xs-6" >
+				<label class="col-xs-4" translate>UI_MOTIVO_TRASPASO</label>
+				<bcs-combobox-base class="col-xs-8"
+							tipo = "'combobox-motivo-traspaso-ffmm'"
+							id-actual = "pct.cmbbx.IdMotivo"
+							filtros="pct.cmbbx.Motivo.filtros"
+							auto-cargar="true"
+							item-post-filtro="'1'"
+							id-defecto="pct.params.PrevDocumento.IdMotivo"
+							todos="'S'"
+							seleccionado="pct.cmbbx.IdMotivoObj">
+			 	</bcs-combobox-base >		
+				</div>
+				
+				
+					 
+		  	</div>
+		  	
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<div class="row">
+			<bcs-grid id="grid-traspaso-egreso-ffm" configuracion="pct.Traspasos"
+				fn-doble-click="abrirDetalle(datos.kNgModel)" api="apiGridSolicitud"
+				seleccionado="pct.TraspasosSel" fn-exportar-excel="excelTraspasos">
+				<div bcs-grid-detail ng-non-bindable>
+				<uib-tabset>
+					<uib-tab  heading="{{'UI_ORIGEN'| translate}}">
+						<div class="row" style="width:95%;">
+							<bcs-grid 
+								configuracion="pct.Origen(dataItem)" 
+								seleccionado="pct.OrigenSel">
+							</bcs-grid>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+			</bcs-grid>
+		</div>		
+
+		<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button id="Traspaso_ingresar" class="col-xs-2 pull-left"
+			    bcs-tipo="'bcs-button-primary'"
+		    	bcs-auto-desactivar="false"
+		    	bcs-texto="'UI_INGRESAR' | translate"
+		     	bcs-habilitado="'true'"
+		     	bcs-clic="pct.fn.ingresar()">
+		    </bcs-button>
+		  	<bcs-button id="Traspaso_editar" class="col-xs-2 pull-left"
+		  		bcs-tipo="'bcs-button-secondary'"
+		    	bcs-auto-desactivar="false"
+		    	bcs-texto="'UI_EDITAR' | translate"
+		     	bcs-habilitado="pct.TraspasosSel.IdEstado==='ING'"
+		     	bcs-clic="pct.fn.editar()">
+		    </bcs-button>
+		  	<bcs-button id="Traspaso_anular" class="col-xs-2 pull-left"
+		  		bcs-tipo="'bcs-button-secondary'"
+		    	bcs-auto-desactivar="false"
+		    	bcs-texto="'UI_ANULAR' | translate"
+		     	bcs-habilitado="pct.TraspasosSel.IdEstado==='ING'"
+		     	bcs-clic="pct.fn.anular()">
+		    </bcs-button>
+		  	
+		  	<bcs-button id="Traspaso_confirmar" class="col-xs-2 pull-left"
+		  		bcs-tipo="'bcs-button-secondary'"
+		    	bcs-auto-desactivar="false"
+		    	bcs-texto="'UI_CONFIRMAR' | translate"
+		     	bcs-habilitado="pct.activaConfirmar"
+		     	bcs-clic="pct.fn.confirmar()">
+		    </bcs-button>
+		    <bcs-button id="Traspaso_confirmar" class="col-xs-2 pull-left"
+		  		bcs-tipo="'bcs-button-secondary'"
+		    	bcs-auto-desactivar="false"
+		    	bcs-texto="'UI_CERTIFICADO_31' | translate"
+		     	bcs-habilitado="pct.activaDescargarCertificado"
+		     	bcs-clic="pct.fn.descargarCertificado()">
+		    </bcs-button>
+		    <!-- 
+		  	<bcs-button id="Traspaso_certificarCargo" class="col-xs-2 pull-left"  
+		  		bcs-tipo=""
+		    	bcs-auto-desactivar="false" 
+		    	bcs-texto="'UI_CERTIFICAR_CARGO' | translate"
+		     	bcs-habilitado="pct.OrigenSel.IdEstadoCargoAbono==='PEN'" 
+		     	bcs-clic="pct.fn.certificarCargo()">
+		    </bcs-button>
+		     -->
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+		<!-- 
+			<bcs-menu bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+	           <li ng-click="excelTraspasos('Traspasos')">	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+			</bcs-menu>
+		 -->	
+		</div>
+	</div>
+	
+	
+	
+</div>

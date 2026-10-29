@@ -1,0 +1,61 @@
+<div class="row" ng-controller='DetalleNominaDepositoCtrl as bInfoDeposito'>
+	<div class="row bcs-cuerpo">
+		
+
+		<table class="table" width="70%">
+			<tr>
+				<td><strong class="align_right" translate>UI_SECUENCIA_DEPOSITO</strong></td>
+				<td><label class="">{{bInfoDeposito.Detalle.IdDeposito}}</label></td>					
+				<td><strong class="align_right" translate>UI_FECHA_MOVIMIENTO</strong></td>
+				<td><label class="" >{{bInfoDeposito.Detalle.FechaMovimiento | kformat:'d'}}</label></td>
+			</tr>
+			<tr>
+				<td><strong class="align_right" translate>UI_TIPO_MEDIO_DE_PAGO</strong></td>
+				<td><label class="">{{bInfoDeposito.Detalle.NombreTipoMedioDePago}}</label></td>					
+				<td><strong class="align_right" translate>UI_CANTIDAD</strong></td>
+				<td><label class="" >{{bInfoDeposito.Detalle.Cantidad}}</label></td>
+			</tr>			
+			<tr>
+				<td><strong class="align_right" translate>UI_MONEDA</strong></td>
+				<td><label class="">{{bInfoDeposito.Detalle.NombreMoneda}}</label></td>					
+				<td><strong class="align_right" translate>UI_MONTO</strong></td>
+				<td><label class="" >{{bInfoDeposito.Detalle.Monto | kformat:'c':bInfoDeposito.Detalle.IdMoneda:'monto':'GEN' }}</label></td>
+			</tr>
+			<tr>				
+				<td><strong class="align_right" translate>UI_BANCO</strong></td>
+				<td colspan="3"><label class="" >{{bInfoDeposito.Detalle.NombreBanco}}</label></td>
+			</tr>
+		</table>
+
+
+		<div class="row" style="margin-top:20px;">
+			<bcs-grid
+				configuracion = "confBasicaDepositosDetalle"
+				seleccionado = "seleccionDepositosDetalle"
+				fn-exportar-excel = "DetalleNominaDeposito">
+			</bcs-grid>
+		</div>
+
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" 
+			bcs-tipo="'bcs-button-primary'"  
+			bcs-auto-desactivar="false"  
+			bcs-texto="'UI_LIQUIDAR' | translate" 
+			bcs-habilitado="'true'"  
+			bcs-clic="LiquidarDocumentos()">
+		</bcs-button>
+		<bcs-button class="col-xs-2" 
+			bcs-tipo="'bcs-button-anular'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_ANULAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="AnularDocumentos()">
+		</bcs-button>			 	
+		
+		<bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+            <li ng-click="DetalleNominaDeposito()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+
+	</div>
+</div>

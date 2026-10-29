@@ -1,0 +1,139 @@
+<div ng-controller="MantenedorMatrizRiesgo as mntMatrizRiesgo">
+	<form name="formMantenedorMatrizRiesgo" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_CANASTA_FACTORES|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base 
+						class="col-xs-8" 
+						auto-cargar="true"
+						tipo="'combobox-clasificacion-tipo-instrumento'"  				
+						seleccionado="data.ClasificacionSeleccionado"
+						filtros="data.ConfiguracionClasificacion.filtros" 
+						id-actual="data.ClasificacionIdActual"
+						activado="false"
+						item-post-filtro="'1'"
+					>
+					</bcs-combobox-base >
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-combobox-base 
+						class="col-xs-8"
+						bcs-requerido="true"
+						id="UI_OPERACION"
+					 	auto-cargar="'true'"
+					 	item_post_filtro="'1'"
+					    tipo="'combobox-operacion-mesa'"
+						filtros="data.ConfiguracionOperacion.filtros"
+						seleccionado="data.OperacionSeleccionada"
+						id-actual="data.ConfiguracionOperacionidActual"
+					>
+					</bcs-combobox-base >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base 
+						class="col-xs-10"
+						id="UI_TIPO_INSTRUMENTO"
+						bcs-requerido="true"
+						auto-cargar="'true'"
+						item-post-filtro="1"
+						tipo="'combobox-tipoinstrumento-mesa'"
+						filtros="data.ConfiguracionInstrumento.filtros"
+						seleccionado="data.InstrumentoSeleccionado"
+						id-actual="data.InstrumentoIdActual"
+						activado="false"
+					>
+					</bcs-combobox-base >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_MONEDA_PRINCIPAL</label>
+					<bcs-combobox-base 
+						class="col-xs-8"
+						id="UI_MONEDA_PRINCIPAL"
+					 	auto-cargar="'true'"
+					 	bcs-requerido="true"
+					 	tipo="'combobox-moneda-principal'"
+					    seleccionado="data.MonedaPrincipalSeleccionada"
+					    filtros="data.ConfiguracionMonedaPrincipal.filtros"
+	                    id-actual="data.MonedaPrincipalIdActual"
+	                    id-defecto="data.MonedaPrincipalDefecto"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_MONEDA_SECUNDARIA</label>
+					<bcs-combobox-base 
+						class="col-xs-8"
+						id="UI_MONEDA_SECUNDARIA"
+						bcs-requerido="true"
+					 	auto-cargar="'true'"
+					    tipo="'combobox-moneda-secundaria'"
+					    seleccionado="data.MonedaSecundariaSeleccionada"
+					    filtros="data.ConfiguracionMonedaSecundaria.filtros"
+	                    id-actual="data.MonedaSecundariaIdActual"
+	                    id-defecto="data.MonedaSecundariaDefecto"
+					>
+					</bcs-combobox-base>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<bcs-button class="col-xs-2" 
+					bcs-tipo="'bcs-button-search'"
+					bcs-auto-desactivar="'true'" 
+					bcs-texto="'UI_BUSCAR' | translate"
+					bcs-habilitado="true"
+					bcs-clic="BuscarMatrizRiesgo()" 
+				>
+				</bcs-button>
+		</div>		
+			<div class="row">
+				<bcs-grid id="grid-matrizriesgo"
+					configuracion="confBasicaMatrizRiesgo"
+					seleccionado="seleccionMatrizRiesgo"
+					>
+				</bcs-grid>
+			</div>
+			<!-- BOTONES -->
+			<div class="row bcs-panel-comandos">
+				<bcs-button class="col-xs-2 pull-right" 
+					bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_INGRESAR' | translate"
+					bcs-habilitado="true"
+					bcs-clic="IngresarMatrizRiesgo()" 
+				>
+				</bcs-button>
+				<bcs-button class="col-xs-2 pull-right" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'true'" 
+					bcs-texto="'UI_ELIMINAR' | translate"
+					bcs-habilitado="(HabilitarEliminar)"
+					bcs-clic="EliminarMatrizRiesgo()" 
+				>
+				</bcs-button>
+				<bcs-button class="col-xs-2 pull-right" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_GRABAR' | translate"
+					bcs-habilitado="(HabilitarGrabar)"
+					bcs-clic="GrabarMatrizRiesgo()" 
+				>
+				</bcs-button>		
+			</div>
+		</div>
+	</form>
+</div>
+

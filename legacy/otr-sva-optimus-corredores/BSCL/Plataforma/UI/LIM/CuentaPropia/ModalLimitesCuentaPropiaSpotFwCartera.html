@@ -1,0 +1,205 @@
+<div id="ModalLimitesCuentaPropiaSpotFwCartera" class="row" ng-controller="ModalLimitesCuentaPropiaSpotFwCarteraCtrl as mlCPSFC">
+	<div class="row">
+		<div ng-class="mlCPSFC.win.modoEditarEmisor ? 'col-xs-9' : 'col-xs-12'">
+			<form name="ModalLimitesCuentaPropiaSpotFwCartera">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						id-actual="mlCPSFC.respuesta.IdTipoInstrumento"
+						id-defecto="mlCPSFC.respuesta.IdTipoInstrumentoDef"
+						todos="'N'"
+						bcs-requerido
+						activado="mlCPSFC.win.modoEditarTpoIns"
+						filtros="mlCPSFC.cmbbx.TipoInstrumento.filtros"
+						seleccionado="mlCPSFC.dataModal.TipoInstrumentoObj"
+						cascada1-a="mlCPSFC.dataDirectiva.TipoLimite ==='LIMCTPSPOT' || mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPFORWARD' ? mlCPSFC.cmbbx.Instrumento.filtros.IdTipoInstrumento : mlCPSFC.cmbbx.TipoOperacion.filtros.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"						
+						tipo="'combobox-tipoinstrumento-mesa'"
+						id-actual="mlCPSFC.respuesta.IdInstrumento"
+						id-defecto="mlCPSFC.respuesta.IdInstrumentoDef"
+						item-post-filtro="'1'"
+						todos="'S'"
+						bcs-requerido
+						filtros="mlCPSFC.cmbbx.Instrumento.filtros"
+						seleccionado="mlCPSFC.dataModal.InstrumentoObj"
+						>
+					</bcs-combobox-base>
+				</div>
+
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CANAL</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-canal-ingreso'"
+						id-actual="mlCPSFC.respuesta.IdCanalIngreso"
+						id-defecto="mlCPSFC.respuesta.IdCanalIngresoDef"
+						item-post-filtro="'1'"
+						todos="'S'"
+						bcs-requerido
+						filtros="mlCPSFC.cmbbx.TipoCanalIngreso.filtros"
+						seleccionado="mlCPSFC.dataModal.TipoCanalIngresoObj">
+					</bcs-combobox-base>
+			  	</div>
+			  	
+			  	<div class="row"> <!--ng-if="mlCPSFC.dataDirectiva.Clasificacion !== 'CARTERA' && mlCPSFC.dataDirectiva.TipoLimite !== 'LIMCTPAGENTE'"-->
+					<label class="col-xs-4" translate>UI_OPERADOR</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-codigo-empleado'"
+						id-actual="mlCPSFC.respuesta.CodigoOperador"
+						id-defecto="mlCPSFC.respuesta.CodigoOperadorDef"
+						item-post-filtro="'1'"
+						todos="'S'"
+						activado="true"
+						bcs-requerido
+						filtros="mlCPSFC.cmbbx.Operador.filtros"
+						seleccionado="mlCPSFC.dataModal.OperadorObj">
+					</bcs-combobox-base>
+				</div>
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_MONEDA_PRINCIPAL</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-moneda-principal'"
+						id-actual="mlCPSFC.respuesta.IdMonedaPrincipal"
+						id-defecto="mlCPSFC.respuesta.IdMonedaPrincipalDef"
+						item-post-filtro="'1'"
+						todos="'N'"
+						bcs-requerido						
+						seleccionado="mlCPSFC.dataModal.MonedaObj"
+						cascada1-a="mlCPSFC.cmbbx.TipoOperacion.Moneda.IdInstrumento"
+						cascada1-valor="'IdInstrumento'"
+						>
+					</bcs-combobox-base>
+				</div>
+			  	
+			  	<div class="row" ng-if="mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPSPOT'">
+					<label class="col-xs-4" translate>UI_MONTO_INTRADAY</label>
+					<bcs-input-numero class="col-xs-8" 
+						bcs-requerido 
+						k-ng-model="mlCPSFC.respuesta.MontoIntraday" 
+						decimales="mlCPSFC.win.MontoDecimal">
+					</bcs-input-numero>
+				</div>
+				<div class="row" ng-if="mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPSPOT'">
+					<label class="col-xs-4" translate>UI_MONTO_OVERNIGHT</label>
+					<bcs-input-numero class="col-xs-8" 
+						bcs-requerido 
+						k-ng-model="mlCPSFC.respuesta.MontoOvernight" 
+						decimales="mlCPSFC.win.MontoDecimal">
+					</bcs-input-numero>
+				</div>
+
+				<div class="row" ng-if="mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPFORWARD'">
+					<label class="col-xs-4" translate>UI_MONTO</label>
+					<bcs-input-numero class="col-xs-8" 
+						bcs-requerido 
+						k-ng-model="mlCPSFC.respuesta.MontoTotal" 
+						decimales="mlCPSFC.win.MontoDecimal">
+					</bcs-input-numero>
+				</div>
+
+				<!-- LIMCTPFORWARD -->
+				<div class="row" ng-if="mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPFORWARD'">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_USA_PLAZO</label>
+						<bcs-input-checkbox
+							class="col-xs-8"
+							ng-model="mlCPSFC.respuesta.UsaPlazoMaximoDias"
+						></bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-if="mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPFORWARD'">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_PLAZO_MAXIMO_DIAS</label>
+						<bcs-input-numero
+							class="col-xs-8"
+							k-ng-model="mlCPSFC.respuesta.PlazoMaximoDias"
+							decimales="0"
+							bcs-requerido="mlCPSFC.respuesta.UsaPlazoMaximoDias"
+							k-ng-disabled="!mlCPSFC.respuesta.UsaPlazoMaximoDias"
+						></bcs-input-numero>
+					</div>
+				</div>
+				
+				<!--<div class="row" > <!--ng-if="mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPGRUPOEMISOR'"--
+					<label class="col-xs-4" translate>UI_GRUPO_EMISORES</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-grupo-emisores'"
+						id-actual="mlCPSFC.respuesta.IdGrupoEmisor"
+						id-defecto="mlCPSFC.respuesta.IdGrupoEmisorDef"
+						todos="'N'"
+						bcs-requerido
+						filtros="mlCPSFC.cmbbx.GrupoEmisor.filtros"
+						seleccionado="mlCPSFC.dataModal.GrupoEmisorObj">
+					</bcs-combobox-base>
+				</div>
+				
+				<div class="row" > <!--ng-if="mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPEMISOR'"--
+					<label class="col-xs-4" translate>UI_EMISOR</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-emisor'"
+						id-actual="mlCPSFC.respuesta.IdEmisor"
+						id-defecto="mlCPSFC.respuesta.IdEmisorDef"
+						todos="'N'"
+						bcs-requerido
+						filtros="mlCPSFC.cmbbx.Emisor.filtros"
+						seleccionado="mlCPSFC.dataModal.EmisorObj">
+					</bcs-combobox-base>
+				</div>-->
+				
+				<div class="row">
+                    <label class="col-xs-4" translate>UI_TIPO_VALIDACION</label>
+                    <bcs-combobox-base class="col-xs-8" 
+                        tipo="'combobox-tipo-comportamiento'"
+                        id-actual="mlCPSFC.respuesta.IdTipoComportamiento" 
+                        id-defecto="mlCPSFC.respuesta.IdTipoComportamientoDef" 
+                        todos="'N'" 
+                        activado="true" 
+                        bcs-requerido
+                        seleccionado="mlCPSFC.dataModal.TipoComportamientoObj">
+                    </bcs-combobox-base>
+                </div>
+				
+				<div class="row">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-estado-limites'"
+						id-actual="mlCPSFC.respuesta.IdEstado"
+						id-defecto="mlCPSFC.respuesta.IdEstadoDef"
+						todos="'N'"
+						bcs-requerido
+						filtros="mlCPSFC.cmbbx.Estado.filtros"
+						seleccionado="mlCPSFC.dataModal.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+			</form>
+		</div>
+	</div>
+	<br>
+	
+	<!--<div > <!--ng-if="mlCPSFC.win.modoEditar && mlCPSFC.dataDirectiva.TipoLimite === 'LIMCTPGRUPOEMISOR'"--
+		<div class="row">
+			<label style="margin-left:10px; margin-right:10px;" translate>UI_EMISORES_DEL_GRUPO</label>{{mlCPSFC.respuesta.IdGrupoEmisorDef}}
+		</div>
+		<div class="row">
+			<bcs-grid
+				configuracion="mlCPSFC.grillaEmisores">
+			</bcs-grid>
+		</div>
+	</div>-->
+	
+	<div class="row bcs-panel-comandos">
+		<div ng-class="mlCPSFC.win.modoEditarEmisor ? 'col-xs-10' : 'col-xs-12'">
+			<bcs-button id={{mlCPSFC.IdBotonAceptar}} class="col-xs-3" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalLimitesCuentaPropiaSpotFwCartera.$valid" bcs-clic="mlCPSFC.aceptar();">
+			</bcs-button>
+			<bcs-button id="ModalLimitesCuentaPropiaSpotFwCartera_cancelar" class="col-xs-3" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="mlCPSFC.cancelar();">
+			</bcs-button>
+		</div>
+	</div>
+</div>

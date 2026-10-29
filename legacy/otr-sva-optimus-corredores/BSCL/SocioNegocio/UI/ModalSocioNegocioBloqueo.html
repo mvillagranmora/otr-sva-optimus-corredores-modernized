@@ -1,0 +1,56 @@
+<div id="ModalSocioNegocioBloqueo" ng-controller="ModalSocioNegocioBloqueoCtrl">
+	<form name="formBloqueoCliente">
+		<div class="row bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="data.oConfiguracionTipoBloqueo.tipo"
+						seleccionado="data.TipoBloqueoObj"
+						filtros="data.oConfiguracionTipoBloqueo.filtros"
+						id-actual="data.IdTipo"
+						bcs-requerido> 
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-8"
+						k-ng-model="data.Fecha" 
+						k-ng-disabled="(data.TipoBloqueoObj.IdTipoBloqueo !== 'BMUERT')" bcs-requerido>
+					</bcs-input-date>
+				</div>
+			</div> 
+			<div class="row" ng-if="(data.TipoBloqueoObj.CodigoTipoBloqueo=='BTEMPO'||data.TipoBloqueoObj.CodigoTipoBloqueo=='DESBTEMPO'||data.TipoBloqueoObj.CodigoTipoBloqueo=='DESBTEMPORAL')">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_FECHA_TERMINO</label>
+					<bcs-input-date class="col-xs-8" 
+						k-ng-model="data.FechaHasta" 
+						bcs-requerido="(data.TipoBloqueoObj.CodigoTipoBloqueo=='BTEMPO'||data.TipoBloqueoObj.CodigoTipoBloqueo=='DESBTEMPO'||data.TipoBloqueoObj.CodigoTipoBloqueo=='DESBTEMPORAL')">
+					</bcs-input-date>
+				</div>
+			</div>   
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_COMENTARIO</label>
+					<bcs-input-texto class="col-xs-8" atributos="width:100%" ng-model="data.Comentario" bcs-requerido tipo-campo="'textarea'"> </bcs-input-texto>
+				</div>
+			</div>
+		</div>
+	</form>
+	<hr style="margin: 10px 0px">
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-12">
+		<bcs-button class="col-xs-3" id={{IdBoton}}
+			bcs-habilitado="formBloqueoCliente.$valid" bcs-tipo="'principal'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate"
+			bcs-clic="CambioEstado()"></bcs-button>
+		<bcs-button class="col-xs-3" id="ModalSocioNegocioBloqueo_cancelar" 
+			bcs-habilitado="'true'" bcs-tipo="''" 
+			bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-clic="cerrar()"></bcs-button>
+		</div>
+	</div>
+ 
+</div>

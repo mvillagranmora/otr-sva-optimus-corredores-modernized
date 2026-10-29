@@ -1,0 +1,149 @@
+<div ng-controller="ModalEditarEstado as edEstado">
+	<form name="formIngresarSpot" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_EDITAR_ESTADO|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<!-- EDITAR ESTADOS -->
+			<div class="row">
+				<div class="row col-xs-12">
+					<!-- <label class="col-xs-3" translate>UI_PRODUCTO</label>
+					<bcs-input-texto 
+						class="col-xs-8" 
+						id="UI_PRODUCTO" 
+						ng-model="data.NombreProducto" 
+						k-ng-model="data.kngNombreProducto"
+						k-ng-disabled="true"
+					>
+					</bcs-input-texto> -->
+						<label class="row col-xs-3" translate>UI_TIPO_PRODUCTO</label>
+						<bcs-combobox-base 
+							class="row col-xs-9"
+							id="UI_TIPO_PRODUCTO"
+							auto-cargar="'true'"
+							bcs-requerido
+							todos="N"
+							tipo="'combobox-tipo-producto-mesa-modulo'"
+							filtros="data.oConfiguracionTipoProducto.filtros"
+							seleccionado="data.oConfiguracionTipoProducto.seleccionado"
+							id-actual="data.oConfiguracionTipoProducto.idActual"
+							id-defecto="data.IdTipoProductoMesaModulo"
+							memoria="IdCodigo"								
+							cascada-a="data.oConfiguracionTipoInstrumento.filtros.IdTipoInstrumento"
+							cascada-valor="'IdTipoInstrumento'"
+							cascada-defecto=""																					
+													
+						> 
+						</bcs-combobox-base >
+				</div>			
+				<div class="row col-xs-12">
+					<label class="row col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base 
+						class="row col-xs-9"
+						id="UI_TIPO_INSTRUMENTO"
+						auto-cargar="'true'"
+						bcs-requerido
+						todos="N"
+						tipo="'combobox-instrumento-mesa-ui'"
+						filtros="data.oConfiguracionTipoInstrumento.filtros"
+						seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+						id-actual="data.oConfiguracionTipoInstrumento.idActual"
+						id-defecto="data.Nemotecnico"
+						memoria="IdTipoOperacion"
+						
+						cascada1-a="data.oConfiguracionMonedaPrincipal.filtros.Nemotecnico"
+						cascada1-valor="'Nemotecnico'"
+						cascada1-defecto=""
+						
+						cascada2-a="data.oConfiguracionMonedaSecundaria.filtros.Nemotecnico"
+						cascada2-valor="'Nemotecnico'"
+						cascada2-defecto=""
+					> 
+					</bcs-combobox-base >	
+				</div>
+				<div class="row col-xs-12">
+					<label class="row col-xs-3" translate>UI_MONEDA_PRINCIPAL</label>
+						<!--  tipo="'combobox-moneda'" -->
+						<bcs-combobox-base 
+							class="row col-xs-9"
+							id="UI_MONEDA_PRINCIPAL"
+							auto-cargar="'true'"
+							bcs-requerido
+							tipo = "'combobox-parmonedas-base'"							
+							todos="data.todos"
+							seleccionado="data.oConfiguracionMonedaPrincipal.seleccionado"
+							filtros="data.oConfiguracionMonedaPrincipal.filtros"
+			    	        id-defecto="data.IdMonedaPrincipal"
+						>
+						</bcs-combobox-base>
+				</div>
+				<div class="col-xs-12">
+					<label class="row col-xs-3" translate>UI_MONEDA_SECUNDARIA</label>
+					<bcs-combobox-base 
+						class="row col-xs-9"
+						bcs-required
+						id="UI_MONEDA_SECUNDARIA"
+						auto-cargar="'true'"
+						bcs-requerido
+						tipo = "'combobox-parmonedas-base'"
+						todos="N"
+						seleccionado="data.oConfiguracionMonedaSecundaria.seleccionado"
+						filtros="data.oConfiguracionMonedaSecundaria.filtros"
+						id-defecto="data.IdMonedaSecundaria"
+					>
+					</bcs-combobox-base>
+				</div>
+				<!-- <div class="row col-xs-12">
+					<label class="col-xs-3" translate>UI_MONEDA_SECUNDARIA</label>
+					<bcs-input-texto 
+						class="col-xs-8" 
+						id="UI_MONEDA_SECUNDARIA" 
+						ng-model="data.monedaSecundaria" 
+						k-ng-disabled="true"
+					>
+					</bcs-input-texto>
+				</div> -->
+				<div class="col-xs-12" ng-if="data.estadoDefecto">
+						<label class="row col-xs-3" translate>UI_ESTADO</label>
+						<bcs-combobox-base 
+							class="row col-xs-9"
+							id="UI_ESTADO"
+							auto-cargar="'true'"
+							tipo="'combobox-estado-mesa'"
+							seleccionado="data.oConfiguracionEstado.seleccionado"
+							filtros="data.oConfiguracionEstado.filtros"
+			            	id-defecto="data.estadoDefecto"
+						>
+						</bcs-combobox-base>
+					</div>
+				<div class="col-xs-12">
+					<label class="row col-xs-3" translate>UI_FERIADO_MONEDA_PRINCIPAL</label>				
+						<div class="col-xs-3">					
+							<!-- <input type="checkbox" ng-model="BancoReferenciaForward"  id="formCuentaBancaria_BancoReferenciaForward"> -->
+							<input type="checkbox" ng-model="data.FeriadoMonedaPrincipal" id="formCuentaBancaria_BancoReferenciaForward">
+						</div>
+				</div>
+				<!-- <div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_FERIADO_MONEDA_PRINCIPAL</label>
+					<div class="col-xs-8">
+						<input type="checkbox" ng-model="FeriadoMonedaPrincipal"  id="formCuentaBancaria_GeneraTransferencia">
+					</div>
+				</div> -->
+			</div>
+			
+			<!-- BOTONES -->
+			<div class="row bcs-panel-comandos alignButtonsToRight">
+				<bcs-button class="col-xs-3" bcs-tipo="'bcs-button-input-form'"
+					bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate"
+					bcs-habilitado="true"
+					bcs-clic="data.crearEditarMonedaPorProducto()">
+				</bcs-button>
+			</div>
+		</div>
+		<hr>
+</div>
+</form>
+</div>
+

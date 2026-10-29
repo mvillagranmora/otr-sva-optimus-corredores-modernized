@@ -1,0 +1,1 @@
+UPDATE "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" SET "Borrado" = :p_Borrado, "FechaModificacion" = CURRENT_UTCTIMESTAMP WHERE "IdDocumentoIdentidad" = :p_IdDocumentoIdentidad

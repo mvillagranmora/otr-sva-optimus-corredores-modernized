@@ -1,0 +1,79 @@
+<div id="CuadraturaDiariaOperaciones" ng-controller="CuadraturaDiariaOperacionesCtrl">
+	<div class="row">
+		<div class="col-xs-5 k-window-subtitle" style="font-size:12px;" translate>
+			UI_RESUMEN
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class="col-xs-10">
+				<label class="col-xs-2" translate>UI_FECHA_CUADRATURA</label>
+				<bcs-input-date
+					class="col-xs-9"
+					k-options = "kOptFechaCuadratura"
+					k-ng-model = "data.fechaCuadratura">
+				</bcs-input-date>
+			</div>
+			<div class="col-xs-2">
+				<bcs-button id="CuadraturaDiariaOperaciones_ConsultarCuadraturaORD"  class="col-xs-3 pull-right customBtnCuadraturaFac" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_CONSULTAR_RESUMEN' | translate" bcs-habilitado="'true'"  bcs-clic="consultarResumen()"></bcs-button>
+			 </div>
+		</div>	
+	</div>
+	<div class="row">
+		<bcs-grid 
+			id				= "grid-cuadraturas"
+	 		configuracion	= "confBasicaCuadraturas"
+			seleccionado	= "seleccionCuadraturas"
+			fn-click 		= ConsultaUltimoDetalle(seleccionCuadraturas);>
+		</bcs-grid>
+	</div>
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button id="CuadraturaDiariaOperacionesORD_CuadrarOrdenes"  class="col-xs-3" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_CARGAR_ARCHIVO_CAVALI' | translate" bcs-habilitado="'true'"  bcs-clic="cargarArchivo()" bcs-mostrar="mostrarBotonCargaArchivoCavali"></bcs-button>
+		<bcs-button id="CuadraturaDiariaOperacionesORD_Aprobar" 	 class="col-xs-3" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_APROBAR' | translate" bcs-habilitado="'true'"  bcs-clic="Aprobar()"></bcs-button>
+	 	<bcs-button id="CuadraturaDiariaOperacionesORD_Cuadratura"  class="col-xs-3" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_CUADRAR' | translate" bcs-habilitado="'true'"  bcs-clic="Cuadratura()"></bcs-button>
+	</div>		
+	<div class="row">
+		<div class="col-xs-5 k-window-subtitle" style="font-size:12px;" translate>
+			UI_DETALLE_DESCUADRATURA
+		</div>
+	</div>
+	<div class="row">
+		<bcs-grid 
+			id					= "grid-resultado-TRX-ASIG"
+			fn-exportar-excel	= "tab.exportarExcel1"
+			configuracion 		= "confBasicaTrxAsig"
+			ng-show				= "verGrillaTRX">
+		</bcs-grid>
+		<bcs-grid 
+			id					="grid-resultado-ORDEN"
+			fn-exportar-excel 	= "tab.exportarExcel2"
+	 		configuracion 		= "confBasicaOrdenes"
+			ng-show				= "verGrillaORDEN">
+		</bcs-grid>	
+		<bcs-grid 
+			id					= "grid-resultado-ASIGNACION"
+			fn-exportar-excel	= "tab.exportarExcel3"
+	 		configuracion 		= "confBasicaAsignacion"
+			ng-show				= "verGrillaASIGNACION">
+		</bcs-grid>
+		<bcs-grid 
+			id					= "grid-resultado-FACTURA"
+			fn-exportar-excel	= "tab.exportarExcel5"
+	 		configuracion 		= "confBasicaFacturacion"
+			ng-show				= "verGrillaFACTURA">
+		</bcs-grid>
+		<bcs-grid 
+			id					= "grid-resultado-CAVALI"
+			fn-exportar-excel 	= "tab.exportarExcel4"
+	 		configuracion 		= "confBasicaCavali"
+			ng-show				= "verGrillaCAVALI">
+		</bcs-grid>						
+	</div>
+ 	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-2"></div>
+		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>
+	
+	

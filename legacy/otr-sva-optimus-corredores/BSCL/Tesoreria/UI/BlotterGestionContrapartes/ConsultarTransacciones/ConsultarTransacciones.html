@@ -1,0 +1,156 @@
+<div class="row" ng-controller='ConsultarTransaccionesTesoreriaCtrl' bcs-enter="datosForm.buscarTransacciones()" tabindex="1">
+	<div class="row" >
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+	
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-clasificacion-tipo-instrumento'"
+							id-actual="datosBusqueda.IdClasificacionTipoInstrumento"
+							cascada-a="datosForm.filtrosTipoInstrumento.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-instrumento'"
+							id-actual="datosBusqueda.IdTipoInstrumento"
+							filtros = "datosForm.filtrosTipoInstrumento"
+							cascada-a="datosForm.filtrosOperacion.IdTipoInstrumento"
+							cascada-valor="'IdTipoInstrumento'"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos class="col-xs-8" 
+							datos-instrumento="datosBusqueda.instrumento"
+							buscar-instrumento="datosBusqueda.setInstrumento" 
+							bcs-requerido
+							filtro-clasificacion="datosBusqueda.IdClasificacionTipoInstrumento"
+							filtro-tipo-instrumento="datosBusqueda.IdTipoInstrumento">
+						</bcs-input-instrumentos>
+					</div>
+			    </div>
+			    		    
+			    			    
+		
+			    <div class="row">
+				    <div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-4" k-ng-model="datosBusqueda.fechaDesde"></bcs-input-date>
+						<bcs-input-date class="col-xs-4" k-ng-model="datosBusqueda.fechaHasta"></bcs-input-date>
+					</div>
+					
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_OPERACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-operacion'"
+							id-actual="datosBusqueda.AccionOrden"
+							filtros = "datosForm.filtrosOperacion"
+							todos = "'S'"
+							item-post-filtro = "'1'"
+							cascada-a="datosForm.filtrosCondicionDeLiquidacion.AccionTipoOperacion"
+							cascada-valor="'AccionOrden'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_BOLSA</label>
+						<bcs-combobox-base 
+					     	class="col-xs-8"
+							tipo="'combobox-bolsa'"
+							id-actual="datosBusqueda.IdBolsa"
+							todos="'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+			    	</div>
+			    </div>
+			    
+			    <div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							filtros = "datosForm.filtrosCondicionDeLiquidacion"
+							tipo="'combobox-condicion-liquidacion'"
+							id-actual="datosBusqueda.IdCondicionDeLiquidacion"
+							todos = "'S'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base >
+					</div>					
+										
+				    <div class="col-xs-4">		
+				    	<label class="col-xs-4" translate>UI_BLOQUEADO</label>
+						<bcs-input-checkbox 
+					     	class="col-xs-1"
+					     	ng-model="datosBusqueda.BloqueoLiquidacion">
+						</bcs-input-checkbox>		    	
+					</div>
+			    </div>
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+			    <div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true" 
+						bcs-clic="datosForm.buscarTransacciones()" >
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="true"  
+						bcs-clic="datosForm.limpiarFiltros()">
+					</bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+			
+		</div>
+	</div>
+	
+	
+	<div class="row">
+		<bcs-grid id="grid-transacciones-tesoreria"
+			fn-doble-click		= "datosForm.abrirDetalle(datosForm.kNgModel)"
+			api 				= "datosForm.apiGridTransacciones"
+			fn-exportar-excel 	= "datosForm.exportarExcel"
+			seleccionado		= "datosForm.kNgModel"
+			configuracion		= "datosForm.defaultOptionsNew">
+		</bcs-grid>
+	</div>
+
+	<!-- INICIO PANEL DE COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-1" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_MODIFICAR' | translate" id = "ConsultarTransacciones_modificarTransaccion"
+			bcs-habilitado="datosForm.kNgModel" bcs-clic="datosForm.modificarTransaccion(datosForm.kNgModel)"></bcs-button>
+	
+		<bcs-button  class="col-xs-1" bcs-tipo="'bcs-button-secondary'" ng-show="SesionLocale == 'PE'" bcs-auto-desactivar="'false'" bcs-texto="'UI_IGK' | translate" id = "ConsultarTransacciones_cargarArchivoIGK"
+			bcs-habilitado="'true'" bcs-clic="datosForm.cargarArchivoIGK()"></bcs-button>
+			
+		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="datosForm.exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+            <li ng-click="datosForm.seleccionarTodo()">{{'UI_SELECCIONAR_TODO' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

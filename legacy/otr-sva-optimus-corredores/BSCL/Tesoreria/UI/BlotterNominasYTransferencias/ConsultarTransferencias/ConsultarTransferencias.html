@@ -1,0 +1,115 @@
+<div class="row" ng-controller='ConsultarTransferenciasCtrl'>
+	<div class="row bcs-cuerpo" ng-form="frmConsultarTransferencias">
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_BANCO</label>
+						<bcs-combobox-base class="col-xs-8" id="frmConsultarTransferencias_banco" auto-cargar="'true'"
+							tipo="frm.oConfiguracionBanco.tipo" configuracion="frm.oConfiguracionBanco.configuracion"
+							seleccionado="frm.oConfiguracionBanco.seleccionado"
+							id-actual="frm.oConfiguracionBanco.idActual" filtros="frm.oConfiguracionBanco.filtros"
+							cascada1-a="frm.oConfiguracionCuentaCorredora.filtros.IdBanco" cascada1-valor="'IdBanco'"
+							cascada1-defecto="-1" todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4" translate>UI_CUENTAS_CORREDORA</label>
+						<bcs-combobox-base class="col-xs-8" id="frmConsultarTransferencias_cuentaCorredora"
+							auto-cargar="'true'" tipo="frm.oConfiguracionCuentaCorredora.tipo"
+							configuracion="frm.oConfiguracionCuentaCorredora.configuracion"
+							seleccionado="frm.oConfiguracionCuentaCorredora.seleccionado"
+							id-actual="frm.oConfiguracionCuentaCorredora.idActual"
+							filtros="frm.oConfiguracionCuentaCorredora.filtros" todos="'S'" id-defecto="0"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_TRANSFERENCIA</label>
+						<bcs-input-numero class="col-xs-8" id="frmConsultarTransferencias_transferencia" name="nomina"
+							k-ng-model="frm.ngTransferencia" formato="'#'" decimales=0>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_INGRESO</label>
+						<bcs-input-date class="col-xs-8" id="frmConsultarTransferencias_fechaIngreso"
+							k-ng-model="frm.kngFechaIngreso" ng-model="frm.ngFechaIngreso">
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-8" id="frmConsultarTransferencias_fechaLiquidacion"
+							k-ng-model="frm.kngFechaLiquidacion" ng-model="frm.ngFechaLiquidacion">
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base class="col-xs-8" id="frmConsultarTransferencias_estado" auto-cargar="'true'"
+							tipo="frm.oConfiguracionEstado.tipo" configuracion="frm.oConfiguracionEstado.configuracion"
+							seleccionado="frm.oConfiguracionEstado.seleccionado"
+							id-actual="frm.oConfiguracionEstado.idActual" filtros="frm.oConfiguracionEstado.filtros"
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmConsultarTransferencias_btn_buscar"
+						bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="btnActivo" bcs-clic="buscarTransferencias(frm)"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmConsultarTransferencias_btn_limpiar"
+						bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="btnActivo"
+						bcs-clic="limpiarFiltros(frm)"></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+
+		<div class="row">
+			<bcs-grid id="frmConsultarTransferencias_grid_transferencias" configuracion="frm.confBasicaTransferencias"
+				fn-exportar-excel="exportarExcel" seleccionado="frm.seleccionTransferencias">
+				<div bcs-grid-detail ng-non-bindable>
+					<bcs-grid id="frmConsultarTransferencias_grid_transferencias_detalle"
+						configuracion="frm.confBasicaTransferenciaDetalle(dataItem)"
+						seleccionado="frm.seleccionTransferenciaDetalle"
+						fn-doble-click="frm.fnDobleClick(frm.seleccionTransferenciaDetalle)"
+						fn-exportar-excel="exportarExcel">
+					</bcs-grid>
+				</div>
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" id="frmConsultarTransferencias_btn_generarArchivo"
+			bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_GENERAR_ARCHIVO' | translate"
+			bcs-habilitado="frm.seleccionTransferencias" bcs-clic="generarArchivo(frm)">
+		</bcs-button>
+		<bcs-button class="col-xs-2" id="frmConsultarTransferencias_btn_anular" bcs-tipo="'bcs-button-anular'"
+			bcs-auto-desactivar="'false'" bcs-texto="'ANULAR NÓMINA'"
+			bcs-habilitado="frm.seleccionTransferencias && frm.seleccionTransferencias.IdEstado != 'ANU'" bcs-clic="anular(frm)">
+		</bcs-button>
+		<bcs-button class="col-xs-2" id="frmConsultarTransferencias_btn_anular" bcs-tipo="'bcs-button-anular'"
+			bcs-auto-desactivar="'false'" bcs-texto="'UI_QUITAR_DETALLE' | translate" 
+			bcs-habilitado="habilitaQuitarDetalle && 
+			frm.seleccionTransferencias.IdEstado != 'ANU'
+			"
+			bcs-clic="quitarDetalle(frm)">
+		</bcs-button>
+
+
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+			bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

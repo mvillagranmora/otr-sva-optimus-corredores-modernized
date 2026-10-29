@@ -1,0 +1,36 @@
+SELECT
+"IdCliente" AS "IdCliente"
+,B."IdPortafolio" AS "IdPortafolio"
+,'' AS "IdConcepto"
+,'' AS "NombreTipoMovimiento"
+,'' AS "AfectaRentabilidad"
+,'' AS "TipoConcepto"
+,'' AS "IdTipoOperacion"
+, row_number() over (order by B."IdPortafolio",B."IdMoneda",B."FECHAOPERACION",B."SEC_MOVIMIENTO") as "PosicionRegistro"
+,B.SEC_MOVIMIENTO AS "IdCargoAbonoMovimiento"
+,OPERACION as "NombreConcepto"
+,'' AS "TipoComprobante"
+,B.REFERENCIA AS "IdComprobante"
+,B.INSTRUMENTOS AS "Nemotecnico"
+,0.0 AS "Cantidad"
+,TO_VARCHAR(B."FECHAOPERACION",'DD-MM-YYYY') AS "FechaIngreso"
+,TO_VARCHAR(B."FECHAOPERACION",'DD-MM-YYYY') AS "FechaOperacion"
+,TO_VARCHAR(B."FECHAPAGO",'DD-MM-YYYY') AS "FechaLiquidacion"
+,B."IdMoneda" AS "Moneda"
+,CONCAT('Movimientos de caja ', B."IdMoneda") AS "TituloCuentaInversion"
+,COALESCE(B."CARGO",0) AS "Cargo"
+,COALESCE(B."ABONO",0) AS "Abono"
+,COALESCE(B."SALDO",0) AS "Saldo"
+,:FechaDesde as "PeriodoInicial"
+,:FechaHasta as "PeriodoFinal"
+,'' AS "AccionTipoOperacion"
+,'' AS "IdModulo"
+,0.0 as "SaldoInicial"
+,0.0 as "SaldoFInal"
+,0.0 as "SaldoGarantia"
+FROM "BSCL.Normativa.BD::CAR.MovimientosCajaSebra" as B 
+INNER JOIN "BSCL.Normativa.BD::CAR.PortafolioPaso" as P on P."IdPortafolio" = B."IdPortafolio"
+WHERE 
+B."IdMoneda" IN (:IdMoneda)
+AND B."FECHAOPERACION" BETWEEN :FechaDesde AND :FechaHasta
+ORDER BY B."IdPortafolio",B."IdMoneda",B."FECHAOPERACION",B."SEC_MOVIMIENTO";

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="BcsPortalConfirmacionWeb">
+<!--
+
+
+ RECUERDE PASAR EN EL COMANDO SU RUTA DEL REPOSITORIO Y  
+ 
+ EJEMPLO: -DRUTA=C:/Users/cstange/hana_work/DB9_02_CSTANGE/__empty__/  -DDEPLOY=C:/BCS/DEPLOY/ -Dfile.encoding=UTF8
+ 
+ 
+-->
+    <property environment="env"/> 
+	<property name="fileName" value="PORTAL"/>
+	<property name="web.xml" value="${RUTA}/BSCL/Plataforma/JAVA/ANT/config/PortalConfirmacion.xml"/>
+    <path id="src.path">
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsUtils/src"/>
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsPortalConfirmacionWeb/src"/>  
+    </path>   
+	<fileset id="lib.jars" dir="${RUTA}/BSCL/Plataforma/JAVA/libs/">
+		<include  name="json-20160212.jar"/>
+		<include  name="freemarker-2.3.23.jar"/>
+		<include  name="gson-2.6.2.jar"/>
+		<include  name="commons-lang-2.6.jar"/>
+		
+		<include  name="commons-codec-1.10.jar"/>
+		<include  name="commons-io-2.4.jar"/>
+		<include  name="kaiser-hana-1.12.02.jar"/>
+		<include  name="kaiser-odata-1.12.01.jar"/>
+	</fileset>  
+	<fileset id="compile.jars" dir="${RUTA}/BSCL/Plataforma/JAVA/libs/">
+		<include  name="servlet-api.jar"/>
+		<include  name="javaee-api-6.0-6.jar"/>
+		<include  name="json-20160212.jar"/>
+		<include  name="freemarker-2.3.23.jar"/>
+		<include  name="gson-2.6.2.jar"/>
+		<include  name="commons-lang-2.6.jar"/>		
+	</fileset> 	
+<!-- NO SE META SI NO SABE -->
+    <path id="build.classpath">
+        <pathelement location="${DEPLOY}/bin"/>
+    	<fileset refid="lib.jars" />
+    	<fileset refid="compile.jars" />
+    </path>   	
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="jargs" value="-nowarn"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+	<pathconvert property="mf.classpath" pathsep=" ">
+		<path refid="build.classpath"/>
+		<mapper>
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*.jar" to="lib/*.jar"/>
+			</chainedmapper>
+		</mapper>
+	</pathconvert>        	
+    <target name="init">
+        <mkdir dir="${DEPLOY}/bin"/>
+        <mkdir dir="${DEPLOY}/deploy"/>	
+    	<mkdir dir="${DEPLOY}/libs"/>	
+    </target>
+    <target name="clean">
+        <delete dir="${DEPLOY}/bin"/>
+        <delete dir="${DEPLOY}/deploy"/>
+    	<delete dir="${DEPLOY}/libs"/>	
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="clean,build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+    	<copy todir="${DEPLOY}/libs">
+    		<fileset refid="lib.jars" />
+    	</copy>    	
+        <javac debug="true" debuglevel="${debuglevel}"  encoding="utf-8"
+        	   destdir="${DEPLOY}/bin" 
+               includeantruntime="false" 
+        	   source="${source}" 
+               target="${target}">
+            <src refid="src.path" />
+            <compilerarg value="${jargs}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+<!-- La magia del WAR Bundle -->
+        <war destfile="${DEPLOY}/deploy/${fileName}.war" webxml="${web.xml}" >
+          <lib dir="${DEPLOY}/libs" />
+          <classes dir="${DEPLOY}/bin/" />
+        </war>           	  	
+    </target>
+</project>

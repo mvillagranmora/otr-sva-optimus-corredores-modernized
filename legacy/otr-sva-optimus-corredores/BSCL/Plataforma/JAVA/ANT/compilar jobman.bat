@@ -1,0 +1,1 @@
+ant -f BcsJobManagerWeb.xml -DRUTA="C:\Nuam\Repos\otr-sva-optimus-corredores" -DDEPLOY="C:\SAPBOBSCOM\TMP_JOB" -Dfile.encoding=UTF8

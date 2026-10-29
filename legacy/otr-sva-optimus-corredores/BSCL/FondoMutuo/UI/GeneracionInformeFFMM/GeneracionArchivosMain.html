@@ -1,0 +1,169 @@
+<div class="col-xs-12" ng-controller="GeneracionArchivosMainCtrl">
+    <div class="bcs-cuerpo">
+        <ng-form name="formularioGeneracion">
+
+            <div class="row">
+                <label class="col-xs-2" translate>UI_FECHA_CURSE</label>
+                <bcs-input-date class="col-xs-9"
+                    id              = "UI_FECHA_CURSE"
+                    k-ng-model      = "filtros.FechaCurse"
+                    k-options       = "configuracionFechaCurse"
+                    bcs-requerido   = "'true'">
+                </bcs-input-date>
+            </div>
+
+            <div class="row">
+                <label class="col-xs-2" translate>UI_TIPO_ARCHIVO</label>
+                <bcs-combobox-base class="col-xs-9"
+                    id              = "UI_TIPO_ARCHIVO"
+                    tipo            = "'combobox-tipo-archivo-ffmm'"
+                    filtros         = "oConfiguracionTipoArchivoFFMM.filtros"
+                    seleccionado    = "filtros.IdArchivoFondoMutuo"
+                    id-actual       = "filtros.IdArchivoFondoMutuo"
+                    bcs-requerido   = "'true'">
+                </bcs-combobox-base>
+            </div>
+
+            <!-- INFORME_MOV_FFMM -->
+            <div ng-if="filtros.IdArchivoFondoMutuo === 'INFORME_MOV_FFMM'">
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_TIPO_SOLICITUD</label>
+                    <bcs-combobox-base class="col-xs-9"
+                        id              = "UI_TIPO_SOLICITUD"
+                        auto-cargar     = "'true'"
+                        tipo            = "'combobox-operacion-ffmm'"
+                        configuracion   = "oConfiguracionTipoSolicitud.configuracion"
+                        id-actual       = "filtros.TipoSolicitud"
+                        filtros         = "oConfiguracionTipoSolicitud.filtros"
+                        seleccionado    = "filtros.TipoSolicitud"
+                        cascada1-a      = "oConfiguracionOperacion.filtros.CodigoConcepto"
+                        cascada1-valor  = "'CodigoConcepto'"
+                        id-defecto      = "'APO'">
+                    </bcs-combobox-base>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_EMISOR</label>
+                    <bcs-combobox-base class="col-xs-9"
+                        tipo        = "'combobox-emisor'"
+                        id-actual   = "filtros.IdEmisor"
+                        filtros     = "formData.filtrosEmisor"
+                        todos       = "'S'"
+                        id-defecto  = "''">
+                    </bcs-combobox-base>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_INSTRUMENTO</label> 
+                    <bcs-combobox-buscador-fondos class="col-xs-9"
+                        muestra-valor-cuota = "'N'"
+                        datos-fondo="filtros.FondoMutuo"
+                        buscar-fondo="formData.setFondo"
+                        id-ventana="winID">
+                    </bcs-combobox-buscador-fondos>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_MONEDA</label>
+                    <bcs-combobox-base class="col-xs-9"
+                        tipo            = "'combobox-moneda'"
+                        filtros         = "oConfiguracionMonedaFFMM.filtros"
+                        id-actual       = "filtros.IdMoneda"
+                        id-defecto      = "'CLP'"
+                        todos           = "'S'"
+                        configuracion   = "oConfiguracionMonedaFFMM.configuracion">
+                    </bcs-combobox-base>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_ESTADO</label>
+                    <bcs-combobox-base class="col-xs-9"
+                        tipo            = "'combobox-estado-ffmm'"
+                        filtros         = "oConfiguracionEstadoFFMM.filtros"
+                        id-actual       = "filtros.IdEstado"
+                        id-defecto      = "'ING'"
+                        todos           = "'S'"
+                        bcs-requerido   = "'true'">
+                    </bcs-combobox-base>
+                </div>
+
+            </div>
+
+            <!-- INFORME_PARTICIPE_FFMM -->
+            <div ng-if="filtros.IdArchivoFondoMutuo === 'INFORME_PARTICIPE_FFMM'">
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_TIPO_SOLICITUD</label>
+                    <bcs-combobox-base class="col-xs-9"
+                        id              = "UI_TIPO_SOLICITUD"
+                        auto-cargar     = "'true'"
+                        tipo            = "oConfiguracionTipoSolicitud.tipo"
+                        configuracion   = "oConfiguracionTipoSolicitud.configuracion"
+                        id-actual       = "filtros.TipoSolicitud"
+                        filtros         = "oConfiguracionTipoSolicitud.filtros"
+                        seleccionado    = "filtros.TipoSolicitud"
+                        cascada1-a      = "oConfiguracionOperacion.filtros.CodigoConcepto"
+                        cascada1-valor  = "'CodigoConcepto'"
+                        id-defecto      = "'APO'">
+                    </bcs-combobox-base>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_EMISOR</label>
+                    <bcs-combobox-base class="col-xs-9"
+                        tipo        = "'combobox-emisor'"
+                        id-actual   = "filtros.IdEmisor"
+                        filtros     = "formData.filtrosEmisor"
+                        todos       = "'S'"
+                        id-defecto  = "''">
+                    </bcs-combobox-base>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_INSTRUMENTO</label> 
+                    <bcs-combobox-buscador-fondos class="col-xs-9"
+                        muestra-valor-cuota = "'N'"
+                        datos-fondo="filtros.FondoMutuo"
+                        buscar-fondo="formData.setFondo"
+                        id-ventana="winID">
+                    </bcs-combobox-buscador-fondos>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_ESTADO</label>
+                    <bcs-combobox-base class="col-xs-9"
+                        tipo            = "'combobox-estado-ffmm'"
+                        filtros         = "oConfiguracionEstadoFFMM.filtros"
+                        id-actual       = "filtros.IdEstado"
+                        id-defecto      = "'ING'"
+                        todos           = "'S'"
+                        bcs-requerido   = "'true'">
+                    </bcs-combobox-base>
+                </div>
+
+            </div>
+
+        </ng-form>
+
+        <div class="row bcs-panel-comandos alignButtonsToRight col-xs-12" style="margin-top: 3rem">
+            <bcs-button class="col-xs-4"
+                bcs-tipo            = "'bcs-button-primary'"
+                bcs-auto-desactivar = "false"
+                bcs-texto           = "'GENERAR INFORME'"
+                bcs-habilitado      = "filtros.IdArchivoFondoMutuo != null && filtros.IdArchivoFondoMutuo != ''
+                                        && filtros.FechaCurse != null && filtros.FechaCurse != ''"
+                bcs-clic            = "generarInforme()">
+            </bcs-button>
+
+            <bcs-button class="col-xs-2"
+                bcs-tipo            = "'bcs-button-secondary'"
+                bcs-auto-desactivar = "false"
+                bcs-texto           = "'LIMPIAR'"
+                bcs-habilitado      = "true"
+                bcs-clic            = "limpiar()">
+            </bcs-button>
+        </div>
+
+    </div>
+</div>

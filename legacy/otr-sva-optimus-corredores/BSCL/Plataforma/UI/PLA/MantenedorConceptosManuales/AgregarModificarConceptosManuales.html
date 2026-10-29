@@ -1,0 +1,485 @@
+<div ng-controller="AgregarModificarConceptosManualesCtrl">
+
+	<div class="row">
+		<label class="col-xs-2" translate>UI_CONCEPTO</label>
+		<bcs-input-texto class="col-xs-1"
+			id				="frmAgregarModificarConceptos_CodigoConcepto" 
+			ng-model		="ngCodigoConcepto"
+			k-ng-disabled	="ngCodigoConceptoDisabled"
+			maxlength		=6>
+		</bcs-input-texto>
+		<label class="col-xs-6" translate>UI_MINIMO_6_CARACTERES</label>
+
+		<div class="col-xs-3" style="padding-left: 15px;">
+			<label class="col-xs-7" translate>UI_TIPO_CONCEPTO</label>
+			<bcs-input-texto class="col-xs-5"
+				id				="frmAgregarModificarConceptos_TipoConcepto" 
+				ng-model		="ngTipoConcepto"
+				k-ng-disabled	="'true'">
+			</bcs-input-texto>
+		</div>
+	</div>
+	<div class="row">
+		<label class="col-xs-2" translate>UI_NOMBRE</label>
+		<bcs-input-texto class="col-xs-7" 
+			id				="frmAgregarModificarConceptos_NombreConcepto"
+			ng-model		="ngNombreConcepto"
+			k-ng-disabled	="!ActivarCheckPorConceptoManual"
+			maxlength	=100>
+		</bcs-input-texto>
+
+		<div class="col-xs-3" style="padding-left: 15px;">
+			<label class="col-xs-7" translate>UI_ESTADO</label>	
+			<bcs-combobox-base class="col-xs-5" id="frmAgregarModificarConceptos_Estado"
+				tipo			="oConfiguracionEstado.tipo"						  
+				configuracion	="oConfiguracionEstado.configuracion"						 
+				id-actual		="oConfiguracionEstado.idActual" 
+				id-defecto		="oConfiguracionEstado.idDefecto"
+				seleccionado	="oConfiguracionEstado.seleccionado"
+				filtros			="oConfiguracionEstado.filtros"
+				activado		="ActivarCheckPorConceptoManual">
+			</bcs-combobox-base>
+		</div>
+	</div>
+	<div class="row">		
+		<label class="col-xs-2" translate>UI_CRITERIO_NETEO</label>
+		<bcs-combobox-base 
+			class			="col-xs-7" 
+			id				="frmAgregarModificarConceptos_TipoCriterioNeteo"
+			tipo			="'combobox-tipo-criterio-neteo'"							 
+			id-actual		="idTipoCriterioNeteo" 
+			id-defecto		="idTipoCriterioNeteoDef" 
+			seleccionado	="selTipoCriterioNeteo">
+		</bcs-combobox-base>
+		
+		<div class="col-xs-3" style="padding-left: 15px;">
+			<bcs-input-checkbox id="frmAgregarModificarConceptos_VisiblePorEjecutivo" 
+				ng-model	="ngVisiblePorEjecutivo"
+				ng-disabled	="!ActivarCheckPorConceptoManual">
+			</bcs-input-checkbox>&nbsp;{{'UI_VISIBLE_POR_EJECUTIVO' | translate}}
+		</div>
+		
+	</div>
+	<div class="row">		
+		<label class="col-xs-2" translate>UI_NOMBRE_CONCEPTO_CARTOLA</label>
+		<bcs-input-texto class="col-xs-7" 
+			id				="frmAgregarModificarConceptos_NombreConceptoCartola" 
+			ng-model		="ngNombreConceptoCartola"
+			k-ng-disabled	="ngCodigoConceptoCartolaDisabled"
+			maxlength		=500>
+		</bcs-input-texto>
+		<div class="col-xs-3" style="padding-left: 15px;"> 
+			<bcs-input-checkbox id="frmAgregarModificarConceptos_ExclusivoCartola" 
+				ng-model	="ngExclusivoCartola">
+			</bcs-input-checkbox>&nbsp;{{'UI_EXCLUSIVO_CARTOLA' | translate}}
+		</div>
+	</div>
+	<div class="row" style="padding-top: 8px;">
+		<uib-tabset>
+			<!-------------FACTURACIÓN--------------->			
+			<uib-tab  index="2"  heading="{{'UI_FACTURACION' | translate}}"><div style="height: 250px">
+				<div class="col-xs-12">
+					<bcs-input-checkgroup
+						valores		= "FAC.ConceptoConfiguradoEnModulo"
+						etiquetas 	= "{Configurado	: 'UI_CONCEPTO_CONFIGURADO_PARA_MODULO'}"
+						orientacion = 'V'
+						modo 		= "U"
+						activado	= "true"
+						>
+					</bcs-input-checkgroup>
+				</div>
+				<div class="col-xs-3">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_INDICADORES</label></div>
+					<bcs-input-checkgroup
+						valores		="FAC.Indicadores"
+						etiquetas 	= "{	EsOtrosConceptos	: 'UI_OTROS_CONCEPTOS',
+											EsReembolso			: 'UI_REEMBOLSO'
+									   }"
+						orientacion = 'V'
+						activado	= "FAC.ConceptoConfiguradoEnModulo.Configurado"
+						modo 		= "U">
+					</bcs-input-checkgroup>
+					<bcs-input-checkgroup
+						valores		="FAC.Indicadores2"
+						etiquetas 	= "{EsInterfazSIG		: 'UI_INTERFAZ_SIG'}"
+						orientacion = 'V'
+						activado	= "FAC.ConceptoConfiguradoEnModulo.Configurado && FAC.Indicadores.EsOtrosConceptos"
+						modo 		= "U">
+					</bcs-input-checkgroup>
+					<bcs-input-checkgroup
+						valores		="FAC.Indicadores3"
+						etiquetas 	= "{Contrapartida		: 'UI_CONTRAPARTIDA_USDCLP'}"
+						orientacion = 'V'
+						activado	= "FAC.ConceptoConfiguradoEnModulo.Configurado"
+						modo 		= "U">
+					</bcs-input-checkgroup>
+					<bcs-input-checkgroup
+						valores		="FAC.Indicadores4"
+						etiquetas 	= "{AbonoClpContrapartida	: 'UI_ABONO_CLP_CONTRAPARTIDA'}"
+						orientacion = 'V'
+						activado	= "FAC.ConceptoConfiguradoEnModulo.Configurado && AbonoClpContrapartidaHabilitado"
+						modo 		= "U">
+					</bcs-input-checkgroup>
+				</div>
+				<!--   ----------------------------------------------------  AE -->
+				<div class="col-xs-4">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_VISIBLES</label></div>
+					<bcs-input-checkgroup
+						valores		="FAC.ConceptoConfiguradoEnAplicacion"
+						etiquetas 	= "{	ConceptoConfiguradoOptimus 	: 'UI_OPTIMUS',
+											ConceptoConfiguradoFiori 	: 'UI_FIORI', 
+											ConceptoConfiguradoWs 		: 'UI_WEB_SERVICE'
+									   }"
+						orientacion = 'V'
+						modo 		= "M"
+						activado	= "FAC.ConceptoConfiguradoEnModulo.Configurado">
+					</bcs-input-checkgroup>							
+				</div>
+				<!--   ----------------------------------------------------  AE -->
+				<div class="col-xs-5">
+					<div class="row">
+						<label class="col-xs-4" translate>UI_CENTRO_COSTO</label>						
+						<bcs-input-texto class="col-xs-5"
+							id				="frmAgregarModificarConceptos_CentroCostoConcepto" 
+							ng-model		="FAC.ngCentroCostoConcepto"
+							activado		="FAC.ConceptoConfiguradoEnModulo.Configurado"
+							k-ng-disabled	="!FAC.ConceptoConfiguradoEnModulo.Configurado"
+							maxlength		=10>
+						</bcs-input-texto>
+						<label class="col-xs-4" translate>UI_CODIGO_PRODUCTO</label>
+						<bcs-input-texto class="col-xs-5"
+						id				="frmAgregarModificarConceptos_CodigoProductoInterfazSIG" 
+						ng-model		="FAC.ngCodigoProductoInterfazSIG"
+						activado		="FAC.ConceptoConfiguradoEnModulo.Configurado && FAC.Indicadores2.EsInterfazSIG"
+						k-ng-disabled	="!FAC.Indicadores2.EsInterfazSIG"
+						maxlength		=4>
+					</bcs-input-texto>
+					</div>
+				</div>
+			</div></uib-tab>
+
+			<!-------------CUSTODIA--------------->			
+			<uib-tab  index="3" heading="{{'UI_CUSTODIA' | translate}}"><div style="height: 250px">
+				<div class="col-xs-12">
+					<bcs-input-checkgroup
+						valores		= "CUS.ConceptoConfiguradoEnModulo"
+						etiquetas 	= "{Configurado	: 'UI_CONCEPTO_CONFIGURADO_PARA_MODULO'}"
+						orientacion = 'V'
+						modo 		= "U"
+						activado	= "true">
+					</bcs-input-checkgroup>
+				</div>
+				<div class="col-xs-3">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_USO</label></div>
+					<bcs-input-checkgroup
+						valores		="CUS.UsoCustodia"
+						etiquetas 	= "{	Titulo   			: 'UI_TITULOS',
+											Garantia			: 'UI_GARANTIA', 
+											Prestamo			: 'UI_PRESTAMO',
+											SorteoLetras		: 'UI_SORTEO_LETRAS',
+											CargaMasivaCustodia	: 'UI_CARGA_MASIVA_CUSTODIA' 
+									   }"
+						orientacion = 'V'
+						modo 		= "U"
+						activado	= "CUS.ConceptoConfiguradoEnModulo.Configurado">
+					</bcs-input-checkgroup>
+				</div>
+
+				<div class="col-xs-4">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_INDICADORES</label></div>
+					<bcs-input-checkgroup
+						valores		="CUS.Indicadores"
+						etiquetas 	= "{	CertificadoAutomatico   	: 'UI_CERTIFICADO_AUTOMATICO'}"
+						orientacion = 'V'
+						activado	= "CUS.ConceptoConfiguradoEnModulo.Configurado"
+						modo 		= "U">
+					</bcs-input-checkgroup>					
+					<bcs-input-checkgroup
+						valores		="CUS.Indicadores1"
+						etiquetas 	= "{	GeneraTransferenciaBoveda	: 'UI_ES_TRANSFERENCIA_BOVEDA',
+											EsTransferenciaPortafolio	: 'UI_ES_TRANSFERENCIA_PORTAFOLIO',
+											EsTransferenciaCliente		: 'UI_ES_TRANSFERENCIA_CLIENTE'
+									   }"
+						orientacion = 'V'
+						activado	= "CUS.UsoCustodia.Titulo && CUS.ConceptoConfiguradoEnModulo.Configurado"
+						modo 		= "U">
+					</bcs-input-checkgroup>
+					<bcs-input-checkgroup
+						valores		="CUS.Indicadores2"
+						etiquetas 	= "{	
+											EsGarantiaPrendaria			: 'UI_ES_GARANTIA_PRENDARIA',
+											EsGarantiaVendible			: 'UI_ES_GARANTIA_VENDIBLE'											
+									   }"
+						orientacion = 'V'
+						activado	= "CUS.UsoCustodia.Garantia && CUS.ConceptoConfiguradoEnModulo.Configurado"
+						modo 		= "M">
+					</bcs-input-checkgroup>
+					<bcs-input-checkgroup
+						valores		="CUS.Indicadores3"
+						etiquetas 	= "{	
+											RetieneDividendos			: 'UI_RETIENE_DIVIDENDO',
+											RetieneAmortizacion  		: 'UI_RETIENE_AMORTIZACION',
+											RetieneIntereses			: 'UI_RETIENE_INTERESES',
+											FolioObligatorio			: 'UI_FOLIO_OBLIGATORIO'
+									   }"
+						orientacion = 'V'
+						activado	= "CUS.ConceptoConfiguradoEnModulo.Configurado"
+						modo 		= "M">
+					</bcs-input-checkgroup>
+				</div>
+
+				<div class="col-xs-5">
+					<div class="row">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base class="col-xs-8"  id ="frmAgregarModificarConceptos_Clasificacion"
+							activado			="CUS.ConceptoConfiguradoEnModulo.Configurado"
+							tipo        	 	="CUS.oConfiguracionClasificacionTipoInstrumento.tipo"
+							id-actual    		="CUS.oConfiguracionClasificacionTipoInstrumento.idActual"
+							id-defecto    		="CUS.oConfiguracionClasificacionTipoInstrumento.idDefecto"
+							seleccionado 		="CUS.oConfiguracionClasificacionTipoInstrumento.seleccionado"						 
+							cascada1-a			="CUS.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada1-valor		="'IdClasificacionTipoInstrumento'" 	
+							cascada2-a			="CUS.oConfiguracionInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada2-valor		="'IdClasificacionTipoInstrumento'">
+						  </bcs-combobox-base>
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-8" id ="frmAgregarModificarConceptos_TipoInstrumento"
+							auto-cargar			="'false'"
+							activado			="CUS.ConceptoConfiguradoEnModulo.Configurado"
+							tipo				="CUS.oConfiguracionTipoInstrumento.tipo"  								 
+							id-actual 			="CUS.oConfiguracionTipoInstrumento.idActual"
+							id-defecto    		="CUS.oConfiguracionTipoInstrumento.idDefecto"
+							seleccionado		="CUS.oConfiguracionTipoInstrumento.seleccionado"
+							filtros				="CUS.oConfiguracionTipoInstrumento.filtros"					
+							cascada1-a			="CUS.oConfiguracionInstrumento.filtros.IdTipoInstrumento"
+							cascada1-valor		="'IdTipoInstrumento'">
+						  </bcs-combobox-base>
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+						<bcs-combobox-base 
+							class			="col-xs-8"
+							bcs-requerido	="habilitadoFiltroInstrumento"
+							activado		="CUS.ConceptoConfiguradoEnModulo.Configurado"							
+							auto-cargar		="'false'"
+							tipo			="CUS.oConfiguracionInstrumento.tipo"  
+							filtros			="CUS.oConfiguracionInstrumento.filtros"
+							id-actual		="CUS.oConfiguracionInstrumento.idActual"
+							id-post-filtro	="CUS.IdInstrumento"
+							seleccionado	="CUS.oConfiguracionInstrumento.seleccionado"							 	
+						></bcs-combobox-base >	
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_ENTIDAD_DESTINO</label>
+						<bcs-combobox-base class="col-xs-8" 
+							id 				= "frmAgregarModificarConceptos_EntidadDestino"				    						    
+							tipo			= "CUS.oConfiguracionEntidadDestinoGarantia.tipo"
+							id-defecto    	= "CUS.oConfiguracionEntidadDestinoGarantia.idDefecto"
+							id-actual		= "CUS.oConfiguracionEntidadDestinoGarantia.idActual"
+							seleccionado	= "CUS.oConfiguracionEntidadDestinoGarantia.seleccionado"
+							activado		= "CUS.UsoCustodia.Garantia && CUS.ConceptoConfiguradoEnModulo.Configurado"
+							item-post-filtro	= "'1'"
+							auto-cargar 	= "true"
+							>
+						</bcs-combobox-base >
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_TIPO_CUENTA</label>
+						<bcs-combobox-base class="col-xs-8" 
+							id 				= "frmAgregarModificarConceptos_TipoCuentaCus"				    						    
+							tipo			= "CUS.oConfiguracionTipoCuentaCusto.tipo"
+							id-defecto    	= "CUS.oConfiguracionTipoCuentaCusto.idDefecto"
+							id-actual		= "CUS.oConfiguracionTipoCuentaCusto.idActual"
+							seleccionado	= "CUS.oConfiguracionTipoCuentaCusto.seleccionado"
+							activado		= "CUS.UsoCustodia.Garantia && CUS.ConceptoConfiguradoEnModulo.Configurado"
+							>
+						</bcs-combobox-base >
+					</div>
+					<!--   ----------------------------------------------------  AE -->
+					<div class="col-xs-12">
+						<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_VISIBLES</label></div>
+						<bcs-input-checkgroup
+							valores		="CUS.ConceptoConfiguradoEnAplicacion"
+							etiquetas 	= "{	ConceptoConfiguradoOptimus : 'UI_OPTIMUS',
+												ConceptoConfiguradoFiori : 'UI_FIORI',
+												ConceptoConfiguradoWs : 'UI_WEB_SERVICE'
+										   }"
+							orientacion = 'V'
+							modo 		= "M"
+							activado	= "CUS.ConceptoConfiguradoEnModulo.Configurado">
+						</bcs-input-checkgroup>
+					</div>	
+					<!--   ----------------------------------------------------  AE -->
+				</div>
+			</div></uib-tab>
+
+
+			<!-------------TESORERIA-------------->			
+			<uib-tab index="4" heading="{{'UI_TESORERIA' | translate}}"><div style="height: 250px">
+				<div class="col-xs-12">
+					<bcs-input-checkgroup
+						valores		= "TES.ConceptoConfiguradoEnModulo"
+						etiquetas 	= "{Configurado	: 'UI_CONCEPTO_CONFIGURADO_PARA_MODULO'}"
+						orientacion = 'V'
+						modo 		= "U"
+						activado	= "true">
+					</bcs-input-checkgroup>				
+				</div>
+				<div class="col-xs-3">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_USO</label></div>					
+					<bcs-input-checkgroup
+						valores		="TES.UsoTesoreria"
+						etiquetas 	= "{	Comprobante   			: 'UI_COMPROBANTE',
+											Deposito				: 'UI_DEPOSITO',
+											CargaMasiva				: 'UI_CARGA_MASIVA'
+									   }"
+						orientacion = 'V'
+						activado	= "TES.ConceptoConfiguradoEnModulo.Configurado"
+						modo 		= "U">
+					</bcs-input-checkgroup>
+				</div>				
+				<div class="col-xs-4">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_INDICADORES</label></div>
+					<bcs-input-checkgroup
+						valores		= "TES.Indicadores"
+						etiquetas 	= "{	DisponibleIngresoManual : 'UI_DISPONIBLE_INGRESO_MANUAL'
+										}"
+						orientacion = 'V'
+						modo 		= "M"
+						activado	= "TES.ConceptoConfiguradoEnModulo.Configurado">
+					</bcs-input-checkgroup>
+					<bcs-input-checkgroup
+						valores		= "TES.Validaciones"
+						etiquetas 	= "{	NoValidaSaldoCaja 		: 'UI_NO_VALIDA_SALDO_CAJA' }"
+						orientacion = 'V'
+						modo 		= "M"
+						activado	= "TES.ConceptoConfiguradoEnModulo.Configurado">
+					</bcs-input-checkgroup>
+					<bcs-input-checkgroup
+						valores		= "TES.Indicadores"
+						etiquetas 	= "{	GeneraComprobanteAutomaticamente 		: 'UI_GENERA_COMPROBANTE_AUTOMATICAMENTE' }"
+						orientacion = 'V'
+						modo 		= "M"
+						activado	= "TES.ConceptoConfiguradoEnModulo.Configurado">
+					</bcs-input-checkgroup>
+				</div>
+				<!--   ----------------------------------------------------  AE -->
+				<div class="col-xs-5">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_VISIBLES</label></div>
+					<bcs-input-checkgroup
+					valores		="TES.ConceptoConfiguradoEnAplicacion"
+					etiquetas 	= "{	ConceptoConfiguradoOptimus 	: 'UI_OPTIMUS',
+										ConceptoConfiguradoFiori 	: 'UI_FIORI', 
+										ConceptoConfiguradoWs 		: 'UI_WEB_SERVICE'
+								   }"
+					orientacion = 'V'
+					modo 		= "M"
+					activado	= "TES.ConceptoConfiguradoEnModulo.Configurado">
+					</bcs-input-checkgroup>			
+				</div>
+				<div class="col-xs-12">
+				<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_CONCEPTO_REPLICA</label></div>
+					
+					<div class="col-xs-6">
+					<div class="row">
+						<label class="col-xs-4" translate>UI_CONCEPTO_ABONO_REPLICA</label>						
+						<bcs-input-texto class="col-xs-5"
+							id				="frmAgregarModificarConceptos_ConceptoAbonoReplica" 
+							ng-model		="TES.ConceptoAbonoReplica"
+							maxlength		=2>
+						</bcs-input-texto>
+						<label class="col-xs-4" translate>UI_CONCEPTO_CARGO_REPLICA</label>
+						<bcs-input-texto class="col-xs-5"
+							id				="frmAgregarModificarConceptos_ConceptoCargoReplica" 
+							ng-model		="TES.ConceptoCargoReplica" 
+							maxlength		=2>
+						</bcs-input-texto>
+						
+					</div>
+				</div>
+								
+				</div>
+				<!--   ----------------------------------------------------   -->
+			</div></uib-tab>
+
+
+			<!---------CUENTA INVERSION----------->
+			<uib-tab index="5" heading="{{'UI_CUENTA_INVERSION' | translate}}"><div style="height: 250px">
+				<div class="col-xs-12">
+					<bcs-input-checkgroup
+						valores		= "CTA.ConceptoConfiguradoEnModulo"
+						etiquetas 	= "{Configurado	: 'UI_CONCEPTO_CONFIGURADO_PARA_MODULO'}"
+						orientacion = 'V'
+						modo 		= "U"
+						activado	= "true">
+					</bcs-input-checkgroup>				
+				</div>			
+				<div class="col-xs-4">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_INDICADORES</label></div>
+					<bcs-input-checkgroup
+						valores		="CTA.Indicadores"
+						etiquetas 	= "{DisponibleIngresoManual : 'UI_DISPONIBLE_INGRESO_MANUAL'}"
+						orientacion = 'V'
+						modo 		= "M"
+						activado	= "CTA.ConceptoConfiguradoEnModulo.Configurado">
+					</bcs-input-checkgroup>
+				</div>
+				<div class="col-xs-4">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_RENTABILIDAD_CARTOLA</label></div>					
+					<bcs-input-checkgroup
+						valores		="CTA.AfectaRentabilidad"
+						etiquetas 	= "{	AfectaRentabilidad  			: 'UI_AFECTA_RENTABILIDAD'}"
+						orientacion = 'V'
+						activado	= "CTA.ConceptoConfiguradoEnModulo.Configurado"
+						modo 		= "M">
+					</bcs-input-checkgroup>
+				</div>				 
+				<!--   ----------------------------------------------------  AE -->
+				<div class="col-xs-4">
+					<div class="row" style="padding-bottom: 5px;"><label class="k-window-subtitle" translate>UI_VISIBLES</label></div>
+					<bcs-input-checkgroup
+						valores		="CTA.ConceptoConfiguradoEnAplicacion"
+						etiquetas 	= "{	ConceptoConfiguradoOptimus 	: 'UI_OPTIMUS',
+											ConceptoConfiguradoFiori 	: 'UI_FIORI', 
+											ConceptoConfiguradoWs 		: 'UI_WEB_SERVICE'										
+									   }"
+						orientacion = 'V'
+						modo 		= "M"
+						activado	= "CTA.ConceptoConfiguradoEnModulo.Configurado">
+					</bcs-input-checkgroup>
+				</div>
+				<!--   ----------------------------------------------------   -->	
+			</div></uib-tab>
+		</uib-tabset>
+	</div>
+
+	<div class="row bcs-panel-comando" style="padding-top: 8px;">
+		<bcs-button class="col-xs-2 pull-right"
+			id					="frmAgregarModificarConceptos_cancelar"			
+			bcs-auto-desactivar	="false"  
+			bcs-texto			="'UI_CANCELAR' | translate"  
+			bcs-habilitado		="'true'"
+			bcs-clic			="cancelar()">
+		</bcs-button>
+
+		<bcs-button class="col-xs-2 pull-right" ng-show="botonAgregarConceptoManual"
+			id					="frmAgregarModificarConceptos_agregarConceptoManual"
+			bcs-tipo			="'principal'"	
+			bcs-auto-desactivar	="false"  
+			bcs-texto			="'UI_AGREGAR' | translate" 
+			bcs-habilitado		="'true'"
+			bcs-clic			="agregarConceptoManual()">
+		</bcs-button>
+
+		<bcs-button class="col-xs-2 pull-right" ng-show="botonModificarConceptoManual"
+			id					="frmAgregarModificarConceptos_agregarConceptoManual"
+			bcs-tipo			="'principal'"			
+			bcs-auto-desactivar	="false"  
+			bcs-texto			="'UI_MODIFICAR' | translate"
+			bcs-habilitado		="'true'"
+			bcs-clic			="modificarConceptoManual()">
+		</bcs-button>
+	</div>
+</div>

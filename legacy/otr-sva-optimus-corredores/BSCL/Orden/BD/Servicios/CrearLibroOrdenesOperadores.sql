@@ -1,0 +1,159 @@
+SET SCHEMA "BSCL";
+
+DROP PROCEDURE "BSCL.Orden.BD.Servicios::CrearLibroOrdenesOperadores";
+
+CREATE PROCEDURE
+-- 
+--  Proposito: Servicio para asociar Libro de Ordenes con Operadores.
+--  Autor: - MMACHMAR
+--  Fecha Creacion: 07/03/2016 
+--  
+"BSCL.Orden.BD.Servicios::CrearLibroOrdenesOperadores" (
+	-- Parametros entrada comunes en todos los servicios publicos
+	IN p_IdEmpresa						BIGINT,			--ID Empresa destino
+	IN p_IdUsuario						BIGINT,			--ID del usuario que solicita el servicio
+	IN p_IdModulo						NVARCHAR(3),  	--ID del Modulo que lo invoca
+	IN p_UsaReglasNegocio				NVARCHAR(1),	--S/N se usa en caso de servicios anidados.
+		  
+	-- Parametros entrada del servicio publico
+	IN p_IdLibroOrdenes				BIGINT,
+	IN p_CodigoOperador				NVARCHAR(10),
+	
+	-- Parametros salida del servicio publico
+    OUT p_out_RefId bigint,
+	-- Salidas para mensajes de advertencias y errores
+	OUT p_out_AdvertenciasContador int,
+	OUT p_out_AdvertenciasDetalle table ("Codigo" nvarchar(40),"RequiereAutorizacion" nvarchar(40),"Descripcion" nvarchar(5000)),
+	OUT p_out_ErroresContador int,
+	OUT p_out_ErroresDetalle table ("Codigo" nvarchar(40),"Descripcion" nvarchar(5000))
+) 
+LANGUAGE SQLSCRIPT
+SQL SECURITY INVOKER 
+DEFAULT SCHEMA "BSCL"
+AS
+BEGIN
+	--------------------
+	--DECLARE Manejo de Errores
+	--------------------	
+	DECLARE SALIDA_CONTROLADA CONDITION;
+	DECLARE v_errorcuenta INT DEFAULT 0;
+	DECLARE v_errorhashmsg table ("Codigo" nvarchar(40),"Valor" nvarchar(520));
+	DECLARE v_erroroutmsg  nvarchar(520);
+	DECLARE EXIT HANDLER FOR SALIDA_CONTROLADA
+	BEGIN
+		--salida/error/advertencia controlado por este servicio
+		select count(1) into p_out_ErroresContador
+		from :p_out_ErroresDetalle;
+		select count(1) into p_out_AdvertenciasContador
+		from :p_out_AdvertenciasDetalle;
+		
+		v_TablaCodigosMensajes = SELECT "Codigo" AS "CodigoMensaje",
+								'' as "CodigoDato",
+								'' as "ValorDato" 
+								FROM :p_out_ErroresDetalle
+								UNION ALL
+								SELECT "Codigo" AS "CodigoMensaje",
+								'' as "CodigoDato",
+								'' as "ValorDato" 
+								FROM :p_out_AdvertenciasDetalle;
+		  
+		CALL "BSCL.Plataforma.BD.Servicios::ConsultarMensajesDiccionario" (:v_TablaCodigosMensajes,v_out_ErroresDetalleMensajes);
+		
+		p_out_ErroresDetalle = 	SELECT errores."Codigo",
+									msj."Descripcion"
+								FROM :p_out_ErroresDetalle errores
+								INNER JOIN :v_out_ErroresDetalleMensajes msj on errores."Codigo" = msj."Codigo";
+								
+		p_out_AdvertenciasDetalle = SELECT adv."Codigo",
+									adv."RequiereAutorizacion",
+									msj."Descripcion"
+								FROM :p_out_AdvertenciasDetalle adv
+								INNER JOIN :v_out_ErroresDetalleMensajes msj on adv."Codigo" = msj."Codigo";
+		
+		
+		
+	END;
+	
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		declare v_errorExt nvarchar(40);
+		IF ::SQL_ERROR_CODE > 10000 THEN
+			--error pseudo-controlado pero desde un Sub-SP
+			call "BSCL.Plataforma.BD.Servicios::ConsultarCodigoMensajeError" (::SQL_ERROR_CODE,v_errorExt);
+			p_out_ErroresDetalle = select * from :p_out_ErroresDetalle UNION ALL
+								   select v_errorExt,::SQL_ERROR_MESSAGE from dummy;
+			select count(1) into p_out_ErroresContador
+			from :p_out_ErroresDetalle;
+		ELSE
+			--Error interno no manejado  (El log será captado por la capa de XS control)
+			RESIGNAL;
+		END IF;
+	END;	
+	p_out_AdvertenciasContador	:= 0;
+	p_out_ErroresContador		:= 0;
+	p_out_AdvertenciasDetalle	= select '' as "Codigo",'' as "RequiereAutorizacion",'' as "Descripcion" from dummy where 1=2;
+	p_out_ErroresDetalle		= select '' as "Codigo",'' as "Descripcion" from dummy where 1=2;
+	
+	BEGIN
+		--------------------
+		--Declare Variables
+		--------------------
+		DECLARE v_countLibroOrdenesOperadores	BIGINT := 0;
+		
+		--------------------
+		--Validaciones
+		--------------------
+
+		-- Verifica que NO exista asociacion entre Libro de Ordenes y Operador
+		BEGIN
+			SELECT COUNT(1) INTO v_countLibroOrdenesOperadores
+			  FROM "BSCL.Orden.BD::ORD.LibroOrdenesOperador"
+			 WHERE "IdLibroOrdenes" = :p_IdLibroOrdenes
+			   AND "CodigoOperador" = :p_CodigoOperador
+			   AND "IdEmpresa"		= :p_IdEmpresa
+			   AND "IdEstado"		= 'ACT'; 
+		
+			IF(v_countLibroOrdenesOperadores > 0) THEN
+				p_out_ErroresDetalle = select 'LIBRO_ORDENES_ASOCIADO_A_OPERADOR' as "Codigo",:v_erroroutmsg as "Descripcion" from dummy;
+				SIGNAL SALIDA_CONTROLADA;
+			END IF;
+							
+		END;
+		
+		--------------------
+		--Reglas Negocio 
+		--------------------		
+		
+		--------------------
+		--Lógica de Negocio 
+		--------------------
+				
+		BEGIN
+			SELECT "BSCL.Orden.BD.Secuencias::LibroOrdenesOperador".NEXTVAL INTO p_out_RefId FROM DUMMY;
+			
+		 	------------------------------------------
+			--Crear 
+			------------------------------------------
+			INSERT INTO "BSCL.Orden.BD::ORD.LibroOrdenesOperador"(
+				"IdLibroOrdenesOperador",
+				"IdEmpresa",
+				"IdLibroOrdenes",
+				"CodigoOperador",
+				"IdEstado",
+				"FechaCreacion",
+				"FechaModificacion")
+			VALUES(
+				p_out_RefId,
+				p_IdEmpresa,
+				p_IdLibroOrdenes,
+				p_CodigoOperador,
+				'ACT',
+				CURRENT_UTCTIMESTAMP,
+				CURRENT_UTCTIMESTAMP);
+		END;
+		
+		--------------------
+		--FIN SP 
+		--------------------
+	END;	
+END;

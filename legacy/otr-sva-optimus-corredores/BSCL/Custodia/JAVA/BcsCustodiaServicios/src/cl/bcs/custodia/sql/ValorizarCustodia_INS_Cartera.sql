@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Custodia.BD::CUS.ValorizarCustodia_Cartera"("IdCartera") VALUES (:IdCartera)

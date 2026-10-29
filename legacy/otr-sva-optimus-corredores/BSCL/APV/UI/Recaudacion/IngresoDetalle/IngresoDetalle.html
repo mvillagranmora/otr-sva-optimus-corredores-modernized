@@ -1,0 +1,445 @@
+<div id="IngresoDetalle" class="row" ng-controller="IngresoDetalleCtrl as ingDet">
+	<div class="row">
+		<form name="formIngresoDetalle" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<div class="col-xs-3">
+		      		<label class="col-xs-4" translate="">UI_FOLIO_RECAUDACION</label>
+					<bcs-combobox-base 
+						id="UI_FOLIO_RECAUDACION" 
+						auto-cargar="true"
+						class="col-xs-7"
+						tipo="'combobox-folio-recaudacion'"
+						id-defecto = "ingDet.recaudacionDefecto"
+						id-actual="ingDet.folioDeposito"
+						seleccionado="ingDet.depositoSeleccionado"
+						filtros = "ingDet.oConfiguracionfolioDeposito.filtros"
+						id-post-filtro="ingDet.folioDepositoPostFiltro"
+						>
+					</bcs-combobox-base>
+
+
+				</div>
+			</div>
+			<div class="row">
+				<strong> <div class="ng-scope" translate="">UI_EMPLEADORES</div></strong>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-3">
+	      			<label class="col-xs-4" translate="">UI_RUT_EMPLEADOR</label>
+					<bcs-combobox-base
+						id="UI_TIPO_DEPOSITO" 
+						auto-cargar="true"
+						class="col-xs-7"
+						tipo="'combobox-empleador'"
+						id-actual="ingDet.idPersona"
+						seleccionado="ingDet.empleadorSeleccionado"
+						id-post-filtro="ingDet.idPersonaPostFiltro"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+		      		<label class="col-xs-5 ng-scope" translate="">UI_NUMERO_HOJAS</label>
+					<div class="col-xs-6">
+						<bcs-input-numero id="nHojas" class="col-xs-11"
+							ng-model="ingDet.nHojas"
+							k-ng-model="ingDet.kngNHojas"
+							decimales="0"
+							>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="col-xs-3">
+		      		<label class="col-xs-4 ng-scope" translate="">UI_DC</label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.depositosConvenidosEmp"
+						k-ng-model="ingDet.kngDepositosConvenidosEmp"
+						ng-blur="ingDet.fnCalculosEmpleador()"
+						k-ng-disabled="false"
+						decimales="0"
+						>
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-3">
+		      		<label class="col-xs-4 ng-scope" translate="">UI_REAJUSTES</label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.reajuste"
+						k-ng-model="ingDet.kngReajuste"
+						ng-blur="ingDet.fnCalculosEmpleador()"
+						k-ng-disabled="false"
+						decimales="0"
+						>
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-3">
+	      			<label class="col-xs-4" translate="">UI_TIPO_PAGO</label>
+					<bcs-combobox-base 
+						id="UI_TIPO_PAGO" 
+						auto-cargar="true"
+						class="col-xs-7"
+						tipo="'combobox-tipo-pago-empleador'"
+						id-actual="ingDet.tipoPago"
+						seleccionado="ingDet.tipoPagoSeleccionado"
+						id-post-filtro="ingDet.tipoPagoPostFiltro"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+		      		<label class="col-xs-5 ng-scope" translate="">UI_NUMERO_TRABAJADORES</label>
+					<div class="col-xs-6">
+						<bcs-input-numero class="col-xs-11"
+							ng-model="ingDet.nTrabajadores"
+							k-ng-model="ingDet.kngNTrabajadores"
+							k-ng-disabled="true"
+							decimales="0"
+							>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="col-xs-3">
+		      		<label class="col-xs-4 ng-scope" translate="">UI_DEPOSITO_APV</label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.depositoAPVEmp"
+						k-ng-model="ingDet.kngDepositoAPVEmp"
+						ng-blur="ingDet.fnCalculosEmpleador()"
+						k-ng-disabled="false"
+						decimales="0"
+						>
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-3">
+		      		<label class="col-xs-4 ng-scope" translate="">UI_INTERESES</label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.intereces"
+						k-ng-model="ingDet.kngIntereces"
+						ng-blur="ingDet.fnCalculosEmpleador()"
+						k-ng-disabled="false"
+						decimales="0"
+						>
+					</bcs-input-numero>
+				</div>
+				
+	    	</div>
+	    	<div class="row">
+	    		<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_PERIODO_DE_PAGO</label>
+					<bcs-input-date-month 
+						class="col-xs-7" 
+						k-options="ingDet.PerPagoOptions" 
+						k-ng-model="ingDet.kngPeriodoPago"
+					>
+					</bcs-input-date-month>
+				</div>
+				<div class="col-xs-offset-3 col-xs-3">
+		      		<label class="col-xs-4 ng-scope" translate="">UI_SUBTOTAL_A_PAGAR</label>
+					<bcs-input-numero 
+						class="col-xs-7"
+						ng-model="ingDet.subtotalEmpleador"
+						k-ng-disabled="true"
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-3">
+		      		<label class="col-xs-4 ng-scope" translate="">UI_TOTAL_A_PAGAR</label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.totalEmpleador"
+						ng-blur="ingDet.fnTotalEmpleador()"
+						k-ng-disabled="true"
+						decimales="0">
+					</bcs-input-numero>
+				</div>	    	
+	    	</div>	
+			<div class="row">
+				<div class="col-xs-offset-6 col-xs-3">
+		      		<label class="col-xs-4 ng-scope" translate=""></label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.diferenciaSubTotalEmpleador"
+						k-options = " { min : -999999999999999999999 } "
+						decimales="0"
+						k-ng-disabled="true">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-3">
+		      		<label class="col-xs-4 ng-scope" translate=""></label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.diferenciaTotalEmpleador"
+						k-options = " { min : -999999999999999999999 } "
+						decimales="0"
+						k-ng-disabled="true">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<bcs-grid 
+					id					= "gridEmpleador"
+					configuracion 		= "ingDet.confGridEmpleador"
+					seleccionado 		= "ingDet.seleccionEmpleador"
+					ng-click			= "ingDet.buscarClientesPorEmpleador(ingDet.seleccionEmpleador[0])"
+					fn-exportar-excel	= "excelGridEmpleador">
+				</bcs-grid>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+						<bcs-button class="col-xs-3"
+						bcs-tipo="'bcs-button-input-form'"
+							bcs-habilitado="ingDet.fnValidaEmpleador() === true ? (ingDet.accionEmpleador === 'I' ? true : false) : false" 
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_AGREGAR' | translate" 
+							bcs-clic="ingDet.fnGrabarEmpleador()">
+						</bcs-button>
+						<bcs-button class="col-xs-3"
+							bcs-tipo="'bcs-button-input-form'"
+							bcs-habilitado="ingDet.fnValidaEmpleador() === true ? (ingDet.accionEmpleador === 'M' ? true : false) : false" 
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_MODIFICAR' | translate" 
+							bcs-clic="ingDet.fnGrabarEmpleador()">
+						</bcs-button>
+						<bcs-button 
+							class				= "col-xs-3"
+							bcs-tipo="'bcs-button-input-form'"
+							bcs-habilitado		= "true" 
+							bcs-auto-desactivar	= "false" 
+							bcs-texto			= "'UI_ELIMINAR' | translate" 
+							bcs-clic			= "ingDet.fnEliminarDetalleGrilla('E')">
+						</bcs-button>
+						<!--  <bcs-button class="col-xs-3"
+							bcs-tipo=""
+							bcs-habilitado="'true'"
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-clic="ingDet.fnLimpiarEmpleador('SI', false">
+						</bcs-button> --> 	
+				</div>
+				<div class="col-xs-6">
+					<bcs-menu class="col-xs-offset-8 col-xs-4" 
+							bcs-tipo="'bcs-button-input-form'"
+							bcs-habilitado="'true'" 
+							bcs-texto="'UI_OPCIONES' | translate" >
+						<li ng-click="ingDet.fnVentanaIngresarEmpleador()">{{'UI_INGRESAR_EMPLEADOR' | translate}}</li>
+						<li ng-click="excelGridEmpleador('IngresoDetalleEmpleador')">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>
+					</bcs-menu>			
+				</div>
+			</div>
+
+			<div class="row">
+				<strong class="ng-scope" translate="">UI_CLIENTES</strong>
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-offset-8 col-xs-2 ng-scope" translate="">UI_MONTOS_DIGITADOS</label>
+		      	<label class="col-xs-2 ng-scope" translate="">UI_MONTOS_CALCULADOS</label>		
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+	      			<label class="col-xs-4" translate="">UI_RUT_CLIENTE</label>
+					<bcs-combobox-base 
+						id="UI_RUT_CLIENTE" 
+						auto-cargar="true"
+						class="col-xs-7"
+						tipo="'combobox-clientes'"
+						id-actual="ingDet.idCliente"
+						seleccionado="ingDet.clienteSeleccionado"
+						id-post-filtro="ingDet.idClientePostFiltro"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-6 ng-scope" translate="">UI_DEPOSITOS_CONVENIDOS</label>
+						<bcs-input-numero class="col-xs-5"
+							ng-model="ingDet.depositosConvenidosCli"
+							k-ng-model="ingDet.kngDepositosConvenidosCli"
+							k-ng-disabled="!ingDet.EsRegimenDC"
+							decimales="0"
+							>
+						</bcs-input-numero>
+				</div>
+				<div class="col-xs-2">
+					<bcs-input-numero class="col-xs-11"
+						ng-model="ingDet.depositosConvenidosCalculadoCli"
+						k-ng-model="ingDet.fnConvenidoCalculadoCli()"
+						k-ng-disabled="true"
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-xs-6">
+	      			<label class="col-xs-4" translate="">UI_TIPO_AFILIADO</label>
+					<bcs-combobox-base 
+						id="UI_TIPO_AFILIADO" 
+						auto-cargar="true"
+						class="col-xs-7"
+						tipo="'combobox-trabajador-saapv'"
+						id-actual="ingDet.tipoAfiliado"
+						configuracion="ingDet.oConfiguracionTipoAfiliado"
+						seleccionado="ingDet.tipoAfiliadoSeleccionado"
+						id-post-filtro="ingDet.tipoAfiliadoPostFiltro"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-6 ng-scope" translate="">UI_DEPOSITOS_APV</label>
+					<bcs-input-numero class="col-xs-5"
+							ng-model="ingDet.depositosAPVCli"
+							k-ng-model="ingDet.kngDepositosAPVCli"
+							k-ng-disabled="!ingDet.EsRegimenAPV"
+							decimales="0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-2">
+						<bcs-input-numero class="col-xs-11"
+							ng-model="ingDet.depositosAPVCalculadoCli"
+							k-ng-model="ingDet.fnAPVCalculadoCli()"
+							k-ng-disabled="true"
+							decimales="0"
+							>
+						</bcs-input-numero>
+				</div>				
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+	      			<label class="col-xs-4" translate="">UI_REGIMEN_TRIBUTARIO</label>
+					<bcs-combobox-base 
+						id="UI_TIPO_DEPOSITO" 
+						auto-cargar="true"
+						cache="false"
+						class="col-xs-7"
+						tipo="'combobox-regimen-tributario'"
+						id-actual="ingDet.IdRegimen"
+						filtros="ingDet.filtroRegimen" 
+						seleccionado="ingDet.regimenSeleccionado"
+						id-post-filtro="ingDet.IdRegimenPostFiltro"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					 <label class="col-xs-6 ng-scope" translate="">UI_TOTAL_A_PAGAR</label>
+					 <bcs-input-numero class="col-xs-5"
+							ng-model="ingDet.totalCli"
+							k-ng-model="ingDet.fnSubTotalCliente()"
+							k-ng-disabled="true"
+							decimales="0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-2">
+					<bcs-input-numero 
+						class="col-xs-11"
+						ng-model="ingDet.totalCalculadoCli"
+						k-ng-model="ingDet.fnTotalCalculadoCli()"
+						k-ng-disabled="true"
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+			</div>  
+			<div class="row">
+				<bcs-grid
+					id					= "gridCliente"
+					configuracion		= "ingDet.confGridCliente"
+					seleccionado 		= "ingDet.seleccionCliente"
+					ng-click			= "ingDet.asignarCliente(ingDet.seleccionCliente[0])"
+					fn-exportar-excel	= "excelGridCliente">
+				</bcs-grid>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+						<bcs-button class="col-xs-3"
+							bcs-tipo="'bcs-button-input-form'"
+							bcs-habilitado="ingDet.fnValidaCliente() === true ? (ingDet.accionCliente === 'I' ? true : false) : false" 
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_AGREGAR' | translate" 
+							bcs-clic="ingDet.fnGrabarCliente()">
+						</bcs-button>
+						<bcs-button class="col-xs-3"
+							bcs-tipo="'bcs-button-input-form'"
+							bcs-habilitado="ingDet.fnValidaCliente() === true ? (ingDet.accionCliente === 'M' ? true : false) : false" 
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_MODIFICAR' | translate" 
+							bcs-clic="ingDet.fnGrabarCliente()">
+						</bcs-button>
+						<bcs-button 
+							class				= "col-xs-3"
+							bcs-tipo="'bcs-button-input-form'"
+							bcs-habilitado		= "true" 
+							bcs-auto-desactivar	= "false" 
+							bcs-texto			= "'UI_ELIMINAR' | translate" 
+							bcs-clic			= "ingDet.fnEliminarDetalleGrilla('C')">
+						</bcs-button>
+				</div>
+				<div class="col-xs-6"> 	
+					<bcs-button 
+						class				= "col-xs-offset-4 col-xs-4"
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-habilitado		= "true" 
+						bcs-auto-desactivar	= "false"
+						bcs-texto			= "'UI_LIMPIAR' | translate" 
+						bcs-clic			= "ingDet.fnLimpiarCliente('SI')">
+					</bcs-button>
+					
+					<bcs-menu  
+						class			= "col-xs-4" 
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-habilitado	= "'true'" 
+						bcs-texto		= "'UI_OPCIONES' | translate" >
+						<li ng-click="ingDet.fnVentanaIngresarCliente()">{{'UI_INGRESAR_CLIENTE' | translate}}</li>
+						<li ng-click="excelGridCliente('IngresoDetalleClientes')">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>
+
+					</bcs-menu>			
+				</div>
+			</div>
+			<br>
+			<div class="row"> 
+				<strong class="col-xs-2 ng-scope" translate="">UI_TOTALES</strong>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-2">
+					<strong class="col-xs-4 ng-scope" translate="">UI_DEPOSITO</strong>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.resumen"
+						k-ng-disabled="true"
+						k-options = " { min : -999999999999999999999 } "
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-2">
+					<strong class="col-xs-4 ng-scope" translate="">UI_EMPLEADOR</strong>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.calculado"
+						k-ng-disabled="true"
+						k-options = " { min : -999999999999999999999 } "
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-2">
+					<strong class="col-xs-4 ng-scope" translate="">UI_CLIENTE</strong>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.digitado"
+						k-ng-disabled="true"
+						k-options = " { min : -999999999999999999999 } "
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-3">
+					<strong class="col-xs-5 ng-scope" translate="">UI_DIFERENCIA_EMPLEADOR</strong>
+					<bcs-input-numero class="col-xs-6"
+						ng-model="ingDet.diferenciaEmpleador"
+						k-ng-disabled="true"
+						k-options = " { min : -999999999999999999999 } "
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-3">
+					<strong class="col-xs-5 ng-scope" translate="">UI_DIFERENCIA_CLIENTE</strong>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="ingDet.diferenciaCliente"
+						k-ng-disabled="true"
+						k-options = " { min : -999999999999999999999 } "
+						decimales="0">
+					</bcs-input-numero>					
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

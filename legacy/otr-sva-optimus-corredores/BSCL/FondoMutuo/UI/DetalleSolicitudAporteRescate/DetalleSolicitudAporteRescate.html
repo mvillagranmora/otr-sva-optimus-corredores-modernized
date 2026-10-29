@@ -1,0 +1,296 @@
+<div class="row" ng-controller="DetalleAporteRescateCtrl">
+	<div class="row">
+		<form class="form-horizontal">
+			<div class="row k-window-subtitle">
+				<label class="col-xs-8" translate>UI_INFORMACION_SOLICITUD</label>
+			</div>
+			<div class="form-group">
+				<table class="table">
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_SECUENCIA'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.IdSolicitudAporteRescate}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_OPERACION'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.DescripcionTipoMovimiento}}</label></td>
+					</tr>
+					<tr ng-if = "solicitudAporteRescate.IdSolicitudAporteRescateRelacionado != 0">
+						<td>
+							<strong class="align_right" translate>{{'UI_SECUENCIA_RELACIONADO'}}</strong>
+							<bcs-link class="pull-right" link="DetalleSolicitudAporteRescate" params="{ IdSolicitudAporteRescate : solicitudAporteRescate.IdSolicitudAporteRescateRelacionado }"></bcs-link>
+						</td>
+						<td>
+							<label class="">{{solicitudAporteRescate.IdSolicitudAporteRescateRelacionado}}</label>
+						</td>
+						<td><strong class="align_right" translate>{{'UI_OPERACION_RELACIONADA'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.DescripcionTipoMovimientoRelacionado}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_ESTADO'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.NombreEstado}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_FECHA_INGRESO'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.FechaEmision | kformat:'d'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_ESTADO_LIQUIDACION'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.NombreEstadoLiquidacion}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_REGIMEN'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.DescripcionRegimenTributario}}</label></td>
+					</tr>
+					<tr ng-if = "solicitudAporteRescate.TipoSolicitud === 'RES'">
+						<td><strong class="align_right" translate>{{'UI_TIPO_RESCATE'}}</strong></td>
+						<td><label class="" translate>{{solicitudAporteRescate.CalculoPorMontoCuotaUI}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_OVERNIGHT'}}</strong></td>
+						<td><label class="" translate>{{solicitudAporteRescate.EsOvernightUI}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_INDICADORMLT'}}</strong></td>
+						<td><label class="" translate>{{solicitudAporteRescate.EsIndicadorMLTUI}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_FONDO'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.NombreFondo}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_SERIE'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.CodigoSerie}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_IDENTIFICADOR_SERIE_FONDO'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.IdSerieFondo}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr ng-if = "solicitudAporteRescate.IdTipoMovimientoFondoMutuo ==='RESNORM' && solicitudAporteRescate.EsIndicadorMLTUI === 'UI_SI'">
+						<td><strong class="align_right" translate>{{'UI_IDENTIFICADOR_SERIE_FONDO_DESTINO'}}</label></td>
+						<td><label class="" >{{solicitudAporteRescate.IdSerieFondoDestino}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_EMISOR_DESTINO'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.IdEmisorDestino}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_MONTO_COMISION'}}</strong></td>
+						<td><label>{{solicitudAporteRescate.MontoComision | kformat:'c':solicitudAporteRescate.IdMonedaFondo:'monto':'FMM'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_GLOSA'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.Glosa}}</label></td>
+					</tr>
+					<tr ng-if = "solicitudAporteRescate.TipoSolicitud ==='RES' && solicitudAporteRescate.IdRegimenTributario === 'APV-B'">
+						<td><strong class="align_right" translate>{{'UI_MONTO_RETENCION'}}</strong></td>
+						<td><label>{{solicitudAporteRescate.MontoRetencion | kformat:'c':solicitudAporteRescate.IdMonedaFondo:'monto':'FMM'}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_FECHA_CURSE'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.FechaAceptacion | kformat:'d'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_FECHA_CURSE_REGISTRO'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.FechaAceptacionRegistro | kformat:'G'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_FECHA_CERTIFICACION'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.FechaCertificacion | kformat:'d'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_FECHA_CERTIFICACION_REGISTRO'}}</strong></td>
+						<td><label class="" ng-if = "solicitudAporteRescate.EstadoSolicitud ==='CRT'">{{solicitudAporteRescate.FechaCertificacionRegistro | kformat:'G'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_FECHA_LIQUIDACION'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.FechaLiquidacion | kformat:'d'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_FECHA_LIQUIDACION_REGISTRO'}}</strong></td>
+						<td><label class="" ng-if = "solicitudAporteRescate.EstadoLiquidacion ==='LIQ'">{{solicitudAporteRescate.FechaLiquidacionRegistro | kformat:'G'}}</label></td>
+					</tr>
+					<tr ng-if = "solicitudAporteRescate.EstadoSolicitud ==='ANU'">
+						<td><strong class="align_right" translate>{{'UI_FECHA_ANULACION'}}</label></td>
+						<td><label class="" >{{solicitudAporteRescate.FechaAnulacion | kformat:'d'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_FECHA_ANULACION_REGISTRO'}}</label></td>
+						<td><label class="" >{{solicitudAporteRescate.FechaAnulacionRegistro | kformat:'G'}}</label></td>
+					</tr>
+					<tr ng-if = "solicitudAporteRescate.IdTipoMovimientoFondoMutuo ==='APOREINV'">
+						<td><strong class="align_right" translate>{{'UI_FECHA_ORIGEN_INVERSION'}}</label></td>
+						<td><label class="" >{{solicitudAporteRescate.FechaOriginalInversion | kformat:'d'}}</label></td>
+					</tr>		
+				</table>
+			</div>
+			
+			<div class="row k-window-subtitle" ng-if="solicitudAporteRescate.IdTipoMovimientoFondoMutuo === 'RESREINV'">
+				<br>
+				<label class="col-xs-8" translate>UI_INFORMACION_REINVERSION</label>
+			</div>
+			<div class="form-group" ng-if="solicitudAporteRescate.IdTipoMovimientoFondoMutuo === 'RESREINV'">
+				<div class="row">
+					<bcs-grid
+						id					= "grid-detalle-solicitud-aporte-rescate"
+						configuracion		= "defaultOptions"
+						fn-doble-click		= "abrirDetalle(datos.kNgModel)"
+						api					= "apiGridSolicitud"
+						seleccionado		= "datos.kNgModel"
+						fn-exportar-excel	= "exportarExcel">
+					</bcs-grid>
+				</div>
+				<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+					<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+				</bcs-menu>
+			</div>
+			<div class="row k-window-subtitle">
+				<br>
+				<label class="col-xs-8" translate>UI_INFORMACION_CLIENTE</label>
+			</div>
+			<div class="form-group">
+				<table class="table">
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_DOCUMENTO_IDENTIDAD'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.DocumentoIdentidad}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_NOMBRE_CLIENTE'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.NombreCompleto}}</label></td>
+					</tr>
+					<tr>
+						<td>
+							<strong class="align_right" translate>{{'UI_PORTAFOLIO'}}</strong>
+							<bcs-link class="pull-right" link="administrarPortafolio" params="{ IdCliente : solicitudAporteRescate.IdCliente , IdPortafolio: solicitudAporteRescate.IdPortafolio }"></bcs-link>
+						</td>
+						<td><label class="">{{solicitudAporteRescate.CodigoPortafolio}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_FORMA_DE_PAGO'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.TextoPreferenciaPago}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr ng-if = "solicitudAporteRescate.IdTipoMovimientoFondoMutuo === 'RESTRASP' || solicitudAporteRescate.IdTipoMovimientoFondoMutuo === 'RESTRANSF'">
+						<td><strong class="align_right" translate>{{'UI_DOCUMENTO_IDENTIDAD_DESTINO'}}</strong></td>
+						<td><label class="" translate>{{solicitudAporteRescate.DocumentoIdentidadDestino}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_NOMBRE_CLIENTE_DESTINO'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.NombreCompletoDestino}}</label></td>
+					</tr>
+					<tr ng-if = "solicitudAporteRescate.IdTipoMovimientoFondoMutuo === 'RESTRASP' || solicitudAporteRescate.IdTipoMovimientoFondoMutuo === 'RESTRANSF'">
+						<td>
+							<strong class="align_right" translate>{{'UI_PORTAFOLIO_DESTINO'}}</strong>
+							<bcs-link class="pull-right" link="administrarPortafolio" params="{ IdCliente : solicitudAporteRescate.IdClienteDestino , IdPortafolio: solicitudAporteRescate.IdPortafolioDestino }"></bcs-link>
+						</td>
+						<td><label class="" translate>{{solicitudAporteRescate.CodigoPortafolioDestino}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="row k-window-subtitle">
+				<br>
+				<span class="col-xs-7">
+				<label class="col-xs-4" translate>UI_INFORMACION_MONTO_INVERSION&nbsp;&nbsp;</label>
+				<em class="col-xs-1" style="text-decoration: underline;" ng-show="!masInformacion" ng-click="masInformacion = !masInformacion">({{'+' | translate}})</em>
+				<em class="col-xs-1" style="text-decoration: underline;" ng-show="masInformacion"  ng-click="masInformacion = !masInformacion">({{'-' | translate}})</em>
+				</span>
+			</div>
+			<div class="form-group" ng-show="masInformacion">
+				<table class="table">
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_CANTIDAD'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.FormatoNumeroCuotasInversion}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_MONTO'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.MontoInversion | kformat:'c':solicitudAporteRescate.IdMonedaFondo:'monto':'FMM'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_VALOR'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.IdMonedaFondo}} {{solicitudAporteRescate.FormatoValorCuotaInversion}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_COSTO_UF'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.CostoUF | kformat:'n':solicitudAporteRescate.IdMoneda:'cantidad':'FMM'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_MONEDA'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.IdMoneda}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_MONTO_ORIGEN'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.CostoMonedaLocalInversion | kformat:'c':solicitudAporteRescate.IdMoneda:'monto':'FMM'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TIPO_CAMBIO'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.ParidadFechaInversion}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_SPREAD'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.Spread | kformat:'c':solicitudAporteRescate.IdMonedaFondo:'monto':'FMM'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_VALOR_UF'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.ValorUFFechaInversion | kformat:'c':'CLP':'monto':'FMM'}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div ng-if="solicitudAporteRescate.EstadoSolicitud === 'CRT' || parametros.Simular === 'S'">
+				<br>
+				<div class="row k-window-subtitle">
+					<label class="col-xs-8" translate>UI_INFORMACION_MONTO_CERTIFICACION</label>
+				</div>
+				<div class="form-group">
+					<table class="table">
+						<tr>
+							<td><strong class="align_right" translate>{{'UI_CANTIDAD'}}</strong></td>
+							<td><label class="">{{solicitudAporteRescate.FormatoNumeroCuotas}}</label></td>
+							<td><strong class="align_right" translate>{{'UI_MONTO'}}</strong></td>
+							<td><label class="" >{{solicitudAporteRescate.Monto | kformat:'c':solicitudAporteRescate.IdMonedaFondo:'monto':'FMM'}}</label></td>
+						</tr>
+						<tr>
+							<td><strong class="align_right" translate>{{'UI_VALOR'}}</strong></td>
+							<td><label class="">{{solicitudAporteRescate.IdMonedaFondo}} {{solicitudAporteRescate.FormatoValorCuota}}</label></td>
+							<td><strong class="align_right" translate>{{'UI_COSTO_UF'}}</strong></td>
+							<td><label class="">{{solicitudAporteRescate.CostoUF | kformat:'n':solicitudAporteRescate.IdMoneda:'cantidad':'FMM'}}</label></td>
+						</tr>
+						<tr>
+							<td><strong class="align_right" translate>{{'UI_MONEDA'}}</strong></td>
+							<td><label class="" >{{solicitudAporteRescate.IdMoneda}}</label></td>
+							<td><strong class="align_right" translate>{{'UI_MONTO_ORIGEN'}}</strong></td>
+							<td><label class="" >{{solicitudAporteRescate.CostoMonedaLocal | kformat:'c':solicitudAporteRescate.IdMoneda:'monto':'FMM'}}</label></td>
+						</tr>
+						<tr>
+							<td><strong class="align_right" translate>{{'UI_TIPO_CAMBIO'}}</strong></td>
+							<td><label class="" >{{solicitudAporteRescate.ParidadFechaInversion}}</label></td>
+							<td><strong class="align_right" translate>{{'UI_SPREAD'}}</strong></td>
+							<td><label class="" >{{solicitudAporteRescate.Spread | kformat:'c':solicitudAporteRescate.IdMonedaFondo:'monto':'FMM'}}</label></td>
+						</tr>
+						<tr>
+							<td><strong class="align_right" translate>{{'UI_VALOR_UF'}}</strong></td>
+							<td><label class="" >{{solicitudAporteRescate.ValorUFFechaInversion | kformat:'c':'CLP':'monto':'FMM'}}</label></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row k-window-subtitle">
+				<br>
+				<label class="col-xs-8" translate>UI_INFORMACION_AGENTE</label>
+			</div>
+			<div class="form-group">
+				<table class="table">
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_DIGITADOR'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.CodigoUsuario}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_AGENTE'}}</strong></td>
+						<td><label class="">{{solicitudAporteRescate.NombreEmpleado}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_FECHA_REGISTRO'}}</strong></td>
+						<td><label class="" >{{solicitudAporteRescate.FechaIngresoRegistro | kformat:'G'}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="row bcs-panel-comandos alignButtonsToRight">
+				<bcs-button class="col-xs-2" id="ver_comprobante_detalle_solicitud"
+					bcs-tipo="'bcs-button-primary'"
+					ng-show="solicitudAporteRescate.IdTipoMovimientoFondoMutuo != 'RESTRANSF' && solicitudAporteRescate.IdTipoMovimientoFondoMutuo != 'RESTRASP' && solicitudAporteRescate.IdTipoMovimientoFondoMutuo != 'RESCAM'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VER_COMPROBANTE' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="verComprobante()">
+				</bcs-button>
+				<bcs-button class="col-xs-2" id="ver_mandato_detalle_solicitud"
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VER_MANDATO' | translate" 
+					bcs-habilitado="'true'"
+					ng-show="solicitudAporteRescate.IdTipoMovimientoFondoMutuo === 'RESNORM' || solicitudAporteRescate.IdTipoMovimientoFondoMutuo === 'RESREINV'" 
+					bcs-clic="verMandato()">
+				</bcs-button>
+			</div>
+		</form>
+	</div>
+</div>

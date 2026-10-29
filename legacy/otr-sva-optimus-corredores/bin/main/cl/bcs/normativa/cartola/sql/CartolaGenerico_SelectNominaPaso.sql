@@ -1,0 +1,1 @@
+SELECT "IdNomina","TipoCartola" FROM "BSCL.Normativa.BD::CAR.NominaPaso";

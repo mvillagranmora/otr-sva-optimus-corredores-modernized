@@ -1,0 +1,390 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
+  <div id="MantenedorItem" ng-controller="MantenedorReporteILSCtrl" style="padding-right: 0px;">
+  
+  <div class="row">
+	<div class="col-xs-10">
+	</div>
+	  
+	<div class="col-xs-2">
+	  <div class="row bcs-panel-comandos">
+	    <bcs-button class='export-pdf k-button'
+		  bcs-tipo="'principal'"			
+		  bcs-texto="'UI_EXPORTAR_PDF' | translate"
+		  bcs-habilitado="'true'">
+		</bcs-button>
+	  </div>	    
+
+	  </br>
+	</div>
+  </div>	
+	
+  <div id="test-drawing">
+    <!-- Encabezado -->
+	<div class="row">
+	  <div class="col-xs-12">	
+		<table class="table" border="0px">
+		  <tr>		    
+		    <td colspan="3" align="right" style=" border: inset 0pt">INFORMACIÓN AL :  {{resultadoIndices.Fecha | kformat:'d'}}</td>  
+		  </tr>
+		  <tr>
+		    <td colspan="3" align="center" style=" border: inset 0pt"><strong><u><font size="2">ESTADO DE LIQUIDEZ Y SOLVENCIA PATRIMONIAL</font></u></strong></td>		    	        
+		  </tr>    
+		      
+		  <tr>
+		    <td style=" border: inset 0pt"></br></td>
+		  </tr> 
+		 <!--     
+		  <tr>	        
+		    <td style=" border: inset 0pt"><u><strong>IDENTIFICACIÓN:</strong></u></td>
+		  </tr>
+		  --> 
+		     
+		  <tr>
+		    <td colspan="3" style=" border: inset 0pt">R.U.T.       :{{datosCorredora.DocumentoIdentidad}}</td>
+		  </tr>
+		     
+		  <tr>
+		    <td colspan="3" style=" border: inset 0pt">RAZÓN SOCIAL :  {{datosCorredora.RazonSocial}}</td>
+		  </tr>
+		     
+		  <tr>
+		    <td colspan="3" style=" border: inset 0pt">DIRECCION OFICINA PRINCIPAL :  {{datosCorredora.Direccion}}</td>		    
+		  </tr>
+		</table>
+	  </div>
+	</div>
+	
+		
+	<!-- IELSP -->  
+	<div class="row">
+	  </br>
+	  </br>
+	  <div class="col-xs-12">		      				
+		<table class="table" border="0px">
+		  <tr>
+	        <td style=" border: inset 0pt" align="center" colspan="2"><strong><font size=2>IELSP</font></strong></td>	      
+	      </tr>	     
+	      <tr>
+		    <td style=" border: inset 0pt"></br></td>
+		  </tr>
+		  
+		  <tr>
+			<td style="width:500px;" bgcolor="#f9a940"><strong>Fecha</strong></td>
+			<td align="right" bgcolor="#d2d2d2"><label>{{resultadoIndices.Fecha | kformat:'d'}}</label></td>					
+		  </tr>
+			  		
+		  <tr>
+			<td style="width:500px;" bgcolor="#f9a940"><strong>Tipo Intermediario</strong></td>
+			<td align="right" bgcolor="#d2d2d2"><label>{{resultadoIndices.Intermediario}}</label></td>					
+		  </tr>
+		  
+		  <tr ng-repeat="resultadoIndices in detalleresultadoIndices">				      
+			<td style="width:500px;" bgcolor="#f9a940"><strong>{{resultadoIndices.NombreIndice}}</strong></td>
+			<td align="right" bgcolor="#d2d2d2"><label>{{resultadoIndices.MontoIndice}}</label></td>
+		  </tr>
+			    
+		  <tr ng-repeat="resultadoConceptos in detalleConceptos">				      
+			<td style="width:500px;" bgcolor="#f9a940"><strong>{{resultadoConceptos.NombreConcepto}}</strong></td>
+			<td align="right" bgcolor="#d2d2d2"><label>{{resultadoConceptos.MontoCalculado}}</label></td>
+		  </tr>
+		</table>			  
+	  </div>
+	</div>
+			
+			
+	<div class="row">  
+	  <div class="col-xs-12">		
+		<br/>
+		<br/>			  
+		<td style=" border: inset 0pt" bgcolor="#f9a940"><strong><font size=2>Indicadores de Liquidez y Solvencia Patrimonial</font></strong></td>
+		<br/>
+		<br/>
+		
+		  <table class="table" border="0px">
+			<tr align="left"; ng-repeat="acumuladoIndices in acumuladoresultadoIndices">
+  			  <td style="width:500px;border: inset 0pt;" ng-show="acumuladoIndices.NombreConcepto === undefined" bgcolor="#f9a940">{{acumuladoIndices.NombreIndice}}</td>
+ 			  <td align="right" style=" border: inset 0pt" ng-show="acumuladoIndices.NombreConcepto === undefined" bgcolor="#d2d2d2">{{acumuladoIndices.MontoIndice}}</td>
+ 			
+			  <td style="width:500px;" ng-show="acumuladoIndices.NombreConcepto.length > 0 && acumuladoIndices.Posicion === 'Denominador'" >&emsp; &emsp; &emsp;{{acumuladoIndices.NombreConcepto}}
+			    <div><br/></div>
+			  </td>
+			  <td style="width:500px;border: inset 0pt;" ng-show="acumuladoIndices.NombreConcepto.length > 0 && acumuladoIndices.Posicion === 'Numerador'" >&emsp; &emsp; &emsp;{{acumuladoIndices.NombreConcepto}}</td>
+  					
+  			  <td align="right" ng-show="acumuladoIndices.NombreConcepto.length > 0 && acumuladoIndices.Posicion === 'Denominador'"><label>{{acumuladoIndices.MontoCalculado}}</label></td>
+  			  <td align="right" style=" border: inset 0pt" ng-show="acumuladoIndices.NombreConcepto.length > 0 && acumuladoIndices.Posicion === 'Numerador'"><label>{{acumuladoIndices.MontoCalculado}}</label></td>
+  			</tr>	
+		  </table>			
+	  </div>  		  
+	</div>	  
+	  
+	<div class ="break">
+	<!-- Patrimonio -->
+	<div class="row">
+	  </br>
+	  </br>	  
+	  <table border="0px" align="center">
+	    <tr>
+	      <td style=" border: inset 0pt" align="center" colspan="3"><strong><font size=2>PATRIMONIO</font></strong></td>	      
+	    </tr>	     
+	    <tr>
+		  <td style=" border: inset 0pt"></br></td>
+		</tr>
+		<tr>
+		  <th bgcolor="#f9a940" align="center">ÍTEM</th>
+		  <th bgcolor="#f9a940" align="center">MONTO</th>
+		  <th bgcolor="#f9a940" align="center">(+/-)</th>
+		</tr>
+		              
+		<tr ng-repeat="resultadoitems in resultadoItems">			         
+	  	  <td style="width:500px;">{{resultadoitems.IdNombreItem}}</td>
+	  	  <td style="width:150px; text-align:right;">{{resultadoitems.Monto}}</td>
+	  	  <td style="width:100px; text-align:right;">{{resultadoitems.Operacion}}{{resultadoitems.Factor}}</td>  					
+	  	</tr>
+	  				  
+	  	<tr>
+	  	  <td bgcolor="#d2d2d2"><strong>PATRIMONIO LIQUIDO</strong></td>
+	  	  <td colspan="2" bgcolor="#d2d2d2" align="right"><strong>{{resultadoItems.PatrimonioLiquido}}</strong></td>
+	  	  <td></td>
+	  	</tr>
+	  </table>	
+	</div>	 
+	</div>
+	
+	
+	<div class ="break">
+	<!-- Cobertura -->
+	<div class="row">
+	  </br>
+	  </br>	  
+	  <table border="0px" align="center">
+	    <tr>
+	      <td style=" border: inset 0pt" align="center" colspan="4"><strong><font size=2>COBERTURA</font></strong></td>
+	    </tr>
+	    <tr>
+		  <td style=" border: inset 0pt"></br></td>
+		</tr>
+	    
+	    <tr>
+	      <th bgcolor="#f9a940" align="center">ÍTEM</th>
+	      <th bgcolor="#f9a940" align="center">MONTO</th>
+	      <th bgcolor="#f9a940" align="center">% APLICADO</th>
+	      <th bgcolor="#f9a940" align="center">COBERTURA</th>
+	    </tr>  
+	      
+	    <tr>
+	      <td style="width:350px;" colspan="4"><strong>Acciones, Oro y Dolar</strong></td>	      
+	    </tr>	      
+	    <tr>  
+	      <td style="width:350px;">Acciones de transacción bursátil</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.AccionesConTransBur}}</td>
+	      <td style="width:100px; text-align:right;">20%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.AccionesConTransBur * 0.2}}</td>
+	    </tr>	      
+	    <tr>  
+	      <td style="width:350px;">Acciones sin transacción bursátil</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.AccionesSinTransBur}}</td>
+	      <td style="width:100px; text-align:right;">40%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.AccionesSinTransBur * 0.4}}</td>
+	    </tr>	      
+	    <tr>  
+	      <td style="width:350px;">Oro</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.Oro}}</td>
+	      <td style="width:100px; text-align:right;">20%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.Oro * 0.2}}</td>
+	    </tr>	      
+	    <tr>  
+	      <td style="width:350px;">Dólar</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.Dolar}}</td>
+	      <td style="width:100px; text-align:right;">5%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.Dolar * 0.05}}</td>
+	    </tr>	        
+	    
+	    <tr>
+	      <td></br></td>
+	    </tr>
+	    <tr>
+	      <td style="width:350px;" colspan="4"><strong>Cuotas fondos mutuos</strong></td>
+	    </tr>	      
+	    <tr>  
+	      <td style="width:350px;">C.F.M. de inversión en instrumentos de deuda de corto plazo con duración menor o igual a 90 dias</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMMenor90}}</td>
+	      <td style="width:100px; text-align:right;">2%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMMenor90 * 0.02}}</td>
+	    </tr>	    
+	    <tr>  
+	      <td style="width:350px;">C.F.M. de inversión en instrumentos de deuda de corto plazo con duración menor o igual a 365 dias</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMInvOtros}}</td>
+	      <td style="width:100px; text-align:right;">10%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMInvOtros * 0.1}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">C.F.M. de inversión en instrumentos de deuda de mediano y largo plazo</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMInvOtros}}</td>
+	      <td style="width:100px; text-align:right;">10%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMInvOtros * 0.1}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">C.F.M. Mixto</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros}}</td>
+	      <td style="width:100px; text-align:right;">15%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros * 0.15}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">C.F.M. de inversión en instrumentos de capitalización</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros}}</td>
+	      <td style="width:100px; text-align:right;">15%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros * 0.15}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">C.F.M. de libre inversión</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros}}</td>
+	      <td style="width:100px; text-align:right;">15%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros * 0.15}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">C.F.M. estructurado</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros}}</td>
+	      <td style="width:100px; text-align:right;">15%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros * 0.15}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">C.F.M. dirigido a inversionistas calificados</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros}}</td>
+	      <td style="width:100px; text-align:right;">18%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CFMOtros * 0.18}}</td>
+	    </tr>
+	    
+	    <tr>
+	      <td></br></td>
+	    </tr>
+	    <tr>
+	      <td style="width:350px;"><strong>Cuentas por cobrar por intermediación</strong></td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CxC}}</td>
+	      <td style="width:100px; text-align:right;">0.5%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.CxC * 0.005}}</td>
+	    </tr>
+	    
+	    <tr>
+	      <td></br></td>
+	    </tr>
+	    <tr>
+	      <td style="width:350px;" colspan="4"><strong>Cuentas referidas en N°2.7, sección II de la norma de carácter general N°18</strong></td>	      
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">Documentos y cuentas por cobrar</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.DctoCtaxCob}}</td>
+	      <td style="width:100px; text-align:right;">10%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.DctoCtaxCob * 0.1}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">Deudores varios</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.DeuVarios}}</td>
+	      <td style="width:100px; text-align:right;">10%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.DeuVarios * 0.1}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">Otros activos circulantes</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.ActCirculantes}}</td>
+	      <td style="width:100px; text-align:right;">10%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.ActCirculantes * 0.1}}</td>
+	    </tr>
+	    
+	    <tr>
+	      <td></br></td>
+	    </tr>
+	    <tr>
+	      <td style="width:350px;" colspan="4"><strong>Obligaciones y derechos en moneda extranjera</strong></td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">Derechos en m/e</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.DerecME}}</td>
+	      <td style="width:100px; text-align:right;">5%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.DerecME * 0.05}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">Saldo neto acreedor en m/e</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.SalNetAcrME}}</td>
+	      <td style="width:100px; text-align:right;">20%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.SalNetAcrME * 0.2}}</td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px;">Saldo neto acreedor por tipo de divisa</td>
+	      <td style="width:150px; text-align:right;">0</td>
+	      <td style="width:100px; text-align:right;">15%</td>
+	      <td style="width:150px; text-align:right;">0</td>
+	    </tr>
+	    
+	    <tr>
+	      <td></br></td>
+	    </tr>
+	    <tr>
+	      <td style="width:350px;" colspan="4"><strong>Otros activos y pasivos</strong></td>
+	    </tr>
+	    <tr>  
+	      <td style="width:350px; text-align:right;">Títulos accionarios sobre los cuales el intermediario ha efectuado operaciones de venta corta por cuenta propia</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.TAccVC}}</td>
+	      <td style="width:100px; text-align:right;">20%</td>
+	      <td style="width:150px; text-align:right;">{{detalleItems.TAccVC * 0.2}}</td>
+	    </tr>
+	    
+	    
+	    <tr>
+	  	  <td colspan="3" align="right" bgcolor="#d2d2d2"><strong>SUBTOTAL(A)&emsp; M$ &emsp; &emsp;</strong></td>	  	  
+	  	  <td bgcolor="#d2d2d2" align="right"><strong>0</strong></td>
+	  	  <td></td>
+	  	</tr>
+	  </table>	
+	</div>
+	</div>
+	
+	<div class ="break">
+	<!-- Cartera Obligaciones -->
+	<div class="row">
+	  </br>
+	  </br>	  
+	  <table border="0px" align="center">
+	    <tr>
+	      <td style=" border: inset 0pt" align="center" colspan="7"><strong><font size=2>CARTERA OBLIGACIONES</font></strong></td>
+	      </br>
+	      </br>
+	    </tr>
+	    <tr>
+		  <td style=" border: inset 0pt"></br></td>
+		</tr>
+	    
+	  	<tr>
+	  		<td rowspan="2" align="center" bgcolor="#f9a940"><strong>ÍTEM</strong></td>
+	  		<td rowspan="2" align="center" bgcolor="#f9a940"><strong>CATEGORÍA</strong></td>
+	  		<td colspan="2" align="center" bgcolor="#f9a940"><strong>MONTO</strong></td>
+	  		<td colspan="2" align="center" bgcolor="#f9a940"><strong>% APLICADO</strong></td>
+	  		<td rowspan="2" align="center" bgcolor="#f9a940"><strong>COBERTURA</strong></td>
+	  	</tr>
+	  	<tr>
+	  		<td align="center" bgcolor="#f9a940"><strong>con garantía</strong></td>
+	  		<td align="center" bgcolor="#f9a940"><strong>bcos.y emp.</strong></td>
+	  		<td align="center" bgcolor="#f9a940"><strong>con garantía</strong></td>
+	  		<td align="center" bgcolor="#f9a940"><strong>bcos.y emp.</strong></td>
+	  	</tr>
+	  
+	    <tr ng-repeat="detalleCobertura in detalleCobertura">
+	    	<td style="width:350px;"><strong>{{detalleCobertura.Titulo}}</strong></td>
+	        <td style="width:250px;">{{detalleCobertura.Categoria}}</td>	        
+	        <td style="width:150px; text-align:right;">{{detalleCobertura.MontoGarantia}}</td>
+	        <td style="width:150px; text-align:right;">{{detalleCobertura.MontoBancosyEmpresas}}</td>	        
+	        <td style="width:150px; text-align:right;">{{detalleCobertura.FactorA}}</td>
+	        <td style="width:150px; text-align:right;">{{detalleCobertura.FactorB}}</td>
+	        <td style="width:150px; text-align:right;">{{detalleCobertura.MontoCobertura}}</td>
+	    </tr>
+	    
+	    <tr>
+	  	  <td colspan="6" align="right" bgcolor="#d2d2d2"><strong>SUBTOTAL(B)&emsp; M$ &emsp; &emsp;</strong></td>	  	  
+	  	  <td bgcolor="#d2d2d2" align="right"><strong>{{detalleCobertura.SaldoTotalB}}</strong></td>
+	  	  <td></td>
+	  	</tr>
+	  </table>	  
+	</div>
+	</div>
+  </div>
+  </div>	
+</html>			

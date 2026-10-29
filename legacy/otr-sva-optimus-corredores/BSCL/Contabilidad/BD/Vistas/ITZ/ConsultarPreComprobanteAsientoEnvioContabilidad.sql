@@ -1,0 +1,63 @@
+SET SCHEMA "BSCL";
+GO
+DROP VIEW "BSCL.Contabilidad.BD.Vistas::ITZ.ConsultarPreComprobanteAsientoEnvioContabilidad";
+GO
+CREATE VIEW "BSCL.Contabilidad.BD.Vistas::ITZ.ConsultarPreComprobanteAsientoEnvioContabilidad"
+AS 
+SELECT
+SAP."IdPreComprobanteAsientoEnvioContabilidad"
+,SAP."IdTipoContabilidad"
+,SAP."ParentKey"
+,SAP."Debit"
+,SAP."Credit"
+,SAP."U_glosa"
+,SAP."LineMemo"
+,SAP."ProfitCode"
+,SAP."BPLId"
+,COALESCE(HOM."CuentaContabilidad",SAP."AccountCode") AS "AccountCode"
+,SAP."DueDate"
+,SAP."Formato"
+,SAP."TieneProject"
+,SAP."Project"
+,SAP."ProductoMovimiento"
+,SAP."RelacionCorredora"
+,SAP."CodSecuencia"
+,SAP."IdMovimiento"
+,SAP."Reference1"
+,SAP."Reference2"
+,SAP."AdditionalReference"
+,SAP."FCDebit"
+,SAP."FCCredit"
+,SAP."FCCurrency"
+,SAP."ShortName"
+,SAP."TipoSocioNegocio"
+,SAP."ReferenceDate1"
+,SAP."TaxDate"
+,SAP."CostingCode"
+,SAP."CostingCode2"
+,SAP."CostingCode3"
+,SAP."CostingCode4"
+,SAP."CostingCode5"
+,SAP."U_BCS_TipoPersona"
+,SAP."U_BCS_Rut"
+,SAP."U_BCS_Portafolio"
+,SAP."U_BCS_Nombre"
+,SAP."U_BCS_CtaDCV"
+,SAP."U_BCS_EmitidoA"
+,SAP."U_BCS_Comprobante"
+,SAP."U_BCS_Folio"
+,SAP."U_BCS_NDcto"
+,SAP."U_BCS_Concepto"
+,SAP."U_BCS_CV"
+,SAP."U_BCS_Nemo"
+,SAP."U_BCS_IFRSCtaPropia"
+,SAP."U_BCS_CodigoProducto"
+,SAP."U_BCS_Bolsa"
+,SAP."U_BCS_Relacion"
+,SAP."U_RelacionCodigoSap"
+,SAP."U_BCS_FolioDTE"
+FROM "BSCL.Contabilidad.BD::ITZ.PreComprobanteAsientoEnvioContabilidad" SAP
+LEFT JOIN "BSCL.Contabilidad.BD::ITZ.HomologaCuenta" HOM ON SAP."AccountCode" = HOM."CodigoContabilidad" OR SAP."AccountCode" = HOM."CuentaContabilidad";
+GO
+GRANT SELECT ON "BSCL.Contabilidad.BD.Vistas::ITZ.ConsultarPreComprobanteAsientoEnvioContabilidad" TO BCS_DESARROLLADOR WITH GRANT OPTION;
+GO	

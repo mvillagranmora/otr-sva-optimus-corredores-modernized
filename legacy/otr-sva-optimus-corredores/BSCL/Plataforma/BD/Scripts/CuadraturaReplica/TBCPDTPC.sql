@@ -1,0 +1,244 @@
+
+--cantidad de registros por rut, secuencia y tipo
+	select *
+	from 
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM
+		FROM BSCL."2022_05_31_TBCPDTPC" DT
+		INNER JOIN BSCL."2022_05_31_TBCPMSPC" MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM
+	) as sebra
+	left join
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM
+		FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+		INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM
+	) as optimus
+	on sebra.RUT_CLI = optimus.RUT_CLI 
+	AND sebra.SEC_RUT_CLI = optimus.SEC_RUT_CLI 
+	AND sebra.TIPO_COMPROM = optimus.TIPO_COMPROM
+	where  sebra.registros != optimus.registros
+
+--CANTIDAD ( solo hay estados E)
+		
+	select (sebra.cant-optimus.cant),sebra.cant,optimus.cant,* 	
+	from 
+	(
+		SELECT DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM, SUM(CANT_PC) AS cant
+		FROM BSCL."2022_05_31_TBCPDTPC" DT
+		INNER JOIN BSCL."2022_05_31_TBCPMSPC" MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM
+	) as sebra
+	left join 
+	(
+		SELECT DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM, SUM(CANT_PC) AS cant
+		FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+		INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM
+	) as optimus
+	on sebra.RUT_CLI = optimus.RUT_CLI 
+	AND sebra.SEC_RUT_CLI = optimus.SEC_RUT_CLI 
+	AND sebra.TIPO_COMPROM = optimus.TIPO_COMPROM
+	where abs(sebra.cant-optimus.cant ) > 0.001
+	
+
+--CANTIDAD COMPROM ( solo hay estados E)
+		
+	select (sebra.cant-optimus.cant),sebra.cant,optimus.cant,* 	
+	from 
+	(
+		SELECT  count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, SUM(CANT_PC_COMPROM) AS cant
+		FROM BSCL."2022_05_31_TBCPDTPC" DT
+		INNER JOIN BSCL."2022_05_31_TBCPMSPC" MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as sebra
+	left join 
+	(
+		SELECT  count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, SUM(CANT_PC_COMPROM) AS cant
+		FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+		INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as optimus
+	on sebra.RUT_CLI = optimus.RUT_CLI 
+	AND sebra.SEC_RUT_CLI = optimus.SEC_RUT_CLI 
+	AND sebra.NEMO = optimus.NEMO 
+	AND sebra.TIPO_COMPROM = optimus.TIPO_COMPROM
+	where abs(sebra.cant-optimus.cant ) > 40
+	
+
+	SELECT *
+	FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+	INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+	ON MS.SEC_COMPROM = DT.SEC_COMPROM
+	WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO = 'PDBC'
+	
+	SELECT *
+	FROM "2022_05_31_TBCPDTPC" dt
+	INNER JOIN "2022_05_31_TBCPMSPC" ms
+	ON MS.SEC_COMPROM = DT.SEC_COMPROM
+	WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO = 'PDBC'
+	
+	
+--MONTOS ( solo hay estados E)
+		
+	select ABS(sebra.mont-optimus.mont),sebra.mont,optimus.mont,* 	
+	from 
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, SUM(MONTO_CARTERA) AS mont
+		FROM BSCL."2022_05_31_TBCPDTPC" DT
+		INNER JOIN BSCL."2022_05_31_TBCPMSPC" MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as sebra
+	,
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, SUM(MONTO_CARTERA) AS mont
+		FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+		INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as optimus
+	where sebra.RUT_CLI = optimus.RUT_CLI 
+	AND sebra.SEC_RUT_CLI = optimus.SEC_RUT_CLI 
+	AND sebra.TIPO_COMPROM = optimus.TIPO_COMPROM
+	AND sebra.NEMO = optimus.NEMO 
+	AND sebra.mont != optimus.mont
+	AND ABS(sebra.mont-optimus.mont) > 40
+
+	
+--MONTO COMPROM ( solo hay estados E)
+		
+	select ABS(sebra.mont-optimus.mont),sebra.mont,optimus.mont,* 	
+	from 
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, SUM(DT.MONTO_COMPROM) AS mont
+		FROM BSCL."2022_05_31_TBCPDTPC" DT
+		INNER JOIN BSCL."2022_05_31_TBCPMSPC" MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as sebra
+	,
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, SUM(DT.MONTO_COMPROM) AS mont
+		FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+		INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as optimus
+	where sebra.RUT_CLI = optimus.RUT_CLI 
+	AND sebra.SEC_RUT_CLI = optimus.SEC_RUT_CLI 
+	AND sebra.TIPO_COMPROM = optimus.TIPO_COMPROM
+	AND sebra.NEMO = optimus.NEMO 
+	AND sebra.mont != optimus.mont
+	AND ABS(sebra.mont-optimus.mont) > 40		
+
+	
+	
+	
+	
+--VAL RESC ( solo hay estados E)
+		
+	select ABS(sebra.mont-optimus.mont),sebra.mont,optimus.mont,* 	
+	from 
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, SUM(DT.VAL_RESC) AS mont
+		FROM BSCL."2022_05_31_TBCPDTPC" DT
+		INNER JOIN BSCL."2022_05_31_TBCPMSPC" MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as sebra
+	,
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, SUM(DT.VAL_RESC) AS mont
+		FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+		INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as optimus
+	where sebra.RUT_CLI = optimus.RUT_CLI 
+	AND sebra.SEC_RUT_CLI = optimus.SEC_RUT_CLI 
+	AND sebra.TIPO_COMPROM = optimus.TIPO_COMPROM
+	AND sebra.NEMO = optimus.NEMO 
+	AND sebra.mont != optimus.mont
+	AND ABS(sebra.mont-optimus.mont) > 40		
+	
+	
+
+	
+--TIR ( solo hay estados E)
+		
+	select ABS(sebra.tir-optimus.tir),sebra.tir,optimus.tir,* 	
+	from 
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, AVG(DT.TIR) AS tir
+		FROM BSCL."2022_05_31_TBCPDTPC" DT
+		INNER JOIN BSCL."2022_05_31_TBCPMSPC" MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as sebra
+	,
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, AVG(DT.TIR) AS tir
+		FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+		INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as optimus
+	where sebra.RUT_CLI = optimus.RUT_CLI 
+	AND sebra.SEC_RUT_CLI = optimus.SEC_RUT_CLI 
+	AND sebra.TIPO_COMPROM = optimus.TIPO_COMPROM
+	AND sebra.NEMO = optimus.NEMO 
+	AND sebra.tir != optimus.tir
+	
+
+	
+--TASA COMPROM ( solo hay estados E)
+		
+	select ABS(sebra.tasa-optimus.tasa),sebra.tasa,optimus.tasa,* 	
+	from 
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, AVG(DT.TASA_COMPROM) AS tasa
+		FROM BSCL."2022_05_31_TBCPDTPC" DT
+		INNER JOIN BSCL."2022_05_31_TBCPMSPC" MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as sebra
+	,
+	(
+		SELECT count(1) AS registros,DT.RUT_CLI AS RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO, AVG(DT.TASA_COMPROM) AS tasa
+		FROM BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPDTPC" DT
+		INNER JOIN BSCL."BSCL.Replica.BD.Vistas::Sebra.TBCPMSPC"  MS
+		ON MS.SEC_COMPROM = DT.SEC_COMPROM
+		WHERE MS."COD_PER" = '2022-05' AND MS."ESTADO" = 'E' and MS.FEC_OPERAC  = '2022-05-31' AND DT."COD_PER" = '2022-05' AND DT.NEMO != 'PDBC'
+		GROUP BY DT.RUT_CLI,DT.SEC_RUT_CLI,MS.TIPO_COMPROM,DT.NEMO
+	) as optimus
+	where sebra.RUT_CLI = optimus.RUT_CLI 
+	AND sebra.SEC_RUT_CLI = optimus.SEC_RUT_CLI 
+	AND sebra.TIPO_COMPROM = optimus.TIPO_COMPROM
+	AND sebra.NEMO = optimus.NEMO 
+	AND sebra.tasa != optimus.tasa
+
+	
+	SELECT "IdEstadoComprobante", * FROM "BSCL.Facturacion.BD::FAC.Comprobante" WHERE "IdComprobanteReferencia" = 860465 AND "IdEstadoComprobante" != 'ANU'   

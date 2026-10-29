@@ -1,0 +1,342 @@
+// ============================================================
+// Optimus Corredores — Gradle 6.3 build
+// Reemplaza los scripts ANT BcsJarOptimusTomEE8.xml (PLUGIN_OPTIMUS.jar)
+// y BcsPlataformaWebTomEE8.xml (PLA.war). Sin cambios de lógica ni negocio.
+//
+// Artefactos producidos:
+//   build/libs/PLUGIN_OPTIMUS.jar   → TomEE shared lib  (${TOMEE_HOME}/lib/)
+//   build/libs/PLA.war              → TomEE webapp       (${TOMEE_HOME}/webapps/)
+//   build/runtime-libs/             → JARs para TomEE    (${TOMEE_HOME}/lib/lib/)
+//
+// Compilación: JDK 11 (builder Docker) — bytecode Java 8 (class file version 52)
+// Runtime:     JRE 8  (runtime Docker) — TomEE corre en Java 8
+//
+// Dependencias privadas (no disponibles en Maven Central):
+//   BSCL/Plataforma/JAVA/libs-private/
+// ============================================================
+
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group   = 'cl.bcs'
+version = '0.0.1'
+
+// Bytecode Java 8 — misma versión que los scripts ANT (source="1.8" target="1.8")
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileJava.options.encoding     = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+javadoc.options.encoding         = 'UTF-8'
+// Equivalente al -nowarn del ANT
+compileJava.options.compilerArgs << '-nowarn'
+
+// ─── Rutas base ──────────────────────────────────────────────────────────────
+def bscl        = "${rootDir}/BSCL"
+def javaBase    = "${bscl}/Plataforma/JAVA"
+def privateLibs = file("${rootDir}/libs-private")
+def antConfig   = file("${javaBase}/ANT/config")
+
+// ─── SourceSet — compilación única de todas las fuentes ──────────────────────
+sourceSets {
+    main {
+        java {
+            srcDirs = [
+                // ── utilidades compartidas (van en PLA, no en PLUGIN JAR) ────
+                "${javaBase}/BcsUtils/src",
+                "${javaBase}/BcsPlataformaReporteApi/src",
+
+                // ── Fuentes exclusivas de PLA.war ────────────────────────────
+                "${javaBase}/BcsFilters/src",
+                "${javaBase}/BcsPlataformaWeb/src",
+
+                // ── módulos de negocio → PLUGIN_OPTIMUS.jar ──────────────────
+                "${bscl}/CanalAgente/JAVA/BcsCanalAgenteServicios/src",
+                "${bscl}/APV/JAVA/BcsAPVServicios/src",
+                "${bscl}/Contabilidad/JAVA/BcsContabilidadServicios/src",
+                "${bscl}/CuentaInversion/JAVA/BcsCuentaInversionServicios/src",
+                "${bscl}/Custodia/JAVA/BcsCustodiaServicios/src",
+                "${bscl}/Facturacion/JAVA/BcsFacturacionServicios/src",
+                "${bscl}/FondoMutuo/JAVA/BcsFondoMutuoServicios/src",
+                "${bscl}/Mesa/JAVA/BcsMesaServicios/src",
+                "${bscl}/Normativa/Java/BcsNormativaServicios/src",
+                "${bscl}/Orden/JAVA/BcsOrdenServicios/src",
+                "${javaBase}/BcsPlataformaServicios/src",
+                "${bscl}/SocioNegocio/JAVA/BcsSocioNegocioServicios/src",
+                "${bscl}/Tesoreria/JAVA/BcsTesoreriaServicios/src",
+                "${javaBase}/BcsValo2/src",
+                "${bscl}/Portafolio/JAVA/BcsPortafolioServicios/src",
+                "${bscl}/Replica/JAVA/BcsReplica/src",
+                "${bscl}/Corredor/BECB/JAVA/Servicios/src",
+                "${bscl}/Corredor/SURA/JAVA/Servicios/src",
+            ]
+        }
+        resources {
+            srcDirs = ["${bscl}/Properties"]
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+// ─── Dependencias ─────────────────────────────────────────────────────────────
+dependencies {
+
+    // ── TomEE las provee en runtime — solo para compilación ─────────────────
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    compileOnly 'javax.websocket:javax.websocket-api:1.1'
+    compileOnly 'javax:javaee-api:8.0.1'
+
+    // ── APIs eliminadas en Java 11 — presentes en rt.jar de Java 8 ──────────
+    // En la build JDK 11 se deben declarar explícitamente.
+    // saaj-impl-1.5.3.jar está en libsTomEE8 (misma versión).
+    compileOnly 'com.sun.xml.messaging.saaj:saaj-impl:1.5.3'        // javax.xml.soap.*
+    compileOnly 'javax.xml.ws:jaxws-api:2.3.1'                      // javax.xml.ws.*
+    compileOnly 'javax.jws:javax.jws-api:1.1'                       // javax.jws.*
+
+    // ── Datadog @Trace — agente runtime, solo referencia en compile ──────────
+    // dd-java-agent.jar v0.50.0 incluye datadog.trace.api.Trace.
+    // Se excluye de runtime (se inyecta como -javaagent:dd-java-agent.jar).
+    compileOnly fileTree(dir: privateLibs, include: 'dd-java-agent.jar')
+
+    // ── Privadas: no disponibles en Maven Central ─────────────────────────────
+    // Notas de verificación (checksum SHA-1 validado contra libsTomEE8):
+    //   • com.fasterxml.jackson.databind.jar → v2.1.0 (≠ Maven 2.2.3)
+    //   • org.springframework.beans/core.jar → v2.5.6 (≠ Spring 4.3.10 de Maven)
+    //   • geronimo-javamail_1.6_mail-1.0.1.jar → SNAPSHOT (no en Central)
+    //   • cqengine-2.9.2-all.jar → shaded uber-jar (no idéntico al artefacto Central)
+    //   • storedprocedure-2.0-SNAPSHOT.jar → desarrollo interno
+    //   • ngdbc-2.8.12.jar → SAP HANA JDBC (no en Central)
+    //   • kaiser-odata-1.12.01.jar → integración HANA interna
+    //   • dd-java-agent.jar → agente runtime (excluido del classpath de compilación)
+    implementation fileTree(dir: privateLibs, include: '*.jar',
+                            exclude: 'dd-java-agent.jar')
+
+    // ── Apache Commons ────────────────────────────────────────────────────────
+    // avalon-framework-4.2.0.jar → libs-private (Maven Central solo tiene 4.1.5)
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
+    implementation 'commons-cli:commons-cli:1.5.0'
+    implementation 'commons-codec:commons-codec:1.10'
+    implementation 'commons-collections:commons-collections:3.2.2'
+    implementation 'commons-configuration:commons-configuration:1.2'
+    implementation 'org.apache.commons:commons-csv:1.5'
+    implementation 'org.apache.commons:commons-dbcp2:2.9.0'
+    implementation 'commons-dbutils:commons-dbutils:1.6'
+    implementation 'commons-digester:commons-digester:2.1'
+    implementation 'commons-fileupload:commons-fileupload:1.5'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'commons-logging:commons-logging:1.2'
+    implementation 'commons-net:commons-net:3.6'
+    implementation 'commons-pool:commons-pool:1.5.7'
+    implementation 'org.apache.commons:commons-pool2:2.11.1'
+
+    // ── Apache CXF — servicios SOAP ───────────────────────────────────────────
+    implementation 'org.apache.cxf:cxf-core:3.2.0'
+    implementation 'org.apache.cxf:cxf-rt-bindings-soap:3.2.0'
+    implementation 'org.apache.cxf:cxf-rt-databinding-jaxb:3.2.0'
+    implementation 'org.apache.cxf:cxf-rt-frontend-jaxws:3.2.0'
+    implementation 'org.apache.cxf:cxf-rt-frontend-simple:3.2.0'
+    implementation 'org.apache.cxf:cxf-rt-transports-http:3.2.0'
+    implementation 'org.apache.cxf:cxf-rt-wsdl:3.2.0'
+    implementation 'org.apache.neethi:neethi:3.0.3'
+    implementation 'wsdl4j:wsdl4j:1.6.3'
+    implementation 'org.apache.ws.xmlschema:xmlschema-core:2.2.5'
+
+    // ── Datadog / OpenTracing ─────────────────────────────────────────────────
+    implementation 'com.datadoghq:java-dogstatsd-client:4.2.0'
+    implementation 'io.opentracing:opentracing-api:0.33.0'
+    implementation 'io.opentracing:opentracing-noop:0.33.0'
+    implementation 'io.opentracing:opentracing-util:0.33.0'
+
+    // ── ANTLR4 Runtime ────────────────────────────────────────────────────────
+    implementation 'org.antlr:antlr4-runtime:4.5.3'
+
+    // ── Google ────────────────────────────────────────────────────────────────
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.google.guava:guava:18.0'
+
+    // ── Groovy ────────────────────────────────────────────────────────────────
+    implementation 'org.codehaus.groovy:groovy:2.4.7'
+
+    // ── IBM ICU ───────────────────────────────────────────────────────────────
+    implementation 'com.ibm.icu:icu4j:71.1'
+
+    // ── iText / PDF ───────────────────────────────────────────────────────────
+    implementation 'com.itextpdf:itextpdf:5.5.13'
+    implementation 'com.lowagie:itext:2.1.7'
+    implementation 'org.apache.pdfbox:pdfbox:3.0.2'
+
+    // ── Jackson (público — versión de Maven Central) ───────────────────────────
+    // Nota: jackson-databind privado (v2.1.0) está en libs-private
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.1.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.2.3'
+
+    // ── Jakarta / JAXB ────────────────────────────────────────────────────────
+    implementation 'jakarta.activation:jakarta.activation-api:1.2.1'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
+
+    // ── JasperReports ─────────────────────────────────────────────────────────
+    // olap4j y itext-rtf son versiones customizadas de JasperSoft, no en Maven Central
+    implementation('net.sf.jasperreports:jasperreports:6.3.0') {
+        exclude group: 'org.olap4j',  module: 'olap4j'
+        exclude group: 'com.lowagie', module: 'itext-rtf'
+    }
+
+    // ── JFree ─────────────────────────────────────────────────────────────────
+    implementation 'org.jfree:jcommon:1.0.23'
+    implementation 'org.jfree:jfreechart:1.0.19'
+
+    // ── SSH / FTP ─────────────────────────────────────────────────────────────
+    implementation 'com.jcraft:jsch:0.1.54'
+
+    // ── JSON misc ─────────────────────────────────────────────────────────────
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'org.jsoup:jsoup:1.11.3'
+
+    // ── JDBC Drivers ──────────────────────────────────────────────────────────
+    implementation 'net.sourceforge.jtds:jtds:1.3.1'
+    implementation 'org.postgresql:postgresql:42.7.7'
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:7.2.1.jre8'
+
+    // ── Log4j 2 ───────────────────────────────────────────────────────────────
+    // Nota: log4j.jar (v1.2.6, unversioned) está en libs-private
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.0'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+
+    // ── CSV ───────────────────────────────────────────────────────────────────
+    implementation 'com.opencsv:opencsv:3.7'
+
+    // ── Apache POI — Excel/Word ───────────────────────────────────────────────
+    implementation 'org.apache.poi:poi:3.14'
+    implementation 'org.apache.poi:poi-ooxml:3.14'
+    implementation 'org.apache.poi:poi-ooxml-schemas:3.14'
+    implementation 'org.apache.poi:poi-scratchpad:3.14'
+    implementation 'org.apache.xmlbeans:xmlbeans:2.6.0'
+
+    // ── sql2o ─────────────────────────────────────────────────────────────────
+    implementation 'org.sql2o:sql2o:1.5.4'
+
+    // ── Spring Framework 4.3.10 (versioned JARs del repo) ────────────────────
+    // Nota: org.springframework.beans/core.jar (v2.5.6) está en libs-private
+    implementation 'org.springframework:spring-aop:4.3.10.RELEASE'
+    implementation 'org.springframework:spring-beans:4.3.10.RELEASE'
+    implementation 'org.springframework:spring-context:4.3.10.RELEASE'
+    implementation 'org.springframework:spring-core:4.3.10.RELEASE'
+    implementation 'org.springframework:spring-expression:4.3.10.RELEASE'
+    implementation 'org.springframework:spring-web:4.3.10.RELEASE'
+
+    // ── Templates ─────────────────────────────────────────────────────────────
+    implementation 'org.freemarker:freemarker:2.3.23'
+    implementation 'org.apache.velocity:velocity:1.7'
+
+    // ── Woodstox / StAX ───────────────────────────────────────────────────────
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.4.0'
+    implementation 'org.codehaus.woodstox:stax2-api:4.2.1'
+
+    // ── Tests ─────────────────────────────────────────────────────────────────
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.1.0'
+}
+
+// ─── PLUGIN_OPTIMUS.jar ───────────────────────────────────────────────────────
+// Replica BcsJarOptimusTomEE8.xml
+task pluginJar(type: Jar) {
+    dependsOn classes
+    archiveBaseName   = 'PLUGIN_OPTIMUS'
+    archiveVersion    = ''
+    archiveClassifier = ''
+
+    from(sourceSets.main.output.classesDirs) {
+        exclude 'cl/bcs/sql/**'
+        exclude 'cl/bcs/utils/**'
+        exclude 'cl/bcs/plataforma/report/**'
+        exclude 'cl/bcs/filters/**'
+        exclude 'cl/bcs/plataforma/services/**'
+    }
+    from(sourceSets.main.output.resourcesDir) {
+        include '**/*.properties'
+        include '**/*.sql'
+    }
+
+    // Class-Path manifest equivalente al globmapper from="*.jar" to="lib/*.jar" ANT
+    doFirst {
+        def cpEntries = []
+        configurations.runtimeClasspath.files.each { f ->
+            if (f.name.endsWith('.jar')) {
+                cpEntries << "lib/${f.name}"
+            }
+        }
+        fileTree(dir: privateLibs, include: '*.jar', exclude: 'dd-java-agent.jar').each { f ->
+            cpEntries << "lib/${f.name}"
+        }
+        manifest.attributes(['Class-Path': cpEntries.unique().join(' ')])
+    }
+}
+
+// ─── PLA.war ─────────────────────────────────────────────────────────────────
+// Replica BcsPlataformaWebTomEE8.xml
+task plaWar(type: Zip) {
+    dependsOn classes
+    archiveBaseName   = 'PLA'
+    archiveVersion    = ''
+    archiveClassifier = ''
+    archiveExtension  = 'war'
+    destinationDirectory = file("${buildDir}/libs")
+
+    from(antConfig) {
+        include 'Plataforma.xml'
+        into 'WEB-INF'
+        rename { 'web.xml' }
+    }
+
+    from(sourceSets.main.output.classesDirs) {
+        include 'cl/bcs/sql/**'
+        include 'cl/bcs/utils/**'
+        include 'cl/bcs/plataforma/report/**'
+        include 'cl/bcs/filters/**'
+        include 'cl/bcs/plataforma/services/**'
+        into 'WEB-INF/classes'
+    }
+    from(sourceSets.main.output.resourcesDir) {
+        include '**/*.sql'
+        into 'WEB-INF/classes'
+    }
+
+    from(privateLibs) {
+        include 'storedprocedure-2.0-SNAPSHOT.jar'
+        include 'kaiser-odata-1.12.01.jar'
+        into 'WEB-INF/lib'
+    }
+
+    from(antConfig) {
+        include 'log4j2_tomEE.xml'
+        into 'WEB-INF/classes'
+        rename { 'log4j2.xml' }
+    }
+}
+
+// ─── Recolección de runtime JARs para TomEE lib/lib/ ─────────────────────────
+task collectRuntimeLibs(type: Copy) {
+    dependsOn classes
+    from configurations.runtimeClasspath.filter { it.name.endsWith('.jar') }
+    from fileTree(dir: privateLibs, include: '*.jar')
+    into "${buildDir}/runtime-libs"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+jar.enabled = false
+war.enabled = false
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,15 @@
+SELECT OD."IdOmnibusDetalle"
+	,OD."IdSerieFondo"
+	,OD."CantidadOperaciones"
+	,OD."ValorCuota"
+	,OD."UltimoValorCuota"
+	,OD."Monto"
+	,OD."CantidadCuotas"
+	,OD."ValorCuotaAGF"
+	,OD."MontoAGF"
+	,OD."CantidadCuotasAGF"
+	,OD."DiferenciaValorCuota"
+	,OD."DiferenciaValorCuotaAGF"
+	,OD."IdEstado"
+FROM "BSCL.FondoMutuo.BD::FMM.OmnibusDetalle" AS OD
+WHERE OD."IdOmnibusDetalle" IN (:IdOmnibusDetalle)

@@ -1,0 +1,57 @@
+<div class="row" ng-controller='RecarterizacionMasivaClientesCtrl as recmascli'>
+	<form name="formRecarterizacionMasivaClientes" class="col-xs-12 form-horizontal"> 
+		<div class="row">
+			<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO_IDENTIDAD</label>
+			<bcs-combobox-base 
+				class="col-xs-3" bcs-requerido
+				activado="true"
+				filtros="recmascli.filtroTipoDocumentoIdentidad"
+				tipo="'combobox-tipo-documento-identidad'"
+				bcs-habilitado="recmascli.habilitaCargar"
+				id-defecto = "recmascli.IdTipoDocumentoIdentidadDef"
+				id-actual = "recmascli.IdTipoDocumentoIdentidad">
+			</bcs-combobox-base>
+			<bcs-button 
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-input-form'"  
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_SELECCIONAR_ARCHIVO' | translate" 
+				bcs-habilitado="recmascli.habilitaCargar"  
+				bcs-clic="recmascli.win.seleccionarArchivo()">
+			</bcs-button>
+		</div>
+		<br>
+		<div class="row">
+			<label class="col-xs-12" translate>UI_DATOS</label>
+		</div>
+		<div class="row">					
+			<bcs-grid
+				class="col-xs-12"
+				id="grid-recarterizacion-masiva" 
+				configuracion="recmascli.grid.procesamiento"
+				seleccionado="recmascli.grid.seleccionado">
+			</bcs-grid>
+		</div>
+		<div class="row">
+			<label class="col-xs-12" translate>{{recmascli.mensajeProceso}}</label>
+		</div>
+		<div class="row alignButtonsToRight">
+			<bcs-button 
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-primary'"  
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_PROCESAR' | translate" 
+				bcs-habilitado="formRecarterizacionMasivaClientes.$valid&&recmascli.datos.length>0&&recmascli.habilitaCargar"
+				bcs-clic="recmascli.win.procesar()">
+			</bcs-button>
+			<bcs-button 
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-secondary'"  
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_LIMPIAR' | translate" 
+				bcs-habilitado="!recmascli.habilitaCargar"
+				bcs-clic="recmascli.win.limpiar()">
+			</bcs-button>
+		</div>
+	</form>
+</div>

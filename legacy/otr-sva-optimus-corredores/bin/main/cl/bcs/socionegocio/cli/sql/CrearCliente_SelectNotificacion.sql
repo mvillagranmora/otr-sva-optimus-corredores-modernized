@@ -1,0 +1,37 @@
+SELECT 
+    CLI."IdCliente" AS "IdSecuencia"
+    ,CASE PER."Tipo" 
+			WHEN 'N' THEN PER."Nombres" ||' '|| PER."ApellidoPaterno" || ' ' || PER."ApellidoMaterno" 
+			ELSE PER."RazonSocial"
+	END AS "NombreCompleto"
+    ,PER."IdDireccionElectronicaPrincipal"
+    ,EMP."IdEmpleado" AS "IdEmpleadoEjecutivo" 
+    ,CLI."IdTipoCliente"
+    ,CPGDEG."Direccion" AS "CorreoCliente"
+    ,CLI."IdPersona"
+    ,CPT."Numero" AS "TelefonoCliente" 
+    ,DI."IdTipoDocumentoIdentidad" AS "TipoDocumentoIdentidad"
+    ,DI."DocumentoIdentidad" AS "DocumentoIdentidad"
+    ,DIA."DocumentoIdentidad" AS "RutCavali"
+    --Agente
+    ,PE."IdPersona" AS "IdPersonaAgente"
+    ,PE."IdDireccionElectronicaPrincipal" AS "IdDireccionAgente"
+    ,CASE PE."Tipo" 
+			WHEN 'N' THEN PE."Nombres" ||' '|| PE."ApellidoPaterno" || ' ' || PE."ApellidoMaterno" 
+			ELSE PE."RazonSocial"
+	END AS "Agente"
+    --corredora
+    ,CCDG."RazonSocial" AS "Corredora"
+    ,CCDG."Direccion" AS "DireccionCorredora"
+    ,CCDG."RUT" AS "RutCorredora"
+    ,CCDG."Telefono" AS "AtencionCliente"
+FROM "BSCL.SocioNegocio.BD::CLI.Cliente" CLI
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.Persona" PER ON PER."IdPersona" = CLI."IdPersona"
+LEFT JOIN  "BSCL.SocioNegocio.BD::EMP.Empleado" EMP ON EMP."IdPersona" = CLI."IdPersonaEjecutivo"
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.DireccionElectronica" CPGDEG ON CPGDEG."IdDireccionElectronica" = PER."IdDireccionElectronicaPrincipal"        
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.Telefono" CPT ON CPT."IdTelefono"=PER."IdTelefonoPrincipal"
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" DI ON DI."IdDocumentoIdentidad" = PER."IdDocumentoIdentidad"
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" DIA ON DI."IdDocumentoIdentidad" = PER."IdDocumentoIdentidadAdicional"
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.Persona" PE ON EMP."IdPersona" = PE."IdPersona"
+LEFT JOIN "BSCL.Plataforma.BD::CTT.ContratoDatosGenerales" CCDG ON CCDG."IdEmpresa" = :IdEmpresa
+WHERE CLI."IdEmpresa" = :IdEmpresa AND CLI."IdCliente" = :IdCliente;

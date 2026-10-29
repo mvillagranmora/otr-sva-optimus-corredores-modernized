@@ -1,0 +1,216 @@
+<div id="GestionSAAPV" class="col-xs-12" ng-controller="GestionSAAPVCtrl as gsaapv">
+	<div class="row bcs-cuerpo">
+		<!-- INICIO FILTROS -->
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+				  		<label class="col-xs-5" translate>UI_CLIENTE</label>
+						<bcs-combobox-base class="col-xs-6"
+							cache="true"
+							tipo="'combobox-socio-negocio'" 
+							id-actual="gsaapv.dataPersona.IdActual"
+							seleccionado="gsaapv.dataPersona.Seleccionado"
+							filtros="gsaapv.oConfiguracionPersonaNatural.filtros"  
+							auto-cargar='false'
+							carga-cliente-automatico="false">
+						</bcs-combobox-base>
+				 	</div>
+				 	<div class="col-xs-4">
+      				 	<label class="col-xs-5" translate="">UI_ESTADO</label>
+						<bcs-combobox-base 
+							id="UI_ESTADO_CONTRATO" 
+							class="col-xs-6"
+							tipo="'combobox-estado-contrato-apv'"
+							seleccionado="gsaapv.SeleccionadoEstado"
+							id-actual="gsaapv.EstadoIdActual">
+						</bcs-combobox-base>
+    				</div>
+    				<div class="col-xs-4">
+						<label style="width: 42%;" class="col-xs-5" translate>UI_FECHA_APROBACION</label>
+						<bcs-input-date
+							class="col-xs-6"
+							k-ng-model = "gsaapv.fechaAprobacion">
+						</bcs-input-date>
+					</div>
+				</div>
+				<div class="row">
+				 	 <div class="col-xs-4">
+				  		<label class="col-xs-5" translate>UI_EMPLEADOR</label>
+						<bcs-combobox-base class="col-xs-6"
+							cache="true"
+							tipo="'combobox-socio-negocio'" 
+							id-actual="gsaapv.IdPersonaEmpleador"
+							seleccionado="gsaapv.dataPersona.SeleccionadoEmpleador"  
+							auto-cargar='false'
+							carga-cliente-automatico="false">
+						</bcs-combobox-base>
+				 	 </div>
+			  		<div class="col-xs-4">
+						<label class="col-xs-5" translate>UI_FECHA_SUSCRIPCION</label>
+						<bcs-input-date
+							class="col-xs-6"
+							k-ng-model = "gsaapv.fechaSuscripcion">
+						</bcs-input-date>
+					</div>
+			  		<div class="col-xs-4">
+						<label style="width: 42%;" class="col-xs-5" translate>UI_FECHA_NOTIFICACION</label>
+						<bcs-input-date
+							class="col-xs-6"
+							k-ng-model = "gsaapv.fechaNotificacion">
+						</bcs-input-date>
+					</div>
+				</div>	
+				<div class="row">
+				 	 <div class="col-xs-4">
+				  		<label class="col-xs-5" translate>UI_FOLIO</label>
+						<bcs-input-texto class="col-xs-6" 
+							ng-model="gsaapv.folio" 
+							key-enter="fnKeyEnter();">
+						</bcs-input-texto>
+				 	 </div>
+			  		<div class="col-xs-4">
+						<label class="col-xs-5" translate>UI_FECHA_CREACION</label>
+						<bcs-input-date
+							class="col-xs-6"
+							k-ng-model = "gsaapv.fechaCreacion">
+						</bcs-input-date>
+					</div>
+			  		<div class="col-xs-4">
+						<label style="width: 42%;" class="col-xs-5" translate>UI_FECHA_RECEPCION_NOTIFICACION</label>
+						<bcs-input-date
+							class="col-xs-6"
+							k-ng-model = "gsaapv.fechaRecepcionNotificacion">
+						</bcs-input-date>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+		      			<label class="col-xs-5" translate>UI_NOMBRE_PLAN_AHORRO</label>
+						<bcs-combobox-base 
+							id="UI_NOMBRE_PLAN_AHORRO" 
+							class="col-xs-6"
+							todos="'S'"
+							tipo="'combobox-nombre-plan-ahorro'"
+							item-post-filtro="'1'"
+							id-actual="gsaapv.PlanAhorroIdActual"
+							cascada-a="gsaapv.FiltroProductoAgrupador.filtros.IdPlanTipoInversion"
+						    cascada-valor="'IdPlanTipoInversion'"
+							seleccionado="gsaapv.NombrePlanAhorroSeleccionado"
+						>
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-5" translate>UI_PRODUCTO</label>
+						<bcs-combobox-base class="col-xs-6"
+							bcs-requerido
+							todos="'S'"
+							tipo="'combobox-producto-agrupador'"
+							auto-cargar="'false'"							
+							filtros="gsaapv.FiltroProductoAgrupador.filtros"
+							cascada-a="gsaapv.FiltroRegimenAgrupador.filtros.IdProductoAgrupador"
+						    cascada-valor="'IdProductoAgrupador'"
+							seleccionado="gsaapv.ProductoAgrupadorSeleccionado"
+							id-actual="gsaapv.ProductoAgrupadorIdActual">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-5" translate>UI_REGIMEN</label>
+		    			<bcs-combobox-base 
+							id="UI_REGIMEN_TRIBUTARIO"
+							class="col-xs-6" 
+							todos="'S'"
+							tipo="'combobox-regimen-apv'"
+							auto-cargar="'false'"
+							seleccionado="gsaapv.RegimenAgrupadorSeleccionado"
+							id-actual="gsaapv.RegimenAgrupadorIdActual"
+							filtros="gsaapv.FiltroRegimenAgrupador.filtros"
+						>
+						</bcs-combobox-base>
+		    		</div> 
+				</div>	
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true"  
+						bcs-clic="gsaapv.ConsultarGestionContratosSAAPV()">
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="true"  
+						bcs-clic="gsaapv.LimpiarConsultarGestionContratosSAAPV()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="row">
+			<bcs-grid id="gridSAAPV"
+				configuracion = "gsaapv.confBasicaSAAPV"
+				seleccionado = "gsaapv.seleccionSAAPV"
+				fn-doble-click="gsaapv.VentanaContratoSAAPV('C')"
+				fn-exportar-excel="excelGestionContratosSAAPV"
+			>
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-2>
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-primary'" bcs-texto="'UI_OPCIONES_GESTION' | translate" >
+				<li ng-click="gsaapv.VentanaContratoSAAPV('I')">{{'UI_INGRESAR_CONTRATO' | translate}}</li>
+				<li ng-click="gsaapv.VentanaContratoSAAPV('M')">{{'UI_MODIFICAR_CONTRATO' | translate}}</li>
+				<li ng-click="gsaapv.CambiarEstadoContratoSAAPV('COM','COMPLETAR')">{{'UI_COMPLETAR_CONTRATO' | translate}}</li>
+				<li ng-click="gsaapv.CambiarEstadoContratoSAAPV('CER','CERRAR')">{{'UI_CERRAR_CONTRATO' | translate}}</li>
+	            <li ng-click="gsaapv.CambiarEstadoContratoSAAPV('REV','REVOCAR')">{{'UI_REVOCAR_CONTRATO' | translate}}</li>
+	            <li ng-click="gsaapv.CambiarEstadoContratoSAAPV('ANU','ANULAR')">{{'UI_ANULAR_CONTRATO' | translate}}</li>
+	            
+	            
+	            <li ng-click="gsaapv.CambiarEstadoContratoSAAPV('VIG','VIGENTE')">{{'UI_DEJAR_VIGENTE_CONTRATO_SAAPV' | translate}}</li>
+	            
+			</bcs-menu>
+		</div>
+		<div class="col-xs-2"></div>
+		<div class="col-xs-2">
+			<bcs-button id="UI_VALIDA_CONTRATOS_CLIENTE" 
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_VALIDA_CONTRATOS_CLIENTE' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="gsaapv.ValidaContratoClientes('M')">
+			</bcs-button>
+		</div>
+			<div class="col-xs-2">
+			<bcs-button id="UI_EMISION_CONTRATO"
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_EMISION_CONTRATO' | translate"
+				bcs-habilitado="'true'"
+				bcs-clic="gsaapv.GeneraContrato()">
+			</bcs-button>
+		</div>
+		<div class="col-xs-2">
+			<bcs-button id="UI_CARTA_NOTIFICACION"
+			bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_CARTA_NOTIFICACION' | translate" 
+				bcs-habilitado="'true'"
+				bcs-clic="gsaapv.GeneraCartaNotificacion(0,[],true)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="excelGestionContratosSAAPV('GestionContratosSAAPV')">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>
+	            <li ng-click="gsaapv.reenviarAutorizacion()">{{'UI_REENVIAR_AUTORIZACION' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,1 @@
+SELECT "NombreArchivo" FROM "BSCL.Plataforma.BD::TAS.PrecioTasa" WHERE "NombreArchivo" = :NombreArchivo;

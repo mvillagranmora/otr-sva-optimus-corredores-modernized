@@ -1,0 +1,1 @@
+DROP TABLE #CierreModulo_p_Modulo;

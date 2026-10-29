@@ -1,0 +1,999 @@
+<div class="col-xs-12" ng-controller="IngresarTituloCtrl">
+    <div class="row bcs_titulo">
+        <div class="col-xs-12">
+            <span>{{'UI_INGRESO_RETIRO_TITULO'|translate}}</span>
+        </div>
+    </div>
+    <div class="bcs-cuerpo">
+        <form name="FormIngresoTitulo" class="filters-formulario">
+        	<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-4" 
+						auto-cargar			="'true'"
+						id					="UI_CLASIFICACION"
+						bcs-requerido
+						tipo				="'combobox-clasificacion-tipo-instrumento'" 
+						configuracion		="data.oConfiguracionClasificacion.configuracion" 				
+						seleccionado		="data.oConfiguracionClasificacion.seleccionado"
+						filtros				="data.oConfiguracionClasificacion.filtros" 
+						id-actual			="data.oConfiguracionClasificacion.idActual"
+						memoria				="'INGRESOTITULO'"
+						item-post-filtro	="'1'"
+						cascada1-a			="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor		="'IdClasificacionTipoInstrumento'"
+						cascada2-a			="FiltroConceptoClasificacionTipoInstrumento"
+						cascada2-valor		="'IdClasificacionTipoInstrumento'"
+						carga-cliente-automatico="'S'">
+					</bcs-combobox-base>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_OPERACION</label>
+					<bcs-input-date
+						class="col-xs-2"
+						id="UI_FECHA_OPERACION"
+						bcs-requerido
+						k-ng-model="data.kngFechaOperacion"
+						k-ng-disabled = "'true'"
+						k-options="data.fechaOperacionOptions">
+					</bcs-input-date>
+				</div>				
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-9"
+						id="UI_TIPO_INSTRUMENTO" 
+						auto-cargar="'false'"
+						bcs-requerido
+						todos="'S'"
+						tipo="'combobox-tipo-instrumento'"
+						configuracion= "data.oConfiguracionTipoInstrumento.configuracion"
+						seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+						filtros="data.oConfiguracionTipoInstrumento.filtros"
+						id-actual="data.oConfiguracionTipoInstrumento.idActual"
+						memoria="data.oConfiguracionClasificacion.idActual"
+						cascada1-a="data.oConfiguracionOperacion.filtros.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_OPERACION</label>
+					<bcs-combobox-base class="col-xs-9"
+						id="UI_OPERACION" 
+						auto-cargar="'false'"
+						bcs-requerido
+						tipo="'combobox-operacion'"
+						configuracion= "data.oConfiguracionOperacion.configuracion"
+						seleccionado="data.oConfiguracionOperacion.seleccionado"
+						filtros="data.oConfiguracionOperacion.filtros"
+						id-actual="data.oConfiguracionOperacion.idActual"
+						memoria="data.oConfiguracionTipoInstrumento.idActual"
+						cascada1-a="data.oConfiguracionMoneda.filtros.IdTipoOperacion"
+						cascada1-valor="'IdTipoOperacion'"
+						cascada2-a="data.oConfiguracionCondicionLiquidacion.filtros.IdTipoOperacion"
+						cascada2-valor="'IdTipoOperacion'"
+						cascada3-a			="FiltroConceptoTipoOperacion"
+						cascada3-valor		="'IdTipoOperacion'"
+						>
+					</bcs-combobox-base >
+				</div>
+			</div>
+			
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_CONCEPTO</label>
+					<bcs-combobox-base
+						class			="col-xs-9"
+						id				="UI_CONCEPTO"
+						auto-cargar		="'false'"
+						bcs-requerido
+						tipo			="'combobox-concepto-custodia'"  
+						configuracion	="data.oConfiguracionConcepto.configuracion" 
+						id-actual		="data.oConfiguracionConcepto.idActual" 
+						seleccionado	="data.oConfiguracionConcepto.seleccionado"
+						filtros			="data.oConfiguracionConcepto.filtros"
+						memoria			="data.oConfiguracionOperacion.idActual"
+						>
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_CERTIFICACION_AUTOMATICA</label>
+					<input type="checkbox"
+						   id="UI_CERTIFICADO_AUTOMATICO" 
+						   ng-model="data.checkCertificadoAutomatico"
+						   ng-disabled = "'true'"
+				    >
+				</div>			        		      					        			    			            															
+			</div>
+			
+			
+			<hr>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate ng-show="!(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showClienteDestino)">UI_CLIENTE</label>
+					<label class="col-xs-3" translate ng-show="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showClienteDestino)">UI_CLIENTE_ORIGEN</label>
+					<bcs-combobox-base 
+						class				="col-xs-9"
+						id					="FormIngresoTitulo_Cliente"
+						carga-cliente-automatico="'S'"
+					 	auto-cargar			="'false'"
+					 	bcs-requerido
+					    tipo				="'combobox-socio-negocio'"
+					    seleccionado		="oSocioNegocio.seleccionado"
+					    filtros				="oSocioNegocio.filtros"
+						cascada-a			="oPortafolio.filtros.IdCliente"
+						cascada-valor		="'IdCliente'"
+	                    cascada-defecto		="'-1'"
+	                    cascada1-a			="oPortafolioDestino.filtros.IdCliente"
+						cascada1-valor		="'IdCliente'"
+	                    cascada1-defecto	="'-1'"		
+	                    id-actual			="oSocioNegocio.idActual"
+					    configuracion		="oSocioNegocio.configuracion">
+					</bcs-combobox-base>
+				</div>
+				<!-- cascada2-a			="oPortafolioDestino.filtros.IdCliente"
+						cascada2-valor		="'IdCliente'"
+	                    cascada2-defecto	="'-1'" -->
+			</div>           
+ 			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate ng-show="!(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showPortafolioDestino)">UI_PORTAFOLIO</label>
+					<label class="col-xs-3" translate ng-show="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showPortafolioDestino)">UI_PORTAFOLIO_ORIGEN</label>
+					<bcs-combobox-base 
+						class				="col-xs-9"
+						id					="FormIngresoTitulo_Portafolio"
+					 	auto-cargar			="'false'"
+					 	bcs-requerido
+					    tipo				="'combobox-portafolio'"
+					    seleccionado		="oPortafolio.seleccionado"
+					    filtros				="oPortafolio.filtros"
+	                    item-post-filtro	="'1'"
+	                    id-actual			="oPortafolio.idActual"
+					    configuracion		="oPortafolio.configuracion"
+					    cascada-a			="data.oConfiguracionCuentaCustodioPortafolio.filtros.IdPortafolio"
+						cascada-valor		="'IdPortafolio'"
+	                    cascada-defecto		="'-1'"
+	                    cascada1-a			="oPortafolioDestino.filtros.IdPortafolio"
+						cascada1-valor		="'IdPortafolio'"
+	                    cascada1-defecto	="'-1'">
+					</bcs-combobox-base>
+				</div>
+				<!-- cascada2-a			="data.oConfiguracionCuentaCustodioPortafolioDestino.filtros.IdPortafolio"
+						cascada2-valor		="'IdPortafolio'"
+	                    cascada2-defecto	="'-1'" -->
+			</div>
+			
+<!-- Transferencia entre Clientes -->
+
+			<div class="row" 
+				 ng-if ="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showClienteDestino)">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_CLIENTE_DESTINO</label>
+					<bcs-combobox-base 
+						class				="col-xs-9"
+						ng-show 			="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showClienteDestino)"
+						id					="UI_CLIENTE_DESTINO"
+					 	auto-cargar			="'false'"
+					 	bcs-requerido		="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showClienteDestino)"
+					    tipo				="'combobox-socio-negocio'"
+					    seleccionado		="oSocioNegocioDestino.seleccionado"
+					    filtros				="oSocioNegocioDestino.filtros"
+						cascada-a			="oPortafolioDestino.filtros.IdCliente"
+						cascada-valor		="'IdCliente'"
+	                    cascada-defecto		="'-1'"
+	                    id-actual			="oSocioNegocioDestino.idActual"
+					    configuracion		="oSocioNegocioDestino.configuracion">
+					</bcs-combobox-base>
+				</div>
+			</div>           
+          
+<!-- 		<div class="row" ng-show ="((((data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RV') && data.checkPorCartera) || (data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RF') || (data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='IF')) && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showClienteDestino)">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_PORTAFOLIO_DESTINO</label>
+					<bcs-combobox-base 
+						class				="col-xs-4"
+						id					="UI_PORTAFOLIO_DESTINO"
+					 	auto-cargar			="'false'"
+					 	ng-show 			="((((data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RV') && data.checkPorCartera) || (data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RF') || (data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='IF')) && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showClienteDestino)"
+					 	bcs-requerido		="((((data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RV') && data.checkPorCartera) || (data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RF') || (data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='IF')) && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showClienteDestino)"
+					    tipo				="'combobox-portafolio'"
+					    seleccionado		="oPortafolioDestino2.seleccionado"
+					    filtros				="oPortafolioDestino2.filtros"
+	                    item-post-filtro	="'1'"
+	                    id-actual			="oPortafolioDestino2.idActual"
+					    configuracion		="oPortafolioDestino2.configuracion">
+					</bcs-combobox-base >
+				</div>
+			</div>
+-->
+
+<!-- FIN Transferencia entre Clientes -->
+			
+<!-- Transferencia entre portafolios -->
+			<div class	="row" 
+				ng-show	="false">
+				<div class="col-xs-12">
+					<label class="col-xs-3"	translate>UI_CLIENTE_DESTINO</label>
+					
+					<bcs-input-texto
+						ng-show			="((((data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RV') && data.checkPorCartera) || (data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RF') || (data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='IF')) && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showPortafolioDestino)" 
+		               	class			="col-xs-9"
+		                id				="UI_TIPOEVENTOTXT"
+		               	maxlength		="200"
+						ng-model		="data.oDesplegar.ClienteDestino"
+						k-ng-disabled	= "'true'"
+						foco 			= "formData.TipoEvento">
+	               	</bcs-input-texto>
+				</div>
+			</div>                      
+ 			<div class	="row" 
+				ng-show	="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showPortafolioDestino)">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_PORTAFOLIO_DESTINO</label>
+					<bcs-combobox-base 
+						class				="col-xs-4"
+						id					="UI_PORTAFOLIO_DESTINO"
+					 	auto-cargar			="'false'"
+					 	bcs-requerido		="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showPortafolioDestino)"
+					    tipo				="'combobox-portafolio'"
+					    seleccionado		="oPortafolioDestino.seleccionado"
+					    filtros				="oPortafolioDestino.filtros"
+	                    item-post-filtro	="'1'"
+	                    id-actual			="oPortafolioDestino.idActual"
+					    configuracion		= "oPortafolioDestino.configuracion">
+					</bcs-combobox-base >
+				</div>
+			</div>
+<!--  Fin transferencia entre portafolios -->
+			<hr>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_CONDICION_LIQUIDACION</label>
+					<bcs-input-condicion-liquidacion
+						class = "col-xs-9"
+						bcs-requerido
+						fecha-inicial = "data.kngFechaOperacion"
+						condicion-de-liquidacion = "data.oConfiguracionCondicionLiquidacion.seleccionado"
+						id-tipo-operacion = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion"
+						fecha-liquidacion = "data.kngFechaCondicionLiquidacion"
+						activado = "'true'">
+					</bcs-input-condicion-liquidacion>
+				</div>
+			</div>
+			<div class="row" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showBusquedaInstrumentoEgreso">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_POR_CARTERA</label>
+					<input type="checkbox"
+						   id="UI_POR_CARTERA"
+						   ng-model="data.checkPorCartera">
+				</div>
+			</div>
+			<div class="row" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT'">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_FOLIO_CARTERA</label>
+					<bcs-input-numero
+						class="col-xs-6"
+						id="UI_FOLIO_CARTERA" 
+						k-options="data.folioCarteraOptions"
+						k-ng-model="data.kngFolioCartera"
+						k-ng-disabled="'true'">
+					</bcs-input-numero>
+					<bcs-button
+						class="col-xs-3"
+						id="UI_CONSULTA_CARTERAS" 
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_CONSULTA_CARTERAS' | translate"
+						bcs-habilitado="(!data.oDesplegar.showBusquedaInstrumentoEgreso || (data.oDesplegar.showBusquedaInstrumentoEgreso && data.checkPorCartera)) && (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT')"
+						bcs-clic="data.btnConsultarCarteras()"
+						ng-style="SesionLocale !== 'PE' ? {'position': 'absolute'} : {}">
+					</bcs-button>				
+				</div>
+			</div>
+
+ 			<div class="row" ng-show="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && (!data.oDesplegar.showBusquedaInstrumentoEgreso || data.checkPorCartera))">
+				<div class="col-xs-12">
+					<label class="col-xs-3" ng-show="!(data.oDesplegar.showBovedaDestino)" translate>UI_BOVEDA</label>
+					<label class="col-xs-3" ng-show="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showBovedaDestino)" translate>UI_BOVEDA_ORIGEN</label>
+					<bcs-input-texto 
+						class			="col-xs-5"
+						bcs-requerido	="SesionLocale === 'CL' && (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && (!data.oDesplegar.showBusquedaInstrumentoEgreso || data.checkPorCartera))"
+						id				="UI_BOVEDA_TEXTO" 
+						k-ng-disabled	="'true'"
+						ng-model		="instrumentoCustodia.NombreBoveda"
+						ng-style		="{'width': data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' && SesionLocale !== 'PE' ? '75%' : data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && SesionLocale !== 'PE' ? '50%' :''}">
+					</bcs-input-texto>
+
+					<!------------------ BOVEDA PE --------------------->
+					<label class="col-xs-2" ng-show="SesionLocale === 'PE'" translate>UI_NUMERO_CUENTA_BOVEDA</label>
+					<bcs-input-texto 
+						class			="col-xs-2"
+						ng-show			="SesionLocale === 'PE'"
+						bcs-requerido	="SesionLocale === 'PE' && (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && (!data.oDesplegar.showBusquedaInstrumentoEgreso || data.checkPorCartera))"
+						id				="frmIngresarTitulo_CuentaCustodioPortafolio"
+						k-ng-disabled	="'true'"
+						ng-model		="instrumentoCustodia.CodigoCuentaCustodio"
+						usa-filtros-completos = "'S'">
+					</bcs-input-texto>
+					<!-------------------------------------------------->
+				</div>				
+			</div>			
+			<div class="row" ng-show="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' || (data.oDesplegar.showBusquedaInstrumentoEgreso && !data.checkPorCartera))">
+				<div class="col-xs-12">
+					<label class="col-xs-3" ng-show="!(data.oDesplegar.showBovedaDestino)" translate>UI_BOVEDA</label>
+					<label class="col-xs-3" ng-show="(data.oDesplegar.showBovedaDestino)" translate>UI_BOVEDA_ORIGEN</label>
+					<bcs-combobox-base
+						class			="col-xs-5"
+						id				="UI_BOVEDA"
+						bcs-requerido	="(data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' || (data.oDesplegar.showBusquedaInstrumentoEgreso && !data.checkPorCartera))"
+						auto-cargar		="'true'"
+						tipo			="'combobox-boveda'"  
+						configuracion	="data.oConfiguracionBoveda.configuracion" 
+						id-actual		="data.oConfiguracionBoveda.idActual" 
+						seleccionado	="data.oConfiguracionBoveda.seleccionado"
+						filtros			="data.oConfiguracionBoveda.filtros"
+						cascada-a		="data.oConfiguracionCuentaCustodioPortafolio.filtros.IdBoveda"
+						cascada-valor	="'IdBoveda'"
+	                    cascada-defecto	="'-1'"
+						memoria			="'INGRESOTITULO'"
+						ng-style		="{'width': data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' && SesionLocale !== 'PE' ? '75%' : data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && SesionLocale !== 'PE' ? '50%' :''}"
+						>
+					</bcs-combobox-base>													
+					<!------------------ BOVEDA PE --------------------->
+					<label class="col-xs-2" ng-show="SesionLocale === 'PE'" style="padding-left:5px;" translate>UI_NUMERO_CUENTA_BOVEDA</label>
+					<bcs-combobox-base
+						class="col-xs-2" 
+						ng-show			="SesionLocale === 'PE'"
+						id				="frmIngresarTitulo_CuentaCustodioPortafolio"
+						bcs-requerido	="(SesionLocale === 'PE' && (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' || (data.oDesplegar.showBusquedaInstrumentoEgreso && !data.checkPorCartera)))"
+						auto-cargar		="'false'"
+						tipo			="'combobox-cuenta-custodio-portafolio'"
+						configuracion	="data.oConfiguracionCuentaCustodioPortafolio.configuracion" 
+						id-actual		="data.oConfiguracionCuentaCustodioPortafolio.idActual" 
+						seleccionado	="data.oConfiguracionCuentaCustodioPortafolio.seleccionado"
+						filtros			="data.oConfiguracionCuentaCustodioPortafolio.filtros"
+						memoria			="'INGRESOTITULO'"
+						usa-filtros-completos = "'S'">
+					</bcs-combobox-base>		
+					<!-------------------------------------------------->
+				</div>	
+			</div>
+<!-- Transferencia entre bovedas -->
+			<div class	="row" 
+				ng-show	="((data.oDesplegar.showBovedaDestino)  && (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT'))">
+				
+				
+				<div class="col-xs-12">
+					<label class	="col-xs-3" ng-show	="(data.oDesplegar.showBovedaDestino && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT')" translate>UI_BOVEDA_DESTINO</label>
+ 					
+					<bcs-combobox-base
+						ng-show			="(data.oDesplegar.showBovedaDestino && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT')"
+						class			="col-xs-5"
+						id				="frm_BovedaDestino"
+						bcs-requerido	="(data.oDesplegar.showBovedaDestino && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT')"
+						auto-cargar		="'true'"
+						tipo			="'combobox-boveda'"  
+						configuracion	="data.oConfiguracionBovedaDestino.configuracion" 
+						id-actual		="data.oConfiguracionBovedaDestino.idActual" 
+						seleccionado	="data.oConfiguracionBovedaDestino.seleccionado"
+						filtros			="data.oConfiguracionBovedaDestino.filtros"
+						cascada-a		="data.oConfiguracionCuentaCustodioPortafolioDestino.filtros.IdBoveda"
+						cascada-valor	="'IdBoveda'"
+	                    cascada-defecto	="'-1'">
+					</bcs-combobox-base>
+					 <!---------INICIO PE------------>
+					<label class="col-xs-2" ng-show="SesionLocale === 'PE'" style="padding-left:5px;" translate>UI_NUMERO_CUENTA_BOVEDA</label> 
+					<bcs-combobox-base
+						ng-show			="(SesionLocale === 'PE' && data.oDesplegar.showBovedaDestino && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT')"
+						class			="col-xs-2"
+						id				="frm_CuentaCustodioPortafolioDestino"
+						auto-cargar		="'false'"
+						tipo			="'combobox-cuenta-custodio-portafolio'"  
+						configuracion	="data.oConfiguracionCuentaCustodioPortafolioDestino.configuracion" 
+						id-actual		="data.oConfiguracionCuentaCustodioPortafolioDestino.idActual" 
+						seleccionado	="data.oConfiguracionCuentaCustodioPortafolioDestino.seleccionado"
+						filtros			="data.oConfiguracionCuentaCustodioPortafolioDestino.filtros"
+						memoria			="'INGRESOTITULO'"
+						usa-filtros-completos = "'S'">
+					</bcs-combobox-base>
+					 <!---------FIN PE------------>
+				</div>			
+			</div>
+<!-- FIn transferencia entre bovedas -->
+			
+			
+			
+			<div class="row" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' || (data.oDesplegar.showBusquedaInstrumentoEgreso && !data.checkPorCartera)">
+				<div class="col-xs-12">										    			    
+					<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos
+						class="col-xs-5"
+						id="UI_INSTRUMENTO" 
+						bcs-requerido="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' || (data.oDesplegar.showBusquedaInstrumentoEgreso && !data.checkPorCartera)"
+						name="uInstrumento"
+						filtro-solo-vigentes		="'S'"
+						datos-instrumento="data.instrumento"
+						buscar-instrumento="data.buscarInstrumento"
+						filtro-tipo-instrumento = "data.oConfiguracionTipoInstrumento.idActual"
+						filtro-clasificacion="data.oConfiguracionClasificacion.idActual" 
+						filtro-estado = "'ACT'"
+						filtro-solo-vigentes = 'S'
+						filtro-bolsa = $root.SesionBolsaDefectoSistema 
+						muestra-precio = "'S'">
+					</bcs-input-instrumentos>
+				
+					<label class="col-xs-2" ng-show = "data.oDesplegar.showMontoMonedaOrigen" translate>UI_CORTE_MINIMO</label>
+					<bcs-input-monetario
+						class="col-xs-2"
+						bcs-requerido = "data.oDesplegar.showMontoMonedaOrigen"
+						ng-show = "data.oDesplegar.showMontoMonedaOrigen"
+						id="UI_CORTE_MINIMO"
+						k-ng-model="data.kngCorteMinimo"
+						k-options ="data.corteMinimoOptions"
+						simbolo="data.monedaCorteMinimo"
+						decimales="data.oDecimales.corteMinimo.decimales"
+						k-ng-disabled = "data.kngDisabledCorteMinimo"
+						ng-blur="win.blurCorteMinimo()"
+					></bcs-input-monetario>
+				</div>
+				
+				<div class="row col-xs-12" ng-show="data.oDesplegar.esCtaPropia">
+					<label class="col-xs-3" translate>UI_CATEGORIA_IFRS</label>
+					<bcs-combobox-base class="col-xs-5"
+						todos = "'N'"
+						configuracion= "data.oConfiguracionClasificacionIfrs.configuracion"
+						tipo="data.oConfiguracionClasificacionIfrs.tipo"
+						id-actual="data.oConfiguracionClasificacionIfrs.idActual"
+						seleccionado="data.oConfiguracionClasificacionIfrs.seleccionado"
+						filtros="data.oConfiguracionClasificacionIfrs.filtros"
+						activado="data.valorizar">
+					</bcs-combobox-base >
+				</div>
+				
+			</div>
+			
+			<div class="row" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && (!data.oDesplegar.showBusquedaInstrumentoEgreso || data.checkPorCartera)">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+					<bcs-input-texto 
+						class="col-xs-4"
+						id="UI_INSTRUMENTO_TEXTO"
+						bcs-requerido = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && (!data.oDesplegar.showBusquedaInstrumentoEgreso || data.checkPorCartera)"
+						k-ng-disabled="'true'"
+						ng-model="instrumentoCustodia.Nemotecnico"
+					>
+					</bcs-input-texto>
+					
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_CORTE_MINIMO</label>
+					<bcs-input-monetario
+						class="col-xs-2"
+						id="UI_CORTE_MINIMO"
+						bcs-mayor-que="'-1'"
+						k-ng-model="data.kngCorteMinimo"
+						k-options ="data.corteMinimoOptions"
+						simbolo="data.monedaCorteMinimo"
+						decimales="data.oDecimales.corteMinimo.decimales"
+						k-ng-disabled = "'true'"
+					></bcs-input-monetario>
+				</div>
+			</div>			
+			
+			<div class="row" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' && data.oDesplegar.showEmisor">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_EMISOR</label>
+					<bcs-combobox-base class="col-xs-9"
+						auto-cargar="'true'"
+						id="UI_EMISOR"
+						bcs-requerido = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' && data.oDesplegar.showEmisor"
+						tipo="'combobox-emisor'" 
+						id-actual="data.oConfiguracionEmisor.idActual" 
+						id-post-filtro="data.oConfiguracionEmisor.idPostFiltro" 
+						configuracion= "data.oConfiguracionEmisor.configuracion"
+						seleccionado="data.oConfiguracionEmisor.seleccionado" 
+						filtros="data.oConfiguracionEmisor.filtros"
+						activado="data.enabledEmisor"
+						>
+					 </bcs-combobox-base >
+				</div>
+			</div>
+			
+			<div class="row" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showEmisor">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_EMISOR</label>
+					<bcs-input-texto 
+						class="col-xs-9"
+						bcs-requerido = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showEmisor"
+						id="UI_EMISOR_TEXTO"
+						k-ng-disabled="'true'"
+						ng-model="instrumentoCustodia.RazonSocialEmisor"
+					>
+					</bcs-input-texto>
+				</div>
+			</div>
+			
+			<div class="row" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' && data.oDesplegar.showTipoReajuste">
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_TIPO_REAJUSTE</label>
+					<bcs-combobox-base class="col-xs-6"
+						auto-cargar="'false'"
+						id="UI_TIPO_REAJUSTE"
+						bcs-requerido = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' && data.oDesplegar.showTipoReajuste"
+						tipo="'combobox-instrumento-tipo-reajuste'"
+						configuracion= "data.oConfiguracionTipoReajuste.configuracion"
+						seleccionado="data.oConfiguracionTipoReajuste.seleccionado"
+						filtros="data.oConfiguracionTipoReajuste.filtros"
+						id-actual="data.kngIdTipoReajuste"
+						id-post-filtro="data.oConfiguracionTipoReajuste.idPostFiltro"
+						id-defecto="data.oConfiguracionTipoReajuste.idDefecto"
+						cascada1-a="data.oConfiguracionMonedaPagoInstrumento.filtros.IdMoneda"
+                        cascada1-valor="'IdTipoReajuste'"
+						item-post-filtro="'1'"
+						activado="data.enabledEmisor">
+					</bcs-combobox-base >
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_MONEDA_INSTRUMENTO</label>
+					<bcs-combobox-base 
+						class			="col-xs-6"
+						id				="UI_MONEDA_INSTRUMENTO"
+						auto-cargar		="true"
+						tipo			="'combobox-tipo-instrumento-moneda-liquidacion'"
+						configuracion	="data.oConfiguracionMonedaPagoInstrumento.configuracion"
+						seleccionado	="data.oConfiguracionMonedaPagoInstrumento.seleccionado"
+						id-actual		="data.kngIdMonedaPagoInstrumento"
+						id-defecto		="data.oConfiguracionMonedaLiquidacionOperacion.idDefecto"
+						bcs-requerido	="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' && data.oDesplegar.showTipoReajuste"
+						filtros			="data.oConfiguracionMonedaPagoInstrumento.filtros"
+						
+						item-post-filtro="'1'"
+					>
+					</bcs-combobox-base >
+				</div>
+			</div>
+			
+			<div class="row" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showTipoReajuste">
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_TIPO_REAJUSTE</label>
+					<bcs-input-texto 
+						class="col-xs-6"
+						bcs-requerido = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showTipoReajuste"
+						id="UI_TIPO_REAJUSTE_TEXTO"
+						k-ng-disabled="'true'"
+						ng-model="instrumentoCustodia.NombreCompletoTipoReajuste">
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-6" translate>UI_MONEDA_INSTRUMENTO</label>
+					<bcs-input-texto 
+						class="col-xs-6"
+						bcs-requerido = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && data.oDesplegar.showFechaEmision"
+						id="UI_MONEDA_INSTRUMENTO_TEXTO"
+						k-ng-disabled="'true'"
+						ng-model="instrumentoCustodia.NombreCompletoMonedaInstrumento">
+					</bcs-input-texto>
+				</div>
+			</div>		
+			<div class="row" ng-show="data.oDesplegar.showFechaVencimiento">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_VENCIMIENTO</label>
+					<bcs-input-plazo class="col-xs-9"
+		              bcs-requerido = "(data.oConfiguracionClasificacion.idActual!='RV')"
+					  id = "UI_FECHA_VENCIMIENTO"			  
+					  bcs-mayor-igual-que= "(data.oDesplegar.showFechaVencimiento&&data.oConfiguracionClasificacion.idActual!='RV')?'1':'0'"
+					  fecha-inicial = "data.kngFechaOperacion"
+					  fecha-vencimiento = "data.kngFechaVencimiento"
+					  plazo = "data.kngPlazo"
+					  id-condicion-de-liquidacion="'T0'"  
+					  id-tipo-operacion = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion"
+					  activa-plazo="(data.oDesplegar.enabledFechaVencimiento && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT') || (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'RETIT' && data.oConfiguracionClasificacion.idActual!=='RF'))"
+					  activa-fecha="(data.oDesplegar.enabledFechaVencimiento && data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT') || (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' && (data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'RETIT' && data.oConfiguracionClasificacion.idActual!=='RF'))"
+					  todo-dias = "(data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RF' || data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='IF')"
+					  >
+					</bcs-input-plazo>
+				</div>
+				<!-- <div class="col-xs-6" ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT'">
+
+				</div> -->
+
+			</div>
+			<hr>
+			<div class="row" ng-show="data.oDesplegar.showFungible">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_FUNGIBLE</label>
+					<bcs-input-checkbox
+						id="UI_FUNGIBLE"
+						ng-model="data.checkFungible"
+						ng-disabled = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' || data.oConfiguracionEmisor.seleccionado.EmiteFungible ==='N' || data.instrumento.Nemotecnico === 'PDBC'">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6" ng-style= "!data.oDesplegar.showFechaEmision ? {'width': '100%'} : {}">
+					<label class="col-xs-6" ng-style= "!data.oDesplegar.showFechaEmision ? {'width': '25%'} : {}" ng-show="data.oConfiguracionClasificacion.idActual=='RV' || data.oConfiguracionClasificacion.idActual=='DV' || (SesionLocale === 'CL' && data.oConfiguracionClasificacion.idActual==='RF')" translate>UI_CANTIDAD</label>
+					<label class="col-xs-6" ng-style= "!data.oDesplegar.showFechaEmision ? {'width': '25%'} : {}" ng-show="data.oConfiguracionClasificacion.idActual==='IF' || (SesionLocale === 'PE' && data.oConfiguracionClasificacion.idActual==='RF')" translate>UI_CANTIDAD_CORTES</label>
+					<bcs-input-numero
+						class="col-xs-6"
+						ng-style= "!data.oDesplegar.showFechaEmision ? {'width': '75%'} : {}"
+						id="UI_CANTIDAD"
+						bcs-requerido
+						bcs-mayor-que="'0'"
+						bcs-menor-igual-que="instrumentoCustodia.CantidadDisponible"
+						k-ng-model="data.kngCantidad"
+						decimales = "data.oDecimales.cantidad"
+						k-ng-disabled = "data.checkFungible"
+						foco = "data.kngCantidad.foco"
+						ng-blur="win.blurCantidad()">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-6" ng-show="data.oDesplegar.showFechaEmision">
+					<label class="col-xs-4 col-xs-offset-2" ng-show="data.oDesplegar.showFechaEmision" translate>UI_FECHA_EMISION</label>
+					<bcs-input-date
+						class="col-xs-6"
+						id="UI_FECHA_EMISION"
+						bcs-fecha-menor-igual-que="data.kngFechaVencimiento"
+						k-ng-model="data.kngFechaEmision"
+						k-options="data.fechaEmisionOptions"
+						k-ng-disabled = "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' || data.instrumento.IndicadorBolson==='S'"
+						ng-show="data.oDesplegar.showFechaEmision">
+					</bcs-input-date>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" ng-show="data.oDesplegar.showValorRescate" translate>UI_VALOR_RESCATE</label>
+					<bcs-input-monetario
+						class="col-xs-9"
+						id="UI_VALOR_RESCATE"
+						bcs-requerido	="data.oDesplegar.showValorRescate"
+						bcs-mayor-que	="'0'"
+						k-options 		="data.valorRescateOptions"
+						k-ng-model		="data.kngValorRescate"
+						ng-show			="data.oDesplegar.showValorRescate"
+						simbolo			="data.monedaValorRescate"
+						decimales		="data.oDecimales.valorRescate.decimales" 
+						k-ng-disabled 	="false"
+						ng-blur			="win.blurValorRescate()">
+					</bcs-input-monetario>
+				</div>				
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" ng-show="data.oDesplegar.showValorNominal" translate>UI_VALOR_NOMINAL</label>
+					<bcs-input-monetario
+						class="col-xs-3"
+						id="UI_VALOR_NOMINAL"
+						bcs-requerido	="data.oDesplegar.showValorNominal"
+						bcs-mayor-que	="'0'"
+						k-options 		="data.valorNominalOptions"
+						k-ng-model		="data.kngValorNominal"
+						ng-show			="data.oDesplegar.showValorNominal"
+						simbolo			="data.monedaInstrumento"
+						decimales		="data.oDecimales.valorNominal.decimales"
+						foco 			="data.kngValorNominal.foco"
+						ng-blur			="win.blurValorNominal()">
+					</bcs-input-monetario>
+				</div>			
+			</div>
+			
+			<!-- INICIO   ---   BLOQUES DE VALORIZACION -->
+			<div class="row"> 
+				<div class="col-xs-12" style="border: 1px solid rgb(201, 201, 201);border-radius:2px;padding:0.1em;min-height: 20px;">
+					<div class="row">
+						<div class="col-xs-2 col-xs-offset-3"> <strong translate="UI_ADQUISICION" class="ng-scope"></strong></div>
+						<div class="col-xs-2 col-xs-offset-1"> <strong translate="UI_MERCADO" class="ng-scope"></strong></div>
+					</div>					
+					<div class="row" ng-show="(data.oDesplegar.showPrecio)">						
+						<label class="col-xs-3" translate>UI_PRECIO</label>
+						<!-------------- Compra ----------->
+						<bcs-input-monetario
+							class			="col-xs-3"
+							id				="UI_PRECIO"
+							bcs-requerido 	="data.oDesplegar.showPrecio && !data.disabled.precio"
+							bcs-mayor-que	="'-1'"
+							k-ng-model		="data.kngPrecio"
+							k-options 		="data.precioOptionsasdas"
+							simbolo			="data.monedaInstrumento"
+							decimales		="data.oDecimales.precio.decimales"
+							k-ng-disabled 	="data.disabled.precio"
+							ng-blur			="win.blurPrecio()">
+						</bcs-input-monetario>
+						<!-------------- Mercado ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="UI_PRECIO"
+							bcs-requerido ="false"
+							bcs-mayor-que="'-1'"
+							k-ng-model="data.kngPrecioReferencia"
+							k-options ="data.precioOptionsasdas"
+							simbolo="data.monedaInstrumento"
+							decimales="data.oDecimales.precio.decimales" 
+							k-ng-disabled = "'true'">
+						</bcs-input-monetario>
+						<!-------------- Valorizacion ----------->
+						<bcs-button 
+			 				id					= "IngresoTitulo_btnValorizarTasa"  
+			 				bcs-clic			= "data.ObtenerValorizacion()"  
+			 				class				= "col-xs-3 pull-right" 
+			 				ng-show				= "data.oDesplegar.showPrecio"
+			 				bcs-tipo			= "'bcs-button-primary'" 
+			 				bcs-auto-desactivar	= "false" 
+			 				bcs-texto			= "'UI_VALORIZAR' | translate" 
+			 				bcs-habilitado		= "'true'"
+							style               ="position: absolute;">
+			 			</bcs-button>
+					</div>
+					<div class="row" ng-show="(data.oDesplegar.showPrecioPorcentaje)">						
+						<label class="col-xs-3" translate>UI_PRECIO</label>
+						<!-------------- Compra ----------->
+						<bcs-input-numero
+							class			="col-xs-3"
+							id				="UI_PRECIO_PORCENTAJE"
+							bcs-requerido 	="data.oDesplegar.showPrecioPorcentaje && !data.disabled.precioPorcentaje"
+							bcs-mayor-que	="'-1'"
+							k-options 		="data.precioPorcentajeOptions"
+							k-ng-model		="data.kngPrecioPorcentaje"
+							k-ng-disabled 	="data.disabled.precioPorcentaje"
+							decimales		="data.oDecimales.precioPorcentaje.decimales"
+							ng-blur			="win.blurPrecioTasa()">
+						</bcs-input-numero>
+						<!-------------- Mercado ----------->
+						<bcs-input-numero
+							class			="col-xs-3"
+							id				="UI_PRECIO_PORCENTAJE"
+							bcs-requerido 	="false"
+							bcs-mayor-que	="'-1'"
+							k-options 		="data.precioPorcentajeOptions"
+							k-ng-model		="data.kngPrecioPorcentajeReferencia"
+							decimales		="data.oDecimales.precioPorcentaje.decimales"
+							k-ng-disabled	= "'true'">
+						</bcs-input-numero>
+						<!-------------- Valorizacion ----------->
+						<bcs-button 
+			 				id					= "IngresoTitulo_btnValorizarTasa"  
+			 				bcs-clic			= "data.ObtenerValorizacion()"  
+			 				class				= "col-xs-3 pull-right" 
+			 				ng-show				= "data.oDesplegar.showPrecioPorcentaje"
+			 				bcs-tipo			= "'bcs-button-primary'" 
+			 				bcs-auto-desactivar	= "false" 
+			 				bcs-texto			= "'UI_VALORIZAR' | translate" 
+			 				bcs-habilitado		= "'true'"
+							style               ="position: absolute;">
+			 			</bcs-button>
+					</div>
+					<div class="row" ng-show="(data.oDesplegar.showPrecio || data.oDesplegar.showPrecioPorcentaje)">
+						<label class="col-xs-3" ng-show="data.oDesplegar.showTasa" translate>UI_TASA</label>
+						<!-------------- Compra ----------->
+						<bcs-input-numero
+							class			="col-xs-3"
+							id				="UI_TASA"
+							bcs-requerido 	="data.oDesplegar.showTasa && !data.disabled.tasa"
+							k-ng-model		="data.kngTasa"
+							decimales		="data.oDecimales.tasa.decimales"
+							ng-show			="data.oDesplegar.showTasa"
+							k-ng-disabled 	="data.disabled.tasa"
+							k-options		="data.options.tasa" 
+							ng-blur			="win.blurPrecioTasa()">
+						</bcs-input-numero>						
+						<!-------------- Mercado ----------->
+			 			<bcs-input-numero
+							class="col-xs-3"
+							id="UI_TASA"
+							bcs-requerido ="false"
+							k-ng-model="data.kngTasaReferencia"
+							ng-show="data.oDesplegar.showTasa"
+							decimales="data.oDecimales.tasa.decimales"
+							k-ng-disabled = "'true'">
+						</bcs-input-numero>
+					</div>
+					<div class="row" ng-show="!data.oDesplegar.showPrecio && !data.oDesplegar.showPrecioPorcentaje && data.oDesplegar.showTasa">
+						<label class="col-xs-3" ng-show="data.oDesplegar.showTasa" translate>UI_TASA</label>
+						<!-------------- Compra ----------->
+						<bcs-input-numero
+							class			="col-xs-3"
+							id				="UI_TASA_SOLA"
+							bcs-requerido 	="data.oDesplegar.showTasa && !data.disabled.tasa_"
+							decimales		="data.oDecimales.tasa.decimales_"
+							k-ng-model		="data.kngTasa_"
+							k-ng-disabled 	="data.disabled.tasa_"
+							k-options		="data.options.tasa_" 
+							ng-blur			="win.blurPrecioTasa()">
+						</bcs-input-numero>					
+						<!-------------- Mercado ----------->
+			 			<bcs-input-numero
+							class="col-xs-3"
+							id="UI_TASA_SOLA"
+							bcs-requerido ="false"
+							k-ng-model="data.kngTasaReferencia_"
+							decimales="data.oDecimales.tasa.decimales_"
+							k-ng-disabled = "'true'">
+						</bcs-input-numero>
+						<!-------------- Valorizacion ----------->
+						<bcs-button 
+			 				id					= "IngresoTitulo_btnValorizarTasa"  
+			 				bcs-clic			= "data.ObtenerValorizacion()"  
+			 				class				= "col-xs-3 pull-right" 
+			 				ng-show				= "data.oDesplegar.showTasa || data.oDesplegar.showValorRescate"
+			 				bcs-tipo			= "'bcs-button-primary'" 
+			 				bcs-auto-desactivar	= "false" 
+			 				bcs-texto			= "'UI_VALORIZAR' | translate" 
+			 				bcs-habilitado		= "'true'"
+							style               ="position: absolute;">
+			 			</bcs-button>
+					</div>
+					<div class="row" ng-show="SesionLocale === 'PE' && data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RF'">
+						<label class="col-xs-3" translate>UI_INTERESES_CORRIDOS</label>
+						<!-------------- Compra ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="frmIngresarTitulo_InteresesCorridos"
+							bcs-mayor-que	="0"
+							bcs-requerido 	="false"
+							k-ng-model		="data.kngInteresesCorridos"
+							k-options 		="data.OptionsInteresesCorridos"
+							simbolo			="data.monedaInstrumento"
+							decimales		="data.DecimalesInteresesCorridos"
+							k-ng-disabled 	="'true'">
+						</bcs-input-monetario>
+						<!-------------- Mercado ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="frmIngresarTitulo_InteresesCorridos"
+							bcs-mayor-que	="0"
+							bcs-requerido 	="false"
+							k-ng-model		="data.kngInteresesCorridosAMercado"
+							k-options 		="data.OptionsInteresesCorridosAMercado"
+							simbolo			="data.monedaInstrumento"
+							decimales		="data.DecimalesInteresesCorridosAMercado"
+							k-ng-disabled 	="'true'">
+						</bcs-input-monetario>
+					</div>
+					<div class="row" ng-show="SesionLocale === 'PE' && data.oConfiguracionClasificacion.seleccionado.IdClasificacionTipoInstrumento==='RF'">
+						<label class="col-xs-3" translate>UI_REAJUSTES_VAC_CORRIDO</label>
+						<!-------------- Compra ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="frmIngresarTitulo_ReajustesVacCorrido"
+							bcs-mayor-que	="0"
+							bcs-requerido 	="false"
+							k-ng-model		="data.kngReajusteVacCorrido"
+							k-options 		="data.OptionsReajusteVacCorrido"
+							simbolo			="data.monedaInstrumento"
+							decimales		="data.DecimalesReajusteVacCorrido"
+							k-ng-disabled 	="'true'">
+						</bcs-input-monetario>
+						<!-------------- Mercado ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="frmIngresarTitulo_ReajustesVacCorrido"
+							bcs-mayor-que	="0"
+							bcs-requerido 	="false"
+							k-ng-model		="data.kngReajusteVacCorridoAMercado"
+							k-options 		="data.OptionsReajusteVacCorridoAMercado"
+							simbolo			="data.monedaInstrumento"
+							decimales		="data.DecimalesReajusteVacCorridoAMercado"
+							k-ng-disabled 	="'true'">
+						</bcs-input-monetario>
+					</div>
+					<div class="row">
+						<label class="col-xs-3" translate>UI_MONTO</label>
+						<!-------------- Compra ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="UI_MONTO"							
+							bcs-mayor-que="0"
+							bcs-requerido ="false"
+							k-ng-model="data.kngMonto"
+							k-options ="data.montoOptions"
+							simbolo="data.monedaMonto"
+							decimales="data.oDecimales.monto.decimales"							
+							><!-- k-ng-disabled = "!data.oDesplegar.enabledMonto" -->
+						</bcs-input-monetario>
+						<!-------------- Mercado ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="UI_MONTO_VALORIZADO"
+							bcs-mayor-que="0"
+							bcs-requerido ="false"
+							k-ng-model="data.kngMontoValorizadoReferencia"
+							k-options ="data.montoValorizadoOptions"
+							simbolo="data.monedaMontoValorizado"
+							decimales="data.oDecimales.montoValorizado.decimales"
+							k-ng-disabled = "'true'">
+						</bcs-input-monetario>
+					</div>
+					<div class="row" ng-show="data.oDesplegar.showMontoMonedaOrigen">
+						<label class="col-xs-3" translate>UI_MONTO_MONEDA_ORIGEN</label>
+						<!-------------- Compra ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="UI_MONTO_MONEDA_ORIGEN"
+							bcs-mayor-que="0"
+							bcs-requerido ="false"
+							k-ng-model="data.kngMontoValorizadoMonedaOrigen"
+							k-options ="data.montoValorizadoMonedaOrigenOptions"
+							simbolo="data.monedaMontoValorizadoMonedaOrigen"
+							decimales="data.oDecimales.montoValorizadoMonedaOrigen.decimales"
+							k-ng-disabled = "'true'">
+						</bcs-input-monetario>
+						<!-------------- Mercado ----------->
+						<bcs-input-monetario
+							class="col-xs-3"
+							id="UI_MONTO_MONEDA_ORIGEN"
+							bcs-requerido ="false"
+							bcs-mayor-que="0"
+							k-ng-model="data.kngMontoValorizadoMonedaOrigenReferencia"
+							k-options ="data.montoValorizadoMonedaOrigenOptions"
+							simbolo="data.monedaMontoValorizadoMonedaOrigen"
+							decimales="data.oDecimales.montoValorizadoMonedaOrigen.decimales"
+							k-ng-disabled = "'true'">
+						</bcs-input-monetario>
+					</div>
+				</div>
+			</div>
+			<!-- FIN   ---   BLOQUES DE VALORIZACION -->
+			
+			<!-- INICIO   ---   COMBOBOX ENTIDAD ORIGEN/DESTINO -->			
+			<div class="row" ng-show="data.oConfiguracionConcepto.seleccionado.IdConcepto == 'TRACOR'">
+				<label class="col-xs-3" ng-bind="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion === 'INGTIT' ? 'Entidad Origen' : 'Entidad Destino'"></label>
+				<bcs-combobox-base class="col-xs-3"
+					tipo			 = "'combobox-corredora'"
+					id-actual		 = "data.oConfiguracionCorredor.idActual"
+					id-post-filtro	 = "data.oConfiguracionCorredor.idPostFiltro"
+					seleccionado	 = "data.oConfiguracionCorredor.seleccionado"
+					activado         = "data.corredorContraparteEnabled"
+					filtros			 = "formData.filtrosCorredora"
+					item-post-filtro = "data.oConfiguracionCorredor.itemPostFiltro"
+					bcs-requerido    = "data.oConfiguracionConcepto.seleccionado.IdConcepto == 'TRACOR'"
+					> 
+				</bcs-combobox-base >
+			</div>
+			<!-- FIN   ---   COMBOBOX ENTIDAD ORIGEN/DESTINO -->
+
+			<br>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_COMPROBANTE_REFERENCIA</label>
+				<bcs-input-numero
+					class="col-xs-4"
+					ng-style= "data.oConfiguracionOperacion.seleccionado.IdTipoOperacion !== 'INGTIT' ? {'width': '75%'} : {}"
+					id="UI_COMPROBANTE_REFERENCIA"
+					k-options ="data.comprobanteReferenciaOptions"
+					k-ng-model="data.kngComprobanteReferencia">
+				</bcs-input-numero>
+				<label class="col-xs-2 col-xs-offset-1" translate ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion == 'INGTIT'">UI_FECHA_ADQUISICION</label>
+                <bcs-input-date
+					class="col-xs-2"
+					id="UI_FECHA_ADQUISICION"
+					k-ng-model="data.kngFechaAdquisicion"
+					k-options="data.fechaAdquisicionOptions"
+					ng-show="data.oConfiguracionOperacion.seleccionado.IdTipoOperacion == 'INGTIT'">
+                </bcs-input-date>	
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_COMENTARIO</label>
+	                <bcs-input-texto class="col-xs-9"
+	                    id="UI_COMENTARIO"
+	                	maxlength="50"
+						ng-model="data.ngComentario"
+						tipo-campo="'textarea'"
+						atributos="margin: 0px; height:73px;resize:none;width: 100%">
+	                </bcs-input-texto>	
+	             </div>
+			</div>
+		</form>
+	</div>
+	
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+	    <div class="col-xs-2">
+	    	<bcs-button bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="FormIngresoTitulo.$valid" bcs-clic="data.ingresarTitulo()"></bcs-button>	    	
+	    </div>
+		<div class="col-xs-2">
+		    <bcs-button bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="'true'" bcs-clic="data.btnLimpiar()"></bcs-button>
+		</div>
+	</div>
+</div>

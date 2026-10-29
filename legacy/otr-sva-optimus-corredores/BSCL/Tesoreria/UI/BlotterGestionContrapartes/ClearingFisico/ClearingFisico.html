@@ -1,0 +1,80 @@
+<div class="row" ng-controller='ClearingFisicoCtrl'>
+	<form name="frmClearing"  class="col-xs-12 form-horizontal">
+	<div class="row bcs-cuerpo">
+	 
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_EMPRESA</label>
+						<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="Empresa"></bcs-input-texto>	
+					</div>		
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-8"
+							 bcs-requerido
+							 k-ng-model	= "kngFechaLiquidacion" 
+							 ng-model	= "FechaLiquidacion ">
+						</bcs-input-date>		
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CAMARA</label>					    
+						<bcs-combobox-base class="col-xs-8" id="frmClearingFinanciero_GrupoCamara"
+							auto-cargar		="'true'"
+							tipo			="oConfiguracionGrupoCamara.tipo"
+							configuracion	="oConfiguracionGrupoCamara.configuracion" 				
+							seleccionado	="oConfiguracionGrupoCamara.seleccionado"
+							filtros			="oConfiguracionGrupoCamara.filtros"
+							activado        ="oConfiguracionGrupoCamara.activado"
+							id-actual		="oConfiguracionGrupoCamara.idActual"
+							id-post-filtro	="oConfiguracionGrupoCamara.idPostFiltro"
+							todos="'S'" id-defecto="'0'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+			    </div>
+			</div>
+			<!-- FIN FILTROS -->
+			
+			
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="frmClearing.$valid" bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="btnActivo"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+		
+		<div class="row">			
+			<bcs-grid    
+			    id 					= "grid-clearing-fisico"
+			    configuracion 		= "confBasicaClearingFisico"
+			    seleccionado 		= "seleccionClearingFisico"
+			    fn-exportar-excel 	= "exportarExcelClearingFisico">			 
+					<div bcs-grid-detail ng-non-bindable>
+						<bcs-grid
+							configuracion  = "confBasicaClearingFisicoDetalle(dataItem)"
+							seleccionado   = "seleccionClearingFisicoDetalle"
+							fn-doble-click = "data.abrirDetalleTransaccion(seleccionClearingFisicoDetalle)">
+						</bcs-grid> 
+					</div>			
+			</bcs-grid>
+		</div>		
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">	
+            <li ng-click="exportarExcelClearingFisico('ClearingFisico')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+	</div>
+
+	</form>	
+</div>
+

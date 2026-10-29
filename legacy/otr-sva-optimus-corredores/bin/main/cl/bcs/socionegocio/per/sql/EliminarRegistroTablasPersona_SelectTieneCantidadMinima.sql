@@ -1,0 +1,3 @@
+SELECT "Requerido"
+FROM "BSCL.Plataforma.BD::FRM.CampoFormulario"
+WHERE "CodigoFormulario" = :CodigoFormulario AND "CodigoCampo" = :CodigoCampo AND "IdTipoCanal" = :IdTipoCanal;

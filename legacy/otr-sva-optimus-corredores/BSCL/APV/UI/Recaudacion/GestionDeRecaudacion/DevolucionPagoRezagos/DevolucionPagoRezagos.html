@@ -1,0 +1,107 @@
+<div id="DevolucionPagoRezagos" class="col-xs-12" ng-controller="DevolucionPagoRezagosCtrl as dprez">
+	<div class="bcs-cuerpo">
+		<form name="formDevolucionPagoRezagos" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<bcs-grid 
+					id="grid-Rezagos"
+					seleccionado="dprez.rezagosSeleccionada" 
+					configuracion="dprez.gridRezagos"
+					>
+				</bcs-grid>
+			</div>
+			<div class="row">
+					<label class="col-xs-3" translate>UI_SOCIO_NEGOCIO_A_DEVOLVER</label>
+					<bcs-combobox-base 
+						class="col-xs-8"						
+						id="UI_SOCIO_NEGOCIO"
+						auto-cargar="'true'"
+						tipo="'combobox-socio-negocio'"		
+					    activado = "dprez.PermiteBusquedaSocioNegocio"	
+						seleccionado="dprez.oSocioNegocio.seleccionado"
+						filtros="dprez.oSocioNegocio.filtros"
+						cascada1-a= "dprez.oPortafolio.filtros.IdCliente"
+						cascada1-valor= "'IdCliente'"
+	                    cascada1-defecto	= "'1'"
+						cascada2-a= "dprez.ConfiguracionCuentaBancaria.filtros.IdPersona"
+						cascada2-valor= "'IdPersona'"
+	                    cascada2-defecto	= "'1'"
+						id-actual ="dprez.oSocioNegocioIdActual"
+						id-defecto ="dprez.oSocioNegocioIdDefecto">
+					</bcs-combobox-base>
+		 	</div>
+			<div class="row" ng-show="dprez.PermiteBusquedaPortafolio">
+					<label class="col-xs-3" translate>UI_PORTAFOLIO_A_DEVOLVER</label>
+					<bcs-combobox-base class="col-xs-8"
+						id="UI_PORTAFOLIO"
+					 	auto-cargar		= "'false'"
+					 	bcs-requerido
+					    tipo			= "'combobox-portafolio'"					
+					    activado		= "dprez.PermiteBusquedaPortafolio"	    
+					    seleccionado	= "dprez.oPortafolioSeleccionado"
+					    filtros			= "dprez.oPortafolio.filtros"
+	                    id-actual		= "dprez.oPortafolioidActual"
+	                    id-defecto		= "dprez.oPortafolioidDefecto"
+					>
+		 	</div>
+			<div class="row">
+			  		<label class="col-xs-3" translate>UI_MEDIO_PAGO</label>
+					<bcs-combobox-base 
+						id="UI_MEDIO_PAGO"
+						class="col-xs-8"
+						auto-cargar="'true'"
+						bcs-requerido
+						tipo="'combobox-medio-pago'"
+						seleccionado="dprez.MedioPagoSeleccionado"
+						filtros="dprez.ConfiguracionCmbo.MedioPago"
+		                id-actual="dprez.MedioPagoIdActual"
+					>
+					</bcs-combobox-base>
+		 	</div>
+			<div class="row">
+				  	<label class="col-xs-3 ng-scope" translate="">UI_BANCO</label>
+					<bcs-combobox-base 
+						id="UI_BANCO"
+						class="col-xs-8"
+						auto-cargar="'false'"
+						bcs-requerido
+						tipo="'combobox-persona-cuentas-bancarias'"
+						seleccionado="dprez.CuentaBancariaSeleccion"
+						filtros="dprez.ConfiguracionCuentaBancaria.filtros"
+						id-actual="dprez.CuentaBancariaIdActual"
+					>
+					</bcs-combobox-base>
+		 	</div>
+			<div class="row">
+				  	<label class="col-xs-3 ng-scope" translate="">UI_CUENTA_CORRIENTE</label>
+					<bcs-input-texto 
+						id="UI_CUENTA_CORRIENTE"
+						class="col-xs-8"
+						ng-model="dprez.CuentaCorriente" 
+						k-ng-disabled="'true'"
+					>
+					</bcs-input-texto>
+			</div>
+		 				
+		</form>
+		<div class="row bcs-panel-comandos">
+			<div class="row alignButtonsToRight">
+				<bcs-button id="UI_GUARDAR" 
+					class="col-xs-3" 
+					bcs-tipo="'bcs-button-primary'"   
+					bcs-auto-desactivar="true" 
+					bcs-texto="'UI_DEVOLVER' | translate" 
+					bcs-habilitado="'true'"
+					bcs-clic="dprez.win.devolver()">
+				</bcs-button>
+				<bcs-button id="UI_CANCELAR" 
+					class="col-xs-3" 
+					bcs-tipo="'bcs-button-secondary'"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_CANCELAR' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="dprez.win.cancelar()">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+</div>

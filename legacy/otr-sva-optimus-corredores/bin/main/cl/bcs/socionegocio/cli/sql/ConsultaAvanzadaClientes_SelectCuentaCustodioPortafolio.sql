@@ -1,0 +1,1 @@
+SELECT DISTINCT "IdPortafolio" FROM "BSCL.Portafolio.BD::POR.CuentaCustodioPortafolio" WHERE "IdPersonaBancoCustodio" = :IdPersonaBancoCustodio;

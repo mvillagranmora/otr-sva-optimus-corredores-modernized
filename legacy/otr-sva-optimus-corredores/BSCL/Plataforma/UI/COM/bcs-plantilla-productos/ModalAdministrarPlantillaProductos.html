@@ -1,0 +1,66 @@
+<div class="row" ng-controller="ModalAdministrarPlantillaProductosCtrl as modAdmPprod">
+	<div class="row">
+		<form name="ModalAdministrarPlantillaProductos" class="col-xs-12">
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_CODIGO</label>
+				<bcs-input-texto class="col-xs-8" maxlength = "40"
+					bcs-requerido
+					ng-model="modAdmPprod.datosDespues.IdPerfilProductos" 
+					k-ng-disabled="(win.modoLectura || modAdmPprod.datosAntes.IdPerfilProductos)">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+				<bcs-input-texto 
+					bcs-requerido
+					class="col-xs-8"  maxlength = "100"
+					ng-model="modAdmPprod.datosDespues.DescripcionPerfilProductos" 
+					k-ng-disabled="win.modoLectura">
+				</bcs-input-texto>
+		  	</div>
+		  	<div class="row">
+				<label class="col-xs-4" translate>UI_CATEGORIA_INVERSIONISTA</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-categoria-inversionista'"
+					bcs-requerido
+					id-actual="modAdmPprod.datosDespues.IdCategoriaInversionista"
+					id-defecto="modAdmPprod.datosAntes.IdCategoriaInversionista"
+					todos="'N'"
+					activado="!win.modoLectura"
+					seleccionado="modAdmPprod.datosDespues.CategoriaInversionistaObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_HABILITADO</label>
+				<bcs-input-checkbox 
+					ng-model="modAdmPprod.datosDespues.Habilitado" 
+					ng-disabled="win.modoLectura">
+				</bcs-input-checkbox>
+		  	</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+				<bcs-input-checkbox 
+					ng-model="modAdmPprod.datosDespues.PorDefecto" 
+					ng-disabled="win.modoLectura">
+				</bcs-input-checkbox>
+			</div>
+		</form>
+	</div>
+	<hr>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-3 pull-right" 
+			bcs-tipo="'bcs-button-primary'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GUARDAR' | translate" 
+			bcs-habilitado="ModalAdministrarPlantillaProductos.$valid"  
+			bcs-clic="modAdmPprod.guardar();">
+		</bcs-button>
+		<bcs-button class="col-xs-3 pull-right" 
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-habilitado="true"  
+			bcs-clic="modAdmPprod.cancelar();">
+		</bcs-button>
+	</div>
+</div>

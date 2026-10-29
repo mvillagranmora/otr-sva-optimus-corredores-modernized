@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Normativa.BD::CAR.NominaPaso" WHERE "IdNomina" = :IdNomina;

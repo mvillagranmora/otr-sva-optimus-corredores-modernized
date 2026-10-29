@@ -1,0 +1,123 @@
+
+SET SCHEMA "BSCL";
+GO
+DROP VIEW "BSCL.Custodia.BD.Vistas::MES.ConsultarCarteraPacto";
+GO
+CREATE VIEW "BSCL.Custodia.BD.Vistas::MES.ConsultarCarteraPacto"
+AS 
+SELECT
+	sby."IdInstrumento" 		as "IdInstrumentoSubyacente",
+	sby."IdEmisor" 				as "IdEmisorSubyacente",
+	sby."FolioCarteraOrigen"	as "FolioCarteraSubyacente",
+	sby."Nemotecnico"			as "NemoSubyacente",
+	sby."NemoSVS" 				as "NemoSVSSubyacente",
+	sby."IdTipoInstrumento"		as "IdTipoInstrumentoSubyacente",
+	sby."EsFungible" 			as "EsFungibleSubyacente",
+	sby."IdClasificacionTipoInstrumento"		as "IdClasificacionTipoInstrumentoSubyacente",
+	sby."car_ClasificacionRiesgo" as "ValorClasificacionRiesgoSubyacente",
+	IFNULL(sby."INGCantidad",0) as "INGCantidadSubyacente",
+	sby."IdMonedaInstrumento" as "IdMonedaSubyacente",
+	sby."IdTipoReajusteSubyacente", 
+	sby."FechaEmisionInstrumento" as "FechaEmisionInstrumentoSubyacente",
+	sby."INGMontoATasaCompraActual" as "INGMontoATasaCompraActualSubyacente",
+	sby."IdBoveda" as "IdBovedaSubyacente",
+	sby."CodigoIFRS" as "CodigoIFRSSubyacente",
+	sby."CorteMinimo" as "CorteMinimoSubyacente",
+	sby."INGMontoATasaMercadoProximo" as "INGMontoATasaMercadoProximoSubyacente",
+	sby."INGTasaMercadoActual"	as "INGTasaMercadoActualSubyacente",
+	sby."FechaVencimientoInstrumento" as "FechaVencimientoInstrumentoSubyacente",
+	sby."INGPrecioMercadoActual" as "INGPrecioMercadoActualSubyacente",
+	sby."INGTasaSubyacente",
+	sby."EGRSpread",
+	pac."IdCartera",
+	pac."IdEmpresa",
+	pac."FolioCartera" as "FolioPacto",
+	pac."FolioCarteraRelacionada",
+	pac."IdEstado",
+	pac."IdMonedaSistema",
+	pac."IdMonedaInstrumento",
+	pac."IdOperacion",
+	pac."IdTipoOperacion",
+	TipOpe."Nombre" AS "NombreTipoOperacion",
+	pac."IdBoveda",
+	pac."IdTipoReajuste",
+	pac."IdTipoProducto",
+	pac."IdSucursal",
+	pac."IdAgente",
+	pac."IdBolsa",
+	pac."IdConcepto",
+	 Concepto."Nombre" AS "NombreConcepto",
+	 pac."IdCondicionLiquidacion",
+	 pac."IdModulo",
+	 pac."IdCliente",
+	 Cli."DocumentoIdentidad",
+	 pac."IdPortafolio",
+	 Port."CodigoPortafolio",
+	 Cli."RazonSocial",
+	 pac."Nemotecnico" as "NemotecnicoPacto",
+	 pac."NemoSVS",
+	 pac."IdInstrumento" as "IdInstrumentoPacto", 
+	 pac."IdClasificacionTipoInstrumento",
+	 pac."IdTipoInstrumento",
+	 pac."IdEmisor",
+	 pac."IdMesa",
+	 pac."FechaOperacion" as "FechaPacto",
+	 pac."IdTipoComprobante",
+	 pac."FolioComprobante",
+	 pac."FechaComprobante",
+	 pac."Cantidad",
+	 pac."CorteMinimo",
+	 pac."PrecioCompra" as "PrecioInstrumento",
+	 pac."MontoCompra" as "MontoInstrumento",
+	 pac."TasaCompra" as "TasaPacto",
+	 pac."ValorRescate",
+	 pac."FechaVencimientoOperacion" as "FechaVencimientoPacto",
+	 pac."FechaEmisionInstrumento",
+	 pac."FechaVencimientoInstrumento",
+	 pac."PlazoEnDiasOperacion",
+	 pac."EsFungible",
+	 pac."CodigoIFRS",
+	 pac."FechaIngresoRegistro",
+	 pac."FechaModificacionRegistro",
+	 pac."TasaAgente",
+	 pac."FechaLiquidacion",
+	 pac."UsaGarantiaEspecifica",
+	 pac."FolioExternoReferencia" AS "FolioEntidad",
+	 pac."CobraPrimaAlInicio",
+	 pac."IdTipoCanalIngreso",
+	 pac."INGGlosa",
+	 pac."INGFechaOperacion",
+	 pac."INGFechaLiquidacion",
+	 pac."INGCantidad",
+	 pac."INGValorRescate",
+	 pac."INGPrecioAPlazo" 					as "INGMontoPrima",
+	 pac."INGMontoAPlazo" 					as "INGMontoTotalPacto",
+	 pac."INGPrecioCompra"		 			as "INGPrecioInstrumento",
+	 pac."INGTasaCompra" 					as "INGTasaPacto",
+	 pac."INGMontoATasaCompraActual" 		as "INGMontoInstrumento",
+	 pac."INGFechaPrecioTasaMercadoActual",
+	 pac."INGPrecioMercadoActual" 			as "INGPrecioMercadoInstrumento",
+	 pac."INGTasaMercadoActual",
+	 pac."INGMontoATasaMercadoActual" 		as "INGMontoMercadoInstrumento",
+	 pac."EGRCantidad",
+	 pac."EGRFechaLiquidacion",
+	 pac."EGRFechaOperacion",
+	 pac."EGRIdTipoComprobante",
+	 pac."EGRFolioComprobante",
+	 pac."EGRFechaComprobante",
+	 pac."INGPrecioPromedioCompra",
+	 pac."INGMontoPrecioPromedioCompra"
+FROM "BSCL.Custodia.BD::CUS.Cartera" as pac
+	INNER JOIN "BSCL.Custodia.BD.Vistas::CUS.ConsultarUltimoMovimientoSubyacente" as ultSub on (pac."FolioCartera" = ultSub."FolioCarteraRelacionada")
+	INNER JOIN "BSCL.Custodia.BD.Vistas::CUS.ConsultarCarteraSubyacenteBasica" as sby on (sby."IdSubyacente" = ultSub."IdSubyacente") 
+	LEFT JOIN "BSCL.Portafolio.BD.Vistas::ConsultarPortafolio" as Port ON (Port."IdPortafolio" = pac."IdPortafolio")
+	LEFT JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" as Cli ON (Cli."IdEmpresa" = pac."IdEmpresa" and Cli."IdCliente" = Port."IdCliente")
+	--LEFT JOIN "BSCL.Custodia.BD.Vistas::PRT.ConsultarAsignacionesPrestamo" as asig on (asig."FolioCarteraPrestamo" = pac."FolioCartera")
+	LEFT JOIN "BSCL.Plataforma.BD::INS.TipoOperacion" as TipOpe ON (TipOpe."IdTipoOperacion" = pac."IdTipoOperacion")
+	--LEFT JOIN "BSCL.Custodia.BD.Vistas::PRT.ConsultarTipoPrestamo" as tpres on (tpres."IdInstrumentoPrestamo" = pac."IdInstrumento")
+	LEFT JOIN "BSCL.Plataforma.BD::PLA.Concepto" as Concepto ON (pac."IdConcepto" = Concepto."IdConcepto")
+WHERE pac."IdTipoInstrumento" = 'PAC' and pac."IdEstado"='VIG'
+WITH READ ONLY;
+GO
+GRANT SELECT ON "BSCL.Custodia.BD.Vistas::MES.ConsultarCarteraPacto" TO BCS_DESARROLLADOR WITH GRANT OPTION; 
+GO

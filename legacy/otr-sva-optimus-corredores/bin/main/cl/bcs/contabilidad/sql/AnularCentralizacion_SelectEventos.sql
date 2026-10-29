@@ -1,0 +1,1 @@
+SELECT "IdEvento" FROM "BSCL.Contabilidad.BD::ITZ.Evento" WHERE "IdCentralizacion" = :IdCentralizacion;

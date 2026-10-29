@@ -1,0 +1,132 @@
+SET SCHEMA "BSCL";
+
+DROP VIEW "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarSolicitudAporteRescateAnalitica";
+
+CREATE VIEW "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarSolicitudAporteRescateAnalitica" AS
+	SELECT 
+		CASE WHEN "SolicitudAporteRescate"."TipoSolicitud" = '' THEN NULL ELSE CAST("SolicitudAporteRescate"."TipoSolicitud" AS NVARCHAR(3)) END AS "TipoSolicitud" 
+        , CASE WHEN "SerieDeFondo"."IdSerieFondo" = '' THEN NULL ELSE CAST("SerieDeFondo"."IdSerieFondo" AS NVARCHAR(40)) END AS "IdSerieFondo"-- es el mismo nemotecnico
+        , CASE WHEN "SolicitudAporteRescate"."IdTipoMovimientoFondoMutuo" = '' THEN NULL ELSE CAST("SolicitudAporteRescate"."IdTipoMovimientoFondoMutuo" AS NVARCHAR(10)) END AS "IdTipoMovimientoFondoMutuo" 
+        , CASE WHEN "SolicitudAporteRescate"."IdSerieFondoDestino" = '' THEN NULL ELSE CAST("SolicitudAporteRescate"."IdSerieFondoDestino" AS NVARCHAR(40)) END AS "IdSerieFondoDestino" 
+        , CASE WHEN "SerieDeFondo"."IdSerieFondoOrigen" = '' THEN NULL ELSE CAST("SerieDeFondo"."IdSerieFondoOrigen" AS NVARCHAR(40)) END AS "IdSerieFondoOrigen" 
+        , CASE WHEN "SolicitudAporteRescate"."IdEmisorDestino" = '' THEN NULL ELSE CAST("SolicitudAporteRescate"."IdEmisorDestino" AS NVARCHAR(40)) END AS "IdEmisorDestino" 
+        , "SolicitudAporteRescate"."IndicadorMLT"
+        , "SolicitudAporteRescate"."Overnight"
+        , CASE WHEN "SolicitudAporteRescate"."IdTipoCartera" = '' THEN CAST("SolicitudAporteRescate"."IdTipoCartera" AS NVARCHAR(3)) END AS "IdTipoCartera"
+        , "SolicitudAporteRescate"."CalculoPorMontoCuota"
+        , CASE WHEN "SolicitudAporteRescate"."IdMoneda" = '' THEN NULL ELSE CAST("SolicitudAporteRescate"."IdMoneda" AS NVARCHAR(3))END  AS "IdMoneda" 
+        , CASE WHEN "SolicitudAporteRescate"."Estado" = '' THEN NULL ELSE CAST("SolicitudAporteRescate"."Estado" AS NVARCHAR(3)) END AS "Estado"        
+        , CAST("SolicitudAporteRescate"."IdMedioDePago" AS NVARCHAR(3)) AS "IdMedioDePago" 
+        , CASE WHEN "SolicitudAporteRescate"."EstadoLiquidacion" = '' THEN NULL ELSE CAST("SolicitudAporteRescate"."EstadoLiquidacion" AS NVARCHAR(3)) END AS "EstadoLiquidacion"       
+        , "SolicitudAporteRescate"."OrigenOperacion"
+        , "SolicitudAporteRescate"."SolicitudBatch"     
+        , "SolicitudAporteRescate"."ComisionInformada"
+        , coalesce(CAST("SerieDeFondo"."NombreSerieFondo" AS NVARCHAR(100)),'') AS "NombreSerieFondo" 
+        , coalesce(CAST("SerieDeFondo"."CodigoSerie" AS NVARCHAR(10)),'') AS "CodigoSerie" 
+        , COALESCE("SerieDeFondo"."ExcluyeGarantia",'') AS "ExcluyeGarantia"
+        , COALESCE("SerieDeFondo"."CobraComision",'') AS "CobraComision" 
+        , COALESCE("SerieDeFondo"."Omnibus",'')  AS "Omnibus" 
+        , COALESCE("SerieDeFondo"."Diferido",'') AS "Diferido"
+        , CASE WHEN "SerieDeFondo"."IdMedioDePagoAbono" = '' THEN NULL ELSE CAST("SerieDeFondo"."IdMedioDePagoAbono" AS NVARCHAR(3)) END AS "IdMedioDePagoAbonoAGF"
+        , CASE WHEN "SerieDeFondo"."IdMedioDePagoCargo" = '' THEN NULL ELSE CAST("SerieDeFondo"."IdMedioDePagoCargo" AS NVARCHAR(3)) END AS "IdMedioDePagoCargoAGF"
+        , CASE WHEN "Fondo"."IdFondo" = '' THEN NULL ELSE CAST("Fondo"."IdFondo" AS NVARCHAR(40)) END AS "IdFondo" 
+        , CASE WHEN "Fondo"."IdEmisor" = '' THEN NULL ELSE CAST("Fondo"."IdEmisor" AS NVARCHAR(40)) END AS "IdEmisor" 
+        , COALESCE(CAST("Fondo"."Nemotecnico" AS NVARCHAR(40)),'') AS "Nemotecnico" 
+        , COALESCE(CAST("Fondo"."NombreFondo" AS NVARCHAR(100)),'') AS "NombreFondo" 
+        , CASE WHEN "Fondo"."IdTipoFondo" = '' THEN NULL ELSE CAST("Fondo"."IdTipoFondo" AS NVARCHAR(10)) END AS "IdTipoFondo" 
+        , COALESCE(CAST("Fondo"."CodigoSVS" AS NVARCHAR(40)),'') AS "CodigoSVS" 
+        , COALESCE("Fondo"."MoneyMarket",'') AS "MoneyMarket" 
+        , COALESCE(CAST("Fondo"."IdCategoriaPerfilFondoMutuo" AS NVARCHAR(40)),'') AS "IdCategoriaPerfilFondoMutuo" 
+        , COALESCE("Fondo"."Vigencia",'') AS "Vigencia"
+        , COALESCE(CAST("Fondo"."IdTipoInstrumento" AS NVARCHAR(3)),'') AS "IdTipoInstrumento" 
+        , CASE WHEN "Fondo"."IdMoneda" = '' THEN NULL ELSE CAST("Fondo"."IdMoneda" AS NVARCHAR(3)) END AS "IdMonedaFondo"
+        , COALESCE(CAST("TipoFondo"."NombreCorto" AS NVARCHAR(40)),'') AS "NombreCorto" 
+        , COALESCE(CAST("TipoFondo"."Descripcion" AS NVARCHAR(100)),'') AS "Descripcion" 
+        , COALESCE(CAST("TipoMovimientoFondoMutuo"."Descripcion" AS NVARCHAR(100)),'') AS "DescripcionTipoMovimiento"
+        , COALESCE(CAST("Estado"."Nombre" AS NVARCHAR(100)),'') AS "NombreEstado"
+        --, COALESCE(CAST("ConsultarEmpleado"."NombreCompleto" AS NVARCHAR(302)),'') AS "NombreEmpleado"
+		,COALESCE(CAST(CASE "PersonaEmpleado"."Tipo" 
+			WHEN 'N' THEN "PersonaEmpleado"."Nombres" ||' '|| "PersonaEmpleado"."ApellidoPaterno" || ' ' ||"PersonaEmpleado"."ApellidoMaterno" 
+			ELSE "PersonaEmpleado"."RazonSocial"
+		END AS NVARCHAR(302)), '')  AS "NombreEmpleado"
+        , COALESCE(CAST("MedioDePago"."Nombre" AS NVARCHAR(100)),'') AS "TextoPreferenciaPago"
+        , COALESCE(CAST("EstadoLiquidacion"."Nombre" AS NVARCHAR(100)),'') AS "NombreEstadoLiquidacion"
+        , CASE WHEN "SolicitudAporteRescateRelacionado"."IdTipoMovimientoFondoMutuo" = '' THEN NULL ELSE CAST("SolicitudAporteRescateRelacionado"."IdTipoMovimientoFondoMutuo" AS NVARCHAR(10)) END AS "IdTipoMovimientoFondoMutuoRelacionado"
+        , COALESCE(CAST("TipoMovimientoFondoMutuoRelacionado"."Descripcion" AS NVARCHAR(100)),'') AS "DescripcionTipoMovimientoRelacionado"
+        , CAST("SolicitudAporteRescate"."FechaEmision" AS CHAR(10)) AS "FechaEmision"
+        , "SolicitudAporteRescate"."FechaAceptacion"
+        , "SolicitudAporteRescate"."FechaCertificacion" 
+        , "SolicitudAporteRescate"."FechaLiquidacion"
+        , TO_NVARCHAR("SolicitudAporteRescate"."FechaAnulacion", 'YYYY-MM-DD') AS "FechaAnulacion" 
+        , "Fondo"."FechaCreacion" 
+        , COALESCE("Fondo"."FechaConstitucion",'0001-01-01') AS "FechaConstitucion"
+        , COALESCE(TO_NVARCHAR("Fondo"."FechaCierre", 'YYYY-MM-DD'),'0001-01-01') AS "FechaCierre" 
+        , "SolicitudAporteRescate"."IdSolicitudAporteRescate"
+        , CASE WHEN "SolicitudAporteRescate"."IdCliente" = 0 THEN NULL ELSE "SolicitudAporteRescate"."IdCliente" END AS "IdCliente"
+        , CASE WHEN "SolicitudAporteRescate"."IdPortafolio" = 0 THEN NULL ELSE "SolicitudAporteRescate"."IdPortafolio" END AS "IdPortafolio"
+        , CASE WHEN "SolicitudAporteRescate"."IdDividendo" = 0 THEN NULL ELSE "SolicitudAporteRescate"."IdDividendo" END AS "IdDividendo"
+        , CASE WHEN "SolicitudAporteRescate"."IdClienteDestino" = 0 THEN NULL ELSE "SolicitudAporteRescate"."IdClienteDestino" END AS "IdClienteDestino"
+        , CASE WHEN "SolicitudAporteRescate"."IdPortafolioDestino" = 0 THEN NULL ELSE "SolicitudAporteRescate"."IdPortafolioDestino" END AS "IdPortafolioDestino"
+        , CASE WHEN "SolicitudAporteRescate"."IdSolicitudAporteRescateRelacionado" = 0 THEN NULL ELSE "SolicitudAporteRescate"."IdSolicitudAporteRescateRelacionado" END AS "IdSolicitudAporteRescateRelacionado"
+        , "SolicitudAporteRescate"."Monto"
+        , "SolicitudAporteRescate"."NumeroCuotas"
+        , "SolicitudAporteRescate"."ValorCuota"
+        , "SolicitudAporteRescate"."CostoUF"
+        , "SolicitudAporteRescate"."CostoMonedaLocal"
+        , "SolicitudAporteRescate"."ValorUFFechaInversion"
+        , "SolicitudAporteRescate"."ParidadFechaInversion"
+        , "SolicitudAporteRescate"."MontoComision"
+        , "SolicitudAporteRescate"."MontoPago"
+        , "SolicitudAporteRescate"."IdEmpresa"
+        , "SolicitudAporteRescate"."IdUsuario" 
+        , "SolicitudAporteRescate"."MontoInversion"
+        , "SolicitudAporteRescate"."NumeroCuotasInversion"
+        , "SolicitudAporteRescate"."ValorCuotaInversion"
+        , "SolicitudAporteRescate"."CostoMonedaLocalInversion"
+        , "SolicitudAporteRescate"."ParidadFechaCertificacion"
+        , "SolicitudAporteRescate"."MontoPagoLocal"
+        , "SolicitudAporteRescate"."MontoComisionLocal"
+        , CASE WHEN "SerieDeFondo"."IdInstrumento" = 0 THEN NULL ELSE  "SerieDeFondo"."IdInstrumento" END AS "IdInstrumento"
+        , COALESCE("SerieDeFondo"."MontoMinimo",0.0) AS "MontoMinimo"
+        , COALESCE("SerieDeFondo"."MontoMaximo",0.0) AS "MontoMaximo"
+        , COALESCE("SerieDeFondo"."DiasRetencionesRescate",0) AS "DiasRetencionesRescate"
+        , COALESCE("SerieDeFondo"."DecimalesValorCuota",0) AS "DecimalesValorCuota"
+        , COALESCE("SerieDeFondo"."DecimalesCuota",0) AS "DecimalesCuota"
+        , CASE WHEN "SerieDeFondo"."IdCliente" = 0 THEN NULL ELSE "SerieDeFondo"."IdCliente" END AS "IdClienteAGF"
+        , CASE WHEN "SerieDeFondo"."IdPortafolio" = 0 THEN NULL ELSE "SerieDeFondo"."IdPortafolio" END  AS "IdPortafolioAGF"
+        , CASE WHEN "Fondo"."IdPaisOrigen" = 0 THEN NULL ELSE "Fondo"."IdPaisOrigen" END AS "IdPaisOrigen"
+        , CASE WHEN "ClienteAGF"."IdPersona" = 0 THEN NULL ELSE "ClienteAGF"."IdPersona" END AS "IdPersonaAGF"
+        , "SolicitudAporteRescate"."RentabilidadReal"
+        , "SolicitudAporteRescate"."IdRegimenTributario"
+        , CASE WHEN COALESCE("Portafolio"."IdMatrizAgrupadorAPV",0) != 0 THEN COALESCE("Portafolio"."IdMatrizAgrupadorAPV",0) ELSE COALESCE("MAT_NOAPV"."IdMatrizAgrupadorNOAPV",0) END AS "IdMatrizAgrupador"
+		, CASE WHEN COALESCE("Portafolio"."IdMatrizAgrupadorAPV",0) != 0 THEN COALESCE("MAT"."EsADC",'N') ELSE COALESCE("MAT_NOAPV"."EsADC",'N') END AS "EsADC"
+        , TO_CHAR("SolicitudAporteRescate"."FechaValorCuota",'YYYY-MM-DD') AS "FechaValorCuota"
+        , "SolicitudAporteRescate"."FolioContratoOperacion"
+        , "SolicitudAporteRescate"."TipoContratoOperacion"
+        , CASE WHEN "SolicitudAporteRescate"."TipoSolicitud" = 'RES' AND ("SolicitudAporteRescate"."IdRegimenTributario" = 'APV-B' OR "SolicitudAporteRescate"."IdRegimenTributario" = 'APV-AN') AND (COALESCE("OrdenTraspaso"."IdTraspaso",0) = 0) THEN ("SolicitudAporteRescate"."Monto" * 0.15)  ELSE NULL  END AS "MontoRetencion"
+        , "SolicitudAporteRescate"."IdOperacionSpot"
+        , "SolicitudAporteRescate"."MontoMonedaSistema"
+        , CASE WHEN Spot."IdOperacionSpot" IS NOT NULL THEN Spot."MontoMonedaSecundaria" ELSE "SolicitudAporteRescate"."MontoMonedaSistema" END AS "MontoMonedaSistemaInicial"
+        , "SolicitudAporteRescate"."IdEmpleadoEjecutivo"
+        , "SolicitudAporteRescate"."IdTipoCanalIngreso"  AS "Canal"
+        FROM "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate" AS "SolicitudAporteRescate"
+        LEFT JOIN "BSCL.FondoMutuo.BD::FMM.SerieDeFondo" AS "SerieDeFondo" ON ("SerieDeFondo"."IdSerieFondo" = "SolicitudAporteRescate"."IdSerieFondo" )
+        LEFT JOIN "BSCL.FondoMutuo.BD::FMM.Fondo" AS "Fondo" ON ("Fondo"."IdFondo" = "SerieDeFondo"."IdFondo" )
+        LEFT JOIN "BSCL.FondoMutuo.BD::FMM.TipoFondo" AS "TipoFondo" ON ("Fondo"."IdTipoFondo" = "TipoFondo"."IdTipoFondo") 
+        LEFT JOIN "BSCL.FondoMutuo.BD::FMM.TipoMovimientoFondoMutuo" AS "TipoMovimientoFondoMutuo" ON ("TipoMovimientoFondoMutuo"."IdTipoMovimientoFondoMutuo" = "SolicitudAporteRescate"."IdTipoMovimientoFondoMutuo")
+        LEFT JOIN "BSCL.Plataforma.BD::PLA.Estado" AS "Estado" ON ("Estado"."IdEstado" = "SolicitudAporteRescate"."Estado")
+        LEFT JOIN "BSCL.Plataforma.BD::PLA.Estado" AS "EstadoLiquidacion" ON ("EstadoLiquidacion"."IdEstado" = "SolicitudAporteRescate"."EstadoLiquidacion")
+        LEFT JOIN "BSCL.SocioNegocio.BD::EMP.Empleado" AS "ConsultarEmpleado" ON ("ConsultarEmpleado"."IdEmpleado" = "SolicitudAporteRescate"."IdUsuario")
+        LEFT JOIN "BSCL.Plataforma.BD::PAG.MedioDePago" AS "MedioDePago" ON ("MedioDePago"."IdMedioDePago" = "SolicitudAporteRescate"."IdMedioDePago")
+        LEFT JOIN "BSCL.Portafolio.BD::POR.Portafolio" AS "Portafolio" ON ("Portafolio"."IdPortafolio" = "SolicitudAporteRescate"."IdPortafolio")
+        LEFT JOIN "BSCL.SocioNegocio.BD::CLI.Cliente" AS "ClienteAGF" ON ("SerieDeFondo"."IdCliente" = "ClienteAGF"."IdCliente")
+        LEFT JOIN "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate" AS "SolicitudAporteRescateRelacionado" ON ("SolicitudAporteRescateRelacionado"."IdSolicitudAporteRescate" = "SolicitudAporteRescate"."IdSolicitudAporteRescateRelacionado")
+        LEFT JOIN "BSCL.FondoMutuo.BD::FMM.TipoMovimientoFondoMutuo" AS "TipoMovimientoFondoMutuoRelacionado" ON ("TipoMovimientoFondoMutuoRelacionado"."IdTipoMovimientoFondoMutuo" = "SolicitudAporteRescateRelacionado"."IdTipoMovimientoFondoMutuo")
+        LEFT JOIN "BSCL.FondoMutuo.BD::FMM.ValorCuota" AS "ValorCuota" ON ("ValorCuota"."IdSerieFondo" = "SerieDeFondo"."IdSerieFondo")
+        LEFT JOIN "BSCL.APV.BD::TRA.OrdenTraspaso" AS "OrdenTraspaso" ON ("OrdenTraspaso"."IdSolicitudAporteRescate" = "SolicitudAporteRescate"."IdSolicitudAporteRescate")
+        LEFT JOIN "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" "MAT" ON "MAT"."IdMatrizAgrupadorAPV" = "Portafolio"."IdMatrizAgrupadorAPV"
+        LEFT JOIN "BSCL.Portafolio.BD::POR.MatrizAgrupadorNOAPV" "MAT_NOAPV" ON "MAT_NOAPV"."CodigoPortafolio" = "Portafolio"."CodigoPortafolio" AND "Portafolio"."IdMatrizAgrupadorAPV" = 0
+        LEFT JOIN "BSCL.SocioNegocio.BD::PER.Persona" AS "PersonaEmpleado" ON "PersonaEmpleado"."IdPersona" = "ConsultarEmpleado"."IdPersona"
+        LEFT JOIN "BSCL.Mesa.BD::SPT.OperacionSpot" AS Spot ON (Spot."IdOperacionSpotOrigen" = "SolicitudAporteRescate"."IdOperacionSpot" AND Spot."Estado" != 'MOD' AND Spot."IdOperacionSpotOrigen" != 0);
+
+GRANT SELECT ON "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarSolicitudAporteRescateAnalitica" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

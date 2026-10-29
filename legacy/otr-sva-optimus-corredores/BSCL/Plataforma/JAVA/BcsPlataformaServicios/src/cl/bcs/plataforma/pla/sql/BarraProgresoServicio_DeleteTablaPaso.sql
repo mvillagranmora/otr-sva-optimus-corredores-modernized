@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::PLA.BarraProgresoPaso" WHERE "IdTrabajo" = :IdTrabajo;

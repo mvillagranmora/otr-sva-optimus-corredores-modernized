@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::ACC.Sesion" SET "TokenValido" = 'N' WHERE "IdUsuario" = :IdUsuario;

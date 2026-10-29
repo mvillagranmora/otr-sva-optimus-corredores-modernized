@@ -1,0 +1,205 @@
+<div id="IngresoDepositoAPV" class="row" ng-controller="IngresoDepositoCtrl as depm">
+	<div class="row">
+		<form name="formDepositoManual" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<strong> <div class="ng-scope" translate="">UI_INFORMACION_DEPOSITOS</div></strong>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+	      			<label class="col-xs-4" translate="">UI_TIPO_DEPOSITO</label>
+					<bcs-combobox-base 
+						id="UI_TIPO_DEPOSITO" 
+						auto-cargar="true"
+						bcs-requerido
+						cache="true"
+						class="col-xs-7"
+						tipo="depm.oConfiguracionTipoDeposito.tipo"
+						id-actual="depm.tipoDeposito"
+						configuracion="depm.oConfiguracionTipoDeposito"
+						seleccionado="depm.tipoDepositoSeleccionado"
+						id-post-filtro="depm.tipoDepositoPostFiltro"
+						>
+					</bcs-combobox-base>
+				</div>
+	    		<div class="col-xs-6"> 
+					<label class="col-xs-5 ng-scope" translate="">UI_FECHA_DEPOSITO</label>
+					<bcs-input-date 
+						id="UI_FECHA_DEPOSITO" 
+						bcs-requerido
+						class="col-xs-7" 
+						k-ng-model = "depm.kngFechaDeposito"
+						k-options="kOptFechaDeposito"
+					>
+					</bcs-input-date>
+	    		</div>
+	    	</div>
+	    	<div class="row">
+	    		<div class="col-xs-6">
+					<label class="col-xs-4 ng-scope" translate="">UI_MONTO_DEPOSITO</label>
+						<bcs-input-numero class="col-xs-7"
+							ng-model="depm.MontoDeposito"
+						bcs-requerido
+							k-ng-model="depm.kngMontoDeposito"
+							k-ng-disabled="depm.DeshabilitoMontoDeposito">
+						</bcs-input-numero>
+				</div>
+				<div class="col-xs-6">
+		      		<label class="col-xs-5" translate>UI_ORIGEN</label>
+					<bcs-combobox-base 
+						id="UI_ORIGEN"
+						class="col-xs-7"
+						tipo="'combobox-origen-apv'"
+						bcs-requerido
+						id-actual="depm.origen"
+						seleccionado="depm.origenSeleccionado"
+						filtros="depm.filtroOrigen" 
+						id-post-filtro="depm.origenPostFiltro"
+						activado="!depm.DeshabilitoMontoDeposito"
+						>
+					</bcs-combobox-base>
+				</div>
+    		</div>
+			<div class="row">
+				<div class="col-xs-6">
+						<label class="col-xs-4" translate="">UI_CUENTA_BANCARIA</label>
+					<div class="col-xs-7">
+						<bcs-combobox-base 
+							auto-cargar		= "true"
+							bcs-requerido
+							tipo			="depm.oConfiguracionCuentaBancoSocioNegocio.tipo" 
+							configuracion	="depm.oConfiguracionCuentaBancoSocioNegocio.configuracion" 				
+							seleccionado	="depm.oConfiguracionCuentaBancoSocioNegocio.seleccionado"
+							filtros			="depm.oConfiguracionCuentaBancoSocioNegocio.filtros" 
+							id-actual		="depm.oConfiguracionCuentaBancoSocioNegocio.idActual"
+							usa-filtros-completos = "'S'"
+							cascada1-a="depm.oConfiguracionSucursalBancaria.filtros.IdBanco"
+							cascada1-valor="'IdBanco'"
+							id-post-filtro="depm.idCuentaSocioNegocio">
+						</bcs-combobox-base>
+					</div>
+				</div>
+	    		<div class="col-xs-6">
+			      	<label class="col-xs-5" translate>UI_BANCO_DEPOSITO</label>
+					<bcs-input-texto class="col-xs-7" 
+									name="uBancoCuentaSocio" 
+									ng-model="depm.bancoDeposito" 
+									k-ng-disabled="'true'">
+									</bcs-input-texto>
+					<!-- <div class="col-xs-7">
+						<bcs-combobox-base 
+							id="UI_BANCO_DEPOSITO"
+							class="col-xs-11"
+							tipo="'combobox-banco-por-pais'"
+							id-actual="depm.bancoDeposito"
+							seleccionado="depm.bancoDepositoSeleccionado"
+							filtros="depm.filtroBanco" 
+							cascada1-a="depm.oConfiguracionSucursalBancaria.filtros.IdBanco"
+							cascada1-valor="'IdBanco'"
+							id-post-filtro="depm.idBancoPostFiltro"
+							>
+						</bcs-combobox-base>
+					</div> -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+		      		<label class="col-xs-4" translate="">UI_SUCURSAL</label>
+					<bcs-combobox-base 
+						id="UI_SUCURSAL" 
+						class="col-xs-7"
+						tipo="'combobox-sucursal-bancaria'"
+						activado='true'
+						id-actual="depm.sucursal"
+						configuracion="depm.oConfiguracionSucursalBancaria.configuracion"
+						filtros="depm.oConfiguracionSucursalBancaria.filtros"
+						seleccionado="depm.sucursalSeleccionada"
+						id-post-filtro="depm.idSucursalPostFiltro"
+						
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-5 ng-scope" translate="">UI_NUMERO_CUENTA</label>
+					<bcs-input-texto class="col-xs-7" name="uNumeroCuentaSocio" ng-model="depm.numeroCuenta" k-ng-disabled="'true'"></bcs-input-texto>		
+					<!-- <bcs-combobox-base 
+						id="UI_CUENTA_CORRIENTE" 
+						class="col-xs-7"
+						tipo="'combobox-numero-cuentas-bancarias-corredora'"
+						activado='(data.habilitaSucursal)'
+						id-actual="depm.cuentaCorriente"
+						configuracion="depm.oConfiguracionCuentaCorriente.configuracion"
+						filtros="depm.oConfiguracionCuentaCorriente.filtros"
+						seleccionado="depm.cuentaCorrienteSeleccionada"
+						id-post-filtro="depm.idCuentaCorrientePostFiltro"
+						>
+					</bcs-combobox-base> -->
+				</div>
+			</div>
+			<div class="row">
+	      		<label class="col-xs-2 ng-scope" translate="">UI_OBSERVACION</label>
+					<bcs-input-texto class="col-xs-10"
+						ng-model="depm.observacion"
+						k-ng-model="depm.kngObservacion"
+						k-ng-disabled="false">
+					</bcs-input-texto>
+			</div>
+    		<br>		
+			<div class="row"> 
+				<strong> <div class="col-xs-4 ng-scope" translate="">UI_INFORMACION_CARTOLA</div></strong>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+      			  <label class="col-xs-4 ng-scope" translate="">UI_FOLIO_CARTOLA</label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="depm.folioCartola"
+						k-ng-model="depm.kngFolioCartola"
+						k-ng-disabled="false"
+						decimales="0"
+						>
+					</bcs-input-numero>
+    			</div>	
+	    		<div class="col-xs-6">
+					<label class="col-xs-5 ng-scope" translate="">UI_NUMERO_DOCUMENTO</label>
+						<bcs-input-numero class="col-xs-7"
+							ng-model="depm.numeroDocumento"
+							k-ng-model="depm.kngNumeroDocumento"
+							k-ng-disabled="false"
+							decimales="0"
+							>
+						</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+	    		<div class="col-xs-6">
+      			  <label class="col-xs-4 ng-scope" translate="">UI_LINEA_CARTOLA</label>
+					<bcs-input-numero class="col-xs-7"
+						ng-model="depm.lineaCartola"
+						k-ng-model="depm.kngLineaCartola"
+						k-ng-disabled="false"
+						decimales="0"
+						>
+					</bcs-input-numero>
+    			</div>	
+    		</div>
+			<br>
+			<div class="row alignButtonsToRight">
+				<bcs-button class="col-xs-3"
+					bcs-tipo="'bcs-button-primary'"
+					bcs-habilitado="depm.fnValidaDeposito()" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_ACEPTAR' | translate" 
+					bcs-clic="depm.IngresarDeposito()">
+				</bcs-button>
+				<bcs-button class="col-xs-3"
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-habilitado="!depm.DeshabilitoMontoDeposito"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_LIMPIAR' | translate" 
+					bcs-clic="depm.fnLimpiar()">
+				</bcs-button> 
+			</div>
+		</form>
+	</div>
+</div>

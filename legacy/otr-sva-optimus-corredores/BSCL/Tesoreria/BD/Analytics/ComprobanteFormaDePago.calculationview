@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="ComprobanteFormaDePago" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="ComprobanteFormaDePago_2"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="CHAR" id="FechaIngresoRegistro" length="19"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobante"/>
+        <viewAttribute datatype="CHAR" id="FechaComprobante" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobanteFormaDePago"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoComprobante" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMedioDePago" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMedioDePago" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoMedioDePago" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdModalidadDePago" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreModalidadDePago" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdCaja"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoCaja" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCaja" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdCuentaBancariaCorredora"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoCuentaBancariaCorredora" length="4"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoCuentaBancariaCorredora" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdBancoCorredora"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreBancoCorredora" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCuentaBancariaCorredora" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroCuentaBancariaCorredora" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdTarjetaBancariaCorredora"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoTarjetaBancariaCorredora" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoTarjetaBancariaCorredora" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroTarjetaBancariaCorredora" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdChequeraCorredora"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroSerieCorredora" length="40"/>
+        <viewAttribute datatype="BIGINT" id="NumeroDocumentoCorredora"/>
+        <viewAttribute datatype="CHAR" id="FechaDocumentoPagoCorredora" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdCuentaBancariaTitular"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoCuentaBancariaTitular" length="4"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoCuentaBancariaTitular" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCuentaBancariaTitular" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdBancoTitular"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreBancoTitular" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroCuentaBancaria" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdTarjetaBancaria"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoTarjetaBancariaTitular" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoTarjetaBancariaTitular" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroTarjetaBancariaTitular" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroSerieTitular" length="40"/>
+        <viewAttribute datatype="BIGINT" id="NumeroDocumentoTitular"/>
+        <viewAttribute datatype="CHAR" id="FechaDocumentoPagoTitular" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3"/>
+        <viewAttribute datatype="INTEGER" id="DecimalesMoneda"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMoneda" length="100"/>
+        <viewAttribute datatype="DECIMAL" id="Monto" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoEgreso" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoIngreso" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoConSigno" length="29" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstadoMedioPago" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEstadoMedioPago" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuarioGiro"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreUsuarioGiro" length="302"/>
+        <viewAttribute datatype="CHAR" id="FechaGiro" length="19"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobantePartida"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoSocioNegocioPersona" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoSocioNegocioPersona" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePersona" length="300"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoDocumentoIdentidadPersona" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidadPersona" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoPersona" length="2"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoPersona" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoSocioNegocioPersonaTitular" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoSocioNegocioPersonaTitular" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdPersonaTitular"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePersonaTitular" length="300"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolioPersonaTitular"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoPersonaTitular" length="2"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoPersonaTitular" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolioPersonaTitular" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePortafolioPersonaTitular" length="621"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuarioCertificacionMedioPago"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreUsuarioCertificacionMedioPago" length="302"/>
+        <viewAttribute datatype="CHAR" id="FechaHoraCertificacionMedioPago" length="19"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuarioLiquidacionMedioPago"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreUsuarioLiquidacionMedioPago" length="302"/>
+        <viewAttribute datatype="CHAR" id="FechaLiquidacion" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaHoraLiquidacionMedioPago" length="27"/>
+        <viewAttribute datatype="BIGINT" id="IdDeposito"/>
+        <viewAttribute datatype="NVARCHAR" id="Depositado" length="1"/>
+        <viewAttribute datatype="BIGINT" id="IdNominaTransferencia"/>
+        <viewAttribute datatype="CHAR" id="FechaAfectaSaldo" length="10"/>
+        <viewAttribute datatype="BIGINT" id="DiasRetencion"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoDisponible" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="SaldoContable" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="AfectoSaldo" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoEnviaADeposito" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstadoComprobante" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEstadoComprobante" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdConceptoComprobante" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreConceptoComprobante" length="100"/>
+        <viewAttribute datatype="CHAR" id="FechaLiquidacionComprobante" length="10"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = 
+ 	 
+	SELECT
+	 &quot;IdEmpresa&quot;,
+	 &quot;FechaIngresoRegistro&quot;,
+	 &quot;IdComprobante&quot;,
+	 &quot;FechaComprobante&quot;,
+	 &quot;IdComprobanteFormaDePago&quot;,
+	 &quot;TipoComprobante&quot;,
+	 &quot;IdMedioDePago&quot;,
+	 &quot;NombreMedioDePago&quot;,
+	 &quot;TipoMedioDePago&quot;,
+	 &quot;IdModalidadDePago&quot;,
+	 &quot;NombreModalidadDePago&quot;,
+	 &quot;IdCaja&quot;,
+	 &quot;CodigoCaja&quot;,
+	 &quot;NombreCaja&quot;,
+	 &quot;IdCuentaBancariaCorredora&quot;,
+	 &quot;IdTipoCuentaBancariaCorredora&quot;,
+	 &quot;NombreTipoCuentaBancariaCorredora&quot;,
+	 &quot;IdBancoCorredora&quot;,
+	 &quot;NombreBancoCorredora&quot;,
+	 &quot;NombreCuentaBancariaCorredora&quot;,
+	 &quot;NumeroCuentaBancariaCorredora&quot;,
+	 &quot;IdTarjetaBancariaCorredora&quot;,
+	 &quot;IdTipoTarjetaBancariaCorredora&quot;,
+	 &quot;NombreTipoTarjetaBancariaCorredora&quot;,
+	 &quot;NumeroTarjetaBancariaCorredora&quot;,
+	 &quot;IdChequeraCorredora&quot;,
+	 &quot;NumeroSerieCorredora&quot;,
+	 &quot;NumeroDocumentoCorredora&quot;,
+	 &quot;FechaDocumentoPagoCorredora&quot;,
+	 &quot;IdCuentaBancariaTitular&quot;,
+	 &quot;IdTipoCuentaBancariaTitular&quot;,
+	 &quot;NombreTipoCuentaBancariaTitular&quot;,
+	 &quot;NombreCuentaBancariaTitular&quot;,
+	 &quot;IdBancoTitular&quot;,
+	 &quot;NombreBancoTitular&quot;,
+	 &quot;NumeroCuentaBancaria&quot;,
+	 &quot;IdTarjetaBancaria&quot;,
+	 &quot;IdTipoTarjetaBancariaTitular&quot;,
+	 &quot;NombreTipoTarjetaBancariaTitular&quot;,
+	 &quot;NumeroTarjetaBancariaTitular&quot;,
+	 &quot;NumeroSerieTitular&quot;,
+	 &quot;NumeroDocumentoTitular&quot;,
+	 &quot;FechaDocumentoPagoTitular&quot;,
+	 &quot;IdMoneda&quot;,
+	 &quot;DecimalesMoneda&quot;,
+	 &quot;NombreMoneda&quot;,
+	 &quot;Monto&quot;,
+	 &quot;MontoEgreso&quot;,
+	 &quot;MontoIngreso&quot;,
+	 &quot;MontoConSigno&quot;,
+	 &quot;IdEstadoMedioPago&quot;,
+	 &quot;NombreEstadoMedioPago&quot;,
+	 &quot;IdUsuarioGiro&quot;,
+	 &quot;NombreUsuarioGiro&quot;,
+	 &quot;FechaGiro&quot;,
+	 &quot;IdComprobantePartida&quot;,
+	 &quot;IdTipoSocioNegocioPersona&quot;,
+	 &quot;NombreTipoSocioNegocioPersona&quot;,
+	 &quot;IdPersona&quot;,
+	 &quot;NombrePersona&quot;,
+	 &quot;IdTipoDocumentoIdentidadPersona&quot;,
+	 &quot;DocumentoIdentidadPersona&quot;,
+	 &quot;IdTipoPersona&quot;,
+	 &quot;NombreTipoPersona&quot;,
+	 &quot;IdTipoSocioNegocioPersonaTitular&quot;,
+	 &quot;NombreTipoSocioNegocioPersonaTitular&quot;,
+	 &quot;IdPersonaTitular&quot;,
+	 &quot;NombrePersonaTitular&quot;,
+	 &quot;IdPortafolioPersonaTitular&quot;,
+	 &quot;IdTipoPersonaTitular&quot;,
+	 &quot;NombreTipoPersonaTitular&quot;,
+	 &quot;CodigoPortafolioPersonaTitular&quot;,
+	 &quot;NombrePortafolioPersonaTitular&quot;,
+	 &quot;IdUsuarioCertificacionMedioPago&quot;,
+	 &quot;NombreUsuarioCertificacionMedioPago&quot;,
+	 &quot;FechaHoraCertificacionMedioPago&quot;,
+	 &quot;IdUsuarioLiquidacionMedioPago&quot;,
+	 &quot;NombreUsuarioLiquidacionMedioPago&quot;,
+	 &quot;FechaLiquidacion&quot;,
+	 &quot;FechaHoraLiquidacionMedioPago&quot;,
+	 &quot;IdDeposito&quot;,
+	 &quot;Depositado&quot;,
+	 &quot;IdNominaTransferencia&quot;,
+	 &quot;FechaAfectaSaldo&quot;,
+	 &quot;DiasRetencion&quot;,
+	 &quot;SaldoDisponible&quot;,
+	 &quot;SaldoContable&quot;,
+	 &quot;AfectoSaldo&quot;,
+	 &quot;DocumentoEnviaADeposito&quot;,
+	 &quot;IdEstadoComprobante&quot;,
+	 &quot;NombreEstadoComprobante&quot;,
+	 &quot;IdConceptoComprobante&quot;,
+	 &quot;NombreConceptoComprobante&quot;,
+	 &quot;FechaLiquidacionComprobante&quot; 
+FROM &quot;BSCL.Tesoreria.BD.Vistas::ConsultarComprobanteFormaDePagoAnalitica&quot; ;	 
+ 	 
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdEmpresa" order="1">
+        <descriptions defaultDescription="IdEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="FechaIngresoRegistro" order="2">
+        <descriptions defaultDescription="FechaIngresoRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaIngresoRegistro"/>
+      </attribute>
+      <attribute id="IdComprobante" order="3">
+        <descriptions defaultDescription="IdComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobante"/>
+      </attribute>
+      <attribute id="FechaComprobante" order="4">
+        <descriptions defaultDescription="FechaComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaComprobante"/>
+      </attribute>
+      <attribute id="IdComprobanteFormaDePago" order="5">
+        <descriptions defaultDescription="IdComprobanteFormaDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobanteFormaDePago"/>
+      </attribute>
+      <attribute id="TipoComprobante" order="6">
+        <descriptions defaultDescription="TipoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoComprobante"/>
+      </attribute>
+      <attribute id="IdMedioDePago" order="7">
+        <descriptions defaultDescription="IdMedioDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMedioDePago"/>
+      </attribute>
+      <attribute id="NombreMedioDePago" order="8">
+        <descriptions defaultDescription="NombreMedioDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMedioDePago"/>
+      </attribute>
+      <attribute id="TipoMedioDePago" order="9">
+        <descriptions defaultDescription="TipoMedioDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoMedioDePago"/>
+      </attribute>
+      <attribute id="IdModalidadDePago" order="10">
+        <descriptions defaultDescription="IdModalidadDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdModalidadDePago"/>
+      </attribute>
+      <attribute id="NombreModalidadDePago" order="11">
+        <descriptions defaultDescription="NombreModalidadDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreModalidadDePago"/>
+      </attribute>
+      <attribute id="IdCaja" order="12">
+        <descriptions defaultDescription="IdCaja"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCaja"/>
+      </attribute>
+      <attribute id="CodigoCaja" order="13">
+        <descriptions defaultDescription="CodigoCaja"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoCaja"/>
+      </attribute>
+      <attribute id="NombreCaja" order="14">
+        <descriptions defaultDescription="NombreCaja"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCaja"/>
+      </attribute>
+      <attribute id="IdCuentaBancariaCorredora" order="15">
+        <descriptions defaultDescription="IdCuentaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCuentaBancariaCorredora"/>
+      </attribute>
+      <attribute id="IdTipoCuentaBancariaCorredora" order="16">
+        <descriptions defaultDescription="IdTipoCuentaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoCuentaBancariaCorredora"/>
+      </attribute>
+      <attribute id="NombreTipoCuentaBancariaCorredora" order="17">
+        <descriptions defaultDescription="NombreTipoCuentaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoCuentaBancariaCorredora"/>
+      </attribute>
+      <attribute id="NombreBancoCorredora" order="19">
+        <descriptions defaultDescription="NombreBancoCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreBancoCorredora"/>
+      </attribute>
+      <attribute id="NombreCuentaBancariaCorredora" order="20">
+        <descriptions defaultDescription="NombreCuentaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCuentaBancariaCorredora"/>
+      </attribute>
+      <attribute id="NumeroCuentaBancariaCorredora" order="21">
+        <descriptions defaultDescription="NumeroCuentaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroCuentaBancariaCorredora"/>
+      </attribute>
+      <attribute id="IdTarjetaBancariaCorredora" order="22">
+        <descriptions defaultDescription="IdTarjetaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTarjetaBancariaCorredora"/>
+      </attribute>
+      <attribute id="IdTipoTarjetaBancariaCorredora" order="23">
+        <descriptions defaultDescription="IdTipoTarjetaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoTarjetaBancariaCorredora"/>
+      </attribute>
+      <attribute id="NombreTipoTarjetaBancariaCorredora" order="24">
+        <descriptions defaultDescription="NombreTipoTarjetaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoTarjetaBancariaCorredora"/>
+      </attribute>
+      <attribute id="NumeroTarjetaBancariaCorredora" order="25">
+        <descriptions defaultDescription="NumeroTarjetaBancariaCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroTarjetaBancariaCorredora"/>
+      </attribute>
+      <attribute id="IdChequeraCorredora" order="26">
+        <descriptions defaultDescription="IdChequeraCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdChequeraCorredora"/>
+      </attribute>
+      <attribute id="NumeroSerieCorredora" order="27">
+        <descriptions defaultDescription="NumeroSerieCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroSerieCorredora"/>
+      </attribute>
+      <attribute id="NumeroDocumentoCorredora" order="28">
+        <descriptions defaultDescription="NumeroDocumentoCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroDocumentoCorredora"/>
+      </attribute>
+      <attribute id="FechaDocumentoPagoCorredora" order="29">
+        <descriptions defaultDescription="FechaDocumentoPagoCorredora"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaDocumentoPagoCorredora"/>
+      </attribute>
+      <attribute id="IdCuentaBancariaTitular" order="30">
+        <descriptions defaultDescription="IdCuentaBancariaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCuentaBancariaTitular"/>
+      </attribute>
+      <attribute id="IdTipoCuentaBancariaTitular" order="31">
+        <descriptions defaultDescription="IdTipoCuentaBancariaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoCuentaBancariaTitular"/>
+      </attribute>
+      <attribute id="NombreTipoCuentaBancariaTitular" order="32">
+        <descriptions defaultDescription="NombreTipoCuentaBancariaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoCuentaBancariaTitular"/>
+      </attribute>
+      <attribute id="NombreCuentaBancariaTitular" order="33">
+        <descriptions defaultDescription="NombreCuentaBancariaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCuentaBancariaTitular"/>
+      </attribute>
+      <attribute id="NombreBancoTitular" order="35">
+        <descriptions defaultDescription="NombreBancoTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreBancoTitular"/>
+      </attribute>
+      <attribute id="NumeroCuentaBancaria" order="36">
+        <descriptions defaultDescription="NumeroCuentaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroCuentaBancaria"/>
+      </attribute>
+      <attribute id="IdTarjetaBancaria" order="37">
+        <descriptions defaultDescription="IdTarjetaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTarjetaBancaria"/>
+      </attribute>
+      <attribute id="IdTipoTarjetaBancariaTitular" order="38">
+        <descriptions defaultDescription="IdTipoTarjetaBancariaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoTarjetaBancariaTitular"/>
+      </attribute>
+      <attribute id="NombreTipoTarjetaBancariaTitular" order="39">
+        <descriptions defaultDescription="NombreTipoTarjetaBancariaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoTarjetaBancariaTitular"/>
+      </attribute>
+      <attribute id="NumeroTarjetaBancariaTitular" order="40">
+        <descriptions defaultDescription="NumeroTarjetaBancariaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroTarjetaBancariaTitular"/>
+      </attribute>
+      <attribute id="NumeroSerieTitular" order="41">
+        <descriptions defaultDescription="NumeroSerieTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroSerieTitular"/>
+      </attribute>
+      <attribute id="NumeroDocumentoTitular" order="42">
+        <descriptions defaultDescription="NumeroDocumentoTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroDocumentoTitular"/>
+      </attribute>
+      <attribute id="FechaDocumentoPagoTitular" order="43">
+        <descriptions defaultDescription="FechaDocumentoPagoTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaDocumentoPagoTitular"/>
+      </attribute>
+      <attribute id="IdMoneda" order="44">
+        <descriptions defaultDescription="IdMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="DecimalesMoneda" order="45">
+        <descriptions defaultDescription="DecimalesMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="DecimalesMoneda"/>
+      </attribute>
+      <attribute id="NombreMoneda" order="46">
+        <descriptions defaultDescription="NombreMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMoneda"/>
+      </attribute>
+      <attribute id="Monto" order="47">
+        <descriptions defaultDescription="Monto"/>
+        <keyMapping columnObjectName="Script_View" columnName="Monto"/>
+      </attribute>
+      <attribute id="MontoEgreso" order="48">
+        <descriptions defaultDescription="MontoEgreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoEgreso"/>
+      </attribute>
+      <attribute id="MontoIngreso" order="49">
+        <descriptions defaultDescription="MontoIngreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoIngreso"/>
+      </attribute>
+      <attribute id="MontoConSigno" order="50">
+        <descriptions defaultDescription="MontoConSigno"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoConSigno"/>
+      </attribute>
+      <attribute id="IdEstadoMedioPago" order="51">
+        <descriptions defaultDescription="IdEstadoMedioPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstadoMedioPago"/>
+      </attribute>
+      <attribute id="NombreEstadoMedioPago" order="52">
+        <descriptions defaultDescription="NombreEstadoMedioPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEstadoMedioPago"/>
+      </attribute>
+      <attribute id="IdUsuarioGiro" order="53">
+        <descriptions defaultDescription="IdUsuarioGiro"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuarioGiro"/>
+      </attribute>
+      <attribute id="NombreUsuarioGiro" order="54">
+        <descriptions defaultDescription="NombreUsuarioGiro"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreUsuarioGiro"/>
+      </attribute>
+      <attribute id="FechaGiro" order="55">
+        <descriptions defaultDescription="FechaGiro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaGiro"/>
+      </attribute>
+      <attribute id="IdComprobantePartida" order="56">
+        <descriptions defaultDescription="IdComprobantePartida"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobantePartida"/>
+      </attribute>
+      <attribute id="IdTipoSocioNegocioPersona" order="57">
+        <descriptions defaultDescription="IdTipoSocioNegocioPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoSocioNegocioPersona"/>
+      </attribute>
+      <attribute id="NombreTipoSocioNegocioPersona" order="58">
+        <descriptions defaultDescription="NombreTipoSocioNegocioPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoSocioNegocioPersona"/>
+      </attribute>
+      <attribute id="IdPersona" order="59">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="NombrePersona" order="60">
+        <descriptions defaultDescription="NombrePersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePersona"/>
+      </attribute>
+      <attribute id="IdTipoDocumentoIdentidadPersona" order="61">
+        <descriptions defaultDescription="IdTipoDocumentoIdentidadPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoDocumentoIdentidadPersona"/>
+      </attribute>
+      <attribute id="DocumentoIdentidadPersona" order="62">
+        <descriptions defaultDescription="DocumentoIdentidadPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidadPersona"/>
+      </attribute>
+      <attribute id="IdTipoPersona" order="63">
+        <descriptions defaultDescription="IdTipoPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoPersona"/>
+      </attribute>
+      <attribute id="NombreTipoPersona" order="64">
+        <descriptions defaultDescription="NombreTipoPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoPersona"/>
+      </attribute>
+      <attribute id="IdTipoSocioNegocioPersonaTitular" order="65">
+        <descriptions defaultDescription="IdTipoSocioNegocioPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoSocioNegocioPersonaTitular"/>
+      </attribute>
+      <attribute id="NombreTipoSocioNegocioPersonaTitular" order="66">
+        <descriptions defaultDescription="NombreTipoSocioNegocioPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoSocioNegocioPersonaTitular"/>
+      </attribute>
+      <attribute id="IdPersonaTitular" order="67">
+        <descriptions defaultDescription="IdPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersonaTitular"/>
+      </attribute>
+      <attribute id="NombrePersonaTitular" order="68">
+        <descriptions defaultDescription="NombrePersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePersonaTitular"/>
+      </attribute>
+      <attribute id="IdPortafolioPersonaTitular" order="69">
+        <descriptions defaultDescription="IdPortafolioPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolioPersonaTitular"/>
+      </attribute>
+      <attribute id="IdTipoPersonaTitular" order="70">
+        <descriptions defaultDescription="IdTipoPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoPersonaTitular"/>
+      </attribute>
+      <attribute id="NombreTipoPersonaTitular" order="71">
+        <descriptions defaultDescription="NombreTipoPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoPersonaTitular"/>
+      </attribute>
+      <attribute id="CodigoPortafolioPersonaTitular" order="72">
+        <descriptions defaultDescription="CodigoPortafolioPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolioPersonaTitular"/>
+      </attribute>
+      <attribute id="NombrePortafolioPersonaTitular" order="73">
+        <descriptions defaultDescription="NombrePortafolioPersonaTitular"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePortafolioPersonaTitular"/>
+      </attribute>
+      <attribute id="IdUsuarioCertificacionMedioPago" order="74">
+        <descriptions defaultDescription="IdUsuarioCertificacionMedioPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuarioCertificacionMedioPago"/>
+      </attribute>
+      <attribute id="NombreUsuarioCertificacionMedioPago" order="75">
+        <descriptions defaultDescription="NombreUsuarioCertificacionMedioPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreUsuarioCertificacionMedioPago"/>
+      </attribute>
+      <attribute id="FechaHoraCertificacionMedioPago" order="76">
+        <descriptions defaultDescription="FechaHoraCertificacionMedioPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaHoraCertificacionMedioPago"/>
+      </attribute>
+      <attribute id="IdUsuarioLiquidacionMedioPago" order="77">
+        <descriptions defaultDescription="IdUsuarioLiquidacionMedioPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuarioLiquidacionMedioPago"/>
+      </attribute>
+      <attribute id="NombreUsuarioLiquidacionMedioPago" order="78">
+        <descriptions defaultDescription="NombreUsuarioLiquidacionMedioPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreUsuarioLiquidacionMedioPago"/>
+      </attribute>
+      <attribute id="FechaLiquidacion" order="79">
+        <descriptions defaultDescription="FechaLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaLiquidacion"/>
+      </attribute>
+      <attribute id="FechaHoraLiquidacionMedioPago" order="80">
+        <descriptions defaultDescription="FechaHoraLiquidacionMedioPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaHoraLiquidacionMedioPago"/>
+      </attribute>
+      <attribute id="IdDeposito" order="81">
+        <descriptions defaultDescription="IdDeposito"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdDeposito"/>
+      </attribute>
+      <attribute id="Depositado" order="82">
+        <descriptions defaultDescription="Depositado"/>
+        <keyMapping columnObjectName="Script_View" columnName="Depositado"/>
+      </attribute>
+      <attribute id="IdNominaTransferencia" order="83">
+        <descriptions defaultDescription="IdNominaTransferencia"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdNominaTransferencia"/>
+      </attribute>
+      <attribute id="FechaAfectaSaldo" order="84">
+        <descriptions defaultDescription="FechaAfectaSaldo"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaAfectaSaldo"/>
+      </attribute>
+      <attribute id="DiasRetencion" order="85">
+        <descriptions defaultDescription="DiasRetencion"/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasRetencion"/>
+      </attribute>
+      <attribute id="SaldoDisponible" order="86">
+        <descriptions defaultDescription="SaldoDisponible"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoDisponible"/>
+      </attribute>
+      <attribute id="SaldoContable" order="87">
+        <descriptions defaultDescription="SaldoContable"/>
+        <keyMapping columnObjectName="Script_View" columnName="SaldoContable"/>
+      </attribute>
+      <attribute id="AfectoSaldo" order="88">
+        <descriptions defaultDescription="AfectoSaldo"/>
+        <keyMapping columnObjectName="Script_View" columnName="AfectoSaldo"/>
+      </attribute>
+      <attribute id="DocumentoEnviaADeposito" order="89">
+        <descriptions defaultDescription="DocumentoEnviaADeposito"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoEnviaADeposito"/>
+      </attribute>
+      <attribute id="IdEstadoComprobante" order="90">
+        <descriptions defaultDescription="IdEstadoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstadoComprobante"/>
+      </attribute>
+      <attribute id="NombreEstadoComprobante" order="91">
+        <descriptions defaultDescription="NombreEstadoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEstadoComprobante"/>
+      </attribute>
+      <attribute id="IdConceptoComprobante" order="92">
+        <descriptions defaultDescription="IdConceptoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdConceptoComprobante"/>
+      </attribute>
+      <attribute id="NombreConceptoComprobante" order="93">
+        <descriptions defaultDescription="NombreConceptoComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreConceptoComprobante"/>
+      </attribute>
+      <attribute id="FechaLiquidacionComprobante" order="94">
+        <descriptions defaultDescription="FechaLiquidacionComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaLiquidacionComprobante"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures>
+      <measure id="IdBancoCorredora" order="18" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="IdBancoCorredora"/>
+        <measureMapping columnObjectName="Script_View" columnName="IdBancoCorredora"/>
+      </measure>
+      <measure id="IdBancoTitular" order="34" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="IdBancoTitular"/>
+        <measureMapping columnObjectName="Script_View" columnName="IdBancoTitular"/>
+      </measure>
+    </baseMeasures>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

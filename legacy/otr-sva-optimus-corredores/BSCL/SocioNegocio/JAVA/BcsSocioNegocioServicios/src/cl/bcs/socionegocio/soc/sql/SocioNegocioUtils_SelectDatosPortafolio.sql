@@ -1,0 +1,15 @@
+SELECT PORTAFOLIO."IdPortafolio"                AS "IdPortafolio"
+     , PERSONA."IdPersona"                      AS "IdPersona"
+     , PORTAFOLIO."IdCliente"                   AS "IdCliente"
+     , PORTAFOLIO."CodigoPortafolio"            AS "CodigoPortafolio"
+     , PORTAFOLIO."Proposito"                   AS "Proposito"
+     , CASE PERSONA."Tipo"
+           WHEN 'N' THEN PERSONA."Nombres" || ' ' || PERSONA."ApellidoPaterno" || ' ' || PERSONA."ApellidoMaterno"
+           ELSE PERSONA."RazonSocial"
+    END                                         AS "NombreCompleto"
+     , DOCUMENTO_IDENTIDAD."DocumentoIdentidad" AS "DocumentoIdentidad"
+FROM "BSCL.Portafolio.BD::POR.Portafolio" AS PORTAFOLIO
+     LEFT JOIN "BSCL.SocioNegocio.BD::CLI.Cliente" AS CLIENTE ON CLIENTE."IdCliente" = PORTAFOLIO."IdCliente"
+     LEFT JOIN "BSCL.SocioNegocio.BD::PER.Persona" AS PERSONA ON PERSONA."IdPersona" = CLIENTE."IdPersona"
+     LEFT JOIN "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" AS DOCUMENTO_IDENTIDAD ON DOCUMENTO_IDENTIDAD."IdDocumentoIdentidad" = PERSONA."IdDocumentoIdentidad"
+WHERE PORTAFOLIO."IdPortafolio" IN (:IdPortafolio);

@@ -1,0 +1,223 @@
+<div id="ModalRelacion" ng-controller="ModalRelacionCtrl as mr">
+	<div class="row bcs-cuerpo" bcs-enter="''">
+		<form name="mr.formRelacion" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_RELACION</label>
+				<div class="col-xs-8" ng-show="!mr.Relacion.modoCrear">
+					<label translate>{{mr.Relacion.TipoRelacion}}</label>
+				</div>
+				<div class="col-xs-8" ng-show="mr.Relacion.modoCrear">
+					<bcs-combobox-base
+							id="formRelacion_tipoRelacion"
+							tipo="'combobox-tipo-relacion'"
+							id-actual="mr.Relacion.IdTipoRelacion"
+							id-defecto="mr.RelacionOriginal.IdTipoRelacion"
+							todos="'N'"
+							bcs-requerido="mr.Relacion.modoCrear && mr.camposRequeridos['formRelaciones_IdTipoRelacion'].Requerido === 'S'"
+							filtros="mr.conf.oConfiguracionTipoRelacion.filtros"
+							seleccionado="mr.TipoRelacionObj"
+							cascada-a="mr.conf.oConfiguracionRelacionado.filtros.IdTipoRelacion"
+							cascada-valor="'IdTipoRelacion'"
+					></bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_RELACIONADO</label>
+				<div class="col-xs-8" ng-show="!mr.Relacion.modoCrear">
+					<label>{{mr.Relacion.DocIdeRelacionado}}&nbsp;&nbsp;&nbsp;</label>
+					<label>{{mr.Relacion.NomComRelacionado}}</label>
+				</div>
+				<div ng-show="mr.Relacion.modoCrear">
+					<bcs-combobox-base
+							id="UI_SOCIO_NEGOCIO"
+							class="col-xs-8"
+							auto-cargar="'false'"
+							tipo="'combobox-socio-negocio'"
+							id-actual="mr.Relacion.IdRelacionado"
+							id-defecto="mr.RelacionOriginal.IdRelacionado"
+							todos="'N'"
+							bcs-requerido="mr.Relacion.modoCrear && mr.camposRequeridos['formRelaciones_IdRelacionado'].Requerido === 'S'"
+							filtros="mr.conf.oConfiguracionSocioNegocio.filtros"
+							seleccionado="mr.RelacionadoObj"
+					></bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row" ng-show="mr.Relacion.modoCrear">
+				<label class="col-xs-9"></label>
+				<bcs-button id="ModalRelacion_crearPersona" class="col-xs-3"
+					bcs-tipo="'bcs-button-input-form'" bcs-habilitado="mr.crearNuevaPersona"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_CREAR_PERSONA' | translate"
+					bcs-clic="mr.crearPersona()"> </bcs-button>
+			</div>
+			<div class="row">&nbsp;</div>
+			<div class="row">
+				<label class="col-xs-4" translate
+					ng-show="mr.TipoRelacionObj.EsIndefinida || mr.Relacion.EsIndefinida">UI_RELACION_INDEFINIDA</label>
+				<label class="col-xs-8" translate
+					ng-show="mr.TipoRelacionObj.EsIndefinida === 'S' || mr.Relacion.EsIndefinida === 'S'">UI_SI</label>
+				<label class="col-xs-8" translate
+					ng-show="mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N'">UI_NO</label>
+			</div>
+
+			<div class="row" ng-show="(mr.TipoRelacionObj.UsaPorcentajeParticipacion==='S')">
+				<label class="col-xs-4" translate>UI_PORCENTAJE_PARTICIPACION</label>
+				<bcs-input-porcentaje
+						id="formRelacion_porcentajeParticipacion"
+						class="col-xs-8"
+						bcs-requerido="mr.TipoRelacionObj.UsaPorcentajeParticipacion==='S' && mr.camposRequeridos['formRelaciones_PorcentajeParticipacion'].Requerido === 'S'"
+						k-ng-model="mr.Relacion.PorcentajeParticipacion"
+						decimales="2"
+						k-ng-disabled="mr.TipoRelacionObj.IdTipoRelacion === 'AGYRLE' || mr.TipoRelacionObj.IdTipoRelacion === 'PERDEC'"
+						k-options="mr.conf.RelacionOpt"
+				></bcs-input-porcentaje>
+			</div>
+
+			<div class="row" ng-show="mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N'">
+				<label class="col-xs-4" translate>UI_FECHA_INICIO</label>
+				<bcs-input-date
+						id="formRelacion_fechaInicio"
+						class="col-xs-8"
+						k-ng-model="mr.Relacion.FechaInicioRelacion"
+						bcs-requerido="(mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N') && mr.camposRequeridos['formRelaciones_FechaInicio'].Requerido === 'S'"
+				></bcs-input-date>
+			</div>
+
+			<div ng-show="mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N'">
+
+				<div class="row" ng-show="mr.Relacion.FechaInicioRelacion && mr.Relacion.FechaFinRelacion && mr.Relacion.FechaInicioRelacion.getTime() > mr.Relacion.FechaFinRelacion.getTime()">
+					<label class="col-xs-12" style="color: red" translate>UI_FECHA_INICIO_MENOR</label>
+				</div>
+
+				<div class="row">
+					<label class="col-xs-4" translate>UI_FECHA_TERMINO</label>
+					<bcs-input-date
+							id="formRelacion_fechaTermino"
+							class="col-xs-8"
+							k-ng-model="mr.Relacion.FechaFinRelacion"
+							bcs-requerido="(mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N') && mr.camposRequeridos['formRelaciones_FechaFin'].Requerido === 'S'"
+					></bcs-input-date>
+				</div>
+			</div>
+
+			<div class="row" ng-show="(mr.TipoRelacionObj.RetiraDocumentos==='S')">
+				<label class="col-xs-4" translate>UI_RETIRA_DOCUMENTOS2</label>
+				<bcs-input-checkbox
+						id="formRelacion_retiraDocumentos2" class="col-xs-8"
+						ng-model="mr.Relacion.RetiraDocumentos" ng-disabled="false"
+				></bcs-input-checkbox>
+			</div>
+
+			<div class="row" ng-show="(mr.TipoRelacionObj.UsaFinalidadRelacion==='S')">
+				<label class="col-xs-4" translate>UI_FINALIDAD_RELACION</label>
+				<bcs-input-texto
+						id="formRelacion_finalidadRelacion"
+						class="col-xs-8"
+						bcs-requerido="mr.TipoRelacionObj.UsaFinalidadRelacion==='S' && mr.camposRequeridos['formRelaciones_FinalidadRelacion'].Requerido === 'S'"
+						k-ng-disabled="false" ng-model="mr.Relacion.FinalidadRelacion"
+				></bcs-input-texto>
+			</div>
+			<div class="row" ng-show="(mr.TipoRelacionObj.UsaCondicionesRelacion==='S')">
+				<label class="col-xs-4" translate>UI_CONDICIONES_RELACION</label>
+				<bcs-input-texto
+						id="formRelacion_condicionesRelacion"
+						class="col-xs-8"
+						bcs-requerido="mr.TipoRelacionObj.UsaCondicionesRelacion==='S' && mr.camposRequeridos['formRelaciones_CondicionesRelacion'].Requerido === 'S'"
+						k-ng-disabled="false"
+						ng-model="mr.Relacion.CondicionesRelacion"
+				></bcs-input-texto>
+			</div>
+			<div class="row"
+				ng-show="(mr.TipoRelacionObj.UsaGradoVinculacionParental==='S')">
+				<label class="col-xs-4" translate>UI_GRADO_VINCULACION_PARENTAL</label>
+				<bcs-combobox-base
+						id="formRelacion_gradoVinculacionParental"
+						class="col-xs-8"
+						tipo="'combobox-grado-vinculacion-parental'"
+						id-actual="mr.Relacion.IdGradoVinculacionParental"
+						id-defecto="mr.RelacionOriginal.IdGradoVinculacionParental"
+						todos="'N'"
+						bcs-requerido="mr.TipoRelacionObj.UsaGradoVinculacionParental==='S' && mr.camposRequeridos['formRelaciones_IdGradoVinculacionParental'].Requerido === 'S'"
+						seleccionado="mr.GradoVinculacionParentalObj"
+				></bcs-combobox-base>
+			</div>
+			
+			<div class="row">				
+				<label class="col-xs-4" translate>UI_CIUDAD</label>
+					<bcs-combobox-base 
+						id="formRelacion_ciudad2"
+						class="col-xs-8" 
+						auto-cargar="true"
+						tipo="'combobox-ciudad'"
+						cache="true"						
+						bcs-requerido = "'false'"						
+						filtros = "mr.configData.filtroCiudad"						
+						id-actual = "mr.Relacion.IdCiudad"
+						id-defecto = "mr.Relacion.IdCiudad"
+						seleccionado="mr.ciudadSeleccionado">
+					</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CALLE</label>
+				<bcs-input-texto
+						id="formRelacion_calle" class="col-xs-8"
+						ng-model="mr.Relacion.Calle"
+						maxlength="50"
+						bcs-requerido="mr.camposRequeridos['formRelaciones_calle'].Requerido === 'S'"
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_NUMERO</label>
+				<bcs-input-texto
+						id="formRelacion_numero"
+						class="col-xs-8"
+						ng-model="mr.Relacion.Numero"
+						maxlength="10"
+						bcs-requerido="mr.camposRequeridos['formRelaciones_NumeroDireccion'].Requerido === 'S'"
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_NUMERO_TELEFONO</label>
+				<bcs-input-texto
+						id="formRelacion_numeroTelefono"
+						class="col-xs-8"
+						ng-model="mr.Relacion.Telefono"
+						maxlength="20"
+						bcs-requerido="mr.camposRequeridos['formRelaciones_numeroTelefono'].Requerido === 'S'"
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_DIRECCION_ELECTRONICA</label>
+				<bcs-input-texto
+						id="formRelacion_direccionElectronica"
+						class="col-xs-8"
+						ng-model="mr.Relacion.Email"
+						ng-blur="mr.validaEmail()"
+						maxlength="50"
+						bcs-requerido="mr.camposRequeridos['formRelaciones_Email'].Requerido === 'S' || (mr.TipoRelacionObj.IdTipoRelacion === 'REP' || mr.TipoRelacionObj.IdTipoRelacion  === 'APOFIR')"
+				></bcs-input-texto>
+				<span style="color:red; float: right;" ng-show="!mr.emailValido" translate>UI_FORMATO_EMAIL_INCORRECTO</span>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_RELACION_COMPLEMENTO</label>
+				<bcs-input-texto
+						id="formRelacion_relacionComplemento"
+						class="col-xs-8"
+						ng-model="mr.Relacion.Complemento"
+						maxlength="50"
+						bcs-requerido="mr.camposRequeridos['formRelaciones_Complemento'].Requerido === 'S'"
+				></bcs-input-texto>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="ModalRelacion_aceptar" class="col-xs-2 pull-right"
+			bcs-tipo="'bcs-button-primary'" bcs-habilitado="mr.validarFormulario()"
+			bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate"
+			bcs-clic="mr.aceptar()"> </bcs-button>
+		<bcs-button id="ModalRelacion_cancelar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+			bcs-habilitado="'true'" bcs-auto-desactivar="false"
+			bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mr.cancelar()">
+		</bcs-button>
+	</div>
+</div>

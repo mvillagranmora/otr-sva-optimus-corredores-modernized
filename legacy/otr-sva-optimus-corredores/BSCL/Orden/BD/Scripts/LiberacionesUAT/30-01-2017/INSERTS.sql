@@ -1,0 +1,6 @@
+SET SCHEMA "BSCL";
+
+INSERT INTO "BSCL.Plataforma.BD::PLA.Estado"("IdEstado","Nombre")
+SELECT 'NAU','NO AUTORIZADA' FROM DUMMY;
+
+COMMIT;

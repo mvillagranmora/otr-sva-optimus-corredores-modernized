@@ -1,0 +1,1 @@
+SELECT count(1) AS "CampoAutorizado" FROM "BSCL.Normativa.BD::DOC.Campo" WHERE "Esquema"=:V_esquema AND "Version"=:VSeil AND "Orden"=38

@@ -1,0 +1,20 @@
+INSERT INTO "BSCL.Plataforma.BD::COM.DetalleContratoComision" (
+"IdDetalleContratoComision"
+,"IdContratoComision"
+,"IdCobroClasificacion"
+,"IdCobro"
+,"EsPorRangos"
+,"IdConcepto"
+,"MontoMinimo"
+,"MontoMaximo"
+)
+VALUES(
+:IdDetalleContratoComision
+,:IdContratoComision
+,:IdCobroClasificacion
+,:IdCobro
+,:EsPorRangos
+,:IdConcepto
+,:MontoMinimo
+,:MontoMaximo
+);

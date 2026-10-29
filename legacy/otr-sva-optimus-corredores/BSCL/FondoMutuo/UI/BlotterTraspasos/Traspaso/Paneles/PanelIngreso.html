@@ -1,0 +1,446 @@
+<div id="PanelIngreso" class="row" ng-controller="PanelIngresoCtrl as pc2">
+<form class="col-xs-12 form-horizontal" name="formTraspasoIngreso">
+<!-- cabecera -->
+<div class="row" ng-if ="pc2.Modo !== 'DETALLE'">
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" style="width: 11%;" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<bcs-combobox-base class="col-xs-6" id="formTraspasoIngreso_cliente"
+					auto-cargar="'true'"
+					muestra-enlace 	 = "'N'"
+					ng-style="{'width' : pc2.cmbbx.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && pc2.cmbbx.oClientePortafolio.seleccionado  ? '78%' : '83.6%'}"
+					carga-cliente-automatico="'S'"
+					bcs-requerido
+					id-actual="pc2.cmbbx.oClientePortafolio.idActual"
+					id-defecto="pc2.cmbbx.oClientePortafolio.idDefecto"
+					tipo="pc2.cmbbx.oClientePortafolio.tipo"
+					seleccionado="pc2.cmbbx.oClientePortafolio.seleccionado"
+					filtros="pc2.cmbbx.oClientePortafolio.filtros"
+					configuracion="pc2.cmbbx.oClientePortafolio.configuracion">
+				</bcs-combobox-base>	
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-6">
+				<span ><label class="col-xs-6 titulo" translate>UI_DETALLE_DEL_TRASPASO&nbsp;</label></span>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" >
+				<label class="col-xs-4" translate>UI_ADMINISTRADORA_ORIGEN</label>
+				<bcs-combobox-base class="col-xs-6"
+							tipo = "'combobox-entidad-recaudadora'"
+							id-actual = "pc2.cmbbx.IdEntidadOrigen"
+							filtros="pc2.cmbbx.EntidadOrigen.filtros"
+							auto-cargar="true"
+							item-post-filtro="'1'"
+							id-defecto="pc2.params.PrevDocumento.IdEntidadOrigen"
+							todos="'N'"
+							seleccionado="pc2.cmbbx.EntidadOrigenObj">
+			 	</bcs-combobox-base >		
+			</div>
+			<div class="col-xs-4" >
+				<label class="col-xs-4" translate>UI_DOCUMENTO_IDENTIDAD_ORIGEN</label> 
+		  		<bcs-input-texto class="col-xs-6"
+				 		ng-model="pc2.cmbbx.EntidadOrigenObj.DocumentoIdentidad"
+				 		k-ng-disabled="'true'">
+				 </bcs-input-texto>
+			</div>
+			<div class="col-xs-4" >
+				<label class="col-xs-4"  translate>UI_INSTRUMENTO</label>
+				<bcs-combobox-buscador-fondos
+					k-ng-disabled="pc2.Modo === 'DETALLE'"
+					class				= "col-xs-6"
+					muestra-valor-cuota	= "'N'"
+					datos-fondo			= "pc2.FondoMutuo"
+					buscar-fondo		= "pc2.setFondo"
+					id-ventana			= "pc2.idVentana"
+					muestra-detalle		= "'N'"
+					filtros				= "pc2.formData.FiltrosBusquedaFondo"
+					filtros-combobox	= "pc2.formData.FiltrosComboFondo"
+					nemotecnico			= "pc2.nemotecnico"
+					id-defecto			= "pc2.IdSerieFondoDefecto">
+				</bcs-combobox-buscador-fondos>
+		
+			</div>
+		</div>	
+		
+		<div class="row">
+		<div class="col-xs-4" >	
+				<label class="col-xs-4" translate>UI_MONTO_TOTAL</label> 
+		  		<bcs-input-monetario class="col-xs-6"
+		  			k-ng-model="pc2.MontoTotalTraspaso"
+		  			decimales = "pc2.CantidadDecimalesMontoTraspaso"
+		  			bcs-requerido
+					simbolo="pc2.IdMonedaFondo">
+		  		</bcs-input-monetario>
+			</div>
+		
+		<div class="col-xs-4">
+		<label class="col-xs-4" translate>UI_MOTIVO_TRASPASO</label>
+				<bcs-combobox-base class="col-xs-6"
+							id="formTraspasoIngreso_cliente"
+							tipo = "'combobox-motivo-traspaso-ffmm'"
+							bcs-requerido
+							id-actual = "pc2.cmbbx.IdMotivo"
+							filtros="pc2.cmbbx.Motivo.filtros"
+							auto-cargar="true"
+							item-post-filtro="'1'"
+							id-defecto="pc2.params.PrevDocumento.IdMotivo"
+							todos="'N'"
+							seleccionado="pc2.cmbbx.IdMotivoObj">
+			 	</bcs-combobox-base >	
+			</div>
+		
+			<div class="col-xs-4" >	
+				<label class="col-xs-4" translate>UI_TIPO_TRASPASO</label>
+				<bcs-combobox-base class="col-xs-6"
+							tipo = "'combobox-tipo-traspaso-ffmm'"
+							id-actual = "pc2.cmbbx.IdTipoTraspaso"
+							filtros="pc2.cmbbx.TipoTraspaso.filtros"
+							auto-cargar="true"
+							item-post-filtro="'1'"
+							id-defecto="pc2.params.PrevDocumento.IdTipoTraspaso"
+							todos="'N'"
+							seleccionado="pc2.cmbbx.IdTipoTraspasoObj">
+			 	</bcs-combobox-base >		
+			</div>
+	
+		</div>
+		
+		<div class="row">	
+		
+				<div class="col-xs-4" >	
+					<label class="col-xs-4" translate>UI_REGIMEN</label>
+						<bcs-combobox-base
+							class="col-xs-6"
+							activado="'false'"
+							tipo="'combobox-regimen-serie-fondo'"
+				  			id-actual="pc2.cmbbx.IdRegimenFondoMutuo"
+				  			seleccionado="pc2.cmbbx.IdRegimenFondoMutuoObj"
+				  			item-post-filtro="'1'"
+				  			filtros="pc2.cmbbx.filtrosRegimen"
+				  			bcs-requerido
+				  			todos="'N'">
+				  			 
+						</bcs-combobox-base>
+				</div>
+		
+				<div class="col-xs-4" >
+					<label class="col-xs-4" translate>UI_EJECUTIVO</label>
+					<bcs-combobox-base class="col-xs-6"
+						tipo="'combobox-ejecutivo'" 
+						filtros="pc2.cmbbx.filtrosEjecutivo" 
+						id-actual="pc2.cmbbx.IdEmpleadoEjecutivo"
+						id-defecto="pc2.cmbbx.IdEmpleadoEjecutivoDefecto" 
+						seleccionado="pc2.cmbbx.IdEmpleadoEjecutivoObj" 
+						activado="'true'"
+						bcs-requerido>
+					</bcs-combobox-base>
+				</div>
+			
+				<div class="col-xs-4" >
+					<label class="col-xs-4" translate>UI_FOLIO_MLT</label> 
+			  		<bcs-input-numero class="col-xs-6"
+					 		ng-model="pc2.FolioMLT"
+					 		k-ng-disabled="pc2.Modo === 'DETALLE'"
+					 		bcs-requerido = "!pc2.FolioMLT"
+					 		decimales="'0'">
+					 </bcs-input-numero>
+					
+				</div>
+
+		</div>				  		
+					  		
+		<div class="row">	
+
+			<div class="col-xs-4" >
+					<label class="col-xs-4" translate>UI_FOLIO_CSC</label> 
+			  		<bcs-input-numero class="col-xs-6"
+					 		ng-model="pc2.FolioCSC"
+					 		k-ng-disabled="pc2.Modo === 'DETALLE'"
+					 		bcs-requerido="!pc2.FolioCSC"
+					 		decimales="'0'">
+					 </bcs-input-numero>
+					
+			</div>			
+		</div>
+</div>
+
+<!-- detalle -->
+<div class="row" ng-if ="pc2.Modo === 'DETALLE'">
+	<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" style="width: 11%;" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<!-- 
+				<bcs-combobox-base class="col-xs-6" id="formTraspasoIngreso_cliente" ng-if ="pc2.EditarCabecera !== 'S'"
+					auto-cargar="'true'"
+					activado ="'false'"
+					muestra-enlace 	 = "'N'"
+					carga-cliente-automatico="'S'"
+					bcs-requerido
+					id-actual="pc2.cmbbx.IdPortafolio"
+					tipo="pc2.cmbbx.oClientePortafolio.tipo"
+					seleccionado="pc2.cmbbx.oClientePortafolio.seleccionado"
+					filtros="filtrosPortafolio"
+					configuracion="pc2.cmbbx.oClientePortafolio.configuracion">
+				</bcs-combobox-base>
+				 -->
+				<bcs-input-texto class="col-xs-10" style="width: 89%;" ng-show ="pc2.EditarCabecera !== 'S'"
+				 		ng-model="pc2.NombrePortafolio"
+				 		k-ng-disabled="'true'">
+				 </bcs-input-texto>	
+				
+				
+				<bcs-combobox-base class="col-xs-10" id="formTraspasoIngreso_cliente" ng-show ="pc2.EditarCabecera === 'S'"
+					auto-cargar="'true'"
+					ng-style="{'width' : pc2.cmbbx.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && pc2.cmbbx.oClientePortafolio.seleccionado  ? '78%' : '83.6%'}"
+					muestra-enlace 	 = "'N'"
+					carga-cliente-automatico="'S'"
+					bcs-requerido
+					id-actual="pc2.cmbbx.oClientePortafolio.idActual"
+					id-defecto="pc2.cmbbx.oClientePortafolio.idDefecto"
+					tipo="pc2.cmbbx.oClientePortafolio.tipo"
+					seleccionado="pc2.cmbbx.oClientePortafolio.seleccionado"
+					filtros="pc2.cmbbx.oClientePortafolio.filtros"
+					configuracion="pc2.cmbbx.oClientePortafolio.configuracion">
+				</bcs-combobox-base>
+				
+				
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-6">
+				<span ><label class="col-xs-6 titulo" translate>UI_DETALLE_DEL_TRASPASO&nbsp;</label></span>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" >
+				<label class="col-xs-4" translate>UI_ADMINISTRADORA_ORIGEN</label>
+				<bcs-combobox-base class="col-xs-6"
+							tipo = "'combobox-entidad-recaudadora'"
+							id-actual = "pc2.cmbbx.IdEntidadOrigen"
+							filtros="pc2.cmbbx.EntidadOrigen.filtros"
+							auto-cargar="true"
+							item-post-filtro="'1'"
+							id-defecto="pc2.params.PrevDocumento.IdEntidadOrigen"
+							todos="'N'"
+							seleccionado="pc2.cmbbx.EntidadOrigenObj">
+			 	</bcs-combobox-base >	
+			</div>
+			<div class="col-xs-4" >
+				<label class="col-xs-4" translate>UI_DOCUMENTO_IDENTIDAD_ORIGEN</label> 
+		  		<bcs-input-texto class="col-xs-6"
+				 		ng-model="pc2.cmbbx.DocumentoIdentidadEmisor"
+				 		k-ng-disabled="'true'">
+				 </bcs-input-texto>
+			</div>
+			<div class="col-xs-4" >
+				<label class="col-xs-4"  translate>UI_INSTRUMENTO</label>
+				 <bcs-input-texto class="col-xs-6"
+				 		ng-model="pc2.IdSerieFondoDefecto"
+				 		k-ng-disabled="'true'">
+				 </bcs-input-texto>
+		
+			</div>
+		</div>	
+		
+		<div class="row">
+		<div class="col-xs-4" >	
+				<label class="col-xs-4" translate>UI_MONTO_TOTAL</label>
+				 
+		  		<bcs-input-monetario class="col-xs-6" ng-if ="pc2.EditarCabecera !== 'S'"
+		  			k-ng-model="pc2.MontoTotalTraspaso"
+		  			decimales = "pc2.CantidadDecimalesMontoTraspaso"
+		  			bcs-requerido
+		  			k-ng-disabled="'true'"
+					simbolo="pc2.IdMonedaFondo">
+		  		</bcs-input-monetario>
+		  		<bcs-input-monetario class="col-xs-6" ng-if ="pc2.EditarCabecera === 'S'"
+		  			k-ng-model="pc2.MontoTotalTraspaso"
+		  			decimales = "pc2.CantidadDecimalesMontoTraspaso"
+		  			bcs-requerido
+					simbolo="pc2.IdMonedaFondo">
+		  		</bcs-input-monetario>
+		  		
+			</div>
+		
+		<div class="col-xs-4">
+			<label class="col-xs-4" translate>UI_MOTIVO_TRASPASO</label>
+				 <bcs-input-texto class="col-xs-6"
+				 		ng-model="pc2.MotivoTraspaso"
+				 		k-ng-disabled="'true'">
+				 </bcs-input-texto>
+			</div>
+		
+			<div class="col-xs-4" >	
+				<label class="col-xs-4" translate>UI_TIPO_TRASPASO</label>
+				 <bcs-input-texto class="col-xs-6"
+				 		ng-model="pc2.TipoTraspaso"
+				 		k-ng-disabled="'true'">
+				 </bcs-input-texto>
+			</div>
+	
+		</div>
+		
+		<div class="row">	
+		
+				<div class="col-xs-4" >	
+					<label class="col-xs-4" translate>UI_REGIMEN</label>
+					<bcs-input-texto class="col-xs-6"
+				 		ng-model="pc2.Regimen"
+				 		k-ng-disabled="'true'">
+				   </bcs-input-texto>
+				</div>
+		
+				<div class="col-xs-4" >
+					<label class="col-xs-4" translate>UI_EJECUTIVO</label>
+					<bcs-input-texto class="col-xs-6"
+				 		ng-model="pc2.NombreCompletoEjecutivo"
+				 		k-ng-disabled="'true'">
+				   </bcs-input-texto>
+
+				</div>
+			
+				<div class="col-xs-4" >
+					<label class="col-xs-4" translate>UI_FOLIO_MLT</label> 
+			  		<bcs-input-numero class="col-xs-6"
+					 		ng-model="pc2.FolioMLT"
+					 		k-ng-disabled="'true'"
+					 		decimales="'0'">
+					 </bcs-input-numero>
+					
+				</div>
+
+		</div>				  		
+					  		
+		<div class="row">	
+
+			<div class="col-xs-4" >
+					<label class="col-xs-4" translate>UI_FOLIO_CSC</label> 
+			  		<bcs-input-numero class="col-xs-6"
+					 		ng-model="pc2.FolioCSC"
+					 		k-ng-disabled="'true'"
+					 		decimales="'0'">
+					 </bcs-input-numero>
+					
+			</div>			
+		</div>
+</div>
+
+<!-- Detalle Traspaso -->
+
+	<br>
+	  <div ng-show="pc2.Modo === 'DETALLE'">	
+    	<div class="row">
+			<uib-tabset class="col-xs-12">
+				<uib-tab heading="{{ 'UI_INVERSION_TRASPASO_INGRESO' | translate}}" select="select('gridDestino')">
+				<br>
+			     	<div class="row">
+					     	
+								<div class="col-xs-4" >
+									<label class="col-xs-4"  translate>UI_INSTRUMENTO_DESTINO</label>
+									<bcs-combobox-buscador-fondos
+										class				= "col-xs-6"
+										muestra-valor-cuota	= "'N'"
+										datos-fondo			= "pc2.FondoMutuoDestino"
+										buscar-fondo		= "pc2.setFondoDestino"
+										id-ventana			= "pc2.idVentana"
+										muestra-detalle		= "'N'"
+										filtros				= "pc2.formData.FiltrosBusquedaFondoDestino"
+										filtros-combobox	= "pc2.formData.FiltrosComboFondoDestino"
+										nemotecnico			= "pc2.nemotecnicoDestino"
+										id-defecto			= "pc2.IdSerieFondoDestinoDefecto">
+									</bcs-combobox-buscador-fondos>
+								</div>
+								<div class="col-xs-4" >
+									<label class="col-xs-4"  translate>UI_REGIMEN_DESTINO</label>
+									<bcs-combobox-base
+										class="col-xs-6"
+										tipo="'combobox-regimen-serie-fondo'"
+							  			id-actual="pc2.cmbbx.IdRegimenFondoMutuoDestino"
+							  			seleccionado="pc2.cmbbx.IdRegimenFondoMutuoDestinoObj"
+							  			item-post-filtro="'1'"
+							  			filtros="pc2.cmbbx.filtrosRegimenDestino"
+							  			todos="'N'">
+									</bcs-combobox-base>
+								</div>
+								<div class=col-xs-4>
+									<bcs-button id="Traspaso_Ingreso_quitar" class="col-xs-4 pull-right"
+								  		bcs-tipo="'bcs-button-input-form'"
+								    	bcs-auto-desactivar="false"
+								    	bcs-texto="'UI_QUITAR' | translate"
+								     	bcs-habilitado="pc2.Solicitudes.seleccion"
+								     	bcs-clic="pc2.quitar()">
+								    </bcs-button>
+									<bcs-button id="Traspaso_Ingreso_agregar" class="col-xs-4 pull-right"
+									    bcs-tipo="'bcs-button-input-form'"
+								    	bcs-auto-desactivar="false"
+								    	bcs-texto="'UI_AGREGAR' | translate"
+								     	bcs-habilitado="pc2.cmbbx.IdRegimenFondoMutuoDestino ==='18Q'"
+								     	bcs-clic="pc2.agregar()">
+								    </bcs-button>
+							    </div>
+					</div>
+					<div class="row" ng-if ="pc2.moneyMarket">
+						<div class="col-xs-5">
+								<label class="col-xs-4" translate>UI_MONEY_MARKET</label>
+								 <bcs-input-texto class="col-xs-4"
+								 		ng-model="pc2.FondoMoneyMarket"
+								 		k-ng-disabled="'true'">
+								 </bcs-input-texto>
+								  <bcs-input-porcentaje class="col-xs-2"
+								 		ng-model="pc2.PorcentajeMoneyMarket"
+								 		decimales = "0"
+								 		k-ng-disabled="'true'">
+								 </bcs-input-porcentaje>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12" >
+							<bcs-grid 
+								id="grid-destino-ffm"
+							 	configuracion="pc2.Solicitudes"
+								api = "pc2.apiGridDestinoFondosMutuos"
+								seleccionado="pc2.Solicitudes.seleccion"
+								fn-exportar-excel = "exportarExcel">		
+							</bcs-grid>
+						</div>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+			
+		</div>
+</div>					
+<!-- Fin Detalle Traspaso -->		
+		
+</form>		
+	<div class="row bcs-panel-comandos">
+					
+		<div class="col-xs-12" style="top: 10px">
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR' | translate"
+				bcs-habilitado="'true'" 
+			    bcs-clic="pc2.ingresar()"
+			    ng-show="pc2.modoPantalla=='INGRESO'">
+			 </bcs-button>
+			
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_GUARDAR' | translate"
+				bcs-habilitado="'true'" 
+			    bcs-clic="pc2.ingresar()"
+			    ng-show="pc2.modoPantalla=='EDICION'">
+			 </bcs-button>
+
+		</div>
+	
+	</div>
+	
+</div>

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::INS.RegistroPrecioBolsaInstrumento" where "FechaSistema" <= ADD_DAYS(CURRENT_DATE,-90);

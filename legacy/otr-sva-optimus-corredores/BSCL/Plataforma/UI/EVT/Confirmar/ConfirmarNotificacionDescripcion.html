@@ -1,0 +1,115 @@
+	    
+	          <script type="text/javascript">
+	          angular.module('confirmar', ['ui.bootstrap', 'ui.router','ngResource' ,'kendo.directives']);
+	          angular.module('confirmar').run(function($rootScope) {		
+	          		    $rootScope.safeApply = function(fn) {
+	          		        var phase = $rootScope.$$phase;
+	          		        if (phase === '$apply' || phase === '$digest') {
+	          		            if (fn && (typeof(fn) === 'function')) {
+	          		                fn();
+	          		            }
+	          		        } else {
+	          		            this.$apply(fn);
+	          		        }
+	          		    };		
+	          		});
+
+	          angular.module('confirmar').controller('ConfirmarDescripcionCtrl',function($scope,$window,bcsServicioConfirmarDescripcion,$timeout){			
+	          		
+	          			$scope.alerts = [ ];
+	          			$scope.data = {};
+	          			$scope.Confirmar = {value1 : false};
+	          			$scope.Rechazar = {value1 : false};
+	          		  	$scope.CerrarAlerta = function(index) {
+	          		    	$scope.alerts.splice(index, 1);
+	          		  	};
+	          		  	var token;
+	          		  	$scope.ValidarRechazaNotificacion = function()
+	          			{
+	          				
+	          				if(datos.p_Comentario==undefined){
+	          					$scope.alerts.push({msg: 'Observación no puede ser vacío'});
+	          					return;
+	          				}else{
+	          				
+	          				var url = "http://localhost:8086/ValidateNotifications/rest/api/val/doPost";
+	          			    var data = {
+	          			  	      rut: angular.element('#p_rut').val(),
+	          			  	      token: angular.element('#p_token').val(),
+	          			  	      comentario : $scope.p_comentarios,
+	          			  	      accion : 2
+	          			  	      
+	          			  	    };   
+	          			  		$http({ 
+	          			  	        method: 'POST',
+	          			  	        url: url,
+	          			  	        headers: {
+	          			  	        	'Content-Type': 'application/x-www-form-urlencoded',
+	          			  	        	'X-SESSION-TOKEN': 'MTplZXNwaW5vemE6NTc4ODJEM0VGRDFFMEYxQkUxMDAwMDAwN0YwMDAwMDI='
+	          			  	        		},
+	          			  	        params: data
+	          			  	    }).success(function (data) {        
+	          			  		    	console.log(data);   
+	          			  	    }).error(function (err){
+	          			  	    });	
+	          				}
+	          				 
+	          				
+	          				
+	           			 
+	          			};		
+	          			
+	          			$scope.ValidarConfirmaNotificacion = function()
+	          			{
+	          				var datos = {};
+	          				datos.p_Token = get('token');
+	          				datos.p_Comentario = $scope.p_comentarios;
+	          				datos.p_Accion = 1;
+	          				
+	          			
+	          				if(datos.p_Comentario==undefined){
+	          					$scope.alerts.push({msg: 'Observación no puede ser vacío'});
+	          					return;
+	          				}
+	          				
+	          				
+	           				bcsServicioConfirmarDescripcion.ConfirmarNotificacion(datos,
+	          					function(respuesta){
+	          						console.log(respuesta);
+	          						if (respuesta.P_SALIDA==-1) {
+	          							//Existen Problemas
+	           								$scope.alerts.push({ msg: respuesta.P_MENSAJESALIDA });	
+	           						}
+	          						else {
+	          							
+	          							console.log($window.location.host);
+	          							console.log(respuesta.P_SALIDA);
+	          							$scope.alerts.push({msg: 'Notificacion confirmada'});
+	          							$timeout(function(){
+	          								  $window.location.href = "http://"+window.location.host+"/BSCL/Plataforma/UI/EVT/Confirmar/EventoNoDisponible.html"
+
+	          									
+	          								},2000);
+	          							
+	          							/*
+	          							//Tenemos el TOKEN!!
+	          							sessionStorage.setItem('Token', respuesta.P_OUT_TOKEN);
+	          							localStorage.setItem(datos.p_IdEmpresa+'_home',"go");					
+	          							//REdirect
+	          							var debug='';
+	          							if ($window.location.href.indexOf("debug=true")!==-1) debug='?debug=true';
+	          							$('#FLOGIN').attr('action', 'index.xsjs'+debug);
+	          							$('input[name="X-SESSION-TOKEN"]').val(respuesta.P_OUT_TOKEN);
+	          							$('#FLOGIN').submit();
+	          							*/
+	          						}
+	          					},
+	          					function(respuesta){
+	          						 //Error
+	          						 $scope.alerts.push({msg: 'Error Interno N°'+respuesta.data.CODIGO});	
+	          					});
+	          			};			
+	          			//Cierra el progreso de la ventana
+	          		
+	          		});		
+	          </script> 

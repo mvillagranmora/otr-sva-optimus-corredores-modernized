@@ -1,0 +1,49 @@
+INSERT INTO "BSCL.FondoMutuo.BD::TRA.Traspaso"(
+	 "IdTraspaso"
+    ,"IdEmpresa"
+    ,"IdModulo"
+	,"IdUsuario"
+    ,"IdCliente"
+    ,"IdPortafolio"
+ 	,"IdEmisor"
+	,"IdMotivoTraspaso"
+	,"IdTipoMovimientoTraspaso"
+    ,"IdTipoTraspaso" 
+    ,"Glosa"  
+    ,"FechaHoraSuscripcion"
+    ,"IdDivisionPais"
+    ,"FolioTraspaso"
+    ,"IdEstado"
+    ,"Monto"
+    ,"FechaIngreso"
+    ,"FechaIngresoRegistro"
+    ,"FolioMLT"
+    ,"FolioCSC"
+    ,"IdEmpleadoEjecutivo"
+    ,"IdEntidadRecaudadora"
+    
+)
+VALUES(
+	 :IdTraspaso
+	,:IdEmpresa
+	,:IdModulo
+	,:IdUsuario
+	,:IdCliente
+	,:IdPortafolio
+	,:IdEmisor
+	,:IdMotivoTraspaso
+	,:IdTipoMovimientoTraspaso
+	,:IdTipoTraspaso
+	,:Glosa
+	,:FechaHoraSuscripcion
+	,:IdDivisionPais
+	,:FolioTraspaso
+	,:IdEstado
+	,:Monto
+	,:FechaIngreso
+	,CURRENT_UTCTIMESTAMP
+	,:FolioMLT
+	,:FolioCSC
+	,:IdEmpleadoEjecutivo
+	,:IdEntidadRecaudadora
+);  

@@ -1,0 +1,138 @@
+<div class="row" ng-controller='ConsultarCuadraturaCircular1518Ctrl'>
+	<form name="frmCarteras">
+		<div class="col-xs-10">
+			<div class="row">
+				  <div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					  <bcs-combobox-base
+						  class				="col-xs-8"
+						  tipo				="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+						  ng-model			="clasificacionTipoInstrumento"
+						  seleccionado		="filtro.clasificacionTipoInstrumentoObj" 
+						  filtros				="data.oConfiguracionClasificacionTipoInstrumento.filtros" 
+						  todos				="'S'"
+						  item-post-filtro	="'1'" 
+						  cascada-a			="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						  cascada-valor		="'IdClasificacionTipoInstrumento'">
+					  </bcs-combobox-base>
+				  </div>
+				  <div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO_ABR</label>
+					  <bcs-combobox-base
+						   class				="col-xs-8"
+						   tipo				="data.oConfiguracionTipoInstrumento.tipo"
+						   filtros			="data.oConfiguracionTipoInstrumento.filtros"
+						   ng-model			="tipoInstrumento"
+						   seleccionado		="filtro.tipoInstrumento"
+						   todos				="'S'"
+						   item-post-filtro	="'1'" 
+						   >
+					  </bcs-combobox-base>				  			  	  
+				  </div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_FECHA_CONSULTA</label>
+					<bcs-input-date 
+						class		="col-xs-8" 
+						ng-model	="filtro.fecIniciong" 
+						k-ng-model	="filtro.fecInicio">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+					 <bcs-input-instrumentos 
+							 class				="col-xs-8" 
+							 datos-instrumento	="filtro.instrumentoObjeto"
+							 buscar-instrumento	="filtro.buscarinstrumento"
+							 filtro-estado 		="'ACT'" >
+					 </bcs-input-instrumentos>				  				  			  	  
+			  </div>
+			</div>
+		</div>	
+			
+	</form>
+		<div class="col-xs-2">
+			<bcs-button 
+				class				="row col-xs-12" 
+				bcs-tipo			="'bcs-button-primary'"  
+				bcs-auto-desactivar	="false" 
+				bcs-texto			="'UI_BUSCAR' | translate" 
+				bcs-habilitado		="true"  
+				bcs-clic			="buscarCustodia()">
+			</bcs-button>
+			<bcs-button 
+				class				="row col-xs-12" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-auto-desactivar	="false" 
+				bcs-texto			="'UI_LIMPIAR' | translate" 
+				bcs-habilitado		="true" 
+				bcs-clic			="limpiarFiltros()">
+			</bcs-button>
+		  </div>
+			<div class="col-xs-12">
+				<div class="row" >
+					<bcs-grid 
+						id					="grid-cuadratura-circular1518"
+						 configuracion		="confBasicaCuadraturaCircular"
+						seleccionado		="seleccionCuadraturaCircular1518">
+					</bcs-grid>
+					<div class= "row">
+						<div class="col-xs-12 bcs-panel-comandos">
+							<bcs-menu class="col-xs-2"  bcs-habilitado="'true'" bcs-texto="'Cargar Cuadraturas'" bcs-tipo="'bcs-button-primary'"> 
+								<li id="ConsultarComprobantesTesoreria_btn_girar" ng-click="CargarCuadraturaCircular1518()">{{'UI_CARGAR_CUADRATURA_CIRCULAR1518' | translate}}</li>
+								<li id="ConsultarComprobantesTesoreria_btn_girar" ng-click="cargarArchivoOptimus()">{{'UI_CARGAR_CUADRATURA_CIRCULAR1518_ARCHIVO' | translate}}</li>
+							</bcs-menu>	
+								<bcs-button
+									id="BlotterCuadraturaCustodia_CargarCuadraturaCircular1518L02"  
+									class="col-xs-2" 
+									bcs-tipo="'bcs-button-secondary'"  
+									bcs-auto-desactivar="false"  
+									bcs-texto="'UI_ARCHIVO_L002_DCV' | translate"       
+									bcs-habilitado="true"   
+									bcs-clic="cargarArchivoL02()">
+								</bcs-button>
+								<bcs-button
+									id=""  
+									class="col-xs-2" 
+									bcs-tipo="'bcs-button-secondary'"  
+									bcs-auto-desactivar="false"  
+									bcs-texto="'UI_ARCHIVO_L043_DCV' | translate"       
+									bcs-habilitado="true"   
+									bcs-clic="cargarArchivoL043()">
+								</bcs-button>
+								<bcs-button
+									id="BlotterCuadraturaCustodia_CargarCuadraturaCircular1518Otros"  
+									class="col-xs-2" 
+									bcs-tipo="'bcs-button-secondary'"  
+									bcs-auto-desactivar="false"  
+									bcs-texto="'UI_ARCHIVO_OTROS_SALDOS' | translate"       
+									bcs-habilitado="true"   
+									bcs-clic="cargarArchivoOtros()">
+								</bcs-button>
+								<bcs-button
+									id="BlotterCuadraturaCustodia_CierreCuadraturaCircular1518"
+									class="col-xs-3"
+									style="width: 20%"
+									bcs-tipo="'bcs-button-secondary'"
+									bcs-auto-desactivar="false"
+									bcs-texto="'UI_CIERRE_CUADRATURA_CUSTODIA' | translate"
+									bcs-habilitado="true"
+									bcs-clic="CierreCuadraturaCircular1518()">
+								</bcs-button>
+								<!-- Boton para SVARESGIN-7050  -->
+								<bcs-button
+									id="BlotterCuadraturaCustodia_LimpiarCargasCircular1518"
+									class="col-xs-2"
+									style="width: 13%"
+									bcs-tipo="'bcs-button-secondary'"
+									bcs-auto-desactivar="false"
+									bcs-texto="'UI_LIMPIAR_CARGAS' | translate"  
+									bcs-habilitado="true"
+									bcs-clic="limpiarCargas()">
+								</bcs-button>
+							</div>
+					</div>
+				</div>
+			</div>
+	</div>

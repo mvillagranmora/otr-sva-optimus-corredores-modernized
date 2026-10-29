@@ -1,0 +1,53 @@
+<div id="RequisitosCierre" ng-controller='RequisitosCierreCtrl as rcrr'>
+	<div class="row no-margin">
+		<div class="row">
+			<div class="col-xs-10">
+				<label class="col-xs-2" translate>UI_EMPRESA</label>
+				<bcs-input-texto class="col-xs-5" k-ng-disabled="'true'"
+					ng-model="Empresa"></bcs-input-texto>
+			</div>
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="'true'" bcs-clic="rcrr.buscar()" style="position: absolute;"></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		<div class="row">
+			<div class="col-xs-10">
+				<label class="col-xs-2" translate>UI_MODULO</label>
+				<bcs-combobox-base  
+					class          = "col-xs-5"
+					auto-cargar    = "true"									
+					tipo           = "rcrr.oConfiguracionModulos.tipo"
+					id-actual      = "rcrr.oConfiguracionModulos.idActual"													
+					configuracion  = "rcrr.oConfiguracionModulos.configuracion"
+					seleccionado   = "rcrr.oConfiguracionModulos.seleccionado"							
+					filtros        = "rcrr.oConfiguracionModulos.filtros"
+					todos          = "'N'">
+				</bcs-combobox-base>
+				<div class="col-xs-1" style="width: 3%;"></div>
+				<label class="col-xs-2" style="width: 13%;" translate>UI_APERTURA_MANUAL</label>
+				<bcs-input-checkbox class="col-xs-1" style="width: 5%;" ng-model="rcrr.apertura"
+					ng-disabled=""> </bcs-input-checkbox>
+				<label class="col-xs-2" style="width: 12%;" translate>UI_CIERRE_MANUAL</label>
+				<bcs-input-checkbox class="col-xs-1" style="width: 3%;" ng-model="rcrr.cierre"
+					ng-disabled=""> </bcs-input-checkbox>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<uib-tabset> <uib-tab
+					heading="{{'UI_LISTADO_PROCESOS' | translate}}">
+				<div id="RequisitosProcesosFunciones"
+					ng-include="'PLA/CierreModulos/RequisitosCierre/RequisitosProcesosFunciones.html'">
+				</div>
+				</uib-tab> <uib-tab heading="{{'UI_REQUISITOS_CIERRE_APERTURA_MODULOS' | translate}}"> 
+				<div id="RequisitosAperturaCierre"
+					ng-include="'PLA/CierreModulos/RequisitosCierre/RequisitosAperturaCierre.html'">
+				</div> </uib-tab> </uib-tabset>
+			</div>
+		</div>

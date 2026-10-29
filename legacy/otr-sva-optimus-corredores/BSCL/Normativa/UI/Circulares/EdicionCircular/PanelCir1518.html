@@ -1,0 +1,115 @@
+<div id="PanelCir1518" class="row" ng-controller="PanelCir1518Ctrl as pct">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+			<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-8" k-ng-model="pct.FecTermino"></bcs-input-date>
+					</bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+				
+					<bcs-combobox-base class="col-xs-8" 
+						todos="'S'"
+						auto-cargar			="'true'"
+						id					="UI_CLASIFICACION"
+						configuracion		="pct.cmbbx.Clasificacion.configuracion" 
+						tipo				="'combobox-clasificacion-tipo-instrumento'" 
+						seleccionado		="pct.dataModal.ClasificacionObj"
+						filtros				="pct.cmbbx.Clasificacion.filtros" 
+						id-actual			="pct.IdClasificacion"
+						item-post-filtro	="'1'"
+						cascada1-a			="pct.cmbbx.TipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor		="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+			</div>
+		  	</div>
+		  	<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						todos="'S'"
+						item-post-filtro="'1'" 
+						id="UI_TIPO_INSTRUMENTO" 
+						configuracion= "pct.cmbbx.TipoInstrumento.configuracion"
+						auto-cargar="'false'"
+						tipo="'combobox-tipo-instrumento'"
+						seleccionado="pct.dataModal.TipoInstrumentoObj"
+						filtros="pct.cmbbx.TipoInstrumento.filtros"
+						id-actual="pct.IdTipoInstrumento"
+						cascada1-a="pct.cmbbx.Operacion.filtros.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+				 
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos
+						class="col-xs-8"
+						id="UI_INSTRUMENTO" 
+						name="uInstrumento"
+						datos-instrumento="pct.instrumento"
+						buscar-instrumento="pct.buscarInstrumento"
+						filtro-tipo-instrumento = "pct.IdTipoInstrumento"
+						filtro-clasificacion="pct.IdClasificacion" 
+						filtro-estado = "'ACT'"
+						filtro-solo-vigentes = 'S'
+						filtro-bolsa = $root.SesionBolsaDefectoSistema 
+						muestra-precio = "'N'">
+					</bcs-input-instrumentos>
+				</div>
+		  
+		  
+		  	</div>
+		  	<div class="row">
+		  	<div class="col-xs-6">
+			  		
+				</div>	 
+		  	</div>
+		  	
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<!-- configuracion="pct.grilla.Cir1518" -->
+		<!--configuracion="pct.grillaCong" -->
+	<div class="row">
+		<bcs-grid
+			id="gridCir1518"
+			
+			configuracion="pct.grilla.Cir1518"
+			
+			seleccionado="pct.grilla.Cir1518Sel"
+			fn-exportar-excel="excelCir1518"
+			api="gridApi">
+		
+		</bcs-grid>
+	</div>
+
+	<div class="row bcs-panel-comandos" style="padding-top: 10px !important;">
+		<div class="col-xs-12">
+		  <bcs-button class="col-xs-2 pull-left"  bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate"  bcs-habilitado="'true'" bcs-clic="pct.Modificar(pct.grilla.Cir1518Sel)"></bcs-button>
+		  <!-- 
+				<bcs-menu 
+				class="col-xs-1 pull-right"
+				bcs-habilitado="'true'" 
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelCir1518('Cir1518')">						  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+			</bcs-menu>
+ 			-->				
+		</div>
+		
+	</div>
+	
+	
+	
+	
+</div>

@@ -1,0 +1,101 @@
+<div id="ConfiguracionAFP" class="row" 
+	ng-controller='ConfiguracionAFPCtrl' onload="buscar()">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+				<!-- INICIO FILTROS -->
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-2" style="width: 12%;" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-9"
+							id="ConfiguracionAFP_UI_CLIENTE_PORTAFOLIO"
+							bcs-requerido="'true'" auto-cargar="'false'"
+							ng-style="{'width' : data.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oClientePortafolio.seleccionado  ? '86%' : '88%'}"
+							carga-cliente-automatico="'S'" id-actual="filtros.IdPortafolio"
+							tipo="data.oClientePortafolio.tipo"
+							seleccionado="data.oClientePortafolio.seleccionado"
+							configuracion="data.oClientePortafolio.configuracion"
+							filtros="filtrosPortafolio">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="col-xs-6">
+							<label class="col-xs-4" style="width: 23.8%;" translate>UI_AFP</label>
+							<bcs-combobox-base class="col-xs-6" 
+								id="ConfiguracionAFP_UI_AFP"
+								style="width: 72%;"
+								bcs-requerido="'true'"  auto-cargar="'true'" 
+								id-actual="filtros.IdAFP"
+								tipo="data.oConfiguracionAfp.tipo"
+								seleccionado="data.oConfiguracionAfp.seleccionado"
+								configuracion="data.oConfiguracionAfp.configuracion"
+								filtros="filtrosAFP">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_MULTIFONDO</label>
+							<bcs-combobox-base class="col-xs-9"
+								id="ConfiguracionAFP_UI_MULTIFONDO" 
+								bcs-requerido="'true'"  auto-cargar="'true'" 
+								id-actual="filtros.IdMultifondo"
+								tipo="data.oComboboxMultifondos.tipo"
+								configuracion="data.oComboboxMultifondos.configuracion"
+								seleccionado="data.oComboboxMultifondos.seleccionado"
+								filtros="filtrosMultifondo">
+							</bcs-combobox-base>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+			<div class="col-xs-2">
+				<!-- INICIO BOTONES -->
+				<div class="row">
+					<bcs-button class="col-xs-12" id="ConfiguracionAFP_UI_BUSCAR"
+						bcs-habilitado="'true'" bcs-tipo="'bcs-button-search'" bcs-habilitado="data.btnActivoBuscar"
+						bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-clic="buscar()"> </bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="ConfiguracionAFP_UI_LIMPIAR"
+						bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="data.btnActivoLimpiar"
+						bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-clic="limpiarFiltros()"> </bcs-button>
+				</div>
+				<!-- FIN BOTONES -->
+			</div>
+		</div>
+		<div class="row">
+			<!-- INICIO GRILLA -->
+			<div class="row">
+				<bcs-grid id="grid-configuracion-afp"
+					configuracion="confBasicaConfiguracioAfp"
+					seleccionado="seleccionConfiguracionAfp"
+					api = "apiConfiguracionAFP"
+					fn-exportar-excel="exportarExcel"> </bcs-grid>
+			</div>
+			<!-- FIN GRILLA -->
+		</div>
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos">
+			<bcs-button class="col-xs-2" id="ConfiguracionAFP_UI_AGREGAR"
+				bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="data.btnActivoAgregar"
+				bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate"
+				bcs-clic="data.agregar()"> 
+			</bcs-button>
+			<bcs-button class="col-xs-2" id="ConfiguracionAFP_UI_QUITAR"
+				bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="data.btnActivoQuitar"
+				bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate"
+				bcs-clic="data.quitar()"> 
+			</bcs-button>
+			<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'"
+				bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel('ArchivoAFP')">{{'UI_EXPORTAR_EXCEL'
+				| translate}}</li>
+			</bcs-menu>
+		</div>
+	<!-- FIN PANEL COMANDOS -->
+	</div>
+</div>

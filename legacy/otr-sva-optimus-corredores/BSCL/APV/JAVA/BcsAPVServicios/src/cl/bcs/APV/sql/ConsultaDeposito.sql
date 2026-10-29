@@ -1,0 +1,21 @@
+SELECT 
+	"IdRecaudacion"								--BIGINT 			NOT NULL,
+	,"IdEmpresa"								--BIGINT			NOT NULL,
+	,"CodigoArchivo"							--NVARCHAR(10),
+	,"FolioCartola"								--BIGINT,
+	,"LineaCartola"								--BIGINT,
+	,"Sucursal"									--NVARCHAR(200)		NOT NULL,
+	,TO_VARCHAR("FechaDeposito", 'YYYY/MM/DD')	AS "FechaDeposito"	--DATE 				NOT NULL,
+	,TO_VARCHAR("CuentaCorriente")				AS "CuentaCorriente"--BIGINT			NOT NULL,
+	,"MontoDeposito"							--DECIMAL(26,8)		NOT NULL,
+	,"ConceptoRecaudacion"						--NVARCHAR(300),
+	,"Origen"									--NVARCHAR(100),
+	,"Observacion"								--NVARCHAR(200),
+	,"NumeroDocumento"							--BIGINT			NOT NULL,
+	,"IdTipoDeposito"							--NVARCHAR(6)		NOT NULL,
+	,"IdBanco"									--BIGINT			NOT NULL,
+	,"IdRegimenTributario"						--BIGINT,
+	,"IdCarga"									--BIGINT			NOT NULL,
+	,"IdEstado"									--NVARCHAR(3)		NOT NULL,
+FROM "BSCL.APV.BD::REC.Recaudacion"
+WHERE "IdRecaudacion" = :p_IdRecaudacion;

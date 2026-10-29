@@ -1,0 +1,66 @@
+<div>
+	<div class="row" ng-if="grupoAtr.length>0">
+		<div class="col-xs-12">
+			<uib-tabset> <uib-tab ng-repeat="gAtr in grupoAtr"
+				heading="{{gAtr.GrupoAtributo}}"
+				select="onTabSelect(gAtr.GrupoAtributo)">
+	
+			<div id="{{gAtr.GrupoAtributo}}"
+				style="padding-right: 0px; height: 150px;">
+				<div ng-repeat="btn in camposAtr">
+					<div
+						ng-if="btn.ClaseDato == 'BIGINT' && gAtr.GrupoAtributo == btn.GrupoAtributo">
+						<label class="col-xs-4">{{btn.NombreTipoAtributo|translate}}</label>
+						<bcs-input-numero k-ng-model="btn.ValorAtributo"
+							style="padding-top: 4px;" class="col-xs-8"
+							k-ng-disabled="!bcsHabilitado"></bcs-input-numero>
+					</div>
+					<div
+						ng-if="btn.ClaseDato == 'NVARCHAR' && gAtr.GrupoAtributo == btn.GrupoAtributo">
+						<label class="col-xs-4">{{btn.NombreTipoAtributo|translate}}</label>
+						<bcs-input-texto ng-model="btn.ValorAtributo"
+							style="padding-top: 4px;" class="col-xs-8"
+							k-ng-disabled="!bcsHabilitado"></bcs-input-texto>
+					</div>
+					<div
+						ng-if="btn.ClaseDato == 'DATE' && gAtr.GrupoAtributo == btn.GrupoAtributo">
+						<label class="col-xs-4">{{btn.NombreTipoAtributo|translate}}</label>
+						<bcs-input-date ng-model="btn.ValorAtributo"
+							style="padding-top: 4px;" class="col-xs-8"
+							k-ng-disabled="!bcsHabilitado"></bcs-input-date>
+					</div>
+					<div
+						ng-if="btn.ClaseDato == 'COMBO' && gAtr.GrupoAtributo == btn.GrupoAtributo">
+						<label class="col-xs-4">{{btn.NombreTipoAtributo|translate}}</label>
+						<bcs-combobox-base style="padding-top: 4px;" class="col-xs-8"
+							activado="bcsHabilitado" tipo="'combobox-detalle-tipo-atributo'"
+							filtros="filtroCombobox[btn.IdTipoAtributo]" id-defecto="btn.ValorAtributoDef"
+							id-actual="btn.ValorAtributo"
+							seleccionado="btn.ValorAtributoSel" todos="'N'"></bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+			</uib-tab> </uib-tabset>
+		</div>
+	
+		<div class="row no-margin" style="padding-top: 0px;">
+			<div class="row bcs-panel-comandos">
+				<bcs-button class="col-xs-2" id="BcsGridAtributos_editar" bcs-tipo="''"
+					bcs-auto-desactivar="false" bcs-texto="'Editar'"
+					ng-if="!bcsHabilitado" bcs-habilitado="'true'"
+					bcs-clic="clicEditar()"></bcs-button>
+				<bcs-button class="col-xs-2" id="BcsGridAtributos_modificar" bcs-tipo="''"
+					bcs-auto-desactivar="false" bcs-texto="'Guardar'"
+					ng-if="bcsHabilitado" bcs-habilitado="'true'"
+					bcs-clic="modificarDatos('Grupo1')"></bcs-button>
+				<bcs-button class="col-xs-2" bcs-tipo="''"
+					bcs-auto-desactivar="false" bcs-texto="'Cancelar'"
+					ng-if="bcsHabilitado" bcs-habilitado="'true'"
+					bcs-clic="clicCancelar()"></bcs-button>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-if="grupoAtr.length==0">
+		<label class="col-xs-12">{{'UI_SIN_ATRIBUTOS_DEFINIDOS'|translate}}</label>
+	</div> 
+</div>

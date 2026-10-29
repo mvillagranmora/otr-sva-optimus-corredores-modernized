@@ -1,0 +1,69 @@
+<div id="ConsultaRoles" ng-controller="ConsultaRolesCtrl">
+	<div class="row">
+		<div class="col-xs-9">
+				<!-- Inicio filtros de búsqueda -->
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_ROL</label>
+						<bcs-input-texto class="col-xs-9" ng-model="data.NombreRol"></bcs-input-texto>
+					</div>
+			  	</div>
+			  	<div class="row">
+			  		<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_ESTADO</label>
+				  		<bcs-combobox-base  class="col-xs-9"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionEstadoRoles.tipo"
+							configuracion= "data.oConfiguracionEstadoRoles.configuracion"
+							id-actual="data.oConfiguracionEstadoRoles.idActual"
+							seleccionado="data.oConfiguracionEstadoRoles.seleccionado"
+							filtros="data.oConfiguracionEstadoRoles.filtros"
+							memoria= "" 
+							todos="'S'"
+							id-defecto="'0'"
+							item-post-filtro="'1'">	
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+		</div>
+		<div class="col-xs-3">
+			<!-- botones -->
+			<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="true"  bcs-clic="buscarRoles()"></bcs-button>
+			<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<bcs-grid id="grid-listado-roles"
+	 	configuracion = "confBasicaRoles"
+	 	fn-exportar-excel = "exportarExcel"
+		seleccionado = "seleccionRoles">
+			<div bcs-grid-detail ng-non-bindable >
+			<div style="width:100%;">
+              	<uib-tabset>
+                  	<uib-tab heading="{{'UI_PERFILES' | translate}}">
+                  		
+                  		<bcs-grid
+                            configuracion = "confBasicaPerfiles(dataItem)"
+                            seleccionado = "seleccionPerfiles">
+						</bcs-grid>
+                  	</uib-tab>
+				</uib-tabset>
+				</div>
+			</div>
+		</bcs-grid>
+	</div>
+
+ 	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="ConsultaRoles_crearRol"  class="col-xs-3" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_CREAR_ROL' | translate" bcs-habilitado="'true'"  bcs-clic="crearRol()"></bcs-button>
+		<bcs-button id="ConsultaRoles_modificarRol" class="col-xs-3" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR_ROL' | translate" bcs-habilitado="'false'"  bcs-clic="modificarRol()"></bcs-button>
+		<div class="col-xs-4"></div>
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'" >
+            <li ng-click="exportarRolesCompleto()">{{'UI_EXPORTAR_ROLES_COMPLETO' | translate}}</li>
+		</bcs-menu>
+	</div>
+		
+			
+	
+	

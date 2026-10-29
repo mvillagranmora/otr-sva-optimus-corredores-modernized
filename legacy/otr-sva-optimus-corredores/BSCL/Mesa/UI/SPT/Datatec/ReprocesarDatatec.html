@@ -1,0 +1,64 @@
+<div ng-controller="ReprocesarDatatecCtl">
+	<form name="formReprocesarDatatecCtl" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{'DatatecSpot'|translate}}</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+            	<label class="col-xs-4" translate>UI_FECHA_OPERACION</label>
+               	<bcs-input-date class="col-xs-7" 
+                      id="FechaOperacion"
+                      k-ng-model="data.kngFechaOperacion"
+                      k-options="data.oConfiguracionFechaOperacion">
+                  	</bcs-input-date>
+            </div>
+	        <div class="col-xs-4">
+		        <label class="col-xs-4" translate>UI_ESTADO</label>
+				<bcs-combobox-base 
+					class="col-xs-7"
+					auto-cargar="'true'"
+					tipo="'combobox-estado-datatec'"
+					seleccionado="data.cmbbx.EstadoObj"
+					id-actual="data.cmbbx.IdEstado"
+					item-post-filtro = "'1'"
+					activado="data.opcionesFiltro.opPorEstadoFecha"
+					id-defecto = "'0'"
+					todos="'S'">
+				</bcs-combobox-base>
+			</div>
+			<div class="col-xs-4 alignButtonsToRight">
+				<bcs-button id="frmBuscarOperaciones"  
+					class="col-xs-5"
+					bcs-tipo="'bcs-button-search'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_BUSCAR' | translate"
+					bcs-habilitado="'true'" 
+					bcs-clic="data.buscarDatatec()">  
+				</bcs-button>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<bcs-grid
+				id					= "grid-reprocesar-datatec"
+				configuracion		= "defaultOptions"
+				api					= "data.apiGridSolicitud"
+				fn-exportar-excel	= "exportarExcel">
+			</bcs-grid>
+		</div>
+		<hr>
+		<!-- BOTON -->
+		<div class="row">
+			<div class="row alignButtonsToRight">
+				<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_REPROCESAR' | translate" 
+					bcs-habilitado="true"
+					bcs-clic="reprocesar()"	
+				></bcs-button>
+			</div>
+		</div>
+	</form>
+</div>

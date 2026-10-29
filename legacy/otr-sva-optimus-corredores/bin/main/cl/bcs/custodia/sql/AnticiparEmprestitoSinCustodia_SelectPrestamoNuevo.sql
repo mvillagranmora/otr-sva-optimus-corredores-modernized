@@ -1,0 +1,26 @@
+
+SELECT
+	 CAR."FolioCartera" as "FolioPrestamo"
+	,CAR."INGCantidad" AS "Cantidad" 
+	,CAR."PrecioCompra" AS "Precio"
+	,CAR."TasaCompra" AS "Tasa"
+	,CAR."INGMontoATasaCompraActual"  AS "Monto"
+	,TO_CHAR(CAR."FechaVencimientoOperacion") AS "FechaVencimiento"
+	,CAR."PlazoEnDiasOperacion" AS "Plazo"
+	,CAR."TasaCompra" AS "PorcentajePrima"
+	,CAR."PrecioAPlazo" AS "MontoPrima"
+	,CAR."MontoAPlazoMonedaInstrumento" AS "MontoAPlazo"
+	,TO_CHAR(CAR."FechaLiquidacion") AS "FechaLiquidacion"
+	,CAR."IdCondicionLiquidacion"
+	,CAR."IdTipoOperacion" 
+	,CAR."IdTipoPrestamo" 
+	,INS."Nemotecnico" AS "NombreTipoPrestamo"
+	,SUB."IdTipoInstrumento" AS "NombreTipoInstrumentoSubyacente"
+	,SUB."IdEmisor" AS "NombreEmisorSubyacente"
+	,SUB."IdTipoReajuste" AS "IdTipoReajusteSubyacente"
+	,SUB."Nemotecnico" AS "NemoSubyacente"
+FROM "BSCL.Custodia.BD::CUS.Cartera" AS CAR
+INNER JOIN "BSCL.Custodia.BD::CUS.Subyacente" AS SUB ON  SUB."FolioCarteraRelacionada" = CAR."FolioCartera" 
+INNER JOIN "BSCL.Custodia.BD::PRT.TipoPrestamo" as PRT ON PRT."IdTipoPrestamo" = CAR."IdTipoPrestamo"
+INNER JOIN "BSCL.Plataforma.BD::INS.Instrumento" as INS on INS."IdInstrumento" = PRT."IdInstrumentoPrestamo"
+WHERE "FolioCartera" = :FolioPrestamo

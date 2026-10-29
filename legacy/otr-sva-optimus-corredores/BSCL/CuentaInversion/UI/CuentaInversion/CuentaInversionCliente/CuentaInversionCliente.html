@@ -1,0 +1,357 @@
+<div class="row" ng-controller='CuentaInversionClienteCtrl'>
+	<div class="row bcs-cuerpo" > <!----ng-form="frmCtaCliente"-->
+		<form name="frmCtaCliente">
+			<div class="row">
+				<div class="col-xs-10">
+					<div class="row" ng-if ="!MostrarProducto">	
+						<div class="col-xs-7">
+							<label translate class="col-xs-3">UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base
+								class				= "col-xs-9"
+								id					= "frmCtaCliente_clientePortafolio"
+								auto-cargar			= "'true'"
+								muestra-enlace		= "'S'"
+								id-actual			= "data.oConfiguracionPortafolio.idActual"
+								tipo				= "data.oConfiguracionPortafolio.tipo"
+								filtros				= "data.oConfiguracionPortafolio.filtros"
+								seleccionado		= "data.oConfiguracionPortafolio.seleccionado"
+								configuracion		= "data.oConfiguracionPortafolio.configuracion"
+								cascada1-a			= "data.oConfiguracionCuentaInversionLIS.filtros.IdPortafolio"
+								cascada1-valor		= "'IdPortafolio'"
+								cascada1-defecto	= "-1"  
+								cascada2-a			= "data.oConfiguracionCuentaInversionLIS.filtros.IdCliente"
+								cascada2-valor		= "'IdCliente'"
+								cascada2-defecto	= "-1"
+								cascada3-a			= "data.oConfiguracionCuentaInversionCRTANU.filtros.IdPortafolio"
+								cascada3-valor		= "'IdPortafolio'"
+								cascada3-defecto	= "-1"  
+								cascada4-a			= "data.oConfiguracionCuentaInversionCRTANU.filtros.IdCliente"
+								cascada4-valor		= "'IdCliente'"
+								cascada4-defecto	= "-1"
+								item-post-filtro	= "'1'"
+								carga-cliente-automatico="'S'">
+							</bcs-combobox-base>
+						</div>					
+					</div>
+					
+					<div class="row" ng-if ="!MostrarProducto">
+						<div class="col-xs-7">
+							<label class="col-xs-3" translate>UI_EJECUTIVO</label>
+							<bcs-input-texto
+								class				= "col-xs-9"
+								id					= "frmCtaCliente_Ejecutivo"
+								ng-model			= "data.ngEjecutivo" 
+								k-ng-disabled		= "'true'">
+							</bcs-input-texto>
+						</div>
+						<div class="col-xs-5">
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_SUCURSAL</label>
+							<bcs-input-texto
+								class				= "col-xs-8"
+								id					= "frmCtaCliente_Sucursal"
+								ng-model			= "data.ngSucursal" 
+								k-ng-disabled		= "'true'">
+							</bcs-input-texto>
+						</div>
+					</div>
+					
+					<div class="row" ng-if="MostrarProducto">
+						<div class="col-xs-8">
+							<label class="col-xs-2" translate>UI_CLIENTE</label>
+							<bcs-combobox-base
+								class				= "col-xs-10"
+								id					= "UI_CLIENTE"
+								auto-cargar			= "'false'"
+								tipo				= "'combobox-socio-negocio'"
+								seleccionado		= "oSocioNegocio.seleccionado"
+								filtros				= "oSocioNegocio.filtros"
+								cascada-a			= "oPortafolio.filtros.IdCliente"
+								cascada-valor		= "'IdCliente'"
+								cascada1-a			= "data.oConfiguracionCuentaInversionLIS.filtros.IdCliente"
+								cascada1-valor		= "'IdCliente'"
+								cascada1-defecto	= "-1"
+								cascada2-a			= "data.oConfiguracionCuentaInversionCRTANU.filtros.IdCliente"
+								cascada2-valor		= "'IdCliente'"
+								cascada2-defecto	= "-1"
+								id-actual			= "oSocioNegocio.idActual"
+								carga-cliente-automatico="'S'">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-3 col-xs-offset-1" translate>UI_EJECUTIVO</label>
+							<bcs-input-texto
+								class				= "col-xs-8"
+								id					= "frmCtaCliente_Ejecutivo"
+								ng-model			= "data.ngEjecutivo" 
+								k-ng-disabled		= "'true'">
+							</bcs-input-texto>
+						</div>
+					</div>
+					
+					<div class="row" ng-if="MostrarProducto">
+						<div class="col-xs-4">
+						    <label class="col-xs-4" translate>UI_PRODUCTO</label>
+						    <bcs-combobox-base
+						    	class				= "col-xs-8"
+						        id					= "UI_PRODUCTO"
+						        auto-cargar			= "'true'"
+						        tipo				= "'combobox-otro-producto-agrupador'"
+				                filtros             = "oProducto.filtros"
+				                envia-todos         = "'S'"
+						        seleccionado		= "oProducto.seleccionado"
+								cascada-a			= "oPortafolio.filtros.IdProductoAgrupador"
+								cascada-valor		= "'IdProductoAgrupador'"
+								id-actual			= "oProducto.idActual"
+								item-post-filtro    = "'1'">
+						    </bcs-combobox-base >
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-3 col-xs-offset-1" translate>UI_PORTAFOLIO</label> 
+							<bcs-combobox-base
+								class				= "col-xs-8"
+								id					= "UI_PORTAFOLIO"
+								auto-cargar			= "'false'"
+								tipo				= "'combobox-portafolio'"
+								seleccionado		= "oPortafolio.seleccionado"
+								filtros				= "oPortafolio.filtros"
+								usa-filtros-completos = "'S'"
+								cascada1-a			= "data.oConfiguracionCuentaInversionLIS.filtros.IdPortafolio"
+								cascada1-valor		= "'IdPortafolio'"
+								cascada1-defecto	= "-1"  
+								cascada2-a			= "data.oConfiguracionCuentaInversionCRTANU.filtros.IdPortafolio"
+								cascada2-valor		= "'IdPortafolio'"
+								cascada2-defecto	= "-1" 
+								id-actual			= "oPortafolio.idActual"
+								activado			= "oSocioNegocio.seleccionado && oProducto.seleccionado">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-3 col-xs-offset-1" translate>UI_SUCURSAL</label>
+							<bcs-input-texto
+								class				= "col-xs-8"
+								id					= "frmCtaCliente_Sucursal"
+								ng-model			= "data.ngSucursal" 
+								k-ng-disabled		= "'true'">
+							</bcs-input-texto>
+						</div>
+					</div>
+					
+				</div>
+				<div class="col-xs-2">
+					<!-- BOTONES -->
+					<div class="row" ng-if ="!MostrarProducto">
+						<bcs-button class="col-xs-12" id="frmCtaCliente_BUSCAR" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="data.oConfiguracionPortafolio.seleccionado"  bcs-clic="buscarMovimientos()"></bcs-button>
+					</div>
+					<div class="row" ng-if ="MostrarProducto">
+						<bcs-button class="col-xs-12" id="frmCtaCliente_BUSCAR" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="oSocioNegocio.seleccionado && oProducto.seleccionado || oPortafolio.seleccionado"  bcs-clic="buscarMovimientos()"></bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" id="frmCtaCliente_LIMPIAR" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<div class="row">
+			<br>
+		</div>
+
+		<uib-tabset>
+			<!-- ********************************* SALDOS ********************************* -->
+			<uib-tab select="select('TabSaldoCuentas')" heading="{{'UI_SALDO_CUENTAS' | translate}}">
+				<div class="row" style="height: 530px">
+					<div class="row">
+						<div class="col-xs-3">
+							<label class="col-xs-7" translate>UI_FECHA_CONSULTA</label>
+							<bcs-input-date id="frmCtaCliente_FechaConsulta" class="col-xs-5"
+								k-ng-model="data.kngFechaConsulta" 
+								k-options="data.kOpFechaConsulta">
+							</bcs-input-date>
+						</div>			
+						<bcs-input-checkbox style="padding-left: 15px"
+							id="frmCtaCliente_SaldoPorFechaEfectiva" 
+							ng-model="data.SaldoPorFechaEfectiva">
+						</bcs-input-checkbox>&nbsp;{{'UI_SALDO_POR_FECHA_EFECTIVA' | translate}}
+						<bcs-input-checkbox style="padding-left: 15px"
+							id="frmCtaCliente_SaldoPorFechaMovimiento" 
+							ng-model="data.SaldoPorFechaMovimiento">
+						</bcs-input-checkbox>&nbsp;{{'UI_SALDO_POR_FECHA_MOVIMIENTO' | translate}}
+					</div>
+
+					<div class="row" style="padding-top: 10px">
+						<new-bcs-grid id="frmCtaCliente_grid_saldos_cuentas" class="TabSaldoCuentas"
+							configuracion = "grid.confBasicaSaldosCuentas"
+							seleccionado = "grid.seleccionSaldosCuentas"
+							fn-exportar-excel="excelSaldoCuentasCliente">					
+						</new-bcs-grid>
+
+						<div class="row bcs-panel-comandos" style="margin-bottom: -20px; padding-top: 7px !important;">
+							<div class="col-xs-2">				
+								<bcs-button  bcs-tipo="'bcs-button-primary'"  id="frmCtaCliente_CARTOLA"		bcs-auto-desactivar="false"  bcs-texto="'UI_CARTOLA' | translate"      	bcs-habilitado="grid.seleccionSaldosCuentas"  bcs-clic="cartolaDeMovimiento()"></bcs-button>
+							</div>
+							<div class="col-xs-2">				
+								<bcs-button  bcs-tipo="'bcs-button-secondary'"           id="frmCtaCliente_FLUJO_CAJA"	bcs-auto-desactivar="false"  bcs-texto="'UI_FLUJO_CAJA' | translate"	bcs-habilitado="grid.seleccionSaldosCuentas"  bcs-clic="flujoCaja()"></bcs-button>
+							</div>
+							<!------ N/A ----
+							<div class="col-xs-1">
+								<bcs-button bcs-tipo="''"  			 id="frmCtaCliente_CANAL"		bcs-auto-desactivar="false"  bcs-texto="'UI_CANAL' | translate"       	bcs-habilitado="true"  bcs-clic="canal()"></bcs-button>
+							</div>
+							<div class="col-xs-1">
+								<bcs-button bcs-tipo="''"  			 id="frmCtaCliente_GARANTIA"	bcs-auto-desactivar="false"  bcs-texto="'UI_GARANTIA' | translate"		bcs-habilitado="true"  bcs-clic="garantia()"></bcs-button>
+							</div>	
+							------>
+							<div class="col-xs-2">
+								<bcs-button bcs-tipo="'bcs-button-secondary'"  			 id="frmCtaCliente_CREAR"		bcs-auto-desactivar="false"  bcs-texto="'UI_CREAR' | translate"       	bcs-habilitado="(MostrarProducto ? grid.seleccionSaldosCuentas : data.oConfiguracionPortafolio.seleccionado)"  bcs-clic="crearCargoAbono()"></bcs-button>
+							</div>			
+							<bcs-menu bcs-tipo="'bcs-button-secondary'" class="col-xs-1 pull-right" id="frmCtaCliente_OpcionesSaldo" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+							   <li ng-click="excelSaldoCuentasCliente('SaldoCuentasCliente')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+							</bcs-menu>
+						</div>
+						
+					</div>
+				</div>
+			</uib-tab>
+
+			<!-- ******************************  LIBRO INVENTARIO SALDOS ******************************* --> 
+			<uib-tab select="select('TabLibroInventarioSaldos')" heading="{{'UI_LIBRO_INVENTARIO_SALDOS' | translate}}">
+				<div class="row" style="height: 530px">
+					<div class="row">							
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_CUENTA_INVERSION</label>			
+							<bcs-combobox-base
+								class					= "col-xs-8"
+								id						= "frmCtaCliente_CUENTA_INVERSION"
+								auto-cargar				= "'false'"
+								usa-filtros-completos	= "'S'"
+								tipo					= "data.oConfiguracionCuentaInversionLIS.tipo"  
+								configuracion			= "data.oConfiguracionCuentaInversionLIS.configuracion" 
+								id-actual				= "data.oConfiguracionCuentaInversionLIS.idActual" 
+								seleccionado			= "data.oConfiguracionCuentaInversionLIS.seleccionado"
+								filtros					= "data.oConfiguracionCuentaInversionLIS.filtros"
+								todos					= "'S'"
+								item-post-filtro		= "'1'">
+							</bcs-combobox-base >
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_FECHA_EFECTIVA</label>
+							<bcs-input-date id="frmCtaCliente_FECHA_EFECTIVA" class="col-xs-4"
+								k-ng-model="data.kngFechaEfectiva" 
+								k-options="data.kOpFechaEfectiva">
+							</bcs-input-date>
+						</div>				
+					</div>
+
+					<div class="row"><br></div>
+					
+					<new-bcs-grid id="frmCtaCliente_grid_libro_inventario" class="TabLibroInventarioSaldos"
+						configuracion = "grid.confBasicaLibroInventarioSaldos"
+						seleccionado = "grid.seleccionLibroInventarioSaldos"
+						fn-exportar-excel="excelLibroInventarioSaldos">					
+					</new-bcs-grid>
+
+					<div class="row bcs-panel-comandos" style="padding-top:7px !important;margin-bottom: -20px">	
+						<bcs-menu bcs-tipo="'bcs-button-secondary'" class="col-xs-1 pull-right" id="frmCtaCliente_OpcionesLibro" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+						   <li ng-click="excelLibroInventarioSaldos('LibroInventario')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+						</bcs-menu>
+					</div>
+				</div>
+			</uib-tab>
+
+			<!-- ******************************  CERTIFICAR / ANULAR ******************************* --> 
+			<uib-tab select="select('TabCertificarMovimientos')" heading="{{'UI_CERTIFICAR_ANULAR_MOVIMIENTOS' | translate}}">
+				<div class="row" style="height: 536px">
+
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_CUENTA_INVERSION</label>			
+							<bcs-combobox-base
+								class					= "col-xs-8"
+								id						= "frmCtaCliente_CUENTAINVERSION"
+								auto-cargar				= "'false'"
+								usa-filtros-completos	= "'S'"
+								tipo					= "data.oConfiguracionCuentaInversionCRTANU.tipo"  
+								configuracion			= "data.oConfiguracionCuentaInversionCRTANU.configuracion" 
+								id-actual				= "data.oConfiguracionCuentaInversionCRTANU.idActual" 
+								seleccionado			= "data.oConfiguracionCuentaInversionCRTANU.seleccionado"
+								filtros					= "data.oConfiguracionCuentaInversionCRTANU.filtros"
+								todos					= "'S'"
+								item-post-filtro		= "'1'">
+							</bcs-combobox-base >
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_TIPO_MOVIMIENTO</label>			
+							<bcs-combobox-base id="frmCtaCliente_TIPOMOVIMIENTO" class="col-xs-8"
+								auto-cargar="'true'"
+								tipo="data.oConfiguracionTipoMovimiento.tipo"  
+								configuracion= "data.oConfiguracionTipoMovimiento.configuracion" 
+								id-actual="data.oConfiguracionTipoMovimiento.idActual" 
+								seleccionado="data.oConfiguracionTipoMovimiento.seleccionado" 
+								filtros="data.oConfiguracionTipoMovimiento.filtros"
+								todos="'S'" item-post-filtro="'1'" 								
+								cascada1-a="data.oConfiguracionConcepto.filtros.TipoConcepto"
+								cascada1-valor="'Tipo'"
+							></bcs-combobox-base >
+						</div>					
+						<div class="col-xs-4">	
+							<label class="col-xs-3" style="padding-left: 15px" translate>UI_CONCEPTO</label>
+							<bcs-combobox-base id="frmCtaCliente_CONCEPTO" class="col-xs-9"
+								auto-cargar="'true'"
+								tipo="data.oConfiguracionConcepto.tipo"  
+								configuracion= "data.oConfiguracionConcepto.configuracion" 
+								id-actual="data.oConfiguracionConcepto.idActual" 
+								seleccionado="data.oConfiguracionConcepto.seleccionado" 
+								filtros="data.oConfiguracionConcepto.filtros"
+								todos="'S'" item-post-filtro="'1'" 
+							></bcs-combobox-base >							
+						</div>						    
+					</div>
+					<div class="row">						
+						<div class="col-xs-4">
+							 <label class="col-xs-4" translate>UI_ESTADO</label>
+							 <bcs-combobox-base class="col-xs-8" id="frmCtaCliente_ESTADO"
+								tipo="data.oConfiguracionEstado.tipo"						  
+								configuracion= "data.oConfiguracionEstado.configuracion"						 
+								id-actual="data.oConfiguracionEstado.idActual" 
+								seleccionado="data.oConfiguracionEstado.seleccionado"
+								filtros="data.oConfiguracionEstado.filtros"
+								todos="'S'"
+								id-defecto="'0'">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-4">					
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_FECHA_MOVIMIENTO</label>
+							<bcs-input-date id="frmCtaInvEjecutivo_FechaMovimientoDesde" class="col-xs-4" bcs-requerido
+								k-ng-model="data.kngFechaMovimientoDesde"
+								k-options="{max: data.kngFechaMovimientoHasta}">
+							</bcs-input-date>
+							<bcs-input-date id="frmCtaInvEjecutivo_FechaMovimientoHasta" class="col-xs-4" bcs-requerido
+								k-ng-model="data.kngFechaMovimientoHasta"
+								k-options="{min: $scope.data.kngFechaMovimientoDesde}">
+							</bcs-input-date>
+						</div>
+					</div>
+
+					<div class="row"><br></div>
+					<div class="TabCertificarMovimientos">
+						<new-bcs-grid id="frmCtaCliente_gridMovimientosCuentaInversion"
+							configuracion = "grid.confMovimientosCuentaInversion"
+							seleccionado = "grid.seleccionMovimientosCuentaInversion">					
+						</new-bcs-grid>
+					</div>
+
+					<div class="row bcs-panel-comandos" style="padding-top: 5px !important;">		
+						<div class="col-xs-2">	
+							<bcs-button  bcs-tipo="'bcs-button-primary'" id="frmCtaCliente_CERTIFICAR" bcs-auto-desactivar="false"  bcs-texto="'UI_CERTIFICAR' | translate"  bcs-habilitado="grid.seleccionMovimientosCuentaInversion"  bcs-clic="certificarMovimientos()"></bcs-button>
+						</div>
+						<div class="col-xs-2">	
+							<bcs-button  bcs-tipo="'bcs-button-anular'"          id="frmCtaCliente_ANULAR" 	bcs-auto-desactivar="false"  bcs-texto="'UI_ANULAR' | translate"  bcs-habilitado="grid.seleccionMovimientosCuentaInversion"  bcs-clic="anularMovimientos()"></bcs-button>
+						</div>
+						<div class="col-xs-2">	
+							<bcs-button  bcs-tipo="'bcs-button-secondary'" 			id="frmCtaCliente_IMPRIMIR" bcs-auto-desactivar="false"  bcs-texto="'UI_IMPRIMIR' | translate"  bcs-habilitado="grid.seleccionMovimientosCuentaInversion"  bcs-clic="ImprimirComprobante()"></bcs-button>
+						</div>
+					</div>
+				</div>
+			</uib-tab>
+		</uib-tabset>
+	</div>	
+</div>

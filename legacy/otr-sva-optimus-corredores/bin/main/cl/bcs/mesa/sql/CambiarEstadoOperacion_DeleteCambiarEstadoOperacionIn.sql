@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Mesa.BD::PAR.CambiarEstadoOperacion_IN" WHERE "IdOperacion" = :IdOperacion;

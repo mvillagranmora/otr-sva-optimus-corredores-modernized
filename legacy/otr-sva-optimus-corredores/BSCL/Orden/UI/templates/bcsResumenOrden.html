@@ -1,0 +1,59 @@
+<div class="row">
+	<table class="table">
+		<thead>
+    			<tr>
+      				<th width="50%"></th>
+					<th width="50%"></th>			          	         			          
+    			</tr>
+		</thead>
+		<tbody>
+			<tr>
+         		<td translate>UI_CANTIDAD</td>
+				<td>{{cantidad | kformat:'n':idMonedaOperacion:'cantidad':'GEN'}}</td>			          	         			          
+       		</tr>
+       		<tr>
+         		<td translate>UI_MONTO_OPERACION</td>
+				<td ng-if="montoOperacion === montoOperacionLiquidacion">{{montoOperacion | kformat:'c':idMonedaOperacion:'monto':'GEN'}}</td>
+				<td ng-if="montoOperacion !== montoOperacionLiquidacion"><!-- {{montoOperacion | kformat:'c':idMonedaOperacion:'monto':'GEN'}} / --> {{montoOperacionLiquidacion | kformat:'c':idMonedaLiquidacion:'monto':'GEN'}}</td>	
+       		</tr>
+       		<tr ng-show="!usaAllin">
+         		<td translate>UI_PORCENTAJE_COBROS</td>
+				<td>{{porcentajeCobros | kformat:'p':idMonedaLiquidacion:'tasa':'GEN'}}</td>			          	         			          
+       		</tr>
+       		
+       		<tr ng-show="!!usaAllin">
+         		<td translate>UI_PORCENTAJE_COBROS_MONTO</td>
+				<td>
+					<bcs-input-porcentaje
+						change-event="ngChangePorcentaje()" 
+						decimales="4"
+						k-ng-model="valorAllin">
+					</bcs-input-porcentaje>
+				</td>	         			          
+       		</tr>
+       		<tr ng-show="!!usaAllinMonto && !!usaAllin">
+         		<td translate>UI_MONTO_COBRO_ALL_IN</td>
+				<td>
+					<bcs-input-monetario
+						change-event="ngChangeMonto()" 
+						decimales = "'4'"
+						simbolo="idMonedaLiquidacion" 
+						k-ng-model="montoAllin">
+					</bcs-input-monetario>
+				</td>	         			          
+       		</tr>
+       		<tr>
+         		<td translate>UI_PORCENTAJE_COBROS_ULTIMA_ORDEN</td>
+				<td>{{porcentajeCobrosUltimaOrden | kformat:'p':idMonedaLiquidacion:'tasa':'GEN'}}</td>			          	         			          
+       		</tr>
+       		<tr>
+         		<td translate>UI_TOTAL_COBROS</td>
+				<td>{{totalCobros | kformat:'c':idMonedaLiquidacion:'monto':'GEN'}}</td>			          	         			          
+       		</tr>
+       		<tr>
+         		<td class= "bgResumenORD"  ><strong class = "labelMontoTotal" translate>UI_MONTO_TOTAL</strong></td>
+				<td class= "bgResumenORD"><strong class = "labelMontoTotal">{{totalOrden | kformat:'c':idMonedaLiquidacion:'monto':'GEN'}}</strong></td>			          	         			          
+       		</tr>
+      		</tbody>
+		</table>
+</div>

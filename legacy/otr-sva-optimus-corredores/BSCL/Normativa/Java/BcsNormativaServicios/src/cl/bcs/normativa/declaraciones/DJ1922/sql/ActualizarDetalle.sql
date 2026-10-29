@@ -1,0 +1,49 @@
+ UPDATE DJ
+                      SET
+                         DJ."MontoNominalAportesActualizado"     = DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)),3)
+						,DJ."DivRemDistAfectGCConIDPC"                   = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_08",0)) END                     
+                        ,DJ."DivRemDistAfectGCConIDPCal31122016"          = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_09",0)) END
+                        ,DJ."DivRemDistAfectGCConIDPCVOL"                 = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_10",0)) END
+                        ,DJ."DivRemDistAfectGCSINDC"                      = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((CASE WHEN DJ."TipoOperacion" ='7'THEN 0 ELSE DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)  END *  COALESCE(CAL."FACTOR_11",:p_Afecto100))) END
+                        ,DJ."DisRemRentasTribCProvRap_C96"                = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_12",0)) END
+                        ,DJ."DisRemRentasTribCORP_C97"                    = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_13",0)) END
+                        ,DJ."DisRemRentasTribCExDD_C98"                   = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_14",0)) END
+                        ,DJ."DisRemRentasTribCUtAFFut_C99"                = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_15",0)) ELSE 0 END
+                        ,DJ."DivRemDistNoRentaFUT"                        = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_16",0)) ELSE 0 END
+                        ,DJ."DisRemRentasExIGCAfecImptoAdi_C100"          = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_17",0)) END
+                        ,DJ."DividendosExentosIGCoAdicionalActualizado"   = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_18",0)) END
+                        ,DJ."DividendosNoConstitutivosDeRentaActualizado" = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_19",0)) END                        
+                        ,DJ."CredImpGloCompNSRSD"                         = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_20",0)) END
+                        ,DJ."CredImpGloCompNSRCD"                         = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_21",0)) END
+                        ,DJ."CredIGCAcumD01012017RANSRD01012020SDD_C101"  = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_22",0)) END
+                        ,DJ."CredIGCAcumD01012017RANSRD01012020CDD_C102"  = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_23",0)) END
+                        ,DJ."CredImpGloCompSRSD"                          = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_24",0)) END
+                        ,DJ."CredImpGloCompSRCD"                          = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_25",0)) END
+                        ,DJ."CredIGCAcumD01012017RXSRSDD_C103"            = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_26",0)) END
+                        ,DJ."CredIGCAcumD01012017RXSRCDD_C104"            = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_27",0)) END
+                        ,DJ."CredImpGloCompCTDCIF"                        = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_28",0)) END
+                        ,DJ."CredImpGloCompSDD31122016"                   = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_29",0)) END
+                        ,DJ."CredImpGloCompCDD31122016"                   = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_30",0)) END
+                        ,DJ."CredIGCAcumH31122016RXSDD_C105"              = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_31",0)) END
+                        ,DJ."CredIGCAcumH31122016RXCDD_C106"              = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_32",0)) END
+                        ,DJ."CredImpGloCompCTDCIF31122016"                = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_33",0)) END
+                        ,DJ."CredImpGloCompCITAExArt21"                   = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_34",0)) END
+                        ,DJ."DevolucionesDeCapitalActualizado"            = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_37",0)) END
+                        ,DJ."DivRemDistNoRentaFE" 						  = CASE WHEN DJ."AcogidoISFUT" = 'S' AND CAL."AcogidoISFUT" = 'S' THEN 0 ELSE ((DJ."MontoNominalAportes" * ROUND((COALESCE(IPCACTR."Valor",1)/COALESCE(IPCINVR."Valor",1)), 3)) * COALESCE(CAL."FACTOR_38",0)) END
+                        ,DJ."OrigenCalificacion"                          = CAL.IDORIGEN
+                    FROM "BSCL.Normativa.BD::TRI.DatosDJ1922"   AS DJ
+                    INNER JOIN "BSCL.Normativa.BD::DOC.Documento" DOC ON (DOC."IdDocumento"=DJ."IdDocumento")
+                    LEFT JOIN "BSCL.Normativa.BD::TRI.TBSICAVC" AS CAL
+	                ON (CAL."EJERCICIO" = DOC."Version"
+	                AND CAL."MERCADO" IN ('AC','CF')
+	                AND TRIM(CAL."NEMO") = TRIM(DJ."Fondo")
+	                AND CAL."FEC_PAGO" = DJ."FechaInversion"
+	                AND CAL."SEC_EVE" = DJ."SecEvento"
+                    AND CAL.IDORIGEN = 'BCS')
+		        	                        LEFT  JOIN "BSCL.Plataforma.BD::MER.ParametroFinanciero" IPCINVR  ON (substring(ADD_MONTHS (TO_DATE (COALESCE(DJ."FechaInversion",'1900-01-01'), 'YYYY-MM-DD'), -1),0,7) = IPCINVR."AgnoMes")  
+					AND IPCINVR."IdParametroFinanciero" = 'IPC'
+		 									LEFT  JOIN "BSCL.Plataforma.BD::MER.ParametroFinanciero" IPCACTR  ON (SUBSTRING(COALESCE(DJ."FechaInversion",'1900-01-01'),0,4) || '-11' = IPCACTR."AgnoMes")  		
+					AND IPCACTR."IdParametroFinanciero" = 'IPC'	
+                    WHERE DJ."SecEvento" > 0
+                    
+                    AND DOC."Version" = CAST(:p_Version AS NVARCHAR(4));   

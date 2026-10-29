@@ -1,0 +1,145 @@
+<div class="row">
+	<form name="barraFiltrosForm">
+		<div class="col-xs-11">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						id-actual="idClasificacionTipoInstrumento"
+						id-post-filtro="idClasificacionTipoInstrumentoDefecto"
+						activado="!idClasificacionTipoInstrumentoDefecto"
+						seleccionado="clasificacionTipoInstrumento"
+						cascada-a="filtrosTipoInstrumento.IdClasificacionTipoInstrumento"
+						cascada-valor="'IdClasificacionTipoInstrumento'"
+						todos = "'S'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						id-actual="idTipoInstrumento"
+						id-post-filtro="idTipoInstrumentoDefecto"
+						activado="!idTipoInstrumentoDefecto"
+						seleccionado="tipoInstrumento"
+						auto-cargar="'false'"
+						filtros = "filtrosTipoInstrumento"
+						cascada-a="filtrosOperacion.IdTipoInstrumento"
+						cascada-valor="'IdTipoInstrumento'"
+						todos = "'S'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos class="col-xs-7" 
+						datos-instrumento="instrumento"
+						bcs-requerido
+						buscar-instrumento="instrumentoDefecto"
+						filtro-clasificacion="idClasificacionTipoInstrumento"
+						filtro-tipo-instrumento="idTipoInstrumento">
+					</bcs-input-instrumentos>
+				</div>
+		    </div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-operacion'"
+						id-actual="accionOperacion"
+						id-post-filtro="accionOperacionDefecto"
+						activado="!accionOperacionDefecto"
+						seleccionado="operacion"
+						auto-cargar="'false'"
+						filtros = "filtrosOperacion"
+						item-post-filtro = "'1'"
+						cascada-a="filtrosCondicionDeLiquidacion.IdTipoOperacion"
+						cascada-valor="'IdTipoOperacion'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-8" k-ng-disabled="fechaDeshabilitada" k-ng-model="fechaOperacion"></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+				<label class="col-xs-5" translate>UI_CONDICION_LIQUIDACION</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						filtros = "filtrosCondicionDeLiquidacion"
+						tipo="'combobox-condicion-liquidacion'"
+						id-actual="idCondicionDeLiquidacion"
+						id-post-filtro="idCondicionDeLiquidacionDefecto"
+						seleccionado="condicionDeLiquidacion"
+						activado="!idCondicionDeLiquidacionDefecto"
+						auto-cargar="'false'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_LIBRO_ORDENES</label>
+					<bcs-combobox-base 
+				     	class="col-xs-8"
+						tipo="'combobox-libro-orden'"
+						id-actual="idLibroOrdenes"
+						id-post-filtro="idLibroOrdenesDefecto"
+						activado="!idLibroOrdenesDefecto"
+						seleccionado="libroOrdenes"
+						todos="'S'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_BOLSA</label>
+					<bcs-combobox-base 
+				     	class="col-xs-8"
+						tipo="'combobox-bolsa'"
+						id-actual="idBolsa"
+						id-post-filtro="idBolsaDefecto"
+						activado="!idBolsaDefecto"
+						seleccionado="bolsa"
+						todos="'S'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" ng-hide="ocultaEsFungible==='S'" translate>UI_FUNGIBLE</label>
+					<bcs-input-checkbox 
+				     	class="col-xs-4"
+				     	ng-hide="ocultaEsFungible==='S'"
+				     	ng-disabled="esFungibleDeshabilitado"
+						ng-model="esFungible">
+					</bcs-input-checkbox>
+					<label class="col-xs-3" translate>UI_VENTA_CORTA</label>
+					<bcs-input-checkbox 
+				     	class="col-xs-1"
+				     	ng-disabled="esVentaCortaDeshabilitado"
+						ng-model="esVentaCorta">
+					</bcs-input-checkbox>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					
+				</div>
+				<div class="col-xs-4">
+					
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="col-xs-1">
+	    <div class="row">
+			<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="funcionBuscar()" ></bcs-button>
+		</div>
+		<div class="row">
+			<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+		</div>
+	</div>
+</div>

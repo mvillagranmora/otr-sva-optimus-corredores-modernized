@@ -1,0 +1,106 @@
+<div class="row" ng-controller='PosicionMRFCtl'>
+<form name="frmPosicionMRF">
+	<div id="PosicionMRF">
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" translate>UI_POSICION_MRF_TIPO</label>
+				<bcs-combobox-base class="col-xs-6"
+					id="frmTipo_Cartera"
+					auto-cargar="'true'"
+					bcs-requerido
+					tipo="'combobox-metodo-posicion-mrf'"
+					seleccionado="data.ConfMetodo.seleccionado"
+					filtros="data.ConfMetodo.filtros"
+					id-actual="data.ConfMetodo.idActual"
+					configuracion= "data.ConfMetodo.configuracion"
+					id-defecto="data.ConfMetodo.idDefecto"
+					item-post-filtro="'1'">
+				</bcs-combobox-base>
+				<label class="col-xs-1" translate> </label>				
+				<label class="col-xs-1" translate> {{data.frmTipoReajuste}}</label>			
+				<label class="col-xs-1" translate> </label>
+				<bcs-button class="col-xs-2" 
+					id="frmBtn_F5"
+					bcs-tipo="'bcs-button-input-form'"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_RESUMEN' | translate" 
+					bcs-clic="buscarResumenMRF()"
+					bcs-habilitado="'true'">
+				</bcs-button>				
+			</div>
+		</div>		
+
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" translate>UI_POSICION_MRF_FINAL</label>
+				<bcs-input-numero class="col-xs-6" id="PosicionFinal"
+					k-ng-model="data.frmPosicionFinal"
+					decimales = "0" 
+					k-options = "{ min : -999999999999 }"
+					k-ng-disabled = "true">
+				</bcs-input-numero>					
+				<label class="col-xs-2" translate> </label>	
+				<bcs-button class="col-xs-2" 
+					id="frmBtn_Detalle"
+					bcs-tipo="'bcs-button-input-form'"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_DETALLE' | translate" 
+					bcs-clic="buscarDetalleMRF()"
+					bcs-habilitado="'true'">
+				</bcs-button>				
+			</div>
+		</div>	
+
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" translate>UI_MESA</label>
+				<!-- <bcs-input-texto id="MesaPosicion" class="col-xs-3" 
+				    ng-model="data.frmMesaPosicion"
+					k-ng-disabled='true'>
+				</bcs-input-texto>-->
+				<bcs-combobox-base class="col-xs-6"
+					id="MesaPosicion"
+					tipo="data.oConfiguracionMesas.tipo"
+					auto-cargar="'true'"
+					seleccionado="data.oConfiguracionMesas.seleccionado"
+					filtros="data.oConfiguracionMesas.filtros"
+					id-actual="data.oConfiguracionMesas.idActual"
+					configuracion= "data.oConfiguracionMesas.configuracion"
+					activado = "'false'">
+				</bcs-combobox-base>				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12"> 
+				<label class="col-xs-2" translate>UI_FECHA</label>
+				<bcs-input-date class="col-xs-3"
+					id="frmFECHA"
+					k-ng-model="data.kngFecha" 
+					ng-model="data.Fecha"
+					k-ng-disabled="true"
+					bcs-requerido>
+				</bcs-input-date>				
+			</div> 			
+		</div>	
+
+        <div class="row">
+            <bcs-grid id="frmGrid_PosicionMRF"
+            	fn-exportar-excel = "exportarExcel"
+                configuracion = "grid.confPosicionMRF">
+            </bcs-grid>
+        </div>
+
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos">
+			<bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+				<li ng-click="exportarExcel(NombreArchivo)">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>	
+		<bcs-websocket bcs-msg='msgWebsocket(message)'></bcs-websocket>	
+	</div>
+
+
+
+
+</form>
+</div>

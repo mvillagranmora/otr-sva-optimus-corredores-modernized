@@ -1,0 +1,186 @@
+<div id="ModalLimitesCuentaPropia" class="row" ng-controller="ModalLimitesCuentaPropiaCtrl as mLCP">
+	<div class="row">
+		<div ng-class="mLCP.win.modoEditarEmisor ? 'col-xs-9' : mLCP.win.modoEditarMargenTasas ? 'col-xs-5' : 'col-xs-12'">
+			<form name="ModalLimitesCuentaPropia">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						id-actual="mLCP.respuesta.IdTipoInstrumento"
+						id-defecto="mLCP.respuesta.IdTipoInstrumentoDef"
+						filtros="mLCP.cmbbx.TipoInstrumento.filtros"
+						todos="mLCP.dataDirectiva.TipoLimite === 'LIMCTPMARGENTASAS' ? 'S':'N'"
+						item-post-filtro = "'1'"
+						activado="!mLCP.win.modoCopiar"
+						bcs-requerido
+						seleccionado="mLCP.dataModal.TipoInstrumentoObj"
+						cascada1-a="mLCP.cmbbx.TipoOperacion.filtros.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'"
+						cascada2-a="mLCP.cmbbx.ClasificacionRiesgo.filtros.IdClasificacionTipoInstrumento"
+						cascada2-valor="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-operacion'"
+						id-actual="mLCP.respuesta.IdTipoOperacion"
+						id-defecto="mLCP.respuesta.IdTipoOperacionDef"
+						item-post-filtro=" (!mLCP.win.modoEditar) ? '1': mLCP.respuesta.IdTipoOperacionDef"
+						filtros="mLCP.cmbbx.TipoOperacion.filtros"
+						todos="'S'"
+						seleccionado="mLCP.dataModal.TipoOperacionObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CANAL</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-canal-ingreso'"
+						id-actual="mLCP.respuesta.IdCanalIngreso"
+						id-defecto="mLCP.respuesta.IdCanalIngresoDef"
+						filtros="mLCP.cmbbx.TipoCanalIngreso.filtros"
+						todos="'S'"
+						activado="!mLCP.win.modoCopiar"
+						bcs-requerido
+						seleccionado="mLCP.dataModal.TipoCanalIngresoObj">
+					</bcs-combobox-base>
+			  	</div>
+			  	
+			  	
+			  	<div class="row" ng-if="mLCP.dataDirectiva.TipoLimite === 'LIMCTPPLAZO'">
+					<label class="col-xs-4" translate>UI_PLAZO_MAXIMO_DIAS</label>
+					<bcs-input-numero class="col-xs-8" bcs-requerido k-ng-model="mLCP.respuesta.Plazo" decimales="0"></bcs-input-numero>
+				</div>
+				
+				<div ng-if="mLCP.dataDirectiva.TipoLimite === 'LIMCTPCLASIFRIESGO'">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CLASIFICACION_RIESGO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-clasificacion-riesgo'"
+						id-actual="mLCP.respuesta.IdClasificacionRiesgo"
+						id-defecto="mLCP.respuesta.IdClasificacionRiesgoDef"
+						filtros="mLCP.cmbbx.ClasificacionRiesgo.filtros"
+						todos="'N'"
+						bcs-requerido
+						seleccionado="mLCP.dataModal.ClasificacionRiesgoObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_LIMITE_TOTAL</label>
+					<bcs-input-numero class="col-xs-8" 
+						k-ng-model="mLCP.respuesta.MontoTotal"
+						decimales="mLCP.win.MontoDecimal">
+					</bcs-input-numero>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_MONEDA_LIMITE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-moneda-tesoreria'"
+						id-actual="mLCP.respuesta.IdMonedaCalculo"
+						id-defecto="mLCP.respuesta.IdMonedaCalculoDef"
+						todos="'N'"
+						bcs-requerido
+						filtros="mLCP.cmbbx.MonedaCalculo.filtros"
+						seleccionado="mLCP.dataModal.MonedaCalculoObj">
+					</bcs-combobox-base>
+				</div>
+				</div>
+				
+				
+				<div class="row" ng-if="mLCP.dataDirectiva.TipoLimite === 'LIMCTPPLAZO' || mLCP.dataDirectiva.TipoLimite === 'LIMCTPMARGENTASAS'">
+					<label class="col-xs-4" translate>UI_MONEDA_OPERACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-moneda-tesoreria'"
+						id-actual="mLCP.respuesta.IdMoneda"
+						id-defecto="mLCP.respuesta.IdMonedaDef"
+						todos="(mLCP.dataDirectiva.TipoLimite === 'LIMCTPMARGENTASAS' || mLCP.dataDirectiva.Clasificacion === 'DV') ? 'S':'N'"
+						activado="!mLCP.win.modoCopiar"
+						id-post-filtro = "(mLCP.dataDirectiva.TipoLimite === 'LIMCTPMARGENTASAS' || mLCP.dataDirectiva.Clasificacion === 'DV') ? '0': 'mLCP.respuesta.IdMonedaDef'"
+						bcs-requerido
+						filtros = "mLCP.cmbbx.Moneda.filtros"
+						seleccionado="mLCP.dataModal.MonedaObj">
+					</bcs-combobox-base>
+				</div>
+				
+				<div class="row">
+                    <label class="col-xs-4" translate>UI_TIPO_VALIDACION</label>
+                    <bcs-combobox-base class="col-xs-8" 
+                        tipo="'combobox-tipo-comportamiento'"
+                        id-actual="mLCP.respuesta.IdTipoComportamiento" 
+                        id-defecto="mLCP.respuesta.IdTipoComportamientoDef" 
+                        todos="'N'" 
+                        activado="true" 
+                        bcs-requerido
+                        seleccionado="mLCP.dataModal.TipoComportamientoObj">
+                    </bcs-combobox-base>
+                </div>
+				
+				<div class="row">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-estado-limites'"
+						id-actual="mLCP.respuesta.IdEstado"
+						id-defecto="mLCP.respuesta.IdEstadoDef"
+						filtros="mLCP.cmbbx.Estado.filtros"
+						todos="'N'"
+						activado="!mLCP.win.modoCopiar"
+						bcs-requerido
+						seleccionado="mLCP.dataModal.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+			</form>
+		</div>
+	</div>
+	<br>
+	
+	<div ng-if="mLCP.win.modoEditar && mLCP.dataDirectiva.TipoLimite === 'LIMCTPEXCLUIREMISOR'">
+		<div class="row">
+			<bcs-grid
+				configuracion="mLCP.grillaEmisores"
+				seleccionado="mLCP.emisorSel"
+				fn-doble-click="mLCP.modificarEmisor(mLCP.emisorSel)">
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<div ng-if="mLCP.win.modoEditar && mLCP.dataDirectiva.TipoLimite === 'LIMCTPMARGENTASAS'">
+		<div class="row">
+			<bcs-grid
+				configuracion="mLCP.grillaRangos"
+				seleccionado="mLCP.rangosSel"
+				fn-doble-click="mLCP.modificarRangos(mLCP.rangosSel)">
+			</bcs-grid>
+		</div>
+	</div>
+	
+	
+	<div class="row bcs-panel-comandos">
+		<div ng-class="mLCP.win.modoEditarMargenTasas ? 'col-xs-7' : 'col-xs-10'">
+			<bcs-button id={{mLCP.IdBotonAceptar}} class="col-xs-3" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalLimitesCuentaPropia.$valid" bcs-clic="mLCP.aceptar();">
+			</bcs-button>
+			
+			<div ng-if="mLCP.dataDirectiva.TipoLimite === 'LIMCTPEXCLUIREMISOR' && !mLCP.win.modoCopiar">
+				<bcs-button id="ModalLimitesCuentaPropia_AgregarEmisor" class="col-xs-3" ng-if="mLCP.win.modoEditar" bcs-tipo="''" bcs-auto-desactivar="false" 
+					bcs-texto="'UI_AGREGAR_EMISOR' | translate" bcs-habilitado="true" bcs-clic="mLCP.agregarEmisor();">
+				</bcs-button>
+				<bcs-button id="ModalLimitesCuentaPropia_ModificarEmisor" class="col-xs-3" ng-if="mLCP.win.modoEditar" bcs-tipo="''" bcs-auto-desactivar="false" 
+					bcs-texto="'UI_MODIFICAR_EMISOR' | translate" bcs-habilitado="mLCP.emisorSel !== undefined && mLCP.emisorSel.IdEstado !== 'PEN'" bcs-clic="mLCP.modificarEmisor(mLCP.emisorSel);">
+				</bcs-button>
+			</div>
+			
+			<div ng-if="mLCP.dataDirectiva.TipoLimite === 'LIMCTPMARGENTASAS' && !mLCP.win.modoCopiar">
+				<bcs-button id="ModalLimitesCuentaPropia_AgregarRangos" class="col-xs-3" ng-if="mLCP.win.modoEditar" bcs-tipo="''" bcs-auto-desactivar="false" 
+					bcs-texto="'UI_AGREGAR_RANGO' | translate" bcs-habilitado="true" bcs-clic="mLCP.agregarRangos();">
+				</bcs-button>
+				<bcs-button id="ModalLimitesCuentaPropia_ModificarRangos" class="col-xs-3" ng-if="mLCP.win.modoEditar" bcs-tipo="''" bcs-auto-desactivar="false" 
+					bcs-texto="'UI_MODIFICAR_RANGO' | translate" bcs-habilitado="mLCP.rangosSel !== undefined && mLCP.rangosSel.IdEstado !== 'PEN'" bcs-clic="mLCP.modificarRangos(mLCP.rangosSel);">
+				</bcs-button>
+			</div>
+			
+			<bcs-button id="ModalLimitesCuentaPropia_cancelar" class="col-xs-3" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="mLCP.cancelar();">
+			</bcs-button>
+		</div>
+	</div>
+</div>

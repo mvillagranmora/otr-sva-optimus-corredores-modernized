@@ -1,0 +1,144 @@
+<div ng-controller="AsignacionMasivaPrecioPromedioCtrl">
+	<div class="row">
+		<form name="formBusqueda" class="row no-margin">
+			<div class="col-xs-12">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							bcs-requerido
+							tipo="'combobox-clasificacion-tipo-instrumento'"
+							filtros = "datosForm.filtrosClasificacionTipoInstrumento"
+							id-actual="datosBusqueda.IdClasificacionTipoInstrumento"
+							todos = "'N'"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_BOLSA</label>
+						<bcs-combobox-base 
+					     	class="col-xs-8"
+							tipo="'combobox-bolsa-asignacion-masiva'"
+							id-actual="datosBusqueda.IdBolsa"
+							item-post-filtro = "'1'"
+							todos="'S'" 
+							bcs-requerido>
+						</bcs-combobox-base>
+			    	</div>
+			    	<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_MARCA_NEGOCIACION</label>
+						<bcs-combobox-multiseleccion
+							class="col-xs-8"
+						    tipo="'combobox-marca-negociacion-asignacion-masiva'"
+						    ng-model="datosBusqueda.marcasNegociacionSeleccionadas"
+						    filtros = "datosForm.filtrosInstrumentos">
+						</bcs-combobox-multiseleccion>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_INSTRUMENTOS</label>
+						<bcs-combobox-multiseleccion
+							class="col-xs-8"
+						    tipo="'combobox-instrumento-asignacion-masiva'"
+						    ng-model="datosBusqueda.instrumentosSeleccionados"
+						    filtros = "datosForm.filtrosInstrumentos"
+						    ng-blur="validaHabilitacionBotonBusqueda()"
+						    bcs-requerido>
+						</bcs-combobox-multiseleccion>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							tipo="'combobox-condicion-liquidacion-asignacion-masiva'"
+							id-actual="datosBusqueda.IdCondicionDeLiquidacion"
+							item-post-filtro = "'1'">
+						</bcs-combobox-base >
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-operacion-asignacion-masiva'"
+							id-actual="datosBusqueda.AccionOrden"
+							item-post-filtro = "'1'"
+							bcs-requerido>
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_LIBRO_ORDENES</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-libro-orden-asignacion-masiva'"
+							filtros = "datosForm.filtrosLibroOrdenes"
+							id-actual="datosBusqueda.IdLibroOrdenes"
+							todos = "'N'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_BOVEDA</label>
+						<bcs-combobox-base 
+					     	class="col-xs-8"
+							tipo="'combobox-boveda-asignacion-masiva'"
+							id-actual="datosBusqueda.IdBoveda"
+							todos = "'N'">
+						</bcs-combobox-base>
+			    	</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-2" translate>UI_FECHA_DESDE</label>
+						<bcs-input-date class="col-xs-4" k-ng-model="datosBusqueda.fechaDesde" k-options="datosForm.oConfiguracionFechaDesde"></bcs-input-date>
+						<label class="col-xs-2" translate>UI_FECHA_HASTA</label>
+						<bcs-input-date class="col-xs-4" k-ng-model="datosBusqueda.fechaHasta" k-options="datosForm.oConfiguracionFechaHasta"></bcs-input-date>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-2" translate>UI_HORA_DESDE</label>
+						<bcs-input-time class="col-xs-4" k-ng-model="datosBusqueda.horaDesde" k-options="datosForm.oConfiguracionHora"></bcs-input-time>
+						<label class="col-xs-2" translate>UI_HORA_HASTA</label>
+						<bcs-input-time class="col-xs-4" k-ng-model="datosBusqueda.horaHasta" k-options="datosForm.oConfiguracionHora"></bcs-input-time>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+						<label class="col-xs-2" translate>UI_PRECIO_DESDE</label>
+						<bcs-input-monetario class="col-xs-4" k-ng-model="datosBusqueda.precioDesde"></bcs-input-monetario>
+						<label class="col-xs-2" translate>UI_PRECIO_HASTA</label>
+						<bcs-input-monetario class="col-xs-4" k-ng-model="datosBusqueda.precioHasta"></bcs-input-monetario>
+					</div>
+					<div class="col-xs-3 pull-right">
+						<bcs-button bcs-tipo="'bcs-button-search'" class="col-xs-12" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR_TRANSACCIONES' | translate" bcs-habilitado="formBusqueda.$valid" bcs-clic="buscarTransacciones()"></bcs-button>
+					</div>
+				</div>
+			<hr/>
+			</div>
+		</form>
+	</div>
+	<div class="row">
+		<div class="col-xs-8">
+			<uib-tabset>
+				<uib-tab ng-click='tabClick()' active="formData.tabOTransacciones.active" select="select('gridTransacciones')" ng-show="'false'" heading="{{'UI_TRANSACCIONES' | translate}}">
+					<div class="row" >
+						<bcs-grid id="gridTransacciones" api="formData.gridTransacciones" configuracion="formData.optionsGrillaTransacciones" seleccionado="formData.registroAgrupadoSeleccionado"></bcs-grid>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+		<div class="col-xs-3"  style="margin-top: 55px;justify-content: center;">
+			<div class="row">
+				<bcs-button bcs-tipo="'bcs-button-primary'" class="col-xs-12" bcs-auto-desactivar="false" bcs-texto="'UI_VER_DETALLE' | translate" bcs-habilitado="formData.registroAgrupadoSeleccionado" bcs-clic="detalleTransacciones()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button bcs-tipo="'bcs-button-primary'" class="col-xs-12" bcs-auto-desactivar="false" bcs-texto="'UI_ASIGNACION_POR_GRUPO' | translate" bcs-habilitado="formData.registroAgrupadoSeleccionado" bcs-clic="asignarPorGrupo()"></bcs-button>
+			</div>			
+		</div>
+		
+	</div>
+</div>
+

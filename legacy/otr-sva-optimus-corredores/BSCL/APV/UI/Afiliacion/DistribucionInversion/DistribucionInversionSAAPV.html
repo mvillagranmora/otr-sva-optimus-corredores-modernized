@@ -1,0 +1,80 @@
+<div id="DistribucionInversionSAAPV" ng-controller="InversionCtrl as distrib">
+<form name="formDistrib">
+	<div class="col-xs-12 bcs-cuerpo">
+		<div class="row">
+			<label class="col-xs-5" translate>UI_TIPO_INSTRUMENTO</label>
+			<bcs-combobox-base
+				class				= "col-xs-7"
+				tipo				= "'combobox-tipo-instrumento'"
+				todos 				= "distrib.IdTipoInstrumento === 'FFMM'? 'N' : 'S'"	
+				id-defecto 			= "distrib.IdTipoInstrumento"
+				configuracion		= "distrib.oConfiguracionTipoInstrumento.configuracion" 
+				id-actual			= "distrib.oConfiguracionTipoInstrumento.idActual"
+				cascada1-a			= "distrib.oConfiguracionInstrumento.filtros.IdTipoInstrumento"
+				cascada1-valor		= "'IdTipoInstrumento'"
+				seleccionado		= "distrib.IdTipoInstrumentoSeleccionado"
+				activado			= "true">
+			</bcs-combobox-base>	
+		</div>
+		<div class="row">
+			<label class="col-xs-5" translate>UI_INSTRUMENTO</label>
+			<bcs-input-instrumentos-ga 
+				bcs-requerido
+				id							= "UI_INSTRUMENTO"
+				class						= "col-xs-7" 
+				datos-instrumento			= "distrib.instrumento"
+				buscar-instrumento			= "distrib.oConfiguracionInstrumento.buscar"
+				filtro-tipo-instrumento 	= "distrib.oConfiguracionTipoInstrumento.idActual"
+				filtro-clasificacion		= "distrib.oConfiguracionClasificacionTipoInstrumento.idActual" 
+				filtro-id-perfil-productos  = "distrib.IdPerfilProductos" 
+				filtro-estado				= "'ACT'"   
+				ng-if						= "distrib.IdTipoInstrumentoSeleccionado  ? true : false">
+			</bcs-input-instrumentos-ga>
+		</div>			
+		<div class="row">
+			<div class="col-xs-9">
+			</div>
+			<div class="col-xs-3">
+				<bcs-button 
+					bcs-tipo="'default'"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_AGREGAR' | translate" 
+					bcs-habilitado="true"  
+					bcs-clic="distrib.AgregarRegistro()">
+				</bcs-button>
+			</div>	
+		</div>
+		<br>
+		<div class="row">
+			<bcs-grid
+				id				= "Distrib_Inversion"
+				configuracion	= "Distribucion"					
+				seleccionado	= "distrib.seleccionGrilla">
+			</bcs-grid>
+		</div>
+		<br>
+		<div class= "row">
+			<div class="col-xs-6">
+			</div>
+			<div class="col-xs-3">
+				<bcs-button 
+					bcs-tipo="'default'"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_ELIMINAR' | translate" 
+					bcs-habilitado="distrib.bloqueoEliminar" 
+					bcs-clic="distrib.EliminaDistribucion(distrib.seleccionGrilla)">
+				</bcs-button>
+			</div>
+			<div class="col-xs-3">
+				<bcs-button 
+					bcs-tipo="'default'"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_GUARDAR' | translate" 
+					bcs-habilitado="distrib.bloqueoGuardar"  
+					bcs-clic="distrib.GuardarDistribucion()">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+</form>
+</div>

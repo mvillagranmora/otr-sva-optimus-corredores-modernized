@@ -1,0 +1,73 @@
+<div id="BloqueoMasivoClientes" ng-controller="BloqueoMasivoClientesCtrl">
+	
+	<div class="row">
+		<div class="col-xs-12">
+				<!-- Inicio filtros de búsqueda -->
+				<form name="formBloqueoDesbloqueoClientes">	
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-4" translate>UI_CARGAR_ARCHIVO_CLIENTES</label>
+						<bcs-button bcs-habilitado="true" class="col-xs-8" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'Cargar archivo'" bcs-clic="cargarArchivo()"></bcs-button>				
+					</div>
+			  	</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4"></label>
+						<label class="col-xs-8" ng-show="nombreArchivo">{{ nombreArchivo }}</label>
+					</div>					
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12" ng-style="data.clientes ? {'padding-top':'5px'} : {}">
+						<label class="col-xs-4" translate>UI_TIPO_PROCESO</label>
+						<select
+							kendo-combo-box
+							bcs-requerido="!data.selectedTipoProceso"
+							id="formBloqueoDesbloqueoClientes_TipoProceso"
+							ng-model="data.selectedTipoProceso" 
+							style="width: 66.66666667% !important;" 
+							k-options="data.tipoProceso"
+							>
+						</select>
+					</div>					
+			  	</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>{{(data.selectedTipoProceso == 'ACT') ? 'UI_MOTIVO_DESBLOQUEO_CLIENTE' : 'UI_MOTIVO_BLOQUEO_CLIENTE'}}</label>
+						<bcs-combobox-base 
+							id="formBloqueoDesbloqueoClientes_MotivoBloqueoCliente" 
+							tipo="data.oConfiguracionTipoBloqueoDesbloqueoCliente.tipo"
+							filtros="data.oConfiguracionTipoBloqueoDesbloqueoCliente.filtros"
+							class="col-xs-8" 
+							id-actual = "data.oConfiguracionTipoBloqueoDesbloqueoCliente.idActual"
+							>
+						</bcs-combobox-base>
+					</div>					
+			  	</div>
+			  	<div class="row">
+			  		<div class="col-xs-12">
+						<label class="col-xs-4" translate>{{(data.selectedTipoProceso == 'ACT') ? 'UI_MOTIVO_DESBLOQUEO_PORTAFOLIO' : 'UI_MOTIVO_BLOQUEO_PORTAFOLIO'}}</label>
+						<bcs-combobox-base 
+							id="formBloqueoDesbloqueoClientes_MotivoBloqueoPortafolio" 
+							tipo="data.oConfiguracionTipoBloqueoDesbloqueoPortafolio.tipo"
+							filtros="data.oConfiguracionTipoBloqueoDesbloqueoPortafolio.filtros"
+							class="col-xs-8" 
+							id-actual = "data.oConfiguracionTipoBloqueoDesbloqueoPortafolio.idActual">
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+			  	</form>
+				<!-- Fin filtros de búsqueda -->
+		</div>
+	</div>
+ 	<div class="row"></div>
+ 	
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="row col-xs-4 pull-right" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="(data.selectedTipoProceso == 'ACT') ? 'UI_DESBLOQUEAR' : 'UI_BLOQUEAR' | translate"  bcs-habilitado="formBloqueoDesbloqueoClientes.$valid"  bcs-clic="bloquearDesbloquear()"></bcs-button>
+		<bcs-button class="row col-xs-4 pull-right" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="'true'"  bcs-clic="limpiarDatos()"></bcs-button>
+		<div class="col-xs-4"></div>		
+	</div>
+	
+</div>

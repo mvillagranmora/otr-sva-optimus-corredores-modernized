@@ -1,0 +1,73 @@
+<div id="AdministrarPortafolioAutorizacionesModalCrear" ng-controller="AdministrarPortafolioAutorizacionesModalCrearCtrl as apaCreMod">
+	<div class="row" style="min-height:110px">
+		<form name="formRelacion">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_AUTORIZACION</label>
+				<bcs-combobox-base
+						id="formPortafolioClienteAutorizaciones_tipoAutorizacion"
+						class="col-xs-8"
+						tipo="'combobox-tipo-autorizado-portafolio'"
+						id-actual="apaCreMod.conf.oConfiguracionTipoAutorizado.idActual"
+						id-defecto="apaCreMod.conf.oConfiguracionTipoAutorizado.idDefecto"
+						bcs-requerido="apaCreMod.camposRequeridos['formPortafolioClienteAutorizaciones_tipoAutorizacion'].Requerido === 'S'"
+						seleccionado="apaCreMod.TipoAutObj"
+				></bcs-combobox-base>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-3" translate>UI_AUTORIZADO_A_DAR_ORDENES</label>
+				<bcs-combobox-base
+						id="formPortafolioClienteAutorizaciones_autorizadoDarOrdenes"
+						class="col-xs-8"
+						tipo="'combobox-relacionado'"
+						id-actual="apaCreMod.conf.oConfiguracionRelacionado.idActual"
+						id-defecto="apaCreMod.conf.oConfiguracionRelacionado.idDefecto"
+						bcs-requerido="apaCreMod.camposRequeridos['formPortafolioClienteAutorizaciones_autorizadoDarOrdenes'].Requerido === 'S'"
+						filtros="apaCreMod.conf.oConfiguracionRelacionados.filtros"
+						seleccionado="apaCreMod.RelacionadoObj"
+				></bcs-combobox-base>
+			</div>
+			<div class="row" ng-show="SesionLocale === 'PE' && apaCreMod.conf.oConfiguracionTipoAutorizado.idActual === 'ORDEN-CREAR'">
+				<label class="col-xs-3" translate>UI_NUMERO_REGISTRO_PUBLICO</label>
+				<bcs-input-texto
+						id="formPortafolioClienteAutorizaciones_numeroRegistroPublico"
+						class="col-xs-3"
+						bcs-requerido="SesionLocale === 'PE' && apaCreMod.conf.oConfiguracionTipoAutorizado.idActual === 'ORDEN-CREAR'"
+						ng-model="apaCreMod.NumeroRegistroPublico"
+				></bcs-input-texto>
+				<label class="col-xs-2" translate>UI_ASIENTO</label>
+				<bcs-input-texto
+						id="formPortafolioClienteAutorizaciones_asiento"
+						class="col-xs-3"
+						bcs-requerido="SesionLocale === 'PE' && apaCreMod.conf.oConfiguracionTipoAutorizado.idActual === 'ORDEN-CREAR'"
+						ng-model="apaCreMod.NumeroAsiento"
+				></bcs-input-texto>
+			</div>
+			<div class="row" ng-show="SesionLocale === 'PE' && apaCreMod.conf.oConfiguracionTipoAutorizado.idActual === 'ORDEN-CREAR'">
+				<label class="col-xs-3" translate>UI_FICHA_O_PARTIDA</label>
+				<bcs-input-texto
+						id="formPortafolioClienteAutorizaciones_fichaPartida"
+						class="col-xs-3"
+						bcs-requerido="SesionLocale === 'PE' && apaCreMod.conf.oConfiguracionTipoAutorizado.idActual === 'ORDEN-CREAR'"
+						ng-model="apaCreMod.FichaPartida"
+				></bcs-input-texto>
+				<label class="col-xs-2" translate>UI_TIPO_FIRMA</label>
+				<bcs-input-checkgroup
+						id="formPortafolioClienteAutorizaciones_tipoFirma"
+						class="col-xs-4"
+						valores="apaCreMod.ValoresTipoFirma"
+						etiquetas="apaCreMod.EtiquetasTipoFirma"
+						modo="U"
+						bcs-requerido="SesionLocale === 'PE' && apaCreMod.conf.oConfiguracionTipoAutorizado.idActual === 'ORDEN-CREAR'"
+				></bcs-input-checkgroup>
+			</div>
+		</form>
+	</div>
+	<div class="row">
+		<bcs-button id="AdministrarPortafolioAutorizacionesModalCrear_aceptar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" bcs-habilitado="formRelacion.$valid" 
+			bcs-auto-desactivar="true" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="apaCreMod.aceptar()">
+		</bcs-button>
+		<bcs-button id="AdministrarPortafolioAutorizacionesModalCrear_cancelar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" 
+			bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="apaCreMod.cancelar()">
+		</bcs-button>
+	</div>
+</div>

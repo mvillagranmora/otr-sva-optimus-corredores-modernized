@@ -1,0 +1,72 @@
+<div class="row" ng-controller='EnvioDocumentosDetalleCtrl'>	
+	<div class="row bcs-cuerpo" ng-form="frmEnvioDocumentosDetalle">
+
+		<div class="row">			
+			<table class="table" width="70%">
+				<tr>
+					<td><strong class="align_right" translate>UI_SECUENCIA_ENVIO</strong></td>
+					<td><label class="">{{bInfoEnvioDocumentos.IdEnvioDocumento}}</label></td>					
+					<td><strong class="align_right" translate>UI_FECHA_ENVIO</strong></td>
+					<td><label class="" >{{bInfoEnvioDocumentos.FechaEnvio | kformat:'d'}}</label></td>
+				</tr>
+				
+				<tr>
+					<td><strong class="align_right" translate>UI_CAJA</strong></td>
+					<td><label class="">{{bInfoEnvioDocumentos.CodigoCaja}}</label></td>					
+					<td><strong class="align_right" translate>UI_USUARIO_ENVIO</strong></td>
+					<td><label class="" >{{bInfoEnvioDocumentos.CodigoUsuario}}</label></td>
+				</tr>
+				
+				<tr>					
+					<td><strong class="align_right" translate>UI_MEDIO_DE_PAGO</strong></td>
+					<td><label class="" >{{bInfoEnvioDocumentos.NombreMedioDePago}}</label></td>
+					<td><strong class="align_right" translate>UI_MONEDA</strong></td>
+					<td><label class="">{{bInfoEnvioDocumentos.IdMoneda}}</label></td>						
+				</tr>
+							
+				<tr>				
+					<td><strong class="align_right" translate>UI_CANTIDAD_DOCUMENTOS</strong></td>
+					<td><label class="" >{{bInfoEnvioDocumentos.CantidadDocumentos}}</label></td>					
+					<td><strong class="align_right" translate>UI_MONTO_TOTAL</strong></td>
+					<td><label class="">{{bInfoEnvioDocumentos.MontoEnvio | kformat:'c':bInfoEnvioDocumentos.IdMoneda:'monto':'GEN' }}</label></td>											
+				</tr>
+			</table>
+		</div>		
+		
+		<div class="row"  style="margin-top:12px;"> 
+			<bcs-grid id="grid-envio-documentos-detalle"
+			 	configuracion     = "confBasicaEnvioDocumentosDetalle"
+				seleccionado      = "seleccionEnvioDocumentosDetalle"
+				fn-exportar-excel = "exportarExcel">
+			</bcs-grid>
+		</div>
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+	
+		<bcs-button  class="col-xs-2" id="frmConsultarEnvioDocumentos_btnCertificar" 
+			bcs-auto-desactivar = "false"
+			bcs-texto			= "'UI_ACEPTAR_DOCUMENTO' | translate" 
+			bcs-habilitado		= "btnActivo"
+			bcs-Mostrar			= "mostrarBoton"
+			bcs-clic			= "aceptarDevolverDocumentos('ACP')"
+			bcs-tipo			= "'bcs-button-primary'">
+		</bcs-button>
+		 
+		
+		<bcs-button  class="col-xs-2" id="frmConsultarEnvioDocumentos_btnCertificar" 
+			bcs-auto-desactivar = "false"
+			bcs-texto			= "'UI_DEVOLVER_DOCUMENTO' | translate" 
+			bcs-habilitado		= "btnActivo"
+			bcs-Mostrar			= "mostrarBoton"
+			bcs-clic			= "aceptarDevolverDocumentos('DEV')"
+			bcs-tipo			= "'bcs-button-secondary'">
+		</bcs-button>		
+		
+		
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>            
+        </bcs-menu>
+	</div> 	
+</div>

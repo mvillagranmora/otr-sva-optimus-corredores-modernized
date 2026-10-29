@@ -1,0 +1,31 @@
+INSERT INTO "BSCL.Plataforma.BD::COM.PerfilCobros"
+(
+	"IdPerfilCobros",
+	"DescripcionPerfilCobros",
+	"EsPerfilPersonalizado",
+	"TipoEntidadReferencia",
+	"IdReferencia",
+	"FechaCreacion",
+	"FechaModificacion",
+	"IdEstado",
+	"PorDefecto",
+	"IdEmpresa",
+	"FechaIngreso",
+	"IdEstadoAutorizacion",
+	"IdUsuarioCreador"
+) 
+VALUES (
+	:IdPerfilCobros,
+	:DescripcionPerfilCobros,
+	:EsPerfilPersonalizado,
+	:TipoEntidadReferencia,
+	:IdReferencia,
+	:FechaCreacion,
+	:FechaModificacion,
+	:IdEstado,
+	:PorDefecto,
+	:IdEmpresa,
+	:FechaIngreso,
+	:IdEstadoAutorizacion,
+	:IdUsuarioCreador
+)

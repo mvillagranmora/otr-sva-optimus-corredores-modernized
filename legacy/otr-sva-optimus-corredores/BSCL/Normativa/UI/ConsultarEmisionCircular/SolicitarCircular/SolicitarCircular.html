@@ -1,0 +1,208 @@
+<div id="SolicitarCircular" ng-controller="SolicitarCircularCtrl as solCir">
+	<form class="col-xs-12 form-horizontal">
+
+		<div class="row" >
+				<label class="col-xs-3" translate> Fecha Ingreso Solicitud: </label>
+				<bcs-input-date class="col-xs-3" bcs-requerido
+					k-ng-model="solCir.fechaInicioSol"
+					k-ng-readonly="'true'">
+				</bcs-input-date>
+				<label class="col-xs-3" translate>UI_USUARIO</label>
+				<label style="font-weight: bold" class="col-xs-3" id="User"
+					ng-model="solCir.lblUsuario" translate>{{SesionUsuario}}</label>
+		
+		</div>
+			
+		<div class="row">
+			<span class="col-xs-3">
+				<label class="col-xs-4" translate>UI_FORMATO&nbsp;&nbsp;</label>
+				<em class="col-xs-4" style="text-decoration: underline;" ng-show="!solCir.muestraFormatos" ng-click="solCir.muestraFormatos = !solCir.muestraFormatos">({{'UI_MOSTRAR' | translate}})</em>
+				<em class="col-xs-4" style="text-decoration: underline;" ng-show="solCir.muestraFormatos" ng-click="solCir.muestraFormatos = !solCir.muestraFormatos">({{'UI_OCULTAR' | translate}})</em>
+			</span>
+		</div>
+		
+		<div class="row"  ng-show="solCir.muestraFormatos">
+					<div class="col-xs-3">
+				            <label>Separador Listas</label>
+				    </div>
+				    <div class="col-xs-3">
+				            <select style="width:100%;" ng-model="solCir.separadorListas" ng-disabled="data.modoLectura">
+				                <option value=",">Coma</option>
+				                <option value=";">Punto y coma</option>
+				            </select>
+				    </div>
+						
+					<div class="col-xs-3">
+			            <label>Simbolo Decimal</label>
+			        </div>
+			        <div class="col-xs-3">
+			            <select style="width:100%;" ng-model="solCir.simboloDecimal" ng-disabled="solCir.modoLectura" >
+			                <option value=",">Coma</option>
+			                <option value=".">Punto</option>
+			            </select>
+			        </div>
+				        
+				        
+			</div>
+			<div class="row" ng-show="solCir.muestraFormatos">
+		        <div class="col-xs-3">
+			            <label>Formato Fecha</label>
+			        </div>
+			        <div class="col-xs-3">
+			            <select style="width:100%;" ng-model="solCir.simboloFecha" ng-disabled="solCir.modoLectura" >
+			                <option value="dd/MM/yyyy">dd/MM/yyyy</option>
+			                <option value="MM/dd/yyyy">MM/dd/yyyy</option>
+			            </select>
+			        </div>
+			</div>			
+			
+		</form>
+				
+	<form class="col-xs-12 form-horizontal">
+		<div class="row" >
+			<label class="col-xs-3" translate>UI_NORMATIVA</label>
+			<bcs-combobox-base class="col-xs-6"
+						tipo = "'combobox-tipo-normativa'"
+						seleccionado="solCir.cmbbx.IdNormativaObj"
+						bcs-requerido
+						auto-cargar="true"
+						item-post-filtro="'1'"
+						id-defecto="solCir.params.PrevNormativa.idactual"
+						id-actual = "solCir.cmbbx.IdNormativa"
+						filtros="solCir.cmbbx.Normativa.filtros"
+						cascada1-a="solCir.cmbbx.TipoDocumento.filtros.IdNormativa"
+						cascada1-valor="'IdNormativa'">   
+		 	</bcs-combobox-base >		
+		</div>
+		<div class="row" >
+			<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO</label>
+			<bcs-combobox-base class="col-xs-6"
+						tipo = "'combobox-tipo-documento-normativa'"
+						id-actual = "solCir.cmbbx.IdTipoDocumento"
+						filtros="solCir.cmbbx.TipoDocumento.filtros"
+						auto-cargar="true"
+						item-post-filtro="'1'"
+						id-defecto="solCir.params.PrevDocumento.IdTipoDocumento"
+						todos="'N'"
+						seleccionado="solCir.cmbbx.IdTipoDocumentoObj">
+		 	</bcs-combobox-base >		
+		</div>
+		<hr>
+		<br>
+			<div class="col-xs-12" >
+			<uib-tabset>
+					<uib-tab id="TabCarta1" heading="{{'UI_ART171_CARTA1_BCS' | translate}}" select="solCir.fnTabCarta1BCS()"  active="solCir.cmbbx.IdTipoDocumento=='ART171Car1'" ng-show="solCir.cmbbx.IdTipoDocumento=='ART171Car1'">
+						<div class="row" >
+							<div id="PanelCarta1BCS"></div>
+						</div>
+					</uib-tab>
+					
+					<uib-tab id="TabCarta2" heading="{{'UI_ART171_CARTA2_SVS' | translate}}" select="solCir.fnTabCarta2SVS()"  active="solCir.cmbbx.IdTipoDocumento=='ART171Car2'" ng-show="solCir.cmbbx.IdTipoDocumento=='ART171Car2'">
+						<div class="row">
+							<div id="PanelCarta2SVS"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCI63Nomina" heading="{{'UI_CIR63_NOMINA_DE_PERSONAS' | translate}}" select="solCir.fnTabCI63Nomina()"  active="solCir.cmbbx.IdTipoDocumento=='CI63Nomina'" ng-show="solCir.cmbbx.IdTipoDocumento=='CI63Nomina'">
+						<div class="row">
+							<div id="PanelCI63Nomina"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCI63Transa" heading="{{'UI_CIR63_TRANSACCIONES_DE_RELACIONADOS' | translate}}" select="solCir.fnTabCI63Transa()"  active="solCir.cmbbx.IdTipoDocumento=='CI63Transa'" ng-show="solCir.cmbbx.IdTipoDocumento=='CI63Transa'">
+						<div class="row">
+							<div id="PanelCI63Transa"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCI63Carta" heading="{{'UI_CIR63_CARTA_CIRCULAR' | translate}}" select="solCir.fnTabCI63Carta()"  active="solCir.cmbbx.IdTipoDocumento=='CI63Carta'" ng-show="solCir.cmbbx.IdTipoDocumento=='CI63Carta'">
+						<div class="row">
+							<div id="PanelCI63Carta"></div>
+						</div>
+					</uib-tab>					
+					<uib-tab id="TabNCG380" heading="{{'UI_NCG380_NORMA_DE_CARACTER_GENERAL' | translate}}" select="solCir.fnTabNCG380()" active="solCir.cmbbx.IdNormativa=='NCG380'" ng-show="solCir.cmbbx.IdNormativa=='NCG380'">
+						<div class="row">
+							<div id="PanelNCG380"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabUAF48PEP" heading="{{'UI_UAF48_PERSONAS_EXPUESTAS_POLITICAMENTE' | translate}}" select="solCir.fnTabUAF48PEP()"  active="solCir.cmbbx.IdTipoDocumento=='UAF48PEP'" ng-show="solCir.cmbbx.IdTipoDocumento=='UAF48PEP'">
+						<div class="row">
+							<div id="PanelUAF48PEP"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabUAFDOF" heading="{{'UI_UAFDOF_TRANSACCIONES_CON_ORIGEN_DE_FONDOS' | translate}}" select="solCir.fnTabUAFDOF()"  active="solCir.cmbbx.IdTipoDocumento=='UAFDOF'" ng-show="solCir.cmbbx.IdTipoDocumento=='UAFDOF'">
+						<div class="row">
+							<div id="PanelUAFDOF"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabUAFROE" heading="{{'UI_UAFROE_REPORTE_DE_OPERACIONES_EN_EFECTIVO' | translate}}" select="solCir.fnTabUAFROE()"  active="solCir.cmbbx.IdTipoDocumento=='UAFROE'" ng-show="solCir.cmbbx.IdTipoDocumento=='UAFROE'">
+						<div class="row">
+							<div id="PanelUAFROE"></div>
+						</div>
+					</uib-tab>	
+					<uib-tab id="TabCIR1064" heading="CIR1064" select="solCir.fnTabCIR1064()" active="solCir.cmbbx.IdNormativa=='CIR1064'" ng-show="solCir.cmbbx.IdNormativa=='CIR1064'">
+						<div class="row">
+							<div id="PanelCIR1064"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabINFTRASEIL"  heading="{{'UI_INFOTRANOFIC_INFORME_DE_TRANSACCIONES_POR_OFICIO' | translate}}" select="solCir.fnTabINFTRASEIL()" active="solCir.cmbbx.IdTipoDocumento=='INFTRASEIL'" ng-show="solCir.cmbbx.IdTipoDocumento=='INFTRASEIL'">
+						<div class="row">
+							<div id="PanelINFTRASEIL"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabINFTRABCS"  heading="{{'UI_INFOTRANOFIC_INFORME_DE_TRANSACCIONES_POR_OFICIO' | translate}}" select="solCir.fnTabINFTRABCS()" active="solCir.cmbbx.IdTipoDocumento=='INFTRABCS'" ng-show="solCir.cmbbx.IdTipoDocumento=='INFTRABCS'">
+						<div class="row">
+							<div id="PanelINFTRABCS"></div>
+						</div>
+					</uib-tab>					
+					<uib-tab id="TabCIR1064R" heading="CIR1064R" select="solCir.fnTabCIR1064R()" active="solCir.cmbbx.IdNormativa=='CIR1064R'" ng-show="solCir.cmbbx.IdNormativa=='CIR1064R'">
+						<div class="row">
+							<div id="PanelCIR1064R"></div>
+						</div>
+					</uib-tab>		
+					<uib-tab id="TabCIR1064FR" heading="CIR1064FR" select="solCir.fnTabCIR1064FR()" active="solCir.cmbbx.IdNormativa=='CIR1064FR'" ng-show="solCir.cmbbx.IdNormativa=='CIR1064FR'">
+						<div class="row">
+							<div id="PanelCIR1064FR"></div>
+						</div>
+					</uib-tab>				
+					<uib-tab id="TabFATCAR" heading="FATCA RESUMEN" select="solCir.fnTabFATCAR()" active="solCir.cmbbx.IdNormativa=='FATCAR'" ng-show="solCir.cmbbx.IdNormativa=='FATCAR'">
+						<div class="row">
+							<div id="PanelFATCAR"></div>
+						</div>
+					</uib-tab>		
+					<uib-tab id="TabFATCAD" heading="FATCA DETALLE" select="solCir.fnTabFATCAD()" active="solCir.cmbbx.IdNormativa=='FATCAD'" ng-show="solCir.cmbbx.IdNormativa=='FATCAD'">
+						<div class="row">
+							<div id="PanelFATCAD"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabINFDERECH" heading="INFORME DERECHOS" select="solCir.fnTabINFDERECH()" active="solCir.cmbbx.IdNormativa=='INFDERECH'" ng-show="solCir.cmbbx.IdNormativa=='INFDERECH'">
+						<div class="row">
+							<div id="PanelInformeDerecho"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabACPE" heading="Anexo 1: Cta. Propia Especiales" select="solCir.fnTabACPE()" active="solCir.cmbbx.IdTipoDocumento=='ACPE'" ng-show="solCir.cmbbx.IdTipoDocumento=='ACPE'">
+						<div class="row">
+							<div id="PanelACPE"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabACPOB" heading="Anexo 13: Cta.Propia Esp. Otras Bolsas" select="solCir.fnTabACPOB()" active="solCir.cmbbx.IdTipoDocumento=='ACPOB'" ng-show="solCir.cmbbx.IdTipoDocumento=='ACPOB'">
+						<div class="row">
+							<div id="PanelACPOB"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabAMF" heading="Anexo 4: Montos Facturados" select="solCir.fnTabAMF()" active="solCir.cmbbx.IdTipoDocumento=='AMF'" ng-show="solCir.cmbbx.IdTipoDocumento=='AMF'">
+						<div class="row">
+							<div id="PanelAMF"></div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabCIR1518"  heading="{{'UI_CIR1518_CUADRATURA_SEMANAL_DE_CUSTODIA' | translate}}" select="solCir.fnTabCIR1518()" active="solCir.cmbbx.IdTipoDocumento=='CIR1518'" ng-show="solCir.cmbbx.IdTipoDocumento=='CIR1518'">
+						<div class="row">
+							<div id="PanelCIR1518"></div>
+						</div>
+					</uib-tab>	
+					
+											
+			</uib-tabset> 
+			</div>
+	</form>
+	<form class="col-xs-12 form-horizontal">	
+		<br>
+	</form>	
+</div>

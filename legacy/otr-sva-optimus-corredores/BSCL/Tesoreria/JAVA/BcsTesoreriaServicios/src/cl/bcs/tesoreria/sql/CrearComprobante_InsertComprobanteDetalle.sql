@@ -1,0 +1,68 @@
+INSERT INTO "BSCL.Tesoreria.BD::TES.ComprobanteDetalle" 
+(
+	"IdComprobanteDetalle",
+	"IdComprobante",
+	"IdTipoMovimiento",
+	"IdConcepto",
+	"NroLinea",
+	"IdMoneda",
+	"Monto",
+	"SecuenciaAgrupacion",
+	"SecuenciaRelacionada",
+	"IdEmpleadoDigitador",
+	"IdSucursalEmpleadoDigitador",
+	"IdTipoComprobanteOrigen",
+	"IdComprobanteOrigen",
+	"FechaComprobanteOrigen",
+	"FechaLiquidacionComprobanteOrigen",
+	"IdTipoProducto",
+	"IdTipoOperacion",
+	"IdBolsa",
+	"IdMonedaOperacion",
+	"MontoOperacion",
+	"FechaParidad",
+	"IdTipoReajuste",
+	"ValorParidad",
+	"FolioCartera",
+	"IdInstrumento",
+	"IdTipoInstrumento",
+	"IdClasificacionTipoInstrumento",
+	"IdEstado",
+	"IdCondicionDeLiquidacion"
+)
+	SELECT  
+		MI."IdComprobanteDetalle",
+		MI."IdComprobante",
+		MI."IdTipoMovimiento",
+		MI."IdConcepto",
+		MI."NroLinea",
+		MI."IdMoneda",
+		"BSCL.Plataforma.BD.Utilitarios::FormatearNumero"(ABS(MI."Monto"),MF."MontoDecimales",MF."MontoTrucaRedondea"),
+		MI."SecuenciaAgrupacion",
+		MI."SecuenciaRelacionada",
+        MI."IdEmpleadoDigitador",
+        MI."IdSucursalEmpleadoDigitador",
+		MI."IdTipoComprobanteOrigen",
+		MI."IdComprobanteOrigen",
+		MI."FechaComprobanteOrigen",
+		MI."FechaLiquidacionComprobanteOrigen",
+		MI."IdTipoProducto",
+		MI."IdTipoOperacion",
+		MI."IdBolsa",
+		MI."IdMonedaOperacion",
+		MI."MontoOperacion",				
+		MI."FechaParidad",
+		MI."IdTipoReajuste",
+		MI."ValorParidad",
+		MI."FolioCartera",
+		MI."IdInstrumento",
+		MI."IdTipoInstrumento",
+		MI."IdClasificacionTipoInstrumento",
+        'ING',
+        MI."IdCondicionDeLiquidacion"
+	 FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_ComprobanteDetalle" as MI
+	 INNER JOIN "BSCL.Plataforma.BD::PLA.MonedaFormato" MF 
+	 		 ON MF."IdMoneda" 			= MI."IdMoneda" 
+	 		AND MF."IdUsoMonedaFormato" = 'GEN'
+	 		AND MF."IdTipoInstrumento" 	= ''
+	 		AND MF."IdTipoOperacion" 	= '';

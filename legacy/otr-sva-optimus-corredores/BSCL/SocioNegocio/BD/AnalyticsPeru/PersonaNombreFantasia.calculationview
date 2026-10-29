@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="PersonaNombreFantasia" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="PersonaNombreFantasia_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdNombreFantasia"/>
+        <viewAttribute datatype="NVARCHAR" id="DescripcionNombreFantasia" length="200"/>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="CHAR" id="FechaCreacion" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = select 
+ 	                    &quot;IdNombreFantasia&quot;
+ 	                   ,CAST(&quot;DescripcionNombreFantasia&quot; AS NVARCHAR(200)) AS &quot;DescripcionNombreFantasia&quot;
+ 	                   ,CASE WHEN &quot;IdPersona&quot; = 0 THEN NULL ELSE &quot;IdPersona&quot; END AS &quot;IdPersona&quot;
+ 	                   ,CASE WHEN IFNULL(&quot;FechaCreacion&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+ 	                              ELSE  
+ 	                                  CASE WHEN  &quot;FechaCreacion&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' 
+ 	                                  	ELSE LEFT(TO_CHAR(ADD_SECONDS (&quot;FechaCreacion&quot;, CONFIGURACION.&quot;Valor&quot;)),19)
+ 	                                  END 
+ 	                    END AS &quot;FechaCreacion&quot;
+ 	                   ,CASE WHEN &quot;IdEstado&quot; = '' THEN NULL ELSE &quot;IdEstado&quot; END AS &quot;IdEstado&quot;
+ 	           from &quot;BSCL.SocioNegocio.BD::PER.NombreFantasia&quot; 
+ 	           CROSS JOIN (select top 1 &quot;Valor&quot; from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Configuracion&quot;
+					        where &quot;CodigoParametro&quot; = 'PLA.SegundosZonaHoraria') AS CONFIGURACION;
+ 	                   
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdNombreFantasia" order="1">
+        <descriptions defaultDescription="IdNombreFantasia"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdNombreFantasia"/>
+      </attribute>
+      <attribute id="DescripcionNombreFantasia" order="2">
+        <descriptions defaultDescription="DescripcionNombreFantasia"/>
+        <keyMapping columnObjectName="Script_View" columnName="DescripcionNombreFantasia"/>
+      </attribute>
+      <attribute id="IdPersona" order="3">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="FechaCreacion" order="4">
+        <descriptions defaultDescription="FechaCreacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="IdEstado" order="5">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

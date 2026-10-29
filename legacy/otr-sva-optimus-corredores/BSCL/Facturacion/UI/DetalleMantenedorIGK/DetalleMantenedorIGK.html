@@ -1,0 +1,104 @@
+<div class="row" ng-controller='DetalleMantenedorIGKCtrl as bModifMvtoMod'>
+  <div class="row no-margin">
+    <div class="row">
+      <!-- DATOS BASICOS -->
+	  	<div class="row">
+			<div class="row k-window-subtitle">
+			   <label class="col-xs-4" translate>UI_DATOS_BASICOS</label>																							
+			</div>
+	  	</div>
+	  
+	  	<table class="table">
+	  		<tr>
+			  <td><strong class="align_right" translate>UI_SECUENCIA_COMPROBANTE</strong></td>
+			  <td><label class="">{{bModifMvtoMod.oComprobante[0].IdComprobante}}</label></td>					
+			  <td ng-if = "SesionLocale === 'CL'"><strong  class="align_right" translate>UI_FOLIO_SII</strong></td>
+			  <td ng-if = "SesionLocale === 'PE'"><strong  class="align_right" translate>UI_FOLIO_SUNAT</strong></td>
+			  <td><label class="">{{bModifMvtoMod.oComprobante[0].FolioComprobante}}</label></td>
+			</tr>				
+			
+			<tr>
+			  <td><strong class="align_right" translate>UI_TIPO_COMPROBANTE</strong></td>
+			  <td><label class="">{{bModifMvtoMod.oComprobante[0].NombreTipoComprobante}}</label></td>
+			  <td><strong class="align_right" translate>UI_TIPO_OPERACION</strong></td>
+			  <td><label class="" >{{bModifMvtoMod.oComprobante[0].NombreTipoOperacion}}</label></td>
+			</tr>
+			<tr>
+				<td><strong class="align_right" translate>UI_INSTRUMENTO</strong></td>
+				<td><label class="">{{bModifMvtoMod.oComprobante[0].NemotecnicoInstrumento}}</label></td>
+				<td><strong class="align_right" translate>UI_CONDICION_LIQUIDACION</strong></td>
+				<td><label class="">{{bModifMvtoMod.oComprobante[0].CodigoCondicionDeLiquidacion}}</label></td>				
+			  </tr>		
+			  <tr>
+				<td><strong class="align_right" translate >UI_VENTA_CORTA</strong></td>
+				<td><label class="" >{{bModifMvtoMod.oComprobante[0].EsVentaCorta}}</label></td>
+				<td><strong class="align_right" translate >UI_VENTA_NOMINAL</strong></td>
+				<td><label class="" >{{bModifMvtoMod.oComprobante[0].EsVentaNominal}}</label></td>					  
+            </tr>
+            <tr>
+            	<td><strong class="align_right" translate>UI_MONTO_LOCAL_FINAL</strong></td>			  
+            	<td><label class="">{{bModifMvtoMod.oComprobante[0].MontoComprobanteFinal | kformat:'c':bModifMvtoMod.oComprobante[0].IdMonedaComprobante:'MONTO':'GEN'}}</label></td> 	
+            	<td></td>
+		  		<td></td>	
+            </tr>
+			 <tr>				
+				<td><strong class="align_right" translate>UI_CANTIDAD</strong></td>
+				<td><label class="">{{bModifMvtoMod.oComprobante[0].CantidadTotal}}</label></td>
+				<td><strong class="align_right" translate>UI_MONTO_LIQUIDACION_COBRO</strong></td>
+			  	<td><label class="">{{bModifMvtoMod.oComprobante[0].MontoLiquidacionCobro | kformat:'c':bModifMvtoMod.oComprobante[0].IdMonedaLiquidacion:'MONTO':'GEN'}}</label></td>			  
+			</tr>	  		
+			<tr>
+				<td><strong class="align_right" translate>UI_TIPO_CLIENTE</strong></td>
+				<td><label class="" >{{bModifMvtoMod.oComprobante[0].TipoCliente}}</label></td>
+				<td><strong class="align_right" translate >UI_CLIENTE_RESIDENTE</strong></td>
+				<td><label class="" >{{bModifMvtoMod.oComprobante[0].Residente}}</label></td>
+				
+			</tr>
+			<tr>
+				<td><strong class="align_right" translate >UI_MAYOR_MENOR_VALOR</strong></td>
+				<td><label class="" >{{bModifMvtoMod.oComprobante[0].MayorMenorValor | kformat:'c':bModifMvtoMod.oComprobante[0].IdMoneda:'MONTO':'GEN'}}</label></td>  
+				<td><strong class="align_right" translate >UI_MONTO_RETENCION_GANANCIA_CAP</strong></td>
+				<td><label class="" >{{bModifMvtoMod.oComprobante[0].MontoRetencionGananciaCap | kformat:'c':bModifMvtoMod.oComprobante[0].IdMoneda:'MONTO':'GEN'}}</label></td>
+				
+			</tr>
+			<tr>
+		  		<td><strong class="align_right" translate>UI_GLOSA</strong></td>
+		  		<td></td>
+		  		<td></td>
+		  		<td></td>				  
+			</tr>
+	  	</table>
+	  	<table>
+			<tr>
+			  <td><textarea class="" style="min-width:870px;max-height:40px;resize:none;background: #ffffff"disabled="disabled">{{bModifMvtoMod.oComprobante[0].Glosa}}</textarea></td>
+			</tr>
+		</table>     
+    </div>
+    
+    <div class="row">
+		<uib-tabset class="row" style="min-height:200px">
+			<uib-tab heading="{{'UI_DETALLE' | translate}}">
+				<div class="row">
+					<bcs-grid id="DetalleComprobanteFacturacion-comprobante-detalle"
+						configuracion = "confBasicaComprobanteDetalle"
+						seleccionado = "seleccionComprobanteDetalle">
+					</bcs-grid>
+				</div>
+			</uib-tab>
+			
+		</uib-tabset>
+	</div>	
+</div>	
+  
+ <!-- INICIO PANEL COMANDOS --> 	  
+ <div class="row bcs-panel-comandos" style="margin-top:5px">
+	<bcs-button id="UI_REGULARIZACION_IGK" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'"  
+		bcs-texto="'UI_REGULARIZACION_IGK' | translate"  bcs-habilitado="data.btnRegularizar" bcs-clic="data.regularizarIgk(seleccionComprobanteDetalle)">
+	</bcs-button>
+	<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" 
+		bcs-texto="'UI_CANCELAR' | translate"  bcs-habilitado="'true'" bcs-clic="data.cancelar()">
+	</bcs-button>			
+  </div>	
+  <!-- FIN PANEL COMANDOS -->
+  
+</div>

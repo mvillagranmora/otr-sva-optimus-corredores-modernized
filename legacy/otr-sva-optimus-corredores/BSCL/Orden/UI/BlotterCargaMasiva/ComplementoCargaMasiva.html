@@ -1,0 +1,97 @@
+<div class="col-xs-12" ng-controller="ComplementoCargaMasivaCtrl">
+	<form name="frmComplementoCargaMasiva" class="col-xs-12 form-horizontal">   
+
+		<div class="row bcs-cuerpo">
+		
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_CARGA</label>
+				<!-- div class="col-xs-8">{{parametros.NombreTipoCargaMasiva}}</div-->
+				<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="parametros.NombreTipoCargaMasiva"></bcs-input-texto>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-4" translate>UI_FECHA_CARGA</label>			
+				<bcs-input-datetime class="col-xs-8" k-ng-disabled="'true'" k-ng-model="parametros.FechaCarga"></bcs-input-datetime>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CANTIDAD_REGISTROS</label>
+				<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'" ng-model="parametros.CantidadRegistros"></bcs-input-texto>
+			</div>
+			
+			<div ng-show="parametros.CodigoTipoCargaMasiva === 'CARGA_INGRESO_ORDEN_MASIVO'">
+				<div class="row"><hr></div>
+			
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CANAL_DISTRIBUCION</label>
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido	= "parametros.CodigoTipoCargaMasiva === 'CARGA_INGRESO_ORDEN_MASIVO'"									
+					envia-todos 	= "'S'"	
+					id 				 = "frmComplementoCargaMasiva_CanalDistribucion"				
+					tipo			 = "data.oConfiguracionCanalDistribucion.tipo" 
+					configuracion	 = "data.oConfiguracionCanalDistribucion.configuracion" 				
+					seleccionado	 = "data.oConfiguracionCanalDistribucion.seleccionado"
+					filtros			 = "data.oConfiguracionCanalDistribucion.filtros"
+					id-actual		 = "data.oConfiguracionCanalDistribucion.idActual"					
+					id-post-filtro	 = "data.oConfiguracionCanalDistribucion.idPostFiltro">					
+				</bcs-combobox-base>
+			</div>
+			
+			
+			
+			<div class="row">
+				<label class="col-xs-4" translate>UI_NEGOCIACION</label>
+				
+				<bcs-input-checkbox
+					id="frmComplementoCargaMasiva_Cantada" 
+					ng-model="data.Cantada"
+					ng-disabled="data.CantadaDisabled">					
+				</bcs-input-checkbox>&nbsp;{{'UI_CANTADA' | translate}}
+				
+				<bcs-input-checkbox style="padding-left: 15px"
+					id="frmComplementoCargaMasiva_PorCantar" 
+					ng-model="data.PorCantar"
+					ng-disabled="data.PorCantarDisabled">
+				</bcs-input-checkbox>&nbsp;{{'UI_POR_CANTAR' | translate}}
+			</div>
+			
+
+
+			<div class="row">
+				<label class="col-xs-4" translate>UI_HORA_ORDEN</label>
+		
+				<bcs-input-checkbox
+					id="frmComplementoCargaMasiva_HoraSistema" 
+					ng-model="data.HoraSistema"
+					ng-disabled="data.HoraSistemaDisabled">					
+				</bcs-input-checkbox>&nbsp;{{'UI_HORA_SISTEMA' | translate}}
+				
+				<bcs-input-checkbox style="padding-left: 15px"
+					id="frmComplementoCargaMasiva_HoraFija" 
+					ng-model="data.HoraFija"
+					ng-disabled="data.HoraFijaDisabled">
+				</bcs-input-checkbox>&nbsp;09:00
+			</div>
+
+			<div class="row">
+				<label class="col-xs-4" translate>UI_USAR_PLANTILLA_COBROS</label>
+				<bcs-input-checkbox
+					id = "frmComplementoCargaMasiva_checkUsarPlantillaCobros"					
+					ng-model="data.UsasPlantillaCobros">
+				</bcs-input-checkbox>
+			</div>
+			</div>						
+		</div>
+		
+
+
+		 
+						
+		<div class="row bcs-panel-comandos">
+			<bcs-button id="frmComplementoCargaMasiva_Procesar"  class="col-xs-2"  bcs-tipo="'principal'" bcs-auto-desactivar="false" bcs-texto="'UI_PROCESAR' | translate"    bcs-habilitado="frmComplementoCargaMasiva.$valid" bcs-clic="procesarCargaMasiva()"></bcs-button>
+			<bcs-button id="frmComplementoCargaMasiva_Limpiar"   class="col-xs-2"  bcs-tipo="''"          bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"     bcs-habilitado="frmComplementoCargaMasiva.$valid" ng-show="parametros.CodigoTipoCargaMasiva === 'CARGA_INGRESO_ORDEN_MASIVO'" bcs-clic="limpiarComplemento()"></bcs-button>
+		</div>
+	
+	</form>	
+</div>
+

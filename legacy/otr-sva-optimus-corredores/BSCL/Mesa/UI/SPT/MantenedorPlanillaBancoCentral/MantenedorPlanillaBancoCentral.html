@@ -1,0 +1,58 @@
+<div ng-controller="MantenedorPorProducto as mntPorProducto">
+	<form name="formIngresarSpot" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_MONEDAS_POR_PRODUCTO|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<!-- MONEDAS POR PRODUCTOS -->
+			<br>
+			<div class="row">
+				<div class="col-xs-10">
+					<div class="row col-xs-12">
+						<label class="col-xs-1" translate>UI_FECHA</label>
+						<bcs-input-date class="col-xs-3" k-ng-model="data.kngFecha"></bcs-input-datetime>
+					</div>
+				</div>
+				<!-- BOTONES -->
+				<div class="col-xs-2">
+					<bcs-button class="row col-xs-12" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.buscarMovimientos ()" >
+					</bcs-button>
+				</div>
+			</div>
+			<br>
+			<hr>
+			<!-- DATOS OPERACIÓN -->
+			<!-- GRILLA -->
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-grid 	id="grid-calce" 
+								configuracion="confMovimientoSPT"
+								seleccionado="data.MovimientosSeleccionados"
+								fn-exportar-excel = "exportarExcel"
+								>
+					</bcs-grid>
+				</div>
+			</div>
+			<div class="row bcs-panel-comandos">
+					<div class="col-xs-12 alignButtonsToRight">
+						<bcs-button id="Modificar_Codigo" class="col-xs-2" bcs-tipo="'bcs-button-primary'" 
+							bcs-texto="'UI_MODIFICAR_CODIGO' | translate"
+							bcs-habilitado="(data.HabilitoBotonesMovimiento)"
+							bcs-clic="data.modificar()">
+						</bcs-button>
+								<!--bcs-habilitado="SesionFechaSistema === util.dateSPdate(data.MovimientosSeleccionados[0].FechaOperacion)"  --> 
+					</div>
+			</div>
+		</div>
+		<hr>
+</div>
+</form>
+</div>
+

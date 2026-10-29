@@ -1,0 +1,1 @@
+DROP TABLE #ExclusionConceptoCobroPatrimonio_TablaPaso;

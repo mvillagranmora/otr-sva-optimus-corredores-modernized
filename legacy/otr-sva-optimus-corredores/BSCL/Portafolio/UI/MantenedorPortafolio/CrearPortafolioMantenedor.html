@@ -1,0 +1,161 @@
+<div id="CrearPortafolioMantenedor" class="row" ng-controller="CrearPortafolioMantenedorCtrl as cportm">
+	
+		<div class=" 'col-xs-12'">
+			<form name="CrearPortafolioMantenedorForm">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CODIGO_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-8" 
+						ng-model="cportm.datos.CodigoPortafolio"
+						bcs-requerido 
+						k-ng-disabled="false">
+					</bcs-input-texto>
+				</div>
+			
+				<div class="row">
+					<label class="col-xs-4" translate>UI_PROPOSITO_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-8"
+						cache="true"
+						tipo="'combobox-proposito-portafolio'"
+						id-actual="cportm.datos.PropositoPortafolio"
+						id-defecto="cportm.datos.PropositoPortafolioDef"
+						auto-cargar="'true'"
+						todos="'N'"
+						bcs-requerido
+						activado="!cportm.win.modoEditar"
+						seleccionado="cportm.datos.PropositoPortafolioSel"
+					
+						>
+					</bcs-combobox-base>
+				</div>
+			</form>
+					<!--filtros="mMM.cmbbx.Cliente.filtros"
+					<div ng-class="cportm.win.modoEditar ? 'col-xs-9' : 'col-xs-12'">
+					-->
+					<!--
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-portafolio'"
+						id-actual="mMM.datosMesa.IdPortafolio"
+						id-defecto="mMM.datosMesa.IdPortafolioDef"
+						filtros="mMM.cmbbx.Portafolio.filtros"
+						todos="'N'"
+						auto-cargar='false'
+						bcs-requerido
+						seleccionado="mMM.datosMesa.PortafolioObj">
+					</bcs-combobox-base>
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-4" translate>UI_TIPO_PRODUCTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-producto-mesa-modulo'"
+						id-actual="mMM.datosMesa.IdTipoProductoMesaModulo"
+						id-defecto="mMM.datosMesa.IdTipoProductoMesaModuloDef"
+						filtros="mMM.cmbbx.TipoProductoMesaModulo.filtros"
+						todos="'N'"
+						bcs-requerido
+						activado="!mMM.win.modoEditar"
+						seleccionado="mMM.datosMesa.TipoProductoMesaModuloObj">
+					</bcs-combobox-base>
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-4" translate>UI_VALOR_RAZONABLE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-parametro-mesa'"
+						id-actual="mMM.datosMesa.ValorRazonable"
+						id-defecto="mMM.datosMesa.ValorRazonableDef"
+						filtros="mMM.cmbbx.ValorRazonable.filtros"
+						todos="'N'"
+						bcs-requerido
+						configuracion="mMM.cmbbx.ValorRazonable.configuracion"
+						seleccionado="mMM.datosMesa.ValorRazonableObj">
+					</bcs-combobox-base>
+			  	</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-estado-mesas'"
+						id-actual="mMM.datosMesa.IdEstado"
+						id-defecto="mMM.datosMesa.IdEstadoDef"
+						filtros="mMM.cmbbx.Estado.filtros"
+						todos="'N'"
+						bcs-requerido
+						seleccionado="mMM.datosMesa.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CATEGORIA_IFRS</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido ="mMM.datosMesa.TipoProductoMesaModuloObj.IdTipoProductoMesa==='MRF'"				
+						id-defecto="mMM.datosMesa.CodigoCarteraIFRS" 
+						todos = "'N'"
+						configuracion= "mMM.dataIFRS.oConfiguracionClasificacionIfrs.configuracion"
+						tipo="mMM.dataIFRS.oConfiguracionClasificacionIfrs.tipo"						
+						seleccionado="mMM.dataIFRS.oConfiguracionClasificacionIfrs.seleccionado"
+						filtros="mMM.dataIFRS.oConfiguracionClasificacionIfrs.filtros"
+						activado="mMM.datosMesa.TipoProductoMesaModuloObj.IdTipoProductoModulo === 'MRF'">
+					</bcs-combobox-base >
+			    </div>		
+				<div class="row">
+				<div>
+			  		<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+					<bcs-input-checkbox 
+						ng-model="mMM.datosMesa.PorDefecto" 
+						ng-disabled="mMM.win.PorDefectoAsignado">
+					</bcs-input-checkbox>
+				</div>
+				
+					<div >
+			  		<label class="col-xs-4" translate>UI_APLICA_FUSION_RF_IIF</label>
+					<bcs-input-checkbox 
+						ng-model="mMM.datosMesa.AplicaFusion" 
+						ng-disabled="mMM.win.AplicaFusionDisable">
+					</bcs-input-checkbox>
+				</div>
+
+			</div>
+			</form>
+
+
+		</div>
+	</div>
+	<br>
+	
+	<div ng-if="cportm.win.modoEditar">
+		<div class="row">
+			<bcs-grid
+				configuracion="mMM.grilla.OperadoresMesa"
+				seleccionado="mMM.grilla.OperadoresMesaSel">
+			</bcs-grid>
+		</div>
+	</div>
+	//bcs-texto="'UI_AGREGAR' | translate"
+	-->
+	</br>
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+				
+		<bcs-button class="col-xs-3" id="aceptarPortafolio" 
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto= "cportm.win.boton | translate"
+			bcs-habilitado="CrearPortafolioMantenedorForm.$valid"
+			bcs-clic="cportm.fn.aceptar()">
+		</bcs-button>
+	
+	
+		<bcs-button class="col-xs-3" id="cancelarPortafolio" 
+			bcs-tipo="'bcs-button-secondary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate"
+			bcs-clic="cportm.fn.cancelar()"
+			bcs-habilitado="true "
+									
+			>
+		</bcs-button>
+
+
+
+
+	
+</div>

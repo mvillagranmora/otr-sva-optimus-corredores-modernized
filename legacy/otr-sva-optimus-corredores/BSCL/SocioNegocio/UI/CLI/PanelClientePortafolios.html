@@ -1,0 +1,47 @@
+<div id="PanelClientePortafolios" class="row" ng-controller="PanelClientePortafoliosCtrl as pcport">
+	<div class="col-xs-12">
+		<bcs-grid 
+			id="gridPortafolios" 
+			seleccionado="pcport.portafolioSeleccionado" 
+			configuracion="pcport.portafoliosOptions" 
+			fn-doble-click="pcport.administrarPortafolio(pcport.portafolioSeleccionado)">
+		</bcs-grid >
+	</div>
+	<div class="row col-xs-12 bcs-panel-comandos">
+		<div class="col-xs-12">
+			<bcs-button id="PanelClientePortafolios_crearPortafolio" class="col-xs-2 pull-right" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CREAR_PORTAFOLIO' | translate" 
+				bcs-habilitado="'true'"  
+				bcs-clic="pcport.crearPortafolio(pcport.nuevoPortafolio)">
+			</bcs-button>
+			<bcs-button  id="PanelClientePortafolios_Bloq_Act" class="col-xs-2 pull-right" 
+				ng-if="(pcport.portafolioSeleccionado.IdEstado==='BLO' || pcport.portafolioSeleccionado.IdEstado==='INA') && pcport.portafolioSeleccionado.IdEstadoPersona==='ACT'" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-mostrar="(pcport.portafolioSeleccionado.IdPortafolio>0)" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACTIVAR' | translate" 
+				bcs-habilitado="'true'" bcs-clic="pcport.activar(pcport.portafolioSeleccionado)">
+			</bcs-button>
+			<bcs-button
+				id="PanelClientePortafolios_Bloq_Blo" class="col-xs-2 pull-right" 
+				ng-if="pcport.portafolioSeleccionado.IdEstado==='ACT'" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-mostrar="(pcport.portafolioSeleccionado.IdPortafolio>0)" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_BLOQUEAR' | translate" 
+				bcs-habilitado="'true'" bcs-clic="pcport.bloquear(pcport.portafolioSeleccionado)">
+			</bcs-button>
+			<bcs-button
+				id="PanelClientePortafolios_Bloq_Elm" class="col-xs-2 pull-right" 
+				ng-if="pcport.portafolioSeleccionado.IdEstado==='ACT'"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-mostrar="(pcport.portafolioSeleccionado.IdPortafolio>0)" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="'true'" bcs-clic="pcport.eliminar(pcport.portafolioSeleccionado)">
+			</bcs-button>
+		</div>
+	</div>
+</div>

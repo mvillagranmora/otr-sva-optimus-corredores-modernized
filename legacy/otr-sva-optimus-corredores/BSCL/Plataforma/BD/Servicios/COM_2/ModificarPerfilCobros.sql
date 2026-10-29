@@ -1,0 +1,185 @@
+SET SCHEMA "BSCL";
+
+DROP PROCEDURE  "BSCL.Plataforma.BD.Servicios::COM_2.ModificarPerfilCobros";
+
+CREATE PROCEDURE
+-- 
+--  Proposito: Servicio que obtiene y evalua informacion del perfil de cobros  a modificar, 
+--  para ser creado como una solicitud de Cambio.
+--  Autor: CFLORES - BCS 
+--  Fecha Creacion: 22-12-2015
+--  
+"BSCL.Plataforma.BD.Servicios::COM_2.ModificarPerfilCobros" (
+	-- Parametros entrada comunes en todos los servicios publicos
+	IN  p_IdEmpresa									BIGINT,			--ID Empresa destino
+	IN  p_IdUsuario									BIGINT,			--ID del usuario que solicita el servicio
+	IN  p_IdModulo									NVARCHAR(3),  	--ID del Modulo que lo invoca
+	IN  p_UsaReglasNegocio	 						NVARCHAR(1),	-- S/N se usa en caso de servicios anidados.
+		  
+	-- Parametros entrada del servicio publico
+	IN  p_IdPerfilCobros						    NVARCHAR(40),	
+	IN  p_RegistroCambio		  TABLE("CampoModificado"		NVARCHAR(255), -- parametro estandar
+										"ValorNuevo"			NVARCHAR(255)),-- parametro estandar
+	
+	-- Parametros salida del servicio publico
+--	OUT p_out_IdSecuencias table ("IdSecuencia" BIGINT)
+	OUT p_out_RefId 					BIGINT,	
+	-- Salidas para mensajes de advertencias y errores
+	OUT p_out_AdvertenciasContador 		int,
+	OUT p_out_AdvertenciasDetalle 		table ("Codigo" nvarchar(40),"RequiereAutorizacion" nvarchar(40),"Descripcion" nvarchar(520)),	
+	OUT p_out_ErroresContador 			int,
+	OUT p_out_ErroresDetalle 			table ("Codigo" nvarchar(40),"Descripcion" nvarchar(520))
+	
+) 
+LANGUAGE SQLSCRIPT
+SQL SECURITY INVOKER 
+DEFAULT SCHEMA "BSCL"
+AS
+BEGIN
+	--------------------
+	--DECLARE Manejo de Errores
+	--------------------	
+	DECLARE SALIDA_CONTROLADA 		CONDITION; 
+	DECLARE v_errorcuenta 			INT DEFAULT 0;  
+	DECLARE v_errorhashmsg 			table ("Codigo" nvarchar(40),"Valor" nvarchar(520));
+	DECLARE v_erroroutmsg  			nvarchar(520);	        	
+	DECLARE EXIT HANDLER FOR SALIDA_CONTROLADA
+
+	BEGIN
+		--salida/error/advertencia controlado por este servicio
+		select count(1) into p_out_ErroresContador 
+		from :p_out_ErroresDetalle;
+		select count(1) into p_out_AdvertenciasContador 
+		from :p_out_AdvertenciasDetalle;		 					 	
+	END;
+	
+		
+	p_out_AdvertenciasContador	:= 0;
+	p_out_ErroresContador		:= 0;
+	p_out_AdvertenciasDetalle	= select '' as "Codigo",'' as "RequiereAutorizacion",'' as "Descripcion" from dummy where 1=2;
+	p_out_ErroresDetalle		= select '' as "Codigo",'' as "Descripcion" from dummy where 1=2;
+	
+	BEGIN	
+		
+		DECLARE v_tipoEntidad									NVARCHAR(40);
+		DECLARE v_IdConcepto	       							NVARCHAR(6);
+		DECLARE v_Evento      									BIGINT:=1;
+		DECLARE v_TolalEventos						      		BIGINT:=0;	
+		DECLARE v_IdEntidadOrigen								NVARCHAR(40):='';
+		DECLARE v_IdEntidadBase									BIGINT:=0;
+		DECLARE v_countEntidad			   					    BIGINT;
+		DECLARE v_estadoAutorizacion							NVARCHAR(3);
+		DECLARE v_RequiereAutorizacion							NVARCHAR(1);
+		DECLARE v_secuencia_IdSolicitudCambio					BIGINT;
+		DECLARE v_out_IdSecuencias 								table ("IdSecuencia" BIGINT);
+		
+		
+	    DECLARE v_out_AdvertenciasContador, v_out_ErroresContador INT;
+	    DECLARE v_out_ErroresDetalle           table ("Codigo" nvarchar(40),"Descripcion" nvarchar(520));
+        DECLARE v_out_AdvertenciasDetalle      table ("Codigo" nvarchar(40),"RequiereAutorizacion" nvarchar(40),"Descripcion" nvarchar(520));	
+       
+			
+			
+		BEGIN
+			v_IdEntidadOrigen:=p_IdPerfilCobros;
+			
+			SELECT COUNT(1) INTO v_countEntidad FROM "BSCL.Plataforma.BD::COM_2.PerfilCobros" WHERE "IdPerfilCobros"=v_IdEntidadOrigen;
+			
+			IF(v_countEntidad=0) THEN
+				p_out_ErroresDetalle =  select 'ENTIDAD_NO_EXISTE' as "Codigo",:v_erroroutmsg as "Descripcion" from dummy;
+				SIGNAL SALIDA_CONTROLADA; 	
+			END IF;
+										
+		END;		
+		
+		BEGIN
+			--Inicializacion de variables:
+			v_secuencia_IdSolicitudCambio 	:= -1;
+			
+			v_estadoAutorizacion 			:= 'PEN';
+			v_tipoEntidad					:= 'PERFILCOBRO';
+			v_IdConcepto					:= 'MCPCOB';
+			p_out_RefId						:=	0;
+			
+			
+			
+			-- 1) OBTENCION DE VALORES SEGUN CAMPOS ENVIADOS DESDE UI
+			-- (Se obtiene: Tipo de Dato y Valor Anterior del campo modificado
+			
+			
+			SELECT "BSCL.Plataforma.BD.Secuencias::PLA.IdSolicitudCambio".NEXTVAL into v_secuencia_IdSolicitudCambio from dummy;
+		
+				
+			
+			V_RegistroSolicitudCambio =SELECT	
+					v_secuencia_IdSolicitudCambio 	AS "IdSolicitudCambio",	
+ 				 	0 								AS "IdSecuenciaCambio", --- Se crea interno
+					v_tipoEntidad					AS "IdTipoEntidad",	
+					v_IdEntidadOrigen				AS "IdEntidadOrigen",
+					MOD."CampoModificado" 			as "CampoModificado",
+					MOD."DATA_TYPE_NAME" 			AS "TipoDato",
+					(CASE MOD."COLUMN_NAME" WHEN 'DescripcionPerfilCobros'				THEN IFNULL(CAST (DOC."DescripcionPerfilCobros" AS NVARCHAR(255)),'')										
+											WHEN 'IdEstado'								THEN IFNULL(CAST (DOC."IdEstado" AS NVARCHAR(255)),'')
+					END) AS "ValorAntiguo",
+					MOD."ValorNuevo" AS "ValorNuevo",
+					CURRENT_UTCTIMESTAMP AS "FechaSolicitud",--SE CREAN INTERNOS
+					CURRENT_UTCTIMESTAMP AS "FechaRevision",--SE CREAN INTERNOS
+					v_estadoAutorizacion AS "IdEstadoAutorizacion"
+			FROM "BSCL.Plataforma.BD::COM_2.PerfilCobros" DOC,
+							(SELECT COL."DATA_TYPE_NAME",
+									COL."COLUMN_NAME",
+									CAM."CampoModificado",
+									CAM."ValorNuevo"
+							FROM SYS.TABLE_COLUMNS COL
+							INNER JOIN :p_RegistroCambio CAM ON (COL."COLUMN_NAME"= CAM."CampoModificado")
+							WHERE COL."TABLE_NAME"='BSCL.Plataforma.BD::COM.PerfilCobros') MOD
+			WHERE  DOC."IdPerfilCobros" =v_IdEntidadOrigen;
+
+			CALL  "BSCL.Plataforma.BD.Servicios::PLA.CrearRegistroSolicitudCambio"
+			(
+				:V_RegistroSolicitudCambio,
+				v_out_IdSecuencias
+				
+			);
+
+			call  "BSCL.Plataforma.BD.Servicios::COM_2.ConfirmarModificarPerfilCobros" (
+				:p_IdEmpresa,
+				:p_IdUsuario,
+				:p_IdModulo,
+				:p_UsaReglasNegocio,
+				:v_IdEntidadOrigen,
+				'ING',
+				V_out_AdvertenciasContador,
+				v_out_AdvertenciasDetalle,	
+				V_out_ErroresContador,
+				V_out_ErroresDetalle
+				);
+				
+  			 p_out_AdvertenciasContador := p_out_AdvertenciasContador + v_out_AdvertenciasContador;	
+  			 
+			 p_out_AdvertenciasDetalle = Select "Codigo","RequiereAutorizacion", "Descripcion" 
+                                          From :v_out_AdvertenciasDetalle Union All 
+                                          Select "Codigo","RequiereAutorizacion", "Descripcion"
+                                          From :p_out_AdvertenciasDetalle;  
+                                          
+                                          
+              p_out_ErroresContador := p_out_ErroresContador + v_out_ErroresContador;
+                                         
+              p_out_ErroresDetalle = Select "Codigo", "Descripcion" 
+                                     From :v_out_ErroresDetalle Union All 
+                                     Select "Codigo", "Descripcion" 
+                                     From :p_out_ErroresDetalle; 
+                
+                                     
+                                     
+			  if 	p_out_ErroresContador > 0 then
+						SIGNAL SALIDA_CONTROLADA;
+			  end if;								
+		     
+		
+		
+			p_out_RefId:=v_secuencia_IdSolicitudCambio;
+		END;
+					
+	END;	
+END;

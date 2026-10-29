@@ -1,0 +1,516 @@
+<div class="row" ng-controller="IngresoCobroCtrl">
+	<div class="row">
+		<uib-tabset active="2">
+			<uib-tab heading="{{'UI_DEFINICION_COBRO' | translate}}">
+				<form name="formData.FormIngresoCobro">
+					<div class="row">
+						<div class="row">
+							<label class="col-xs-2" translate>UI_CODIGO</label>
+							<bcs-input-texto class="col-xs-3" bcs-requerido ng-model="definicion.Codigo" k-ng-disabled="editando"></bcs-input-texto>
+							<label class="col-xs-2 col-xs-offset-1" translate>UI_NOMBRE</label>					
+							<bcs-input-texto class="col-xs-3" bcs-requerido ng-model="definicion.Nombre"></bcs-input-texto>
+						</div>
+						
+						<div class="row">
+							<label class="col-xs-2" translate>UI_CLASE_COBRO</label>
+							<bcs-combobox-base class="col-xs-3"
+								bcs-requerido
+								id-defecto= "defecto.IdClaseCobro"
+								tipo="'combobox-clase-cobro'" 
+								seleccionado = "definicion.claseCobroSeleccionado">
+							</bcs-combobox-base>
+							<label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_COBRO</label>
+							<bcs-combobox-base class="col-xs-3"
+								bcs-requerido
+								id-defecto = "defecto.IdTipoCobro"
+								tipo="'combobox-tipo-cobro'" 
+								seleccionado = "definicion.tipoCobroSeleccionado">
+							</bcs-combobox-base>
+						</div>
+						<div class="row">
+							<label class="col-xs-2" translate>UI_ESTADO</label>					
+							<bcs-combobox-base class="col-xs-3"
+								bcs-requerido
+								id-defecto="defecto.IdEstadoCobro" 
+								tipo="'combobox-estado-cobro'" 
+								seleccionado = "definicion.estadoCobroSeleccionado">
+							</bcs-combobox-base>
+						</div>
+						<hr/>
+						<div class="row">
+							<label class="col-xs-4">
+								<bcs-input-checkbox class="col-xs-1" ng-model="definicion.EsCobroMonedaOperacion" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_COBRO_EN_MONEDA_OPERACION' | translate}}
+							</label>
+							<label class="col-xs-2 col-xs-offset-2" translate>UI_COBRO_EN_OTRA_MONEDA</label>
+							<bcs-combobox-base class="col-xs-4"
+								bcs-requerido = "!definicion.EsCobroMonedaOperacion"
+								id-defecto = "defecto.IdMonedaCobro"
+								id-actual = "definicion.idMonedaCobroSeleccionada"
+								activado = "!definicion.EsCobroMonedaOperacion"
+								seleccionado = "definicion.monedaCobroSeleccionada" 
+								tipo="'combobox-moneda'">
+							</bcs-combobox-base>
+						</div>
+						<hr/>
+						<div class="row">
+							<label class="col-xs-2">	
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="'true'" ng-model="definicion.MontoFijoActivado"></bcs-input-checkbox>{{'UI_MONTO_FIJO' | translate}}
+							</label>
+							<bcs-input-numero class="col-xs-2"
+								bcs-requerido = "!!definicion.MontoFijoActivado"
+								k-ng-disabled="!definicion.MontoFijoActivado" 
+								k-ng-model="definicion.MontoFijo"></bcs-input-numero>
+							<label class="col-xs-3">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="!definicion.MontoFijoActivado" ng-model="definicion.MontoFijoMenorActivado"></bcs-input-checkbox>{{'UI_SI_MONTO_OPERACION_ES_MENOR_A' | translate}}
+							</label>				
+							<bcs-input-numero class="col-xs-2"
+								bcs-requerido = "!!definicion.MontoFijoMenorActivado" 
+								k-ng-disabled="!definicion.MontoFijoMenorActivado" 
+								k-ng-model="definicion.MontoFijoOperacionMenor">
+							</bcs-input-numero>
+							<div class="col-xs-3">
+								<label class="col-xs-6">
+									<bcs-input-checkbox class="col-xs-3" ng-disabled="!definicion.MontoFijoMenorActivado" ng-model="definicion.MontoFijoSiNoActivado"></bcs-input-checkbox>{{'UI_SI_NO' | translate}}
+								</label>				
+								<bcs-input-numero class="col-xs-6"
+									bcs-requerido = "!!definicion.MontoFijoSiNoActivado"
+									k-ng-disabled="!definicion.MontoFijoSiNoActivado" 
+									k-ng-model="definicion.MontoFijoSiNo">
+								</bcs-input-numero>
+							</div>
+						</div>
+						<hr/>
+						<div class="row">
+							<label class="col-xs-2">	
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="'true'" ng-model="definicion.MontoFijoPorUnidadActivado"></bcs-input-checkbox>{{'UI_MONTO_FIJO_POR_UNIDAD' | translate}}
+							</label>
+							<bcs-input-numero class="col-xs-2"
+								bcs-requerido = "!!definicion.MontoFijoPorUnidadActivado"
+								k-ng-disabled="!definicion.MontoFijoPorUnidadActivado" 
+								k-ng-model="definicion.MontoFijoPorUnidadValor"></bcs-input-numero>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="!definicion.MontoFijoPorUnidadActivado" ng-model="definicion.AllInCheckValorMontoPorUnidad"></bcs-input-checkbox>{{'UI_ALL_IN' | translate}}
+							</label>			
+						</div>
+						<hr/>
+						<div class="row">
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="'true'" ng-model="definicion.PorcentualFijo.PorcentualFijoCheckValor"></bcs-input-checkbox>{{'UI_PORCENTUAL_FIJO' | translate}}
+							</label>
+							<bcs-input-porcentaje class="col-xs-2"
+								bcs-requerido ="!!definicion.PorcentualFijo.PorcentualFijoCheckValor" 
+								k-ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" 
+								k-ng-model="definicion.PorcentualFijo.PorcentualFijoInputValor">
+							</bcs-input-porcentaje>
+							
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" ng-model="definicion.OtrosDatos.AllInCheckValor"></bcs-input-checkbox>{{'UI_ALL_IN' | translate}}
+							</label>
+							
+							<label class="col-xs-2 col-xs-offset-2">
+								<bcs-input-checkbox ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" ng-model="definicion.PorcentualFijo.MontoMinimoCheckValor" class="col-xs-2"></bcs-input-checkbox>{{'UI_MONTO_MINIMO' | translate}}
+							</label>
+							
+							<bcs-input-monetario class="col-xs-2"
+								bcs-requerido = "!!definicion.PorcentualFijo.MontoMinimoCheckValor"
+								k-ng-disabled="!definicion.PorcentualFijo.MontoMinimoCheckValor" 
+								k-ng-model="definicion.PorcentualFijo.MontoMinimoInputValor"  
+								simbolo = "definicion.PorcentualFijo.idMonedaMinMaxCobroSeleccionada">
+							</bcs-input-monetario>
+						</div>
+						<div class="row">
+							<label class="col-xs-2 col-xs-offset-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" ng-model="definicion.PorcentualFijo.SobreMontoCheckValor"></bcs-input-checkbox>{{'UI_SOBRE_EL_MONTO' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" ng-model="definicion.PorcentualFijo.MayorEntreDosCheckValor"></bcs-input-checkbox>{{'UI_MAYOR_ENTRE_DOS' | translate}}
+							</label>
+							<label class="col-xs-2 col-xs-offset-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" ng-model="definicion.PorcentualFijo.MontoMaximoCheckValor"></bcs-input-checkbox>{{'UI_MONTO_MAXIMO' | translate}}
+							</label>
+							<bcs-input-monetario class="col-xs-2"
+								bcs-requerido = "!!definicion.PorcentualFijo.MontoMaximoCheckValor"
+								k-ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" 
+								k-ng-model="definicion.PorcentualFijo.MontoMaximoInputValor" 
+								simbolo = "definicion.PorcentualFijo.idMonedaMinMaxCobroSeleccionada">
+							</bcs-input-monetario>
+						</div>
+						<div class="row">
+							<label class="col-xs-2 col-xs-offset-2">
+								<bcs-input-checkbox class="col-xs-2" 
+									ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" 
+									ng-model="definicion.PorcentualFijo.SobreCantidadCheckValor">
+								</bcs-input-checkbox>{{'UI_SOBRE_LA_CANTIDAD' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" 
+									ng-disabled="!definicion.PorcentualFijo.PorcentualFijoCheckValor" 
+									ng-model="definicion.PorcentualFijo.MenorEntreDosCheckValor">
+								</bcs-input-checkbox>{{'UI_MENOR_ENTRE_DOS' | translate}}
+							</label>
+							<label class="col-xs-2 col-xs-offset-2">{{'UI_MONEDA_MIN_MAX' | translate}}</label>
+							<bcs-combobox-base class="col-xs-2"
+								bcs-requerido = "!!(definicion.PorcentualFijo.MontoMaximoCheckValor || definicion.PorcentualFijo.MontoMinimoCheckValor)"
+								id-defecto = "defecto.IdMonedaCobroMinMax"
+								activado = "!!(definicion.PorcentualFijo.MontoMaximoCheckValor || definicion.PorcentualFijo.MontoMinimoCheckValor)"
+								id-actual = "definicion.PorcentualFijo.idMonedaMinMaxCobroSeleccionada"
+								seleccionado = "definicion.PorcentualFijo.monedaCobroMinMaxSeleccionada" 
+								tipo="'combobox-moneda'">
+							</bcs-combobox-base>
+						</div>
+						<hr/>
+						<div class="row">
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="'true'" ng-model="definicion.PorcentualTasaPlazo.PorcentualTasaPlazoCheckValor"></bcs-input-checkbox>{{'UI_PORCENTUAL_TASA_PLAZO' | translate}}
+							</label>
+							<bcs-input-porcentaje class="col-xs-2"
+								bcs-requerido ="!!definicion.PorcentualTasaPlazo.PorcentualTasaPlazoCheckValor" 
+								k-ng-disabled="!definicion.PorcentualTasaPlazo.PorcentualTasaPlazoCheckValor" 
+								k-ng-model="definicion.PorcentualTasaPlazo.PorcentualTasaPlazoInputValor">
+							</bcs-input-porcentaje>
+							<label class="col-xs-1 col-xs-offset-1">
+								{{'UI_BASE_TASA' | translate}}
+							</label>
+							<bcs-combobox-base class="col-xs-2"
+								bcs-requerido = "!!definicion.PorcentualTasaPlazo.PorcentualTasaPlazoCheckValor"
+								id-defecto = "defecto.IdBaseTasaCobro"
+								activado = "definicion.PorcentualTasaPlazo.PorcentualTasaPlazoCheckValor"
+								id-actual = "definicion.OtrosDatos.IdBaseTasaCobroSeleccionada"
+								seleccionado = "definicion.OtrosDatos.BaseTasaCobroSeleccionada" 
+								tipo="'combobox-base-tasa'">
+							</bcs-combobox-base>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="!definicion.PorcentualTasaPlazo.PorcentualTasaPlazoCheckValor" ng-model="definicion.OtrosDatos.InteresSimpleCheckValor"></bcs-input-checkbox>{{'UI_INTERES_SIMPLE' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-disabled="!definicion.PorcentualTasaPlazo.PorcentualTasaPlazoCheckValor" ng-model="definicion.OtrosDatos.InteresCompuestoCheckValor"></bcs-input-checkbox>{{'UI_INTERES_COMPUESTO' | translate}}
+							</label>
+						</div>
+						<hr />
+						<div class="row">
+							
+							<!-- <label class="col-xs-2" translate>UI_MONTO_OPERACION_BASE</label>
+							<bcs-input-numero class="col-xs-2" 
+								bcs-requerido = "!!definicion.OtrosDatos.AllInCheckValor"
+								k-ng-disabled="!definicion.OtrosDatos.AllInCheckValor" 
+								k-ng-model="definicion.OtrosDatos.AllInInputValor">
+							</bcs-input-numero> -->
+						</div>
+						<hr/>
+						<!-- <div class="row">
+							<label class="col-xs-2" translate>UI_TIPO_PRODUCTO</label>
+							<bcs-combobox-base class="col-xs-4"
+								cascada-a="definicion.OtrosDatos.filtrosOperacion.IdTipoProducto"
+								cascada-valor="'IdTipoProducto'"
+								seleccionado = "definicion.OtrosDatos.TipoProductoSeleccionado"
+								id-actual = "definicion.OtrosDatos.IdTipoProductoSeleccionado"
+								tipo="'combobox-tipo-producto'">
+							</bcs-combobox-base>
+							<label class="col-xs-2" translate>UI_OPERACION</label>					
+							<bcs-combobox-base class="col-xs-4"
+								seleccionado = "definicion.OtrosDatos.TipoOperacionSeleccionada"
+								id-actual = "definicion.OtrosDatos.IdTipoOperacionSeleccionada"
+								filtros = "definicion.OtrosDatos.filtrosOperacion"
+								tipo="'combobox-operacion'">
+							</bcs-combobox-base>
+						</div>
+						<div class="row">
+							<label class="col-xs-2" translate>UI_MONEDA_OPERACION</label>
+							<bcs-combobox-base class="col-xs-4" 
+								tipo="'combobox-moneda'">
+							</bcs-combobox-base>
+							<label class="col-xs-2" translate>UI_MONEDA_LIQUIDACION</label>					
+							<bcs-combobox-base class="col-xs-4" 
+								tipo="'combobox-moneda'">
+							</bcs-combobox-base>
+						</div> -->
+						<div class="row">
+							<!-- <label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.EnRuedaCheckValor"></bcs-input-checkbox>{{'UI_EN_RUEDA' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.FueraRuedaCheckValor"></bcs-input-checkbox>{{'UI_FUERA_DE_RUEDA' | translate}}
+							</label>
+							 -->
+							 <label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.OperacionContadoCheckValor" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_OPERACION_CONTADO' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.OperacionPlazoCheckValor" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_OPERACION_PLAZO' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.AfectoImpuestoCheckValor" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_AFECTO_IMPUESTO' | translate}}
+							</label>
+							
+							<div class="col-xs-4">
+								<label class="col-xs-4" translate>UI_TIPO_PRODUCTO</label>
+								<bcs-combobox-base class="col-xs-8"
+									todos = "'S'"
+									bcs-requerido
+									id-defecto  = "defecto.IdTipoProducto"
+									seleccionado = "definicion.OtrosDatos.TipoProductoSeleccionado"
+									id-actual = "definicion.OtrosDatos.IdTipoProductoSeleccionado"
+									tipo="'combobox-tipo-producto-cobro'">
+							</div>
+							
+						</div>
+						<div class="row">
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.AplicaPortafolioCheckValor" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_APLICA_PORTAFOLIO' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.AplicaCorredoraCorresponsalValor" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_APLICA_CORRESPONSAL' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.PermiteDisminuirValorCheckValor" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_PERMITE_DISMINUIR_VALOR' | translate}}
+							</label>
+							<label class="col-xs-2">
+								<bcs-input-checkbox class="col-xs-2" ng-model="definicion.OtrosDatos.PermiteAumentarValorCheckValor" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_PERMITE_AUMENTAR_VALOR' | translate}}
+							</label>
+						</div>
+					</div>
+				</form>	
+			</uib-tab>
+			<uib-tab select="refresh()" heading="{{'UI_DEFINICION_RANGOS' | translate}}">
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="row">
+							<label class="col-xs-6">
+								<bcs-input-checkbox class="col-xs-1" ng-disabled="true" ng-model="pestanaRangos.PorcentualPorRangoCheckValor"></bcs-input-checkbox>{{'UI_PORCENTUAL_POR_RANGO' | translate}}</label>
+							<bcs-combobox-base class="col-xs-5"
+								activado = "pestanaRangos.PorcentualPorRangoCheckValor"
+								id-defecto = "defecto.IdTipoRangoCobro"
+								id-actual = "pestanaRangos.IdTipoRangoCobroSeleccionado"
+								tipo="'combobox-tipo-rango-cobro'">
+							</bcs-combobox-base>
+						</div>
+						<div class="row">
+							<label class="col-xs-6" translate>UI_MONEDA_RANGO_POR_MONTO</label>
+							<bcs-combobox-base class="col-xs-5"
+								activado = "pestanaRangos.PorcentualPorRangoCheckValor"
+								id-defecto = "defecto.IdMonedaRangoMonto"
+								id-actual = "pestanaRangos.IdMonedaRangoCobroSeleccionado"
+								tipo="'combobox-moneda'">
+							</bcs-combobox-base>
+						</div>
+						
+					</div>
+					<div class="col-xs-6">
+						<div class="row">
+							<label class="col-xs-12" translate>UI_RANGOS_DE_COBRO</label>
+							<bcs-grid class="col-xs-12" id="grillaRangos"
+								seleccionado = "pestanaRangos.rangoSeleccionado"
+								configuracion="pestanaRangos.configuracionGrillaRangos">
+							</bcs-grid>
+							
+						</div>
+						<div class="row">
+							<label class="col-xs-2" translate>UI_HASTA</label>
+							<bcs-input-numero decimales = "0" k-options="{ min : 0}" decaimles class="col-xs-2" k-ng-disabled="!pestanaRangos.PorcentualPorRangoCheckValor" k-ng-model="pestanaRangos.ValorHastaInputValor"></bcs-input-numero>
+							<label class="col-xs-2" translate>UI_PORCENTAJE</label>
+							<bcs-input-porcentaje class="col-xs-2" k-ng-disabled="!pestanaRangos.PorcentualPorRangoCheckValor" k-ng-model="pestanaRangos.ValorPorcentajeInputValor"></bcs-input-porcentaje>
+							<bcs-button bcs-clic="pestanaRangos.agregarRango()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="pestanaRangos.PorcentualPorRangoCheckValor"></bcs-button>
+							<bcs-button bcs-clic="pestanaRangos.quitarRango()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" bcs-habilitado="pestanaRangos.PorcentualPorRangoCheckValor && pestanaRangos.rangoSeleccionado"></bcs-button>	
+							
+							
+						</div>
+					</div>
+				</div>
+			</uib-tab>
+			<uib-tab heading="{{'UI_DEFINICION_INCLUSIONES_EXCLUSIONES' | translate}}">
+				<div class="row">
+					<div class="col-xs-2">
+						<div class="row">
+							<label class="col-xs-12">
+								<bcs-input-checkbox class="col-xs-2" ng-model="pestanaInEx.emisorCheck" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_EMISORES' | translate}}
+							</label>
+						</div>
+						<div class="row">
+							<label class="col-xs-12">
+								<bcs-input-checkbox class="col-xs-2" ng-model="pestanaInEx.instrumentoCheck" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_INSTRUMENTOS' | translate}}
+							</label>
+						</div>
+						<div class="row">
+							<label class="col-xs-12">
+								<bcs-input-checkbox class="col-xs-2" ng-model="pestanaInEx.corresponsalCheck" ng-disabled="definicion.ComisionIndirecta"></bcs-input-checkbox>{{'UI_BROKER_PLAZA' | translate}}
+							</label>
+						</div>
+						
+					</div>
+					<div class="col-xs-10">
+						<div class="row">
+							<uib-tabset>
+								<uib-tab heading="{{'UI_EMISORES' | translate}}" disable="!pestanaInEx.emisorCheck" >
+									<div class="row">
+										<div class="row">
+											<bcs-input-checkgroup class="col-xs-7"
+												valores	="pestanaInEx.valoresEmisor"
+												etiquetas = "pestanaInEx.etiquetasEmisor"
+												activado = "pestanaInEx.emisorCheck">
+											</bcs-input-checkgroup>
+										</div>
+										<div class="row">
+											<bcs-grid class="col-xs-8" id="grillaEmisores"
+												seleccionado = "pestanaInEx.EmisorSeleccionado"
+												configuracion="pestanaInEx.configuracionGrillaEmisores">
+											</bcs-grid>
+										</div>
+										<div class="row">
+											<label class="col-xs-2" translate>UI_EMISOR</label>
+											<bcs-combobox-base class="col-xs-2"
+												id-actual = "pestanaInEx.IdEmisorSeleccionadoCombo"
+												seleccionado = "pestanaInEx.EmisorSeleccionadoCombo"
+												filtros ="pestanaInEx.filtrosEmisor"
+												activado ="pestanaInEx.emisorCheck"
+												tipo = "'combobox-emisor'">
+											</bcs-combobox-base>
+											<bcs-button bcs-clic="pestanaInEx.agregarEmisor()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 	
+												bcs-habilitado="pestanaInEx.EmisorSeleccionadoCombo.IdEmisor && pestanaInEx.emisorCheck"></bcs-button>
+											<bcs-button bcs-clic="pestanaInEx.quitarEmisor()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" 
+												bcs-habilitado="pestanaInEx.EmisorSeleccionado && pestanaInEx.emisorCheck"></bcs-button>	
+										</div>
+										
+									</div>
+								</uib-tab>
+								<uib-tab heading="{{'UI_INSTRUMENTOS' | translate}}" disable="!pestanaInEx.instrumentoCheck">
+									<div class="row">
+										<div class="row">
+												<bcs-input-checkgroup class="col-xs-7"
+													valores	="pestanaInEx.valoresInstrumento"
+													etiquetas = "pestanaInEx.etiquetasInstrumento"
+													activado = "pestanaInEx.instrumentoCheck">
+												</bcs-input-checkgroup>
+											</div>
+										<div class="row">
+											<bcs-grid class="col-xs-8" id="grillaInstrumentos"
+												seleccionado = "pestanaInEx.InstrumentoSeleccionado"
+												configuracion="pestanaInEx.configuracionGrillaInstrumentos">
+											</bcs-grid>
+										</div>
+										<div class="row">
+											<label class="col-xs-2" translate>UI_INSTRUMENTO</label>
+											<bcs-input-instrumentos class="col-xs-2"
+												buscar-instrumento = "pestanaInEx.setInstrumento"
+												k-ng-disabled ="!pestanaInEx.instrumentoCheck"
+												datos-instrumento = "pestanaInEx.InstrumentoSeleccionadoCombo">
+											</bcs-input-instrumentos>
+											<bcs-button bcs-clic="pestanaInEx.agregarInstrumento()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 	
+												bcs-habilitado="pestanaInEx.InstrumentoSeleccionadoCombo.IdInstrumento && pestanaInEx.instrumentoCheck"></bcs-button>
+											<bcs-button bcs-clic="pestanaInEx.quitarInstrumento()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" 
+												bcs-habilitado="pestanaInEx.InstrumentoSeleccionado && pestanaInEx.instrumentoCheck"></bcs-button>	
+										</div>
+									</div>
+								</uib-tab>
+								<!-- <uib-tab heading="{{'UI_TIPOS_DE_CLIENTE' | translate}}" disable="!pestanaInEx.tipoDeClienteCheck">
+									<div class="row">
+										<div class="row">
+												<bcs-input-checkgroup class="col-xs-7"
+													valores	="pestanaInEx.valoresTipoDeCliente"
+													etiquetas = "pestanaInEx.etiquetasTipoDeCliente"
+													activado = "pestanaInEx.tipoDeClienteCheck">
+												</bcs-input-checkgroup>
+											</div>
+										<div class="row">
+											<bcs-grid class="col-xs-8" id="grillaTiposCliente"
+												seleccionado = "pestanaInEx.TipoClienteSeleccionado"
+												configuracion="pestanaInEx.configuracionGrillaTiposClientes">
+											</bcs-grid>
+										</div>
+										
+										
+										<div class="row">
+											<label class="col-xs-2" translate>UI_TIPO_CLIENTE</label>
+											<bcs-combobox-base class="col-xs-2"
+												id-actual = "pestanaInEx.IdTipoClienteSeleccionadoCombo"
+												seleccionado = "pestanaInEx.TipoClienteSeleccionadoCombo"
+												filtros = "pestanaInEx.filtrosTipoCliente"
+												activado ="pestanaInEx.tipoDeClienteCheck"
+												tipo = "'combobox-tipo-cliente'">
+											</bcs-combobox-base>
+											<bcs-button bcs-clic="pestanaInEx.agregarTipoCliente()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 	
+												bcs-habilitado="pestanaInEx.TipoClienteSeleccionadoCombo.IdTipoCliente && pestanaInEx.tipoDeClienteCheck"></bcs-button>
+											<bcs-button bcs-clic="pestanaInEx.quitarTipoCliente()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" 
+												bcs-habilitado="pestanaInEx.TipoClienteSeleccionado && pestanaInEx.tipoDeClienteCheck"></bcs-button>	
+										</div>
+										
+										
+									</div>
+								</uib-tab>
+								<uib-tab heading="{{'UI_CLIENTES' | translate}}" disable="!pestanaInEx.clienteCheck">
+									<div class="row">
+										<div class="row">
+												<bcs-input-checkgroup class="col-xs-7"
+													valores	="pestanaInEx.valoresCliente"
+													etiquetas = "pestanaInEx.etiquetasCliente"
+													activado = "pestanaInEx.clienteCheck">
+												</bcs-input-checkgroup>
+											</div>
+										<div class="row">
+											<bcs-grid class="col-xs-10" id="grillaClientes"
+												seleccionado = "pestanaInEx.PortafolioSeleccionado"
+												configuracion="pestanaInEx.configuracionGrillaClientes">
+											</bcs-grid>
+										</div>
+										
+										<div class="row">
+											<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+											<bcs-combobox-base class="col-xs-4"
+												id-actual = "pestanaInEx.IdPortafolioSeleccionadoCombo"
+												activado ="pestanaInEx.clienteCheck"
+												seleccionado = "pestanaInEx.PortafolioSeleccionadoCombo"
+												tipo = "'combobox-cliente-portafolio'">
+											</bcs-combobox-base>
+											<bcs-button bcs-clic="pestanaInEx.agregarPortafolio()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 	
+												bcs-habilitado="pestanaInEx.PortafolioSeleccionadoCombo.IdPortafolio && pestanaInEx.clienteCheck"></bcs-button>
+											<bcs-button bcs-clic="pestanaInEx.quitarPortafolio()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" 
+												bcs-habilitado="pestanaInEx.PortafolioSeleccionado && pestanaInEx.clienteCheck"></bcs-button>	
+										</div>
+										
+									</div>
+								</uib-tab> -->
+								<uib-tab heading="{{'UI_CORREDORA_CORRESPONSAL' | translate}}" disable="!pestanaInEx.corresponsalCheck">
+									<div class="row">
+										<div class="row">
+												<bcs-input-checkgroup class="col-xs-7"
+													valores	="pestanaInEx.valoresCorresponsal"
+													etiquetas = "pestanaInEx.etiquetasCorresponsal"
+													activado = "pestanaInEx.corresponsalCheck">
+												</bcs-input-checkgroup>
+											</div>
+										<div class="row">
+											<bcs-grid class="col-xs-10" id="grillaCorredoraCorresponsal"
+												seleccionado = "pestanaInEx.CorredoraCorresponsalSeleccionada"
+												configuracion="pestanaInEx.configuracionGrillaCorredoraCorresponsal">
+											</bcs-grid>
+										</div>
+										
+										<div class="row">
+											<label class="col-xs-2" translate>UI_CORREDORA_CORRESPONSAL</label>
+											<bcs-combobox-base class="col-xs-4"
+												id-actual = "pestanaInEx.IdCorredoraCorresponsalSeleccionadaCombo"
+												activado ="pestanaInEx.corresponsalCheck"
+												seleccionado = "pestanaInEx.CorredoraCorresponsalSeleccionadaCombo"
+												tipo = "'combobox-corredor-corresponsal'">
+											</bcs-combobox-base>
+											<bcs-button bcs-clic="pestanaInEx.agregarCorredoraCorresponsal()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 	
+												bcs-habilitado="pestanaInEx.CorredoraCorresponsalSeleccionadaCombo.IdCorredorCorresponsal && pestanaInEx.corresponsalCheck"></bcs-button>
+											<bcs-button bcs-clic="pestanaInEx.quitarCorredoraCorresponsal()"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" 
+												bcs-habilitado="pestanaInEx.CorredoraCorresponsalSeleccionada && pestanaInEx.corresponsalCheck"></bcs-button>	
+										</div>
+										
+									</div>
+								</uib-tab>
+							</uib-tabset>
+						</div>
+					</div>
+				</div>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+	<br/>
+	<div class="row">
+		<bcs-button bcs-clic="crearDefinicionCobros()"  class="col-xs-1" bcs-tipo="'principal'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="formData.FormIngresoCobro.$valid"></bcs-button>
+		<bcs-button bcs-clic="cancelar()"  class="col-xs-1" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'"></bcs-button>			
+	</div>
+	
+</div>

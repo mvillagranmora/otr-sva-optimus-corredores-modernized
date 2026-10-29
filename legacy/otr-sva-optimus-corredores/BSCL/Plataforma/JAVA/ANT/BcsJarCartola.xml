@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="BcsJarOptimus">
+<!--
+
+
+ RECUERDE PASAR EN EL COMANDO SU RUTA DEL REPOSITORIO Y  
+ 
+ EJEMPLO: -DRUTA=C:/Users/cstange/hana_work/DB9_02_CSTANGE/__empty__/  -DDEPLOY=C:/BCS/DEPLOY/ -Dfile.encoding=UTF8
+ 
+ 
+-->
+    <property environment="env"/>  
+	<property name="fileName" value="excelsys"/>
+    <path id="src.path">
+    	<!--
+    	    *********************
+    	     Fuentes del Modulo
+    	    *********************
+    	-->
+    	<pathelement location="${RUTA}/BSCL/Normativa/Java/BcsNormativaServicios/src/net/excelsys/stockMarket/util/" /> 
+    	
+    	
+    </path>    
+    
+	<fileset id="compile.jars" dir="${RUTA}/BSCL/Plataforma/JAVA/libs/">
+			<include  name="commons-lang3-3.1.jar"/>
+			
+		</fileset> 	  	
+	
+		<fileset id="lib.jars" dir="${RUTA}/BSCL/Plataforma/JAVA/libs/">
+			<include  name="jsch-0.1.54.jar"/>
+		</fileset>  
+	
+<!-- NO SE META SI NO SABE -->
+    <path id="build.classpath">
+        <pathelement location="${DEPLOY}/bin"/>
+    	<pathelement location="${DEPLOY}/libs"/>
+    	<fileset refid="compile.jars" />
+    </path>   	
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="jargs" value="-nowarn"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+	<pathconvert property="mf.classpath" pathsep=" ">
+		<path refid="build.classpath"/>
+		<mapper>
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*.jar" to="lib/*.jar"/>
+			</chainedmapper>
+		</mapper>
+	</pathconvert>    
+	<pathconvert property="mf.src" pathsep=",">
+		<path refid="src.path"/>
+	</pathconvert>   	
+    <target name="init">
+        <mkdir dir="${DEPLOY}/bin"/>
+        <mkdir dir="${DEPLOY}/deploy"/>	
+    	<mkdir dir="${DEPLOY}/libs"/>	
+    </target>
+    <target name="clean">
+        <delete dir="${DEPLOY}/bin"/>
+        <delete dir="${DEPLOY}/deploy"/>
+    	<delete dir="${DEPLOY}/libs"/>	
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="clean,build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+    	<copy todir="${DEPLOY}/libs">
+    		<fileset refid="lib.jars" />
+    	</copy>       	
+    	<copy todir="${DEPLOY}/bin" verbose="false">
+    		<multirootfileset basedirs="${mf.src}">
+    			<include name="**/*.properties"/>	
+	    		<include name="**/*.sql"/>	     			 
+    		</multirootfileset>
+    	</copy>
+        <javac debug="true" debuglevel="${debuglevel}"  encoding="utf-8"
+        	   destdir="${DEPLOY}/bin" 
+               includeantruntime="false" 
+        	   source="${source}" 
+               target="${target}">
+            <src refid="src.path" />
+            <compilerarg value="${jargs}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+<!-- La magia del JAR Bundle -->
+    	<!--<jar destfile="${DEPLOY_FILE}/${fileName}.jar"  basedir="${DEPLOY}/bin/"  filesetmanifest="skip">-->  	
+		 <jar destfile="${DEPLOY}/deploy/${fileName}.jar"  basedir="${DEPLOY}/bin/"  filesetmanifest="skip"> 	    		    		
+    	    <manifest>
+    	        <attribute name="Class-Path" value="${mf.classpath}"/>
+    	    </manifest>
+    	</jar>            	  	
+    </target>
+</project>

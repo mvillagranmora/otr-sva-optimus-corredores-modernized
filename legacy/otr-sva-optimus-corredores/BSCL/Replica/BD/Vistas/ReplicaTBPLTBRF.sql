@@ -1,0 +1,63 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaTBPLTBRF"; 
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaTBPLTBRF" AS
+
+		SELECT
+		    --top 10
+		    WST."IdStack" AS "IDSTACK","Action" AS ACTION,
+		    FEC_TRANS  || ':' || rtrim(ltrim(FOLIO_TRANS)) ||':' || IND_BOLSA ||':' || TIPO_OPERAC AS TABLE_KEY,
+		    TRA."FEC_TRANS",
+			TRA."FOLIO_TRANS",
+			TRA."IND_BOLSA",
+			TRA."TIPO_OPERAC",
+			TRA."FECHA",
+			TRA."NEMO",
+			TRA."CAN_ASIG_ACUM",
+			TRA."CAN_CP",
+			TRA."CANTIDAD",
+			TRA."COD_CORR_CONTRA",
+			TRA."COD_OPE_EXT",
+			TRA."EMISOR_NO_INS",
+			TRA."FEC_DIG",
+			TRA."IND_BOLSON",
+			TRA."IND_COMPROMISO",
+			TRA."IND_CTA_PRO",
+			TRA."IND_DCV",
+			TRA."IND_LIQUID",
+			TRA."IND_MODIF",
+			TRA."IND_OD",
+			TRA."IND_RESERVADO",
+			TRA."MONTO",
+			TRA."PLAZO",
+			TRA."PLAZO_CORA_PRTP",
+			TRA."PRECIO",
+			TRA."RUEDA",
+			TRA."TIPO_CALCULO",
+			TRA."TIR",
+			TRA."OPE_INT",
+			TRA."SEC_MOVTO_FAC",
+			TRA."FEC_VCTO_TP",
+			TRA."IND_SIMUL",
+			TRA."TASA_SIMUL",
+			TRA."FOLIO_SIMUL",
+			TRA."CODCATIFRSID",
+			TRA."PARIDAD_MORIGEN",
+			TRA."CAPTACION_MORIGEN",
+			TRA."MON_MORIGEN",
+			TRA."FCREOF_COM",
+			TRA."FCREOF_VEN",
+			TRA."CAN_COM",
+			TRA."PRECIO_COM",
+			TRA."BOLSA_COM",
+			TRA."CAN_VEN",
+			TRA."PRECIO_VEN",
+			TRA."BOLSA_VEN"
+		    
+		FROM "BSCL.Replica.BD.Vistas::Sebra.TBPLTBRF"  TRA 
+		LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'TBPLTBRF' AND WST."Key" = FEC_TRANS  || ':' || rtrim(ltrim(FOLIO_TRANS)) ||':' || IND_BOLSA ||':' || TIPO_OPERAC
+	
+		
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaTBPLTBRF" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

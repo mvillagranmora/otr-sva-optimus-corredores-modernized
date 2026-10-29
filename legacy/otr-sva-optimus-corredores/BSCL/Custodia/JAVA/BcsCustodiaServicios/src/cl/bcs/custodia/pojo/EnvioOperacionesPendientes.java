@@ -1,0 +1,103 @@
+package cl.bcs.custodia.pojo;
+
+import java.math.BigDecimal;
+
+import cl.bcs.utils.BcsPojo;
+import cl.bcs.utils.Fecha;
+
+public class EnvioOperacionesPendientes extends BcsPojo {
+	public Long IdInterno;
+	public String IdTipo;
+	public Long FolioOperacion;
+	public java.sql.Date FechaIngresoRegistro;
+	public String IdTipoOperacion;
+	public String TipoOperacion;
+	public String NombreOperacion;
+	public String IdTipoInstrumento;
+	public String Nemo;
+	public String IdClasificacionTipoInstrumento;
+	public Long IdEmpresa;
+	public String IdCondicionLiquidacion;
+	public String IdOperacion;
+	public String OpDirecto;
+	public java.sql.Date FechaMovimientoComprobante;
+	public java.sql.Date FechaVencimiento;
+	public String DocumentoIdentidad;
+	public Long IdPortafolio;
+	public Long FolioComprobante;
+	public Long FolioComprobanteReferencia;
+	public Long IdOrden;
+	public BigDecimal Cantidad;
+	public BigDecimal Precio;
+	public BigDecimal Tasa;
+	public BigDecimal Monto;
+	public Long MontoMovimientoComprobante;
+	public String IdEstado;
+	public Long IdAgente;
+	public String IdMoneda;
+	public String IdTipoGarantia;
+	public String FondoAfp;
+	public String IdTipoComprobante;
+	public String IdTipoProducto;
+	public String Producto;
+	public String IdBolsa;
+	public String DocumentoIdentidadEntidad;
+	public String IndDcv;
+	public String FolioTransaccion;
+	public String UsarioEnvio;
+	public String EstadoCclv;
+	public String EstadoCclvDesc;
+	public java.sql.Date FechaEjecucion;
+	public String NemoSVS;
+	public String Categoria;
+	public Integer IdGestion;
+
+	public EnvioOperacionesPendientes() {
+		IdInterno = 0L;
+		IdTipo = "";
+		FolioOperacion = 0L;
+		FechaIngresoRegistro = Fecha.toDate("0001-01-01");
+		IdTipoOperacion = "";
+		TipoOperacion = "";
+		NombreOperacion = "";
+		IdTipoInstrumento = "";
+		Nemo = "";
+		IdClasificacionTipoInstrumento = "";
+		IdEmpresa = 0L;
+		IdCondicionLiquidacion = "";
+		IdOperacion = "";
+		OpDirecto = "";
+		FechaMovimientoComprobante = Fecha.toDate("0001-01-01");
+		FechaVencimiento = Fecha.toDate("0001-01-01");
+		DocumentoIdentidad = "";
+		IdPortafolio = 0L;
+		FolioComprobante = 0L;
+		FolioComprobanteReferencia = 0L;
+		IdOrden = 0L;
+		Cantidad = BigDecimal.ZERO;
+		Precio = BigDecimal.ZERO;
+		Tasa = BigDecimal.ZERO;
+		Monto = BigDecimal.ZERO;
+		MontoMovimientoComprobante = 0L;
+		IdEstado = "";
+		IdAgente = 0L;
+		IdMoneda = "";
+		IdTipoGarantia = "";
+		FondoAfp = "";
+		IdTipoComprobante = "";
+		IdTipoProducto = "";
+		Producto = "";
+		IdBolsa = "";
+		DocumentoIdentidadEntidad = "";
+		IndDcv = "";
+		FolioTransaccion = "";
+		UsarioEnvio = "";
+		EstadoCclv = "";
+		EstadoCclvDesc = "";
+		FechaEjecucion = Fecha.toDate("0001-01-01");
+		NemoSVS = "";
+		Categoria = "";
+		IdGestion = 1000;
+	}
+
+}

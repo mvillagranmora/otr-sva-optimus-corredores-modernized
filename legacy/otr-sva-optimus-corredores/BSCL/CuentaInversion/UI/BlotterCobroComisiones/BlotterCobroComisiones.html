@@ -1,0 +1,211 @@
+<div class="row" ng-controller='BlotterCobroComisionesCtrl as bcc'>
+	<form name="frmblotterCobroComisiones" >
+		<div class="row" >
+			<div class="col-xs-6">
+	    		<div class="row">
+					<label class="col-xs-2" translate>UI_CLIENTE</label>
+					<bcs-combobox-base
+						class				= "col-xs-10"
+						id					= "UI_CLIENTE"
+						auto-cargar			= "'false'"
+						tipo				= "'combobox-socio-negocio'"
+						seleccionado		= "oSocioNegocio.seleccionado"
+						filtros				= "oSocioNegocio.filtros"
+						cascada-a			= "oPortafolio.filtros.IdCliente"
+						cascada-valor		= "'IdCliente'"
+						id-actual			= "oSocioNegocio.idActual">
+					</bcs-combobox-base>
+				</div>
+	    		<div class="row">
+				    <label class="col-xs-2" translate>UI_PRODUCTO</label>
+				    <bcs-combobox-base
+				    	class				= "col-xs-4"
+				        id					= "UI_PRODUCTO"
+				        auto-cargar			= "'true'"
+				        tipo				= "'combobox-otro-producto-agrupador'"
+				        seleccionado		= "oProducto.seleccionado"
+						cascada-a			= "oPortafolio.filtros.IdProductoAgrupador"
+						cascada-valor		= "'IdProductoAgrupador'"
+						id-actual			= "oProducto.idActual">
+				    </bcs-combobox-base >
+					<label class="col-xs-2" translate style="padding-left:15px">UI_PORTAFOLIO</label> 
+					<bcs-combobox-base
+						class				= "col-xs-4"
+						id					= "UI_PORTAFOLIO"
+						auto-cargar			= "'false'"
+						tipo				= "'combobox-portafolio'"
+						seleccionado		= "oPortafolio.seleccionado"
+						filtros				= "oPortafolio.filtros"
+						id-actual			= "oPortafolio.idActual"
+						activado			= "oSocioNegocio.seleccionado && oProducto.seleccionado">
+					</bcs-combobox-base>
+				</div>
+	    		<div class="row">
+					<label class="col-xs-2" translate>UI_ESTADO</label>
+					<bcs-combobox-base 
+						id="bcc.Estado"
+						class="col-xs-4"
+						bcs-requerido
+						auto-cargar   	= "true"									
+						tipo          	= "bcc.Estado.tipo"
+						id-actual     	= "bcc.Estado.idActual"													
+						configuracion	= "bcc.Estado.configuracion"
+						seleccionado  	= "bcc.Estado.seleccionado"							
+						filtros       	= "bcc.Estado.filtros"
+						id-post-filtro	= "bcc.Estado.idPostFiltro"
+						todos = "'S'"
+						id-defecto = "'0'"
+					>
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-3">
+			
+				<div class="row">
+					<label  class="col-xs-4" translate>UI_PERIODO</label>
+					<bcs-combobox-base 
+						id="periodoComisiones"
+						class="col-xs-8"
+						auto-cargar   	= "true"									
+						tipo          	= "bcc.Periodos.tipo"
+						id-actual     	= "bcc.Periodos.idActual"													
+						configuracion	= "bcc.Periodos.configuracion"
+						seleccionado  	= "bcc.Periodos.seleccionado"							
+						id-defecto 		= "'0'"
+						bcs-requerido 	 = "true"
+						></bcs-combobox-base>
+				</div>
+
+	    		<div class="row">
+					<label class="col-xs-4" translate>UI_PERIODO_DESDE</label>
+					<bcs-input-date 
+						class="col-xs-8" 
+						k-ng-model="bcc.filtro.FechaDesde" 
+						k-options="bcc.optionsFecha"
+						k-ng-disabled = "true"
+					>
+					</bcs-input-date>
+				</div>
+	    		<div class="row">
+					<label class="col-xs-4" translate>UI_PERIODO_HASTA</label>
+					<bcs-input-date 
+						class="col-xs-8" 
+						k-ng-model="bcc.filtro.FechaHasta" 
+						k-options="bcc.optionsFecha"
+						k-ng-disabled = "true"
+					>
+					</bcs-input-date>
+				</div>
+			</div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-1">
+				<div class="row">
+					<bcs-button 
+						class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-clic="bcc.buscar()" 
+						bcs-habilitado="bcc.Periodos.seleccionado">
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button 
+						class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="true" 
+						bcs-clic="bcc.limpiar()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<bcs-grid
+			id= "grid-consulta-registros-cobros"
+			configuracion= "defaultOptions"
+			seleccionado="bcc.opcionesSeleccionadas"
+			fn-exportar-excel = "exportarExcel"
+		>		
+		</bcs-grid>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-12 style="margin-top:5px">
+			<bcs-button 
+				class="col-xs-1" 
+				id="BlotterCobroComisionesCtrl_Procesar"
+				bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_PROCESAR' | translate" 
+				bcs-habilitado="bcc.validador && bcc.opcionesSeleccionadas.length > 0"
+				bcs-clic="bcc.ProcesarRegistros(bcc.opcionesSeleccionadas)"> 
+			</bcs-button>
+			<bcs-button 
+				class="col-xs-1" 
+				style="width:11%"
+				id="BlotterCobroComisionesCtrl_ProcesarTodo"
+				bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_PROCESAR_TODO' | translate" 
+				bcs-habilitado="bcc.validador"
+				bcs-clic="bcc.ProcesarTodo()"> 
+			</bcs-button>
+			<bcs-button 
+				id="BlotterCobroComisionCtrl_Editar" 
+				class="col-xs-1" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EDITAR' | translate" 
+				bcs-habilitado="bcc.validador && bcc.opcionesSeleccionadas"
+				bcs-clic="bcc.editarRegistro(bcc.opcionesSeleccionadas)">
+			</bcs-button>
+			<bcs-button 
+				id="BlotterCobroComisionCtrl_Eliminar" 
+				class="col-xs-1" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="bcc.validador && bcc.opcionesSeleccionadas"
+				bcs-clic="bcc.EliminarRegistros(bcc.opcionesSeleccionadas)">
+			</bcs-button>
+			<bcs-button 
+				id="BlotterCobroComisionCtrl_Parametros" 
+				class="col-xs-1" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_PARAMETROS' | translate" 
+				bcs-habilitado="'true'"  
+				bcs-clic="bcc.parametros()">
+			</bcs-button>
+			<bcs-button 
+				id="BlotterCobroComisionCtrl_InformePatrimonioDiario" 
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INFORME_PATRIMONIO_DIARIO' | translate" 
+                bcs-habilitado="bcc.Periodos.seleccionado"  
+				bcs-clic="bcc.generarInformePatrimonioDiario()">
+			</bcs-button>
+			<bcs-button
+				id="BlotterCobroComisionCtrl_InformeResumenCobro" 
+				class="col-xs-2" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INFORME_RESUMEN_COBRO' | translate" 
+                bcs-habilitado="bcc.Periodos.seleccionado"  
+				bcs-clic="bcc.generarInformeResumenCobro()">
+			</bcs-button>
+			<bcs-menu 
+				bcs-habilitado="'true'" 
+				class="col-xs-1 pull-right" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">
+	            	{{'UI_EXPORTAR_EXCEL' | translate}}
+	            </li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

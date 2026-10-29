@@ -1,0 +1,1 @@
+DROP TABLE #ModificarEstadoTasas_p_TablaTasa

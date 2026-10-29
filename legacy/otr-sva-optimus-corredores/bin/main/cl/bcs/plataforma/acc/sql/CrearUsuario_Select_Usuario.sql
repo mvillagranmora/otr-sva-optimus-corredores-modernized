@@ -1,0 +1,3 @@
+SELECT * FROM "BSCL.Plataforma.BD::ACC.Usuario" as Usu LEFT JOIN 
+"BSCL.Plataforma.BD::PLA.Configuracion" as Conf ON CAST(Conf."Valor" AS int ) = Usu."IdEntidad"  
+WHERE Usu."IdEmpresa" = :IdEmpresa AND  Conf."CodigoParametro" = 'ACC.IdUsuarioBolsa' AND (CAST(Conf."Valor" AS int) <> Usu."IdEntidad" OR Usu."CodigoUsuario" = upper(:CodigoUsuario))  AND ("CodigoUsuario" = upper(:CodigoUsuario) OR ("IdEntidad" = :IdEntidad AND "TipoEntidad" = :TipoEntidad));

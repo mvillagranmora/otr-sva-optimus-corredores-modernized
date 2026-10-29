@@ -1,0 +1,161 @@
+ ############################################################################
+       Instrucciones para preparar un nuevo ambiente
+ ############################################################################
+
+1) Requisitos
+----------------------------------------------------------------------------
+  - Servidor HANA
+    Filtros al grupo: GI-Desarrollo-Gestion
+    IP DESTINO:
+    PUERTOS [PING] [TCP 22 80 443 30015  30115 30215 30315 30415 8000 8001 8002 8003 8004 ]
+    DURACION: PERMANENTE,  Puertos de ambiente de desarrollo/certificación
+  
+  - Servidor de Aplicaciones
+    Filtros al grupo: GI-Desarrollo-Gestion
+    IP DESTINO:
+    PUERTOS [PING] [TCP 22 80 443 8005 8015 8025 8035 8045 9005 9015 9025 9035 9045]
+    DURACION: PERMANENTE,  Puertos de desarrollo/certificación
+    
+  - Crear carpetas de trabajo (idealmente montar disco) , dar permisos chmod 766 -R 
+    /mnt/optimus/des/empresa1/nor/  
+  
+ 2) Configuracion de permisos en base datos HANA
+----------------------------------------------------------------------------
+ 
+	CREATE SCHEMA BSCL;
+	CREATE SCHEMA RUEBAS; 
+	
+	CREATE ROLE BCS; 
+	
+	GRANT SELECT ON SCHEMA "BSCL" TO BCS;
+	GRANT INSERT, UPDATE, DELETE, EXECUTE ON SCHEMA "BSCL" TO BCS;
+	GRANT CREATE ANY ON SCHEMA "BSCL" TO BCS;
+	GRANT SESSION ADMIN TO BCS; 
+
+	
+	GRANT SELECT ON SCHEMA "RUEBAS" TO BCS;
+	GRANT INSERT, UPDATE, DELETE, EXECUTE ON SCHEMA "RUEBAS" TO BCS;
+	GRANT CREATE ANY ON SCHEMA "RUEBAS" TO BCS; 
+	GRANT ALTER,DROP ON SCHEMA "BSCL" TO BCS;
+  
+	GRANT EXECUTE ON "BSCL" to BCS;
+	GRANT REPO.READ ON _SYS_REPO."BSCL" TO BCS;
+	GRANT REPO.EDIT_NATIVE_OBJECTS ON _SYS_REPO."BSCL" TO BCS;
+	GRANT REPO.ACTIVATE_NATIVE_OBJECTS ON _SYS_REPO."BSCL" TO BCS;
+	GRANT REPO.MAINTAIN_NATIVE_PACKAGES ON _SYS_REPO."BSCL" TO BCS;
+	GRANT REPO.ACTIVATE_IMPORTED_OBJECTS ON _SYS_REPO."BSCL" TO BCS;
+	GRANT REPO.MAINTAIN_IMPORTED_PACKAGES ON _SYS_REPO."BSCL" TO BCS;	
+	GRANT REPO.EDIT_IMPORTED_OBJECTS ON _SYS_REPO."BSCL" TO BCS;
+ 
+	GRANT SELECT ON SCHEMA "_SYS_BI" TO BCS; 
+	GRANT SELECT ON SCHEMA "_SYS_BIC" TO BCS; 
+	GRANT EXECUTE ON SCHEMA "_SYS_BI" TO BCS; 
+	GRANT EXECUTE ON SCHEMA "_SYS_BIC" TO BCS; 
+	GRANT EXECUTE ON SCHEMA "BSCL" to _SYS_REPO;
+	
+	GRANT EXECUTE,SELECT,INSERT,UPDATE,DELETE ON SCHEMA "_SYS_REPO" TO BCS; 
+	GRANT EXECUTE,SELECT,INSERT,UPDATE,DELETE ON SCHEMA "RUEBAS" TO BCS; 
+	GRANT EXECUTE,SELECT,INSERT,UPDATE,DELETE ON SCHEMA "BSCL_VIRTUAL" TO BCS; 
+		
+	CREATE USER webweb PASSWORD Bolsa1234;
+	GRANT BCS TO webweb;
+	ALTER USER webweb DISABLE PASSWORD LIFETIME
+
+	CREATE USER JOBMAN PASSWORD Bolsa123;
+	GRANT BCS TO JOBMAN;
+	ALTER USER JOBMAN DISABLE PASSWORD LIFETIME;
+
+	CREATE USER JOBS PASSWORD Bolsa123;
+	GRANT BCS TO JOBS;
+	ALTER USER JOBS DISABLE PASSWORD LIFETIME;
+
+	CREATE USER APPJAVA PASSWORD Bolsa123;
+	GRANT BCS TO APPJAVA;
+	ALTER USER APPJAVA DISABLE PASSWORD LIFETIME;
+	
+	CREATE USER MDCLIENT PASSWORD Bolsa123;
+	GRANT BCS TO MDCLIENT;
+	ALTER USER MDCLIENT DISABLE PASSWORD LIFETIME;
+		
+	
+	CREATE USER SOPORTE PASSWORD Bolsa123;
+	GRANT BCS TO SOPORTE;
+	GRANT Monitoring TO soporte;
+	GRANT Modeling TO soporte;	
+	GRANT USER ADMIN TO soporte;	
+	GRANT TABLE ADMIN TO soporte;
+	ALTER USER SOPORTE DISABLE PASSWORD LIFETIME;	
+  
+ 3) Creación de schema en base datos HANA
+ ----------------------------------------------------------------------------
+    Ejecutar script de schema, secuencias y FKs  generado por la herramienta de liberacion
+    por medio del comando --save-schema-xx  
+    
+ 4) Insertar datos maestros en base datos HANA
+ ----------------------------------------------------------------------------
+   Ejecutar script de datos maestros generado por la herramienta de liberacion por medio
+   del comando --save-master-data-xx
+   
+ 5) Ejecutar script de Configuracion en base datos HANA
+ ----------------------------------------------------------------------------
+   Ejecutar script de  LIMPIAR_BASE_DATOS.SQL
+   Ejecutar script de  CONFIGURAR_BASE_DATOS.SQL
+   Ejecutar script de  RUEBAS.SQL
+      
+ 6) Liberar localhost.xshttpdest
+ ----------------------------------------------------------------------------  
+  Crear el archivo localhost.xshttpdest y poner en la ruta del liberador BSCL\Plataforma\XSREST
+  Poner IP y puerto correcto al archivo y liberar manual archivo.
+  
+ 7) Instalar APPS 
+ ----------------------------------------------------------------------------  
+   JOBMANAGER
+   VALORIZADOR
+   WEB - ADDON de cada modulo
+ 
+ ---------------------------------------------------------------------------
+ 10) BSCL_VIRTUAL   ( Solo para ambientes productivos que se migren)
+ 
+ 
+ 11) PLAN HOMOLOGACION O MIGRACIÖO
+ ---------------------------------------------------------------------------
+ -
+ -
+ -
+ 
+  
+ ############################################################################
+  ANEXO
+ ############################################################################
+ 
+  a) Permisos de análiticos
+ ----------------------------------------------------------------------------
+CREATE ROLE BCS_CONSULTAS;
+GRANT SELECT ON SCHEMA "_SYS_BI" TO BCS_CONSULTAS; 
+GRANT SELECT ON SCHEMA "_SYS_BIC" TO BCS_CONSULTAS; 
+GRANT REPO.READ ON _SYS_REPO."BSCL.CuentaInversion.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Custodia.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Facturacion.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.FondoMutuo.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Homologacion.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Mercado.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Mesa.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Normativa.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Orden.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Plataforma.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Portafolio.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.SocioNegocio.BD.Analytics" TO BCS_CONSULTAS;
+GRANT REPO.READ ON _SYS_REPO."BSCL.Tesoreria.BD.Analytics" TO BCS_CONSULTAS;
+
+GRANT SELECT ON SCHEMA "BSCL" TO _SYS_REPO WITH GRANT OPTION;
+ 
+CREATE USER analiticos PASSWORD Optimus06;
+ALTER USER analiticos DISABLE PASSWORD LIFETIME;
+GRANT BCS_CONSULTAS TO analiticos;
+ 
+GRANT EXECUTE ON "SYS"."REPOSITORY_REST" TO BCS_CONSULTAS;
+CALL GRANT_ACTIVATED_ANALYTICAL_PRIVILEGE('_SYS_BI_CP_ALL','BCS_CONSULTAS');
+ 
+
+ 
+  

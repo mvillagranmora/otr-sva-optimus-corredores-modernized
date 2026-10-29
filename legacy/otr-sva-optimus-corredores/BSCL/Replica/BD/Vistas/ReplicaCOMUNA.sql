@@ -1,0 +1,19 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaCOMUNA"; 
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaCOMUNA" AS
+
+SELECT
+	WST."IdStack" AS "IDSTACK", "Action" AS ACTION,
+	COM_ID AS TABLE_KEY,
+	"COM_ID",-- INT  
+	"REG_ID",-- INT 
+	"PAI_ISO",-- CHAR(2)  
+	"COM_NOMBRE",-- VARCHAR(30)  
+	"COM_CIUDAD",-- VARCHAR(50)  
+	"COM_POSTAL",-- VARCHAR(5) 
+	"COM_COD_SVS"-- INT  
+FROM "BSCL.Replica.BD.Vistas::Sebra.COMUNA" COM
+LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'COMUNA' AND WST."Key" = COM.COM_ID
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaCOMUNA" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

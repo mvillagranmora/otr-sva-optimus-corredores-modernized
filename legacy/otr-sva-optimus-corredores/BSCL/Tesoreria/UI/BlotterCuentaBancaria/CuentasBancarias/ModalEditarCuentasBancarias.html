@@ -1,0 +1,242 @@
+<div ng-controller="ModalEditarCuentasBancariasCtrl">
+	<div class="row bcs-cuerpo">
+		<form name="formCuentaBancaria" class="col-xs-12 form-horizontal">
+		
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_EMPRESA</label>
+				<bcs-input-texto  k-ng-disabled="'true'" class="col-xs-9" ng-model="Empresa"></bcs-input-texto>
+			</div>
+
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_BANCO</label>
+				<bcs-combobox-base id="formCuentaBancaria_TipoBanco"
+					class="col-xs-9"
+					bcs-requerido
+					auto-cargar   	 = "true"									
+					tipo          	 = "oConfiguracionTipoBanco.tipo"
+					id-actual     	 = "oConfiguracionTipoBanco.idActual"													
+					configuracion	 = "oConfiguracionTipoBanco.configuracion"
+					seleccionado  	 = "oConfiguracionTipoBanco.seleccionado"							
+					filtros       	 = "oConfiguracionTipoBanco.filtros"
+					id-post-filtro	 = "oConfiguracionTipoBanco.idPostFiltro"					
+					cascada1-a     	 = "oConfiguracionBanco.filtros.IdTipoBanco"
+					cascada1-valor 	 = "'IdTipoBanco'"
+					cascada1-defecto = "-1">
+				</bcs-combobox-base>	
+			</div>
+			
+													
+			<div class="row">
+				<label class="col-xs-3" translate>UI_BANCO</label>
+				<bcs-combobox-base  id="formCuentaBancaria_Banco"
+					class="col-xs-9"
+					bcs-requerido
+					auto-cargar   = "true"									
+					tipo          = "oConfiguracionBanco.tipo"
+					id-actual     = "oConfiguracionBanco.idActual"													
+					configuracion = "oConfiguracionBanco.configuracion"
+					seleccionado  = "oConfiguracionBanco.seleccionado"							
+					filtros       = "oConfiguracionBanco.filtros"
+					id-post-filtro   = "oConfiguracionBanco.idPostFiltro"					
+					cascada1-a       = "oConfiguracionPlaza.filtros.IdPais"
+					cascada1-valor   = "'IdPaisOperacion'"
+					cascada1-defecto = "-1">
+				</bcs-combobox-base>	
+			</div>
+
+		
+			<div class="row">
+				<label class="col-xs-3" translate>UI_ALIAS_CUENTA_BANCO</label>
+				<bcs-input-texto bcs-requerido class="col-xs-9" maxlength="20" ng-model="NombreCuentaBancaria" id="formCuentaBancaria_NombreCuentaBancaria"></bcs-input-texto>
+			</div> 
+			 		
+
+			<div class="row">
+					<label class="col-xs-3" translate>UI_TIPO_CUENTA_BANCARIA</label>
+					<bcs-combobox-base id="formCuentaBancaria_TipoCuentaBancaria"
+						class="col-xs-3"
+						bcs-requerido
+						auto-cargar   = "true"
+						tipo          = "oConfiguracionTipoCuenta.tipo"
+						id-actual     = "oConfiguracionTipoCuenta.idActual"													
+						configuracion = "oConfiguracionTipoCuenta.configuracion"
+						seleccionado  = "oConfiguracionTipoCuenta.seleccionado"							
+						filtros       = "oConfiguracionTipoCuenta.filtros"
+						id-post-filtro= "oConfiguracionTipoCuenta.idPostFiltro">
+					</bcs-combobox-base>
+									
+					<div class="col-xs-1"><label class="col-xs-offset-1" translate>UI_MONEDA</label></div>
+					
+					<bcs-combobox-base
+						class="col-xs-5"
+						bcs-requerido
+						auto-cargar   = "true"	
+						id			  = "formCuentaBancaria_Moneda"		
+						tipo          = "oConfiguracionMoneda.tipo"
+						id-actual     = "oConfiguracionMoneda.idActual"													
+						configuracion = "oConfiguracionMoneda.configuracion"
+						seleccionado  = "oConfiguracionMoneda.seleccionado"							
+						filtros       = "oConfiguracionMoneda.filtros"
+						id-post-filtro= "oConfiguracionMoneda.idPostFiltro">
+					</bcs-combobox-base>
+			</div>
+			
+
+			<div class="row">
+					<label class="col-xs-3" translate>UI_NUMERO_CUENTA</label>
+					<bcs-input-texto bcs-requerido class="col-xs-3" maxlength="50" ng-model="NumeroCuentaBancaria"  id="formCuentaBancaria_NumeroCuentaBancaria"></bcs-input-texto>
+					<div class="col-xs-1"><label class="col-xs-offset-1" translate>UI_SUCURSAL</label></div>
+					<bcs-input-texto class="col-xs-5" maxlength="100" ng-model="Sucursal" id="formCuentaBancaria_Sucursal"></bcs-input-texto>
+			</div>
+
+			
+			<!-- Codigo CCI (Para Cuentas Nacionales)-->
+			<div class="row"  ng-show="SesionLocale=='PE' && oConfiguracionBanco.seleccionado.IdTipoBanco == 'NAC'">
+				<label class="col-xs-3" translate>UI_CODIGO_CUENTA_INTERBANCARIO</label>
+				<bcs-input-texto class="col-xs-9" maxlength="40" ng-model="CodigoCuentaInterbancario" id="formCuentaBancaria_CodigoCuentaInterbancario"></bcs-input-texto>
+			</div>
+			
+			<!-- Codigo ABA (Para Bancos Extranjeros)-->
+			<div class="row">
+					<label class="col-xs-3" translate>UI_CODIGO_ABA</label>
+					<bcs-input-texto class="col-xs-3" maxlength="50" ng-model="CodigoAba"  id="formCuentaBancaria_CodigoAba"></bcs-input-texto>
+					<div class="col-xs-3" style="width: 21%;"><label class="col-xs-offset-1" style="margin-left: 3.3333%;" translate>UI_CODIGO_BANCO_EXTRANJERO</label></div>
+					<bcs-input-texto class="col-xs-3" style="width: 29%;" maxlength="50" ng-model="OtroCodigoBancoExtranjero" id="formCuentaBancaria_OtroCodigoBancoExtranjero"></bcs-input-texto>
+			</div>
+			
+			<!-- Codigo IBAN (Para Cuentas Extranjeros)-->
+			<div class="row">
+					<label class="col-xs-3" translate>UI_CODIGO_IBAN</label>
+					<bcs-input-texto class="col-xs-3" maxlength="50" ng-model="CodigoIban"  id="formCuentaBancaria_CodigoIban"></bcs-input-texto>
+					<div class="col-xs-3" style="width: 21%;"><label class="col-xs-offset-1" style="margin-left: 2.93333%;" translate>UI_CODIGO_CUENTA_EXTRANJERO</label></div>
+					<bcs-input-texto class="col-xs-3" style="width: 29%;" maxlength="100" ng-model="OtroCodigoCuentaExtranjero" id="formCuentaBancaria_OtroCodigoCuentaExtranjero"></bcs-input-texto>
+			</div>
+						
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_DIRECCION</label>
+				<bcs-input-texto class="col-xs-9" maxlength="100" ng-model="Direccion" id="formCuentaBancaria_Direccion"></bcs-input-texto>
+			</div>			
+
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PLAZA</label>
+				<bcs-combobox-base id="formCuentaBancaria_Plaza"
+					class="col-xs-9"
+					bcs-requerido = "oConfiguracionTipoBanco.seleccionado.IdTipoBanco === 'NAC'"
+					auto-cargar   = "true"									
+					tipo          = "oConfiguracionPlaza.tipo"
+					id-actual     = "oConfiguracionPlaza.idActual"													
+					configuracion = "oConfiguracionPlaza.configuracion"
+					seleccionado  = "oConfiguracionPlaza.seleccionado"							
+					filtros       = "oConfiguracionPlaza.filtros"
+					id-post-filtro= "oConfiguracionPlaza.idPostFiltro">
+				</bcs-combobox-base>	
+			</div>	
+						
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CONTACTO</label>
+				<bcs-input-texto class="col-xs-9" maxlength="100" ng-model="Contacto" id="formCuentaBancaria_Contacto"></bcs-input-texto>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TELEFONO</label>
+				<bcs-input-texto class="col-xs-9" maxlength="50" ng-model="TelefonoContacto"  id="formCuentaBancaria_TelefonoContacto"></bcs-input-texto>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_EMAIL</label>
+				<bcs-input-texto class="col-xs-9" maxlength="100" ng-model="EmailContacto" id="formCuentaBancaria_EmailContacto"></bcs-input-texto>
+			</div>			
+			
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_SALDO_INICIAL</label>
+				<bcs-input-numero class="col-xs-9" decimales = "0" k-ng-model="SaldoInicial" k-ng-disabled="disabledSaldoInicial" id="formCuentaBancaria_SaldoInicial"></bcs-input-numero>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_AFECTA_POSICION_INICIAL</label>
+				<div class="col-xs-3">
+					<input type="checkbox" ng-model="AfectaPosicionInicial" id="formCuentaBancaria_AfectaPosicionInicial">
+				</div>
+				<label class="col-xs-3" translate>UI_RECAUDACION_EXCLUSIVA_PAC</label>
+				<div class="col-xs-3">
+					<input type="checkbox" ng-model="RecaudacionExclusivaPAC" id="formCuentaBancaria_RecaudacionExclusivaPAC">
+				</div>
+			</div> 
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_GENERA_CARTA_INSTRUCCIONES</label>				
+				<div class="col-xs-3">					
+					<input type="checkbox" ng-model="GeneraNomina"  id="formCuentaBancaria_GeneraNomina">
+				</div>
+				<label class="col-xs-3" translate>UI_GENERA_TRANSFERENCIA</label>
+				<div class="col-xs-3">
+					<input type="checkbox" ng-model="GeneraTransferencia"  id="formCuentaBancaria_GeneraTransferencia">
+				</div>
+			</div>
+
+			<div class="row"><hr></div>
+
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PRIMERA_FIRMA</label>
+				<bcs-combobox-base
+					class="col-xs-9"
+					auto-cargar   = "true"
+					id			  = "formCuentaBancaria_PrimeraFirma"
+					tipo          = "oConfiguracionEmpleadoFirma1.tipo"
+					id-actual     = "oConfiguracionEmpleadoFirma1.idActual"													
+					configuracion = "oConfiguracionEmpleadoFirma1.configuracion"
+					seleccionado  = "oConfiguracionEmpleadoFirma1.seleccionado"							
+					filtros       = "oConfiguracionEmpleadoFirma1.filtros"
+					id-post-filtro= "oConfiguracionEmpleadoFirma1.idPostFiltro">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO_SEGUNDA_FIRMA</label>
+				<bcs-input-numero class="col-xs-9" decimales = "0" k-ng-model="MontoSegundaFirma" id="formCuentaBancaria_MontoSegundaFirma"></bcs-input-numero>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_SEGUNDA_FIRMA</label>
+				<bcs-combobox-base
+					class="col-xs-9"					
+					auto-cargar   = "true"
+					id			  = "formCuentaBancaria_SegundaFirma"
+					tipo          = "oConfiguracionEmpleadoFirma2.tipo"
+					id-actual     = "oConfiguracionEmpleadoFirma2.idActual"													
+					configuracion = "oConfiguracionEmpleadoFirma2.configuracion"
+					seleccionado  = "oConfiguracionEmpleadoFirma2.seleccionado"							
+					filtros       = "oConfiguracionEmpleadoFirma2.filtros"
+					id-post-filtro= "oConfiguracionEmpleadoFirma2.idPostFiltro">
+				</bcs-combobox-base>
+			</div>
+					
+			<div class="row"><hr></div>
+								 			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_ESTADO</label>
+				<bcs-combobox-base
+					class="col-xs-9"
+					bcs-requerido
+					auto-cargar   = "true"		
+					id			  = "formCuentaBancaria_Estado"	
+					tipo          = "oConfiguracionEstado.tipo"
+					id-actual     = "oConfiguracionEstado.idActual"													
+					configuracion = "oConfiguracionEstado.configuracion"
+					seleccionado  = "oConfiguracionEstado.seleccionado"							
+					filtros       = "oConfiguracionEstado.filtros"
+					id-post-filtro= "oConfiguracionEstado.idPostFiltro">
+				</bcs-combobox-base>	
+			</div>	
+		</form>
+	</div>
+	<div class="row alignButtonsToRight" style="padding-top: 50px; clear: both; margin: 0 0 3px 0;" ng-class="{'test-padding' : oConfiguracionBanco.seleccionado.IdTipoBanco == 'EXT' || SesionLocale=='PE' && oConfiguracionBanco.seleccionado.IdTipoBanco == 'NAC'}">	    
+		<bcs-button class="col-xs-2" id="formCuentaBancaria_BtnAceptar"  bcs-habilitado="formCuentaBancaria.$valid" bcs-tipo="'bcs-button-primary'"   bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate"  bcs-clic="grabarCuentaBancaria()"></bcs-button>
+		<bcs-button class="col-xs-2" id="formCuentaBancaria_BtnCancelar" bcs-habilitado="'true'"                    bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="cancelar(false)"></bcs-button>				
+	</div>
+</div>

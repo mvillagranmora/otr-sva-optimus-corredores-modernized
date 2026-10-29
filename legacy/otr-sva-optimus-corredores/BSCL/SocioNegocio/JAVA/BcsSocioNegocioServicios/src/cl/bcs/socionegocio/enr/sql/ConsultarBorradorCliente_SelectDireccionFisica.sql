@@ -1,0 +1,17 @@
+SELECT 
+"IdDireccionFisica"
+,"Calle"
+,"Numero"
+,"Departamento"
+,"Sector"
+,"CodigoPostal"
+,"IdCiudad"
+,"CodigoProposito"
+,"Comentario"
+,"IdEnrolamiento"
+,"IdDivisionPais"
+,"Predeterminado"
+,"CodigoCompuesto"
+,"IdDireccionFisicaPersona"
+FROM "BSCL.SocioNegocio.BD::ENR.DireccionFisica"
+WHERE "IdEnrolamiento" IN (:IdEnrolamiento);

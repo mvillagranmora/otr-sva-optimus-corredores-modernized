@@ -1,0 +1,62 @@
+<div ng-controller="ConsultarSiiF29Ctrl as cSiiF29">
+	<form name="formConsultarSiiF29" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_DETALLE_CARGA_INTERFACES|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			
+			<div class="row">
+			  		<label class="col-xs-1" translate>UI_PERIODO</label>
+					<bcs-input-date 
+						id="UI_PERIODO" 
+						class="col-xs-2" 
+						k-ng-model = "cSiiF29.kngPeriodo"
+						k-options="cSiiF29.PeriodoOptions"
+						todo-dias= "true"
+					>
+					</bcs-input-date>
+					<bcs-button class="col-xs-offset-7 col-xs-2"
+						bcs-tipo="'bcs-button-search'"
+						bcs-habilitado="'true'" 
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_BUSCAR_REGISTROS' | translate" 
+						bcs-clic="cSiiF29.buscarRegistros()">
+					</bcs-button>
+			</div>
+			<div class="row">
+				<bcs-grid 
+					id="grid-distr-estados"
+					seleccionado="cSiiF29.movimientosSeleccionado" 
+					configuracion="cSiiF29.gridMovimientos" 
+				    fn-exportar-excel="excelConsultarSiiF29"
+					>
+				</bcs-grid>
+			</div>
+			
+			<div class="row">
+				
+				<!--  
+				<bcs-menu class="col-xs-offset-8 col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_DEVOLUCION' | translate" >
+					<li ng-click="cSiiF29.DevolucionPagoRezagos(cSiiF29.recaudacionSeleccionada,'CLIENTE')">{{'UI_A_CLIENTE' | translate}}</li>
+					<li ng-click="cSiiF29.DevolucionPagoRezagos(cSiiF29.recaudacionSeleccionada,'EMPLEADOR')">{{'UI_A_EMPLEADOR' | translate}}</li>
+					<li ng-click="cSiiF29.DevolucionPagoRezagos(cSiiF29.recaudacionSeleccionada,'OTROS')">{{'UI_A_OTRAS_ENTIDADES' | translate}}</li>
+				</bcs-menu>	
+				<bcs-button class="col-xs-2"
+					bcs-tipo=""
+					bcs-habilitado="'true'" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_OPCIONES' | translate" 
+					bcs-clic="">
+				</bcs-button>
+				-->
+				<bcs-menu class="col-xs-offset-10 col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+		            <li ng-click="excelConsultarSiiF29('ConsultarSiiF29')">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>
+				</bcs-menu>
+				
+			</div>
+			
+		</div>
+	</form>
+</div>

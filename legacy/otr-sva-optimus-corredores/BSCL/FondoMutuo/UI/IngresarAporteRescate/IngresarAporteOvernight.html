@@ -1,0 +1,476 @@
+<div class="col-xs-12" ng-controller="IngresarAporteOvernightFFMCtrl as aporteOvernight">
+	<!-- Pre-Ingreso -->
+	<div class="row bcs-cuerpo" ng-show="aporteOvernight.formData.IngresoConfirmacion === 'I'">
+	 <div ng-show="aporteOvernight.formData.DatosAdicionales === 'N'">	
+	 	<form name="FormIngresoFFM" class="filters-formulario">
+		   	<div class="row">
+				<div class="col-xs-12">
+				  	<div class="row">
+				  	<!-- Inicio GCMBIPAPAS-1 Filtro de clientes por Perfiles-->	
+				  	<!--				  	
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_CLIENTE"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-socio-negocio'"
+						    carga-cliente-automatico="'S'"
+						    seleccionado="aporteOvernight.oSocioNegocio.seleccionado"
+						    filtros="aporteOvernight.oSocioNegocio.filtros"
+							cascada-a="aporteOvernight.oPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+		                    cascada1-a="aporteOvernight.formData.IdCategoriaInversionista"
+		                    cascada1-valor="'IdCategoriaInversionista'"
+		                    cascada2-a="aporteOvernight.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada2-valor="'IdCliente'"
+		                    cascada-defecto="'-1'"
+		                    id-actual="aporteOvernight.oSocioNegocio.idActual"
+						    configuracion= "aporteOvernight.oSocioNegocio.configuracion">
+						</bcs-combobox-base>
+					-->
+						<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							bcs-requerido
+							id-actual="aporteOvernight.oClientePortafolio.idActual"
+							tipo="aporteOvernight.oClientePortafolio.tipo"
+							carga-cliente-automatico="'S'" 
+							ng-style="{'width' : aporteOvernight.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && aporteOvernight.oClientePortafolio.seleccionado  ? '50%' : '66.66666667%'}"
+							seleccionado="aporteOvernight.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio"
+							
+		                    cascada-a="aporteOvernight.formData.IdCategoriaInversionista"
+		                    cascada-valor="'IdCategoriaInversionista'"
+		                    cascada1-a="aporteOvernight.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada1-valor="'IdCliente'"
+		                    
+		                    cascada2-a="aporteOvernight.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="aporteOvernight.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+		                    cascada4-a="aporteOvernight.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada4-valor="'IdPortafolio'"
+		                    cascada5-a="aporteOvernight.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada5-valor="'IdPortafolio'"		                    
+		                    
+		                    cascada-defecto="'-1'"
+		                    							
+							configuracion="aporteOvernight.oClientePortafolio.configuracion">
+						</bcs-combobox-base>										
+					</div>      
+					<!--  
+		 			<div class="row">
+						<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_PORTAFOLIO"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-portafolio'"
+						    seleccionado="aporteOvernight.oPortafolio.seleccionado"
+						    filtros="aporteOvernight.oPortafolio.filtros"
+		                    item-post-filtro="'1'"
+		                    id-actual="aporteOvernight.oPortafolio.idActual"
+		                    cascada-a="aporteOvernight.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada-valor="'IdPortafolio'"
+		                    cascada1-a="aporteOvernight.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada1-valor="'IdPortafolio'"
+		                    cascada2-a="aporteOvernight.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="aporteOvernight.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+						    configuracion= "aporteOvernight.oPortafolio.configuracion">
+						</bcs-combobox-base >
+					</div>
+					-->
+					<!-- Fin GCMBIPAPAS-1 -->
+					
+					<div class="row">
+ 						<label class="col-xs-4" translate>UI_AUTORIZADOR</label>
+						<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "aporteOvernight.oClientePortafolio.seleccionado.portafolio.TipoPersona === 'J'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "aporteOvernight.formData.idAutorizadoDarOrdenes"
+								id-defecto				= "aporteOvernight.formData.idAutorizadoDarOrdenesDefecto"
+								seleccionado			= "autorizadoDarOrdenes" 
+								filtros					= "aporteOvernight.formData.FiltrosAutorizarOrden"	
+								usa-filtros-completos   = "'S'">
+						</bcs-combobox-base>						
+ 					</div>
+					
+				  	<hr>
+				  	<bcs-combobox-buscador-fondos
+				  			id="UI_BUSCADOR_FONDO_APORTE_OVERNIGHT"
+							datos-fondo="aporteOvernight.datosFondo" 
+							muestra-valor-cuota = "'S'"
+							buscar-fondo="aporteOvernight.formData.setFondo"
+							id-ventana="aporteOvernight.winID"
+							muestra-detalle="'S'"
+							es-detalle="'S'"
+							mas-informacion="aporteOvernight.masInformacion"
+							filtros="aporteOvernight.formData.FiltrosBusquedaFondo"
+							filtros-combobox="aporteOvernight.formData.FiltrosComboFondo">
+					</bcs-combobox-buscador-fondos>
+			  		<hr>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="aporteOvernight.formData.fechaSistema" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+			  		</div>
+		  			<div class="row" ng-if="aporteOvernight.datosFondo.Diferido && aporteOvernight.oClientePortafolio.seleccionado && aporteOvernight.oClientePortafolio.seleccionado.IdPortafolio">
+				  		<label class="col-xs-4" translate>UI_MONEDA_APORTE</label>
+				  		<bcs-combobox-base 
+							class="col-xs-3"
+							id="UI_MONEDA"
+							bcs-requerido="aporteOvernight.datosFondo.Diferido === 'S'"
+						 	auto-cargar="'true'"
+						 	id-actual="aporteOvernight.formData.IdMonedaAporte"
+						 	id-defecto="aporteOvernight.datosFondo.IdMoneda"
+						 	filtros="aporteOvernight.formData.filtrosCuentaInversion"
+						 	tipo="'combobox-moneda-cuenta-inversion-ffmm'"
+						 	usa-filtros-completos="'S'"
+						 	ng-show="aporteOvernight.datosFondo.Diferido === 'S'">
+						</bcs-combobox-base>
+					 	<bcs-input-texto class="col-xs-3"
+					 		k-ng-disabled="'true'"
+					 		ng-model="aporteOvernight.formData.IdMonedaAporte"
+					 		ng-show="aporteOvernight.datosFondo.Diferido === 'N'"
+					 	>
+					 	</bcs-input-texto>
+					 	<label class="col-xs-2" translate>UI_DOLAR_OBSERVADO</label>
+				  		<bcs-dolar-observado-serie-fondo class="col-xs-3"
+				  			id-serie-fondo = "aporteOvernight.datosFondo.IdSerieFondo"
+				  			id-tipo-solicitud= "'APO'"
+				  			fecha="aporteOvernight.formData.fechaSistema"
+				  			dolar-observado-serie-fondo="aporteOvernight.formData.DolarObservadoSerieFondo">
+				  		</bcs-dolar-observado-serie-fondo>
+			  		</div>
+			  		<div class="row" ng-if="aporteOvernight.formData.IdMonedaAporte && aporteOvernight.oClientePortafolio.seleccionado.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_SALDO_CAJA</label>
+						<bcs-saldo-cta-inversion
+							class="col-xs-8"
+							uso = "'INGRESO_APORTE_FMM'"
+							id-moneda = "aporteOvernight.formData.IdMonedaAporte"
+							id-portafolio = "aporteOvernight.oClientePortafolio.seleccionado.IdPortafolio"
+							fecha-saldo = "aporteOvernight.formData.fechaAceptacion"
+						>
+			  		</div>
+			  		<div class="row" ng-if="aporteOvernight.datosFondo && aporteOvernight.oClientePortafolio.seleccionado.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_REGIMEN</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-regimen-serie-fondo'"
+				  			id-actual="aporteOvernight.formData.IdRegimenFondoMutuo"
+				  			seleccionado="aporteOvernight.formData.regimenFondoMutuo"
+							id-defecto="aporteOvernight.formData.RegimenDefecto"
+				  			item-post-filtro="'1'"
+				  			filtros="aporteOvernight.formData.filtrosRegimen"
+				  			bcs-requerido
+				  			todos="'N'">
+						</bcs-combobox-base>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+				  		<bcs-input-monetario class="col-xs-8"
+				  			id="UI_MONTO_INICIAL"
+				  			k-ng-model="aporteOvernight.formData.montoInicial"
+				  			decimales = "aporteOvernight.formData.decimalesMonto"
+				  			bcs-requerido
+							simbolo="aporteOvernight.formData.IdMonedaAporte">
+				  		</bcs-input-monetario>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+				  		<bcs-input-numero class="col-xs-8"
+				  			id="UI_NUMERO_CUOTAS"
+							decimales = "aporteOvernight.formData.decimalesCantidad"
+							bcs-requerido
+							k-ng-model="aporteOvernight.formData.numeroCuotas"
+							k-ng-disabled="'true'">
+						</bcs-input-numero> 
+			  		</div>
+			  		<div ng-if="aporteOvernight.datosFondo.IdSerieFondo">
+			  			<bcs-fechas-solicitud-fondo
+						fecha-emision = "aporteOvernight.datosFondo.FechaFondo"
+						id-serie-fondo = "aporteOvernight.datosFondo.IdSerieFondo"
+						traspaso = "'N'"
+						tipo-solicitud="'APO'"
+						mostrar-fecha-aceptacion="'true'"
+						mostrar-fecha-valor-cuota="'true'"
+						mostrar-fecha-certificacion="'true'"
+						mostrar-fecha-liquidacion="'true'"
+						fecha-aceptacion-saldo="aporteOvernight.formData.fechaAceptacion">
+						</bcs-fechas-solicitud-fondo>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+				  		<bcs-input-texto class="col-xs-8"
+				  			id="UI_GLOSA"
+					  		maxlength="100"
+							tipo-campo="'textarea'"
+							ng-model="aporteOvernight.formData.comentario"
+							atributos="margin: 0px; height:73px;resize:none;width: 100%">
+				  		</bcs-input-texto>
+			  		</div>	 	
+				</div>
+			</div>
+			
+			</form>
+        
+			<div class="row bcs-panel-comandos">
+				<div class=col-xs-8>
+					<bcs-button class="col-xs-4" id="BlotterFFM_ingresarFFM" 
+						bcs-texto="'UI_INGRESAR' | translate" 
+						bcs-habilitado="FormIngresoFFM.$valid"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar="true"
+						bcs-clic="aporteOvernight.formData.ingresarAporteRescate()">
+					</bcs-button>	
+					<bcs-button class="col-xs-4" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="aporteOvernight.limpiarFMM()"
+						bcs-blur="aporteOvernight.formData.resetFoco()">
+					</bcs-button>
+				</div>
+				<div class="col-xs-4">
+					<bcs-button class="col-xs-7 pull-right" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_MAS_DATOS' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="aporteOvernight.formData.masDatos()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+		<div ng-show="aporteOvernight.formData.DatosAdicionales === 'S'">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_APORTE</label>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_INSTRUCCION_COBRO</label>
+			</div>
+			<hr> 
+			<div class="row">
+			  	<label class="col-xs-4" translate>UI_MONTO_APORTE</label> 
+		  		<bcs-input-monetario class="col-xs-8"
+		  			k-ng-model="aporteOvernight.formData.montoInicial"
+		  			decimales = "aporteOvernight.formData.DecimalesFondo"
+		  			k-ng-disabled="'true'"
+					simbolo="aporteOvernight.datosFondo.IdMoneda">
+		  		</bcs-input-monetario>
+	  		</div>
+	  		<div class="row">
+		  		<label class="col-xs-4" translate>UI_MEDIOS_DE_PAGO</label>					
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					tipo="aporteOvernight.oConfiguracionMedioDePago.tipo" 
+					configuracion= "aporteOvernight.oConfiguracionMedioDePago.configuracion" 				
+					seleccionado="aporteOvernight.oConfiguracionMedioDePago.seleccionado"
+					id-actual="aporteOvernight.formData.IdMedioDePago"
+					filtros="aporteOvernight.oConfiguracionMedioDePago.filtros">
+				</bcs-combobox-base>	
+	  		</div>
+	  		<hr>
+	  		<div class="row">
+				<label class="col-xs-4" translate>UI_RESCATE</label>
+			</div>
+	  		<div class="row">
+				<label class="col-xs-4" translate>UI_INSTRUCCION_COBRO</label>
+			</div>
+			<div class="row"> 
+		  		<bcs-forma-pago class="col-xs-12"
+		  			seleccionado="aporteOvernight.oFormaPago.seleccionado"
+		  			id-seleccionado="aporteOvernight.formData.IdMedioDePagoRescate"
+		  			id-portafolio="aporteOvernight.formData.filtrosFormaPago.IdPortafolio.value"
+                  	id-tipo-operacion="'RESCFM'" >
+		  		</bcs-forma-pago>
+	  		</div>
+	  		<div class="row bcs-panel-comandos">
+				<div class="col-xs-8"></div>
+				<div class="col-xs-4">
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM" 
+						bcs-texto="'UI_VOLVER' | translate" 
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-habilitado="'true'" 
+						bcs-auto-desactivar="false" 
+						bcs-clic="aporteOvernight.formData.masDatos()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Solicitud Ingresada -->
+	<div class="row bcs-cuerpo" ng-show="aporteOvernight.formData.IngresoConfirmacion === 'C'">
+		<div class="row">
+			<div class="col-xs-12">
+			    <div class="row" ng-show="true">
+				  	<label class="col-xs-4" translate>UI_SECUENCIA_OPERACION</label> 
+			  		<bcs-input-texto 
+			  		class="col-xs-8" 
+			  		ng-model="aporteOvernight.formData.ResultadoSolicitudAporteRescate.SecuenciaOperacion" 
+			  		k-ng-disabled="'true'"></bcs-input-texto>
+		  		</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="oOperacion.seleccionado.Descripcion"
+			  			k-ng-disabled="'true'"
+			  		> 
+			  	</div>
+			  	<hr>
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteOvernight.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>      
+	 			<div class="row">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteOvernight.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>
+			  	<hr>
+			  	<div class="row">
+			  	    <label class="col-xs-4" translate>UI_FONDO_MUTUO</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteOvernight.datosFondo.IdSerieFondo"
+			  			k-ng-disabled="'true'"
+			  		>
+		  		</div>
+		  		
+		  		<div class="row">
+					<span class="col-xs-6">
+						<label class="col-xs-8" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresoFFM.aporteOvernight.muestraDetalle" ng-click="ingresoFFM.aporteOvernight.muestraDetalle = !ingresoFFM.aporteOvernight.muestraDetalle;ajustaVentana()">({{'+' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresoFFM.aporteOvernight.muestraDetalle" ng-click="ingresoFFM.aporteOvernight.muestraDetalle = !ingresoFFM.aporteOvernight.muestraDetalle;ajustaVentana()">({{'-' | translate}})</em>
+					</span>
+				</div>
+				<div class="row" ng-show="ingresoFFM.aporteOvernight.muestraDetalle">
+					<div class="row">
+					  	<label class="col-xs-3" translate>UI_TIPO_FONDO</label> 
+				  		<label class="col-xs-3" translate>{{aporteOvernight.datosFondo.NombreCorto}}</label>
+				  		<label class="col-xs-3" translate>UI_PERFIL</label> 
+				  		<label class="col-xs-3" translate>{{aporteOvernight.datosFondo.IdCategoriaPerfilFondoMutuo}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+				  		<label class="col-xs-3" translate>{{aporteOvernight.datosFondo.IdRegimenTributario}}</label>
+				  		<label class="col-xs-3" translate>UI_PROPOSITO_SERIE</label> 
+				  		<label class="col-xs-3" translate>{{aporteOvernight.datosFondo.PropositoSerie}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_ENTRADA</label> 
+				  		<label class="col-xs-3" translate>{{aporteOvernight.datosFondo.EsComisionEntradaUI}}</label>
+				  		<label class="col-xs-3" translate>UI_MINIMO_PATRIMONIO</label> 
+				  		<label class="col-xs-3" translate>{{aporteOvernight.datosFondo.EsPatrimonioMinimoUI}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+				  		<label class="col-xs-3" translate>{{aporteOvernight.datosFondo.EsComisionSalidaUI}}</label>
+		  			</div>
+				</div>
+		  		<hr>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+			  		<bcs-input-date
+						class="col-xs-8"
+						k-ng-model="aporteOvernight.formData.fechaSistema" 
+						bcs-requerido
+						k-ng-disabled="'true'">
+					</bcs-input-date>
+			  	</div>
+		  		<div class="row">
+			  		<label class="col-xs-4" translate>UI_MONEDA_APORTE</label>
+				 	<bcs-input-texto class="col-xs-3"
+				 		k-ng-disabled="'true'"
+				 		ng-model="aporteOvernight.formData.IdMonedaAporte">
+				 	</bcs-input-texto>
+				 	<label class="col-xs-2" translate>UI_DOLAR_OBSERVADO</label>
+			  		<bcs-input-monetario class="col-xs-3"
+			  			k-ng-model="aporteOvernight.formData.DolarObservadoSerieFondo"
+						simbolo="'CLP'"
+						k-ng-disabled="'true'">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+			  		<label class="col-xs-4" translate>UI_REGIMEN</label>
+				 	<bcs-input-texto class="col-xs-8"
+				 		k-ng-disabled="'true'"
+				 		ng-model="aporteOvernight.formData.regimenFondoMutuo.Descripcion">
+				 	</bcs-input-texto>
+				</div>    		
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="aporteOvernight.formData.ResultadoSolicitudAporteRescate.MontoInicial"
+			  			decimales = "aporteOvernight.formData.decimalesMonto"
+			  			k-ng-disabled="'true'"
+			  			simbolo="aporteOvernight.formData.IdMonedaAporte">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteOvernight.formData.ResultadoSolicitudAporteRescate.NumeroCuotas"
+			  			k-ng-disabled="'true'"	
+			  		>
+			  		</bcs-input-texto>
+		  		</div>
+				<bcs-fechas-solicitud-fondo
+						fecha-emision = "aporteOvernight.datosFondo.FechaFondo"
+						id-serie-fondo = "aporteOvernight.datosFondo.IdSerieFondo"
+						traspaso = "'N'"
+						tipo-solicitud="'APO'"
+						mostrar-fecha-aceptacion="'true'"
+						mostrar-fecha-valor-cuota="'true'"
+						mostrar-fecha-certificacion="'true'"
+						mostrar-fecha-liquidacion="'true'">
+				</bcs-fechas-solicitud-fondo>
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+			  		<bcs-input-texto class="col-xs-8"
+				  		maxlength="260"
+						tipo-campo="'textarea'"
+						ng-model="aporteOvernight.formData.comentario"
+						atributos="margin: 0px; height:73px;resize:none;width: 100%"
+						k-ng-disabled="'true'"	
+					>
+			  		</bcs-input-texto>
+		  		</div>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class=col-xs-12>
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VOLVER' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="aporteOvernight.limpiarFMM('true')"
+					foco = "aporteOvernight.formData.focoVolver">
+				</bcs-button>	
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VER_COMPROBANTE' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-blur="aporteOvernight.formData.resetFoco()"
+					bcs-clic="aporteOvernight.formData.verComprobante()"
+					foco = "aporteOvernight.formData.focoComprobante">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+	
+</div>

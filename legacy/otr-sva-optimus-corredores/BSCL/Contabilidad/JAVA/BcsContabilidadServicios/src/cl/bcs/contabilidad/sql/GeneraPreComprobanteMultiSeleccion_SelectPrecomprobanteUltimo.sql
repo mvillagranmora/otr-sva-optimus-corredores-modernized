@@ -1,0 +1,31 @@
+SELECT
+"IdPreComprobante"
+,"IdEmpresa"
+,"CodigoUsuario"
+,"IdTipoContabilidad"
+,"Ejercicio"
+,"FechaContable"
+,"Glosa"
+,"FechaProceso"
+,"HoraProceso"
+,"FolioContabilidad"
+,"IdReversa"
+,"Estado"
+FROM(
+	SELECT 
+	row_number() OVER (partition by "IdTipoContabilidad" order BY "IdPreComprobante" DESC) AS "Row"
+	,"IdPreComprobante"
+	,"IdEmpresa"
+	,"CodigoUsuario"
+	,"IdTipoContabilidad"
+	,"Ejercicio"
+	,"FechaContable"
+	,"Glosa"
+	,"FechaProceso"
+	,"HoraProceso"
+	,"FolioContabilidad"
+	,"IdReversa"
+	,"Estado"
+	FROM "BSCL.Contabilidad.BD::ITZ.PreComprobante"
+	WHERE "IdTipoContabilidad" IN (:IdTipoContabilidad) AND "Estado" IN ('V','C') AND "IdEmpresa" = :IdEmpresa AND "IdReversa" = 0
+) WHERE "Row" = 1

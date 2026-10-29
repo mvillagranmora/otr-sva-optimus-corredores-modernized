@@ -1,0 +1,69 @@
+<div id="SolicitudPuntas" class="row"
+	ng-controller='ConsultarSolicitudPuntasCtrl'>
+	<form name="frmCarteras">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+					<bcs-input-datetime class="col-xs-8" ng-model="filtro.fecInicio"
+						k-ng-model="filtro.fecInicio"></bcs-input-datetime>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+					<bcs-input-datetime class="col-xs-8" ng-model="filtro.fecTermino"
+						k-ng-model="filtro.fecTermino"></bcs-input-datetime>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="data.oConfiguracionEstadoSolicitud.tipo"
+						ng-model="filtro.estado" 
+						seleccionado="filtro.estadoObj"
+						todos="'S'" 
+						id-actual="data.oConfiguracionEstadoSolicitud.idActual"
+						id-defecto="data.oConfiguracionEstadoSolicitud.idDefecto">
+					</bcs-combobox-base>
+				</div>			  
+			</div>
+		</div>
+	</form>
+
+	<div class="col-xs-2">
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+			bcs-habilitado="true" bcs-clic="buscarSolicitudes()"></bcs-button>
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+			bcs-habilitado="true" bcs-clic="limpiarFiltros()"></bcs-button>
+	</div>
+
+	<div class="col-xs-12">
+		<div class="row">
+			<bcs-grid id="grid-solicitudes-puntas"
+				seleccionado="seleccionSolicitudPuntas"			
+				configuracion="data.confBasicaSolicitud"
+				fn-exportar-excel="excelSolicitudesPuntas"
+				>
+			</bcs-grid>
+			<div class="row">
+				<div class="col-xs-12 bcs-panel-comandos">
+					<bcs-button id="SolicitudPuntas_Aprobar" class="col-xs-2"
+						bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+						bcs-texto="'UI_APROBAR' | translate" bcs-habilitado="(seleccionSolicitudPuntas[0].IdEstadoOperacion === 'PEN') && usuarioPermiteInterbancario == 'S'"
+						bcs-clic="aprobarSolicitud(seleccionSolicitudPuntas)"></bcs-button>
+					<bcs-button id="SolicitudPuntas_Rechazar" class="col-xs-2"
+						bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+						bcs-texto="'UI_RECHAZAR' | translate" bcs-habilitado="(seleccionSolicitudPuntas[0].IdEstadoOperacion === 'PEN') && usuarioPermiteInterbancario == 'S'"
+						bcs-clic="rechazarSolicitud()"></bcs-button>
+					<bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'"
+						bcs-texto="'UI_OPCIONES' | translate">				
+						<li ng-click="excelSolicitudesPuntas('SolicitudesPuntas')">{{'UI_EXPORTAR_EXCEL'
+						| translate}}</li>
+					</bcs-menu>						
+				</div>			
+			</div>
+		</div>
+	</div>
+</div>

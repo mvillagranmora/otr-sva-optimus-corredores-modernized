@@ -1,0 +1,284 @@
+
+<div id="ConsultarEventoCapital" class="row" ng-controller='ConsultarEventoCapitalCtrl'>
+<form name="frmEventoCapital">
+	<div class="col-xs-11">
+	
+		<div class="row">
+			<div class="col-xs-4">
+				<label class="col-xs-7" translate>UI_TIPO_EVENTO</label>
+					<bcs-combobox-base
+				  		class="col-xs-5"
+				  		tipo="data.oConfiguracionTipoEvento.tipo"
+				  		ng-model="TipoEvento"
+				  		seleccionado="filtro.TipoEvento"
+				  		filtros="data.oConfiguracionTipoEvento.filtros"
+				  		id-actual="filtro.oConfiguracionTipoEvento.Actual"
+				  		todos="'S'"
+				  		item-post-filtro="'1'" >				  		
+				  	</bcs-combobox-base>				  			  	  
+			</div>
+			  
+			<div class="col-xs-4">
+				<label class="col-xs-7" translate>UI_INSTRUMENTO</label>
+	   			<bcs-input-instrumentos 
+	   				class="col-xs-5" 
+	   			  	ng-model="instrumento" 
+	   			  	datos-instrumento="filtro.instrumentoObjeto" 
+	   			  	k-ng-model="filtro.instrumento" 
+	   			  	buscar-instrumento="filtro.buscaroInstrumento"        
+	   			  	filtro-estado = "'ACT'"
+					pensando ="procesandoFiltro">
+				</bcs-input-instrumentos>				  				  			  	  
+			</div>
+
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base
+						class="col-xs-8" 
+						tipo="data.oConfiguracionEstadoMovimiento.tipo"
+						filtros="data.oConfiguracionEstadoMovimiento.filtros"
+						id-actual="filtro.oConfiguracionEstadoMovimiento.estado"
+						seleccionado="filtro.estadoObj"
+						todos="'S'"
+						item-post-filtro="'1'" >
+					</bcs-combobox-base>
+				</div>			  			 
+		</div>
+		
+		<div class="row">  
+			<div class="col-xs-4">
+				<label class="col-xs-7" translate>UI_FECHA_LIMITE_DESDE</label>
+				<bcs-input-date 
+					class="col-xs-5" 
+					ng-model="filtro.fecInicioLimng" 
+					k-ng-model="filtro.fecInicioLim"
+					bcs-requerido >
+				</bcs-input-date>
+			</div>
+			
+			<div class="col-xs-4">
+				<label class="col-xs-7" translate>UI_FECHA_LIMITE_HASTA</label> 
+				<bcs-input-date 
+					class="col-xs-5" 
+					ng-model="filtro.fecTerminoLimng" 
+					k-ng-model="filtro.fecTerminoLim"
+					bcs-requerido >
+				</bcs-input-date>
+			</div>	
+
+			<div class="col-xs-4">
+				<label class="col-xs-4" translate>UI_SECUENCIA</label>					
+				<bcs-input-numero 
+					class="col-xs-8" 
+					ng-model="filtros.secuencia" 
+					k-ng-model="filtros.secuenciaObj" 
+					k-options="{ format : 'n0', min:0, spinners: false }">
+				</bcs-input-numero>			
+			</div>				
+		</div>
+
+		<div class="row">  
+			<div class="col-xs-4">
+				<label class="col-xs-7" translate>UI_EVENTO_FECHA_PAGO_DESDE</label>
+				<bcs-input-date 
+					class="col-xs-5" 
+					ng-model="filtro.fecIniciong" 
+					k-ng-model="filtro.fecInicio"
+					bcs-requerido >
+				</bcs-input-date>
+			</div>
+			
+			<div class="col-xs-4">
+				<label class="col-xs-7" translate>UI_EVENTO_FECHA_PAGO_HASTA</label> 
+				<bcs-input-date 
+					class="col-xs-5" 
+					ng-model="filtro.fecTerminong" 
+					k-ng-model="filtro.fecTermino"
+					bcs-requerido >
+				</bcs-input-date>
+			</div>	
+		</div>
+
+	</div>		
+	
+
+	<div class="col-xs-1">
+		<bcs-button 
+			class="row col-xs-12" 
+			bcs-tipo="'bcs-button-search'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_BUSCAR' | translate" 
+			bcs-habilitado="frmEventoCapital.$valid"  
+			bcs-clic="buscarEventoCapital(true)">
+		</bcs-button>
+		
+		<bcs-button 
+			class="row col-xs-12" 
+			bcs-tipo="'bcs-button-secondary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_LIMPIAR' | translate" 
+			bcs-habilitado="true" 
+			bcs-clic="limpiarFiltros()">
+		</bcs-button>
+  	</div>
+  </form>	
+	<div class="row" >
+		<div class="col-xs-12">			
+			<bcs-grid 
+				id				="gridEventoCapital"
+	 			configuracion	= "confBasicaEventoCapital"
+				seleccionado 	= "bEC.seleccionEventoCapital"
+				fn-click 		= "bEC.cargaFiltroCliente(bEC.seleccionEventoCapital)";
+				fn-exportar-excel = "exportarExcel"
+				api 			= "gridApi">
+			</bcs-grid>
+		</div>
+		
+		
+		</div>
+	
+	<div class="row">
+		<div class="col-xs-12 bcs-panel-comandos">
+		
+			<bcs-menu 
+				class				="col-xs-1"
+				bcs-tipo			="'bcs-button-primary'"
+				bcs-habilitado		="'true'" 
+				bcs-texto			="'UI_INGRESAR' | translate">		            
+					<li ng-click	="btnIngresar()">{{'UI_EVENTO_CAPITAL' | translate}}</li>
+					<li ng-click	="btnCorteCupon(bEC.seleccionEventoCapital)">{{'UI_CORTECUPON' | translate}}</li>
+					<li ng-click	="cargarArchivo()">{{'UI_CARGA_ARCHIVO_SORTE_LETRAS' | translate}}</li>
+					<li ng-click	="btnCargaArchivo()">{{'UI_CARGAR_ARCHIVO_DIVIDENDO_CUOTAS_FFMM' | translate}}</li>
+			</bcs-menu>
+			
+			<bcs-button
+				id="ConsultarEventoCapital_Modificar"  
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonModificarEv"
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_MODIFICAR' | translate"    
+				bcs-clic			="btnModificar(bEC.seleccionEventoCapital)">
+			</bcs-button>
+				
+			<bcs-button
+				id="ConsultarEventoCapital_Procesar"  
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonProcesarEv" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_PROCESAR' | translate"
+				bcs-clic			="btnProcesar(bEC.seleccionEventoCapital)">
+			</bcs-button>
+
+			<bcs-button
+				id="ConsultarEventoCapital_Notificar" 
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonNotificarEv" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_NOTIFICAR' | translate"
+				bcs-clic			="btnNotificar(bEC.seleccionEventoCapital)">
+			</bcs-button>
+						
+			<bcs-button
+				id="ConsultarEventoCapital_Actualizar"  
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonActualizarEv" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_ACTUALIZAR' | translate"
+				bcs-clic			="btnActualizar(bEC.seleccionEventoCapital)">
+			</bcs-button>			
+			
+			<bcs-button
+				id="ConsultarEventoCapital_Reprocesar" 
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonReprocesarEv" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_REPROCESAR' | translate"
+				bcs-clic			="btnReprocesar(bEC.seleccionEventoCapital)">
+			</bcs-button>
+				
+			<bcs-button  
+				id="ConsultarEventoCapital_Indices"
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonIndicesEv" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_INDICES' | translate"
+				bcs-clic			="btnIndices(bEC.seleccionEventoCapital)">
+			</bcs-button>				
+						
+			<bcs-button  
+				id					="ConsultarEventoCapital_Cerrar"
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonCerrarEv" 
+				bcs-auto-desactivar	="'false'" 
+				bcs-texto			="'UI_CERRAR' | translate"   
+				bcs-clic			="btnCerrar(bEC.seleccionEventoCapital)">
+			</bcs-button>
+			
+			<bcs-button  
+				id					="ConsultarEventoCapital_Cargar"
+				class				="col-xs-1" 
+				ng-show				="MuestraBotonCargarEC" 
+				bcs-habilitado		="true" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-auto-desactivar	="'false'" 
+				bcs-texto			="'UI_CARGAR_EC' | translate"   
+				bcs-clic			="btnCargarEC()">
+			</bcs-button>			
+
+			<bcs-button  
+				id					="ConsultarEventoCapital_Replicar"
+				class				="col-xs-1" 
+				ng-show				="MuestraBotonReplicarEC" 
+				bcs-habilitado		="true" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-auto-desactivar	="'false'" 
+				bcs-texto			="'UI_REPLICAR_EC' | translate"   
+				bcs-clic			="btnReplicarEC(bEC.seleccionEventoCapital)">
+			</bcs-button>		
+			
+			<bcs-button  
+				id="ConsultarEventoCapital_Elimninar"
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonEliminarEv" 
+				bcs-auto-desactivar	="'false'" 
+				bcs-texto			="'UI_ELIMINAR' | translate"   
+				bcs-clic			="btnEliminar(bEC.seleccionEventoCapital)">
+			</bcs-button>
+
+			<bcs-button  
+				id="ConsultarEventoCapital_Renovar"
+				class				="col-xs-1" 
+				bcs-tipo			="'bcs-button-secondary'" 
+				bcs-habilitado		="bEC.ActivaBotonRenovarEv" 
+				bcs-auto-desactivar	="'false'" 
+				bcs-texto			="'UI_RENOVAR' | translate"   
+				bcs-clic			="btnRenovar(bEC.seleccionEventoCapital)">
+			</bcs-button>
+			
+			<bcs-menu 
+				class			="col-xs-1 pull-right" 
+				bcs-habilitado	="'true'" 
+				bcs-tipo = "'bcs-button-secondary'"
+				bcs-texto		="'UI_OPCIONES' | translate">		            
+					<li ng-click	="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+
+
+					<li ng-click	="cargarEventoDesdeBursatil()">{{'UI_CARGAR_EVENTO_CAPITAL' | translate}}</li>
+					
+	
+
+			</bcs-menu>
+
+		</div>
+	</div>
+	
+</div>
+

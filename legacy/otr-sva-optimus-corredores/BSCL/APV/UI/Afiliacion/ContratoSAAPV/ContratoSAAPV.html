@@ -1,0 +1,593 @@
+<div id="ContratoSAAPV" class="row" ng-controller="ContratoSAAPVCtrl as csaapv">
+	<div class="row">
+		<form name="formContratoSAAPV" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+<!--------------------------------->
+<!---------- PLAN AHORRO ---------->
+<!--------------------------------->
+			<div class="row">
+				
+				<div class="col-xs-6" ng-if="!csaapv.TipoTraspasoHabilito">
+					<strong> <div class="ng-scope" translate="">UI_PLAN_AHORRO</div></strong>
+				</div>
+				<div class="col-xs-3" ng-if="csaapv.TipoTraspasoHabilito">
+					<strong> <div class="ng-scope" translate="">UI_PLAN_AHORRO</div></strong>
+				</div>
+				<div class="col-xs-3" ng-if="csaapv.TipoTraspasoHabilito">
+					<label class="col-xs-4" translate="">UI_TIPO_TRASPASO</label>
+					<bcs-combobox-base 
+						id				= "UI_TIPO_ORIGEN_TRASPASO" 
+						class			= "col-xs-6"
+						tipo			= "'combobox-origen-traspaso'"
+						id-actual		= "csaapv.OrigenTraspasoIdActual"
+						id-defecto		= "csaapv.OrigenTraspasoIdActualDefecto"
+						id-post-filtro	= "csaapv.TipoTraspasoPostFiltro"
+						seleccionado	= "csaapv.OrigenTraspasoSeleccionado"
+						activado		= "csaapv.habilitoOrigenTraspaso"
+						filtros		    = "csaapv.OrigenTraspaso.filtros">
+					</bcs-combobox-base>
+				</div>
+	    		<div class="col-xs-3"> 
+					<label class="col-xs-5 ng-scope" translate="">UI_FECHA_SUSCRIPCION</label>
+					<bcs-input-date 
+						id				= "UI_FECHA_SUSCRIPCION" 
+						class			= "col-xs-7"
+						bcs-requerido
+						k-ng-model		= "csaapv.kngFechaSuscripcion"
+						k-options		= "csaapv.kOptFechaSuscripcion">
+					</bcs-input-date>
+	    		</div>
+				<div class="col-xs-3" ng-show="(csaapv.TipoSolicitudSeleccionado.Codigo !== 'TRA' || (csaapv.TipoSolicitudSeleccionado.Codigo === 'TRA' && csaapv.OrigenTraspasoSeleccionado.Codigo !== 'EGR')) && csaapv.FolioContratoDisable">
+	      			<label class="col-xs-4 ng-scope" translate="" >UI_FOLIO_CONTRATO</label>
+					<bcs-input-numero
+						class			= "col-xs-7"
+						bcs-requerido
+						decimales		= "0"
+						formato			= "'#'"
+						ng-model		= "csaapv.FolioContrato"
+						k-ng-model		= "csaapv.kngFolioContrato"
+						k-ng-disabled	= "false">
+					</bcs-input-numero>
+				</div>
+    		</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate="">UI_CANAL</label>
+					<label class="col-xs-4" translate="">OPTIMUS</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6" ng-show="csaapv.OcultoControlesEgreso"></div>
+				<div class="col-xs-6" ng-show="!csaapv.OcultoControlesEgreso">
+	      			<label class="col-xs-4" translate="">UI_NOMBRE_PLAN_AHORRO</label>
+					<bcs-combobox-base 
+						id				= "UI_NOMBRE_PLAN_AHORRO" 
+						class			= "col-xs-7"
+						bcs-requerido
+						tipo			= "'combobox-nombre-plan-ahorro'"
+						id-actual		= "csaapv.PlanAhorroIdActual"
+						id-post-filtro	= "csaapv.PlanAhorroIdActualPost"
+						cascada-a		= "csaapv.ppcs.FiltroProductoAgrupador.filtros.IdPlanTipoInversion"
+					    cascada-valor	= "'IdPlanTipoInversion'"
+					    cascada1-a	    = "categoriaInversionista.filtros.IdPlan"
+		                cascada1-valor	= "'IdPlanTipoInversion'"
+					    cascada2-a	    = "csaapv.oConfPerfilComercial.filtros.IdPlan"
+		                cascada2-valor	= "'IdPlanTipoInversion'"
+						seleccionado	= "csaapv.NombrePlanAhorroSeleccionado"
+						activado		= "!csaapv.habilitoPlanAhorro">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+      				<label class="col-xs-5" translate="">UI_TIPO_SOLICITUD</label>
+					<bcs-combobox-base 
+						id				= "UI_TIPO_SOLICITUD" 
+						class			= "col-xs-7"
+						auto-cargar		= "'true'"
+						tipo			= "'combobox-tipo-solicitud'"
+						id-actual		= "csaapv.TipoSolicitudIdActual"
+						id-post-filtro	= "csaapv.TipoSolicitudIdPostFiltro"
+						seleccionado	= "csaapv.TipoSolicitudSeleccionado"
+						filtros		    = "csaapv.TipoSolicitud.filtros"
+						>
+					</bcs-combobox-base>
+    			</div>
+				<div class="col-xs-3" ng-show="csaapv.HabilitarFolio">
+      				<label class="col-xs-4 ng-scope" translate="">UI_FOLIO</label>
+					<bcs-input-texto 
+						class			= "col-xs-7"
+						ng-model		= "csaapv.FolioBusqueda"
+						k-ng-model		= "csaapv.kngFolioBusqueda"
+						k-ng-disabled	= "true">
+					</bcs-input-texto>
+    			</div>
+			</div>
+<!----------------------------------------------->
+<!---------- IDENTIFICACION TRABAJADOR ---------->
+<!----------------------------------------------->
+			<div class="row"> 
+				<div class="col-xs-6">
+					<strong> <div class="col-xs-4 ng-scope" translate="">UI_IDENTIFICACION_TRABAJADOR</div></strong>
+				</div>
+			</div>			
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+			  		<label class="col-xs-2" translate>UI_CLIENTE</label>
+					<bcs-combobox-base 
+						bcs-requerido
+						id				= "UI_CLIENTE"
+						class			= "col-xs-9"
+					 	auto-cargar		= "'false'"
+					    tipo			= "'combobox-socio-negocio'"
+					    seleccionado	= "csaapv.datosForm.SocioNegocioSeleccionado"
+					    filtros			= "csaapv.datosForm.SocioNegocio"
+						cascada-a		= "csaapv.filtros.IdCliente"
+						cascada-valor	= "'IdCliente'"
+	                    cascada-defecto	= "'-1'"
+	                    id-actual		= "csaapv.datosForm.SocioNegocioidActual"   
+	                    activado		= "csaapv.datosForm.SocioNegocioDesabilitado"
+						kendo-widget 	= "csaapv.SocData">
+					</bcs-combobox-base>
+
+				</div>
+				<div class="col-xs-3">
+      				<label class="col-xs-6 ng-scope" translate="">UI_DOCUMENTO_IDENTIDAD</label>
+					<bcs-input-texto
+						class			= "col-xs-6"
+						bcs-requerido	= "csaapv.DocumentoIdentidadRequerido"
+						ng-model		= "csaapv.DocumentoIdentidadCliente"							
+						place-holder	= "csaapv.documentoIdentidadPlaceHolder"
+						ng-blur			= "csaapv.ValidaDocumentoIdentidad('R','CLI')"
+						k-ng-disabled	= "csaapv.datosForm.DoctoIdentDeshabilitado">
+					</bcs-input-texto>	
+    			</div>	
+    			<div class="col-xs-3">
+			  		<label class="col-xs-4" translate>UI_NACIONALIDAD</label>
+					<bcs-input-texto 
+						id				= "UI_NACIONALIDAD"
+						class			= "col-xs-8"
+						ng-model		= "csaapv.NacionalidadIdActual"
+						k-ng-model		= "csaapv.NacionalidadIdActualPost"
+						k-ng-disabled	= "true">
+					</bcs-input-texto>
+				</div>
+			</div>
+    		<div class="row">
+				<div class="col-xs-6">
+      				<label class="col-xs-2 ng-scope" translate="">UI_NOMBRES</label>
+					<bcs-input-texto
+						class			= "col-xs-9"
+						bcs-requerido	= "csaapv.NombresRequerido"
+						ng-model		= "csaapv.Nombres"
+						k-ng-model		= "csaapv.kngNombres"
+						k-ng-disabled	= "csaapv.datosForm.NombreDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<label class="col-xs-6 ng-scope" translate="">UI_APELLIDO_PATERNO</label>
+					<bcs-input-texto 
+						class			= "col-xs-6"
+						bcs-requerido	= "csaapv.ApellidoPaternoRequerido"
+						ng-model		= "csaapv.ApellidoPaterno"
+						k-ng-model		= "csaapv.kngApellidoPaterno"
+						k-ng-disabled	= "csaapv.datosForm.ApellidoPatDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_APELLIDO_MATERNO</label>
+					<bcs-input-texto 
+						class			= "col-xs-8"
+						bcs-requerido	= "csaapv.ApellidoMaternoRequerido"
+						ng-model		= "csaapv.ApellidoMaterno"
+						k-ng-model		= "csaapv.kngApellidoMaterno"
+						k-ng-disabled	= "csaapv.datosForm.ApellidoMatDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    		</div>
+    		<div class="row">
+    			<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_FECHA_NACIMIENTO</label>
+					<bcs-input-date 
+						id="UI_FECHA_NACIMIENTO" 
+						class			= "col-xs-7" 
+						k-ng-model 		= "csaapv.kngFechaNacimiento"
+						k-options		= "kOptFechaNacimiento"
+						todo-dias		= "true"
+						ng-blur			= "validaFechaNacimiento()"
+						k-ng-disabled	= "csaapv.datosForm.FechaNacDeshabilitado"
+						>
+					</bcs-input-date>	
+				</div>    				    			
+				
+    			<div class="col-xs-3">
+     				<label class="col-xs-4" translate="">UI_ESTADO_CIVIL</label>
+					<bcs-combobox-base 
+						id				= "UI_ESTADO_CIVIL" 
+						class			= "col-xs-6"
+						tipo			= "'combobox-estado-civil'"
+						id-actual 		= "csaapv.EstadoCivilIdActual"
+						id-post-filtro	= "csaapv.EstadoCivilIdActualPost"
+						seleccionado	= "csaapv.EstadoCivil.Seleccionado"
+						activado		= "!csaapv.datosForm.EstadoCivilDeshabilitado" 
+						>
+					</bcs-combobox-base>
+    			</div> 
+    			<div class="col-xs-3">
+      				<label class="col-xs-6" translate="">UI_GENERO</label>
+					<bcs-combobox-base 
+						id				= "UI_GENERO" 
+						class			= "col-xs-6"
+						tipo			= "'combobox-tipo-genero'"
+						id-actual 		= "csaapv.GeneroIdActual"
+						id-post-filtro	= "csaapv.GeneroIdActualPost"
+						seleccionado	= "csaapv.Genero.Seleccionado"
+						activado		= "!csaapv.datosForm.GeneroDeshabilitado"
+						>
+					</bcs-combobox-base>
+    			</div>
+    			<div class="col-xs-3">                                                           
+					<label class="col-xs-4" translate>UI_PAIS_RESIDENCIA</label>            
+					<bcs-combobox-base 
+						id				= "UI_PAIS_RESIDENCIA"
+						class			= "col-xs-8"
+						bcs-requerido	= "csaapv.PaisResidenciaRequerido"
+						auto-cargar		= "true"
+						cache			= "true"						
+						id-actual 		= "csaapv.IdPaisResidenciaIdActual"
+						id-post-filtro	= "csaapv.IdPaisResidenciaIdActualPost"
+						tipo			= "'combobox-pais'"
+						seleccionado	= "csaapv.paisResidenciaSeleccionado"
+						cascada1-a		= "csaapv.filtroCiudad.IdPais"
+						cascada1-valor	= "'IdPais'"
+						cascada2-a		= "csaapv.filtroDivisionPais.IdPais"
+						cascada2-valor	= "'IdPais'"
+						activado		= "!csaapv.datosForm.PaisDeshabilitado"
+						>
+					</bcs-combobox-base>	
+				</div>  			
+    		</div>  
+    		<div class="row" ng-if="csaapv.parametrosEntrada.modoVentana === 'M'">
+	    		<div class="col-xs-6" ng-show="csaapv.paisResidenciaSeleccionado.NombrePais !== 'CHILE'">		
+					<label class="col-xs-2" translate>UI_CIUDAD</label>
+					<bcs-input-texto
+						class			= "col-xs-9"
+						ng-model		= "csaapv.Ciudad"
+						k-ng-model		= "csaapv.Ciudad"
+						k-ng-disabled	= "true"
+					>
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-6" ng-show="csaapv.paisResidenciaSeleccionado.NombrePais === 'CHILE'">
+					<label class="col-xs-2" translate>{{paisResidenciaSeleccionado.NombreDivisionPais || 'UI_COMUNA_REGION'}}</label>
+					<bcs-input-texto
+						class			= "col-xs-9"
+						ng-model		= "csaapv.Comuna"
+						k-ng-model		= "csaapv.Comuna"
+						k-ng-disabled	= "true"
+					>
+					</bcs-input-texto>
+				</div>
+				<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_CIUDAD</label>
+						<bcs-input-texto
+							class			= "col-xs-9"
+							ng-model		= "csaapv.CiudadTrabajador"
+							k-ng-model		= "csaapv.CiudadTrabajador"
+							k-ng-disabled	= "true">
+						</bcs-input-texto>
+    			</div>
+			</div>
+			<div class="row" ng-if="csaapv.parametrosEntrada.modoVentana === 'I'">
+				<div class="col-xs-6" ng-show="csaapv.paisResidenciaSeleccionado.NombrePais !== 'CHILE'">
+					<label class="col-xs-2" translate>UI_CIUDAD</label>
+					<bcs-combobox-base 
+						id				= "UI_CIUDAD"
+						class			= "col-xs-9"
+						bcs-requerido	= "csaapv.CiudadRequerido"
+						auto-cargar		= "true"
+						cache			= "true"
+						bcs-requerido	= "csaapv.paisResidenciaSeleccionado.NombrePais !== 'CHILE'"
+						filtros			= "csaapv.filtroCiudad"
+						id-actual 		= "csaapv.CiudadIdActual"
+						id-post-filtro	= "csaapv.CiudadIdActualPost"
+						tipo			= "'combobox-ciudad'"
+						seleccionado	= "csaapv.ciudadSeleccionada"
+						activado		= "!csaapv.datosForm.CiudadDeshabilitado"
+						
+						>
+					</bcs-combobox-base>
+				</div> 
+				<div class="col-xs-6" ng-show="csaapv.paisResidenciaSeleccionado.NombrePais === 'CHILE'">
+					<label class="col-xs-2" translate>{{paisResidenciaSeleccionado.NombreDivisionPais || 'UI_COMUNA_REGION'}}</label>
+					<bcs-combobox-base 
+						id				= "UI_COMUNA"
+						class			= "col-xs-9"
+						bcs-requerido	= "csaapv.DivisionPaisRequerido"
+						auto-cargar		= "true"
+						bcs-requerido	= "csaapv.paisResidenciaSeleccionado.NombrePais === 'CHILE'"
+						filtros			= "csaapv.filtroDivisionPais"
+						id-actual 		= "csaapv.idDivisionPaisComuna"
+						id-post-filtro	= "csaapv.idDivisionPaisComunaPost"
+						tipo			= "'combobox-division-pais'"
+						seleccionado	= "csaapv.comunaSeleccionada"
+						activado		= "!csaapv.datosForm.ComunaDeshabilitado"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+		    		<div class="col-xs-12" ng-show="csaapv.paisResidenciaSeleccionado.NombrePais === 'CHILE'">		
+						<label class="col-xs-3" translate>UI_CIUDAD</label>
+						<bcs-input-texto
+							class			= "col-xs-9"
+							ng-model		= "csaapv.CiudadTrabajador"
+							k-ng-model		= "csaapv.CiudadTrabajador"
+							k-ng-disabled	= "true">
+						</bcs-input-texto>
+					</div>
+				</div>
+
+			</div>	
+			<div class="row">
+				<div class="col-xs-6">
+      				<label class="col-xs-2 ng-scope" translate="">UI_CALLE</label>
+					<bcs-input-texto 
+						class			= "col-xs-9"
+						bcs-requerido	= "csaapv.CalleRequerido"
+						ng-model		= "csaapv.Calle"
+						k-ng-model		= "csaapv.kngCalle"
+						k-ng-disabled	= "csaapv.datosForm.CalleDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+			    <div class="col-xs-3">
+      				<label class="col-xs-6 ng-scope" translate="">UI_NUMERO</label>
+					<bcs-input-texto  
+						class			= "col-xs-6"
+						bcs-requerido	= "csaapv.NumeroDireccionRequerido"
+						ng-model		= "csaapv.kngNumeroDireccionCliente"
+						k-ng-disabled	= "csaapv.datosForm.CalleNumeroDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+			
+				<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_ACTIVIDAD/CARGO</label>
+					<bcs-combobox-base
+						class			= "col-xs-8"
+						tipo			= "'combobox-profesion'"
+						id-actual		= "csaapv.IdActividadCargo"
+						id-post-filtro	= "csaapv.IdActividadCargoPost"
+						seleccionado	= "csaapv.ActividadCargoSeleccionado"
+						activado		= "!csaapv.datosForm.ActividadCargoDeshabilitado"
+						>
+					</bcs-combobox-base>
+    			</div>
+
+			</div>
+						<div class="row">
+    			<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_TELEFONO_FIJO</label>
+					<bcs-input-texto 
+						class			= "col-xs-7"
+						ng-model		= "csaapv.TelefonoFijo"
+						ng-blur			= "csaapv.validaFormatoTelefono(csaapv.TelefonoFijo,'TFIJO')"
+						placeholder		= "csaapv.placeholderTelefono"
+						k-ng-disabled	= "csaapv.datosForm.telefonoFijoDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<!--
+      				<label class="col-xs-4 ng-scope" translate="">UI_TELEFONO_COMERCIAL</label>
+					<bcs-input-texto 
+						class			= "col-xs-6"		
+						ng-model		= "csaapv.TelefonoComercial"		
+						ng-blur			= "csaapv.validaFormatoTelefono(csaapv.TelefonoComercial,'TCOM')"
+						placeholder		= "csaapv.placeholderTelefono"
+						k-ng-disabled	= "csaapv.datosForm.telComDeshabilitado">
+					</bcs-input-texto>
+					-->
+      				<label class="col-xs-4 ng-scope" translate="">UI_TELEFONO_MOVIL</label>
+					<bcs-input-texto 
+						class			= "col-xs-6"		
+						ng-model		= "csaapv.TelefonoMovil"		
+						ng-blur			= "csaapv.validaFormatoTelefono(csaapv.TelefonoMovil,'TMOVIL')"
+						placeholder		= "csaapv.placeholderTelefono"
+						k-ng-disabled	= "csaapv.datosForm.telefonoMovilDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<div class="col-xs-3">
+      				<label class="col-xs-6 ng-scope" translate="">UI_TELEFONO_COMERCIAL</label>
+					<bcs-input-texto 
+						class			= "col-xs-6"
+						ng-model		= "csaapv.TelefonoLaboral"
+						ng-blur			= "csaapv.validaFormatoTelefono(csaapv.TelefonoLaboral,'TLABO')"
+						placeholder		= "csaapv.placeholderTelefono"
+						k-ng-disabled	= "csaapv.datosForm.telefonoLaboralDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+    			<!-- 
+    			<div class="col-xs-3">
+      				<label class="col-xs-6 ng-scope" translate="">UI_TELEFONO_PARTICULAR</label>
+					<bcs-input-texto 
+						class			= "col-xs-6"
+						ng-model		= "csaapv.TelefonoLaboral"
+						ng-blur			= "csaapv.validaFormatoTelefono(csaapv.TelefonoLaboral,'TLABO')"
+						placeholder		= "csaapv.placeholderTelefono"
+						k-ng-disabled	= "csaapv.datosForm.telefonoLaboralDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+				-->
+    			<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_EMAIL</label>
+					<bcs-input-texto 
+						class			= "col-xs-8"
+						ng-model		= "csaapv.EmailCliente" 
+						placeholder     = "SesionValoresDefectoSistema.PLACEHOLDER_EMAIL"
+						ng-blur			= "csaapv.validaFormatoEmail('CLI')"
+						k-ng-disabled	= "csaapv.datosForm.EmailDeshabilitado">
+					</bcs-input-texto>
+    			</div>
+			</div> 
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_EJECUTIVO</label>
+					<bcs-combobox-base 
+						class			= "col-xs-9"
+						tipo			= "'combobox-ejecutivo'"  
+						bcs-requerido	= "csaapv.EjecutivoRequerido"
+						filtros			= "csaapv.filtroEjecutivo" 
+						id-actual		= "csaapv.IdEmpleadoEjecutivo"
+						id-post-filtro	= "csaapv.IdEmpleadoEjecutivoPost"
+						seleccionado	= "csaapv.EjecutivoSeleccionado" 
+						activado 		= "!csaapv.datosForm.EjecutivoDeshabilitado">
+					</bcs-combobox-base>
+				</div>
+				<!--<div class="col-xs-3">
+					<label class="col-xs-6" translate>UI_CATEGORIA_INVERSIONISTA</label>
+					<bcs-combobox-base
+						class			= "col-xs-6"
+						tipo			= "'combobox-categoria-inversionista'"
+						bcs-requerido	= "csaapv.CategoriaoRequerido"
+						filtros			= "csaapv.oConfiguracionCategoriaInversionista.filtros"
+						id-actual		= "csaapv.IdCategoriaInversionista"
+						id-post-filtro	= "csaapv.IdCategoriaInversionistaPost"
+						seleccionado    = "csaapv.CategoriaInversionistaSeleccionado"
+						cascada-a		= "csaapv.oConfPerfilComercial.filtros.IdCategoriaInversionista"
+					    cascada-valor	= "'IdCategoriaInversionista'"	
+						activado		= "!csaapv.datosForm.CatInverDeshabilitado"
+						>
+					</bcs-combobox-base>
+				</div>-->
+				
+				
+				<div class="col-xs-3">
+					<label class="col-xs-6" translate>UI_CATEGORIA_INVERSIONISTA</label>
+					<bcs-combobox-base
+						class			= "col-xs-6"
+						tipo			= "'combobox-plan-categoria'"
+						bcs-requerido	= "csaapv.CategoriaoRequerido"
+						filtros			= "categoriaInversionista.filtros"
+						id-actual		= "csaapv.IdCategoriaInversionista"
+						id-post-filtro	= "csaapv.IdCategoriaInversionistaPost"
+						seleccionado    = "csaapv.CategoriaInversionistaSeleccionado"
+						cascada-a		= "csaapv.oConfPerfilComercial.filtros.IdCategoriaInversionista"
+					    cascada-valor	= "'IdCategoriaInversionista'"
+					    cascada1-a		= "csaapv.oConfPerfilComercial1.filtros.IdCategoriaInversionista"
+					    cascada1-valor	= "'IdCategoriaInversionista'"
+						activado		= "!csaapv.datosForm.CatInverDeshabilitado"
+						>
+					</bcs-combobox-base>
+				</div>
+				
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_PERFIL_COMERCIAL</label>
+					<div ng-if="!csaapv.datosForm.PerfilDeshabilitado">
+						<bcs-combobox-base 
+							class			= "col-xs-8"
+							tipo			= "'combobox-perfil-comercial-apv'"
+							bcs-requerido	= "csaapv.PerfilRequerido"
+							id-actual		= "csaapv.IdPerfilComercialBaseOrigen"
+							id-post-filtro	= "csaapv.IdPerfilComercialBaseOrigenPost"
+							todos			= "'N'"
+							filtros			= "csaapv.oConfPerfilComercial.filtros"
+							seleccionado	= "csaapv.PerfilComercialSeleccionado"
+							activado		= "!csaapv.datosForm.PerfilDeshabilitado">
+						</bcs-combobox-base>
+					</div>
+					<div ng-if="csaapv.datosForm.PerfilDeshabilitado">
+		      			<bcs-combobox-base 
+							class			= "col-xs-8"
+							tipo			= "'combobox-perfil-comercial'"
+							bcs-requerido	= "csaapv.PerfilRequerido"
+							id-actual		= "csaapv.IdPerfilComercialBaseOrigen"
+							id-post-filtro	= "csaapv.IdPerfilComercialBaseOrigenPost"
+							todos			= "'N'"
+							filtros			= "csaapv.oConfPerfilComercial1.filtros"
+							seleccionado	= "csaapv.PerfilComercialSeleccionado"
+							activado		= "!csaapv.datosForm.PerfilDeshabilitado">
+						</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+
+			<!-- NO BORRAR -->
+			<!-- Esta "row" con el "button" hacen que al presionar Enter no se limpie el Formulario -->
+    		<div class="row">
+				<bcs-button 
+					class				= "col-xs-11"
+					bcs-tipo			= "'bcs-button-primary'"
+					bcs-auto-desactivar	= "false"
+					bcs-texto			= "'UI_LIMPIAR' | translate" 
+					bcs-mostrar			= "false"
+					bcs-clic			= "">
+				</bcs-button>
+			</div>
+			<!-- NO BORRAR -->
+
+    		<div class="row">
+    			<div class="col-xs-offset-10 col-xs-2">	
+	    			<div class="col-xs-11">
+		    			<div class="row">  
+							<bcs-button 
+								class				= "col-xs-11"
+								bcs-tipo			= "'bcs-button-secondary'"
+								bcs-habilitado		= "csaapv.limpiarClienteHabilitado"
+								bcs-auto-desactivar	= "false"
+								bcs-texto			= "'UI_LIMPIAR' | translate" 
+								bcs-clic			= "csaapv.limpiarCliente()">
+							</bcs-button>
+						</div>
+					</div>
+				</div>
+			</div>
+<!------------------------------>
+<!---------- PESTAÑAS ---------->
+<!------------------------------> 	
+			<div class="row">
+				<uib-tabset>							
+					<!-- TAB 1 PORTAFOLIO -->		  					
+					<uib-tab id		= "TabPortafolio" ng-show="csaapv.TabOcultoTraspaso || csaapv.TabTraspasoConsulta"
+						heading	= "{{'UI_PORTAFOLIO' | translate}}"
+						ng-click="seleccionarPestana('portafolio')"
+						active	= "csaapv.tabs['PanelPortafolioContrato'].active" 
+						select 	= "csaapv.fnTabSelect('Portafolio','PanelPortafolioContrato')">  		
+						<div id	= "{{csaapv.tabs['PanelPortafolioContrato'].id}}"></div>	
+					</uib-tab> 	
+					<!-- TAB 2 TRASPASO -->
+					<uib-tab id		= "TabTraspaso" ng-show="!csaapv.TabOcultoTraspaso"
+					ng-click="seleccionarPestana('traspaso')"
+						heading	= "{{'UI_TRASPASO' | translate}}" 
+						active	= "csaapv.tabs['PanelPortafolioContratoTraspaso'].active"
+						select	= "csaapv.fnTabSelect('Traspaso','PanelPortafolioContratoTraspaso')">  
+						<div id	= "{{csaapv.tabs['PanelPortafolioContratoTraspaso'].id}}"></div>		  			
+					</uib-tab>  		
+					<!-- TAB 3 EMPLEADOR -->	  					
+					<uib-tab id		= "TabEmpleador" ng-show="!csaapv.TabOcultoEmpleador"
+						heading	= "{{'UI_EMPLEADOR' | translate}}"
+						ng-click="seleccionarPestana('empleador')"
+						active	= "csaapv.tabs['PanelEmpleadoContrato'].active"
+						select	= "csaapv.fnTabSelect('Empleado','PanelEmpleadoContrato')">  
+						<div id	= "{{csaapv.tabs['PanelEmpleadoContrato'].id}}"></div>		  			
+					</uib-tab>
+				<!-- FIN --> 
+				</uib-tabset>
+				<br>
+				<div class="row">
+					<div class="col-xs-10" ng-show="csaapv.OcultoControlesEgreso"></div>
+					<bcs-button class="col-xs-offset-8 col-xs-2" ng-show="!csaapv.OcultoControlesEgreso"
+						bcs-tipo="'bcs-button-primary'"
+						bcs-habilitado="'true'" 
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_DISTRIBUIR_INVERSION' | translate" 
+						bcs-clic="csaapv.DistribuirInversionSAAPV()">
+					</bcs-button>
+					<bcs-button class="col-xs-2"
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-habilitado="csaapv.fnValidaContrato()"
+						bcs-auto-desactivar="false"
+						bcs-texto="csaapv.parametrosEntrada.modoVentana === 'M' ? 'UI_GUARDAR' : 'UI_INGRESAR' | translate" 
+						bcs-clic="csaapv.crearContrato()">
+					</bcs-button>					
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

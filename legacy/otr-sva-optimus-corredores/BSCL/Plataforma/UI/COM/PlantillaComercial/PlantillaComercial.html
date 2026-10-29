@@ -1,0 +1,224 @@
+<div ng-controller="PlantillaComercialCtrl as pCom">
+	<div class="row" >
+		<!--- INICIO FORMULARIO -->
+		<form name="formPlantillaComercial" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<div ng-if="pCom.win.modoLectura">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_CODIGO</label>
+							<bcs-combobox-base class="col-xs-8"
+								tipo="'combobox-perfil-comercial'"
+								todos="'N'"
+								activado="true"
+								filtros="pCom.cmbbx.perfilComercial.filtros"
+								id-actual="pCom.busq.IdPerfilComercial"
+								id-defecto="pCom.busq.IdPerfilComercialDef"
+								seleccionado="pCom.busq.PerfilComercialObj">
+							</bcs-combobox-base>
+				  		</div>
+					  	<div class="col-xs-6">
+						  	<bcs-button
+								class="col-xs-2 pull-right"
+								bcs-tipo="'bcs-button-input-form'"
+								ng-if="pCom.win.modoLectura"
+								bcs-mostrar="pCom.win.modoLectura"
+								bcs-auto-desactivar="false"
+								bcs-texto="'UI_BUSCAR' | translate"
+								bcs-habilitado="'true'"
+								bcs-clic="pCom.win.cargarDatos(pCom.busq.PerfilComercialObj);">
+							</bcs-button>
+						</div>
+			  		</div>
+			  		<hr style="margin: 10px 0px">
+				</div>
+				<div class="row">
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_CODIGO</label>
+							<bcs-input-texto
+								bcs-requerido
+								class="col-xs-8"
+								ng-model="pCom.datosDespues.IdPerfilComercialBase"
+								k-ng-disabled="pCom.win.modoLectura">
+							</bcs-input-texto>
+						</div>
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+							<bcs-input-texto
+								bcs-requerido
+								class="col-xs-8"
+								ng-model="pCom.datosDespues.DescripcionPerfilComercialBase"
+								k-ng-disabled="pCom.win.modoLectura">
+							</bcs-input-texto>
+				  	</div>
+			  	</div>
+			  	<div class="row">
+				  	<div class="col-xs-6">
+				  		<label class="col-xs-4" translate>UI_CATEGORIA_INVERSIONISTA</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido
+							filtros="pCom.cmbbx.categoriaInversionista.filtros"
+							tipo="'combobox-categoria-inversionista'"
+							id-actual="pCom.datosDespues.IdCategoriaInversionista"
+							id-defecto="pCom.datosAntes.IdCategoriaInversionista"
+							todos="'N'"
+							activado="!pCom.win.modoLectura"
+							cascada-a="pCom.cmbbx.perfilProductos.filtros.IdCategoriaInversionista"
+							cascada-valor="'IdCategoriaInversionista'"
+							cascada2-a="pCom.cmbbx.plantillaCondicionesOperativas.filtros.IdCategoriaInversionista"
+							cascada2-valor="'IdCategoriaInversionista'">
+						</bcs-combobox-base>
+				  	</div>
+			  	</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_HABILITADO</label>
+						<bcs-input-checkbox 
+							ng-model="pCom.datosDespues.IdEstado" 
+							ng-disabled="pCom.win.modoLectura">
+						</bcs-input-checkbox> 
+					</div>
+					<div class="col-xs-6">
+			  			<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+						<bcs-input-checkbox 
+							ng-model="pCom.datosDespues.PorDefecto" 
+							ng-disabled="pCom.win.modoLectura">
+						</bcs-input-checkbox>
+			  		</div>
+				</div>
+		  		<div class="row">
+					<div class="col-xs-6">
+				 		<label class="col-xs-4" translate>UI_PERFIL_PRODUCTOS</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido
+							tipo="'combobox-perfil-productos'"
+							id-actual="pCom.datosDespues.IdPerfilProductos"
+							id-defecto="pCom.datosAntes.IdPerfilProductos"
+							todos="'N'"
+							activado="!pCom.win.modoLectura"
+							filtros="pCom.cmbbx.perfilProductos.filtros">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-6" ng-if="SesionLocale === 'CL'">
+					 	<label class="col-xs-4" translate>UI_PERFIL_COBROS</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido
+							tipo="'combobox-perfil-cobros'"
+							id-actual="pCom.datosDespues.IdPerfilCobros"
+							id-defecto="pCom.datosAntes.IdPerfilCobros"
+							todos="'N'"
+							activado="!pCom.win.modoLectura"
+							filtros="pCom.cmbbx.perfilCobros.filtros">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-6" ng-if="SesionLocale === 'PE'">
+					 	<label class="col-xs-4" translate>UI_PERFIL_COBROS</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido
+							tipo="'combobox-perfil-cobros-peru'"
+							id-actual="pCom.datosDespues.IdPerfilCobrosPeru"
+							id-defecto="pCom.datosAntes.IdPerfilCobrosPeru"
+							todos="'N'"
+							activado="!pCom.win.modoLectura"
+							filtros="pCom.cmbbx.perfilCobrosPeru.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+				 		<label class="col-xs-4" translate>UI_PLANTILLA_LIMITES</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido
+							tipo="'combobox-plantilla-limites'"
+							id-actual="pCom.datosDespues.IdPerfilLimites"
+							id-defecto="pCom.datosAntes.IdPerfilLimites"
+							todos="'N'"
+							activado="!pCom.win.modoLectura"
+							filtros="pCom.cmbbx.perfilLimites.filtros">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_ENROLAMIENTO</label>
+						<bcs-combobox-base
+							id="formPlantillaComercial_TipoEnrolamiento"
+							class="col-xs-8"
+							tipo="'combobox-tipo-enrolamiento'"
+							id-actual="pCom.datosDespues.TipoEnrolamiento"
+							id-defecto="pCom.datosAntes.IdPerfilLimites"
+							activado="!pCom.win.modoLectura"
+							bcs-requerido
+						></bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row"></div><hr>
+		  	<div class="row">
+		  		<div class="col-xs-2" ng-if="pCom.win.modoLectura">
+		  			<div class="titulo" translate>UI_MATRIZ_OPERACIONAL</div>
+			  	</div>
+				<bcs-button
+					class="col-xs-2" 
+					bcs-tipo="'bcs-button-input-form'"  
+					ng-if="!pCom.win.modoLectura" 
+					bcs-mostrar="!pCom.win.modoLectura"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_PREVISUALIZAR_MATRIZ' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="pCom.win.verMatrizOperacional();">
+				</bcs-button>
+		  	</div>
+		  	<div class="row">
+				<bcs-grid 
+					id="grid-com-matriz-operacional"
+					fn-exportar-excel = "exportarExcel" 
+					configuracion="pCom.grilla.matrizOperacional"
+					>
+				</bcs-grid>
+				</div>
+			</div>
+		</form>
+		<div class="row col-xs-12 bcs-panel-comandos">
+			<div class="col-xs-8">
+				<bcs-button 
+					id="AdmPla_PlantillaComercial_crear" 
+					class="col-xs-2" 
+					bcs-tipo="'bcs-button-primary'"  
+					ng-if="pCom.win.modoLectura" 
+					bcs-mostrar="pCom.win.modoLectura"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_CREAR_MODELO' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="pCom.win.crear();">
+				</bcs-button>
+				<bcs-button 
+					id="AdmPla_PlantillaComercial_guardar" 
+					class="col-xs-2" 
+					bcs-tipo="'bcs-button-primary'" 
+					ng-if="!pCom.win.modoLectura" 
+					bcs-mostrar="!pCom.win.modoLectura"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_GUARDAR' | translate" 
+					bcs-habilitado="formPlantillaComercial.$valid"  
+					bcs-clic="pCom.win.guardar();">
+				</bcs-button>
+				<bcs-button 
+					id="AdmPla_PlantillaComercial_cancelar" 
+					class="col-xs-2" 
+					bcs-tipo="'bcs-button-secondary'" 
+					ng-if="!pCom.win.modoLectura" 
+					bcs-mostrar="!pCom.win.modoLectura" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_CANCELAR' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="pCom.win.cancelar();">
+				</bcs-button>
+			</div>
+			<div class="col-xs-3"></div>
+			<bcs-menu id="AdmPla_PlantillaComercial_Opciones" class="col-xs-1" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+				<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+	            <li ng-click="pCom.fn.exportarPlantillaCorredora()">{{'UI_EXTRAER_PLANTILLAS_POR_CORREDORA' | translate}}</li>
+	            <li ng-click="pCom.fn.exportarPlantillaPortafolios()">{{'UI_EXTRAER_PLANTILLAS_POR_CLIENTE' | translate}}</li>
+	            <li ng-click="">{{'UI_IMPRIMIR' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

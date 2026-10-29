@@ -1,0 +1,208 @@
+<div class="row" ng-controller='ConsultarCartolaMovimientosCtrl'>
+	<form name="frmCartola">
+		<div class="col-xs-10">
+			<div class="row" ng-if = "!MostrarProducto">
+				<div class="col-xs-8">
+					<label class="col-xs-2" translate>UI_CLIENTE</label>
+					<bcs-combobox-base
+						class="col-xs-10"
+						id="frmCartola_Cliente"
+						carga-cliente-automatico="'S'"
+						id-actual="data.socioGral.idActual"
+						auto-cargar="'true'"
+						tipo="data.oConfiguracionCliente.tipo"
+						filtros="data.oConfiguracionCliente.filtros"									
+						configuracion= "data.oConfiguracionCliente.configuracion"									 				
+						seleccionado="data.oConfiguracionCliente.seleccionado"									
+						id-actual="socioGral.idActual"
+						cascada-a="data.oConfiguracionPortafolio.filtros.IdCliente"
+						cascada-defecto="-1"
+						cascada-valor="'IdCliente'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO</label>					
+					<bcs-combobox-base class="col-xs-6"
+						id="frmCartola_Portafolio"
+						auto-cargar="'false'"
+						tipo="'combobox-portafolio'"
+						filtros="data.oConfiguracionPortafolio.filtros"
+						item-post-filtro="'1'"
+						configuracion= "data.oConfiguracionPortafolio"  
+						seleccionado = "data.oConfiguracionPortafolio.seleccionado">
+					</bcs-combobox-base >
+				</div>
+			</div>
+			
+			<div class="row" ng-if="MostrarProducto">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base
+						class				= "col-xs-8"
+						id					= "UI_CLIENTE"
+						carga-cliente-automatico="'S'"
+						auto-cargar			= "'true'"
+						tipo				= "'combobox-socio-negocio'"
+						seleccionado		= "oSocioNegocio.seleccionado"
+						filtros				= "oSocioNegocio.filtros"
+						cascada-a			= "oPortafolio.filtros.IdCliente"
+						cascada-valor		= "'IdCliente'"
+						cascada-defecto     = "-1"
+						id-actual			= "socioGral.idActual">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+				    <label class="col-xs-4" translate>UI_PRODUCTO</label>
+				    <bcs-combobox-base
+				    	class				= "col-xs-8"
+				        id					= "UI_PRODUCTO"
+				        auto-cargar			= "'true'"
+				        tipo				= "'combobox-otro-producto-agrupador'"
+				        seleccionado		= "oProducto.seleccionado"
+						cascada-a			= "oPortafolio.filtros.IdProductoAgrupador"
+						cascada-valor		= "'IdProductoAgrupador'"
+						id-actual			= "oProducto.idActual"
+						item-post-filtro    ="'1'">
+				    </bcs-combobox-base >
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO</label> 
+					<bcs-combobox-base
+						class				= "col-xs-8"
+						id					= "UI_PORTAFOLIO"
+						auto-cargar			= "'false'"
+						tipo				= "'combobox-portafolio'"
+						seleccionado		= "oPortafolio.seleccionado"
+						filtros				= "oPortafolio.filtros"
+						id-actual			= "oPortafolio.idActual"
+						activado			= "oSocioNegocio.seleccionado && oProducto.seleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo         = "oConfiguracionClasificacionTipoInstrumento.tipo"
+						id-actual    = "oConfiguracionClasificacionTipoInstrumento.idActual"
+						seleccionado = "oConfiguracionClasificacionTipoInstrumento.seleccionado"
+						id-post-filtro = "oConfiguracionClasificacionTipoInstrumento.idPostFiltro"
+						item-post-filtro="'1'"
+						configuracion= "oConfiguracionClasificacionTipoInstrumento.configuracion" 
+						cascada1-a="oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor="'IdClasificacionTipoInstrumento'" 	
+						cascada2-a="oConfiguracionInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada2-valor="'IdClasificacionTipoInstrumento'"
+						todos="'S'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO_ABR</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						auto-cargar="'false'"
+						tipo="oConfiguracionTipoInstrumento.tipo"  
+						filtros="oConfiguracionTipoInstrumento.filtros"
+						configuracion= "oConfiguracionTipoInstrumento.configuracion" 
+						id-actual = "oConfiguracionTipoInstrumento.idActual"
+						id-post-filtro = "oConfiguracionTipoInstrumento.idPostFiltro" 
+						item-post-filtro="'1'"
+						seleccionado="oConfiguracionTipoInstrumento.seleccionado"
+						cascada1-a="oConfiguracionInstrumento.filtros.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'" 	
+						todos="'S'">
+					</bcs-combobox-base>				  			  	  
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos 
+						class="col-xs-8" 
+						id="UI_INSTRUMENTO" 
+						name="uInstrumento"
+						datos-instrumento="instrumentoDatos"
+						buscar-instrumento="oConfiguracionInstrumento.buscar"
+						filtro-tipo-instrumento = "oConfiguracionTipoInstrumento.idActual"
+						filtro-clasificacion="oConfiguracionClasificacionTipoInstrumento.idActual" 
+						filtro-estado = "'ACT'">
+					</bcs-input-instrumentos>				  				  			  	  
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="data.oConfiguracionTipoOperacionCustodia.tipo"
+						ng-model="accion"
+						seleccionado="filtro.accion"
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_CONCEPTO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="data.oConfiguracionConceptoCustodia.tipo"
+						ng-model="concepto"
+						seleccionado="filtro.concepto"
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>				  			  	  
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_BOVEDA</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="data.oConfiguracionBoveda.tipo"
+						ng-model="boveda"
+						seleccionado="filtro.boveda"
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>				  			  	  
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA_OPERACION</label>
+					<bcs-input-date class="col-xs-8" ng-model="filtro.fecIniciong" k-ng-model="filtro.fecInicio" bcs-requerido></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_HASTA</label> 
+					<bcs-input-date class="col-xs-8" ng-model="filtro.fecTerminong" k-ng-model="filtro.fecTermino" bcs-requerido></bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FOLIO_CARTERA</label>					
+					<bcs-input-numero class="col-xs-8" ng-model="filtro.folioCartera" k-ng-model="filtro.folioCarteraObj" k-options="{ format : 'n0', min:0, spinners: false }"></bcs-input-numero>			
+				</div>	
+			</div>
+			
+		</div>		
+	</form>
+	
+	<div class="col-xs-2">
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="frmCartola.$valid"  bcs-clic="buscarMovimientos()"></bcs-button>
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="limpiarFiltros()"></bcs-button>
+  	</div>
+
+	<div class="col-xs-12">
+		<div class="row">
+			<bcs-grid
+				id="grid-cartola-movimientos"
+				configuracion = "confGridCartola"
+				seleccionado = "seleccionCartola"
+				fn-exportar-excel="exportarExcel">
+			</bcs-grid>
+		</div>
+		
+		<div class= "row">
+			<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="exportarExcel('CartolaMovimientos')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

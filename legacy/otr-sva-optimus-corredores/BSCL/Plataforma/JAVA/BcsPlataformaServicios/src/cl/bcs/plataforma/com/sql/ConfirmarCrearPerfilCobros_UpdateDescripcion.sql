@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::COM.PerfilCobros" SET "DescripcionPerfilCobros" = :ValorNuevo WHERE "IdPerfilCobros" = :IdPerfilCobros;

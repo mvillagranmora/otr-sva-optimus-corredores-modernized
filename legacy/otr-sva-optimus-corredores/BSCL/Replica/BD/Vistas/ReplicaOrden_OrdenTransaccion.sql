@@ -1,0 +1,77 @@
+SET SCHEMA "BSCL";
+
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaOrden_OrdenTransaccion";
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaOrden_OrdenTransaccion"  AS
+SELECT
+	WST."IdStack" AS "IDSTACK",
+	"IdTransaccion" AS TABLE_KEY,
+	"Action" AS ACTION,
+	"IdTransaccion" AS "IDTRANSACCION",
+	"Folio" AS "FOLIO",
+	"FechaSistemaCreacion" AS "FECHASISTEMACREACION",
+	"HoraSistemaCreacion" AS "HORASISTEMACREACION",
+	"FechaOperacion" AS "FECHAOPERACION",
+	"FechaLiquidacion" AS "FECHALIQUIDACION",
+	"FechaVencimiento" AS "FECHAVENCIMIENTO",
+	"IdSistemaBursatil" AS "IDSISTEMABURSATIL",
+	"EsCuentaPropia" AS "ESCUENTAPROPIA",
+	"EsFungible" AS "ESFUNGIBLE",
+	"EsAPlazo" AS "ESAPLAZO",
+	"IdEmisor" AS "IDEMISOR",
+	"Cantidad" AS "CANTIDAD",
+	"Monto" AS "MONTO",
+	"Precio" AS "PRECIO",
+	"Tasa" AS "TASA",
+	"Nemotecnico" AS "NEMOTECNICO",
+	"NemotecnicoSVS" AS "NEMOTECNICOSVS",
+	"ValorRescate" AS "VALORRESCATE",
+	"IdEstado" AS "IDESTADO",
+	"IdTransaccionPlazo" AS "IDTRANSACCIONPLAZO",
+	"IdTransaccionOd" AS "IDTRANSACCIONOD",
+	"IdTipoInstrumento" AS "IDTIPOINSTRUMENTO",
+	"IdClasificacionTipoInstrumento" AS "IDCLASIFICACIONTIPOINSTRUMENTO",
+	"IdTipoReajuste" AS "IDTIPOREAJUSTE",
+	"IdTipoOperacion" AS "IDTIPOOPERACION",
+	"IdCondicionDeLiquidacion" AS "IDCONDICIONDELIQUIDACION",
+	"IdMoneda" AS "IDMONEDA",
+	"IdEmpresa" AS "IDEMPRESA",
+	"IdBolsa" AS "IDBOLSA",
+	"IdInstrumento" AS "IDINSTRUMENTO",
+	"NemotecnicoSubyacente" AS "NEMOTECNICOSUBYACENTE",
+	"IdInstrumentoSubyacente" AS "IDINSTRUMENTOSUBYACENTE",
+	"IdMonedaSubyacente" AS "IDMONEDASUBYACENTE",
+	"EsVentaCorta" AS "ESVENTACORTA",
+	"Plazo" AS "PLAZO",
+	"CodigoOperadorContraparte" AS "CODIGOOPERADORCONTRAPARTE",
+	"IdLibroOrdenes" AS "IDLIBROORDENES",
+	"Reservado" AS "RESERVADO",
+	"IdUsuarioReserva" AS "IDUSUARIORESERVA",
+	"MotivoReserva" AS "MOTIVORESERVA",
+	"Bloqueado" AS "BLOQUEADO",
+	"IdUsuarioBloqueo" AS "IDUSUARIOBLOQUEO",
+	"MotivoBloqueo" AS "MOTIVOBLOQUEO",
+	"IdComprobanteTesoreria" AS "IDCOMPROBANTETESORERIA",
+	"IndicadorDCV" AS "INDICADORDCV",
+	"MarcaNegociacion" AS "MARCANEGOCIACION",
+	"IdCorredorLocal" AS "IDCORREDORLOCAL",
+	"EsBilateral" AS "ESBILATERAL",
+	"MontoLiquidacionCorresponsal" AS "MONTOLIQUIDACIONCORRESPONSAL",
+	"IdMonedaLiquidacionCorresponsal" AS "IDMONEDALIQUIDACIONCORRESPONSAL",
+	"TipoCambioCorresponsal" AS "TIPOCAMBIOCORRESPONSAL",
+	"IdCorredorCorresponsal" AS "IDCORREDORCORRESPONSAL",
+	"CodigoOperadorCorredor" AS "CODIGOOPERADORCORREDOR",
+	"IdCorredorContraparte" AS "IDCORREDORCONTRAPARTE",
+	"EsFueraRueda" AS "ESFUERARUEDA",
+	"BaseTasa" AS "BASETASA",
+	"TipoInteres" AS "TIPOINTERES",
+	"IndicadorOrdenDirecta" AS "INDICADORORDENDIRECTA",
+	"IdBoveda" AS "IDBOVEDA",
+	"IdMonedaEmision" AS "IDMONEDAEMISION"
+FROM "_SYS_BIC"."BSCL.Orden.BD.Analytics/OrdenTransaccion"
+LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST 
+ON  WST."Table" = 'Orden_OrdenTransaccion' AND WST."Key" = "IdTransaccion"
+
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaOrden_OrdenTransaccion" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

@@ -1,0 +1,100 @@
+<div class="row" ng-controller='OrdenesPorNegociarReportesCtrl' bcs-enter="buscarOrdenes(apiGridOrdenes,filtros)" tabindex="1">
+		<!-- INICIO FILTROS -->
+	<form name="OrdenesPorNegociarForm">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base
+							tipo="'combobox-clasificacion-tipo-instrumento'"
+							class="col-xs-8"
+							id-defecto = "'RE'"
+							filtros="oConfiguracionClasificacion.filtros"
+							id-actual="filtros.IdClasificacionTipoInstrumento"
+							cascada-a="oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-instrumento'"
+							todos = "'S'"
+							item-post-filtro = "'1'"
+							filtros="oConfiguracionTipoInstrumento.filtros"
+							id-actual="filtros.IdTipoInstrumento">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos class="col-xs-8"
+							bcs-requerido
+							buscar-instrumento="filtros.buscarInstrumento"
+							datos-instrumento="filtros.instrumentoSubyacente">
+						</bcs-input-instrumentos>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_OPERACION</label>
+						<bcs-input-date class="col-xs-8" k-ng-model="filtros.fechaOperacion"></bcs-input-date>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarOrdenes(apiGridOrdenes,filtros)"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- FIN BOTONES -->
+	<div class="row">
+		<bcs-grid id="grid-ordenes-por-negociar-rep"
+			fn-doble-click="abrirDetalle(ordenesSeleccionadas)"
+			fn-exportar-excel = "exportarExcel"
+			api = "apiGridOrdenes"
+			seleccionado="ordenesSeleccionadas"
+			configuracion="defaultOptionsNew">
+			<div bcs-grid-detail ng-non-bindable>
+                <div class="row" >
+                    <uib-tabset class="col-xs-5">
+                        <uib-tab heading="{{'UI_COLATERALES' | translate}}">
+                           <bcs-grid configuracion = "confGarantia(dataItem)"
+                                seleccionado = "garantiaSeleccionadas">
+                            </bcs-grid>
+                        </uib-tab>
+                     </uib-tabset>  
+                </div>
+            </div>
+		</bcs-grid>
+	</div>
+		
+		<!-- INICIO PANEL COMANDOS -->
+	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-3">
+			<!-- <bcs-button  class="col-xs-6" bcs-auto-desactivar="'false'" bcs-texto="'UI_RUTEAR' | translate" bcs-habilitado="'true'"  bcs-clic="rutearOrdenes(ordenesSeleccionadas,operadorRuteo,bolsaRuteo)"></bcs-button> -->
+			<bcs-button  class="col-xs-6" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_OFERTA_MANUAL' | translate" 
+			bcs-habilitado="ordenesSeleccionadas"  bcs-clic="cantarOrdenes(ordenesSeleccionadas)"></bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-3 col-xs-offset-1">
+			<span class="row"><label translate>UI_CANTIDAD_COMPRAS</label><label>:</label>{{sumaCompras}}</span>
+			<span class="row"><label translate>UI_CANTIDAD_VENTAS</label><label>:</label>{{sumaVentas}}</span>
+			<span class="row"><label translate>UI_PRECIO_MENOR</label><label>:</label>{{precioMenor}}</span>
+			<span class="row"><label translate>UI_PRECIO_MAYOR</label><label>:</label>{{precioMayor}}</span>
+		</div>
+		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li translate ng-click="exportarExcel()">UI_EXPORTAR_EXCEL</li>
+		</bcs-menu>
+		
+	</div>
+</div>

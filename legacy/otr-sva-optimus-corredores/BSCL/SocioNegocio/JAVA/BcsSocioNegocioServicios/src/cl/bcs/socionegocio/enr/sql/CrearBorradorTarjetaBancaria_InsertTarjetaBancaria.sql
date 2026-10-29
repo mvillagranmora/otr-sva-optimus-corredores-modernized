@@ -1,0 +1,21 @@
+INSERT INTO "BSCL.SocioNegocio.BD::ENR.TarjetaBancaria"
+(
+"IdTarjetaBancaria"
+,"IdBanco"
+,"IdTipoTarjetaBancaria"
+,"NumeroTarjetaBancaria"
+,"IdEnrolamiento"
+,"FechaVencimiento"
+,"CodigoVerificacion"
+,"IdTarjetaBancariaPersona"
+)
+VALUES(
+:IdTarjetaBancaria
+,:IdBanco
+,:IdTipoTarjetaBancaria
+,:NumeroTarjetaBancaria
+,:IdEnrolamiento
+,:FechaVencimiento
+,:CodigoVerificacion
+,:IdTarjetaBancariaPersona
+);

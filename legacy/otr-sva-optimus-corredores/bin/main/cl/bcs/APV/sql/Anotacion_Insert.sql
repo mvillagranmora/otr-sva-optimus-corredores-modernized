@@ -1,0 +1,33 @@
+insert into "BSCL.APV.BD::REC.Anotacion" 
+(
+	"IdAnotacion",
+	"IdRecaudacion",
+	"FechaAnotacion",
+	"IdMotivoAnotacion",
+	"Titulo",
+	"Detalle",
+	"FechaIngreso",
+	"FechaCreacion",
+	"FechaModificacion",
+	"IdUsuarioCreador",
+	"IdRelevanciaAnotacion",
+	"IdAmbitoAnotacion",
+	"ValidoDesde",
+	"ValidoHasta"					
+)
+values(	
+	 :IdAnotacion
+	,:IdRecaudacion
+	,:FechaAnotacion
+	,:IdMotivo
+	,:Titulo
+	,:Detalle
+	,:FechaIngreso
+	,CURRENT_UTCTIMESTAMP
+	,CURRENT_UTCTIMESTAMP
+	,:IdUsuarioCreador
+	,:IdRelevancia
+	,:IdAmbito
+	,:FechaDesde
+	,:FechaHasta	
+);

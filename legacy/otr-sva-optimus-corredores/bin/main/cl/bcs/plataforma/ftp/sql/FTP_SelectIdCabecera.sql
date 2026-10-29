@@ -1,0 +1,1 @@
+SELECT "BSCL.Plataforma.BD.Secuencias::Cabecera".NEXTVAL AS "IdCabecera" FROM DUMMY;

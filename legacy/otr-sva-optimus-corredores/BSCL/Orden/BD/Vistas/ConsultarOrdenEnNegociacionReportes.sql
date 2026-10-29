@@ -1,0 +1,134 @@
+SET SCHEMA "BSCL"; 
+GO
+DROP VIEW "BSCL.Orden.BD.Vistas::ConsultarOrdenEnNegociacionReportes"; 
+GO
+CREATE VIEW "BSCL.Orden.BD.Vistas::ConsultarOrdenEnNegociacionReportes" 
+AS SELECT 
+ORD."IdOrden" 
+,ORD."FechaRecepcion" 
+,ORD."FechaIngresoRegistro" 
+,ORD."FechaIngresoRegistroCorta" 
+,ORD."FechaSolicitudAnulacion" 
+,ORD."FechaAnulacion" 
+, ORD."FechaOperacion" AS "FechaOperacionOrden" 
+,ORD."FechaVigencia" 
+,ORD."FechaVencimiento" 
+,ORD."FechaEmision" 
+,ORD."FechaLiquidacion" 
+,ORD."FechaAceptacion" 
+,ORD."FechaAutorizacion" 
+,ORD."IdTipoVigenciaOrden" 
+, ORD."Glosa" as "GlosaOrden" 
+,ORD."IdEstadoOrden" 
+, "ESTORDEN"."Nombre" AS "EstadoOrden" 
+, ORD."Cantidad"  as "CantidadOrden"
+,ORD."MontoOrden" 
+,ORD."IdFormaCustodia" 
+, "visi"."Nombre" as "PorcentajeVisibilidad"
+,ORD."ValorRescate" 
+,ORD."IdTipoReajuste" 
+,ORD."PrecioOrden" 
+,ORD."PrecioMercado" 
+,ORD."TasaRFIF" 
+,ORD."TasaSimultanea" 
+,ORD."TasaVentaCorta" 
+,ORD."PlazoIF"
+,ORD."PlazoSimultanea"
+,ORD."PlazoVentaCorta"
+,ORD."PlazoReporte"
+,ORD."EsVentaCorta"
+,"BSCL.Plataforma.BD.Utilitarios::ObtenerTraduccion"(ORD."EsVentaCorta") as "EsVentaCortaUI"
+,ORD."IndicadorFacturacionInmediata" 
+,ORD."IdTipoPrecio" 
+, "TipoPrecioOrden"."Nombre" as "TipoPrecio" 
+,ORD."IdTipoTasa" 
+,ORD."ValorCaptacion" 
+,ORD."IdCondicionDeLiquidacion" 
+, "CondicionDeLiquidacion_$3"."Nombre" AS "NombreCondicionDeLiquidacion" 
+,ORD."IdTipoOperacion" 
+,ORD."IdCliente" 
+, "ConsultarCliente_$2"."RazonSocial" 
+, "ConsultarCliente_$2"."NombreCompleto" 
+, "ConsultarCliente_$2"."DocumentoIdentidad" 
+,ORD."IdPortafolioCliente"  as "IdPortafolio"
+, "ConsultarPortafolio_$0"."CodigoPortafolio" 
+,ORD."IdGrupoCobro" 
+,ORD."IdTipoCanalIngreso" 
+, "TipoCanalIngreso_$11"."Nombre" AS "NombreCanal" 
+,ORD."IdLibroOrdenes" 
+, "LibroOrden"."NombreLibroOrdenes" 
+,ORD."IdEmisor" 
+,ORD."IdEmpresa" 
+,ORD."IdBolsa" 
+, CASE ORD."IdBolsa" WHEN '0' THEN 'UI_TODOS' ELSE "Bolsa_$1"."Nombre" END as "NombreBolsa"
+,ORD."IdInstrumento" 
+,estAsig."IdEstadoAsignacion" 
+, "ESTASIGNACION"."Nombre" AS "EstadoOrdenAsignacion" 
+, "TipoInstrumento_$9"."IdTipoInstrumento" AS "IdTipoInstrumento"
+, "ClasificacionTipoInstrumento_$10"."IdClasificacionTipoInstrumento"
+, "ClasificacionTipoInstrumento_$10"."Nombre" AS "NombreClasificacionTipoInstrumento" 
+, "Instrumento_$8"."Nemotecnico" AS "Instrumento"
+
+--SUBYACENTE
+, ORD."IdInstrumentoSubyacente"
+, "Instrumento_ASOC"."Nemotecnico" AS "InstrumentoSubyacente"
+, "TipoInstrumento_ASOC"."IdTipoInstrumento" AS "IdTipoInstrumentoSubyacente"
+, "TipoInstrumento_ASOC"."Nombre" AS "NombreTipoInstrumentoSubyacente"
+, "TipoInstrumento_ASOC"."IdClasificacionTipoInstrumento" AS "IdClasificacionTipoInstrumentoSubyacente"
+, "ClasificacionTipoInstrumento_ASOC"."Nombre" AS "NombreClasificacionTipoInstrumentoSubyacente"
+
+, CASE WHEN "TipoInstrumento_$9"."IdClasificacionTipoInstrumento" = 'RE' THEN ORD."IdInstrumentoSubyacente" ELSE ORD."IdInstrumento" END AS "IdInstrumentoUI"
+, CASE WHEN "TipoInstrumento_$9"."IdClasificacionTipoInstrumento" = 'RE' THEN "Instrumento_ASOC"."Nemotecnico" ELSE "Instrumento_$8"."Nemotecnico" END AS "InstrumentoUI"
+
+,ORD."IdTipoCanalDistribucion"
+, "CanalDistribucion"."Nombre" as "NombreCanalDistribucion"
+, "Instrumento_$8"."Tamano"
+, "Instrumento_$8"."IdMoneda" AS "IdMonedaInstrumento" 
+, ORD."IdMonedaOrden" AS "IdMonedaOrden"
+, "TipoInstrumento_$9"."Nombre" AS "NombreTipoInstrumento" 
+, "TipoOperacion_$12"."Nombre" AS "NombreTipoOperacion" 
+, "TipoOperacion_$12"."Accion" AS "AccionTipoOperacion" 
+, "TipoOperacion_$12"."Accion" AS "AccionOrden" 
+, "ConsultarDisponibleOrden_$4"."CantidadDisponible" AS "CantidadDisponibleOrden" 
+, "ConsultarDisponibleOrden_$4"."CantidadAsignada" AS "CantidadAsignadaOrden"
+, "FormaCustodia"."Nombre" AS "NombreFormaCustodia" 
+, ORD."EsConfirmada"
+FROM   "BSCL.Orden.BD::ORD.Orden" AS ORD
+LEFT JOIN "BSCL.Orden.BD::ORD.TipoFormaCustodiaOrden" AS "FormaCustodia" ON  "FormaCustodia"."IdTipoFormaCustodiaOrden" = ORD."IdFormaCustodia"
+LEFT JOIN "BSCL.Orden.BD.Vistas::ConsultarEstadoAsignacionOrden" as estAsig on estAsig."IdOrden" = ORD."IdOrden"
+LEFT JOIN "BSCL.Plataforma.BD::INS.Bolsa" AS "Bolsa_$1" ON "Bolsa_$1"."IdBolsa" = ORD."IdBolsa"
+LEFT JOIN "BSCL.Orden.BD::ORD.PorcentajeVisibilidad" AS "visi" ON "visi"."IdPorcentajeVisibilidad" = ORD."IdPorcentajeVisibilidad"
+LEFT JOIN "BSCL.Portafolio.BD.Vistas::ConsultarPortafolio" AS "ConsultarPortafolio_$0" ON ORD."IdPortafolioCliente" = "ConsultarPortafolio_$0"."IdPortafolio"
+LEFT JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" AS "ConsultarCliente_$2" ON "ConsultarCliente_$2"."IdCliente" = "ConsultarPortafolio_$0"."IdCliente"
+LEFT JOIN "BSCL.Plataforma.BD::PLA.CondicionDeLiquidacion" AS "CondicionDeLiquidacion_$3" ON "CondicionDeLiquidacion_$3"."IdCondicionDeLiquidacion" = ORD."IdCondicionDeLiquidacion"
+LEFT JOIN "BSCL.Orden.BD.Vistas::ConsultarDisponibleOrden" AS "ConsultarDisponibleOrden_$4" ON "ConsultarDisponibleOrden_$4"."IdOrden" = ORD."IdOrden"
+LEFT JOIN "BSCL.Orden.BD::ORD.TipoPrecioOrden" AS "TipoPrecioOrden" ON "TipoPrecioOrden"."IdTipoPrecioOrden" = ORD."IdTipoPrecio"
+
+--estado orden
+LEFT JOIN "BSCL.Orden.BD::ORD.EstadoOrden" AS "EstadoOrden_$5" ON "EstadoOrden_$5"."IdEstado" = ORD."IdEstadoOrden" AND "EstadoOrden_$5"."NombreEntidad" = 'ORDEN'
+LEFT JOIN "BSCL.Plataforma.BD::PLA.Estado" AS "ESTORDEN" ON "ESTORDEN"."IdEstado" = "EstadoOrden_$5"."IdEstado"
+
+--estado orden asignacion
+LEFT JOIN "BSCL.Orden.BD::ORD.EstadoOrden" AS "EstadoOrden_$6" ON "EstadoOrden_$6"."IdEstado" = estAsig."IdEstadoAsignacion" AND "EstadoOrden_$6"."NombreEntidad" = 'ORDEN.ASIGNACION'
+LEFT JOIN "BSCL.Plataforma.BD::PLA.Estado" AS "ESTASIGNACION" ON "ESTASIGNACION"."IdEstado" = "EstadoOrden_$6"."IdEstado"
+
+LEFT JOIN "BSCL.Plataforma.BD::INS.Instrumento" AS "Instrumento_$8" ON "Instrumento_$8"."IdInstrumento" = ORD."IdInstrumento"
+LEFT JOIN "BSCL.Plataforma.BD::INS.TipoInstrumento" AS "TipoInstrumento_$9" ON "TipoInstrumento_$9"."IdTipoInstrumento" = "Instrumento_$8"."IdTipoInstrumento"
+LEFT JOIN "BSCL.Plataforma.BD::INS.ClasificacionTipoInstrumento" AS "ClasificacionTipoInstrumento_$10" ON  ( "ClasificacionTipoInstrumento_$10"."IdClasificacionTipoInstrumento" = "TipoInstrumento_$9"."IdClasificacionTipoInstrumento" )  
+
+--SUBYACENTE
+LEFT JOIN "BSCL.Plataforma.BD::INS.Instrumento" AS "Instrumento_ASOC" ON  "Instrumento_ASOC"."IdInstrumento" = ORD."IdInstrumentoSubyacente"
+LEFT JOIN "BSCL.Plataforma.BD::INS.TipoInstrumento" AS "TipoInstrumento_ASOC" ON "TipoInstrumento_ASOC"."IdTipoInstrumento" = "Instrumento_ASOC"."IdTipoInstrumento"
+LEFT JOIN "BSCL.Plataforma.BD::INS.ClasificacionTipoInstrumento" AS "ClasificacionTipoInstrumento_ASOC" ON "ClasificacionTipoInstrumento_ASOC"."IdClasificacionTipoInstrumento" = "TipoInstrumento_ASOC"."IdClasificacionTipoInstrumento"
+LEFT JOIN "BSCL.Plataforma.BD::PLA.TipoCanalIngreso" AS "TipoCanalIngreso_$11" ON "TipoCanalIngreso_$11"."IdTipoCanalIngreso" = ORD."IdTipoCanalIngreso"
+LEFT JOIN "BSCL.Plataforma.BD::INS.TipoOperacion" AS "TipoOperacion_$12" ON "TipoOperacion_$12"."IdTipoOperacion" = ORD."IdTipoOperacion"
+LEFT JOIN "BSCL.Orden.BD::ORD.LibroOrdenes" AS "LibroOrden" ON "LibroOrden"."IdLibroOrdenes" = ORD."IdLibroOrdenes"
+LEFT JOIN "BSCL.Orden.BD::ORD.TipoCanalDistribucion" AS "CanalDistribucion" ON "CanalDistribucion"."IdTipoCanalDistribucion" = ORD."IdTipoCanalDistribucion"
+
+
+WHERE ORD."IdEstadoOrden" = 'OFE' AND ORD."IdTipoCanalIngreso" IN ('AGE') AND ORD."IdTipoCanalDistribucion" = 'MAN'
+AND ORD."IdClasificacionTipoInstrumento" = 'RE'
+;
+GO
+GRANT SELECT ON "BSCL.Orden.BD.Vistas::ConsultarOrdenEnNegociacionReportes" TO  BCS_DESARROLLADOR WITH GRANT OPTION; 
+GO

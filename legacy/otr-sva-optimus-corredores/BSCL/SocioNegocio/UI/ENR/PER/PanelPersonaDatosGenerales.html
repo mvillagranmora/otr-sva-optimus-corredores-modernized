@@ -1,0 +1,522 @@
+<div id="PanelPersonaDatosGenerales" class="row" ng-controller="PanelEnrolamientoPersonaDatosGeneralesEnrolCtrl as ppdg" bcs-enter="''">
+	<ng-form class="col-xs-12 form-horizontal" name="ppdg.formCrearCliente">
+		<div ng-show="ppdg.datosCargados">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_TIPO_PERSONA</label>
+					<bcs-combobox-base
+						class="col-xs-7"
+						cache="true"
+						tipo="'combobox-tipo-persona'"
+						id-actual="ppdg.dataPersona.CodigoTipoPersona"
+						id-defecto="ppdg.dataPersonaOriginal.CodigoTipoPersona"
+						activado="ppdg.pantalla.deshabilitado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div ng-show="ppdg.configForm.TipoPersona === 'N'">
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_NOMBRES</label>
+						<bcs-input-texto
+							id="formCrearCliente_nombres"
+							k-ng-disabled="!ppdg.pantalla.modoEdicion"
+							class="col-xs-7"
+							ng-model="ppdg.dataPersona.Nombres"
+							name="PersonaNombres"
+							bcs-requerido = " ppdg.configForm.TipoPersona === 'N' && ppdg.camposRequeridos['formCrearCliente_nombres'].Requerido === 'S'">
+						</bcs-input-texto>
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_APELLIDO_PATERNO</label>
+						<bcs-input-texto
+							id="formCrearCliente_apellidoPaterno"
+							k-ng-disabled="!ppdg.pantalla.modoEdicion"
+							class="col-xs-7"
+							ng-model="ppdg.dataPersona.ApellidoPaterno"
+							name="PersonaApellidoPaterno"
+							bcs-requerido=" ppdg.configForm.TipoPersona === 'N' && ppdg.camposRequeridos['formCrearCliente_apellidoPaterno'].Requerido === 'S'">
+						</bcs-input-texto>
+					</div>
+				</div>
+				<!-- <div class="row" ng-show="ppdg.configForm.TipoPersona === 'N'"> -->
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_APELLIDO_MATERNO</label>
+						<bcs-input-texto
+							id="formCrearCliente_apellidoMaterno"
+							k-ng-disabled="!ppdg.pantalla.modoEdicion"
+							class="col-xs-7"
+							ng-model="ppdg.dataPersona.ApellidoMaterno"
+							name="PersonaApellidoMaterno"
+							bcs-requerido = " ppdg.configForm.TipoPersona === 'N' && ppdg.camposRequeridos['formCrearCliente_apellidoMaterno'].Requerido === 'S'">
+						</bcs-input-texto>
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_GENERO</label>
+						<bcs-combobox-base
+							id="formPersonaDatosGenerales_genero"
+							class="col-xs-7"
+							cache="true"
+							tipo="'combobox-tipo-genero'"
+							filtros="ppdg.oConfiguracionTipoGenero.filtros"
+							id-actual="ppdg.dataPersona.Sexo"
+							id-defecto="ppdg.dataPersonaOriginal.Sexo"
+							activado="ppdg.pantalla.modoEdicion"
+							auto-cargar="true"
+							bcs-requerido = " ppdg.configForm.TipoPersona === 'N' && ppdg.camposRequeridos['formCrearCliente_genero'].Requerido === 'S'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+			<div class="row" ng-show="ppdg.configForm.TipoPersona !== 'N'">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_RAZON_SOCIAL</label>
+					<bcs-input-texto
+						id="formPersonaDatosGenerales_razonSocial"
+						class="col-xs-7"
+						k-ng-disabled="!ppdg.pantalla.modoEdicion"
+						ng-model="ppdg.dataPersona.RazonSocial"
+						name="PersonaRazonSocial"
+						bcs-requerido=" ppdg.configForm.TipoPersona !== 'N' && ppdg.camposRequeridos['formCrearCliente_razonSocial'].Requerido === 'S'"
+					></bcs-input-texto>
+				</div>
+				<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_NOMBRE_FANTASIA</label>
+					<bcs-input-texto 
+						 id="formPersonaDatosGenerales_nombreFantasia"
+					     class="col-xs-7"
+						 cache="true"
+						 k-ng-disabled="!ppdg.pantalla.modoEdicion"
+						 bcs-requerido="ppdg.configForm.TipoPersona !== 'N' && ppdg.camposRequeridos['formPersonaDatosGenerales_nombreFantasia'].Requerido === 'S'"
+						 ng-model="ppdg.dataPersona.NombreFantasia">
+					</bcs-input-texto>
+			  	</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4">{{ppdg.configForm.TipoPersona === 'N'?'UI_PAIS_NACIMIENTO':'UI_PAIS_CONSTITUCION'| translate}}</label>
+					<bcs-combobox-base
+						id="formCrearCliente_paisNacimiento"
+						class="col-xs-7"
+						tipo="'combobox-pais'"
+						cache="true"
+						id-actual="ppdg.dataPersona.IdPaisNacimiento"
+						id-defecto="ppdg.dataPersonaOriginal.IdPaisNacimiento"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true"
+						bcs-requerido = "ppdg.camposRequeridos['formCrearCliente_paisNacimiento'].Requerido === 'S'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_TRANSPARENCIA_FISCAL</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_transparenciaFiscal"
+						class="col-xs-7"
+						tipo="'combobox-transparencia-fiscal'"
+						cache="true"
+						k-ng-model="ppdg.dataPersona.IdTransparenciaFiscal"
+						id-actual="ppdg.dataPersona.IdTransparenciaFiscal"
+						id-defecto="ppdg.dataPersonaOriginal.IdTransparenciaFiscal"
+						auto-cargar="true"
+						activado="ppdg.pantalla.deshabilitado"><!-- "true" -->
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_RESIDENCIA_TRIBUTARIA_EXTRANJERA</label>
+					<bcs-input-checkbox
+						id="formPersonaDatosGenerales_residenciaTributariaExtranjera"
+						ng-disabled="!ppdg.pantalla.modoEdicion"
+						class="col-xs-8"
+						name="ResidenciaTributariaExtranjera"
+						ng-model="ppdg.dataPersona.ResidenciaTributariaExtranjera">
+					</bcs-input-checkbox>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4">{{ppdg.configForm.TipoPersona === 'N'?'UI_PAIS_RESIDENCIA':'UI_PAIS_CASA_MATRIZ'| translate}}</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_paisResidencia_paisCasaMatriz"
+						class="col-xs-7"
+						tipo="'combobox-pais'"
+						cache="true"
+						seleccionado="ppdg.cmbbxPaisResidenciaObj"
+						id-actual="ppdg.dataPersona.IdPaisResidencia"
+						id-defecto="ppdg.dataPersonaOriginal.IdPaisResidencia"
+						activado="ppdg.pantalla.modoEdicion && ppdg.dataPersona.ResidenciaTributariaExtranjera"
+						auto-cargar="true"
+						bcs-requerido="ppdg.dataPersona.ResidenciaTributariaExtranjera && ppdg.camposRequeridos['personaDatosGenerales_paisResidencia'].Requerido === 'S'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row" ng-show="ppdg.configForm.TipoPersona === 'N'">
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona === 'N'">
+					<label class="col-xs-4" translate>UI_NACIONALIDAD_PRINCIPAL</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_nacionalidadPrincipal"
+						class="col-xs-7"
+						tipo="'combobox-pais'"
+						cache="true"
+						id-actual="ppdg.dataPersona.IdPaisNacionalidadPrincipal"
+						id-defecto="ppdg.dataPersonaOriginal.IdPaisNacionalidadPrincipal"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true"
+						bcs-requerido=" ppdg.configForm.TipoPersona === 'N' && ppdg.camposRequeridos['formPersonaDatosGenerales_nacionalidadPrincipal'].Requerido === 'S'"> 
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona === 'N'">
+					<label class="col-xs-4" translate>UI_RANGO_RENTA</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_rangoRenta"
+						class="col-xs-7"
+						tipo="'combobox-rango-renta'"
+						id-actual="ppdg.dataPersona.CodigoRangoRenta"
+						id-defecto="ppdg.dataPersonaOriginal.CodigoRangoRenta"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true"
+						bcs-requerido="ppdg.configForm.TipoPersona === 'N' && ppdg.camposRequeridos['formPersonaDatosGenerales_rangoRenta'].Requerido === 'S'"> 
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>{{ppdg.configForm.TipoPersona === 'N'?'UI_FECHA_NACIMIENTO':'UI_FECHA_CONSTITUCION'| translate}}</label>
+					<bcs-input-date
+						id="formCrearCliente_fechaNacimiento"
+						bcs-requerido="ppdg.camposRequeridos['formCrearCliente_fechaNacimiento'].Requerido === 'S'"
+						k-ng-disabled="!ppdg.pantalla.modoEdicion"
+						class="col-xs-7"
+						k-options="ppdg.kOptFechaNacimiento"
+						k-ng-model="ppdg.dataPersona.FechaNacimiento"
+						todo-dias="true">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona !== 'N'">
+					<label class="col-xs-4" translate>UI_INICIO_ACTIVIDAD</label>
+					<bcs-input-date
+						id="formPersonaDatosGenerales_inicioActividad"
+						k-ng-disabled="!ppdg.pantalla.modoEdicion"
+						class="col-xs-7"
+						k-ng-model="ppdg.dataPersona.FechaInicioActividad"
+						k-options="ppdg.kOptFechaInicioActividad"
+						bcs-requerido=" ppdg.configForm.TipoPersona !== 'N' && ppdg.camposRequeridos['formPersonaDatosGenerales_inicioActividad'].Requerido === 'S'"> 
+					</bcs-input-date>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona === 'N'">
+					<label class="col-xs-4" translate>UI_ESTADO_CIVIL</label>
+					<bcs-combobox-base
+						class="col-xs-7"
+						id="estadoCivil"
+						tipo="'combobox-estado-civil'"
+						cache="true"
+						id-actual="ppdg.dataPersona.EstadoCivil"
+						id-defecto="ppdg.dataPersonaOriginal.EstadoCivil"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true"
+						bcs-requerido = " ppdg.configForm.TipoPersona === 'N' && ppdg.camposRequeridos['formCrearCliente_estadoCivil'].Requerido === 'S'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona !== 'N'">
+					<label class="col-xs-4" translate>UI_GLOBAL_LEGAL_ENTITY</label>
+					<bcs-input-texto
+						id="formPersonaDatosGenerales_globalLegalEntity"
+						k-ng-disabled="!ppdg.pantalla.modoEdicion"
+						class="col-xs-7"
+						bcs-requerido=" ppdg.configForm.TipoPersona !== 'N' && ppdg.camposRequeridos['formPersonaDatosGenerales_globalLegalEntity'].Requerido === 'S'"
+						ng-model="ppdg.dataPersona.GlobalLegalEntity">
+					</bcs-input-texto>
+				</div>
+			</div>
+			<div class="row" ng-show="ppdg.configForm.TipoPersona === 'N' && (ppdg.dataPersona.EstadoCivil === 'CA' || ppdg.dataPersona.EstadoCivil === 'CC')">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>{{ppdg.dataPersona.EstadoCivil === 'CA'?'UI_CONYUGE':'UI_CONVIVIENTE_CIVIL'}}</label>
+					<bcs-combobox-base
+						class="col-xs-4"
+						cache="true"
+						tipo="'combobox-socio-negocio'"
+						filtros="ppdg.oConfiguracionRelacionado.filtros"
+						id-actual="ppdg.dataPersona.IdSocNegPersonaConyuge"
+						id-defecto="ppdg.dataPersonaOriginal.IdSocNegPersonaConyuge"
+						seleccionado="ppdg.RelacionadoObj"
+						auto-cargar="true"
+						bcs-requerido=" ppdg.configForm.TipoPersona === 'N' && (ppdg.dataPersona.EstadoCivil === 'CA' || ppdg.dataPersona.EstadoCivil === 'CC') && ppdg.camposRequeridos['formCrearCliente_conyuge'].Requerido === 'S'"
+						activado="ppdg.pantalla.modoEdicion"
+						carga-cliente-automatico="true"> </bcs-combobox-base>
+					<bcs-button
+						id="formPersonaDatosGenerales_crearPersonaConyuge"
+						class="col-xs-3"
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-habilitado="ppdg.pantalla.modoEdicion && !ppdg.dataPersona.IdSocNegPersonaConyuge"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_CREAR_PERSONA' | translate"
+						bcs-clic="ppdg.crearConyuge()"> </bcs-button>
+				</div>
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona === 'N' && ppdg.SesionLocale!=='PE' && (ppdg.dataPersona.EstadoCivil === 'CA' || ppdg.dataPersona.EstadoCivil === 'CC')">
+					<label class="col-xs-4" translate>UI_REGIMEN_CONYUGAL</label>
+					<bcs-combobox-base
+						id="formCrearCliente_regimenConyugal"
+						class="col-xs-7"
+						tipo="'combobox-regimen-conyugal'"
+						cache="true"
+						filtros="ppdg.oConfiguracionRegimenConyugal.filtros"
+						id-actual="ppdg.dataPersona.RegimenConyugal"
+						id-defecto="ppdg.dataPersonaOriginal.RegimenConyugal"
+						bcs-requerido = " ppdg.configForm.TipoPersona === 'N' && ppdg.SesionLocale!=='PE' && (ppdg.dataPersona.EstadoCivil === 'CA' || ppdg.dataPersona.EstadoCivil === 'CC')"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true"> 
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row" ng-show="ppdg.configForm.TipoPersona !== 'N'">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_REPRESENTANTE_LEGAL</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_representanteLegal"
+						class="col-xs-7"
+						cache="false"
+						filtros="ppdg.oConfiguracionRelacionadoRepLegal.filtros" 
+						tipo="'combobox-representante-legal-enrolar'"
+						id-actual="ppdg.dataPersona.IdPersonaRepresentante"
+						id-defecto="ppdg.dataPersonaOriginal.IdPersonaRepresentante"
+						seleccionado="ppdg.RelacionadoObj"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar='true'
+						bcs-requerido=" ppdg.configForm.TipoPersona !== 'N' && ppdg.camposRequeridos['formPersonaDatosGenerales_representanteLegal'].Requerido === 'S'">> 
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona !== 'N'">
+					<label class="col-xs-4" translate>UI_RANGO_NIVEL_VENTA</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_rangoNivelVenta"
+						class="col-xs-7"
+						tipo="'combobox-rango-nivel-venta'"
+						id-actual="ppdg.dataPersona.CodigoRangoNivelVenta"
+						id-defecto="ppdg.dataPersonaOriginal.CodigoRangoNivelVenta"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true"
+						bcs-requerido="ppdg.configForm.TipoPersona !== 'N' && ppdg.camposRequeridos['formPersonaDatosGenerales_rangoNivelVenta'].Requerido === 'S'"> 
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row" ng-show="!admSoc.formConfig.showGiroCIIU">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_GIRO</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_giro"
+						class="col-xs-7"	
+						filtros="ppdg.oConfiguracionGiro.filtros"
+						tipo="'combobox-giro'"
+						id-actual="ppdg.dataPersona.IdGiroPrincipal"
+						id-defecto="ppdg.dataPersonaOriginal.IdGiroPrincipal"
+						activado="ppdg.pantalla.modoEdicion"
+						seleccionado="ppdg.GiroPrincipalObj"
+						bcs-requerido=" !admSoc.formConfig.showGiroCIIU && ppdg.camposRequeridos['formPersonaDatosGenerales_giro'].Requerido === 'S'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row" ng-show="ppdg.configForm.TipoPersona === 'N'">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_PROFESION_ACTIVIDAD</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_profesionActividad"
+						class="col-xs-7"
+						tipo="'combobox-profesion'"
+						cache="true"
+						id-actual="ppdg.dataPersona.IdProfesion"
+						id-defecto="ppdg.dataPersonaOriginal.IdProfesion"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true"
+						bcs-requerido=" ppdg.configForm.TipoPersona === 'N' && ppdg.camposRequeridos['formPersonaDatosGenerales_profesionActividad'].Requerido === 'S'"> 
+					</bcs-combobox-base>
+				</div>
+				
+			</div>
+			<div class="row" ng-show="ppdg.configForm.TipoPersona === 'N' && ppdg.TipoCargoObj.UtilizaDetalle=== 'S'">
+				<div class="col-xs-6"></div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_DETALLE_CARGO</label>
+					<bcs-input-texto
+						id="formPersonaDatosGenerales_detalleCargo"
+						k-ng-disabled="!ppdg.pantalla.modoEdicion"
+						class="col-xs-7"
+						ng-model="ppdg.dataPersona.DetalleCargo"
+						name="DetalleCargo"
+						bcs-requerido=" ppdg.configForm.TipoPersona === 'N' && ppdg.TipoCargoObj.UtilizaDetalle=== 'S' && ppdg.camposRequeridos['formPersonaDatosGenerales_detalleCargo'].Requerido === 'S'"> 
+					</bcs-input-texto>
+				</div>
+			</div>
+			<!-- <div class="row" ng-show="ppdg.configForm.TipoPersona === 'N' && (admSoc.formConfig.showGradoInstruccion || admSoc.formConfig.showAnosServicio)">
+			  	<div class="col-xs-6" ng-show="admSoc.formConfig.showGradoInstruccion">
+				  	<label class="col-xs-4" translate>UI_GRADO_INSTRUCCION</label>
+				  	<bcs-combobox-base class="col-xs-7"
+						tipo="'combobox-grado-instruccion'" 
+						id-actual="ppdg.dataPersona.IdGradoInstruccion" 
+						id-defecto="ppdg.dataPersonaOriginal.IdGradoInstruccion" 
+						auto-cargar="true"
+						cache="true"
+						activado="ppdg.pantalla.modoEdicion">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6" ng-show="admSoc.formConfig.showAnosServicio">
+			  		<label class="col-xs-4" translate>UI_ANOS_SERVICIO</label>
+			  		<bcs-input-numero 
+						k-ng-disabled="!ppdg.pantalla.modoEdicion" class="col-xs-7" decimales="0"
+						k-ng-model="ppdg.dataPersona.AgnosServicio" name="agnosservicio">
+					</bcs-input-numero>				
+			  	</div>
+		  	</div> -->
+			<div class="row" ng-show="ppdg.configForm.TipoPersona !== 'N'&& admSoc.formConfig.showGiroCIIU">
+				<div class="col-xs-6" ng-show="admSoc.formConfig.showGiroCIIU">
+					<label class="col-xs-4" translate>UI_GIRO</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_giroCIIU"
+						class="col-xs-7"
+						tipo="'combobox-giro'"
+						filtros="ppdg.oConfiguracionGiroCIIU.filtros"
+						id-actual="ppdg.dataPersona.IdGiroCIIU"
+						id-defecto="ppdg.dataPersonaOriginal.IdGiroCIIU"
+						auto-cargar="true"
+						cache="true"
+						activado="ppdg.pantalla.modoEdicion"
+						bcs-requerido=" ppdg.configForm.TipoPersona !== 'N' && admSoc.formConfig.showGiroCIIU"
+						> </bcs-combobox-base>
+				</div>
+			</div>
+			
+			
+			<div class="row" >
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona === 'N'">
+					<label class="col-xs-4" translate>UI_SITUACION_LABORAL</label>
+					<bcs-combobox-base id="formPersonaDatosGenerales_situacionLaboral"
+						bcs-requerido="ppdg.camposRequeridos['formPersonaDatosGenerales_situacionLaboral'].Requerido === 'S'"
+						class="col-xs-7"
+						tipo="'combobox-situacion-laboral'"
+						cache="true"
+						id-actual="ppdg.dataPersona.IdSituacionLaboral"
+						id-defecto="ppdg.dataPersonaOriginal.IdSituacionLaboral"
+						seleccionado="ppdg.SituacionLaboral"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true">
+					</bcs-combobox-base>	
+				</div>
+			
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona === 'N' && ppdg.dataPersona.IdSituacionLaboral === 'EMPL'">
+					<label class="col-xs-4" translate>UI_EMPLEADOR</label>
+				  <bcs-combobox-base id="formPersonaDatosGenerales_empleador"
+					  bcs-requerido="ppdg.configForm.TipoPersona === 'N'  && ppdg.dataPersona.IdSituacionLaboral == 'EMPL'"
+					  class="col-xs-5"
+					  tipo="'combobox-socio-negocio'" 
+					  cache="true"
+					  filtros="configData.filtroEmpleador" 
+					  id-actual="ppdg.dataPersona.IdSocNegPersonaEmpleador"
+					  id-defecto="ppdg.dataPersonaOriginal.IdSocNegPersonaEmpleador" 
+					  seleccionado="ppdg.RelacionadoEmpleadorObj"
+					  activado="ppdg.pantalla.modoEdicion"
+					  carga-cliente-automatico="'S'">
+				  </bcs-combobox-base>
+				  <bcs-button id="ModalRelacion_crearPersona" 
+					  class="col-xs-2" bcs-tipo="'bcs-button-input-form'" 
+					  bcs-habilitado="ppdg.pantalla.modoEdicion && !ppdg.dataPersona.IdSocNegPersonaEmpleador" 
+					  bcs-auto-desactivar="false" 	
+					  bcs-texto="'UI_CREAR_EMPLEADOR' | translate" 
+					  bcs-clic="ppdg.crearPersona()">
+				  </bcs-button>
+				</div>
+					
+				<div class="col-xs-6" ng-show="ppdg.dataPersona.IdSituacionLaboral === 'EMPL'">
+					<label class="col-xs-4" translate>UI_CARGO</label>
+				  <bcs-combobox-base id="formPersonaDatosGenerales_cargo"
+					  class="col-xs-7"
+					  tipo="'combobox-tipo-cargo-persona'"
+					  cache="true"
+					  id-actual="ppdg.dataPersona.CodigoTipoCargoEmpleado"
+					  id-defecto="ppdg.dataPersonaOriginal.CodigoTipoCargoEmpleado"	
+					  activado="ppdg.pantalla.modoEdicion"
+					  seleccionado="ppdg.TipoCargoObj"
+					  bcs-requerido="ppdg.configForm.TipoPersona === 'N' && ppdg.dataPersona.IdSituacionLaboral === 'EMPL'"
+					  auto-cargar="true"
+					  name="TipoCargo">
+				  </bcs-combobox-base>				
+				</div>
+				
+				<div class="row" ng-show="ppdg.configForm.TipoPersona === 'N' && ppdg.TipoCargoObj.UtilizaDetalle=== 'S' && ppdg.dataPersona.IdSituacionLaboral === 'EMPL'">
+					<div class="col-xs-6">
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_DETALLE_CARGO</label>
+						<bcs-input-texto id="formPersonaDatosGenerales_detalleCargo"
+								bcs-requerido="ppdg.configForm.TipoPersona === 'N' && ppdg.TipoCargoObj.UtilizaDetalle === 'S'"
+							k-ng-disabled="!ppdg.pantalla.modoEdicion" class="col-xs-7"
+							ng-model="ppdg.dataPersona.DetalleCargo" name="DetalleCargo">
+						</bcs-input-texto>
+	
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_RANGO_PATRIMONIO</label>
+					<bcs-combobox-base
+						id="formPersonaDatosGenerales_rangoPatrimonio"
+						bcs-requerido="ppdg.camposRequeridos['formPersonaDatosGenerales_rangoPatrimonio'].Requerido === 'S'"
+						class="col-xs-7"
+						tipo="'combobox-rango-patrimonio'"
+						cache="true"
+						id-actual="ppdg.dataPersona.IdRangoPatrimonio"
+						id-defecto="ppdg.dataPersonaOriginal.IdRangoPatrimonio"
+						seleccionado="ppdg.RangoPatrimonioObj"
+						activado="ppdg.pantalla.modoEdicion"
+						auto-cargar="true"> 
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6" ng-show="ppdg.configForm.TipoPersona === 'N' && admSoc.formConfig.showIngresoPromedioMensual">
+					<label class="col-xs-4" translate>UI_INGRESO_PROMEDIO_MENSUAL</label>
+					<bcs-input-monetario
+						id="formPersonaDatosGenerales_ingresoPromedioMensual"
+						bcs-requerido="ppdg.configForm.TipoPersona === 'N' && admSoc.formConfig.showIngresoPromedioMensual && ppdg.camposRequeridos['formPersonaDatosGenerales_ingresoPromedioMensual'].Requerido === 'S'"
+						k-ng-disabled="!ppdg.pantalla.modoEdicion"
+						class="col-xs-7"
+						simbolo="admSoc.formConfig.defaultSimboloMonedaSistema"
+						ng-model="ppdg.dataPersona.IngresoPromedioMensual"
+						name="IngresoPromedioMensual"> 
+					</bcs-input-monetario>
+				</div>
+			</div>
+			<br>
+		</div>
+	</ng-form>
+	<div class="row"></div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button
+			id="PanelPersonaDatosGenerales_editar"
+			class="col-xs-2"
+			bcs-tipo="'bcs-button-primary'"
+			ng-show="!ppdg.pantalla.modoEdicion"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_EDITAR' | translate"
+			bcs-habilitado="!ppdg.pantalla.modoEdicion && !ppdg.dataSolicitudCambio.CambiosPendientes"
+			bcs-clic="ppdg.editarPPDG()"></bcs-button>
+		<bcs-button
+			id="PanelPersonaDatosGenerales_guardar"
+			class="col-xs-2"
+			bcs-tipo="'bcs-button-primary'"
+			ng-show="ppdg.pantalla.modoEdicion"
+			bcs-auto-desactivar="true"
+			bcs-texto="'UI_GUARDAR' | translate"
+			bcs-habilitado="ppdg.botonGuardarActivado"
+			bcs-clic="ppdg.guardarPPDG()">
+		</bcs-button>
+		<bcs-button
+			id="PanelPersonaDatosGenerales_solAutEnrol"
+			class="col-xs-3"
+			bcs-tipo="'bcs-button-secondary'"
+			ng-show="!ppdg.pantalla.modoEdicion && ppdg.dataPersona.IdEstado === 'PEN'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_SOLICITAR_AUTORIZACION_ENROLAMIENTO' | translate"
+			bcs-habilitado="!ppdg.pantalla.modoEdicion"
+			bcs-clic="ppdg.solicitarEventoAutorizacion()"></bcs-button>
+	</div>
+</div>

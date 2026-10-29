@@ -1,0 +1,1 @@
+SELECT "IdAnotacion" FROM "BSCL.Portafolio.BD::POR.Anotacion" WHERE "IdAnotacion" IN (:idsAnotaciones);

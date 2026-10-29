@@ -1,0 +1,74 @@
+<div id="PanelFormaPagoMesa" class="row" ng-controller="PanelFormaPagoMesaCtrl as pFormaPagoMesa">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			
+	       <div class="col-xs-6">
+		  	   <label class="col-xs-3" translate>UI_TIPO_PRODUCTO</label>
+                <bcs-combobox-base class="col-xs-8"
+		              tipo="pFormaPagoMesa.data.oConfiguracionTipoProducto.tipo"
+                      seleccionado="pFormaPagoMesa.data.oConfiguracionTipoProducto.seleccionado"
+                      filtros="pFormaPagoMesa.data.oConfiguracionTipoProducto.filtros"
+                      id-actual="pFormaPagoMesa.data.oConfiguracionTipoProducto.idActual"
+                      configuracion= "pFormaPagoMesa.data.oConfiguracionTipoProducto"
+                      todos = "'S'"
+                      id-defecto="'0'">
+		        </bcs-combobox-base>
+		  	</div>
+		  	<div class="col-xs-6">
+                 <label class="col-xs-3" style="text-align:center" translate>UI_ESTADO</label>
+                 <bcs-combobox-base class="col-xs-8"
+                     tipo="pFormaPagoMesa.data.oConfiguracionEstado.tipo"
+                     seleccionado="pFormaPagoMesa.data.oConfiguracionEstado.seleccionado"
+                     filtros="pFormaPagoMesa.data.oConfiguracionEstado.filtros"
+                     id-actual="pFormaPagoMesa.data.oConfiguracionEstado.idActual"
+                     configuracion= "pFormaPagoMesa.data.oConfiguracionEstado"
+                     todos = "'S'"
+                     id-defecto="'0'">
+                 </bcs-combobox-base>
+            </div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pFormaPagoMesa.data.buscarFormaPagoMesa(pFormaPagoMesa.data.gridApiFormaPagoMesa,pFormaPagoMesa.data)"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pFormaPagoMesa.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		
+	<div class="row">
+		<!-- Grilla -->
+		<bcs-grid id="grid-formaPagoMesa"
+            fn-exportar-excel = "exportarExcel"
+            configuracion  = "pFormaPagoMesa.data.confBasicaFormaPagoMesa"
+            seleccionado   = "pFormaPagoMesa.data.seleccionFormaPagoMesa"
+            api            = "pFormaPagoMesa.data.gridApiFormaPagoMesa"
+            fn-doble-click = "pFormaPagoMesa.fn.modificarFormaPago('MODIFICAR')"  >
+        </bcs-grid>
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+    <div class="row bcs-panel-comandos">
+        <bcs-button  class="col-xs-2"
+        	id="PanelFormaPagoMesa_Agregar" 
+            bcs-tipo="'bcs-button-primary'"           
+            bcs-auto-desactivar="false"  
+            bcs-texto="'UI_AGREGAR' | translate" 
+            bcs-habilitado="pFormaPagoMesa.data.HabilitaBotones" 
+            bcs-clic="pFormaPagoMesa.fn.modificarFormaPago('CREAR')">
+        </bcs-button>
+        <bcs-button  class="col-xs-2"
+        	id="PanelFormaPagoMesa_Modificar" 
+            bcs-tipo="'bcs-button-secondary'"           
+            bcs-auto-desactivar="false"  
+            bcs-texto="'UI_MODIFICAR' | translate" 
+            bcs-habilitado="pFormaPagoMesa.data.seleccionFormaPagoMesa !== undefined && pFormaPagoMesa.data.seleccionFormaPagoMesa && pFormaPagoMesa.data.HabilitaBotones" 
+            bcs-clic="pFormaPagoMesa.fn.modificarFormaPago('MODIFICAR')">
+        </bcs-button>
+        <bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+            <li ng-click="exportarExcel(NombreArchivo)">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+    </div>
+</div>

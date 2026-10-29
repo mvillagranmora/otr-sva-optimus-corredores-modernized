@@ -1,0 +1,104 @@
+<div id="ModalShortName" class="row" ng-controller="administrarmodSNCtrl as modSN">
+	<uib-tabset>
+        <div class="row">
+            <form name="formModalShortName" class="col-xs-12 form-horizontal">
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_SHORTNAME</label>
+                    <bcs-input-texto 
+                        class="col-xs-4" 
+                        bcs-requerido
+                        maxlength="40"
+                        ng-model="modSN.datosDespues.ShortName"
+                        k-ng-disabled="!modSN.win.modoCrear">
+                    </bcs-input-texto>
+                    </bcs-input-checkbox> 
+                </div>
+                <div class="row">
+                    <label class="col-xs-2" translate>UI_HABILITADO</label>
+                    <bcs-input-checkbox class="col-xs-8"
+                        ng-model="modSN.datosDespues.Habilitado">
+                    </bcs-input-checkbox>
+                </div>
+                <div class="row">
+                    <div class="row">
+                        <label class="col-xs-2" translate>UI_CLIENTE</label>
+                        <bcs-combobox-base class="col-xs-4"
+                            id="UI_SOCIO_NEGOCIO"
+                            bcs-requerido
+                            auto-cargar="'false'"
+                            tipo="'combobox-socio-negocio'"
+                            filtros="modSN.cbbx.socio.filtros"
+                            cascada-a="modSN.cbbx.portafolio.filtros.IdCliente"
+                            cascada-valor="'IdCliente'"
+                            cascada-defecto="-1"
+                            id-actual="modSN.datosDespues.IdSocioDeNegocio"
+                            id-defecto="modSN.datosDespues.IdSocioDeNegocioPost"
+                            buscar='socio_texto'
+                            configuracion= "modSN.cbbx.socio.configuracion">
+                            
+                        </bcs-combobox-base >
+                        <label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+                        <bcs-combobox-base class="col-xs-4"
+                            id="UI_PORTAFOLIO"
+                            auto-cargar="'false'"
+                            bcs-requerido
+                            tipo="'combobox-portafolio'"
+                            filtros="modSN.cbbx.portafolio.filtros"
+                            usa-filtros-completos="'S'"
+                            id-post-filtro="modSN.datosDespues.IdPortafolioPost"
+                            id-actual="modSN.datosDespues.IdPortafolio"
+                            configuracion= "modSN.cbbx.portafolio.configuracion" >
+                        </bcs-combobox-base >
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <label class="col-xs-12 k-window-subtitle" translate>UI_CONFIGURACION</label>	
+                        <table class="table col-xs-12">
+                            <thead>
+                                <tr>
+                                    <td width="5%"  translate>UI_CODIGO</td>
+                                    <td width="50%"  translate>UI_TIPO_INSTRUMENTO</td>
+                                    <td width="15%"  translate>UI_ASIGNACION_AUTOMATICA</td>
+                                    <td width="15%"  translate>UI_MOV_FACTURAR_AUTOMATICO</td>
+                                    <td width="15%"  translate>UI_COMPROBANTE_AUTOMATICO</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="val in modSN.datosDespues.listaTipoInstrumentos">
+                                    <td>{{val.IdTipoInstrumento}}</td>
+                                    <td>{{val.NombreTipoInstrumento}}</td>
+                                    <td>
+                                        <bcs-input-checkbox ng-model="val.AsignacionAuto" ng-click="modSN.cambiarAsignacionAuto(val)"></bcs-input-checkbox>
+                                    </td>
+                                    <td>
+                                        <bcs-input-checkbox ng-model="val.MovimientoFacturarAuto" ng-click="modSN.cambiarMovimientoFacturarAuto(val)"></bcs-input-checkbox>
+                                    </td>
+                                    <td>
+                                        <bcs-input-checkbox ng-model="val.ComprobanteAuto" ng-click="modSN.cambiarComprobanteAuto(val)"></bcs-input-checkbox>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr>
+                <div class="row col-xs-12 bcs-panel-comandos alignButtonsToRight">
+                    <bcs-button class="col-xs-2" 
+                        bcs-tipo="'bcs-button-secondary'" 
+                        bcs-auto-desactivar="false" 
+                        bcs-texto="'UI_CANCELAR' | translate" 
+                        bcs-habilitado="'true'" 
+                        bcs-clic="modSN.win.cancelar();">
+                    </bcs-button>
+                    <bcs-button class="col-xs-2" 
+                        bcs-tipo="'bcs-button-primary'" 
+                        bcs-auto-desactivar="false" 
+                        bcs-texto="'UI_GUARDAR' | translate" 
+                        bcs-habilitado="formModalShortName.$valid"
+                        bcs-clic="modSN.win.guardar();">
+                    </bcs-button>
+                </div>
+            </form>	
+        </div>		
+	</uib-tabset>
+</div>

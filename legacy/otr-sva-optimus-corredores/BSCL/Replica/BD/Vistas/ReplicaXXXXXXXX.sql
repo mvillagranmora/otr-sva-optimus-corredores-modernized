@@ -1,0 +1,11 @@
+SET SCHEMA "BSCL";
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaXXXXXXX";
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaXXXXXXX" AS
+
+SELECT * FROM dummy AS DUM
+INNER JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'NOMBRE_TABLA' AND WST."Key" = DUM."Key"
+
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaXXXXXXX" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

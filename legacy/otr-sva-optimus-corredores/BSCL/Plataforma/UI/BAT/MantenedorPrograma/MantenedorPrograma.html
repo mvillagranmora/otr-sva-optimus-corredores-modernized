@@ -1,0 +1,98 @@
+<div class="row" ng-controller='MantenedorTareasCtrl'>
+	<div class="row">
+		<div class="col-xs-10">
+			<div class ="row">  
+				<label class="col-xs-2" translate>UI_TIPO_PROGRAMA</label>  
+				<bcs-combobox-base class="col-xs-4"
+					tipo="'combobox-tipo-procesos'"
+					seleccionado="conf.oConfiguracionTipoProcesos.seleccionado"
+					id-actual = "conf.oConfiguracionTipoProcesos.idActual"
+					todos="'S'"
+					item-post-filtro="'1'"    
+					activado="true">
+				</bcs-combobox-base>
+				<label class="col-xs-2" translate>UI_ESTADO</label>  
+				<bcs-combobox-base class="col-xs-4"
+					tipo="'combobox-estado-programa'"
+					id-actual = "conf.IdEstadoPrograma"
+					todos="'S'"
+					item-post-filtro="'1'">
+				</bcs-combobox-base>
+					
+            </div> 
+            <div class="row">				
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+					<bcs-input-date class="col-xs-8" 
+						k-ng-model="conf.kngFechaDesde" 
+						ng-model="FechaLiquidacionDesde"
+					></bcs-input-date>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_FECHA_HASTA</label>					
+					<bcs-input-date class="col-xs-8" 
+						k-ng-model="conf.kngFechaHasta" 
+						ng-model="FechaLiquidacionHasta"
+					></bcs-input-date>
+				</div>
+			</div>	
+			
+			
+			<div class ="row">  
+				<label class="col-xs-2" translate>UI_USUARIO</label>  
+				<bcs-combobox-base class="col-xs-4"
+					tipo="'combobox-usuario'"
+					seleccionado="conf.oConfiguracionUsuario.seleccionado"
+					id-actual = "conf.oConfiguracionUsuario.idActual"
+					id-defecto = "conf.oConfiguracionUsuario.idDefecto"
+					todos="'S'"
+					filtros="conf.oConfiguracionUsuario.filtros"
+					activado="true">
+				</bcs-combobox-base>
+				<label class="col-xs-2" translate>UI_TIPO_SALIDA</label>  
+				<bcs-combobox-base class="col-xs-4"
+					tipo="'combobox-tipo-salida'"
+					seleccionado="conf.oConfiguracionTipoSalida.seleccionado"
+					id-actual = "conf.oConfiguracionTipoSalida.idActual"
+					id-defecto="conf.oConfiguracionTipoSalida.idDefecto"
+					todos="'S'"
+					item-post-filtro="'1'"    
+					activado="true">
+				</bcs-combobox-base>
+					
+            </div> 
+			
+		</div>
+		<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="BuscarTareas()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+		 </div>
+	</div>
+	<div class="row">
+		<label class="row" translate>UI_PROGRAMAS</label>  
+		<div class="row"> 
+			 <bcs-grid id="grid-tareasprogramadas"
+			 	configuracion ="tareasprogramdas"
+				seleccionado = "conf.seleccionadotareasprogramdas"
+				api = "gridApi"
+				fn-exportar-excel = "exportarExcel">
+	    	</bcs-grid> 
+		
+		</div>
+		
+		<div class="row bcs-panel-buttons">
+			<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-clic = "DescargarReporte(conf.seleccionadotareasprogramdas)" bcs-texto="'UI_VER_SALIDA' | translate" 
+				bcs-habilitado="conf.seleccionadotareasprogramdas && conf.seleccionadotareasprogramdas.TipoSalida === 'R' && conf.seleccionadotareasprogramdas.RutaSalida && conf.seleccionadotareasprogramdas.RutaSalida != ''"   ></bcs-button>
+			<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-clic = "DescargarLog(conf.seleccionadotareasprogramdas)" bcs-texto="'UI_VER_LOG' | translate" 
+				bcs-habilitado="conf.seleccionadotareasprogramdas && conf.seleccionadotareasprogramdas.TieneLog === 'S' && conf.seleccionadotareasprogramdas.RutaLog && conf.seleccionadotareasprogramdas.RutaLog != ''" ></bcs-button>
+
+			<bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+				<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

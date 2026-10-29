@@ -1,0 +1,78 @@
+<div  ng-controller="ConsultarAsuntosPendientesCtrl">
+    
+    <div class="row">
+        <div class="col-xs-10">
+                <!-- Inicio filtros de búsqueda -->
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label class="col-xs-4" translate>UI_NOMBRE</label>
+                        <bcs-input-texto class="col-xs-8" ng-model="data.nombre"></bcs-input-texto>
+                    </div>
+                    <div class="col-xs-6">
+                        <label class="col-xs-4" translate>UI_DOCUMENTO_IDENTIDAD</label>
+                        <bcs-input-texto class="col-xs-8" ng-model="data.documentoIdentidad"></bcs-input-texto>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label class="col-xs-4" translate>UI_ASUNTO</label>
+                        <bcs-combobox-base class="col-xs-8"
+                        id-actual = 'data.asunto'   
+                        tipo="'combobox-asuntos'"
+                        todos="'S'"
+                        id-defecto="'0'"
+                        item-post-filtro="data.Codigo">
+                        </bcs-combobox-base>
+                    </div>
+                    <div class="col-xs-6">
+                        <label class="col-xs-4" translate>UI_ESTADO</label>
+                        <bcs-combobox-base class="col-xs-8"
+                        id-actual = 'data.estado'   
+                        tipo="'combobox-asuntos-pendientes'"
+                        todos="'S'"
+                        id-defecto="'SNC'"
+                        item-post-filtro="data.idEstado">
+                        </bcs-combobox-base>
+                        <div class="cols-xs-2"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+                        <bcs-input-date class="col-xs-8" k-ng-model="data.fechaDesde"></bcs-input-date>
+                    </div>
+                    <div class="col-xs-6">
+                        <label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+                        <bcs-input-date class="col-xs-8" k-ng-model="data.fechaHasta"></bcs-input-date>
+                    </div>
+                </div>
+                <!-- Fin filtros de búsqueda -->
+        </div>
+        <div class="col-xs-2">  
+            <!-- botones -->
+            <bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="true"  bcs-clic="buscar()"></bcs-button>
+            <bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+        </div>
+    </div>
+    
+    <div class="row">
+        <bcs-grid id="grid-asuntos-pendientes"
+        fn-doble-click="funcionX()"
+        configuracion = "confGridAsuntosPendientes"
+        seleccionado = "seleccionAsuntoPendiente"
+        fn-exportar-excel = "exportarExcel">
+        </bcs-grid>
+    </div>
+
+    
+    <div class="row bcs-panel-comandos">
+        <bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_COMPLETAR' | translate" bcs-habilitado="seleccionAsuntoPendiente!=undefined"  bcs-clic="cambiarEstadoAsuntoPendiente('completar')"></bcs-button>
+        <bcs-button class="col-xs-2" bcs-tipo="'bcs-button-anular'"  bcs-auto-desactivar="false" bcs-texto="'UI_ANULAR' | translate" bcs-habilitado="seleccionAsuntoPendiente!=undefined"  bcs-clic="cambiarEstadoAsuntoPendiente('anular')"></bcs-button>
+        <bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_COMENTAR' | translate" bcs-habilitado="seleccionAsuntoPendiente!=undefined"  bcs-clic="comentar()"></bcs-button>
+        <div class="col-xs-4"></div>
+        <bcs-menu class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+    </div>
+    
+</div>

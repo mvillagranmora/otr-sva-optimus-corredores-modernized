@@ -1,0 +1,419 @@
+<div id="" ng-controller='ConfiguracionComprobantesCtrl'>
+	<div class="col-xs-12 bcs-cuerpo">
+		<div class="row" style="margin-bottom: 10px">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_EMPRESA</label>
+				<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'"
+					ng-model="Empresa"> </bcs-input-texto>
+			</div>
+		</div>
+		<uib-tabset> <!-- ********************************* TIPO DE COMPROBANTES ********************************* -->
+			<uib-tab select="select('TipoComprobantes')" heading="{{'UI_TIPO_COMPROBANTES' | translate}}">
+				<div class="row">
+					<div class="col-xs-7"><label class="col-xs-12" translate>UI_TIPOS_COMPROBANTE</label></div>
+					<div class="col-xs-5"><label class="col-xs-12" translate>UI_ASIENTOS_COMPROBANTE</label></div>
+				</div>
+			
+				<div class="row">					
+					<div class="col-xs-7">
+						<bcs-grid id=""
+							api="tipoComprobantes.tipoComprobantesApi"
+							seleccionado="grid.seleccionadoTiposComprobante"  
+							configuracion="tipoComprobantes.confTiposComprobantes"
+							fn-click="cargarAsientosCentralizaciones()"> </bcs-grid>								
+					</div>
+					<div class="col-xs-5">
+						<div class="col-xs-12">
+							<bcs-grid id="" seleccionado=""
+							 	configuracion="tipoComprobantes.confAsientosComprobante"></bcs-grid>
+						</div>
+						<div class="col-xs-12" style="margin-top: 13px">
+							<label class="col-xs-4" translate>UI_CENTRALIZACIONES_REQUERIDAS</label>
+						</div>
+						<div class="col-xs-12">
+							<bcs-grid id="" seleccionado=""
+								api = "asientos.centralizacionesRequeridasGridApi"
+								configuracion="tipoComprobantes.confCentralizacionesRequeridas"></bcs-grid>
+						</div>
+					</div>					
+				</div>
+				
+				<div class="row">					
+					<div class="col-xs-7">
+						<div class="col-xs-2" style="width: 12%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-primary'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_AGREGAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnIngresar(grid.seleccionadoTiposComprobante)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-2"  style="width: 14%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-secondary'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_MODIFICAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnModificar(grid.seleccionadoTiposComprobante)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-2" style="width: 12%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-secondary'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_APROBAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnAprobar(grid.seleccionadoTiposComprobante)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-2" style="width: 14%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-secondary'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_BLOQUEAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnBloquear(grid.seleccionadoTiposComprobante)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-2" style="width: 12%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-secondary'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_REPLICAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnReplicar(grid.seleccionadoTiposComprobante)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-2" style="width: 12%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-secondary'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_ELIMINAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnEliminar(grid.seleccionadoTiposComprobante)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-2" style="width: 12%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-secondary'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_CARGAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnCargar()">
+							</bcs-button>
+						</div>
+					</div>
+					<div class="col-xs-5">
+						<div class="col-xs-2 pull-right">
+							<bcs-button
+								bcs-tipo="'bcs-button-primary'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_AGREGAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnAgregar(grid.seleccionadoTiposComprobante)">
+							</bcs-button>
+						</div>
+					</div>					
+				</div>
+			</uib-tab> <!-- ********************************* CONFIGURAR ASIENTOS ********************************* -->
+			
+			<uib-tab select="select('ConfigurarAsientos')" heading="{{'UI_CONFIGURAR_ASIENTOS' | translate}}">
+				<div class="row">
+					<div class="col-xs-7">
+						<label class="col-xs-6" translate>UI_COMPROBANTE</label>
+						<bcs-input-texto class="col-xs-8" k-ng-disabled="'true'"
+							ng-model="filtros.tipoContabilizacion"> </bcs-input-texto>
+					</div>
+					<div class="col-xs-1">
+						<label class="col-xs-5" translate>UI_TIPO</label>
+						<bcs-input-texto class="col-xs-12" k-ng-disabled="'true'"
+							ng-model="filtros.tipoNombre"> </bcs-input-texto>
+					</div>
+					<div class="col-xs-1">
+						<label class="col-xs-5" translate>UI_ESTADO</label>
+						<bcs-input-texto class="col-xs-12" k-ng-disabled="'true'"
+							ng-model="filtros.estado"> </bcs-input-texto>
+					</div>
+				</div>
+				
+				
+				<div class="row" style="margin-top: 5px">
+					<div class="col-xs-3"><label class="col-xs-12" translate>UI_DATO</label></div>
+					<div class="col-xs-6 pull-right"><label class="col-xs-12" translate>UI_CONDICIONES_COMPROBANTE</label></div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-3">
+						<bcs-grid id="datosAsientosGrid"
+								seleccionado="grid.datosAsientoSeleccionado"  
+								configuracion="asientos.confAsientosDatos"
+								fn-click="cargarFiltros()"> </bcs-grid>
+					</div>
+					<div class="col-xs-3" style="padding-left: 30px">
+						<div class="row">
+							<div class="col-xs-10">
+								<div class="col-xs-3">  		
+							  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.igual" ng-disabled="inputs.igualDisabled">
+							  		<label class="col-xs-4" >=</label>
+								</div>
+								<div class="col-xs-3">  		
+							  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.distinto" ng-disabled="inputs.distintoDisabled">
+							  		<label class="col-xs-4" ><></label>
+								</div>
+								<div class="col-xs-3">  		
+							  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.mayorEstricto" ng-disabled="inputs.mayorEstrictoDisabled">
+							  		<label class="col-xs-4" >></label>
+								</div>
+								<div class="col-xs-3">  		
+							  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.menorEstricto" ng-disabled="inputs.menorEstrictoDisabled">
+							  		<label class="col-xs-4" ><</label>
+								</div>
+							</div>
+						</div>
+						<div class="row"><!-- background-color: #E7E7E7 -->
+							<div class="col-xs-10">
+								<select class="col-xs-12" style="" 
+									ng-model="inputs.valorCombo" 
+									ng-disabled="inputs.comboDisabled"
+									ng-options="eventos as eventos.Descripcion for eventos in inputs.comboboxEventos">
+									<!--  <option ng-repeat="dato in inputs.comboboxEventos">{{dato.Valor}}</option>-->
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<bcs-input-texto class="col-xs-12" k-ng-disabled="inputs.inputDisabled"
+									ng-model="inputs.valorDato"> </bcs-input-texto> 										
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<bcs-button  
+									class	="col-xs-12"  
+									bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_AGREGAR' | translate"
+									bcs-habilitado="true" bcs-clic="agregarCondicionComprobante()">
+								</bcs-button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<bcs-button  
+									class	="col-xs-12"  
+									bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_QUITAR' | translate"
+									bcs-habilitado="true" bcs-clic="eliminarCondicionComprobante(grid.seleccionadoCondComprobante)">
+								</bcs-button>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<bcs-grid id="gridCondicionesAsientos"
+							seleccionado="grid.seleccionadoCondComprobante"  
+							configuracion="asientos.condComprobanteConfiguracion"
+							fn-click=""> </bcs-grid>
+					</div>
+				</div>
+				
+				<div class="row" style="margin-top: 5px">
+					<div class="col-xs-8"><label class="col-xs-12" translate>UI_ASIENTOS</label></div>
+					<div class="col-xs-4 pull-right"><label class="col-xs-12" translate>UI_EVENTOS_ASIENTO</label></div>
+				</div>
+								
+				<div class="row">
+					<div class="col-xs-8">
+						<bcs-grid id="asientosGrid"
+							api = "asientos.asientosGridApi"
+							seleccionado="grid.seleccionadoAsiento"  
+							configuracion="asientos.confAsientos"
+							fn-click="cargarAsientosCondicionesEventos()"> </bcs-grid>
+					</div>
+					<div class="col-xs-4">
+						<bcs-grid id="gridEventosAsientos"
+							api = "asientos.asientosEventosGridApi"
+							seleccionado=""  
+							configuracion="asientos.confEventosAsientos"
+							fn-click=""> </bcs-grid>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="col-xs-1" style="width: 10%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_AGREGAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnIngresarAsiento(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-1" style="width: 11%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_MODIFICAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnModificarAsiento(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-1" style="width: 10%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_APROBAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnAprobarAsiento(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-1" style="width: 10%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_BLOQUEAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnBloquearAsiento(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-1" style="width: 10%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_REPLICAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnReplicarAsiento(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-1" style="width: 10%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_ELIMINAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnEliminarAsiento(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-2" style="width: 17.5%;">
+							<bcs-button  							 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_CONFIGURAR_GLOSA' | translate"
+								bcs-habilitado="true" bcs-clic="btnConfigurarGlosa(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+						<div class="col-xs-3" style="width: 21.5%;">
+							<bcs-button  							 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_AGREGAR_POR_METADATA' | translate"
+								bcs-habilitado="true" bcs-clic="btnAgregarMetadata(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="col-xs-2 pull-right" style="width: 20%;">
+							<bcs-button 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'"
+								bcs-texto="'UI_AGREGAR' | translate"
+								bcs-habilitado="true" bcs-clic="btnAgregarEventos(grid.seleccionadoAsiento)">
+							</bcs-button>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row" style="margin-top: 5px">
+					<div class="col-xs-6"><label class="col-xs-12" translate>UI_DATO</label></div>
+					<div class="col-xs-6"><label class="col-xs-12" translate>UI_CONDICIONES_ASIENTO</label></div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-3">
+						<bcs-grid id="datosAsientosGridB"
+							seleccionado="grid.datosBAsientoSeleccionado"  
+							configuracion="asientos.confAsientosDatosB"
+							fn-click="cargarFiltrosB()"> </bcs-grid>
+					</div>				
+					<div class="col-xs-3" style="padding-left: 30px">
+						<div class="row">
+							<div class="col-xs-10">
+								<div class="col-xs-3">  		
+							  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.igualB" ng-disabled="inputs.igualDisabledB">
+							  		<label class="col-xs-4" >=</label>
+								</div>
+								<div class="col-xs-3">  		
+							  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.distintoB" ng-disabled="inputs.distintoDisabledB">
+							  		<label class="col-xs-4" ><></label>
+								</div>
+								<div class="col-xs-3">  		
+							  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.mayorEstrictoB" ng-disabled="inputs.mayorEstrictoDisabledB">
+							  		<label class="col-xs-4" >></label>
+								</div>
+								<div class="col-xs-3">  		
+							  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.menorEstrictoB" ng-disabled="inputs.menorEstrictoDisabledB">
+							  		<label class="col-xs-4" ><</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<select class="col-xs-12" ng-model="inputs.valorComboB" ng-disabled="inputs.comboBDisabled" 
+									ng-options="eventosB as eventosB.Descripcion for eventosB in inputs.comboboxEventosB">
+									<!--<option ng-repeat="datoB in inputs.comboboxEventosB">{{datoB.Valor}}</option>-->
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<bcs-input-texto class="col-xs-12" k-ng-disabled="inputs.inputBDisabled"
+									ng-model="inputs.valorDatoB"> </bcs-input-texto>
+									
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<bcs-button  
+									class	="col-xs-12"  
+									bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_AGREGAR' | translate"
+									bcs-habilitado="true" bcs-clic="agregarCondicionAsiento()">
+								</bcs-button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<bcs-button  
+									class	="col-xs-12"  
+									bcs-tipo="'bcs-button-input-form'"
+									bcs-auto-desactivar="'false'"
+									bcs-texto="'UI_QUITAR' | translate"
+									bcs-habilitado="true" bcs-clic="eliminarCondicionComprobanteB(grid.seleccionadoCondAsiento)">
+								</bcs-button>
+							</div>
+						</div>					
+					</div>
+					<div class="col-xs-6">
+						<bcs-grid id="gridCondAsiento"
+							seleccionado="grid.seleccionadoCondAsiento"  
+							configuracion="asientos.confCondicionesAsiento"
+							fn-click=""> </bcs-grid>
+					</div>
+				</div>
+			</uib-tab>
+			<uib-tab heading="{{'UI_PLAN_DE_CUENTAS' | translate}}">
+				<div class="row">
+					<bcs-grid id="planDeCuentas" configuracion="planDeCuentas.configuracionGrid"> </bcs-grid>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 alignButtonsToRight" >
+						<bcs-button  
+							class	="col-xs-1"  
+							bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="'false'"
+							bcs-texto="'UI_REFRESCAR' | translate"
+							bcs-habilitado="true" bcs-clic="refrescarPlanCuentas()">
+						</bcs-button>
+						<bcs-button  
+							class	="col-xs-3"  
+							bcs-tipo="'bcs-button-primary'"
+							bcs-auto-desactivar="'false'"
+							bcs-texto="'UI_ACTUALIZAR_PLAN_DE_CUENTAS' | translate"
+							bcs-habilitado="true" bcs-clic="actualizarPlanCuentas()">
+						</bcs-button>
+					</div>
+				</div>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+</div>
+

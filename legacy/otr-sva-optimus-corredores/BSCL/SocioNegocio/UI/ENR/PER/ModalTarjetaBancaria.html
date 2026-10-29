@@ -1,0 +1,68 @@
+<div id="ModalTarjetaBancaria" ng-controller="ModalTarjetaBancariaEnrolCtrl as mtb">
+	<div class="row bcs-cuerpo">
+		<form name="formTarjetaBancaria" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_BANCO</label>
+				<bcs-combobox-base
+					id="formTarjetasBancarias_IdBanco"
+					class="col-xs-9"
+					bcs-requerido="mtb.camposRequeridos['formTarjetaBancaria_banco'].Requerido === 'S'"
+					tipo="'combobox-banco'" 
+					id-actual="mtb.TarjetaBancaria.IdBanco"
+					id-defecto="mtb.TarjetaBancariaOriginal.IdBanco"
+					id-post-filtro="mtb.TarjetaBancariaOriginal.IdBanco"
+					seleccionado="mtb.IdBancoObj">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_TARJETA_BANCO</label>
+				<bcs-combobox-base class="col-xs-9"
+					id="formTarjetasBancarias_IdTipoTarjetaBancaria"
+					bcs-requerido="mtb.camposRequeridos['formTarjetaBancaria_tipoTarjetaBanco'].Requerido === 'S'"
+					tipo="'combobox-tipo-tarjeta-banco'" 
+					id-actual="mtb.TarjetaBancaria.IdTipoTarjetaBancaria"
+					id-defecto="mtb.TarjetaBancariaOriginal.IdTipoTarjetaBancaria"
+					id-post-filtro="mtb.TarjetaBancariaOriginal.IdTipoTarjetaBancaria"
+					seleccionado="mtb.TipoTarjetaBancoObj">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_NUMERO_TARJETA</label>
+				<bcs-input-texto class="col-xs-9" 
+					id="formTarjetasBancarias_NumeroTarjetaBancaria"
+					bcs-requerido="mtb.TarjetaBancaria.IdTipoTarjetaBancaria !== 'TDEB' && mtb.camposRequeridos['formTarjetasBancarias_NumeroTarjetaBancaria'].Requerido === 'S'"
+					ng-model="mtb.TarjetaBancaria.NumeroTarjetaBancaria" 
+					placeholder="mtb.placeholder.numeroTarjeta" 
+					ng-blur="mtb.validaFormatoNroTarjeta()">
+				</bcs-input-texto>
+			</div>
+			<div class="row" ng-show="mtb.TarjetaBancaria.IdTipoTarjetaBancaria !== 'TDEB'">
+				<label class="col-xs-3" translate>UI_CODIGO_VERIFICACION</label>
+				<bcs-input-texto class="col-xs-9"
+					id="formTarjetasBancarias_CodigoVerificacion"
+					bcs-requerido="mtb.TarjetaBancaria.IdTipoTarjetaBancaria !== 'TDEB' && mtb.camposRequeridos['formTarjetaBancaria_codigoVerificacion'].Requerido === 'S'"
+					ng-model="mtb.TarjetaBancaria.CodigoVerificacion" 
+					placeholder="mtb.placeholder.codigoVerificacion" 
+					ng-blur="mtb.validaFormatoCodVerificacion()">
+				</bcs-input-texto>	
+			</div>
+			<div class="row" ng-show="mtb.TarjetaBancaria.IdTipoTarjetaBancaria !== 'TDEB'">
+				<label class="col-xs-3" translate>UI_FECHA_VENCIMIENTO</label>
+				<bcs-input-date 
+					id="formTarjetasBancarias_FechaVencimiento"
+					bcs-requerido="mtb.TarjetaBancaria.IdTipoTarjetaBancaria !== 'TDEB' && mtb.camposRequeridos['formTarjetasBancarias_FechaVencimiento'].Requerido === 'S'"
+					class="col-xs-9" 
+					k-options="mtb.kOptFechaVencimiento" 
+					k-ng-model="mtb.TarjetaBancaria.FechaVencimiento">
+				</bcs-input-date>	
+			</div>
+		</form>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="ModalTarjetaBancaria_aceptar" class="col-xs-2 pull-right" bcs-habilitado="formTarjetaBancaria.$valid" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="mtb.aceptar()"></bcs-button>
+		<bcs-button id="ModalTarjetaBancaria_cancelar" class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mtb.cancelar()"></bcs-button>
+	</div>
+</div>

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Contabilidad.BD::GBL.CentralizaGenerico_PROC_DatosMovimiento";

@@ -1,0 +1,162 @@
+<div class="row" ng-controller='ConsultarCustodiaGeneralCtrl'>	
+	<div class="row bcs-cuerpo" ng-form="frmConsultarCustodiaGeneral">
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				 
+				<div class="row">
+				  <div class="col-xs-4">
+				  	  <label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					  <bcs-combobox-base class="col-xs-8"  id = "frmConsultarCustodiaGeneral_Clasificacion"
+								tipo         	= "data.oConfiguracionClasificacion.tipo"
+								id-actual    	= "data.oConfiguracionClasificacion.idActual"
+								seleccionado 	= "data.oConfiguracionClasificacion.seleccionado"
+								id-post-filtro 	= "data.oConfiguracionClasificacion.idPostFiltro"
+								configuracion	= "data.oConfiguracionClasificacion.configuracion"
+								item-post-filtro="'1'"
+								cascada1-a		= "data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+								cascada1-valor	= "'IdClasificacionTipoInstrumento'"
+								cascada2-a		= "data.oConfiguracionInstrumento.filtros.IdClasificacionTipoInstrumento"
+								cascada2-valor	= "'IdClasificacionTipoInstrumento'"
+								todos			= "'S'">
+					  </bcs-combobox-base>  
+				  </div>
+				  <div class="col-xs-4">
+				  	  <label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					  <bcs-combobox-base class="col-xs-8"   id = "frmConsultarCustodiaGeneral_TipoInstrumento"
+								auto-cargar		= "'false'"
+								tipo			= "data.oConfiguracionTipoInstrumento.tipo"  
+								filtros			= "data.oConfiguracionTipoInstrumento.filtros"
+								configuracion	= "data.oConfiguracionTipoInstrumento.configuracion" 
+								id-actual 		= "data.oConfiguracionTipoInstrumento.idActual"
+								id-post-filtro 	= "data.oConfiguracionTipoInstrumento.idPostFiltro"
+								seleccionado	="data.oConfiguracionTipoInstrumento.seleccionado"								 
+								item-post-filtro="'1'"
+								cascada1-a		="data.oConfiguracionInstrumento.filtros.IdTipoInstrumento"
+								cascada1-valor	="'IdTipoInstrumento'"
+								todos="'S'">
+					  </bcs-combobox-base >
+				  </div>
+				  <div class="col-xs-4">
+				  	  <label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos  class="col-xs-8" id="frmConsultarCustodiaGeneral_Instrumento"
+							name					= "uInstrumento"
+							datos-instrumento		= "data.instrumentoDatos"
+							buscar-instrumento		= "data.oConfiguracionInstrumento.buscar"
+							filtro-tipo-instrumento = "data.oConfiguracionTipoInstrumento.idActual"
+							filtro-clasificacion	= "data.oConfiguracionClasificacion.idActual" 
+							filtro-estado 			= "['ACT','INA']"> <!-- "'INA'", "'ACT'","['ACT']", "['ACT','INA']", default ACT  -->
+						</bcs-input-instrumentos>
+				  </div>	
+				</div>				
+				
+				
+				<div class="row">		
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_BOVEDA</label>
+						  <bcs-combobox-base class="col-xs-8"   id = "frmConsultarCustodiaGeneral_Boveda"
+									auto-cargar		= "'true'"
+									tipo			= "'combobox-boveda'"
+									filtros			= "data.oConfiguracionBoveda.filtros"
+									configuracion	= "data.oConfiguracionBoveda.configuracion" 
+									id-actual 		= "data.oConfiguracionBoveda.idActual"
+									id-post-filtro 	= "data.oConfiguracionBoveda.idPostFiltro"
+									seleccionado	= "data.oConfiguracionBoveda.seleccionado"
+									activado        = "data.oConfiguracionBoveda.activado" 								 
+									item-post-filtro= "'1'"
+									todos			="'S'">
+						  </bcs-combobox-base>											  
+					</div>
+					<div class="col-xs-2">
+						<div class="col-xs-2">
+							<bcs-input-checkbox id="frmConsultarCustodiaGeneral_chkSeparaPorBoveda" ng-model="data.chkAgrupaPorBoveda"></bcs-input-checkbox>
+						</div>
+						<label class="col-xs-10" translate>UI_SEPARA_POR_BOVEDA</label>						
+					</div>
+					<div class="col-xs-2">
+						<div class="col-xs-2">
+							<bcs-input-checkbox id="frmConsultarCustodiaGeneral_chkSeparaPorRelacion" ng-model="data.chkAgrupaPorRelacion"></bcs-input-checkbox>							
+						</div>
+						<label class="col-xs-10" translate>UI_SEPARA_POR_RELACION</label>
+					</div>
+				</div>
+				
+				
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_CONSULTA</label>						
+						<bcs-input-date  class="col-xs-8"  id="frmConsultarCustodiaGeneral_FechaConsulta"
+							bcs-requerido
+							k-ng-model	= "data.kngFechaConsulta"
+							k-options	= "data.FechaConsultaOpt">				
+					</div>					
+					<div class="col-xs-2">
+						<div class="col-xs-2">
+							<bcs-input-checkbox id="frmConsultarCustodiaGeneral_chkFechaLiquidacion" ng-model="data.chkFechaLiquidacion"></bcs-input-checkbox>
+						</div>
+						<label class="col-xs-10" translate>UI_FECHA_LIQUIDACION</label>
+					</div>						
+					<div class="col-xs-2">					
+						<div class="col-xs-2">
+							<bcs-input-checkbox id="frmConsultarCustodiaGeneral_chkFechaAdquisicion" ng-model="data.chkFechaAdquisicion"></bcs-input-checkbox>
+						</div>
+						<label class="col-xs-10" translate>UI_FECHA_ADQUISICION</label>
+					</div>
+				</div>
+				
+			</div>
+			
+			<!-- FIN FILTROS -->
+				
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmConsultarCustodiaGeneral_BtnBuscar"
+					     bcs-tipo			= "'bcs-button-search'" 
+					     bcs-auto-desactivar= "'false'"					      
+					     bcs-texto			= "'UI_BUSCAR' | translate"  
+					     bcs-habilitado		= "frmConsultarCustodiaGeneral.$valid" 
+					     bcs-clic			= "buscar()" >
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmConsultarCustodiaGeneral_BtnLimpiar"
+						bcs-tipo			= "'bcs-button-secondary'"   
+						bcs-auto-desactivar	= "'false'" 
+						bcs-texto			= "'UI_LIMPIAR' | translate" 
+						bcs-habilitado		= "'true'" 
+						bcs-clic			= "limpiarFiltros()" >
+					</bcs-button>					
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+	
+
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="row">
+				<new-bcs-grid id="grid-custodia-general"
+					configuracion		= "confGrillaCustodiaGeneral"
+					seleccionado		= "seleccionCustodiaGeneral"
+					fn-exportar-excel	= "exportarExcel"
+					fn-doble-click      = "verCustodiaPortafolio(seleccionCustodiaGeneral)">
+				</new-bcs-grid>
+			</div>
+		</div>
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">				
+		<bcs-button  class="col-xs-2" id="frmConsultarCustodiaGeneral_btn_custodia_cliente"
+			bcs-tipo			= "'bcs-button-secondary'"  
+			bcs-auto-desactivar	= "false"  
+			bcs-texto			= "'UI_CUSTODIA_PORTAFOLIO' | translate" 
+			bcs-habilitado		= "seleccionCustodiaGeneral"
+			bcs-clic			= "verCustodiaPortafolio(seleccionCustodiaGeneral)">
+		</bcs-button>
+	</div>
+
+</div>
+</div>

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Custodia.BD::CUS.ConsultarCustodiaPortafolio_Portafolios" WHERE "IdTrabajo" = :IdTrabajo

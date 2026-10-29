@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="ClienteFatca" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Persona_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="Clasificacion_Fatca" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaFirmaFormularioFatca" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="AutorizacionInformarOrganismoFatca"/>
+        <viewAttribute datatype="NVARCHAR" id="ParticipacionMayor" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="OrdenesPermanentesParaTransferirFondos" length="100"/>
+        <viewAttribute datatype="BIGINT" id="Nacionalidad1"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreNacionalidad1" length="500"/>
+        <viewAttribute datatype="BIGINT" id="Nacionalidad2"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreNacionalidad2" length="500"/>
+        <viewAttribute datatype="BIGINT" id="Nacionalidad3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreNacionalidad3" length="500"/>
+        <viewAttribute datatype="BIGINT" id="Nacionalidad4"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreNacionalidad4" length="500"/>
+        <viewAttribute datatype="BIGINT" id="PaisResidencia"/>
+        <viewAttribute datatype="NVARCHAR" id="NombrePaisResidencia" length="500"/>
+        <viewAttribute datatype="NVARCHAR" id="ResidenteUSA" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="LugarDeNacimientoEnUSA" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="DomicilioOCodigoPostalEnUSA" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroTelefonoEnUSA" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="OrdenesPermanentesParaTransferirFondosEnUSA" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="FirmaAutorizadaQueSeConcedeAUnaPersonaConIndicios" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaCreacion" length="20"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaModificacion" length="20"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+     var_out = SELECT
+                    F.&quot;IdPersona&quot;
+                    ,F.&quot;NombreClasificacionFatca&quot; AS &quot;Clasificacion_Fatca&quot;
+                    ,TO_NVARCHAR(F.&quot;FechaFirmaFormulario&quot;) AS &quot;FechaFirmaFormularioFatca&quot;
+                    ,F.&quot;AutorizacionInformarOrganismo&quot; AS &quot;AutorizacionInformarOrganismoFatca&quot;
+                    ,F.&quot;ParticipacionSociedadesUSA&quot; AS &quot;ParticipacionMayor&quot;
+                    ,F.&quot;OrdenPermanente&quot; AS &quot;OrdenesPermanentesParaTransferirFondos&quot;
+                    ,F.&quot;IdPaisNacionalidad1&quot; AS &quot;Nacionalidad1&quot;
+                    ,CASE WHEN F.&quot;IdPaisNacionalidad1&quot; = 0 THEN NULL ELSE P1.&quot;NombrePais&quot; END  as &quot;NombreNacionalidad1&quot;
+                    ,F.&quot;IdPaisNacionalidad2&quot; AS &quot;Nacionalidad2&quot;
+                    ,CASE WHEN F.&quot;IdPaisNacionalidad2&quot; = 0 THEN NULL ELSE P2.&quot;NombrePais&quot; END  as &quot;NombreNacionalidad2&quot;
+                    ,F.&quot;IdPaisNacionalidad3&quot; AS &quot;Nacionalidad3&quot;
+                    ,CASE WHEN F.&quot;IdPaisNacionalidad3&quot; = 0 THEN NULL ELSE P3.&quot;NombrePais&quot; END  as &quot;NombreNacionalidad3&quot;
+                    ,F.&quot;IdPaisNacionalidad4&quot; AS &quot;Nacionalidad4&quot;
+                    ,CASE WHEN F.&quot;IdPaisNacionalidad4&quot; = 0 THEN NULL ELSE P4.&quot;NombrePais&quot; END  as &quot;NombreNacionalidad4&quot;
+                    ,F.&quot;IdPaisResidencia&quot; AS &quot;PaisResidencia&quot;
+                    ,CASE WHEN F.&quot;IdPaisResidencia&quot; = 0 THEN NULL ELSE P5.&quot;NombrePais&quot; END  as &quot;NombrePaisResidencia&quot;
+                    ,F.&quot;ExcepcionResidente&quot; AS &quot;ResidenteUSA&quot;
+                    ,F.&quot;ExcepcionNacimiento&quot; AS &quot;LugarDeNacimientoEnUSA&quot;
+                    ,F.&quot;ExcepcionDomicilio&quot; AS &quot;DomicilioOCodigoPostalEnUSA&quot;
+                    ,F.&quot;ExcepcionTelefono&quot; AS &quot;NumeroTelefonoEnUSA&quot;
+                    ,F.&quot;ExcepcionOrdenPermanente&quot; AS &quot;OrdenesPermanentesParaTransferirFondosEnUSA&quot;
+                    ,F.&quot;ExcepcionFirma&quot; AS &quot;FirmaAutorizadaQueSeConcedeAUnaPersonaConIndicios&quot;
+                    ,F.&quot;FechaCreacion&quot;
+                    ,F.&quot;FechaModificacion&quot;
+                FROM &quot;BSCL.SocioNegocio.BD.Vistas::PER.ConsultarPersonaFatca&quot; F
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Pais&quot; P1 ON P1.&quot;IdPais&quot; = F.&quot;IdPaisNacionalidad1&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Pais&quot; P2 ON P2.&quot;IdPais&quot; = F.&quot;IdPaisNacionalidad2&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Pais&quot; P3 ON P3.&quot;IdPais&quot; = F.&quot;IdPaisNacionalidad3&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Pais&quot; P4 ON P4.&quot;IdPais&quot; = F.&quot;IdPaisNacionalidad4&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Pais&quot; P5 ON P5.&quot;IdPais&quot; = F.&quot;IdPaisResidencia&quot;;
+                
+                
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdPersona" hidden="false" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="Clasificacion_Fatca" hidden="false" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Clasificacion_Fatca"/>
+      </attribute>
+      <attribute id="FechaFirmaFormularioFatca" hidden="false" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaFirmaFormularioFatca"/>
+      </attribute>
+      <attribute id="AutorizacionInformarOrganismoFatca" hidden="false" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="AutorizacionInformarOrganismoFatca"/>
+      </attribute>
+      <attribute id="ParticipacionMayor" hidden="false" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="ParticipacionMayor"/>
+      </attribute>
+      <attribute id="OrdenesPermanentesParaTransferirFondos" hidden="false" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="OrdenesPermanentesParaTransferirFondos"/>
+      </attribute>
+      <attribute id="Nacionalidad1" hidden="false" order="7">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Nacionalidad1"/>
+      </attribute>
+      <attribute id="NombreNacionalidad1" hidden="false" order="8">
+        <descriptions defaultDescription="NombreNacionalidad1"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreNacionalidad1"/>
+      </attribute>
+      <attribute id="Nacionalidad2" hidden="false" order="9">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Nacionalidad2"/>
+      </attribute>
+      <attribute id="NombreNacionalidad2" hidden="false" order="10">
+        <descriptions defaultDescription="NombreNacionalidad2"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreNacionalidad2"/>
+      </attribute>
+      <attribute id="Nacionalidad3" hidden="false" order="11">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Nacionalidad3"/>
+      </attribute>
+      <attribute id="NombreNacionalidad3" hidden="false" order="12">
+        <descriptions defaultDescription="NombreNacionalidad3"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreNacionalidad3"/>
+      </attribute>
+      <attribute id="Nacionalidad4" hidden="false" order="13">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Nacionalidad4"/>
+      </attribute>
+      <attribute id="NombreNacionalidad4" hidden="false" order="14">
+        <descriptions defaultDescription="NombreNacionalidad4"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreNacionalidad4"/>
+      </attribute>
+      <attribute id="PaisResidencia" hidden="false" order="15">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="PaisResidencia"/>
+      </attribute>
+      <attribute id="NombrePaisResidencia" hidden="false" order="16">
+        <descriptions defaultDescription="NombrePaisResidencia"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombrePaisResidencia"/>
+      </attribute>
+      <attribute id="ResidenteUSA" hidden="false" order="17">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="ResidenteUSA"/>
+      </attribute>
+      <attribute id="LugarDeNacimientoEnUSA" hidden="false" order="18">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="LugarDeNacimientoEnUSA"/>
+      </attribute>
+      <attribute id="DomicilioOCodigoPostalEnUSA" hidden="false" order="19">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DomicilioOCodigoPostalEnUSA"/>
+      </attribute>
+      <attribute id="NumeroTelefonoEnUSA" hidden="false" order="20">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroTelefonoEnUSA"/>
+      </attribute>
+      <attribute id="OrdenesPermanentesParaTransferirFondosEnUSA" hidden="false" order="21">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="OrdenesPermanentesParaTransferirFondosEnUSA"/>
+      </attribute>
+      <attribute id="FirmaAutorizadaQueSeConcedeAUnaPersonaConIndicios" hidden="false" order="22">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FirmaAutorizadaQueSeConcedeAUnaPersonaConIndicios"/>
+      </attribute>
+      <attribute id="FechaCreacion" hidden="false" order="23">
+        <descriptions defaultDescription="FechaCreacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="FechaModificacion" hidden="false" order="24">
+        <descriptions defaultDescription="FechaModificacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaModificacion"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

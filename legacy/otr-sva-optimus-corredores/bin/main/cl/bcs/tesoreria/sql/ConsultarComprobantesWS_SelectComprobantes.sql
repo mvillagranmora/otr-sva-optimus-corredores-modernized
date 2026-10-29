@@ -1,0 +1,101 @@
+SELECT 
+COMP."IdComprobante", 
+COMP."IdEmpresa", 
+COMP."NombreEmpresa", 
+COMP."IdUsuario", 
+COMP."TipoComprobante", 
+COMP."IdTipoMovimiento", 
+COMP."NombreTipoMovimiento", 
+COMP."IdConcepto", 
+COMP."NombreConcepto", 
+COMP."IdCaja", 
+COMP."NombreCaja", 
+COMP."CodigoCaja", 
+COMP."IdMoneda", 
+COMP."NombreMoneda", 
+COMP."Monto",
+COMP."MontoEgreso",
+COMP."MontoIngreso",
+COMP."MontoConSigno",
+COMP."FechaLiquidacion",
+COMP."FechaIngresoRegistro",
+COMP."FechaMovimiento",
+COMP."IdTipoPersona",
+COMP."NombreTipoSocioDeNegocio",
+COMP."IdPersona",
+COMP."NombrePersona",
+COMP."IdTipoDocumentoIdentidad",
+COMP."DocumentoIdentidad",
+COMP."TitularPago",
+COMP."IdTipoPersonaTitularPago",
+COMP."IdPersonaTitularPago",
+COMP."NombrePersonaTitularPago",
+COMP."MueveCuentaInversion",
+COMP."IdPortafolioTitularPago",
+COMP."NombrePortafolioTitularPago",
+COMP."SecuenciaAgrupacion",
+COMP."EsBilateral",
+COMP."ComprobanteNeteado",
+COMP."SeparadoPorConcepto",
+COMP."IdUsuarioBloqueo",
+COMP."FechaHoraBloqueo",
+COMP."IdCarga" ,
+COMP."IdEstado",
+COMP."NombreEstado",
+COMP."IdTipoEvento",
+COMP."Autorizacion",
+COMP."SolicitudAutorizacion",
+COMP."MotivoAutorizacion",
+COMP."IdEstadoAutorizacion",
+COMP."NombreEstadoAutorizacion",
+COMP."IdMedioDePago",
+COMP."NombreMedioDePago",
+COMP."IdModalidadDePago",
+COMP."NombreModalidadDePago",
+COMP."IdCuentaBancoCorredora",
+COMP."IdChequera",
+COMP."NombreBancoCorredora",
+COMP."NumeroCuentaBancariaCorredora",
+COMP."NombreTipoCuentaBancariaCorredora",
+COMP."NumeroSerieSocio", 
+COMP."NumeroDocumentoSocio",
+COMP."FechaDocumentoPagoSocio", 
+COMP."IdBancoSocio", 
+COMP."NombreBancoSocio",
+COMP."NumeroCuentaBancariaSocio",
+COMP."NombreTipoCuentaBancariaSocio",
+COMP."AliasBanco",
+COMP."CuentaDCVOrigen",
+COMP."CuentaDCVDestino",
+COMP."NombreUsuarioLiquidacion",
+COMP."IdUsuarioAnulacion",
+COMP."FechaHoraAnulacion",
+COMP."IdComprobanteOrigen",
+COMP."FolioComprobanteDTE",
+COMP."FechaComprobanteOrigen",
+COMP."IdPortafolio",
+COMP."NombrePortafolio",
+COMP."IdTipoCanalIngreso",
+COMP."Alias",
+COMP."Nemotecnico",
+COMP."IdComprobantePartidaEgreso",
+COMP."NombreEstadoNomina",
+COMP."CondicionDeLiquidacion",
+COMP."Glosa"
+FROM "BSCL.Tesoreria.BD.Vistas::ConsultarComprobante" COMP
+LEFT JOIN "BSCL.Portafolio.BD::POR.Portafolio" POR ON (POR."IdPortafolio" = COMP."IdPortafolio")
+WHERE 
+(:IdTipoMovimiento IS NULL OR COMP."IdTipoMovimiento" = :IdTipoMovimiento) 
+AND COMP."FechaLiquidacion" BETWEEN :FechaInLiquidacion AND :FechaTerLiquidacion
+AND (:DocumentoIdentidad IS NULL OR COMP."DocumentoIdentidad" = :DocumentoIdentidad) --
+AND (:CodigoPortafolio IS NULL OR POR."CodigoPortafolio" = :CodigoPortafolio) --
+AND (:IdCaja IS NULL OR COMP."IdCaja" = :IdCaja)
+AND (:IdMoneda IS NULL OR COMP."IdMoneda" = :IdMoneda)
+AND (:IdTipoSocioNegocio IS NULL OR COMP."IdTipoPersona" = :IdTipoSocioNegocio)
+AND (:IdEstado IS NULL OR COMP."IdEstado" = :IdEstado)
+AND (:IdConcepto IS NULL OR COMP."IdConcepto" = :IdConcepto)
+AND (:IdMedioDePago IS NULL OR COMP."IdMedioDePago" = :IdMedioDePago)
+AND (:NombreBancoCorredora IS NULL OR COMP."NombreBancoCorredora" = :NombreBancoCorredora)
+AND (:AliasBanco IS NULL OR COMP."AliasBanco" = :AliasBanco)
+AND (:NombreBancoSocio IS NULL OR COMP."NombreBancoSocio" = :NombreBancoSocio)
+AND (:NumeroCuentaBancariaCorredora IS NULL OR COMP."NumeroCuentaBancariaCorredora" = :NumeroCuentaBancariaCorredora)

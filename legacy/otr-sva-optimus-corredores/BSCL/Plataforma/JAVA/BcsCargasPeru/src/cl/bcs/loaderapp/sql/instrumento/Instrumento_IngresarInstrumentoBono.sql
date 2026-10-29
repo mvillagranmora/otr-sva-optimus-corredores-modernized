@@ -1,0 +1,31 @@
+insert into "BSCL.Plataforma.BD::INS.InstrumentoBono"(
+    "IdInstrumento",
+    "FechaDevengo",
+    "AjusteFinDeMes",
+    "CallConfirmado",
+    "ConvencionDias",
+    "CuponeraVariable",
+    "TasaEmision",
+    "TipoCalculoInteresesCupon",
+    "TipoCalculoInteresesDevengados",
+    "MercadoLocal",
+    "MercadoExtrabursatil",
+    "MercadoExtranjero",
+    "PresenciaBursatil",
+    CUSIP
+) VALUES (
+    :IdInstrumento,
+    TO_DATE(:FechaDevengo, 'DD/MM/YYYY'),
+    :AjusteFinDeMes,
+    :CallConfirmado,
+    :ConvencionDias,
+    :CuponeraVariable,
+    :TasaEmision,
+    :TipoCalculoInteresesCupon,
+    :TipoCalculoInteresesDevengados,
+    :MercadoLocal,
+    :MercadoExtrabursatil,
+    :MercadoExtranjero,
+    :PresenciaBursatil,
+    :CUSIP
+);

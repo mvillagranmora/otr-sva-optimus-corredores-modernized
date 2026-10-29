@@ -1,0 +1,124 @@
+<div ng-controller="CoberturaPatrimonial">
+	<form name="formCoberturaPatrimonial_ContratoPersona" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{'UI_COBERTURA_PATRIMONIAL'|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<!-- PARAMETROS INICIALES -->
+				<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-5" translate>UI_FECHA_CONSULTA</label>
+					<bcs-input-date  
+								class="col-xs-7" 
+								id="UI_FECHA_HASTA" bcs-requerido
+								k-ng-model ="data.kngFechaHasta"
+								ng-blur="data.cambiarFechaMin()"
+								todo-dias="true"
+								> 
+					</bcs-input-date>
+				</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_VALORIZADA_AL</label>
+						<bcs-input-date 
+									class="col-xs-7" 
+									id="UI_VALORIZA_AL" bcs-requerido
+									k-ng-model ="data.kngValorizaAl"
+									ng-blur="data.validarFechas()"
+									fecha-inicial="data.kngFechaHasta"
+									todo-dias="true"
+									> 
+						</bcs-input-date>
+					</div>
+					</div>
+
+
+			<div class='row'>
+				<div class="col-xs-12">
+					<label class="col-xs-5" translate>UI_MESA</label>
+					<bcs-combobox-base class="col-xs-7" id="frmMesa_ACTIVA"
+						auto-cargar="'true'"
+                        tipo="'combobox-mesas'"
+                        seleccionado="data.oConfiguracionMesaActiva.seleccionado"
+                        filtros="data.oConfiguracionMesaActiva.filtros"
+                        id-actual="data.oConfiguracionMesaActiva.idActual"
+                        id-defecto="'0'"
+                        todos="'S'"
+                        bcs-requerido>
+                    </bcs-combobox-base>
+				</div>
+			</div>
+
+
+				
+			<div class='row'>
+				<div class="col-xs-12">
+					<label class="col-xs-5" translate>UI_PLAZO</label>
+					<bcs-combobox-base 
+					     activado="habilitado"
+					     class="col-xs-7"
+					     filtros=""
+					     id="IdDiasCobertura"      
+					     id-actual="data.plazoCobertura"
+					     id-defecto="'0'"
+					     seleccionado="data.plazoCoberturaSeleccionado"      
+					     tipo="'combobox-dias-cobertura'"
+					     todos="'S'"
+					     bcs-requerido>
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class='row'>
+				<div class="col-xs-12">
+					<label class="col-xs-5" translate>UI_OPCION</label>
+					<bcs-combobox-base 
+					     activado="habilitado"
+					     class="col-xs-7"
+					     filtros=""
+					     id="IdOpcionCobertura"      
+					     id-actual="data.OpcionCobertura"
+					     id-defecto="'0'"
+					     seleccionado="data.OpcionCoberturaSeleccionado"      
+					     tipo="'combobox-opcion-cobertura'"
+					     bcs-requerido>
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class='row'>
+				<div class="col-xs-12">
+					<label class="col-xs-5" translate>UI_TIPO_VALORIZACION</label>
+					<bcs-combobox-base 
+					     activado="habilitado"
+					     class="col-xs-7"
+					     filtros=""
+					     id="IdValorCobertura"      
+					     id-actual="data.ValorCobertura"
+					     id-defecto="'0'"
+					     seleccionado="data.ValorCoberturaSeleccionado"      
+					     tipo="'combobox-cobertura'"
+					     bcs-requerido>
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+			</div>
+			<div class="row">
+			<hr>
+			<div class="col-xs-12 alignButtonsToRight">
+				<bcs-button id="frmBuscarOperaciones" class="col-xs-4" 
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_GENERAR' | translate" 
+					bcs-habilitado="formCoberturaPatrimonial_ContratoPersona.$valid" 
+					bcs-clic="data.validarValorizacionAnterior()"
+				></bcs-button>
+			</div>
+			</div>
+	</div>
+	</form>

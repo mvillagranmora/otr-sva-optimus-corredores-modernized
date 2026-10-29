@@ -1,0 +1,82 @@
+<div ng-controller="posicionCtrl as posicion">
+	<form name="formPosicion" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_POSICION_PUNTA | translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-12">
+						<label class="row col-xs-2" translate>UI_FECHA_OPERACION</label>
+						<bcs-input-date
+							class="col-xs-3"
+							id="UI_FECHA_OPERACION"
+							bcs-requerido
+							k-ng-model="data.kngFechaOperacion"
+							k-options="fechaOperacion"
+						>
+						</bcs-input-date>
+						<label class="row col-xs-5"></label>
+					<bcs-button class="row col-xs-2" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="formPosicion.$valid" 
+						bcs-clic="data.consultarPosicion()" >
+					</bcs-button>
+
+
+				</div>
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_MONEDA</label>
+					<bcs-combobox-base
+						 class="row col-xs-3"
+						 bcs-requerido
+						 tipo="oConfiguracionMoneda.tipo"
+						 filtros="oConfiguracionMoneda.filtros"
+						 id-actual="oConfiguracionMoneda.idActual"
+						 id-defecto="oConfiguracionMoneda.idDefecto"
+						 seleccionado="oConfiguracionMoneda.seleccionado"
+						 activado="oActivaComboboxMoneda" 
+						 todos="'N'">
+					</bcs-combobox-base>
+					<label class="row col-xs-5"></label>
+					<bcs-button class="row col-xs-2" 
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_EXPORTAR_EXCEL' | translate"
+						bcs-habilitado="puedeDescargarExcel"
+						bcs-clic="data.exportarPosicion()" >
+					</bcs-button>
+
+				</div>
+				<!-- BOTONES -->
+				<div class="col-xs-12">
+
+						
+						<strong  style="text-align: right;font-size:15px;" class="row col-xs-2" translate>UI_POSICION_NETA</strong>
+						<strong style="text-align: left;font-size:15px;" class="row col-xs-2" >{{posicion.datosPosicion.P_OUT_CONSOLIDADOSPOT.Posicion   | kformat:'c':posicion.datosPosicion.IdMonedaEquivalente:'monto':'GEN'}}</strong>
+						</bcs-input-date>
+				</div>
+			</div>
+			<div class="row">
+				<bcs-posicion
+					hora ="posicion.datosPosicion.P_OUT_HORA",
+					tipo-cambio ="posicion.datosPosicion.P_OUT_TIPODECAMBIO" ,
+					interbancario ="posicion.datosPosicion.P_OUT_INTERBANCARIO",
+					arbitraje-interbancario ="posicion.datosPosicion.P_OUT_ARBITRAJEINTERBANCARIO",
+					distribucion ="posicion.datosPosicion.P_OUT_DISTRIBUCION",
+					arbitraje-distribucion ="posicion.datosPosicion.P_OUT_ARBITRAJEDISTRIBUCION",
+					fwd ="posicion.datosPosicion.P_OUT_FWD",
+					consolidado-spot ="posicion.datosPosicion.P_OUT_CONSOLIDADOSPOT",
+					resumen-operaciones-spot ="posicion.datosPosicion.P_OUT_RESUMENOPERACIONESSPOT"
+					id-moneda="posicion.datosPosicion.IdMoneda"
+					id-moneda-equivalente="posicion.datosPosicion.IdMonedaEquivalente"
+					valor-breakeven="posicion.valorBreakeven">
+				</bcs-posicion>
+			</div>
+			<bcs-websocket bcs-msg='msgWebsocket(message)'></bcs-websocket>
+		</div>
+	</form>
+</div>

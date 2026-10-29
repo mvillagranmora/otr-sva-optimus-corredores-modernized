@@ -1,0 +1,31 @@
+INSERT INTO	"BSCL.Contabilidad.BD::ITZ.Movimiento"(
+ "IdMovimiento"
+,"IdTipoMovimiento"
+,"IdEmpresa"
+,"Numero"
+,"Linea"
+,"Fecha"
+,"DocumentoIdentidad"
+,"Cuenta"
+,"Ejercicio"
+,"Periodo"
+,"IdCentralizacion"
+,"IdMoneda"
+,"Monto"
+,"Estado")
+VALUES(
+:IdMovimiento
+,:IdTipoMovimiento
+,:IdEmpresa
+,:Numero
+,:Linea
+,:Fecha
+,:DocumentoIdentidad
+,:Cuenta
+,:Ejercicio
+,:Periodo
+,:IdCentralizacion
+,:IdMoneda
+,:Monto
+,:Estado
+)

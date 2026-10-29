@@ -1,0 +1,1 @@
+SELECT "IdMetadataCuentaContable" FROM "BSCL.Contabilidad.BD::ITZ.MetadataCuentaContable" WHERE "IdMetadataCuentaContable" IN (:IdMetadataCuentaContable)

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Tesoreria.BD::GBL.SaldoPendienteDeLiquidar_Proceso_Paso";

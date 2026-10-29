@@ -1,0 +1,147 @@
+<div class="row" ng-controller='ConsultarNominasCtrl'>	
+	<div class="row bcs-cuerpo" ng-form="frmConsultarNominas">
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_BANCO</label>
+						<bcs-combobox-base  class="col-xs-8" id="frmConsultarNominas_banco"
+							auto-cargar="'true'"
+							tipo="frm.oConfiguracionBanco.tipo"
+							configuracion= "frm.oConfiguracionBanco.configuracion"
+							seleccionado="frm.oConfiguracionBanco.seleccionado"
+							id-actual="frm.oConfiguracionBanco.idActual"
+							filtros="frm.oConfiguracionBanco.filtros"
+							cascada1-a="frm.oConfiguracionCuentaCorredora.filtros.IdBanco"
+							cascada1-valor="'IdBanco'"
+							cascada1-defecto="-1"
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4" translate>UI_CUENTAS_CORREDORA</label>
+						<bcs-combobox-base  class="col-xs-8" id="frmConsultarNominas_cuentaCorredora"
+							auto-cargar="'true'"
+							tipo="frm.oConfiguracionCuentaCorredora.tipo"
+							configuracion= "frm.oConfiguracionCuentaCorredora.configuracion"
+							seleccionado="frm.oConfiguracionCuentaCorredora.seleccionado"
+							id-actual="frm.oConfiguracionCuentaCorredora.idActual"
+							filtros="frm.oConfiguracionCuentaCorredora.filtros"
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_NOMINA</label>
+						<bcs-input-numero class="col-xs-8" id="frmConsultarNominas_nomina"
+							name="nomina"
+							k-ng-model="frm.ngNomina"								
+							formato = "'#'"							
+							decimales=0>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_INGRESO</label>
+						<bcs-input-date class="col-xs-8" id="frmConsultarNominas_fechaIngreso"
+							k-ng-model="frm.kngFechaIngreso" 
+							ng-model="frm.ngFechaIngreso">
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-8" id="frmConsultarNominas_fechaLiquidacion"
+							k-ng-model="frm.kngFechaLiquidacion" 
+							ng-model="frm.ngFechaLiquidacion">
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base  class="col-xs-8" id="frmConsultarNominas_estado"
+							auto-cargar="'true'"
+							tipo="frm.oConfiguracionEstado.tipo"
+							configuracion= "frm.oConfiguracionEstado.configuracion"
+							seleccionado="frm.oConfiguracionEstado.seleccionado"
+							id-actual="frm.oConfiguracionEstado.idActual"
+							filtros="frm.oConfiguracionEstado.filtros"
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmConsultarNominas_btn_buscar"
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="btnActivo"  
+						bcs-clic="buscarNominas(frm)"
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmConsultarNominas_btn_limpiar"
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="btnActivo"  
+						bcs-clic="limpiarFiltros(frm)"
+					></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+
+
+		
+ 		<div class="row">
+			<bcs-grid id="frmConsultarNominas_grid_nominas"
+				configuracion	  = "frm.confBasicaNominas"
+				seleccionado	  = "frm.seleccionNominas"
+				fn-exportar-excel = "exportarExcel"
+				fn-doble-click	  = "verDetalleNominasTransferencias(frm.seleccionNominas)">
+			</bcs-grid>
+		</div>
+				
+		
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" id="frmConsultarNominas_btn_recepcionado"
+			bcs-tipo="'bcs-button-primary'"  
+			bcs-auto-desactivar="'false'" 			
+			bcs-texto="'UI_RECEPCIONAR_LIQUIDAR' | translate" 
+			bcs-habilitado="frm.seleccionNominas"  
+			bcs-clic="recepcionarLiquidar(frm.seleccionNominas)">
+		</bcs-button>
+		<bcs-button class="col-xs-2" id="frmConsultarNominas_btn_generarCarta"
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="'false'" 
+			bcs-texto="'UI_GENERAR_CARTA' | translate" 
+			bcs-habilitado="frm.seleccionNominas"  
+			bcs-clic="generarCarta(frm.seleccionNominas)">
+		</bcs-button>
+		<bcs-button class="col-xs-2" id="frmConsultarNominas_btn_talonarioCheque"
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="'false'" 
+			bcs-texto="'UI_TALONARIO_CHEQUE' | translate" 
+			bcs-habilitado="frm.seleccionNominas"  
+			bcs-clic="talonarioCheque(frm.seleccionNominas)">
+		</bcs-button>
+		
+		<bcs-button class="col-xs-2" id="frmConsultarNominas_btn_anular"
+			bcs-tipo="'bcs-button-anular'"  
+			bcs-auto-desactivar="'false'" 
+			bcs-texto="'UI_ANULAR' | translate" 
+			bcs-habilitado="frm.seleccionNominas"  
+			bcs-clic="anular(frm.seleccionNominas)">
+		</bcs-button>
+		
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

@@ -1,0 +1,193 @@
+<div ng-controller="DetalleProcesoCartolaConsolidadaController">
+    <div class="col-xs-12">
+        <div class="row" ng-show="!programada">
+            <label class="col-xs-4" translate>UI_ANO</label>
+            <label class="col-xs-4" translate>UI_MES</label>
+            <label class="col-xs-4" translate>UI_OPCION</label>
+        </div>
+        <div class="row" ng-show="!programada">
+            <bcs-combobox-base
+                class="col-xs-4"
+                activado="!readOnly"
+                tipo="'combobox-ano-proceso-cartolas'"
+                id-actual="AnoProceso"
+                id-defecto="AnoProceso">
+            </bcs-combobox-base>
+            <bcs-combobox-base
+                class="col-xs-4"
+                activado="!readOnly"
+                tipo="'combobox-mes-proceso-cartolas'"
+                id-actual="MesProceso"
+                id-defecto="MesProceso">
+            </bcs-combobox-base>
+            <bcs-combobox-base
+                class="col-xs-4"
+                activado="!OpcionProcesoDisabled"
+                tipo="'combobox-opcion-proceso-cartolas'"
+                id-actual="Nomina.OpcionProceso"
+                id-defecto="Nomina.OpcionProceso">
+            </bcs-combobox-base>
+        </div>
+        <div class="row" ng-show="programada">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-model="Parametros.Habilitado">
+            </bcs-input-checkbox>
+            <label class="col-xs-4" translate>Habilitar todos los meses</label>
+            <label class="col-xs-3" align="right" translate>UI_OPCION</label>
+            <bcs-combobox-base
+                class="col-xs-3"
+                activado="!OpcionProcesoDisabled"
+                tipo="'combobox-opcion-proceso-cartolas'"
+                id-actual="Nomina.OpcionProceso"
+                id-defecto="Nomina.OpcionProceso">
+            </bcs-combobox-base>
+        </div>
+        <div class="row" ng-show="programada">
+            <label class="col-xs-2" translate>Día ejecución</label>
+	        <bcs-input-numero
+	            class="col-xs-3"
+	            atributos="width:100%"
+	            k-ng-disabled="false"
+	            k-options="{format : 'n0', min:1, max:10, spinners : false}"
+	            ng-model="Parametros.DiaEjecucion">
+	        </bcs-input-numero>
+            <label class="col-xs-3" align="right" translate>Hora ejecución</label>
+			<bcs-input-time 
+				class="col-xs-3" 
+				bcs-requerido
+				k-options="{format:'HH:mm'}"
+				ng-model="Parametros.HoraEjecucion" >
+			</bcs-input-time>
+	        
+        </div>
+        <div class="row">
+            <label class="col-xs-12" translate>UI_COMENTARIO</label>
+        </div>
+        <div class="row">
+            <bcs-input-texto
+                class="col-xs-12"
+                atributos="width:100%"
+                k-ng-disabled="readOnly"
+                ng-model="Nomina.Comentario">
+            </bcs-input-texto>
+        </div>
+        <hr>
+        <div class="row">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-model="Nomina.IncluirPortafoliosConSaldo"
+                ng-disabled="FlagsDisabled">
+            </bcs-input-checkbox>
+            <label class="col-xs-11" translate>UI_INCLUIR_PORTAFOLIOS_CON_SALDO</label>
+        </div>
+        <div class="row">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-model="Nomina.IncluirPortafoliosConCustodia"
+                ng-disabled="FlagsDisabled">
+            </bcs-input-checkbox>
+            <label class="col-xs-11" translate>UI_INCLUIR_PORTAFOLIOS_CON_CUSTODIA</label>
+        </div>
+        <div class="row">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-model="Nomina.IncluirPortafoliosConMovimientosCuentaInversion"
+                ng-disabled="FlagsDisabled">
+            </bcs-input-checkbox>
+            <label class="col-xs-11" translate>UI_INCLUIR_PORTAFOLIOS_CON_MOVIMIENTO_CUENTA_INVERSION</label>
+        </div>
+        <div class="row">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-model="Nomina.IncluirCategoriaInversionista"
+                ng-disabled="FlagsDisabled">
+            </bcs-input-checkbox>
+            <label class="col-xs-5" translate>UI_INCLUIR_CATEGORIA_INVERSIONISTA</label>
+            <bcs-combobox-base
+                class="col-xs-6"
+                tipo="'combobox-categoria-inversionista'"
+                id-actual="Nomina.CategoriaInversionista"
+                id-defecto="''"
+                activado="!FlagsDisabled">
+            </bcs-combobox-base>
+        </div>
+        <div class="row">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-model="Nomina.IncluirTipoPersona"
+                ng-disabled="FlagsDisabled">
+            </bcs-input-checkbox>
+            <label class="col-xs-5" translate>UI_INCLUIR_TIPO_DE_PERSONA</label>
+            <bcs-combobox-base
+                class="col-xs-6"
+                tipo="'combobox-tipo-persona'"
+                id-actual="Nomina.TipoPersona"
+                id-defecto="''"
+                activado="!FlagsDisabled">
+            </bcs-combobox-base>
+        </div>
+        <div class="row">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-model="Nomina.IncluirTipoCliente"
+                ng-disabled="FlagsDisabled">
+            </bcs-input-checkbox>
+            <label class="col-xs-5" translate>UI_INCLUIR_TIPO_DE_CLIENTE</label>
+            <bcs-combobox-base
+                class="col-xs-6"
+                tipo="'combobox-tipo-cliente'"
+                id-actual="Nomina.TipoCliente"
+                id-defecto="''"
+                activado="!FlagsDisabled">
+            </bcs-combobox-base>
+        </div>
+        <div class="row">
+            <bcs-input-checkbox
+               class="col-xs-1"
+                ng-model="Nomina.IncluirPortafoliosExcluidos"
+                ng-disabled="FlagsDisabled">
+            </bcs-input-checkbox>
+            <label class="col-xs-11" translate>UI_INCLUIR_PORTAFOLIOS_EXCLUIDOS_GENERACION</label>
+        </div>
+        <hr>
+        <div class="row">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-model="Nomina.ExcluirPortafoliosIncluidosOtraNomina"
+                ng-disabled="FlagsDisabled">
+            </bcs-input-checkbox>
+            <label class="col-xs-11" translate>UI_EXCLUIR_PORTAFOLIOS_OTRA_NOMINA_DEL_PERIODO</label>
+        </div>
+        <div class="row">
+            <bcs-input-checkbox
+                class="col-xs-1"
+                ng-disabled="FlagsDisabled"
+                ng-model="Nomina.ExcluirOperadoresDirectos">
+            </bcs-input-checkbox>
+            <label class="col-xs-11" translate>UI_EXCLUIR_OPERADORES_DIRECTOS</label>
+        </div>
+        <hr>
+        <div class="row" ng-show="!programada">
+            <label class="col-xs-5" translate>UI_FECHA_HORA_PROGRAMACION</label>
+            <bcs-input-datetime
+                class="col-xs-7"
+                todo-dias="true"
+                k-ng-disabled="readOnly"
+                k-ng-model="Nomina.FechaProgramadaProcesoCartolaConsolidada">
+            </bcs-input-datetime>
+        </div>
+        <hr>
+        <div class="row">
+            <bcs-button
+                class="col-xs-4 pull-right"
+                bcs-tipo="'bcs-button-input-form'"
+                bcs-auto-desactivar="'false'"
+                bcs-texto="textoGrabar"
+                bcs-habilitado="!readOnly"
+                bcs-mostrar = "!readOnly"
+                bcs-clic="grabarNomina()">
+            </bcs-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+SELECT count(1) AS "traspasoAPV"   FROM "BSCL.APV.BD::TRA.Traspaso" WHERE "IdTraspaso" = :FolioContrato;

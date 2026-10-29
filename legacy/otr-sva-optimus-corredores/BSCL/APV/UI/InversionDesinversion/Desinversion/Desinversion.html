@@ -1,0 +1,543 @@
+<div id="DesinversionAPV" class="row" ng-controller="DesinversionAPVCtrl as desAPV">
+	<div class="row">
+		<form name="formDesinversionAPV" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<div class="col-xs-9">
+				</div>
+				<div class="col-xs-3">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="desAPV.datosForm.fechaInicial" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+				 </div> 	
+			 </div> 	
+			<hr>
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_SOCIO_NEGOCIO</label>
+					<bcs-combobox-base 
+						id				= "UI_SOCIO_NEGOCIO"
+						class			= "col-xs-7"
+					 	auto-cargar		= "'true'"
+					 	bcs-requerido
+					    tipo			= "'combobox-socio-negocio'"
+					    seleccionado	= "desAPV.datosForm.SocioNegocioSeleccionado"
+				        id-actual		= "desAPV.datosForm.SocioNegocioidActual"
+				        id-post-filtro	= "desAPV.IdSocioNegocio"
+				        activado		= "desAPV.HabilitoPanelPrincipal"	
+				        id-defecto      = "desAPV.IdSocioNegocioDefecto"				
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-6" translate="">UI_NOMBRE_PLAN_AHORRO</label>
+					<bcs-combobox-base 
+						id					= "UI_NOMBRE_PLAN_AHORRO" 
+						class				= "col-xs-5"
+						item-post-filtro	= "'1'"
+						todos				= "'S'"
+						tipo				= "'combobox-nombre-plan-ahorro'"
+						id-actual			= "desAPV.datosForm.PlanAhorroIdActual"
+						seleccionado		= "desAPV.datosForm.NombrePlanAhorroSeleccionado"
+						activado			= "desAPV.HabilitoPanelPrincipal"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_PRODUCTO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id					= "UI_PRODUCTO"
+						bcs-requerido
+						item-post-filtro	= "'1'"
+						todos				= "'S'"
+						tipo				= "'combobox-producto-agrupador'"
+						id-actual			= "desAPV.datosForm.ProductoAgrupadorIdActual"
+						id-defecto			= "desAPV.datosForm.ProductoAgrupadorIdDefecto"
+						auto-cargar			= "'true'"
+						activado			= "desAPV.HabilitoPanelPrincipal"
+						seleccionado		= "desAPV.datosForm.ProductoAgrupadorSeleccionado">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button 
+						class				= "col-xs-12" 
+						id					= "UI_BUSCAR"
+						bcs-tipo			= "'bcs-button-search'" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto			= "'UI_BUSCAR' | translate" 
+						bcs-habilitado		= "desAPV.HabilitoPanelPrincipal" 							
+						bcs-clic			= "desAPV.consultas.buscarMovimientos()"
+					>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate="">UI_REGIMEN</label>
+					<bcs-combobox-base 
+						id					= "UI_REGIMEN"
+						class				= "col-xs-7" 
+						item-post-filtro	= "'1'"
+						todos				= "'S'"
+						tipo				= "'combobox-regimen-tributario'"
+						auto-cargar			= "'true'"
+						activado			= "desAPV.HabilitoPanelPrincipal"
+						seleccionado		= "desAPV.datosForm.RegimenAgrupadorSeleccionado"
+						id-actual			= "desAPV.datosForm.RegimenAgrupadorIdActual"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_TIPO_INSTRUMENTO_ABR</label>
+					<bcs-combobox-base
+						id					= "UI_TIPO_INSTRUMENTO_ABR"
+						class				= "col-xs-5"
+						auto-cargar			= "'true'"
+						tipo				= "desAPV.oConfiguracionTipoInstrumento.tipo"  
+						filtros				= "desAPV.oConfiguracionTipoInstrumento.filtros"
+						configuracion		= "desAPV.oConfiguracionTipoInstrumento.configuracion" 
+						id-actual			= "desAPV.datosForm.oConfiguracionTipoInstrumento.idActual"
+						id-post-filtro		= "desAPV.oConfiguracionTipoInstrumento.idPostFiltro" 
+						item-post-filtro	= "'1'"
+						seleccionado		= "desAPV.datosForm.oConfiguracionTipoInstrumento.seleccionado"
+						cascada1-a			= "desAPV.oConfiguracionInstrumento.filtros.IdTipoInstrumento"
+						cascada1-valor		= "'IdTipoInstrumento'" 	
+						todos				= "'S'"
+						activado			= "desAPV.HabilitoPanelPrincipal"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos
+						class					= "col-xs-7" 
+						id						= "UI_INSTRUMENTO" 
+						name					= "uInstrumento"
+						datos-instrumento		= "desAPV.datosForm.instrumentoDatos"
+						buscar-instrumento		= "desAPV.oConfiguracionInstrumento.buscar"
+						filtro-tipo-instrumento = "desAPV.oConfiguracionTipoInstrumento.idActual"
+						filtro-clasificacion	= "desAPV.oConfiguracionClasificacionTipoInstrumento.idActual" 
+						filtro-estado			= "'ACT'"
+						k-ng-disabled			= "!desAPV.HabilitoPanelPrincipal"
+					>
+					</bcs-input-instrumentos>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button 
+						class				= "col-xs-12" 
+						id					= "UI_LIMPIAR"
+						bcs-tipo			= "'bcs-button-secondary'" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto			= "'UI_LIMPIAR' | translate" 
+						bcs-habilitado		= "!desAPV.existeSocio" 							
+						bcs-clic			= "desAPV.fn.limpiarFiltros(true)"
+					>
+					</bcs-button>
+				</div>
+			</div>
+			<hr>
+			<br>			
+			<div class="row">
+				<div class="col-xs-3">
+					<strong class="col-xs-5" translate="">UI_TOTAL_PATRIMONIO</strong>
+					<bcs-input-numero 
+						class			= "col-xs-6" 
+						id				= "UI_TOTAL_PATRIMONIO"
+						k-ng-model		= "desAPV.kngTotalPatrimonio"
+						decimales		= "0"
+						k-ng-disabled	="'true'"
+					>								
+					</bcs-input-numero>	
+				</div>
+				<div class="col-xs-3">
+					<strong class="col-xs-5" translate="">UI_TOTAL_A_DESINVERTIR</strong>
+					<bcs-input-numero 
+						class			= "col-xs-6" 
+						id				= "UI_TOTAL_A_DESINVERTIR"
+						k-ng-model		= "desAPV.datosForm.kngTotalDesinvertir"
+						decimales		= "0"
+						ng-blur			= "desAPV.limpiarPorcentaje()"
+					>								
+					</bcs-input-numero>	
+				</div>
+				<div class="col-xs-2">
+					<strong class="col-xs-5" translate="">UI_PORCENTAJE</strong>
+					<bcs-input-porcentaje 
+						class			= "col-xs-6" 
+						id				= "UI_PORCENTAJE"
+						ng-model		= "desAPV.datosForm.Porcentaje"
+						k-ng-model		= "desAPV.datosForm.kngPorcentaje"
+						decimales		= "4"
+					>								
+					</bcs-input-porcentaje>
+				</div>
+				<div class="col-xs-3" ng-show="false">
+					<strong class="col-xs-5" translate="">UI_CANTIDAD_A_DESINVERTIR</strong>
+					<bcs-input-numero 
+						class			= "col-xs-6" 
+						id				= "UI_CANTIDAD_A_DESINVERTIR"
+						k-ng-model		= "desAPV.datosForm.kngCantidadDesinvertir"
+						decimales		= "0"
+						bcs-habilitado 	= "false"
+					>								
+					</bcs-input-numero>	
+				</div>
+				<div class="col-xs-offset-3 col-xs-1">
+					<bcs-button class		= "col-xs-12" 
+						id					= "UI_DISTRIBUIR"
+						bcs-tipo			= "'bcs-button-input-form'" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto			= "'UI_DISTRIBUIR' | translate" 
+						bcs-habilitado		= "(desAPV.datosForm.kngPorcentaje || desAPV.datosForm.kngTotalDesinvertir) ? true : false" 							
+						bcs-clic			= "desAPV.fn.calcularDesinversion()"
+					>
+					</bcs-button>
+				</div>
+			</div>
+			<!-- 	GRILLAS 	-->
+			<div class="row">
+					<div class="col-xs-12">
+						<bcs-grid id		= "gridOrdenes"
+							configuracion 	= "desAPV.Ordenes"
+							seleccionado 	= "desAPV.OrdenesSeleccion"	
+							ng-click		= "desAPV.fn.ActualizarCobros(desAPV.OrdenesSeleccion, desAPV.cobrosModificados, false)"						
+						> 
+						</bcs-grid>
+					</div>
+				</div>
+			<div class="row">
+				<div class="col-xs-2">
+					<bcs-button 
+						class				= "col-xs-12" 
+						id					= "UI_QUITAR_DISTRIBUCION"
+						bcs-tipo			= "'bcs-button-input-form'" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto			= "'UI_QUITAR_DISTRIBUCION' | translate" 
+						bcs-habilitado		= "'true'" 							
+						bcs-clic			= "desAPV.fn.quitarOrden(desAPV.OrdenesSeleccion)"
+					>
+					</bcs-button>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button 
+						class				= "col-xs-12" 
+						id					= "UI_RESTAURAR"
+						bcs-tipo			= "'bcs-button-input-form'" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto			= "'UI_RESTAURAR' | translate" 
+						bcs-habilitado		= "'true'" 							
+						bcs-clic			= "desAPV.fn.restaurar()"
+					>
+					</bcs-button>
+				</div>
+				<div class="col-xs-offset-2 col-xs-3">
+					<strong class="col-xs-5" translate="">UI_PORCENTAJE_RETIRO</strong>
+					<bcs-input-porcentaje
+						class			= "col-xs-6" 
+						id				= "UI_PORCENTAJE_RETIRO"
+						k-ng-model		= "desAPV.PorcentajeFinal"
+						decimales		= "4"
+						k-ng-disabled	="'true'"
+					>								
+					</bcs-input-porcentaje>	
+				</div>
+				<div class="col-xs-3">
+					<strong class="col-xs-5" translate="">UI_TOTAL_RETIRO</strong>
+					<bcs-input-numero
+						class			= "col-xs-6" 
+						id				= "UI_TOTAL_RETIRO"
+						k-ng-model		= "desAPV.datosForm.kngTotalRetiro"
+						decimales		= "0"
+						k-ng-disabled	="'true'"
+					>								
+					</bcs-input-numero>	
+				</div>
+			</div>
+			<div class="row">
+				<br>
+				<!-- 			PESTAÑAS 							-->	
+				<uib-tabset>
+					<uib-tab id="DatosGenerales" heading="{{'UI_DATOS_GENERALES' | translate}}" select = "desAPV.fn.seleccionTab('DG')">
+						<div class="row">
+							<div class="row">
+								<!-- <div class="col-xs-4">
+									<label class="col-xs-4" translate>UI_FECHA_TRANSFERENCIA</label>
+									<bcs-input-date
+										id="UI_FECHA_TRANSFERENCIA"
+										class="col-xs-7"
+										k-ng-model="desAPV.datosForm.fechaTransferencia" 
+										k-options="kOptFechaTransferencia"
+									>
+									</bcs-input-date>
+								</div>
+								<label class="col-xs-2" translate>UI_FECHA_EGRESO</label>
+								<div class="col-xs-2">
+									<bcs-input-date
+										id="UI_FECHA_EGRESO"
+										class="col-xs-10"
+										k-ng-model="desAPV.datosForm.fechaEgreso" 
+										k-options="kOptFechaEgreso"
+									>
+									</bcs-input-date>	
+								</div> -->
+		
+							</div>
+							<div class="col-xs-6">
+								<div class="row">
+									<label class="col-xs-4" translate="">UI_RAZON_RETIRO</label>
+					    			<bcs-combobox-base 
+										id				= "UI_RAZON_RETIRO"
+										class			= "col-xs-7" 
+										todos			= "'N'"
+										tipo			= "'combobox-razon-retiro'"
+										auto-cargar		= "'true'"
+										activado		= "desAPV.HabilitoControlesBusqueda"
+										seleccionado	= "desAPV.datosForm.RazonRetiroSeleccionado"
+										id-actual		= "desAPV.datosForm.RazonRetiroIdActual"
+										filtros			= "desAPV.ConfiguracionCmbo.RazonRetiro.filtros"
+										id-post-filtro	= "desAPV.razonRetiro"					
+									>
+									</bcs-combobox-base>
+								</div>
+								<div class="row" ng-if="desAPV.habilitaEntidad">
+									<label class="col-xs-4" translate>UI_ENTIDAD_DESTINO</label>
+									<bcs-combobox-base 
+										id				= "UI_ENTIDAD_DESTINO"
+										class			= "col-xs-7"
+									 	auto-cargar		= "'true'"
+									    tipo			= "'combobox-socio-negocio'"
+									    seleccionado	= "desAPV.datosForm.EntidadDestinoSeleccionado"
+								        id-actual		= "desAPV.datosForm.EntidadDestinoIdActual"		
+								        activado		= "desAPV.habilitaEntidadDestino"			
+									>
+									</bcs-combobox-base>
+								</div>
+								<div class="row" ng-if="!desAPV.habilitaEntidad">
+									<label class="col-xs-4" translate>UI_ENTIDAD_DESTINO</label>
+									<bcs-combobox-base 
+										id				= "UI_ENTIDAD_DESTINO"
+										class			= "col-xs-7"
+									 	auto-cargar		= "'true'"
+									    tipo			= "'combobox-entidad-recaudadora'"
+									    seleccionado	= "desAPV.datosForm.EntidadDestinoSeleccionado"
+								        id-actual		= "desAPV.datosForm.EntidadDestinoIdActual"
+								        activado		= "desAPV.habilitaEntidadDestino"					
+									>
+									</bcs-combobox-base>
+								</div>
+								<div class="row">
+									<label class="col-xs-4" translate>UI_TIPO_EGRESO</label>
+									<bcs-combobox-base class="col-xs-7"
+										id				="UI_TIPO_EGRESO"
+									 	auto-cargar		= "'true'"
+									    tipo			= "'combobox-tipo-traspaso'"					
+									    seleccionado	= "desAPV.datosForm.tipoEgresoSeleccionado"
+						                id-actual		= "desAPV.datosForm.tipoEgresoIdActual"
+						                id-post-filtro	= "desAPV.tipoEgreso"					
+									>
+									</bcs-combobox-base >
+								</div>
+								<!-- <label class="col-xs-2" translate="">UI_AUTORIZADO_A_DAR_ORDENES</label>
+						    	<bcs-combobox-base 
+									id				= "UI_AUTORIZADO_DAR_ORDENES"
+									class			= "col-xs-6" 
+									todos			= "'N'"
+									tipo			= "'combobox-autorizado-dar-ordenes'"
+									auto-cargar		= "'false'"
+									activado		= "desAPV.HabilitoAutorizadoDarOrdenes"
+									seleccionado	= "desAPV.datosForm.AutorizadoSeleccionado"
+									id-actual		= "desAPV.datosForm.AutorizadoIdActual"
+									filtros			= "desAPV.configuracionAutorizadoDarOrdenes.filtros"
+								>
+								</bcs-combobox-base> -->
+							</div>
+							<div class="col-xs-6">
+								<div class="row">
+									<label class="col-xs-2" translate="">UI_GLOSA</label>				
+									<textarea
+									 	 ng-disabled="true"
+									 	 class="col-xs-10"
+									 	 ng-model="desAPV.GlosaTraspasoRetiro">
+									</textarea>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab id="TabDatosRV" ng-show="desAPV.mostrar" heading="{{'UI_DATOS_RENTA_VARIABLE' | translate}}" select = "desAPV.fn.seleccionTab('RV')">
+						<div class="row">
+							<div class="row">
+								<div class="col-xs-6">
+									<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+									<bcs-input-condicion-liquidacion
+										id								= "UI_CONDICION_LIQUIDACION"
+										class = "col-xs-8"
+										set-id-condicion-liquidacion 	= "'T2'"
+										fecha-inicial 					= "desAPV.datosForm.fechaInicial"
+										condicion-de-liquidacion 		= "desAPV.datosForm.condicionLiquidacionSeleccionada"
+										id-tipo-operacion				= "desAPV.datosForm.IdTipoOperacion"
+										fecha-liquidacion				= "desAPV.datosForm.fechaLiquidacion"
+										id-condicion-de-liquidacion     = "desAPV.datosForm.idCondicionDeLiquidacion"
+										activado = "'true'">
+									</bcs-input-condicion-liquidacion>
+								</div>
+								<div class="col-xs-6">
+									<label class="col-xs-offset-1 col-xs-3" translate>UI_BOLSA_DESTINO</label>
+									<bcs-combobox-base
+										id = "UI_BOLSA_DESTINO" 
+										class="col-xs-8"
+										tipo			= "'combobox-bolsa-instrumento'"
+										id-defecto		= "desAPV.datosForm.configuracionBolsa.defecto"
+										seleccionado	= "desAPV.datosForm.bolsaSeleccionada" 
+										id-actual		= "desAPV.datosForm.idBolsaSeleccionada" 
+										filtros			= "desAPV.configuracionBolsa.filtros"
+										item-post-filtro= "'1'"
+										cascada-a		= "desAPV.configuracionCanalDistribucion.filtros.IdBolsa"
+										cascada-valor	= "'IdBolsa'">
+									</bcs-combobox-base>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<label class="col-xs-4" translate>UI_VIGENCIA</label>
+									<bcs-combobox-base
+										id				= "UI_VIGENCIA" 
+										class="col-xs-3"
+										tipo			= "'combobox-tipo-fecha-vigencia-orden'"
+										seleccionado	= "desAPV.datosForm.tipoVigenciaSeleccionada"
+										filtros			= "desAPV.ConfiguracionCmbo.TipoVigencia.filtros"
+										item-post-filtro= "'4'"
+										id-defecto		= "desAPV.configuracionTipoVigencia.defecto"
+										id-actual		= "desAPV.vigenciaActual">
+									</bcs-combobox-base >
+									<bcs-input-date
+										id				= "UI_VIGENCIA_FECHA" 
+										class			= "col-xs-5"
+										k-ng-model		= "desAPV.datosForm.fechaVigencia" 
+										k-ng-disabled	= "desAPV.datosForm.tipoVigenciaSeleccionada.IdTipoVigenciaOrden !== 'FF'">
+									</bcs-input-date>
+								</div>	
+								<div class="col-xs-6">
+									<label class="col-xs-offset-1 col-xs-3" translate>UI_CANAL_DISTRIBUCION</label>
+									<bcs-combobox-base class="col-xs-8"
+										id="UI_CANAL_DISTRIBUCION"
+										tipo="'combobox-canal-distribucion'"
+										id-defecto = "'MAN'"
+										envia-todos = "'S'"
+										filtros = "desAPV.configuracionCanalDistribucion.filtros"	
+										seleccionado	= "desAPV.datosForm.canalSeleccionado"
+										id-actual="desAPV.datosForm.idTipoCanalDistribucion">
+									</bcs-combobox-base>
+						 		</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label class="col-xs-4" translate>UI_MECANISMO_DE_CAPTACION</label>
+									<bcs-combobox-base
+										id				="UI_MECANISMO_DE_CAPTACION"
+										class			="col-xs-8"
+										tipo			= "'combobox-detalle-tipo-atributo'"
+										seleccionado	= "desAPV.datosForm.mecanismoDeCaptacionSeleccionado"
+										id-actual		= "desAPV.ConfiguracionCmbo.MecanismoCaptacion.idActual"
+										filtros			= "desAPV.ConfiguracionCmbo.MecanismoCaptacion.filtros">
+									</bcs-combobox-base>
+								</div>
+								<div class="col-xs-6" ng-if ="!desAPV.MostrarBoveda">
+									<label class="col-xs-offset-1 col-xs-3" translate>UI_BOVEDA</label>
+									<bcs-combobox-base
+										id 				= "UI_BOVEDA" 
+										class			="col-xs-8"
+										id-defecto 		= "desAPV.ConfiguracionCmbo.Boveda.defecto"
+										id-actual 		= "desAPV.ConfiguracionCmbo.Boveda.idActual"
+										tipo			="'combobox-boveda'"
+										seleccionado	="desAPV.datosForm.bovedaSeleccionada"
+										filtros			="desAPV.ConfiguracionCmbo.Boveda.filtros"
+										item-post-filtro= "'3'"
+										cascada-a		="desAPV.datosForm.configuracionCuentaCustodio.filtros.IdBoveda"
+										cascada-valor	="'IdBoveda'">
+									</bcs-combobox-base >	
+								</div>
+							</div>
+							<!--
+							<div class="row">
+								<div class="col-xs-6">
+									<label class="col-xs-3" translate="">UI_PAGO_COBRO_CUENTA_INVERSION</label>
+									<bcs-input-checkbox class="col-xs-1 ng-pristine ng-untouched ng-valid ng-isolate-scope" 
+										id="UI_INDIRECTA" 
+										ng-model="desAPV.pagoCobroCI" 
+										k-ng-model="desAPV.kngpagoCobroCI">	
+									</bcs-input-checkbox>
+									<label class="col-xs-3" translate="">UI_FORMA_DE_PAGO_COBRO</label>
+						    		<bcs-combobox-base 
+										id				= "UI_FORMA_DE_PAGO_COBRO"
+										class			= "col-xs-5" 
+										todos			= "'N'"
+										tipo			= "'combobox-regimen-apv'"
+										auto-cargar		= "'false'"
+										activado		= "!desAPV.pagoCobroCI"
+										seleccionado	= "desAPV.datosForm.FormaPagoCobroSeleccionado"
+										id-actual		= "desAPV.datosForm.FormaPagoCobroIdActual"
+										filtros			= "desAPV.ConfiguracionCmbo.FormaPagoCobro.filtros"
+									>
+									</bcs-combobox-base>
+								</div>
+							</div>
+							-->
+							<div class="row">
+								<br>
+								<uib-tabset ng-show="desAPV.mostrar" heading="{{'UI_COBROS_RENTA_VARIABLE' | translate}}" select = "desAPV.fn.seleccionTab('CB')">						
+									<!-- TAB 1 -->	
+									<!-- COBROS -->			
+									<uib-tab heading="{{'UI_COBROS' | translate}}" select = "desAPV.fn.seleccionTab('CB')"> 
+										<div class="row" id="cobrosGrilla">
+											<bcs-cobros-orden
+												id-ventana="desAPV.IdVentana"
+												api = "desAPV.apiCobros"
+												valor-allin = "desAPV.valorAllin"
+												usa-allin = "desAPV.usaAllin"
+												operaciones = "desAPV.operaciones"
+												operaciones-salida = "desAPV.operacionesSalida"
+												calculando = "desAPV.calculandoAlgo"
+												matriz-cobros-modificados="desAPV.cobrosModificados">
+											</bcs-cobros-orden>
+										</div>
+									</uib-tab>
+								</uib-tabset>
+							</div>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+				<!-- FIN PESTAÑAS -->
+			</div>
+			
+			<!-- 	BOTON ENVIAR	-->	
+			<div class="row">
+				<div class="col-xs-offset-8 col-xs-2">
+					<bcs-button 
+						class				= "col-xs-12" 
+						id					= "UI_ENVIAR"
+						bcs-tipo			= "'bcs-button-primary'" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto			= "'UI_ENVIAR' | translate" 
+						bcs-habilitado		= "(desAPV.datosForm.kngTotalRetiro>0 || desAPV.PorcentajeFinal >0)?true:false" 							
+						bcs-clic			= "desAPV.fn.ActualizarCobros(desAPV.OrdenesSeleccion, desAPV.cobrosModificados, true)"
+					>
+					</bcs-button>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button 
+						class				= "col-xs-12" 
+						id					= "UI_LIMPIAR_DESINVERSION"
+						bcs-tipo			= "'bcs-button-secondary'" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto			= "'UI_LIMPIAR' | translate" 
+						bcs-habilitado		= "true" 							
+						bcs-clic			= "desAPV.fn.limpiarFormulario()"
+					>
+					</bcs-button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,90 @@
+<div id="ConfiguracionAperturaCierreBloqueo" class="col-xs-12" ng-controller="ConfiguracionAperturaCierreBloqueoCtrl">
+	<div class="row bcs-cuerpo">
+	   	<div class="row">
+			<div class="col-xs-12">
+				<div class="row">
+					<label class="col-xs-2" translate>UI_INSTRUMENTO</label> 
+			  		<bcs-combobox-base class="col-xs-3"
+			  			tipo="'combobox-fondo-ffmm'"
+			  			id-actual="formData.IdFondo"
+			  			id-defecto="IdFondoSeleccionado"
+			  			bcs-requerido
+			  			todos="'S'">
+			  		</bcs-combobox-base>
+					<label class="col-xs-1 col-xs-offset-1" translate>UI_EMISOR</label> 
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-emisor'"
+			  			id-actual="formData.IdEmisor"
+			  			filtros="formData.filtrosEmisor"
+			  			todos="'S'" 
+			  			id-defecto="'0'">
+			  		</bcs-combobox-base> 
+			  	</div>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" translate>UI_ESTADO_BLOQUEO</label>
+				<bcs-combobox-base class="col-xs-3"
+		  			tipo="'combobox-bloqueado-desbloqueado'"
+		  			id-actual="formData.BloqueadoDesbloqueado"
+		  			id-defecto="'NA'">
+		  		</bcs-combobox-base> 
+			</div>
+		</div>
+		<hr>
+		<div ng-show="formData.mostrarOpcionesBloqueo">	
+			<div class="row" ng-show="formData.mostrarBloqueoIndefinido">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_BLOQUEO_INDEFINIDO</label>
+					<bcs-combobox-base class="col-xs-3"
+			  			tipo="'combobox-si-no-noaplica'"
+			  			id-actual="formData.BloqueoIndefinido"
+			  			id-defecto="'NA'">
+			  		</bcs-combobox-base> 
+				</div>
+			</div>
+			<div ng-show="formData.mostrarPlazos">
+				<div class="row" ng-show="formData.mostrarPlazos && formData.mostrarBloqueoIndefinido">
+					<div class="col-xs-12">
+						<label class="col-xs-2" translate>UI_FECHA_INICIO_BLOQUEO</label>
+						<bcs-input-date class="col-xs-3" 
+							k-ng-model="formData.fechaInicioBloqueo">
+						</bcs-input-date>
+						<label class="col-xs-2" translate>UI_FECHA_TERMINO_BLOQUEO</label>
+						<bcs-input-date 
+							class="col-xs-3" 
+							k-ng-model="formData.fechaTerminoBloqueo">
+						</bcs-input-date>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_BLOQUEAR_PARA</label>
+			  		<bcs-combobox-base class="col-xs-3"
+			  			tipo="'combobox-tipo-operacion'"
+			  			id-actual="formData.tipoOperacion"
+			  			seleccionado="oOperacion.seleccionado"
+			  			filtros="formData.filtrosTipoOperacion"
+			  			todos="'S'"
+			  			id-defecto="'0'"
+			  			bcs-requerido>
+			  		</bcs-combobox-base>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-12>
+			<bcs-button class="col-xs-2 pull-right" id="MantenedorApertura_GuardarAperturaCierreBloqueo" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_GUARDAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.modificarAperturaCierreBloqueo()">
+			</bcs-button>	
+		</div>
+	</div>
+</div>

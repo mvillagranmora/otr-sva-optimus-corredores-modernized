@@ -1,0 +1,73 @@
+<div class="row" ng-controller='ConsultarReasignacionOperacionesMesaRFCtrl as conReasignacion'>
+	<form name="frmConsultarReasignacionOperacionesMesa"  class="col-xs-12 form-horizontal">
+		<div class="row bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-10">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-2" translate>UI_MESA</label>
+							<bcs-combobox-base class="col-xs-10"
+								id="UI_MESA"
+								tipo="dataReasignacion.oConfiguracionMesas.tipo"
+								auto-cargar="'true'"
+								bcs-requerido
+								seleccionado="dataReasignacion.oConfiguracionMesas.seleccionado"
+								filtros="dataReasignacion.oConfiguracionMesas.filtros"
+								id-actual="dataReasignacion.oConfiguracionMesas.idActual"
+								configuracion= "dataReasignacion.oConfiguracionMesas.configuracion"
+								item-post-filtro="'1'">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-3">
+							<label class="col-xs-6 col-xs-offset-1" translate>UI_FECHA_LIQUIDACION_DESDE</label>
+							<bcs-input-date class="col-xs-5" 
+								id="FechaOperacion"
+								activado="'false'" 
+								k-ng-model="dataReasignacion.kngFechaOperacion"
+								k-options="{max: dataReasignacion.kngFechaOperacionFin}">
+							</bcs-input-date>
+						</div>
+						<div class="col-xs-3">
+                            <label class="col-xs-6 col-xs-offset-1" translate>UI_FECHA_LIQUIDACION_HASTA</label>
+                            <bcs-input-date class="col-xs-5" 
+                                id="FechaOperacionFin"
+                                activado="'false'" 
+                                k-ng-model="dataReasignacion.kngFechaOperacionFin"
+                                k-options="{min: dataReasignacion.kngFechaOperacion}">
+                            </bcs-input-date>
+                        </div>		
+					</div>
+				</div>
+				<div class="col-xs-2">
+					<div class="row">
+						<bcs-button id="frmBuscarOperaciones"  
+							class="col-xs-12" 
+							bcs-tipo="'principal'" 
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_BUSCAR' | translate"  
+							bcs-habilitado="frmConsultarReasignacionOperacionesMesa.$valid" 
+							bcs-clic="dataReasignacion.buscarOperacionesMesaRF(dataReasignacion.gridApiOperacionesMesaRF,dataReasignacion)">  
+						</bcs-button>
+					</div>
+				</div>
+			</div>
+			<div class="row" ng-if="show">
+				<bcs-grid id="grid-reasignacionOperacionMesaRF"
+					fn-exportar-excel = "exportarExcel"
+				 	configuracion  = "dataReasignacion.confBasicaOperacionesMesaRF"
+					seleccionado   = "dataReasignacion.seleccionOperacionesMesaRF"
+					api            = "dataReasignacion.gridApiOperacionesMesaRF"
+					fn-doble-click = "dataReasignacion.detalleOperacion(grid.dataReasignacion.seleccionOperacionesMesaRF)"	>
+				</bcs-grid>
+				
+			</div>
+		</div>
+		
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos">			
+			<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+				<li ng-click="exportarExcel(NombreArchivo)">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</form>
+</div>

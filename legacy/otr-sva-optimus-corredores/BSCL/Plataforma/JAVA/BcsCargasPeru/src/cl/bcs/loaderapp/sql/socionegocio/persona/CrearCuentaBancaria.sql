@@ -1,0 +1,35 @@
+INSERT INTO "BSCL.SocioNegocio.BD::PER.CuentaBancaria"
+(
+   "IdCuentaBancaria",
+   "IdBanco",
+   "IdTipoCuentaBancaria",
+   "IdMoneda",
+   "NumeroCuentaBancaria",
+   "IdPersona",
+   "FechaIngreso",
+   "FechaCreacion",
+   "FechaModificacion",
+   "IdEstado", 
+   "IdEstadoAutorizacion",
+   "IdUsuarioCreador",
+   "IdPlaza",
+   "IdTipoIdentificadorCuenta",
+   "IdentificadorCuenta"
+)
+SELECT
+    "BSCL.Plataforma.BD.Secuencias::BAN.IdCuentaBancaria".NEXTVAL,
+    :IdBanco,
+	:IdTipoCuentaBancaria,
+	:IdMoneda,
+	:NumeroCuentaBancaria,
+	:IdPersona,
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	:IdEstado,
+	:IdEstadoAutorizacion,
+	:IdUsuarioCreador,
+	:IdPlaza,
+	:IdTipoIdentificadorCuenta,
+	:IdentificadorCuenta
+FROM DUMMY

@@ -1,0 +1,201 @@
+<div class="row" ng-controller='ConsultarMovimientosCtrl' tabindex="1">
+	<div class="row" >
+		<div class="row">
+			<div class="col-xs-10 bcs-cuerpo">
+				<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-7" 
+						id="UI_FECHA"
+						bcs-requerido
+						k-ng-model="data.kngFecha"
+						k-options="data.fechaOptions">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_MESA</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="UI_MESA"
+					 	auto-cargar="'true'"
+					 	todos="data.todos"
+					 	activado="data.habilita"
+					    tipo="'combobox-mesas'"
+					    filtros="data.oConfiguracionMesa.filtros"
+						id-actual="data.oConfiguracionMesa.idActual"
+					    seleccionado="data.oConfiguracionMesa.seleccionado"
+					    item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-7"
+						bcs-requerido
+						id="UI_TIPO_INSTRUMENTO"
+						auto-cargar="'true'"
+						tipo="'combobox-tipoinstrumento-mesa'"
+						todos="'S'"
+						seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+						id-actual="data.oConfiguracionTipoInstrumento.idActual"
+						filtros="data.oConfiguracionTipoInstrumento.filtros"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4" ng-show="data.txtFD">
+					<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+					<bcs-input-date class="col-xs-7" 
+						id="UI_FECHA_DESDE"
+						bcs-requerido
+						k-ng-model="data.kngFechaDesde" 
+						k-ng-disabled="data.HabilitaFecha"
+						k-options="data.fechaOptions"> 
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4" ng-show="data.txtFH">
+					<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+					<bcs-input-date class="col-xs-7" 
+						id="UI_FECHA_HASTA"
+						bcs-requerido
+						k-ng-model="data.kngFechaHasta" 
+						k-ng-disabled="data.HabilitaFecha"
+						k-options="data.fechaOptions"> 
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="UI_OPERACION"
+						auto-cargar="'true'"
+						tipo="'combobox-operacion-mesa'"
+						todos="'S'"
+						filtros="data.oConfiguracionOperacion.filtros"
+						id-actual="data.oConfiguracionOperacion.idActual"
+						seleccionado="data.oConfiguracionOperacion.seleccionado"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_CANAL</label>
+					<bcs-combobox-base class="col-xs-6" 
+						id="UI_CANAL"
+						auto-cargar		="'true'"
+						tipo			="'combobox-tipo-canal-ingreso'"
+						configuracion	="data.oConfiguracionCanal.configuracion" 				
+						filtros			=""
+						id-actual		="data.oConfiguracionCanal.idActual"
+						seleccionado	="data.oConfiguracionCanal.seleccionado"
+						activado        ="data.oConfiguracionCanal.activado"
+						id-post-filtro	="data.oConfiguracionCanal.idPostFiltro"
+						todos="'S'" id-defecto="'0'" item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4" ng-show="HabilitoCheckFFMM">
+					<label class="col-xs-4" translate>UI_FONDOS_MUTUOS_DOLAR</label>
+					<bcs-combobox-base 
+					class="col-xs-6"
+					id="UI_FMM_DOLAR"
+					auto-cargar="'true'"
+					tipo="'combobox-ffmm-dolar'"
+					todos="'S'"
+					item-post-filtro="'1'"
+					seleccionado="data.ffmmDolar.seleccionado"
+					>
+				</bcs-combobox-base>
+				</div>
+			</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-11"
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true"
+						bcs-clic="data.filtrarMovimientos(1,undefined)">
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-11"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.limpiarFiltros()">
+					</bcs-button>
+				</div>
+				<bcs-websocket bcs-msg='msgWebsocket(message)'></bcs-websocket>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<div class="row">
+		<div class="row">
+			<div class="col-xs-12">
+				<new-bcs-grid 	
+					id="grid-movimientos" 
+					fn-exportar-excel="exportarExcel"
+					configuracion="confMovimientos"
+				    seleccionado="ObjSeleccionGrilla.seleccionGrillaMovimiento"
+					fn-doble-click="ConsultarOperacionUI()">
+				</new-bcs-grid>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class="col-xs-2">
+				<bcs-button class="col-xs-12"
+					bcs-tipo="'bcs-button-primary'"
+					id="ConsultaOperacionesSpot_movimiento_modificar"
+					bcs-texto="'UI_MODIFICAR' | translate" 
+					bcs-habilitado="(HabilitoBotonModificar) && !gridHistoricoMovimiento && HabilitoBotonModificarMultiPantalla" 
+					bcs-clic="ModificaOperacionUI()"
+					bcs-auto-desactivar="false">
+				</bcs-button>
+			</div>
+			<div class="col-xs-2">
+				<bcs-button  class="col-xs-12"
+					bcs-tipo="'bcs-button-secondary'"
+					id="ConsultaOperacionesSpot_movimiento_anular"
+					bcs-texto="'UI_ANULAR' | translate" 
+					bcs-habilitado="(HabilitoBotonAnular) && !gridHistoricoMovimiento && HabilitoBotonModificarMultiPantalla"
+					bcs-clic="AnularOperacionUI()"
+					bcs-auto-desactivar="false">
+				</bcs-button>
+			</div>
+			<div class="col-xs-2">
+				<bcs-button  class="col-xs-12"
+					bcs-tipo="'bcs-button-secondary'"
+					id="ConsultaOperacionesSpot_movimiento_modificar_fecha"
+					bcs-texto="'UI_MODIFICAR_FECHA' | translate" 
+					bcs-habilitado="(HabilitoBotonModificarFecha)"
+					bcs-clic="ModificarFechaOperacionUI()"
+					bcs-auto-desactivar="false">
+				</bcs-button>
+			</div>
+	
+			<div class="col-xs-2">			
+				<bcs-button  class="col-xs-12"
+					bcs-tipo="'bcs-button-secondary'"
+					id="ConsultaOperacionesSpot_ActualizarSpotFm"
+					bcs-texto="'UI_TC_CIERRE_TC_COSTO' | translate" 
+					bcs-habilitado="HabilitoBotonFFMM"
+					bcs-clic="ActualizarSpotFondoMutuo()"
+					ng-show="MuestroBotonFFMM"
+					bcs-auto-desactivar="false">
+				</bcs-button>			
+			</div>
+			
+			<div class="col-xs-2"></div>
+			<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_GENERAR_REPORTES' | translate">
+				<li id="ConsultaOperacionesSpot_generarPapeleta"
+					ng-click="generarPapeleta()">{{'UI_GENERAR_PAPELETA' | translate}}</li>
+				<li id="ConsultaOperacionesSpot_generarConfirmacion" ng-show="ObjSeleccionGrilla.seleccionGrillaMovimiento.Mesa === 'MEFW'"
+					ng-click="generarReportesFWD('CONFIRMACION')">{{'UI_GENERAR_CONFIRMACION' | translate}}</li>
+				<li id="ConsultaOperacionesSpot_generarContrato" ng-show="ObjSeleccionGrilla.seleccionGrillaMovimiento.Mesa === 'MEFW'"
+					ng-click="generarReportesFWD('CONTRATO')">{{'UI_GENERAR_CONTRATO' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

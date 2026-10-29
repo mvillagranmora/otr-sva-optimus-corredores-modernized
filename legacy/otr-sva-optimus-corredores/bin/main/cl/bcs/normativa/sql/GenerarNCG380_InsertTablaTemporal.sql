@@ -1,0 +1,1 @@
+INSERT INTO "#ParamSolicitudNcg380Pauta" ("Tipo", "NombreParametro", "Valor") VALUES (:Tipo, :NombreParametro, :Valor);

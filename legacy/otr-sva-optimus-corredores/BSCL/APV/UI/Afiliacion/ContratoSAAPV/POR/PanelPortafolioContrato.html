@@ -1,0 +1,153 @@
+<div id="PanelPortafolioContrato" class="row" ng-controller="PanelPortafolioContratoCtrl as ppcs">
+	<div class="row">
+		<form name="formPanelPortafolioContrato" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">	
+<!--  -->
+<!--  -->
+			<div class="row">
+				<strong> <div class="col-xs-6 ng-scope" translate="">UI_ORIGEN_Y_MONTO_AHORRO</div></strong>
+			</div>
+			<hr>
+			<div class="row" >
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_PRODUCTO</label>
+					<bcs-combobox-base
+						class			= "col-xs-9"
+						bcs-requerido
+						todos			= "'N'"
+						tipo			= "'combobox-producto-agrupador'"
+						id-actual		= "ppcs.ProductoAgrupadorIdActual"
+						id-defecto		= "ppcs.ProductoAgrupadorIdDefecto"
+						auto-cargar		= "'false'"
+						filtros			= "ppcs.FiltroProductoAgrupador.filtros"
+						cascada-a		= "ppcs.FiltroRegimenAgrupador.filtros.IdProductoAgrupador"
+					    cascada-valor	= "'IdProductoAgrupador'"
+						seleccionado	= "ppcs.ProductoAgrupadorSeleccionado"
+						activado		= "ppcs.ProductoAgrupadorDeshabilitado">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5 ng-scope" translate="">UI_REGIMEN</label>
+      				<bcs-combobox-base 
+						id				= "UI_REGIMEN_TRIBUTARIO"
+						class			= "col-xs-7"
+						bcs-requerido
+						tipo			= "'combobox-regimen-apv'"
+						auto-cargar		= "'false'"
+						seleccionado	= "ppcs.RegimenAgrupadorSeleccionado"
+						id-actual		= "ppcs.RegimenAgrupadorIdActual"
+						filtros			= "ppcs.FiltroRegimenAgrupador.filtros">
+					</bcs-combobox-base>
+				</div>
+    		</div> 
+    		<div class="row" ng-show="csaapv.OrigenTraspasoSeleccionado === undefined">
+    			<div class="col-xs-3">
+					<label class="col-xs-4 ng-scope" translate="">UI_MONTO_PESOS</label>
+					<bcs-input-numero 
+						class			= "col-xs-7"
+						bcs-requerido	= "ppcs.MontoPesoOrigenRequerido"
+						bcs-mayor-que	= "'0'"
+						ng-model		= "ppcs.MontoPesoOrigen"
+						k-ng-model		= "ppcs.kngMontoPesoOrigen"
+						ng-blur			= "ppcs.Requerido('MONTO')"
+						k-ng-disabled	= "!ppcs.MontoPesoOrigenDeshabilitado">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-4 ng-scope" translate="">UI_UF</label>
+					<bcs-input-numero 
+						class			= "col-xs-6"
+						bcs-requerido	= "ppcs.MontoUFOrigenRequerido"
+						bcs-mayor-que	= "'0'"
+						ng-model		= "ppcs.MontoUFOrigen"
+						k-ng-model		= "ppcs.kngMontoUFOrigen"
+						ng-blur			= "ppcs.Requerido('UF')"
+						k-ng-disabled	= "!ppcs.MontoUFOrigenDeshabilitado">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5 ng-scope" translate="">UI_%R.I.</label>
+					<bcs-input-porcentaje 
+						class			= "col-xs-7"
+						bcs-requerido	= "ppcs.PorcentajeOrigenRequerido"
+						bcs-mayor-que	= "'0'"
+						ng-model		= "ppcs.PorcentajeOrigen"
+						k-ng-model		= "ppcs.kngPorcentajeOrigen"
+						ng-blur			= "ppcs.Requerido('RI')"
+						k-ng-disabled	= "!ppcs.PorcentajeOrigenDeshabilitado">
+					</bcs-input-porcentaje>
+				</div>
+				<div class="col-xs-3">
+      				<label class="col-xs-4 ng-scope" translate="">UI_PAGO</label>
+					<bcs-combobox-base 
+						id				= "UI_PAGO"
+						class			= "col-xs-7"
+						bcs-requerido
+						id-actual		= "ppcs.TipoPagoIdActual"
+						tipo			= "'combobox-tipo-pago-saapv'"
+						seleccionado	= "ppcs.tipoPagoSeleccion">
+					</bcs-combobox-base>
+    			</div>
+    		</div>
+    		<div class="row" ng-show="csaapv.OrigenTraspasoSeleccionado === undefined">
+    			<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_MES_INICIO</label>
+					<bcs-input-date 
+						class			= "col-xs-7"
+						bcs-requerido	= "ppcs.PerInicioRequerido"
+						k-options		= "ppcs.PerInicioOptions" 
+						k-ng-model		= "ppcs.kngPeriodoInicio"
+						k-ng-disabled	= "ppcs.habilitoMesInicio"
+						ng-blur			= "ppcs.validaPeriodo()"
+						todo-dias		= "true"
+					>
+					</bcs-input-date>
+				</div>
+    			<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_MES_TERMINO</label>
+					<bcs-input-date 
+						class			= "col-xs-6"
+						bcs-requerido	= "ppcs.PerTerminoRequerido"
+						k-options		= "ppcs.PerTerminoOptions" 
+						k-ng-model		= "ppcs.kngPeriodoTermino"
+						k-ng-disabled	= "ppcs.habilitoMesTermino"
+						ng-blur			= "ppcs.validaPeriodo()"
+						todo-dias		= "true"
+					>
+					</bcs-input-date>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-xs-offset-8 col-xs-4" ng-show="csaapv.OrigenTraspasoSeleccionado === undefined">	
+	    			<div class="col-xs-6">
+		    			<bcs-button class		= "col-xs-11"
+							bcs-habilitado		= "true" 
+							bcs-tipo			= "'bcs-button-input-form'"
+							bcs-auto-desactivar	= "false" 
+							bcs-texto			= "'UI_ELIMINAR' | translate" 
+							bcs-clic			= "ppcs.fnEliminoOrigenAhorro()">
+						</bcs-button>
+					</div>
+					<div class="col-xs-6">
+		    			<bcs-button 
+		    				class				= "col-xs-11"
+							bcs-habilitado		= "ppcs.habilitarAgregar" 
+							bcs-tipo			= "'bcs-button-input-form'"
+							bcs-auto-desactivar	= "false" 
+							bcs-texto			= "'UI_AGREGAR' | translate" 
+							bcs-clic			= "ppcs.fnAgregoOrigenAhorro()">
+						</bcs-button>
+					</div>
+				</div> 	
+    		</div> 
+    		<div class="row">
+				<bcs-grid 
+					id="gridOrigenAhorro"
+					seleccionado="ppcs.origenAhorroSeleccionado" 
+					configuracion="ppcs.origenAhorro"
+					>
+				</bcs-grid>
+			</div>
+<!--  -->	
+		</form>
+	</div>
+</div>

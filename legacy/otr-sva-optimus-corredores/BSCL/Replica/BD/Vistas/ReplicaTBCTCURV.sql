@@ -1,0 +1,41 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaTBCTCURV"; 
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaTBCTCURV" AS
+
+SELECT 
+	WST."IdStack" AS "IDSTACK","Action" AS ACTION,
+	COD_PER  || ':' || TRIM(RUT_CLI) || ':' ||  SEC_RUT_CLI || ':' ||  trim(NEMO) || ':' ||  COD_BOVEDA AS TABLE_KEY,
+	"COD_PER"
+	,"IdCliente"
+	,"CAN_CUSTODIA"
+	,"RUT_CLI"
+	,"SEC_RUT_CLI"
+	,"MERCADO"
+	,"NEMO"
+	,"COD_BOVEDA"
+	,"CAN_COM_PLAZO"
+	,"CAN_GARANTIA"
+	,"CAN_LIBRE_01"
+	,"CAN_LIBRE_02"
+	,"CAN_LIBRE_03"
+	,"CAN_TRAM_COM"
+	,"CAN_TRAM_VEN"
+	,"CAN_VEN_PLAZO"
+	,"MONTO_INI_AJUS"
+	,"MONTO_VALORIZ"
+	,"PRECIO_CIERRE"
+	,"PRECIO_PROM"
+	,"COD_MANDATO"
+	,"COD_OBSERVAC" 
+	,"CAN_PRESTAMO"
+	,"CAN_VENTA_CORTA"
+	,"MON_MORIGEN"
+	,"VALOR_MERCADO_MORIGE"
+FROM "BSCL.Replica.BD.Vistas::Sebra.TBCTCURV" SCUST
+--FROM "BSCL.Replica.BD.Vistas::Sebra.TBCTCURVHist"('PLACEHOLDER' = ('$$p_fecha$$','2022-08-31')) curf
+left JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'TBCTCURV' 
+	AND WST."Key" = COD_PER  || ':' || TRIM(RUT_CLI) || ':' ||  SEC_RUT_CLI || ':' ||  trim(NEMO) || ':' ||  COD_BOVEDA
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaTBCTCURV" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

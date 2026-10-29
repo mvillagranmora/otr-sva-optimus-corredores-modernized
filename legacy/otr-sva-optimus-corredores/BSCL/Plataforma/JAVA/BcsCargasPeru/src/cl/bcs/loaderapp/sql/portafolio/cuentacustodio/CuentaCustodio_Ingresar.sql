@@ -1,0 +1,43 @@
+INSERT INTO "BSCL.Portafolio.BD::POR.CuentaCustodioPortafolio"
+(
+	"IdCuentaCustodioPortafolio",
+  	"IdPortafolio",
+   	"IdBoveda",
+   	"Codigo",
+   	"FechaIngreso",
+   	"FechaCreacion",
+	"FechaModificacion",
+	"IdUsuarioCreador",
+	"IdEstado",
+	"IdEstadoAutorizacion",
+	"IdTipoCuentaCustodia",
+	"IdTipoCustodia",
+	"IdModeloCustodia",
+	"IdPersonaBancoCustodio",
+	"IdPersonaBancoLiquidador",
+	"LiquidaDividendos",
+	"LiquidaCupones",
+	"LiquidaVencimientos",
+	"LiquidaPrepagos"
+) VALUES 
+(
+	:IdCuentaCustodioPortafolio,
+	:IdPortafolio,
+	:IdBoveda,
+	:Codigo,
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	:IdUsuarioCreador,
+	:IdEstado,
+	:IdEstadoAutorizacion,
+	:IdTipoCuentaCustodia,
+	:IdTipoCustodia,
+	:IdModeloCustodia,
+	:IdPersonaBancoCustodio,
+	:IdPersonaBancoLiquidador,
+	:LiquidaDividendos,
+	:LiquidaCupones,
+	:LiquidaVencimientos,
+	:LiquidaPrepagos
+);

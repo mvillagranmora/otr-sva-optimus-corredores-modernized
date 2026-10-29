@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::BAT.Programa" SET "RutaLog" = :RutaLog WHERE "IdPrograma" = :IdPrograma;

@@ -1,0 +1,32 @@
+INSERT INTO "BSCL.Mesa.BD::FWD.IngresarForwardCartera_Proceso"(
+	 "FolioInterno","IdOperacion","FolioCartera","IdTipoOperacionOriginal","IdTipoOperacionNuevo"
+	,"IdTipoInstrumento","IdClasificacionTipoInstrumento","IdTipoProducto","IdInstrumento","Nemotecnico"
+	,"IdClienteOriginal","IdClienteNuevo","IdPortafolioOriginal","IdPortafolioNuevo","IdPersonaEjecutivoOriginal","IdPersonaEjecutivoNuevo"
+	,"IdTipoCanalIngreso","IdMonedaPrincipal","IdMonedaSecundaria","PrecioVencimiento"
+	,"MontoOperacionOriginal","MontoOperacionNuevo","MontoInicialOriginal","MontoInicialNuevo","MontoFinalOriginal","MontoFinalNuevo"
+	,"FechaOperacion"
+	,"TCCierreOriginal","TCCierreNuevo","ParidadCierreOriginal","ParidadCierreNuevo","PlazoOriginal","PlazoNuevo"
+	,"FechaVencimientoOriginal","FechaVencimientoNuevo","FechaPagoOriginal","FechaPagoNuevo","IdModalidadLiquidacionOriginal","IdModalidadLiquidacionNuevo"
+	,"IdReferenciaMercado","IdPlaza"
+	,"TCCostoOriginal","TCCostoNuevo","PuntosTasasForwardOriginal","PuntosTasasForwardNuevo","PuntosForwardOriginal","PuntosForwardNuevo","TCForwardOriginal","TCForwardNuevo"
+	,"TasasMonedaPrincipalOriginal","TasasMonedaPrincipalNuevo","TasasMonedaSecundariaOriginal","TasasMonedaSecundariaNuevo"
+	,"MontoDiferidoOriginal","MontoDiferidoNuevo","MontoMargenOriginal","MontoMargenNuevo"
+	,"IdFixingOriginal","IdFixingNuevo","FechaFixingOriginal","FechaFixingNuevo","HoraFixingOriginal","HoraFixingNuevo"
+	,"IdMesa","IdSpotAsociado","Observaciones","IdEstado","TasaDescuento","TipoCambioAnticipo","MontoARecibirAnticipo","TipoCambioObservado"
+)
+VALUES(
+	 :FolioInterno,:IdOperacion,:FolioCartera,:IdTipoOperacionOriginal,:IdTipoOperacionNuevo
+	,:IdTipoInstrumento,:IdClasificacionTipoInstrumento,:IdTipoProducto,:IdInstrumento,:Nemotecnico
+	,:IdClienteOriginal,:IdClienteNuevo,:IdPortafolioOriginal,:IdPortafolioNuevo,:IdPersonaEjecutivoOriginal,:IdPersonaEjecutivoNuevo
+	,:IdTipoCanalIngreso,:IdMonedaPrincipal,:IdMonedaSecundaria,:PrecioVencimiento
+	,:MontoOperacionOriginal,:MontoOperacionNuevo,:MontoInicialOriginal,:MontoInicialNuevo,:MontoFinalOriginal,:MontoFinalNuevo
+	,:FechaOperacion
+	,:TCCierreOriginal,:TCCierreNuevo,:ParidadCierreOriginal,:ParidadCierreNuevo,:PlazoOriginal,:PlazoNuevo
+	,:FechaVencimientoOriginal,:FechaVencimientoNuevo,:FechaPagoOriginal,:FechaPagoNuevo,:IdModalidadLiquidacionOriginal,:IdModalidadLiquidacionNuevo
+	,:IdReferenciaMercado,:IdPlaza
+	,:TCCostoOriginal,:TCCostoNuevo,:PuntosTasasForwardOriginal,:PuntosTasasForwardNuevo,:PuntosForwardOriginal,:PuntosForwardNuevo,:TCForwardOriginal,:TCForwardNuevo
+	,:TasasMonedaPrincipalOriginal,:TasasMonedaPrincipalNuevo,:TasasMonedaSecundariaOriginal,:TasasMonedaSecundariaNuevo
+	,:MontoDiferidoOriginal,:MontoDiferidoNuevo,:MontoMargenOriginal,:MontoMargenNuevo
+	,:IdFixingOriginal,:IdFixingNuevo,:FechaFixingOriginal,:FechaFixingNuevo,:HoraFixingOriginal,:HoraFixingNuevo
+	,:IdMesa,:IdSpotAsociado,:Observaciones,:IdEstado,:TasaDescuento,:TipoCambioAnticipo,:MontoARecibirAnticipo,:TipoCambioObservado
+);

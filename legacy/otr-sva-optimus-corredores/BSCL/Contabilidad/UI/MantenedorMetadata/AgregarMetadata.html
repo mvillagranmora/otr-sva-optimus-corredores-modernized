@@ -1,0 +1,136 @@
+<div id="AgregarMetadataContabilidad" class="col-xs-12" ng-controller="AgregarMetadataContabilidadCtrl">
+	<div class="col-xs-12 bcs-cuerpo">
+		<form name="AgregarMetadataContabilidadForm" class="filters-formulario">
+			<div class="row">
+				<label class="col-xs-12" translate>UI_CODIGO_METADATA</label>
+				<bcs-input-texto 
+					class="col-xs-12" 
+					ng-model="data.valorMetadata">
+				</bcs-input-texto>
+			</div>
+			<div class=row></div>
+			<div class="row">
+				<label class="col-xs-12" translate>UI_DESCRIPCION_METADATA</label>
+				<bcs-input-texto 
+					class="col-xs-12" 
+					ng-model="data.descripcionMetadata">
+				</bcs-input-texto>
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-12" translate>UI_NUMERO_CUENTA</label>
+				<bcs-combobox-base class="col-xs-12" 						 
+						tipo="'combobox-cuentas-contables'"
+						seleccionado="data.selecionadoCuenta"  						  						
+ 						id-actual= "data.numeroCuentaActual"
+ 						bcs-requerido
+ 						activado='true'>					
+ 				</bcs-combobox-base>
+			</div>
+			<div class=row></div>
+			<div class="row">
+				<label class="col-xs-12" translate>UI_DATO</label>
+				<bcs-combobox-base class="col-xs-12" 						 
+						tipo="'combobox-evento-tipo-dato'"
+						seleccionado="data.selecionadoEventoTipoDato"  						  						
+ 						id-actual= "data.eventoTipoDato"
+ 						cascada-a="oValor.filtros.IdTipoDatoEvento"
+						cascada-valor="'IdTipoDatoEvento'"
+ 						bcs-requerido
+ 						activado='true'>					
+ 				</bcs-combobox-base>
+			</div>
+			<div class="row" style="padding-top: 5px;"></div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CONDICIONES_ASIENTO</label>
+				<div class="col-xs-2">  		
+			  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.igualB" ng-disabled="inputs.igualDisabledB">
+			  		<label class="col-xs-4" >=</label>
+				</div>
+				<div class="col-xs-2">  		
+			  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.distintoB" ng-disabled="inputs.distintoDisabledB">
+			  		<label class="col-xs-4" ><></label>
+				</div>
+				<div class="col-xs-2">  		
+			  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.mayorEstrictoB" ng-disabled="inputs.mayorEstrictoDisabledB">
+			  		<label class="col-xs-4" >></label>
+				</div>
+				<div class="col-xs-2">  		
+			  		<input class="col-xs-6" type="checkbox" id="" ng-model="inputs.menorEstrictoB" ng-disabled="inputs.menorEstrictoDisabledB">
+			  		<label class="col-xs-4" ><</label>
+				</div>
+			</div>
+			<div class=row></div>
+			<div class="row">
+				<label class="col-xs-12" translate>UI_VALOR</label>
+				<div class="row">
+					<bcs-combobox-base class="col-xs-12" 						 
+						tipo="'combobox-valor-evento-tipo-dato'"
+						seleccionado="data.selecionadoValorEventoTipoDato"
+						auto-cargar="false"
+						filtros="oValor.filtros"
+						activado="data.selecionadoEventoTipoDato.DatosPreDefinidos === 'S'"  						  						
+ 						id-actual= "data.eventoValorTipoDato">					
+ 					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<bcs-input-texto class="col-xs-12" k-ng-disabled="data.selecionadoEventoTipoDato.DatosPreDefinidos === 'S'"
+							ng-model="data.valorTexto"> </bcs-input-texto>
+							
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-button class="col-xs-3" id="Agregar" 
+						bcs-texto="'UI_AGREGAR' | translate" 
+						bcs-habilitado="AgregarMetadataContabilidadForm.$valid"
+						bcs-tipo="'bcs-button-input-form'" 
+						bcs-auto-desactivar="false"
+						bcs-clic="formInfo.agregarMetadataContabilidad()">
+					</bcs-button>
+					<bcs-button class="col-xs-3" id="Agregar" 
+						bcs-texto="'UI_CARGAR' | translate" 
+						bcs-habilitado="'true'"
+						bcs-tipo="'bcs-button-input-form'" 
+						bcs-auto-desactivar="false"
+						bcs-clic="formInfo.cargarCuentasMetadata()">
+					</bcs-button>
+				</div>
+				
+			</div>
+			<div class="row">
+			<bcs-grid 
+				id="grid-consulta-metadata"
+			 	configuracion="tbcuentas.confDatos"
+				seleccionado="grid.seleccionadoPreCuentasFiltros">		
+			</bcs-grid>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-button class="col-xs-3" id="Agregar" 
+						bcs-texto="'UI_ELIMINAR' | translate" 
+						bcs-habilitado="grid.seleccionadoPreCuentasFiltros"
+						bcs-tipo="'bcs-button-input-form'" 
+						bcs-auto-desactivar="false"
+						bcs-clic="formInfo.eliminarMetadataContabilidad()">
+					</bcs-button>
+				</div>
+			</div>
+			<hr>
+			<div class="row bcs-panel-buttons">
+				<div class="col-xs-12 alignButtonsToRight">
+					<bcs-button class="col-xs-3" id="Guardar" 
+						bcs-texto="'UI_GUARDAR' | translate" 
+						bcs-habilitado="'true'"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar="false"
+						bcs-clic="formInfo.guardarMetadataContabilidad()">
+					</bcs-button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

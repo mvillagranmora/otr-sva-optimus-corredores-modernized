@@ -1,0 +1,61 @@
+set schema "BSCL";
+
+drop view "BSCL.Normativa.BD.Vistas::TRI.DJ1919.Origen";
+
+create view "BSCL.Normativa.BD.Vistas::TRI.DJ1919.Origen" (
+    "IdEmpresa"
+    ,"IdOperacion"
+    ,"FechaOperacion"
+    ,"Numero"
+    ,"RutEmisor"
+    ,"TaxID"
+    ,"RutCliente"
+    ,"CodigoPaisConstitucion"
+    ,"CodigoPaisResidencia"
+    ,"PorcentajePropiedadDirectaIndirecta"
+    ,"ParticipacionDirectaIndirectaControl"
+    ,"NemotecnicoSVS"
+    ,"NumeroCuentaDCV"
+    ,"Moneda"
+    ,"ValorEmision"
+    ,"ValorColocacion"
+    ,"ValorAdquisicion"
+    ,"ValorAdquisicionEnPesos"
+    ,"ValorEnajenacion"
+    ,"ValorEnajenacionEnPesos"
+    ,"MayorValorEnajenacion"
+    ,"MayorValorEnajenacionEnPesos"
+    ,"IdCliente"
+    ,"IdPortafolio"
+    ,"IdDocumento"
+) as
+select 
+	1 AS "IdEmpresa"
+	,1 AS "IdOperacion"
+	,TO_DATE('2020-08-17') AS "FechaOperacion"
+	,1 AS "Numero"
+	,'1-9' AS "RutEmisor"
+    ,'2-7' AS "TaxID"
+    ,'2-7' AS "RutCliente"
+    ,'CL' AS "CodigoPaisConstitucion"
+    ,'CL' AS "CodigoPaisResidencia"
+    ,46 AS "PorcentajePropiedadDirectaIndirecta"
+    ,1 AS "ParticipacionDirectaIndirectaControl"
+    ,'LAN' AS "NemotecnicoSVS"
+    ,'' AS "NumeroCuentaDCV"
+    ,1 AS "Moneda"
+    ,100 AS "ValorEmision"
+    ,100 AS "ValorColocacion"
+    ,100 AS "ValorAdquisicion"
+    ,100 AS "ValorAdquisicionEnPesos"
+    ,100 AS "ValorEnajenacion"
+    ,100 AS "ValorEnajenacionEnPesos"
+    ,100 AS "MayorValorEnajenacion"
+    ,100 AS "MayorValorEnajenacionEnPesos"
+    ,524891 AS "IdCliente"
+	,512348 AS "IdPortafolio"
+	,512348 AS "IdDocumento"
+FROM DUMMY
+with read only;
+
+grant select on "BSCL.Normativa.BD.Vistas::TRI.DJ1919.Origen" to bcs_desarrollador with grant option;

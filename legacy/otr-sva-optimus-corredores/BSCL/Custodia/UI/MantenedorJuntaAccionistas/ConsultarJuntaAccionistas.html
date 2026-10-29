@@ -1,0 +1,154 @@
+<div class="row" ng-controller='ConsultarJuntaAccionistasCtrl'>
+
+	<div class="row bcs-cuerpo">
+		
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_TIPO_JUNTA_ACCIONISTA</label>
+						<bcs-combobox-base
+							class="col-xs-6"
+							tipo="data.oConfiguracionTipoJuntaAccionista.tipo"
+							id-actual="filtros.tipoJuntaAccionista"
+							seleccionado="filtros.tipoJuntaAccionistaSeleccionado"
+							filtros="data.oConfiguracionTipoJuntaAccionista.filtros"
+							id-defecto="'0'"
+							todos="'S'"
+							>
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_ESTADO_JUNTA</label>
+						<bcs-combobox-base
+							class="col-xs-6"
+							auto-cargar="true"
+							tipo="data.oConfiguracionEstadoJunta.tipo"
+							id-actual="filtros.estadoJunta"
+							filtros="data.oConfiguracionEstadoJunta.filtros"
+							seleccionado="filtros.estadoJuntaSeleccionado"
+							id-defecto="'0'"
+							todos="'S'"
+							>
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_ESTADO_RESPALDO_CUSTODIA</label>
+						<bcs-combobox-base
+							class="col-xs-6"
+							auto-cargar="true"
+							tipo="data.oConfiguracionEstadoRespaldoCustodia.tipo"
+							filtros="data.oConfiguracionEstadoRespaldoCustodia.filtros"
+							id-actual="filtros.estadoRespaldoCustodia"
+							seleccionado="filtros.estadoRespaldoCustodiaSeleccionado"
+							id-defecto="'0'"
+							todos="'S'"
+							>
+						</bcs-combobox-base>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_EMISOR</label> 
+				  		<bcs-combobox-base class="col-xs-6"
+				  			tipo="'combobox-emisor'"
+				  			id-actual="filtros.IdEmisor"
+				  			filtros="data.filtrosEmisor"
+				  			todos="'S'" 
+				  			id-defecto="'0'">
+				  		</bcs-combobox-base> 
+				  	</div>
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_FECHA_REALIZACION_DESDE</label>
+						<bcs-input-date class="col-xs-6" ng-model="filtros.fecIniciong" k-ng-model="filtros.FecInicio"></bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_FECHA_REALIZACION_HASTA</label>
+						<bcs-input-date class="col-xs-6" ng-model="filtros.fecTerminong" k-ng-model="filtros.FecTermino"></bcs-input-date>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12"
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="''"
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="buscarJuntaAccionistas()" 
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="true" 
+						bcs-clic="limpiarFiltros()"
+					></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+		<!-- GRILLA -->
+		<div class="row">
+			<div class="col-xs-12">
+				<bcs-grid id= "gridLibroOperaciones"
+					configuracion = "data.confBasicaJuntaAccionistas"
+					seleccionado = "juntaAccionistasSeleccionado"
+					fn-click = ""
+					fn-doble-click = ""
+					fn-exportar-excel = "excelJuntaAccionista"
+					api = "apiGridConsultarJuntaAccionistas">
+				</bcs-grid>
+			</div>
+		</div>
+		<!-- FIN GRILLA -->
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" id="ConsultarJuntaAccionistas_ingresar" 
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_INGRESAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="ingresarJuntaAccionista()">
+		</bcs-button>
+		<bcs-button class="col-xs-2" id="ConsultarJuntaAccionistas_modificar" 
+			bcs-tipo="'bcs-button-secondary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_MODIFICAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="modificarJuntaAccionista(juntaAccionistasSeleccionado)">
+		</bcs-button>
+		<bcs-button class="col-xs-2" id="ConsultarJuntaAccionistas_eliminar" 
+			bcs-tipo="'bcs-button-secondary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ELIMINAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="eliminarJuntaAccionista(juntaAccionistasSeleccionado)">
+		</bcs-button>
+		<bcs-menu 
+			class="col-xs-1 pull-right" 
+			bcs-habilitado="'true'"
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-texto="'UI_OPCIONES' | translate">		            
+			<li ng-click="excelJuntaAccionista('JuntaAccionistas')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			<li id="ConsultarJuntaAccionistas_verInstructivo" ng-click="verInstructivo(juntaAccionistasSeleccionado)">{{'UI_VER_INSTRUCTIVO' | translate}}</li>
+			<li id="ConsultarJuntaAccionistas_generarRespaldoCustodia" ng-click="generarRespaldoCustodia(juntaAccionistasSeleccionado)">{{'UI_GENERAR_RESPALDO_CUSTODIA' | translate}}</li>
+			<li id="ConsultarJuntaAccionistas_limpiarRespaldoCustodia" ng-click="limpiarRespaldoCustodia(juntaAccionistasSeleccionado)">{{'UI_LIMPIAR_RESPALDO_CUSTODIA' | translate}}</li>
+			<li id="ConsultarJuntaAccionistas_cerrarJuntaAccionistas" ng-click="cerrarJuntaAccionistas(juntaAccionistasSeleccionado)">{{'UI_CERRAR_JUNTA_ACCIONISTAS' | translate}}</li>
+			<li id="ConsultarJuntaAccionistas_verRespaldoCustodia" ng-click="verRespaldoCustodia(juntaAccionistasSeleccionado)">{{'UI_VER_RESPALDO_CUSTODIA' | translate}}</li>
+			<li id="ConsultarJuntaAccionistas_generarnominaJunta" ng-click="generarNominaJuntaAccionista(juntaAccionistasSeleccionado)">{{'UI_GENERAR_NOMINA_JUNTA_ACCIONISTAS' | translate}}</li>
+			<li id="ConsultarJuntaAccionistas_verNominaJunta" ng-click="verNominaJuntaAccionista(juntaAccionistasSeleccionado)">{{'UI_VER_NOMINA_JUNTA_ACCIONISTAS' | translate}}</li>
+		</bcs-menu>
+	</div>
+	
+</div>

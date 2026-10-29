@@ -1,0 +1,848 @@
+<div>
+	<form class="bcs-cuerpo">
+		<ng-form name="leFormPreferencias" class="col-xs-12 form-horizontal">
+			<div style="overflow:auto; height:300px; border:1px solid #ddd; padding:10px;">
+				<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+					<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_GENERALES</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_SOBREGIRO_CUENTA_INVERSION</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOGENERAL//GEN_SOBCTA']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-show="definicionIndicadores['GRUPOGENERAL//GEN_SOBTES']">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_SOBREGIRO_TESORERIA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOGENERAL//GEN_SOBTES']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_OPERA_CONTRA_CUENTA_INVERSION</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOGENERAL//GEN_OCCINV']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row"> <!-- CELLINCECT-592 -->
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_OPERA_CON_SALDO_NEGATIVO</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOGENERAL//GEN_OCSNEG']"
+							ng-disabled="win.modoLectura || win.disableOpCSN">
+						</bcs-input-checkbox>
+					</div>
+				</div> <!-- CELLINCECT-592 -->
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_CODIGO_IFRS</label>
+						<bcs-combobox-base class="col-xs-3"
+							id="leFormPreferencias_GRUPOGENERAL//GEN_CODIFRS"
+							bcs-requerido="camposRequeridos['GEN_CODIFRS'].Requerido === 'S'"
+							tipo="'combobox-tipo-ifrs'"
+							id-actual="datosDespues['GRUPOGENERAL//GEN_CODIFRS']"
+							id-defecto="datosAntes['GRUPOGENERAL//GEN_CODIFRS']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionModoFacturacion.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_INDICADOR_USA_DIRECCION_PROPIA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOGENERAL//GEN_DIR_PROPIA']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-show="datosDespues['GRUPOGENERAL//GEN_DIR_PROPIA']">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_DOMICILIO_CONTRATO</label>
+						<bcs-combobox-base 
+							class="col-xs-3"
+							ng-show="win.uiPortafolio"
+							id="leFormPreferencias_GRUPOGENERAL//GEN_CODDIR"
+							bcs-requerido="win.uiPortafolio && datosDespues['GRUPOGENERAL//GEN_DIR_PROPIA']"
+							tipo="'combobox-persona-direccion-fisica'"
+							id-actual="datosDespues['GRUPOGENERAL//GEN_CODDIR']"
+							id-defecto="datosAntes['GRUPOGENERAL//GEN_CODDIR']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionEmail.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row" ng-show="!datosDespues['GRUPOGENERAL//GEN_DIR_PROPIA']">
+					<div class="col-xs-12">
+						<label class="col-xs-5"  translate>UI_DOMICILIO_CONTRATO_RELACION</label>
+						<bcs-combobox-base
+							class="col-xs-3"
+							ng-show="win.uiPortafolio"
+							tipo="'combobox-direccion-contrato'"
+							id="leFormPreferencias_GRUPOGENERAL//GEN_CODDIR_REL"
+							bcs-requerido="win.uiPortafolio && !datosDespues['GRUPOGENERAL//GEN_DIR_PROPIA']"
+							id-actual="datosDespues['GRUPOGENERAL//GEN_CODDIR_REL']"
+							id-defecto="datosAntes['GRUPOGENERAL//GEN_CODDIR_REL']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros = "cmbbx.oConfiguracionDireccionContrato.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_COBRO_CUSTODIA</label>
+						<bcs-combobox-base class="col-xs-3"
+							id="leFormPreferencias_GENERALES//COBROCUST"
+							bcs-requerido="camposRequeridos['COBROCUST'].Requerido === 'S'"
+							tipo="'combobox-detalle-tipo-atributo'"
+							id-actual="datosDespues['GENERALES//COBROCUST']"
+							id-defecto="datosAntes['GENERALES//COBROCUST']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionCobroCustodia.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<br>
+				<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+					<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_FACTURACION</div>
+				</div>	
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_SEPARA_LINEA_FACTURA_POR_TRANSACCION</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_SLFPTR']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_SEPARA_FACTURA_POR_INSTRUMENTO</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_SFPINS']"
+							ng-disabled="win.modoLectura || win.disableSFPINS">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_FUSIONA_LINEA_FACTURA_POR_PRECIO</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_FLFPPR']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_FUSIONA_FACTURA_PRECIO_PROMEDIO_RV</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_FFPPRV']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_MODO_FACTURACION</label>
+						<bcs-combobox-base
+							class="col-xs-3"
+							id="leFormPreferencias_GRUPOFACTURACION//FAC_MODFAC"
+							bcs-requerido="camposRequeridos['FAC_MODFAC'].Requerido === 'S'"
+							tipo="'combobox-detalle-tipo-atributo'"
+							id-actual="datosDespues['GRUPOFACTURACION//FAC_MODFAC']"
+							id-defecto="datosAntes['GRUPOFACTURACION//FAC_MODFAC']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionModoFacturacion.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>				
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_CONVENIO_DERECHO_BCS</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_CDRBCS']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>				
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_CONVENIO_DERECHO_BEC</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_CDRBEC']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_CODIGO_OPERADOR_INTERFAZ_AFP</label>
+						<bcs-input-numero
+							class="col-xs-1"
+							id="leFormPreferencias_GRUPOFACTURACION//FAC_COIAFP"
+							bcs-requerido="camposRequeridos['FAC_COIAFP'].Requerido === 'S'"
+							k-ng-model="datosDespues['GRUPOFACTURACION//FAC_COIAFP']"
+							k-ng-disabled="win.modoLectura"
+							decimales="'0'">
+						</bcs-input-numero>
+					</div>
+				</div>								
+				<div class="row">
+					<div class="col-xs-12" ng-show="definicionIndicadores['GRUPOFACTURACION//FAC_ENVFEM'].Visible == 'S'">
+						<label class="col-xs-5" translate>UI_ENVIA_FACTURA_A_DIRECCION_ELECTRONICA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_ENVFEM']"
+							ng-disabled="win.modoLectura"
+							>
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-if="definicionIndicadores['GRUPOFACTURACION//FAC_DIRELE'].Visible == 'S' && !modeloCliente">
+					<div class="col-xs-12" ng-show="datosDespues['GRUPOFACTURACION//FAC_ENVFEM']">
+						<label class="col-xs-5" translate>UI_DIRECCION_ELECTRONICA</label>
+						<bcs-input-texto
+							class="col-xs-3"
+							ng-show="!win.uiPortafolio"
+							id="leFormPreferencias_GRUPOFACTURACION//FAC_DIRELE"
+						    bcs-requerido="!win.uiPortafolio && datosDespues['GRUPOFACTURACION//FAC_ENVFEM']"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_DIRELE']" 
+							k-ng-disabled="win.modoLectura"
+							>
+						</bcs-input-texto>
+						<bcs-combobox-base class="col-xs-3" ng-show="win.uiPortafolio"
+							id="leFormPreferencias_GRUPOFACTURACION//FAC_DIRELE"
+							bcs-requerido="win.uiPortafolio && datosDespues['GRUPOFACTURACION//FAC_ENVFEM']"
+							tipo="'combobox-persona-grupo-y-direccion'"
+							id-actual="datosDespues['GRUPOFACTURACION//FAC_DIRELE']"
+							id-defecto="datosAntes['GRUPOFACTURACION//FAC_DIRELE']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionEmail.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_FUSIONAR_FACTURA_VC</label>
+						<bcs-combobox-base
+							class="col-xs-3"
+							ng-show="win.uiPortafolio"
+							id="leFormPreferencias_GRUPOFACTURACION//FAC_FFVC"
+							bcs-requerido="win.uiPortafolio && camposRequeridos['FAC_FFVC'].Requerido === 'S'"
+							tipo="'combobox-detalle-tipo-atributo'"
+							id-actual="datosDespues['GRUPOFACTURACION//FAC_FFVC']"
+							id-defecto="datosAntes['GRUPOFACTURACION//FAC_FFVC']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionModoFacturacionventacorta.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row" ng-show="!datosDespues['GRUPOFACTURACION//FAC_ENVFEM']">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_DIRECCION_FISICA</label>
+						<bcs-combobox-base
+							id="leFormPreferencias_GRUPOFACTURACION//FAC_DIRFIS"
+							bcs-requerido="win.uiPortafolio && !datosDespues['GRUPOFACTURACION//FAC_ENVFEM']"
+							class="col-xs-3"
+							ng-show="win.uiPortafolio"
+							tipo="'combobox-persona-direccion-fisica'"
+							id-actual="datosDespues['GRUPOFACTURACION//FAC_DIRFIS']"
+							id-defecto="datosAntes['GRUPOFACTURACION//FAC_DIRFIS']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionEmail.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row" ng-show="currentRootScope.SesionLocale === 'PE'">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_EMITE_POLIZA_EN_INGLES</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOFACTURACION//FAC_EMPOEN']"
+							ng-disabled="win.modoLectura"
+							>
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				
+				<br>				
+				<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+					<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_TESORERIA</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_NETEA_INGRESOS_EGRESOS_TESORERIA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOTESORERIA//TES_NIE']"
+							ng-disabled="win.modoLectura || win.disableNeteaIngEgrTes">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<br>
+				
+				<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+					<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_ORDENES</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_OPERA_CUSTODIA_RV</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDOCUSTRV']"
+							ng-disabled="win.modoLectura"
+							ng-change="win.actualizarEstado('RV')">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_SOBREGIRO_CUSTODIA_RV</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDSOBREGIRORV']"
+							ng-disabled="win.modoLectura || !datosDespues['GRUPOORDENES//ORDOCUSTRV']">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_OPERA_CUSTODIA_RF/IF</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDOCUSTRF']"
+							ng-disabled="win.modoLectura"
+							ng-change="win.actualizarEstado('RF/IF')"
+						>
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_SOBREGIRO_CUSTODIA_RF</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDSOBREGIRORF']"
+							ng-disabled="win.modoLectura || !datosDespues['GRUPOORDENES//ORDOCUSTRF']">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_SOBREGIRO_CUSTODIA_IF</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDSOBREGIROIF']"
+							ng-disabled="win.modoLectura || !datosDespues['GRUPOORDENES//ORDOCUSTRF']"
+						>
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_CLIENTE_RUTEA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDCLIRUR']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_PERMITE_VENTA_DESCUBIERTA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDVENDES']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-show="currentRootScope.SesionLocale === 'PE'">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_USA_CUENTA_PROPIA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDCUENTAPROPIA']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-show="currentRootScope.SesionLocale === 'PE'">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_USA_CUENTA_BANCO</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDCUENTABANCO']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" >
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_PERMITE_VENDER_NOMINAL_RV</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDVNNOMRV']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_PERMITE_VENDER_NOMINAL_RF/IF</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//ORDVNNOMRF']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-show="win.uiPortafolio">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_DIRECCION_ELECTRONICA_NOTIFICACION</label>
+						<bcs-combobox-base
+							class="col-xs-3"
+							id="leFormPreferencias_GRUPOORDENES//ORDMAILNTF"
+							bcs-requerido="win.uiPortafolio && camposRequeridos['ORDMAILNTF'].Requerido === 'S'"
+							tipo="'combobox-persona-grupo-y-direccion'"
+							id-actual="datosDespues['GRUPOORDENES//ORDMAILNTF']"
+							id-defecto="datosAntes['GRUPOORDENES//ORDMAILNTF']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionOrdEmailNotificacion.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_LIBRO_ORDENES</label>
+						<bcs-combobox-base
+							class="col-xs-3"
+							id="leFormPreferencias_GRUPOORDENES//ORDLIBRO"
+							bcs-requerido="camposRequeridos['ORDLIBRO'].Requerido === 'S'"
+							tipo="'combobox-libro-orden'"
+							id-actual="datosDespues['GRUPOORDENES//ORDLIBRO']"
+							id-defecto="datosAntes['GRUPOORDENES//ORDLIBRO']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionOrdLibroOrdenes.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_LIBRO_ORDENES_RUTEO_AGENTE</label>
+						<bcs-combobox-base
+							class="col-xs-3"
+							id="leFormPreferencias_GRUPOORDENES//ORDLIBROAGENTE"
+							bcs-requerido="camposRequeridos['ORDLIBROAGENTE'].Requerido === 'S'"
+							tipo="'combobox-libro-orden'"
+							id-actual="datosDespues['GRUPOORDENES//ORDLIBROAGENTE']"
+							id-defecto="datosAntes['GRUPOORDENES//ORDLIBROAGENTE']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionOrdLibroOrdenes.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_LIBRO_ORDENES_RUTEO_RETAIL</label>
+						<bcs-combobox-base
+							class="col-xs-3"
+							id="leFormPreferencias_GRUPOORDENES//ORDLIBRORETAIL"
+							bcs-requerido="camposRequeridos['ORDLIBRORETAIL'].Requerido === 'S'"
+							tipo="'combobox-libro-orden'"
+							id-actual="datosDespues['GRUPOORDENES//ORDLIBRORETAIL']"
+							id-defecto="datosAntes['GRUPOORDENES//ORDLIBRORETAIL']"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionOrdLibroOrdenes.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_MODALIDAD_CAPTACION</label>
+						<bcs-input-checkgroup class="col-xs-7"
+							valores="datosDespues['GRUPOORDENES//ORDMODALIDAD']"
+							etiquetas = "valoresModalidadOrdenes"
+							modo = "M"
+							activado="!win.modoLectura">
+						</bcs-input-checkgroup>
+					</div>
+				</div>
+				<div class="row" ng-show="currentRootScope.SesionLocale === 'PE'">
+					<label class="col-xs-5" translate>UI_TIPO_ORDEN_DEFECTO</label>
+					<bcs-combobox-base class="col-xs-3"
+						id="leFormPreferencias_GRUPOORDENES//ORDDEFECTOESPORD"
+						bcs-requerido="currentRootScope.SesionLocale === 'PE'"
+						tipo="'combobox-detalle-tipo-atributo'"
+						id-actual="datosDespues['GRUPOORDENES//ORDDEFECTOESPORD']"
+						id-defecto="datosAntes['GRUPOORDENES//ORDDEFECTOESPORD']"
+						todos="'N'"
+						activado="!win.modoLectura"
+						filtros="cmbbx.oConfiguracionTipoOrdenDefecto.filtros">
+					</bcs-combobox-base>
+				</div>
+				
+				<!-- ShortName -->			
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_IDNEGOCIACION</label>
+						<bcs-input-texto class="col-xs-2"
+							id="leFormPreferencias_GRUPOORDENES//GEN_SHORTNAME"
+							bcs-requerido="camposRequeridos['GEN_SHORTNAME'].Requerido === 'S'"
+							ng-model="datosDespues['GRUPOORDENES//GEN_SHORTNAME']"
+							k-ng-disabled="win.modoLectura">
+						</bcs-input-texto>
+					</div>
+				</div>	
+				
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_PER_ASIGNAR_MISMORUT_OEOD</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOORDENES//PER_ASIGNAR_MISMORUT_OEOD']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>	
+
+				<br>
+				<div class="row" ng-show="currentRootScope.SesionLocale !== 'PE'">
+					<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+						<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_FORWARD</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5" translate>UI_INGRESO_OPERACION_REQUIERE_AUTORIZACION</label>
+							<bcs-input-checkbox class="col-xs-2"
+								id="leFormPreferencias_GRUPOFORWARD//FRWDINGORA"
+								ng-model="datosDespues['GRUPOFORWARD//FRWDINGORA']"
+								ng-disabled="win.modoLectura">
+							</bcs-input-checkbox>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5"  translate>UI_NOMBRE_APODERADOS_CONTRATO_FWD</label>
+							<bcs-combobox-base
+								class="col-xs-3"
+								id="leFormPreferencias_GRUPOFORWARD//FWDAPO1"
+								bcs-requerido="currentRootScope.SesionLocale !== 'PE' && camposRequeridos['FWDAPO1'].Requerido === 'S'"
+								tipo="'combobox-relacionado'"
+								id-actual="datosDespues['GRUPOFORWARD//FWDAPO1']"
+								id-defecto="datosAntes['GRUPOFORWARD//FWDAPO1']"
+								todos="'N'"
+								activado="!win.modoLectura"
+								filtros="cmbbx.oConfiguracionApoderadoCliente.filtros">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<bcs-combobox-base
+								class="col-xs-offset-5 col-xs-3"
+								id="leFormPreferencias_GRUPOFORWARD//FWDAPO2"
+								bcs-requerido="currentRootScope.SesionLocale !== 'PE' && camposRequeridos['FWDAPO2'].Requerido === 'S'"
+								tipo="'combobox-relacionado'"
+								id-actual="datosDespues['GRUPOFORWARD//FWDAPO2']"
+								id-defecto="datosAntes['GRUPOFORWARD//FWDAPO2']"
+								todos="'N'"
+								activado="!win.modoLectura"
+								filtros="cmbbx.oConfiguracionApoderadoCliente.filtros">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<br>
+				</div>
+				<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+					<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_NOTIFICACIONES</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_DIRECCION_RESUMEN_DE_OPERACIONES_DIARIAS</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPONOTIFICACIONES//NOT_ENVROP']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_DIRECCION_NOTIFICACION_POR_DEFECTO</label>
+						<bcs-input-texto
+							class="col-xs-3"
+						 	ng-show="!win.uiPortafolio"
+							ng-model="datosDespues['GRUPONOTIFICACIONES//NOT_EMAIL']" 
+							k-ng-disabled="win.modoLectura">
+						</bcs-input-texto>
+						<bcs-combobox-base
+							class="col-xs-3"
+						   	ng-show="win.uiPortafolio"
+							tipo="'combobox-persona-grupo-y-direccion'"
+							id-actual="datosDespues['GRUPONOTIFICACIONES//NOT_EMAIL']"
+							id-defecto="datosAntes['GRUPONOTIFICACIONES//NOT_EMAIL']"
+							bcs-requerido="win.uiPortafolio && camposRequeridos['NOT_EMAIL'].Requerido === 'S'"
+							todos="'N'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionEmail.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<br>
+				
+				<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+					<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_CARTOLA_MENSUAL</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_PERIODICIDAD</label>
+						<bcs-combobox-base
+							class="col-xs-3"
+							tipo="'combobox-detalle-tipo-atributo'"
+							id-actual="datosDespues['GRUPOCARTOLA//CAR_PERIOD']"
+							id-defecto="datosAntes['GRUPOCARTOLA//CAR_PERIOD']"
+							todos="'N'"
+						    bcs-requerido="camposRequeridos['CAR_PERIOD'].Requerido === 'S'"
+							activado="!win.modoLectura"
+							filtros="cmbbx.oConfiguracionPeriodicidad.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12" ng-show="definicionIndicadores['GRUPOCARTOLA//CAR_ENVCEM'].Visible == 'S'">
+						<label class="col-xs-5" translate>UI_ENVIA_CARTOLA_POR_DIRECCION_ELECTRONICA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOCARTOLA//CAR_ENVCEM']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-if="definicionIndicadores['GRUPOCARTOLA//CAR_DIRELE'].Visible == 'S' && !modeloCliente">
+					<div class="col-xs-12" ng-show="datosDespues['GRUPOCARTOLA//CAR_ENVCEM']">
+						<label class="col-xs-5" translate>UI_DIRECCION_ELECTRONICA</label>
+						<bcs-input-texto
+							class="col-xs-3"
+							ng-show="!win.uiPortafolio"
+							ng-model="datosDespues['GRUPOCARTOLA//CAR_DIRELE']"
+						    bcs-requerido="!win.uiPortafolio && datosDespues['GRUPOCARTOLA//CAR_ENVCEM']"
+							k-ng-disabled="win.modoLectura" 
+							ng-blur="win.focusOutEmail()">
+						</bcs-input-texto>
+						<bcs-combobox-base
+							class="col-xs-3"
+							ng-show="win.uiPortafolio"
+							tipo="'combobox-persona-grupo-y-direccion'"
+							id-actual="datosDespues['GRUPOCARTOLA//CAR_DIRELE']"
+							id-defecto="datosAntes['GRUPOCARTOLA//CAR_DIRELE']"
+							todos="'N'"
+							bcs-requerido="win.uiPortafolio && datosDespues['GRUPOCARTOLA//CAR_ENVCEM']"
+							activado="!win.modoLectura && datosDespues['GRUPOCARTOLA//CAR_ENVCEM']"
+							filtros="cmbbx.oConfiguracionEmail.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12" ng-show="definicionIndicadores['GRUPOCARTOLA//CAR_ENVCDF'].Visible == 'S'">
+						<label class="col-xs-5" translate>UI_ENVIA_CARTOLA_POR_DIRECCION_FISICA</label>
+						<bcs-input-checkbox class="col-xs-2"
+							ng-model="datosDespues['GRUPOCARTOLA//CAR_ENVCDF']"
+							ng-disabled="win.modoLectura">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row" ng-if="definicionIndicadores['GRUPOCARTOLA//CAR_DIRFIS'].Visible == 'S' && !modeloCliente">
+					<div class="col-xs-12" ng-show="datosDespues['GRUPOCARTOLA//CAR_ENVCDF']">
+						<label class="col-xs-5" translate>UI_DIRECCION_FISICA</label>
+						<bcs-input-texto class="col-xs-3" ng-show="!win.uiPortafolio"
+							ng-model="datosDespues['GRUPOCARTOLA//CAR_DIRFIS']"
+						    bcs-requerido="!win.uiPortafolio && datosDespues['GRUPOCARTOLA//CAR_ENVCDF']"
+							k-ng-disabled="win.modoLectura">
+						</bcs-input-texto>
+						<bcs-combobox-base
+							class="col-xs-3"
+							ng-show="win.uiPortafolio"
+							tipo="'combobox-persona-direccion-fisica'"
+							id-actual="datosDespues['GRUPOCARTOLA//CAR_DIRFIS']"
+							id-defecto="datosAntes['GRUPOCARTOLA//CAR_DIRFIS']"
+							todos="'N'"
+							bcs-requerido="win.uiPortafolio && datosDespues['GRUPOCARTOLA//CAR_ENVCDF']"
+							activado="!win.modoLectura && datosDespues['GRUPOCARTOLA//CAR_ENVCDF']"
+							filtros="cmbbx.oConfiguracionEmail.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<br>
+				<div class="row" ng-show="currentRootScope.SesionLocale !== 'PE'">
+					<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+						<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_FFMM</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5" translate>UI_MONEY_MARKET_AUTOMATICO</label>
+							<bcs-input-checkbox class="col-xs-2"
+								ng-model="datosDespues['GRUPOFFMM//FFMM_MMAUT']"
+								ng-disabled="win.modoLectura">
+							</bcs-input-checkbox>
+						</div>
+					</div>
+				
+					<br>
+					
+					<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+						<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_MESA</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5" translate>UI_OPERA_CUSTODIA_RF/IF</label>
+							<bcs-input-checkbox class="col-xs-2"
+								ng-model="datosDespues['GRUPOMESA//MES_CUSTRF']"
+								ng-disabled="win.modoLectura">
+							</bcs-input-checkbox>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5" translate>UI_CODIGO_SECTOR_ECONOMICO</label>
+							<bcs-combobox-base class="col-xs-3"
+								tipo="'combobox-detalle-tipo-atributo'"
+								id-actual="datosDespues['GRUPOMESA//MES_SECECO']"
+								id-defecto="datosAntes['GRUPOMESA//MES_SECECO']"
+								todos="'N'"
+								activado="!win.modoLectura"
+							    bcs-requerido="currentRootScope.SesionLocale !== 'PE' && camposRequeridos['MES_SECECO'].Requerido === 'S'"
+								filtros="cmbbx.oConfiguracionSectorEconomico.filtros">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5" translate>UI_CODIGO_OTC</label>
+							<bcs-input-numero class="col-xs-3"
+								k-ng-model="datosDespues['GRUPOMESA//MES_CODOTC']"
+							    bcs-requerido="currentRootScope.SesionLocale !== 'PE' && camposRequeridos['MES_CODOTC'].Requerido === 'S'"
+								k-ng-disabled="win.modoLectura"
+								decimales="'0'">
+							</bcs-input-numero>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5" translate>UI_NOMBRE_DATATEC</label>
+							<bcs-input-texto class="col-xs-3"
+							    bcs-requerido="currentRootScope.SesionLocale !== 'PE' && camposRequeridos['MES_DATTEC'].Requerido === 'S'"
+								ng-model="datosDespues['GRUPOMESA//MES_DATTEC']"
+								k-ng-disabled="win.modoLectura">
+							</bcs-input-texto>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5"  translate>UI_NOMBRE_APODERADOS_ADENDUM</label>
+							<bcs-combobox-base class="col-xs-3"
+								tipo="'combobox-relacionado'"
+								id-actual="datosDespues['GRUPOMESA//MES_APO1']"
+								id-defecto="datosAntes['GRUPOMESA//MES_APO1']"
+								todos="'N'"
+								activado="!win.modoLectura"
+							    bcs-requerido="currentRootScope.SesionLocale !== 'PE' && camposRequeridos['MES_APO1'].Requerido === 'S'"
+								filtros="cmbbx.oConfiguracionApoderadoCliente.filtros">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<bcs-combobox-base class="col-xs-offset-5 col-xs-3"
+								tipo="'combobox-relacionado'"
+								id-actual="datosDespues['GRUPOMESA//MES_APO2']"
+								id-defecto="datosAntes['GRUPOMESA//MES_APO2']"
+								todos="'N'"
+								activado="!win.modoLectura"
+							    bcs-requerido="currentRootScope.SesionLocale !== 'PE' && camposRequeridos['MES_APO2'].Requerido === 'S'"
+								filtros="cmbbx.oConfiguracionApoderadoCliente.filtros">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5" translate>UI_FIRMAN_FORMA_CONJUNTA</label>
+							<bcs-input-checkbox class="col-xs-2"
+								ng-model="datosDespues['GRUPOMESA//MES_FIRMA_CONJUNTA']"
+								ng-disabled="win.modoLectura">
+							</bcs-input-checkbox>
+						</div>
+					</div>
+	           </div>
+			   
+			   	<div class="row" ng-show="propositoPortafolio !== 'PROPOSITOAPV'">
+					<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+						<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_DIVIDENDOS</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-5" translate>UI_DIVIDENDO_OTRAS_MONEDAS</label>
+							<bcs-combobox-base
+								class="col-xs-3"
+								id="leFormPreferencias_GRUPODIVIDENDOS//DIV_DOM"
+								bcs-requerido="camposRequeridos['DIV_DOM'].Requerido === 'S'"
+								tipo="'combobox-detalle-tipo-atributo'"
+								id-actual="datosDespues['GRUPODIVIDENDOS//DIV_DOM']"
+								id-defecto="datosAntes['GRUPODIVIDENDOS//DIV_DOM']"
+								todos="'N'"
+								activado="!win.modoLectura"
+								filtros="cmbbx.oConfiguracionDividendoOtraMoneda.filtros">
+							</bcs-combobox-base>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		
+		
+			<div class="row bcs-panel-comandos" style="padding-top:20px">
+				<div class="col-xs-8">
+					<div class="row">
+						<bcs-button class="col-xs-2"
+							id="AdministrarPortafolioDatosGenerales_editar_preferencias"
+							bcs-tipo="'bcs-button-primary'"
+							ng-if="win.modoLectura"
+							bcs-mostrar="win.modoLectura"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_EDITAR' | translate"
+							bcs-habilitado="'true'"
+							bcs-clic="win.editar();">
+						</bcs-button>
+						<bcs-button class="col-xs-2"
+							id="AdministrarPortafolioDatosGenerales_guardar"
+							bcs-tipo="'bcs-button-primary'"
+							ng-if="!win.modoLectura"
+							bcs-mostrar="!win.modoLectura"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_GUARDAR' | translate"
+							bcs-habilitado="leFormPreferencias.$valid"
+							bcs-clic="win.guardar();">
+						</bcs-button>
+						<bcs-button class="col-xs-2"
+							id="AdministrarPortafolioDatosGenerales_cancelar"
+							bcs-tipo="'bcs-button-secondary'"
+							ng-if="!win.modoLectura"
+							bcs-mostrar="!win.modoLectura"
+							bcs-auto-desactivar="false"
+							bcs-texto="'UI_CANCELAR' | translate"
+							bcs-habilitado="'true'"
+							bcs-clic="win.cancelar();">
+						</bcs-button>
+					</div>
+				</div>
+			</div>
+		</ng-form>
+	</form>
+</div>

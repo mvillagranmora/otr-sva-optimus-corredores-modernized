@@ -1,0 +1,78 @@
+<form name="frmPagoCorteCupon">
+	<div class="row" ng-controller='ConsultarPagoCorteCuponCtrl'>
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-9" style="width: 71%;" id="UI_SOCIO_NEGOCIO"
+						auto-cargar="'false'" bcs-requerido tipo="oClientePortafolio.tipo"
+						filtros="filtrosPortafolio"
+						configuracion="oClientePortafolio.configuracion"
+						seleccionado="oClientePortafolio.seleccionado"
+						id-actual="filtros.IdPortafolio"> </bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+					<bcs-input-instrumentos class="col-xs-9" ng-model="instrumento"
+						datos-instrumento="filtro.instrumentoObjeto"
+						k-ng-model="filtro.instrumento"
+						buscar-instrumento="filtro.buscaroInstrumento"
+						filtro-estado="'ACT'"> </bcs-input-instrumentos>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA_PAGO_DESDE</label>
+					<bcs-input-date class="col-xs-9" ng-model="filtros.fecIniciong"
+						k-ng-model="filtros.fecInicio"> </bcs-input-date>
+				</div>
+
+				<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_FECHA_PAGO_HASTA</label>
+					<bcs-input-date class="col-xs-9" ng-model="filtros.fecTerminong"
+						k-ng-model="filtros.fecTermino"> </bcs-input-date>
+				</div>
+
+
+
+			</div>
+
+		</div>
+
+
+		<div class="col-xs-2">
+			<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+				bcs-habilitado="true" bcs-clic="buscarPagoCorteCupon()">
+			</bcs-button>
+
+			<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+				bcs-habilitado="true" bcs-clic="limpiarFiltros()"> </bcs-button>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<bcs-grid id="gridPagoCorteCupon"
+					configuracion="confGrillaPagoCorteCupon" api="gridApi"
+					seleccionado="seleccionPagoCorteCupon"
+					fn-exportar-excel="exportarExcel"> </bcs-grid>
+			</div>
+		</div>
+
+		<div>
+			<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'"
+				bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' |
+				translate}}</li>
+			</bcs-menu>
+
+		</div>
+
+
+
+
+
+
+	</div>
+</form>

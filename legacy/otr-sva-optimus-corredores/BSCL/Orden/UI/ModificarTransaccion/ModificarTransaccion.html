@@ -1,0 +1,221 @@
+<div class="row2" ng-controller="ModificarTransaccionCtrl">
+   	<form name="formTransaccion" class="row" style="min-height:400px">
+		<div class="row">
+			<label class="col-xs-2" translate>UI_TRANSACCION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="transaccion.IdTransaccion" ></bcs-input-texto>	
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CLASIFICACION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="transaccion.NombreClasificacionTipoInstrumento" ></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_BOLSA</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="transaccion.IdBolsa" ></bcs-input-texto>		
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="transaccion.NombreTipoInstrumento" ></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_OPERACION</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="transaccion.AccionTipoOperacion" ></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_FOLIO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="transaccion.FolioTransaccion" ></bcs-input-texto>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_HORA</label>
+			<bcs-input-datetime class="col-xs-3" k-ng-disabled="'true'" k-ng-model="transaccion.FechaOperacionTransaccion" ></bcs-input-datetime>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_INSTRUMENTO</label>
+			<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="transaccion.Instrumento" ></bcs-input-texto>
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CANTIDAD</label>
+			<bcs-input-numero class="col-xs-3" k-ng-model="transaccion.CantidadTransaccion" k-ng-disabled="formData.disabled"></bcs-input-numero>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_LIBRO_ORDENES</label>
+			<bcs-combobox-base class="col-xs-3" 
+				auto-cargar="'true'"
+				bcs-requerido="formData.requerido"
+				tipo="'combobox-libro-orden'"
+				filtros="formData.filtrosLibroOrdenes"
+				id-actual="transaccion.IdLibroOrdenes"
+				id-post-filtro="transaccionOriginal.IdLibroOrdenes"
+				activado="formData.activado">				
+			</bcs-combobox-base >
+		</div>
+
+		<div class="row">
+			<label class="col-xs-2" translate>UI_PRECIO</label>
+			<bcs-input-monetario class="col-xs-3" 
+				simbolo="transaccion.IdMonedaInstrumento"
+				decimales = "formData.decimalesPrecio"
+				k-ng-disabled="(transaccion.IdClasificacionTipoInstrumento !== 'RV' && transaccion.IdClasificacionTipoInstrumento !== 'DV') || formData.disabled"
+				k-ng-model="transaccion.PrecioTransaccion">
+			</bcs-input-monetario>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_MONTO</label>
+	    	<bcs-input-monetario 
+	    		class="col-xs-3" 
+	    		simbolo="transaccion.IdMonedaInstrumento"
+	    		decimales = "formData.decimalesMonto"
+	    		k-ng-model="transaccion.MontoTransaccion"
+	    		k-ng-disabled="transaccion.IdClasificacionTipoInstrumento==='RV' || formData.disabled">
+	    	</bcs-input-monetario>
+		</div>
+
+
+		<div class="row">
+			<label class="col-xs-2" translate>UI_TASA</label>
+			<bcs-input-numero class="col-xs-3"
+				k-ng-disabled="(transaccion.IdClasificacionTipoInstrumento !== 'IF' && transaccion.IdClasificacionTipoInstrumento !== 'RF') || formData.disabled"
+				k-ng-model="transaccion.Tasa"
+				decimales= "formData.decimalesTasa"       >
+			</bcs-input-numero>
+			                                
+			<div  class="col-xs-6 col-xs-offset-1" ng-show="SesionLocale === 'PE'">
+				<label class="col-xs-4"   translate>UI_MONTO_RETENCION</label>  <!-- falta .. solo para peru -->
+				<bcs-input-monetario 
+		    	    	class		= "col-xs-6"
+		    	    	k-ng-model	= "transaccion.MontoRetencion">
+		    	</bcs-input-monetario>  <!-- faltan decimales  decimales="0" -->
+	    	</div>
+		</div>
+
+		<div class="row">
+			<label class="col-xs-2" translate>UI_FECHA_OPERACION</label>
+			<bcs-input-date class="col-xs-3" k-ng-model="transaccion.FechaOperacion" k-ng-disabled="'true'"></bcs-input-date>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_MARCA_NEGOCIACION</label>
+	    	<bcs-input-texto class="col-xs-3" k-ng-disabled="formData.disabled" ng-model="transaccion.MarcaNegociacion" ></bcs-input-texto>
+		</div>
+		
+		<div class="row" ng-show="transaccion.IdClasificacionTipoInstrumento === 'IF'">
+			<label class="col-xs-2" translate>UI_VALOR_RESCATE</label>
+			<bcs-input-monetario class="col-xs-3"          
+				k-ng-model	  = "transaccion.ValorRescate"
+				k-ng-disabled = "formData.disabled">
+			</bcs-input-monetario>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_EMISION</label>
+	    	<bcs-input-date class="col-xs-3" k-ng-model="transaccion.FechaEmision" k-ng-disabled="formData.disabled"></bcs-input-date>
+		</div>
+				
+
+		<div class="row" ng-show="transaccion.IdClasificacionTipoInstrumento === 'RF' && SesionLocale === 'PE'">  <!-- falta .. solo para peru -->
+			<label class="col-xs-2" translate>UI_INTERES</label>
+			<bcs-input-numero  class="col-xs-3"
+				k-ng-disabled 	= "'true'"
+				k-ng-model		= "transaccion.Intereses"
+				decimales 		= "formData.decimalesMonto">
+			</bcs-input-numero>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_REAJUSTE</label>
+	    	<bcs-input-numero  class="col-xs-3"
+				k-ng-disabled 	= "'true'"
+				k-ng-model		= "transaccion.Reajustes"
+				decimales 		= "formData.decimalesMonto">
+			</bcs-input-numero>
+		</div>
+
+    	
+		<div class="row">
+    		<br>
+			<label class="col-xs-8" translate>UI_INFORMACION_LIQUIDACION</label>
+			<br><hr>
+    	</div>
+    	
+		<div class="row">
+			<label class="col-xs-2" translate>UI_FECHA_PAGO</label>
+			<bcs-input-date class="col-xs-3" k-ng-model="transaccion.FechaPago" k-ng-disabled="'true'"></bcs-input-date>
+			<!------
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_BILATERAL</label>
+			<div class="col-xs-3">
+				<input type="checkbox" ng-model="transaccion.EsBilateral">
+			</div>
+			------->
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_FECHA_LIQUIDACION</label>
+			<bcs-input-date class="col-xs-3" k-ng-model="transaccion.FechaLiquidacion"></bcs-input-date>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_BLOQUEAR_LIQUIDACION</label>
+			<div class="col-xs-3">
+				<input type="checkbox" ng-model="transaccion.BloqueoLiquidacion">
+			</div>
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CAMARA</label>
+			<bcs-combobox-base class="col-xs-3" id="formTransaccion_Camara"
+				auto-cargar		= "'true'"
+				tipo			= "oConfiguracionGrupoCamara.tipo"
+				configuracion	= "oConfiguracionGrupoCamara.configuracion" 				
+				seleccionado	= "oConfiguracionGrupoCamara.seleccionado"
+				filtros			= "oConfiguracionGrupoCamara.filtros"
+				activado        = "oConfiguracionGrupoCamara.activado"
+				id-actual		= "oConfiguracionGrupoCamara.idActual"				
+				id-post-filtro	= "transaccionOriginal.IdCamara">
+			</bcs-combobox-base>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_BILATERAL</label>
+			<div class="col-xs-3">
+				<input type="checkbox" ng-model="transaccion.EsBilateral">
+			</div>			
+		</div>
+		
+		<div class="row">
+    		<br>
+			<label class="col-xs-8" translate>UI_INFORMACION_CORRESPONSAL</label>
+			<br><hr>
+    	</div>
+    	
+    	<div class="row">
+   			<label class="col-xs-2" translate>UI_CORREDOR</label>
+			<bcs-combobox-base class="col-xs-3" 
+				tipo			= "'combobox-corredor-corresponsal'"
+				bcs-requerido 	= "transaccionOriginal.IdPaisBolsa !== SesionIdPaisSistema"
+				filtros 		= "formData.filtrosCorredorCorresponsal"
+				id-actual		= "transaccion.IdCorredorCorresponsal"
+				id-post-filtro	= "transaccionOriginal.IdCorredorCorresponsal">
+			</bcs-combobox-base>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_MONEDA_LIQUIDACION</label>
+			<bcs-combobox-base class="col-xs-3"
+				tipo			= "'combobox-moneda'"
+				id-actual 		= "transaccion.IdMonedaLiquidacionCorresponsal"
+				id-post-filtro	= "transaccionOriginal.IdMonedaLiquidacionCorresponsal"
+				>
+			</bcs-combobox-base >
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_TIPO_CAMBIO</label>
+			<bcs-input-monetario class="col-xs-3" 
+				simbolo 	= "''"
+				k-ng-model	= "transaccion.TipoCambioCorresponsal">
+			</bcs-input-monetario>
+		</div> 
+		
+		<div class="row">
+			<label class="col-xs-2" translate>UI_VALOR_GASTOS</label>
+			<bcs-input-monetario class="col-xs-3"
+				simbolo 	= "transaccion.IdMonedaLiquidacionCorresponsal"
+				k-ng-model	= "transaccion.GastosCorresponsal">
+			</bcs-input-monetario>
+			
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_VALOR_LIQUIDACION</label>
+			<bcs-input-monetario 
+				class		= "col-xs-3"
+				simbolo 	= "transaccion.IdMonedaLiquidacionCorresponsal"
+				k-ng-model	= "transaccion.MontoLiquidacionCorresponsal">
+			</bcs-input-monetario>			
+		</div>
+		
+		
+				
+	</form>
+	
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="formData.modificarTransaccion()" bcs-habilitado="'true'"></bcs-button>
+		<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="formData.cancelar()" bcs-habilitado="'true'"></bcs-button>
+		<div classxxx="col-xs-5"></div>
+	</div>
+</div>

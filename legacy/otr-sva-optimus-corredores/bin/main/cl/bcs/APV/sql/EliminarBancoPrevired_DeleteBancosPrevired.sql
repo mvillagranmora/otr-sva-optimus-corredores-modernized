@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.APV.BD::REC.CodigoBancoPrevired" WHERE "CodigoBancoPrevired" = :CodigoBancoPrevired

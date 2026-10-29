@@ -1,0 +1,101 @@
+<div id="PanelResultado" class="row" ng-controller="PanelResultadoCtrl as pResultado">
+	<!-- INICIO FILTROS -->
+	<form name="formResultado" class="col-xs-12 form-horizontal">
+		<div class="row bcs-cuerpo">
+			<!-- INICIO FILTROS DE BÚSQUEDA -->		
+			<div class="row">
+				<div class="col-xs-10">
+	  		  		<div class="col-xs-5"> 
+				  		<label class="col-xs-3" translate>UI_REPORTE</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							id="resultadoReporteId"					
+							id-actual="pResultado.filtro.IdReporte"  
+							tipo="'combobox-informe-tipo-ils'"
+						    filtros=""
+						    item-post-filtro="'1'"
+							seleccionado="pResultado.reporte.seleccionado"
+							configuracion= "pResultado.reporte.configuracion">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-3 col-xs-offset-1" translate>UI_FECHA_CONTABLE</label>
+						<bcs-input-date 
+							activado="'false'" 
+							class="col-xs-8" 
+							id="resultadoFechaContableId"
+							k-ng-model="pResultado.kngFechaContable">
+						</bcs-input-date>						
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-3 col-xs-offset-1" translate>UI_EMPRESA</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							filtros=""
+							id="resultadoEmpresaId"						
+							id-actual="pResultado.filtro.IdEmpresa"
+							id-defecto="'1'"
+							seleccionado="pResultado.empresa.seleccionado"
+							tipo="'combobox-empresas-ils'">
+						</bcs-combobox-base>
+					</div> 
+				</div>
+				<!-- FIN FILTROS DE BÚSQUEDA -->
+				
+				<!-- INICIO BOTÓNES DE ACCIÓN  DE BÚSQUEDA -->									
+				<div class="col-xs-2">
+					<div class="row">
+						<bcs-button 
+							bcs-auto-desactivar="false" 
+							bcs-clic="data.BuscarResultado()"
+							bcs-habilitado="true"   
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-tipo="'principal'"  
+							class="col-xs-12" 
+							id="buttonBuscar"> 
+						</bcs-button>	
+					</div>
+					
+			  	</div>
+		  	</div>
+			<!-- FIN BOTÓNES DE ACCIÓN  DE BÚSQUEDA -->		  	
+		</div>
+			
+		<div class="row">
+			<!-- INICIO GRILLA -->		
+			<new-bcs-grid
+				 id="grid-mov"
+				 configuracion="confResultados" 
+				 seleccionado="data.seleccionGrilla"
+				 fn-doble-click="ConsultarOperacionUI()">
+			</new-bcs-grid>
+			<!-- FIN GRILLA -->			
+		</div>
+	</form>
+		
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-2 col-xs-offset-6">
+			<bcs-button  class="col-xs-12"
+				bcs-clic="data.DigitarResultadoUI()"
+				bcs-texto="'UI_DIGITAR' | translate" 
+				bcs-habilitado="data.habilitaDig">
+			</bcs-button>
+		</div>
+		<div class="col-xs-2">
+			<bcs-button  class="col-xs-12" 
+				bcs-texto="'UI_GENERAR' | translate" 
+				bcs-habilitado="'true'"
+				bcs-clic="GenerarResultadoUI()">
+			</bcs-button>
+		</div>
+		<div class="col-xs-2">
+			<bcs-button  class="col-xs-12" 
+				bcs-auto-desactivar="'false'" 
+				bcs-texto="'UI_EXPORTAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-tipo="'principal'"
+				bcs-clic="exportarExcel()">
+			</bcs-button>
+		</div>
+	</div>
+</div>

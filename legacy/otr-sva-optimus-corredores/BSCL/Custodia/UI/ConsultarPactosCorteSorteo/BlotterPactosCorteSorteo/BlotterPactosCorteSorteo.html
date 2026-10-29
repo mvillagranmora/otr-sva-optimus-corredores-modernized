@@ -1,0 +1,110 @@
+<form name="frmPactosCorteSorteo">
+<div class="row" ng-controller='BlotterPactosCorteSorteoCtrl'>
+	<div class="col-xs-10">
+	
+		<div class="row">
+		
+		<div class="col-xs-8">				
+				<label class="col-xs-2" translate>UI_CLIENTE</label>
+				<bcs-combobox-base 
+					class="col-xs-10"
+				 	id="UI_SOCIO_NEGOCIO"
+				 	auto-cargar="'false'"
+				 	id-Actual="oConfiguracionSocioNegocio.idActual"
+				    tipo="'combobox-socio-negocio'"
+				    seleccionado="oConfiguracionSocioNegocio.seleccionado"
+				    filtros="oConfiguracionSocioNegocio.filtros"
+				    configuracion= "oConfiguracionSocioNegocio.configuracion"
+					cascada-a="oConfiguracionPortafolio.filtros.IdCliente"
+					cascada-valor="'IdCliente'"
+					cascada-defecto="-1" >
+				</bcs-combobox-base >
+			</div>				  
+		  
+			<div class="col-xs-4">
+				<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+	   			<bcs-input-instrumentos 
+	   				class="col-xs-8" 
+	   			  	datos-instrumento="filtro.instrumentoObjeto"
+	   			  	buscar-instrumento="filtro.buscarinstrumento" 
+	   			  	filtro-estado = "'ACT'" >
+				</bcs-input-instrumentos>				  				  			  	  
+			</div>
+
+			
+		</div>
+		
+		<div class="row">  
+			<div class="col-xs-4">
+				<label class="col-xs-4" translate>UI_FECHA_PAGO_DESDE</label>
+				<bcs-input-date 
+					class="col-xs-8" 
+					ng-model="filtro.fecIniciong" 
+					k-ng-model="filtro.fecInicio">
+				</bcs-input-date>
+			</div>
+			
+			<div class="col-xs-4">
+				<label class="col-xs-4" translate>UI_FECHA_PAGO_HASTA</label> 
+				<bcs-input-date 
+					class="col-xs-8" 
+					ng-model="filtro.fecTerminong" 
+					k-ng-model="filtro.fecTermino">
+				</bcs-input-date>
+			</div>	
+
+		</div>			
+	</div>		
+	
+
+	<div class="col-xs-2">
+		<div class="row">
+			<bcs-button 
+				class="col-xs-12" 
+				bcs-tipo="'bcs-button-search'"  
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_BUSCAR' | translate" 
+				bcs-habilitado="true"  
+				bcs-clic="data.buscar()">
+			</bcs-button>
+		</div>
+		
+		<div class="row">
+			<bcs-button 
+				class="col-xs-12" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_LIMPIAR' | translate" 
+				bcs-habilitado="true" 
+				bcs-clic="limpiarFiltros()">
+			</bcs-button>
+		</div>
+  	</div>
+  	
+
+  	
+	<div class="row" >
+		<div class="col-xs-12">			
+			<bcs-grid id="grid-PactosCorteSorteo"
+				configuracion = "confBasicaPactosCorteSorteo"
+				seleccionado = "seleccionPactosCorteSorteo">
+			</bcs-grid>
+		</div>		
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-12 bcs-panel-comandos">
+
+			<bcs-menu 
+				class			="col-xs-1 pull-right" 
+				bcs-tipo		="'bcs-button-secondary'" 
+				bcs-habilitado	="'true'" 
+				bcs-texto		="'UI_OPCIONES' | translate">		            
+			<li ng-click		="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+
+		</div>
+	</div>
+	
+</div>
+</form>

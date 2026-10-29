@@ -1,0 +1,110 @@
+<div class="row" ng-controller="PlantillaEmpleadoCtrl">
+	<div class="row" ng-show="pantalla.modoLectura">
+		<div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_CODIGO</label>
+			<bcs-combobox-base class="col-xs-8"
+				tipo="conf.plantillaEmpleados.oConfiguracionPlantillaEmpleados.tipo"
+				ng-model="dataPlantillaEmpleados.PerfilProductos"
+				id-actual="conf.plantillaEmpleados.oConfiguracionPlantillaEmpleados.idActual"
+				id-defecto="conf.plantillaEmpleados.oConfiguracionPlantillaEmpleados.idDefecto"
+				todos="'N'" activado="true"
+				filtros="conf.plantillaEmpleados.oConfiguracionPlantillaEmpleados.filtros"
+				seleccionado="dataPlantillaEmpleados.PlantillaEmpleadosObj">
+			</bcs-combobox-base>
+		</div>
+		<bcs-button class="col-xs-2" bcs-tipo="''"
+			ng-if="dataPlantillaEmpleados.muestraCargarDatos"
+			bcs-mostrar="dataPlantillaEmpleados.muestraCargarDatos"
+			bcs-auto-desactivar="false" bcs-texto="'UI_CARGAR' | translate"
+			bcs-habilitado="'true'"
+			bcs-clic="dataPlantillaEmpleados.cargarDatos();"></bcs-button>
+	</div>
+	<hr style="margin: 10px 0px" ng-show="pantalla.modoLectura">
+	<div ng-show="datosGeneralesPortafolio.IdPerfilProductos===undefined">
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_CODIGO</label>
+				<bcs-input-texto class="col-xs-8"
+					ng-model="dataPlantillaEmpleados.IdPlantillaEmpleado"
+					k-ng-model="dataPlantillaEmpleados.IdPlantillaEmpleadosObj"
+					k-ng-disabled="pantalla.plantillaEmpleados.modoLectura || (admPortProd.pantalla.modalidad==='ModoPersonalizar')"></bcs-input-texto>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+				<bcs-input-texto class="col-xs-8"
+					ng-model="dataPlantillaEmpleados.Descripcion"
+					k-ng-model="dataPlantillaEmpleados.DescripcionObj"
+					k-ng-disabled="pantalla.plantillaEmpleados.modoLectura"></bcs-input-texto>
+			</div>
+		</div>
+
+		<div class="row"
+			ng-show="admPortProd.pantalla.modalidad!=='ModoPersonalizar'">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_HABILITADO</label>
+				<bcs-input-checkbox ng-model="dataPlantillaEmpleados.Habilitado"
+					ng-disabled="pantalla.plantillaEmpleados.modoLectura || (admPortProd.pantalla.modalidad==='ModoPersonalizar')">
+				</bcs-input-checkbox>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<bcs-grid id="grid-com-matriz-productos"
+			fn-exportar-excel = "exportarExcel" 
+			configuracion="formData.optionsGrillaMatrizProductos"
+			seleccionado="formData.gridMatrizProductosSeleccionado.kNgModel">
+		</bcs-grid>
+	</div>
+	<div ng-show="datosGeneralesPortafolio.IdPerfilProductos===undefined">
+		<div class="row col-xs-12 bcs-panel-comandos">
+			<div class="col-xs-8">
+				<bcs-button id="AdmPla_PlantillaEmpleado_crear" class="col-xs-3"
+					bcs-tipo="'principal'"
+					ng-if="!pantalla.modoEditar"
+					bcs-mostrar="!pantalla.modoEditar" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_CREAR_PERFIL' | translate" bcs-habilitado="'true'"
+					bcs-clic="pantalla.administrarCabecera();"></bcs-button>
+					
+				<bcs-button id="AdmPla_PlantillaEmpleado_editar" class="col-xs-3"
+					bcs-tipo="''" 
+					ng-if="pantalla.perfilCargado && !pantalla.modoEditar" 
+					bcs-mostrar="pantalla.perfilCargado && !pantalla.modoEditar" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_EDITAR_PERFIL' | translate" bcs-habilitado="'true'"
+					bcs-clic="pantalla.editar();"></bcs-button>
+					
+				<bcs-button id="AdmPla_PlantillaEmpleado_crearDetalle"
+					class="col-xs-3" bcs-tipo="'principal'" ng-if="pantalla.modoEditar"
+					bcs-mostrar="pantalla.modoEditar" bcs-auto-desactivar="false"
+					bcs-texto="'UI_AGREGAR_DETALLE' | translate"
+					bcs-habilitado="'true'" bcs-clic="pantalla.administrarDetalle();">
+				</bcs-button>
+				
+				<bcs-button id="AdmPla_PlantillaEmpleado_editarDetalle"
+					class="col-xs-3" bcs-tipo="''" ng-if="pantalla.modoEditar"
+					bcs-mostrar="pantalla.modoEditar" bcs-auto-desactivar="false"
+					bcs-texto="'UI_EDITAR_DETALLE' | translate" bcs-habilitado="formData.gridMatrizProductosSeleccionado.kNgModel"
+					bcs-clic="pantalla.administrarDetalle(formData.gridMatrizProductosSeleccionado.kNgModel);">
+				</bcs-button>
+				
+				<bcs-button id="AdmPla_PlantillaEmpleado_editarCabecera"
+					class="col-xs-3" bcs-tipo="''" ng-if="pantalla.modoEditar"
+					bcs-mostrar="patanlla.modoEditar" bcs-auto-desactivar="false"
+					bcs-texto="'UI_EDITAR_PERFIL' | translate" bcs-habilitado="'true'"
+					bcs-clic="pantalla.administrarCabecera(dataPlantillaEmpleados);">
+				</bcs-button>
+				
+				<bcs-button id="AdmPla_PlantillaEmpleado_cancelar" class="col-xs-3"
+					bcs-tipo="''" ng-if="pantalla.modoEditar" bcs-mostrar="pantalla.modoEditar"
+					bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate"
+					bcs-habilitado="'true'" bcs-clic="pantalla.cancelar();"> </bcs-button>
+			</div>
+			<div class="col-xs-3"></div>
+				<bcs-menu class="col-xs-1" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+		            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+				</bcs-menu>
+				
+		</div>
+	</div>
+</div>

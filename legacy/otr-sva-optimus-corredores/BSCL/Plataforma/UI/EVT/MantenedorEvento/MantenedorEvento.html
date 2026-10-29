@@ -1,0 +1,51 @@
+<div class="row" ng-controller='MantenedorEvento'>
+	<div class="row bcs_titulo">
+		<div class="col-xs-12">
+			
+		</div>
+	</div>
+	<div class="row">  
+		<label class="col-xs-4" translate>UI_NOTIFICACIONES</label>
+    	</br>
+		<bcs-grid id="gridConfiguracionesEventos"
+				  fn-exportar-excel = "exportarNotificaciones" 
+                  configuracion = "configuracionevento"
+                  api = "gridApiConfEvento"
+                  seleccionado = "conf.seleccionadoevento"
+                  fn-doble-click = "verDetalle()"> 
+    	</bcs-grid>
+    	
+    	</br> 
+    	
+    	<label class="col-xs-4" translate>UI_EVENTOS</label>
+    	</br>
+     	<bcs-grid id="gridSubEventos"
+     			  fn-exportar-excel = "exportarEventos"
+                  configuracion = "asociadosAConfiguracion"
+                  api = "gridApiAsociadosAConfiguracion"
+                  seleccionado = "conf.asociadosAConfiguracion"> 
+    	</bcs-grid>
+ 	   </div>
+	
+	
+	<div class="row bcs-panel-buttons">
+	
+			<bcs-button id="MantenedorEventos_agregar"  class="col-xs-2" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="true"  bcs-clic="abrirConfigurarEvento()"></bcs-button>
+			<bcs-button id="MantenedorEventos_editar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_EDITAR' | translate" bcs-habilitado="conf.seleccionadoevento.length===1" bcs-clic="ActualizarConfEventos()"   ></bcs-button>
+			<bcs-button id="MantenedorEventos_asociarEvento" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_ASOCIAR_EVENTO' | translate" bcs-habilitado="conf.seleccionadoevento.length===1" bcs-clic="abrirDetalleEvento()"   ></bcs-button>
+
+			<bcs-button  class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR_EVENTO' | translate" bcs-habilitado="conf.asociadosAConfiguracion" bcs-clic="quitarEvento(conf.asociadosAConfiguracion)"   ></bcs-button>
+			
+ 			<div class="col-xs-2" ></div>			
+  			<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+            	<li id="MantenedorEventos_activarNotificacion" ng-click="ActivarConfiguracion(conf.seleccionadoevento)">{{'UI_ACTIVAR_NOTIFICACION' | translate}}</li>
+            	<li id="MantenedorEventos_desactivarNotificacion" ng-click="DesactivarConfiguracion(conf.seleccionadoevento)">{{'UI_DESACTIVAR_NOTIFICACION' | translate}}</li>
+            	<li id="MantenedorEventos_activarEvento" ng-click="ActivarConfiguracionDetalle(conf.asociadosAConfiguracion)">{{'UI_ACTIVAR_EVENTO' | translate}}</li>
+            	<li id="MantenedorEventos_desactivarEvento" ng-click="DesactivarConfiguracionDetalle(conf.asociadosAConfiguracion)">{{'UI_DESACTIVAR_EVENTO' | translate}}</li>
+            	<li id="MantenedorEventos_administrarPlantilla" ng-click="administrarPlantilla()">{{'UI_ADMINISTRAR_PLANTILLA' | translate}}</li>
+            	<li ng-click="exportarNotificaciones()">{{'UI_EXPORTAR_NOTIFICACIONES' | translate}}</li>
+            	<li ng-click="exportarEventos()">{{'UI_EXPORTAR_EVENTOS' | translate}}</li>
+ 			</bcs-menu>
+	     
+	</div>	
+</div>

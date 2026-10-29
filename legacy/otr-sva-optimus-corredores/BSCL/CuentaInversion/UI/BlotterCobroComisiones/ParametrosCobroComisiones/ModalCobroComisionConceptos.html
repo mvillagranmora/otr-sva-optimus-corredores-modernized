@@ -1,0 +1,64 @@
+<div id="ModalCobroComisionConceptos" class="row" ng-controller='ModalCobroComisionConceptosCtrl as mccc'>
+	<form name="formModalCobroComisionConceptos" class="filters-formulario">
+		<div class="row">
+			<label class="col-xs-4" translate>UI_FECHA_VIGENCIA_DESDE</label>
+			<bcs-input-date class="col-xs-3" k-options= "mccc.fechaOptions" k-ng-model="mccc.fechaVigenciaDesde" bcs-requerido></bcs-input-date>
+		</div>
+		<div class="row">
+			<div class="col-xs-5" style="font-size:12px;">
+					<label class="col-xs-4" translate>UI_CONCEPTOS_DISPONIBLES</label>
+			</div>
+			<div class="col-xs-2"></div>
+			<div class="col-xs-5" style="font-size:12px;">
+					<label class="col-xs-4" translate>UI_CONCEPTOS_A_EXCLUIR</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-5">
+				<bcs-grid 
+				 	configuracion = "mccc.conceptosDisponiblesOptions"
+					seleccionado = "mccc.seleccionConceptosDisponibles">
+				</bcs-grid>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button  
+						class	="col-xs-12"  
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_AGREGAR_CONCEPTO' | translate"
+						bcs-habilitado="true" 
+						bcs-clic="mccc.agregarListado(mccc.seleccionConceptosDisponibles)">
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button  
+						class	="col-xs-12"  
+						bcs-tipo="'bcs-button-input-form'"
+						bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_QUITAR_CONCEPTO' | translate"
+						bcs-habilitado="true" 
+						bcs-clic="mccc.quitarListado()">
+					</bcs-button>
+				</div>
+			</div>
+			<div class="col-xs-5">
+				<bcs-grid 
+				 	configuracion = "mccc.conceptosAExcluirOptions"
+					seleccionado = "mccc.seleccionConceptosAExcluir">
+				</bcs-grid>
+			</div>
+		</div>
+	</form>
+	<div class="row bcs-panel-comandos">
+		<bcs-button 
+			class="col-xs-2 pull-right" 
+			id="ModalCobroComisionConceptos_ExcluirConceptos" 
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GUARDAR' | translate" 
+			bcs-habilitado="formModalCobroComisionConceptos.$valid" 
+			bcs-clic="mccc.excluirConceptos()">
+		</bcs-button>
+	</div>
+</div>

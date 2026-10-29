@@ -1,0 +1,275 @@
+<div id="ModalCargaTasas" class="row" ng-controller="ModalCargaTasasCtrl as mCTas">
+	<div class="row">
+		<form name="ModalCargaTasas" class="col-xs-12">
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_FUENTE</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-fuente'"
+					id-actual="mCTas.datosTasa.Codigo"
+					id-defecto="mCTas.datosTasa.CodigoDef"
+					filtros="mCTas.cmbbx.Fuente.filtros"
+					activado="!mCTas.win.modoEditar"
+					bcs-requerido
+					seleccionado="mCTas.datosTasa.FuenteObj">
+				</bcs-combobox-base>
+		  	</div>
+		  	<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_REGISTRO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-configuracion-tasas'"
+					id-actual="mCTas.datosTasa.Valor"
+					id-defecto="mCTas.datosTasa.ValorDef"
+					filtros="mCTas.cmbbx.TipoRegistro.filtros"
+					activado="!mCTas.win.modoEditar"
+					bcs-requerido
+					configuracion="mCTas.cmbbx.TipoRegistro.configuracion"
+					seleccionado="mCTas.datosTasa.TipoRegistroObj"
+					cascada1-a="mCTas.cmbbx.TipoTasa.filtros.TipoRegistro"
+					cascada1-valor="'Valor'">
+				</bcs-combobox-base>
+			</div>
+			
+			<div ng-show="mCTas.datosTasa.Valor === 'TASA' || mCTas.datosTasa.Valor === 'PUNTO'">
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_TASA</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-tasa'"
+						id-actual="mCTas.datosTasa.IdTipoTasa"
+						id-defecto="mCTas.datosTasa.IdTipoTasaDef"
+						filtros="mCTas.cmbbx.TipoTasa.filtros"
+						activado="!mCTas.win.modoEditar"
+						bcs-requerido="!mCTas.win.modoEditar && mCTas.datosTasa.Valor === 'TASA' || mCTas.datosTasa.Valor === 'PUNTO'"
+						seleccionado="mCTas.datosTasa.TipoTasaObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div ng-if="mCTas.datosTasa.Valor === 'PRECIO'">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_PRECIO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-precio-modulo-tasas'"
+						id-actual="mCTas.datosTasa.IdTipoPrecio"
+						id-defecto="mCTas.datosTasa.IdTipoPrecioDef"
+						filtros="mCTas.cmbbx.TipoPrecio.filtros"
+						activado="!mCTas.win.modoEditar"
+						bcs-requerido="!mCTas.win.modoEditar && mCTas.datosTasa.Valor === 'PRECIO'"
+						seleccionado="mCTas.datosTasa.TipoPrecioObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div ng-if="mCTas.datosTasa.IdTipoTasa || mCTas.datosTasa.IdTipoPrecio">
+	  			<div class="row">
+	  				<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						id-actual="mCTas.datosTasa.IdClasificacionTipoInstrumento"
+						id-defecto="mCTas.datosTasa.IdClasificacionTipoInstrumentoDef"
+						filtros = "mCTas.cmbbx.ClasificacionTipoInstrumento.filtros"
+						activado="!mCTas.win.modoEditar"
+						bcs-requerido="!mCTas.win.modoEditar && (mCTas.datosTasa.IdTipoTasa || mCTas.datosTasa.IdTipoPrecio)"
+						seleccionado="mCTas.datosTasa.ClasificacionTipoInstrumentoObj"
+						cascada1-a="mCTas.cmbbx.Instrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor="'IdClasificacionTipoInstrumento'">
+						
+					</bcs-combobox-base>
+	  			</div>
+	  		</div>
+
+  		
+ 			<div ng-if="mCTas.datosTasa.IdTipoTasa !== 'CURVA' && mCTas.datosTasa.IdClasificacionTipoInstrumento && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'DV' && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'RF' && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'IF'">
+ 				<div class="row">
+			  		<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8" ng-if="!mCTas.win.modoEditar"
+						tipo="'combobox-instrumento-custodia-tasa'"
+						id-actual="mCTas.datosTasa.IdInstrumento"
+						id-defecto="mCTas.datosTasa.IdInstrumentoDef"
+						filtros="mCTas.cmbbx.Instrumento.filtros"
+						activado="!mCTas.win.modoEditar"
+						bcs-requerido="!mCTas.win.modoEditar && (mCTas.datosTasa.IdTipoTasa !== 'CURVA' && mCTas.datosTasa.IdClasificacionTipoInstrumento && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'DV' && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'RF' && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'IF')"
+						seleccionado="mCTas.datosTasa.InstrumentoObj">
+					</bcs-combobox-base>
+					<bcs-input-texto class="col-xs-8" ng-if="mCTas.win.modoEditar"
+						ng-model="mCTas.datosTasa.Nemotecnico"
+						k-ng-disabled='true'>
+					</bcs-input-texto>
+				</div>
+		  	</div>
+		  	<div ng-if="mCTas.datosTasa.IdTipoTasa !== 'CURVA' && mCTas.datosTasa.IdClasificacionTipoInstrumento === 'DV'">
+		  		<div class="row">
+					<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8" ng-if="!mCTas.win.modoEditar"
+						tipo="'combobox-tipoinstrumento-mesa'"
+						id-actual="mCTas.datosTasa.IdInstrumento"
+						id-defecto="mCTas.datosTasa.IdInstrumentoDef"
+						filtros="mCTas.cmbbx.Instrumento.filtros"
+						activado="!mCTas.win.modoEditar"
+						bcs-requerido="!mCTas.win.modoEditar && (mCTas.datosTasa.IdTipoTasa !== 'CURVA' && mCTas.datosTasa.IdClasificacionTipoInstrumento === 'DV')"
+						seleccionado="mCTas.datosTasa.InstrumentoObj">
+					</bcs-combobox-base>
+					<bcs-input-texto class="col-xs-8" ng-if="mCTas.win.modoEditar"
+						ng-model="mCTas.datosTasa.Nemotecnico"
+						k-ng-disabled='true'>
+					</bcs-input-texto>
+				</div>
+		  	</div>
+
+ 			<div ng-if="mCTas.datosTasa.IdTipoTasa !== 'CURVA' && mCTas.win.modoEditar && ( mCTas.datosTasa.IdClasificacionTipoInstrumento === 'RF' || mCTas.datosTasa.IdClasificacionTipoInstrumento === 'IF' )">
+ 				<div class="row">
+			  		<label class="col-xs-4" translate>UI_NEMOTECNICO</label>
+					<bcs-input-texto class="col-xs-8" 
+						ng-model="mCTas.datosTasa.Nemotecnico"
+						activado="!mCTas.win.modoEditar"
+						k-ng-disabled='true'>
+					</bcs-input-texto>
+				</div>
+		  	</div>
+
+		  	<div ng-if="mCTas.datosTasa.IdTipoTasa !== 'CURVA' && !mCTas.win.modoEditar && ( mCTas.datosTasa.IdClasificacionTipoInstrumento === 'RF' || mCTas.datosTasa.IdClasificacionTipoInstrumento === 'IF' )">
+		  		<div class="row">
+					<label class="col-xs-4" translate>UI_INSTRUMENTO_RF</label>
+					<bcs-input-instrumentos class="col-xs-8" ng-if="!mCTas.win.modoEditar"
+						name="uInstrumento" 
+						bcs-requerido="mCTas.datosTasa.IdTipoTasa !== 'CURVA' && !mCTas.win.modoEditar && ( mCTas.datosTasa.IdClasificacionTipoInstrumento === 'RF' || mCTas.datosTasa.IdClasificacionTipoInstrumento === 'IF' )"
+						datos-instrumento="mCTas.datosTasa.Instrumento_IFRF"
+						buscar-instrumento="mCTas.datosTasa.setInstrumento_IFRF"
+						filtro-clasificacion="mCTas.datosTasa.IdClasificacionTipoInstrumento" 
+						filtro-estado = "'ACT'"
+						filtro-solo-vigentes = "'S'">
+					</bcs-input-instrumentos>
+				</div>
+		  	</div>
+
+		  	<div ng-if="mCTas.datosTasa.IdTipoTasa !== 'CURVA' && !mCTas.win.modoEditar && mCTas.datosTasa.IdClasificacionTipoInstrumento === 'IF'">
+		  		<div class="row">
+					<label class="col-xs-4" translate>UI_EMISOR</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-emisor'"
+						id-actual="mCTas.datosTasa.IdEmisor"
+						bcs-requerido="mCTas.pagReajuste"
+						id-defecto="mCTas.datosTasa.IdEmisorDef"
+						filtros="mCTas.cmbbx.Emisor.filtros"						
+						seleccionado="mCTas.datosTasa.EmisorObj">
+					</bcs-combobox-base>
+				</div>
+
+		  		<div class="row">				
+	  				<label class="col-xs-4" translate>UI_TIPO_REAJUSTE</label>
+	                <bcs-combobox-base class="col-xs-8"
+	                    auto-cargar="false"
+	                    tipo="'combobox-instrumento-tipo-reajuste'"
+						id-actual="mCTas.datosTasa.IdMonedaReajuste"
+						id-defecto="mCTas.datosTasa.IdMonedaDefReajuste"
+						filtros="mCTas.cmbbx.MonedaReajuste.filtros"	
+						item-post-filtro="'1'"
+						seleccionado="mCTas.datosTasa.MonedaObjReajuste">
+	                </bcs-combobox-base>
+	  			</div>
+
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_FECHA_VENCIMIENTO</label>
+					<bcs-input-date class="col-xs-4" 
+						k-ng-model="mCTas.datosTasa.FechaVencimiento"
+						bcs-requerido="mCTas.datosTasa.IdTipoTasa !== 'CURVA' && !mCTas.win.modoEditar && mCTas.datosTasa.IdClasificacionTipoInstrumento === 'IF'"
+						k-options="mCTas.datosTasa.ConfigFechaVencimiento"
+						k-ng-disabled="mCTas.win.modoEditar">
+					</bcs-input-date>
+			  	</div>
+				
+		  	</div>
+
+
+			
+			<div ng-show="mCTas.datosTasa.IdTipoTasa === 'CURVA' && !mCTas.pagReajuste || mCTas.datosTasa.Valor === 'TASA' && !mCTas.pagReajuste ">
+	  			<div class="row">
+	  				<label class="col-xs-4" translate>UI_MONEDA_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-moneda-tasa'"
+						id-actual="mCTas.datosTasa.IdMoneda"
+						id-defecto="mCTas.datosTasa.IdMonedaDef"
+						filtros = "mCTas.cmbbx.Moneda.filtros"
+						activado="!mCTas.win.modoEditar"
+						bcs-requerido="!mCTas.win.modoEditar && (mCTas.datosTasa.IdTipoTasa === 'CURVA' || mCTas.datosTasa.Valor === 'TASA' )"
+						seleccionado="mCTas.datosTasa.MonedaObj">
+					</bcs-combobox-base>
+	  			</div>
+			</div>
+
+			<div ng-show="mCTas.datosTasa.Valor === 'TASA' && mCTas.pagReajuste ">
+	  			<div class="row">
+	  				<label class="col-xs-4" translate>UI_MONEDA_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						configuracion	="mCTas.cmbbx.oConfiguracionMonedaPagoInstrumento.configuracion"
+						id-actual		="mCTas.datosTasa.kngIdMonedaPagoInstrumento"
+						id-defecto		="mCTas.datosTasa.kngIdMonedaPagoInstrumentoDef"
+						filtros			="mCTas.cmbbx.oConfiguracionMonedaPagoInstrumento.filtros"
+						item-post-filtro="'1'"
+						tipo="'combobox-tipo-instrumento-moneda-liquidacion'"
+						activado="!mCTas.win.modoEditar"
+						bcs-requerido="!mCTas.win.modoEditar && (mCTas.datosTasa.IdTipoTasa === 'CURVA' || mCTas.datosTasa.Valor === 'TASA' )"
+						seleccionado="mCTas.datosTasa.MonedaObj">
+					</bcs-combobox-base>
+	  			</div>
+			</div>
+			
+			<div ng-if="mCTas.datosTasa.Valor === 'TASA' || mCTas.datosTasa.Valor === 'PUNTO'">
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_TASA</label>
+					<bcs-input-numero class="col-xs-4"
+						k-ng-model="mCTas.datosTasa.Tasa" 
+						bcs-requerido="mCTas.datosTasa.Valor === 'TASA' || mCTas.datosTasa.Valor === 'PUNTO'"
+						decimales="mCTas.win.TasaDecimal"
+						k-options="mCTas.datosTasa.configMontoMinimo">
+					</bcs-input-numero>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TASA_ESTIMADA</label>
+					<bcs-input-numero class="col-xs-4"
+						k-ng-model="mCTas.datosTasa.TasaEstimada" 
+						bcs-requerido="mCTas.datosTasa.Valor === 'TASA' || mCTas.datosTasa.Valor === 'PUNTO'"
+						decimales="mCTas.win.TasaDecimal"
+						k-options="mCTas.datosTasa.configMontoMinimo">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div ng-if="mCTas.datosTasa.Valor === 'PRECIO'">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_PRECIO</label>
+					<bcs-input-numero class="col-xs-4"
+						k-ng-model="mCTas.datosTasa.Precio" 
+						bcs-requerido="mCTas.datosTasa.Valor === 'PRECIO'"
+						decimales="mCTas.win.MontoDecimal">
+					</bcs-input-numero>
+				</div>
+			</div>
+
+			
+			<div class="row" ng-if="mCTas.datosTasa.IdClasificacionTipoInstrumento && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'RF' && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'IF'">
+				<label class="col-xs-4" translate>UI_PLAZO_TASA</label>
+				<bcs-input-numero class="col-xs-4"
+					k-ng-model="mCTas.datosTasa.Plazo" 
+					bcs-requerido="mCTas.datosTasa.IdClasificacionTipoInstrumento && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'RF' && mCTas.datosTasa.IdClasificacionTipoInstrumento !== 'IF'"
+					decimales="0">
+				</bcs-input-numero>
+			</div>
+		  	<div class="row">
+				<label class="col-xs-4" translate>UI_FECHA_CREACION_SOLICITUD</label>
+				<bcs-input-date class="col-xs-4" 
+					k-ng-model="mCTas.datosTasa.FechaCreSol"
+					bcs-requerido
+					k-ng-disabled="mCTas.win.modoEditar">
+				</bcs-input-date>
+		  	</div>
+		</form>
+	</div>
+	<br>
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id={{mCTas.IdBotonAceptar}} class="col-xs-3 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalCargaTasas.$valid" bcs-clic="mCTas.fn.aceptar();">
+		</bcs-button>
+		<bcs-button id="ModalCargaTasas_cancelar" class="col-xs-3 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="mCTas.fn.cancelar();">
+		</bcs-button>
+	</div>
+</div>

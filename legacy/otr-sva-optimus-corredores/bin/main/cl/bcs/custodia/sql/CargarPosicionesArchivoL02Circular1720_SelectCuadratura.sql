@@ -1,0 +1,47 @@
+SELECT 
+CC."IdCarga"
+,CC."IdCuadraturaCircular1720"					AS "IdCuadraturaCircular"
+,CC."Nemotecnico"
+,CC."CompraEnTransito"
+,CC."VentaEnTransito"
+,CC."Diferencia"
+,CC."TotalCustodioEmisores" 
+,CC."CantidadDCVCuentaRelacionado" 
+,CC."CantidadDisponibleDCVCuentaRelacionado" 
+,CC."CantidadBloqueadaDCVCuentaRelacionado"
+,CC."CantidadReventaDCVCuentaRelacionado" 
+,CC."CantidadRecompraDCVCuentaRelacionado" 
+,CC."CantidadValorizadaUFDCVCuentaRelacionado" 
+,CC."CantidadDCVCuentaPropia" 
+,CC."CantidadDisponibleDCVCuentaPropia"
+,CC."CantidadBloqueadaDCVCuentaPropia" 
+,CC."CantidadReventaDCVCuentaPropia" 
+,CC."CantidadRecompraDCVCuentaPropia" 
+,CC."CantidadValorizadaUFDCVCuentaPropia" 
+,CC."CantidadDCVCuentaTercero" 
+,CC."CantidadDisponibleDCVCuentaTercero" 
+,CC."CantidadBloqueadaDCVCuentaTercero" 
+,CC."CantidadReventaDCVCuentaTercero" 
+,CC."CantidadRecompraDCVCuentaTercero" 
+,CC."CantidadValorizadaUFDCVCuentaTercero" 
+,CC."Precio"
+,CC."DiferenciaValorizada"
+,CC."TotalCustodioEmisores"
+,CC."TotalCustodia"
+,CC."IdClasificacionTipoInstrumento"
+,CC."CantidadBCS"
+,CC."CantidadBEC"
+,CC."CantidadBOV"
+,CC."CantidadEmisores"
+------Para temas de sobreescribir informacion-----
+,CC."NemoExisteEnOptimus"
+,CC."ReplicaBaseDiferencia"
+,CC."ReplicaBaseTotalCustodioEmisores"
+,CC."ReplicaBaseDiferenciaValorizada"
+FROM "BSCL.Custodia.BD::CUS.CuadraturaCircular1720" CC
+LEFT JOIN "BSCL.Custodia.BD::CUS.HomologacionCuadraturaCircular" HOM 
+	ON CC."Nemotecnico" = HOM."Nemotecnico" 
+	AND HOM."Archivo" = 'ARCHIVO_L02'
+WHERE CC."FechaCuadratura" = :FechaCuadratura
+AND CC."IdEstado" = 'VIG'
+AND (HOM."Mercado" = CC."IdClasificacionTipoInstrumento" OR (COALESCE(HOM."Nemotecnico", '') = '' AND CC."IdClasificacionTipoInstrumento" <> 'FM'))

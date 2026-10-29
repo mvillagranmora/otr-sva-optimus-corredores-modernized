@@ -1,0 +1,1 @@
+SELECT "IdCuentaBanco" FROM "BSCL.Tesoreria.BD::TES.CuentaBanco";

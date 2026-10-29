@@ -1,0 +1,2 @@
+SELECT  "IdMovimientoCarteraEnTransito","IdMovimientoCarteraEnTransitoRelacionado","IdTipoOperacion" FROM "BSCL.Custodia.BD::CUS.MovimientoCarteraEnTransito" 
+WHERE "IdMovimientoCarteraEnTransitoRelacionado" = :IdMovimientoCarteraEnTransito

@@ -1,0 +1,134 @@
+<div class="row" ng-controller="GridControllerRMO">
+    <div class="bcs-cuerpo">
+        <div class="row" ng-show="ShowTabGeneral">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_ESQUEMA</label> 
+						<input class="col-xs-8" style=" width: 65.66666667%;" id="esquemaRMO" />
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_VERSION</label> 
+						<input class="col-xs-8" style="width: 65.66666667%;" id="versionRMO" />
+					</div>
+				</div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+                        <bcs-input-date style="width: 65.66666667%;" class="col-xs-8" k-ng-model="fechaDesde" k-options="dateOptions"></bcs-input-date>
+                    </div>
+                    <div class="col-xs-6">
+                        <label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+                        <bcs-input-date style="width: 65.66666667%;" class="col-xs-8" k-ng-model="fechaHasta" k-ng-disabled="fechaHastaDeshabilitado" k-options="dateOptions"></bcs-input-date>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6" ng-hide="chkEscogerDiaOculto">
+                        <label class="col-xs-4" translate>UI_ESCOGER_DIA</label>
+                        <bcs-input-checkbox class="col-xs-2" name="chkEscogerDia" ng-model="chkEscogerDia"> </bcs-input-checkbox>
+                    </div>
+                </div>
+			</div>
+			<div class="col-xs-2">
+                <div class="row">
+                    <bcs-button
+                        bcs-tipo="'bcs-button-search'"
+                        bcs-auto-desactivar="false"
+                        bcs-texto="'UI_BUSCAR' | translate"
+                        bcs-habilitado="true"
+                        bcs-clic="establecerEsquemaRMO(null)">
+                    </bcs-button>
+                </div>
+                <div class="row">
+                    <bcs-button
+                        bcs-tipo="'bcs-button-secondary'"
+                        bcs-auto-desactivar="false"
+                        bcs-texto="'UI_LIMPIAR' | translate"
+                        bcs-habilitado="botonLimpiarHabilitado"
+                        bcs-clic="limpiar()">
+                    </bcs-button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <uib-tabset ng-show="ShowTabGeneral">
+                <uib-tab select="refreshGridData()" heading="{{'UI_REPORTE_MENSUAL_OPERACIONES' | translate}}" ng-show = "ShowTabDatosDeclaracion">
+                    <div class="row">
+                        <div id="gridDataRMO"/>
+                    </div>
+					<ul id="context-menu"></ul>
+					<div class="row">
+                        <div id="gridSumsRMO" />
+                    </div>               
+                    <div class="row bcs-panel-buttons">
+<!--                         <bcs-button class="col-xs-1" -->
+<!--                             bcs-tipo="'bcs-button-primary'" -->
+<!--                             bcs-auto-desactivar="'false'" -->
+<!--                             bcs-texto="'UI_CREAR' | translate" -->
+<!--                             bcs-habilitado="esquemaHabilitado" -->
+<!--                             ng-show = "ShowBtnCrear" -->
+<!--                             bcs-clic="agregarDetalle()"> -->
+<!--                         </bcs-button> -->
+                        <bcs-button class="col-xs-1"
+                            bcs-tipo="'bcs-button-secondary'"
+                            bcs-auto-desactivar="'false'"
+                            bcs-texto="'UI_ELIMINAR' | translate"
+                            bcs-habilitado="marcados.length > 0"
+                            bcs-clic="eliminarDetallesMarcados()">
+                        </bcs-button>
+                        <bcs-button class="col-xs-1"
+                            bcs-tipo="'bcs-button-secondary'"
+                            bcs-auto-desactivar="'false'"
+                            bcs-texto="'UI_CARGAR' | translate"
+                            bcs-habilitado="'true'"
+                            ng-show = "ShowBtnCargar"
+                            bcs-clic="cargarData()">
+                        </bcs-button>
+                        <bcs-button class="col-xs-1"
+                            bcs-tipo="'bcs-button-secondary'"
+                            bcs-auto-desactivar="'false'"
+                            bcs-texto="'UI_VALIDAR' | translate"
+                            bcs-habilitado="controlProceso.Carga == 'S'"
+                            ng-show = "ShowBtnCuadrar"
+                            bcs-clic="validarData()">
+                        </bcs-button>
+                        <bcs-button class="col-xs-2"
+                            bcs-tipo="'bcs-button-secondary'"
+                            bcs-auto-desactivar="'false'"
+                            bcs-texto="'UI_GENERAR_REPORTE' | translate"
+                        	bcs-habilitado="controlProceso.Validacion == 'S'"
+                            ng-show = "ShowBtnGenerarDeclaracion"
+                            bcs-clic="generarDeclaracionRMO()">
+                        </bcs-button>
+                        <bcs-menu class="col-xs-1 pull-right"
+                            bcs-habilitado="'true'"
+                            bcs-tipo="'bcs-button-secondary'"
+                            bcs-texto="'UI_OPCIONES' | translate">
+                            <li ng-click="complementos()">{{'UI_COMPLEMENTOS' | translate}}</li>
+                            <li ng-click="eliminarTodos()">{{'UI_ELIMINAR_TODOS' | translate}}</li>
+                            <li ng-click="exportarExcel()" 
+                            bcs-habilitado="esquemaHabilitado && botonExportarHabilitado"
+                            ng-show = "ShowBtnExportarExcel">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+                        </bcs-menu>
+                    </div>
+                </uib-tab>
+                 <uib-tab select="refreshGridCarga()" heading="{{'UI_AUDITORIA_CARGA' | translate}}" ng-show = "ShowTabAuditoriaCarga">
+                    <div class="row">
+                        <div id="gridCargaRMO" />
+                    </div>
+                </uib-tab>
+                 <uib-tab select="refreshGridValidacion()" heading="{{'UI_AUDITORIA_VALIDACION' | translate}}" ng-show = "ShowTabAuditoriaValidacion">
+                    <div class="row">
+                        <div id="gridValidacionRMO" />
+                    </div>
+                </uib-tab>
+                <uib-tab select="refreshGridGeneracion()" heading="{{'UI_AUDITORIA_GENERACION' | translate}}" ng-show = "ShowTabAuditoriaGeneracion">
+                    <div class="row">
+                        <div id="gridGeneracionRMO" />
+                    </div>
+                </uib-tab> 
+            </uib-tabset>
+        </div>
+    </div>
+</div>

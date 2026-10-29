@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="DocumentoCliente" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Persona_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="NVARCHAR" id="Tipo" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidad" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroSerie" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaEmision" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaVencimiento" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="Predeterminado" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="Estado" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaCreacion" length="20"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaModificacion" length="20"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+         var_out = SELECT
+                        D.&quot;IdTipoDocumentoIdentidad&quot; AS &quot;Tipo&quot;,
+                        D.&quot;DocumentoIdentidad&quot;,
+                        D.&quot;NumeroSerie&quot;,
+                        D.&quot;FechaEmision&quot;,
+                        D.&quot;FechaVencimiento&quot;,
+                        D.&quot;Predeterminado&quot;,
+                        E.&quot;Nombre&quot; AS &quot;Estado&quot;,
+                        D.&quot;IdPersona&quot;,
+                        D.&quot;FechaCreacion&quot;,
+                        D.&quot;FechaModificacion&quot;
+                    FROM &quot;BSCL.SocioNegocio.BD::PER.DocumentoIdentidad&quot; D
+                    LEFT JOIN &quot;BSCL.Plataforma.BD::PLA.Estado&quot; E ON E.&quot;IdEstado&quot; = D.&quot;IdEstado&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="Tipo" hidden="false" order="1">
+        <descriptions defaultDescription="Tipo"/>
+        <keyMapping columnObjectName="Script_View" columnName="Tipo"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" hidden="false" order="2">
+        <descriptions defaultDescription=" DocumentoIdentidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="NumeroSerie" hidden="false" order="3">
+        <descriptions defaultDescription="NumeroSerie"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroSerie"/>
+      </attribute>
+      <attribute id="FechaEmision" hidden="false" order="4">
+        <descriptions defaultDescription=" FechaEmision"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaEmision"/>
+      </attribute>
+      <attribute id="FechaVencimiento" hidden="false" order="5">
+        <descriptions defaultDescription="FechaVencimiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaVencimiento"/>
+      </attribute>
+      <attribute id="Predeterminado" hidden="false" order="6">
+        <descriptions defaultDescription="Predeterminado"/>
+        <keyMapping columnObjectName="Script_View" columnName="Predeterminado"/>
+      </attribute>
+      <attribute id="Estado" hidden="false" order="7">
+        <descriptions defaultDescription="Estado"/>
+        <keyMapping columnObjectName="Script_View" columnName="Estado"/>
+      </attribute>
+      <attribute id="IdPersona" hidden="false" order="8">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="FechaCreacion" hidden="false" order="9">
+        <descriptions defaultDescription="FechaCreacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="FechaModificacion" hidden="false" order="10">
+        <descriptions defaultDescription="FechaModificacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaModificacion"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

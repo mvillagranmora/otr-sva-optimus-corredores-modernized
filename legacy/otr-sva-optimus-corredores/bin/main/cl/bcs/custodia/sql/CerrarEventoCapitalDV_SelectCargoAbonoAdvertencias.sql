@@ -1,0 +1,1 @@
+SELECT "Codigo","RequiereAutorizacion","Descripcion" FROM "BSCL.CuentaInversion.BD::CTA.CrearCargoAbono_OUT_AdvertenciasDetalle"

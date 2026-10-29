@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CuentaPropiaAnaliticos" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" historyEnabled="false" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" runWithInvokerPrivileges="false" scriptParametersCaseSensitive="true" hierarchiesSQLEnabled="false" translationRelevant="true">
+  <descriptions defaultDescription="CuentaPropiaAnaliticos"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="VARCHAR" id="DocumentoIdentidad" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = SELECT top 1 CC.&quot;DocumentoIdentidad&quot;, CC.&quot;IdPersona&quot; ---into v_DoctoIdentidadCpro, v_IdPersonaCPro
+	FROM &quot;BSCL.Plataforma.BD::PLA.Empresa&quot; AS E
+	INNER JOIN &quot;BSCL.SocioNegocio.BD.Vistas::SOC.ConsultarSocioDeNegocio&quot; AS CSN ON CSN.&quot;IdSocioDeNegocio&quot; = E.&quot;IdSocioDeNegocio&quot;
+	INNER JOIN &quot;BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente&quot; AS CC ON CC.&quot;IdCliente&quot; = CSN.&quot;IdCliente&quot;
+	INNER JOIN &quot;BSCL.Portafolio.BD.Vistas::ConsultarPortafolio&quot; AS CP ON CP.&quot;IdCliente&quot; = CSN.&quot;IdCliente&quot;
+	WHERE E.&quot;IdEmpresa&quot; = 1;    
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="DocumentoIdentidad" order="1">
+        <descriptions defaultDescription="DocumentoIdentidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures>
+      <measure id="IdPersona" order="2" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="IdPersona"/>
+        <measureMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </measure>
+    </baseMeasures>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

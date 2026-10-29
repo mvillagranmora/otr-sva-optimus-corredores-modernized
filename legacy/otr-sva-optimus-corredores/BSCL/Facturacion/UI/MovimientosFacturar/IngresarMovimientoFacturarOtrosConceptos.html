@@ -1,0 +1,447 @@
+<div class="row" ng-controller="IngresarMovimientoFacturarOtrosCtrl"
+	bcs-enter="">
+	<form name="frmIngMvtoFac">
+		<div class="row bcs-cuerpo">
+			<div class="row">
+
+				<!-- INICIO MANTENEDOR -->
+				<div class="col-xs-12">
+					<div class="row">
+						<div ng-class="{'col-xs-8' : data.accion ==='NCA', 'col-xs-6' : data.accion ==='NCM',}">
+							<label class="col-xs-3"ng-style="{'width': data.accion === 'NCM' ? '22.2%' : (data.accion === 'NCA' ? '16.66666667%' : '')}" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base 
+								ng-show="data.accion ==='NCA'"
+								class="col-xs-9"
+								bcs-requerido="data.accion ==='NCA'"
+								auto-cargar="'false'" 
+								ng-style= "{'width' : data.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oClientePortafolio.seleccionado  ? '75%' : '79.4%'}"
+								id="frmIngMvtoFac_UI_SOCIO_NEGOCIO"
+								tipo="data.oClientePortafolio.tipo"
+								configuracion="data.oClientePortafolio.configuracion"
+								seleccionado="data.oClientePortafolio.seleccionado"
+								filtros="filtrosPortafolio" 
+								id-actual="filtros.IdPortafolio"
+								cascada-a="data.filtrosPreferenciaPago.IdPortafolio"
+								cascada-valor="'IdPortafolio'">
+							</bcs-combobox-base>
+							
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-9"
+								id="frmIngMvtoFacManual_UI_CLIENTE" ng-style="{'width' :  data.accion ==='NCM' ? '77.8%' : ''}"
+								ng-model="data.oClientePortafolioManual" maxlength="60"
+								k-ng-disabled="'true'"> 
+							</bcs-input-texto>
+						</div>
+
+						<div class="col-xs-2" ng-show="data.accion ==='NCM'">
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-10"
+								id="frmIngMvtoFacManual_UI_PORTAFOLIO"
+								ng-model="data.oPortafolioManual" maxlength="60"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_FECHA_MOVIMIENTO</label>
+							<bcs-input-date ng-show="data.accion ==='NCA'" class="col-xs-7"
+								bcs_requerido="data.accion ==='NCA'"
+								id="frmIngMvtoFac_UI_FECHA_MOVIMIENTO"
+								name="uFechaMovimientoComprobante"
+								k-ng-model="data.oFechaMovimientoComprobante"
+								k-ng-disabled="data.activaroFechaMovimientoComprobante">
+							</bcs-input-date>
+
+							<bcs-input-date ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_FECHA_MOVIMIENTO"
+								name="uFechaMovimientoComprobante"
+								k-ng-model="data.oFechaMovimientoComprobanteManual"
+								k-ng-disabled="'true'"> </bcs-input-date>
+						</div>
+					</div>
+
+					<hr />
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_SUCURSAL_DIGITADOR_ABR</label>
+							<bcs-combobox-base ng-show="data.accion ==='NCA'"
+								class="col-xs-7" id="frmIngMvtoFac_UI_SUCURSAL"
+								tipo="data.oSucursal.tipo"
+								configuracion="data.oSucursal.configuracion"
+								id-actual="data.oSucursal.idActual"
+								seleccionado="data.oSucursal.seleccionado"
+								filtros="data.oSucursal.filtros"
+								cascada1-a="data.oEjecutivo.filtros.IdSucursal"
+								cascada1-valor="'IdSucursal'" cascada1-defecto="-1"
+								id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_SUCURSAL"
+								ng-model="data.oSucursalManual" maxlength="60"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_EJECUTIVO_DIGITADOR</label>
+							<bcs-combobox-base ng-show="data.accion ==='NCA'"
+								class="col-xs-7" id="frmIngMvtoFac_UI_EJECUTIVO"
+								tipo="data.oEjecutivo.tipo"
+								configuracion="data.oEjecutivo.configuracion"
+								id-actual="data.oEjecutivo.idActual"
+								seleccionado="data.oEjecutivo.seleccionado"
+								filtros="data.oEjecutivo.filtros" auto-cargar="'false'">
+							</bcs-combobox-base>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_EJECUTIVO"
+								ng-model="data.oEjecutivoManual" maxlength="60"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_TIPO_OPERACION</label>
+							<bcs-combobox-base ng-show="data.accion ==='NCA'"
+								class="col-xs-7" bcs-requerido="data.accion ==='NCA'"
+								id="frmIngMvtoFac_UI_OPERACION" tipo="'combobox-tipo-operacion'"
+								seleccionado="data.oTipoOperacion.seleccionado"
+								id-actual="data.oTipoOperacion.idActual"
+								filtros="data.oTipoOperacion.filtros"
+								configuracion="data.oTipoOperacion.configuracion"
+								id-post-filtro="data.oTipoOperacion.itemPostFiltro"
+								id-defecto="data.oTipoOperacion.idDefecto"
+								cascada-a="data.filtrosPreferenciaPago.IdTipoOperacion"
+								cascada-valor="'IdTipoOperacion'">
+							</bcs-combobox-base>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_OPERACION"
+								ng-model="data.oTipoOperacionManual" maxlength="40"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_CONCEPTO</label>
+							<bcs-combobox-base ng-show="data.accion ==='NCA'"
+								class="col-xs-7" bcs-requerido="data.accion ==='NCA'"
+								id="frmIngMvtoFac_UI_CONCEPTO" tipo="data.oConcepto.tipo"
+								configuracion="data.oConcepto.configuracion"
+								auto-cargar="'true'" id-actual="data.oConcepto.idActual"
+								seleccionado="data.oConcepto.seleccionado"
+								filtros="data.oConcepto.filtros"
+								id-post-filtro="data.oConcepto.itemPostFiltro"
+								id-defecto="data.oConcepto.idDefecto"> </bcs-combobox-base>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_CONCEPTO"
+								ng-model="data.oConceptoManual" maxlength="60"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_BOLSA</label>
+							<bcs-combobox-base ng-show="data.accion ==='NCA'"
+								class="col-xs-7" id="frmIngMvtoFac_UI_BOLSA"
+								tipo="data.oBolsa.tipo" id-actual="data.oBolsa.idActual"
+								configuracion="data.oBolsa.configuracion"
+								seleccionado="data.oBolsa.seleccionado"
+								filtros="data.oBolsa.filtros"> </bcs-combobox-base>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_BOLSA" ng-model="data.oBolsaManual"
+								maxlength="60" k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_CONDICION_LIQUIDACION</label>
+							<bcs-input-condicion-liquidacion ng-show="data.accion ==='NCA'"
+								class="col-xs-7" bcs-requerido="data.accion ==='NCA'"
+								id="frmIngMvtoFac_UI_CONDICION_LIQUIDACION"
+								fecha-inicial="data.oFechaMovimientoComprobante"
+								id-tipo-operacion="data.oTipoOperacion.seleccionado.IdTipoOperacion"
+								condicion-de-liquidacion="data.oCondicionLiquidacion"
+								fecha-liquidacion="data.oFechaLiquidacion" activado="'true'" incluyeot="'S'">
+							</bcs-input-condicion-liquidacion>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_CONDICION_LIQUIDACION"
+								ng-model="data.oCondicionLiquidacionManual" maxlength="60"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_MONEDA</label>
+							<bcs-combobox-base ng-show="data.accion ==='NCA'"
+								class="col-xs-7" bcs_requerido="data.accion ==='NCA'"
+								id="frmIngMvtoFac_UI_MONEDA_LIQUIDACION"
+								tipo="data.oMonedaLiquidacion.tipo"
+								id-actual="data.oMonedaLiquidacion.idActual"
+								configuracion="data.oMonedaLiquidacion.configuracion"
+								seleccionado="data.oMonedaLiquidacion.seleccionado"
+								filtros="data.oMonedaLiquidacion.filtros"
+								id-post-filtro="data.oMonedaLiquidacion.itemPostFiltro"
+								id-defecto="data.oMonedaLiquidacion.idDefecto"
+								cascada-a="data.filtrosPreferenciaPago.IdMoneda"
+								cascada-valor="'IdMoneda'"
+								activado="activarMoneda">
+							</bcs-combobox-base>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_MONEDA_LIQUIDACION"
+								ng-model="data.oMonedaLiquidacionManual" maxlength="60"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_TIPO_COMPROBANTE</label>
+							<bcs-combobox-base ng-show="data.accion ==='NCA'"
+								class="col-xs-7" bcs-requerido="data.accion ==='NCA'"
+								id="frmIngMvtoFac_comprobante_UI_TIPO_COMPROBANTE"
+								tipo="data.oTipoComprobante.tipo"
+								configuracion="data.oTipoComprobante.configuracion"
+								id-actual="data.oTipoComprobante.idActual"
+								seleccionado="data.oTipoComprobante.seleccionado"
+								filtros="data.oTipoComprobante.filtros"
+								id-post-filtro="data.oTipoComprobante.itemPostFiltro"
+								id-defecto="data.oTipoComprobante.idDefecto">
+							</bcs-combobox-base>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_comprobante_UI_TIPO_COMPROBANTE"
+								ng-model="data.oTipoComprobanteManual" maxlength="60"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_SECUENCIA_AGRUPACION</label>
+							<bcs-input-texto ng-show="data.accion ==='NCA'" class="col-xs-7"
+								id="frmIngMvtoFac_UI_SECUENCIA_AGRUPACION"
+								ng-model="data.oSecuenciaAgrupacion"> </bcs-input-texto>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_UI_SECUENCIA_AGRUPACION"
+								ng-model="data.oSecuenciaAgrupacionManual" maxlength="60"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-xs-4">							
+							<label ng-show="data.accion ==='NCA' || data.tipoOperacion === 'COMOTC' || data.tipoOperacion === 'VENOTC'" class="col-xs-4" translate>UI_MONTO</label>
+							<label ng-show="data.accion ==='NCM' && data.tipoOperacion !== 'COMOTC' && data.tipoOperacion !== 'VENOTC'"  class="col-xs-4" translate>UI_MONTO_COMISION</label>			
+
+							<bcs-input-monetario class="col-xs-7"
+								bcs-requerido="data.accion ==='NCM'"
+								id="frmIngMvtoFac_UI_MONTO_COMPROBANTE_LIQUIDACION"
+								simbolo="data.oMonedaLiquidacion.seleccionado.IdMoneda"
+								bcs-mayor-que="'0'"
+								k-ng-model="data.oMontoComprobanteLiquidacion"
+								ng-model="data.oMontoComprobanteLiquidacion">
+							</bcs-input-monetario>	
+						</div>
+						
+						<div class="col-xs-4">
+							<bcs-input-checkbox ng-show="data.accion ==='NCA'"
+							    id="frmIngMvtoFac_UI_IMPUESTO_INCLUIDO"
+							    ng-model="data.oIndImptoIncl"> 
+							</bcs-input-checkbox>
+							
+							<bcs-input-checkbox ng-show="data.accion ==='NCM'"
+							    id="frmIngMvtoFac_UI_IMPUESTO_INCLUIDO"
+							    ng-model="data.oIndImptoIncl"
+							    ng-disabled="'true'"> 
+							</bcs-input-checkbox>
+						    <label class="col-xs-4" translate>Imp.Inc.</label>		
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_MONTO_NETO</label>
+							<bcs-input-monetario class="col-xs-7"
+								id="frmIngMvtoFac_UI_MONTO_COMPROBANTE_NETO_LIQUIDACION"
+								simbolo="data.oMonedaLiquidacion.seleccionado.IdMoneda"
+								k-ng-model="data.oMontoComprobanteNetoLiquidacion"
+								k-ng-disabled="true"> </bcs-input-monetario>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_IMPUESTO</label>
+							<bcs-input-monetario class="col-xs-7"
+								id="frmIngMvtoFac_UI_MONTO_COBRO_LIQUIDACION"
+								simbolo="data.oMonedaLiquidacion.seleccionado.IdMoneda"
+								k-ng-model="data.oMontoCobroLiquidacion" k-ng-disabled="true">
+							</bcs-input-monetario>
+						</div>
+
+						<div class="col-xs-4">
+							<label class="col-xs-5" translate>UI_MONTO_TOTAL</label>
+							<bcs-input-monetario class="col-xs-7"
+								id="frmIngMvtoFac_UI_MONTO_TOTAL_LIQUIDACION"
+								simbolo="data.oMonedaLiquidacion.seleccionado.IdMoneda"
+								k-ng-model="data.oMontoTotalLiquidacion" k-ng-disabled="true">
+							</bcs-input-monetario>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4">
+							<label ng-show="data.accion ==='NCA' && (data.oTipoComprobante.idActual === 'NEO' || data.oTipoComprobante.idActual === 'NCR' || data.oTipoComprobante.idActual === 'NCE')" 
+								class="col-xs-4" translate>UI_COMPROBANTE_ASOCIADO</label>
+							<bcs-input-texto
+								ng-show="data.accion ==='NCA' && (data.oTipoComprobante.idActual === 'NEO' || data.oTipoComprobante.idActual === 'NCR' || data.oTipoComprobante.idActual === 'NCE')"
+								class="col-xs-6" id="frmIngMvtoFac_UI_COMPROBANTE_ASOCIADO"
+								ng-model="data.polizaAsociada" maxlength="10"
+								k-ng-disabled="data.oTipoComprobante.idActual !== 'NEO' && data.oTipoComprobante.idActual !== 'NCR' && data.oTipoComprobante.idActual !== 'NCE'">
+							</bcs-input-texto>
+							
+							<!--  
+							
+
+							<bcs-input-texto
+								ng-show="data.accion ==='NCM' && SesionLocale === 'PE'"
+								class="col-xs-6" id="frmIngMvtoFac_UI_COMPROBANTE_ASOCIADO"
+								ng-model="data.polizaAsociadaManual" maxlength="10"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+							-->	
+						</div>					
+
+					</div>
+
+
+					<div class="row">
+					    <div class="col-xs-3">
+							<label class="col-xs-6" translate>UI_AFECTO_IMPUESTO</label>
+							<bcs-input-checkbox ng-show="data.accion ==='NCA'"
+								id="frmIngMvtoFac_UI_AFECTO_IMPUESTO"
+								ng-model="data.afectoImpuesto"> 
+							</bcs-input-checkbox>
+
+							<bcs-input-checkbox ng-show="data.accion ==='NCM'"
+								id="frmIngMvtoFac_UI_AFECTO_IMPUESTO"
+								ng-model="data.afectoImpuesto" 
+								ng-disabled="'true'">
+							</bcs-input-checkbox>
+						</div>
+						
+						<div class="col-xs-3">
+							<label class="col-xs-6" translate>UI_COMPROBANTE_INDIVIDUAL</label>
+							<bcs-input-checkbox ng-show="data.accion ==='NCA'"
+								id="frmIngMvtoFac_UI_COMPROBANTE_INDIVIDUAL"
+								ng-model="data.oIndCmbteIndiv"> </bcs-input-checkbox>
+
+							<bcs-input-checkbox ng-show="data.accion ==='NCM'"
+								id="frmIngMvtoFacManual_UI_COMPROBANTE_INDIVIDUAL"
+								ng-model="data.oIndCmbteIndivManual" ng-disabled="'true'">
+							</bcs-input-checkbox>
+						</div>							
+ 
+					    <div class="col-xs-3">
+							<label class="col-xs-6" translate>UI_COMPROBANTE_AUTOMATICO</label>
+							<bcs-input-checkbox id="frmIngMvtoFac_UI_COMPROBANTE_AUTOMATICO"
+								ng-model="data.oComprobanteAutomatico" ng-disabled='data.oComprobanteAutomaticoDisabled'> 
+							</bcs-input-checkbox>
+						</div>	
+
+						<div class="col-xs-3">
+							<label class="col-xs-6" translate>UI_ENVIAR_TESORERIA</label>
+							<bcs-input-checkbox ng-show="data.accion ==='NCA'"
+								id="frmIngMvtoFac_UI_ACTUALIZA_TESORERIA"
+								ng-model="data.oIndActTes"> 
+							</bcs-input-checkbox>
+
+							<bcs-input-checkbox ng-show="data.accion ==='NCM'"
+								id="frmIngMvtoFacManual_UI_ACTUALIZA_TESORERIA"
+								ng-model="data.oIndActTesManual" ng-disabled="data.oIndActTesDisabled"> 
+							</bcs-input-checkbox>
+							
+						</div>
+					</div>
+					
+					<div class="row" ng-show="data.oIndActTes === true">
+						<div class="col-xs-4">
+							<div>
+								<label class="col-xs-4" translate>UI_FORMA_DE_PAGO</label>
+								<bcs-combobox-base
+									class="col-xs-7"
+									usa-filtros-completos = "'S'"
+									bcs-requerido = "data.oIndActTes === true"
+									tipo="'combobox-preferencia-pago-portafolio'"
+									filtros = "data.filtrosPreferenciaPago"
+									id-actual = "data.IdPreferenciaPagoPortafolio"
+									seleccionado="data.formaDePagoSeleccionada">
+								</bcs-combobox-base>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_TIPO_REFERENCIA</label>
+							<bcs-combobox-base ng-show="data.accion ==='NCA'"
+								class="col-xs-7" bcs-requerido="data.accion ==='NCA' && data.oReferencia.length > 0"
+								id="frmIngMvtoFac_comprobante_UI_TIPO_REFERENCIA"
+								tipo="data.oTipoReferencia.tipo"
+								configuracion="data.oTipoReferencia.configuracion"
+								id-actual="data.oTipoReferencia.idActual"
+								seleccionado="data.oTipoReferencia.seleccionado"
+								filtros="data.oTipoReferencia.filtros"
+								id-post-filtro="data.oTipoComprobante.itemPostFiltro"
+								id-defecto="data.oTipoReferencia.idDefecto">
+							</bcs-combobox-base>
+
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFacManual_comprobante_UI_TIPO_REFERENCIA"
+								ng-model="data.oTipoReferenciaManual" maxlength="250"
+								k-ng-disabled="'true'"> </bcs-input-texto>
+						</div>
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_REFERENCIA_DOCUMENTO</label>
+							<bcs-input-texto ng-show="data.accion ==='NCA'" class="col-xs-7"
+								id="frmIngMvtoFac_UI_REFERENCIA" maxlength="18"
+								ng-model="data.oReferencia" tipo-campo="'textarea'"
+								atributos="margin: 0px; height:23px;resize:none;width: 100%">
+							</bcs-input-texto>
+							<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-7"
+								id="frmIngMvtoFac_UI_REFERENCIA" maxlength="18"
+								ng-model="data.oReferenciaManual" tipo-campo="'textarea'"
+								atributos="margin: 0px; height:23px;resize:none;width: 100%"
+								k-ng-disabled="'true'">
+							</bcs-input-texto>
+						</div>
+					</div>
+
+					<br />
+					<div class="row">
+						<label class="col-xs-1" translate>UI_COMENTARIO</label>
+						<bcs-input-texto ng-show="data.accion ==='NCA'" class="col-xs-11"
+							id="frmIngMvtoFac_UI_COMENTARIO" maxlength="260"
+							ng-model="data.oComentario" tipo-campo="'textarea'"
+							atributos="margin: 0px; height:40px;resize:none;width: 100%">
+						</bcs-input-texto>
+
+						<bcs-input-texto ng-show="data.accion ==='NCM'" class="col-xs-11"
+							id="frmIngMvtoFacManual_UI_COMENTARIO" maxlength="260"
+							ng-model="data.oComentarioManual" tipo-campo="'textarea'"
+							atributos="margin: 0px; height:40px;resize:none;width: 100%"> </bcs-input-texto>
+					</div>
+				</div>
+				<!-- FIN MANTENEDOR -->
+			</div>
+
+
+
+			<!-- INICIO PANEL COMANDOS -->
+			<div class="row bcs-panel-comandos" style="margin-top: 15px">
+				<bcs-button class="col-xs-1 pull-right" id="IngresarMovimientoFacturar"
+					class="col-xs-1" bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="'false'" bcs-texto="'UI_INGRESAR' | translate"
+					bcs-habilitado="frmIngMvtoFac.$valid"
+					bcs-clic="data.ingresarMovimientoComprobante()"> </bcs-button>
+				<bcs-button class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'true'" bcs-texto="'UI_LIMPIAR' | translate"
+					bcs-habilitado="true" bcs-clic="data.limpiar()"> </bcs-button>
+			</div>
+			<!-- FIN PANEL COMANDOS -->
+	</form>
+</div>

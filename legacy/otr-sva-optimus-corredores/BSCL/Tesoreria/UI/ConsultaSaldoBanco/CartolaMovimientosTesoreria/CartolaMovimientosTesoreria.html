@@ -1,0 +1,155 @@
+<div class="row" ng-controller='CartolaMovimientosTesoreriaCtrl as bCartolaMov'>	
+	<div class="row bcs-cuerpo" ng-form="frmCartolaMovimientosTesoreria">
+		<div class="row">
+			<table class="table">
+				<tr>
+				  <td><strong class="align_right" translate>UI_BANCO</strong></td>
+				  <td><label class="">{{bCartolaMov.NombreBanco}}</label></td>					
+				  <td><strong class="align_right" translate>UI_CUENTA_BANCO</strong></td>
+				  <td><label class="" >{{bCartolaMov.NombreCuentaBanco}}</label></td>
+				  <td><strong class="align_right" translate>UI_EMPRESA</strong></td>
+				  <td><label class="">{{bCartolaMov.NombreEmpresa}}</label></td>							  					  
+				</tr>
+				<tr>
+				  <td><strong class="align_right" translate>UI_MONEDA</strong></td>
+				  <td><label class="">{{bCartolaMov.NombreMoneda}}</label></td>					  			
+				  <td><strong class="align_right" translate>UI_SALDO_INICIAL</strong></td>
+				  <td><label class="">{{bCartolaMov.SaldoDisponibleInicial | kformat:'c':bCartolaMov.IdMoneda:'monto':'GEN'}}</label></td>
+				  <td><strong class="align_right" translate>UI_SALDO_FINAL</strong></td>					 
+				  <td><label class="">{{bCartolaMov.SaldoDisponible | kformat:'c':bCartolaMov.IdMoneda:'monto':'GEN'}}</label></td>					  
+				</tr>				
+			</table>
+		</div>
+
+		<!--<div class="row">
+			<div class="row k-window-subtitle">
+			   <label class="col-xs-4" translate>UI_DATOS_CONSULTA</label>																							
+			</div>
+		</div>-->
+		<div class="row"><br></div>
+
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">	
+					<div class="col-xs-8">
+						 <label class="col-xs-3" translate>UI_SOCIO_NEGOCIO</label>
+						 <bcs-combobox-base class="col-xs-9" id="frmCartolaMovimientosTesoreria_SOCIO_NEGOCIO"							
+							auto-cargar="'false'"
+							tipo="'combobox-socio-negocio'"
+							seleccionado="filtros.oConfiguracionSocioNegocio.seleccionado"
+							filtros="filtros.oConfiguracionSocioNegocio.filtros"						    
+							id-actual="filtros.oConfiguracionSocioNegocio.idActual"
+							item-post-filtro="filtros.oConfiguracionSocioNegocio.itemPostFiltro"						    
+							configuracion= "filtros.oConfiguracionSocioNegocio.configuracion"
+							cascada-a="filtros.oConfiguracionPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+							cascada-defecto="-1">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" style="padding-left: 10px" translate>UI_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="frmCartolaMovimientosTesoreria_PORTAFOLIO"
+							auto-cargar="'false'"					
+							tipo="'combobox-portafolio'"
+							seleccionado="filtros.oConfiguracionPortafolio.seleccionado"
+							id-actual="filtros.oConfiguracionPortafolio.idActual"								
+							filtros="filtros.oConfiguracionPortafolio.filtros"
+							configuracion= "filtros.oConfiguracionPortafolio.configuracion"
+							item-post-filtro="'1'">
+						</bcs-combobox-base >
+					</div>
+				</div>
+				<div class="row">						
+					<div class="col-xs-8">
+						<label class="col-xs-3" translate>UI_MEDIOS_DE_PAGO</label>					
+						<bcs-combobox-base class="col-xs-9" id="frmCartolaMovimientosTesoreria_MedioDePago"
+							tipo="'combobox-medio-pago'" 
+							configuracion= "filtros.oConfiguracionMedioDePago.configuracion" 				
+							seleccionado="filtros.oConfiguracionMedioDePago.seleccionado"
+							id-actual="filtros.oConfiguracionMedioDePago.idActual"
+							filtros="filtros.oConfiguracionMedioDePago.filtros"					
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>			
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" style="padding-left: 10px" translate>UI_CONCEPTO</label>
+						<bcs-combobox-base  class="col-xs-8" id="frmCartolaMovimientosTesoreria_concepto"
+							auto-cargar="'true'"
+							tipo="filtros.oConfiguracionConcepto.tipo"						
+							configuracion= "filtros.oConfiguracionConcepto.configuracion"
+							seleccionado="filtros.oConfiguracionConcepto.seleccionado"
+							id-actual="filtros.oConfiguracionConcepto.idActual"
+							filtros="filtros.oConfiguracionConcepto.filtros"							
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-6" translate>UI_FECHA_DESDE</label>					
+						<bcs-input-date class="col-xs-6" id="frmCartolaMovimientosTesoreria_FECHA_LIQUIDACION"
+							k-ng-model="filtros.kngFechaDesde" 
+							ng-model="filtros.FechaDesde">							
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-6" style="padding-left: 10px" translate>UI_FECHA_HASTA</label>					
+						<bcs-input-date class="col-xs-6" id="frmCartolaMovimientosTesoreria_FECHA_LIQUIDACION"
+							k-ng-model="filtros.kngFechaHasta" 
+							ng-model="filtros.FechaHasta">							
+						</bcs-input-date>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-11" translate>UI_SALDO_POR_FECHA_DISPONIBLE</label>
+						<input type="checkbox" id="frmCartolaMovimientosTesoreria_SALDO_POR_FECHA_DISPONIBLE" 
+							ng-model="filtros.SaldoPorFechaDisponible">
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-11" style="padding-left: 10px" translate>UI_SALDO_POR_FECHA_CONTABLE</label>
+						<input type="checkbox" id="frmCartolaMovimientosTesoreria_SALDO_POR_FECHA_CONTABLE" 
+							ng-model="filtros.SaldoPorFechaContable">
+					</div>  
+				</div>
+
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmCartolaMovimientosTesoreria_btnBuscar"
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="buscarMovimientos(filtros)"
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmCartolaMovimientosTesoreria_btnLimpiar"
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="limpiarFiltros()"
+					></bcs-button>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<bcs-grid id="frmCartolaMovimientosTesoreria_grid_saldo_banco"
+				configuracion = "confBasicaCartolaMovimiento"
+				fn-exportar-excel = "exportarExcel"
+				seleccionado = "seleccionCartolaMovimiento">					
+			</bcs-grid>
+		</div>
+    
+	</div>
+
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>
+

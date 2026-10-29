@@ -1,0 +1,15 @@
+SELECT 
+"IdTipoContabilidad"
+,"Nombre"
+,"Nemo"
+,"Tipo"
+,"Reversa"
+,"Agrupa"
+,"Condicionado"
+,"TipoGeneracion"
+,"IdEmpresa"
+,"Ejercicio"
+,"Formato"
+,"Estado"
+FROM "BSCL.Contabilidad.BD::ITZ.ContabilidadTipo"
+WHERE "IdTipoContabilidad" IN (:IdTipoContabilidad) AND "IdEmpresa" = :IdEmpresa

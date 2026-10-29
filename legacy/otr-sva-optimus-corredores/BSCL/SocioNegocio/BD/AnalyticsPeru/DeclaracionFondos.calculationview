@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="DeclaracionFondos" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="DeclaracionFondos"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoOperacion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaDeclaracion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoOrigen" length="100"/>
+        <viewAttribute datatype="DECIMAL" id="Valor" length="26"/>
+        <viewAttribute datatype="NVARCHAR" id="Comentario" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Estado" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	  	 var_out = SELECT 
+						SOC.&quot;IdPersona&quot;,
+						TIPOP.&quot;Nombre&quot; AS &quot;TipoOperacion&quot;,
+						TO_NVARCHAR(DOF.&quot;FechaDeclaracion&quot;) AS &quot;FechaDeclaracion&quot;,
+						TOOF.&quot;IdTipoOperacionOrigenFondos&quot; AS &quot;TipoOrigen&quot;,
+						DDOF.&quot;Valor&quot;,
+						DOF.&quot;Comentario&quot;,
+						ESTDOF.&quot;Nombre&quot; AS &quot;Estado&quot;
+					FROM &quot;BSCL&quot;.&quot;BSCL.SocioNegocio.BD::CLI.DeclaracionOrigenFondos&quot; DOF
+					INNER JOIN &quot;BSCL&quot;.&quot;BSCL.SocioNegocio.BD::CLI.DetalleDeclaracionOrigenFondos&quot; DDOF ON DDOF.&quot;IdDeclaracionOrigenFondos&quot; = DOF.&quot;IdDeclaracionOrigenFondos&quot;
+					LEFT JOIN &quot;BSCL.SocioNegocio.BD::CLI.TipoOrigenFondo&quot; as TIPOP ON TIPOP.&quot;IdTipoOrigenFondo&quot; = DDOF.&quot;IdTipoOrigenFondo&quot;
+					LEFT JOIN &quot;BSCL.SocioNegocio.BD::CLI.TipoOperacionOrigenFondos&quot; TOOF ON TOOF.&quot;IdTipoOperacionOrigenFondos&quot; = DOF.&quot;IdTipoOperacionOrigenFondos&quot;
+					LEFT JOIN &quot;BSCL&quot;.&quot;BSCL.SocioNegocio.BD::SOC.SocioDeNegocio&quot; SOC ON SOC.&quot;IdCliente&quot; = DOF.&quot;IdCliente&quot;
+					LEFT JOIN &quot;BSCL.Plataforma.BD::PLA.Estado&quot; ESTDOF ON ESTDOF.&quot;IdEstado&quot; = DOF.&quot;IdEstado&quot;;
+
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdPersona" hidden="true" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="TipoOperacion" hidden="true" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoOperacion"/>
+      </attribute>
+      <attribute id="FechaDeclaracion" hidden="true" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaDeclaracion"/>
+      </attribute>
+      <attribute id="TipoOrigen" hidden="true" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoOrigen"/>
+      </attribute>
+      <attribute id="Valor" hidden="true" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Valor"/>
+      </attribute>
+      <attribute id="Comentario" hidden="true" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Comentario"/>
+      </attribute>
+      <attribute id="Estado" hidden="true" order="7">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Estado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

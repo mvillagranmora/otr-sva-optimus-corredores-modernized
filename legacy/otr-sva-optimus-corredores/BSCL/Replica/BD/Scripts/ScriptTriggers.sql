@@ -1,0 +1,6140 @@
+-- ###################################
+-- SCRIPT LIBERACION PROYECTO REPLICA
+-- ###################################
+
+-- Creacion de Triggers Tablas SEBRA
+
+SET SCHEMA "BSCL"; GO
+
+-- ASIGNACIONES
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaAsignaciones"; GO 
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaAsignaciones"
+ AFTER   INSERT ON "BSCL.Orden.BD::ORD.Asignacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 		DECLARE v_Table		varchar(200);
+	 		DECLARE  v_mercado varchar(4);
+	 
+	 		SELECT  "IdClasificacionTipoInstrumento" INTO v_Table
+	 		FROM "BSCL.Orden.BD::ORD.Transaccion" AS TRA
+	 		WHERE  TRA."IdTransaccion"  = :NewRow."IdTransaccion";
+	 		
+	 		v_mercado = v_Table;
+		    v_Table = concat('ASIGNACION_' , v_Table);
+		    		
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAsignacion" AS varchar(200))  
+						,v_Table
+						,'A'
+			    ); 
+			        
+			 IF (:v_mercado = 'RF' OR  :v_mercado = 'IF')  then
+			 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAsignacion" AS varchar(200))  
+						,'OPERACION_CARTERA_' || :v_mercado
+						,'A'
+			    ); 			    
+			 END IF; 
+			    
+			 CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAsignacion" AS varchar(200))  
+						,'Orden_Asignacion'
+						,'A'
+			    );   
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaAsignaciones"; GO 
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaAsignaciones"
+ AFTER   UPDATE ON "BSCL.Orden.BD::ORD.Asignacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+ 
+		 	DECLARE v_Table		varchar(200);
+	 		DECLARE  v_mercado varchar(4);
+	 
+	 		SELECT  "IdClasificacionTipoInstrumento" INTO v_Table
+	 		FROM "BSCL.Orden.BD::ORD.Transaccion" AS TRA
+	 		WHERE  TRA."IdTransaccion"  = :NewRow."IdTransaccion";
+	 		
+	 		v_mercado = v_Table;
+		    v_Table = concat('ASIGNACION_' , v_Table);
+		    	
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAsignacion" AS varchar(200))  
+						,v_Table
+						,'A'
+			    ); 
+			      
+			 IF (:v_mercado = 'RF' OR  :v_mercado = 'IF')  then
+			 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAsignacion" AS varchar(200))  
+						,'OPERACION_CARTERA_' || :v_mercado
+						,'A'
+			    ); 			    
+			 END IF; 	
+			
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAsignacion" AS varchar(200))  
+						,'Orden_Asignacion'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaAsignaciones"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaAsignaciones"
+ AFTER   DELETE ON "BSCL.Orden.BD::ORD.Asignacion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+	 	DECLARE v_Table		varchar(200);
+	 	DECLARE  v_mercado varchar(4);
+ 
+	   	SELECT  "IdClasificacionTipoInstrumento" INTO v_Table
+	 	FROM "BSCL.Orden.BD::ORD.Transaccion" AS TRA
+	 	WHERE  TRA."IdTransaccion"  = :OldRow."IdTransaccion";
+	 			
+		v_mercado = v_Table;
+		v_Table = concat('ASIGNACION_' , v_Table);
+		    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdAsignacion" AS varchar(200))  
+						,v_Table
+						,'D'
+			    ); 
+			    
+		 IF (:v_mercado = 'RF' OR  :v_mercado = 'IF')  then
+			 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdAsignacion" AS varchar(200))  
+						,'OPERACION_CARTERA_' || :v_mercado
+						,'D'
+			    ); 			    
+		 END IF; 
+	 
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdAsignacion" AS varchar(200))  
+						,'Orden_Asignacion'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- BANCO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaBanco"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaBanco"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::BAN.Banco"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdBanco" AS varchar(200))  
+						,'BANCO'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdBanco" AS varchar(200))  
+						,'Plataforma_Banco'
+						,'A'
+			    );
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaBanco"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaBanco"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::BAN.Banco"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdBanco" AS varchar(200))  
+						,'BANCO'
+						,'A'
+			    );
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdBanco" AS varchar(200))  
+						,'Plataforma_Banco'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaBanco"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaBanco"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::BAN.Banco"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdBanco" AS varchar(200))  
+						,'BANCO'
+						,'D'
+			    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdBanco" AS varchar(200))  
+						,'Plataforma_Banco'
+						,'D'
+			    );  	    
+ END; GO
+ 
+ -- CARTERA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCartera"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCartera"
+ AFTER   INSERT ON "BSCL.Custodia.BD::CUS.Cartera"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStackCartera"
+				(  
+						cast(:NewRow."FolioCartera" AS varchar(200))           
+						,:NewRow."IdClasificacionTipoInstrumento"
+						,'A'
+			    ); 
+			    
+		IF (:NewRow."IdClasificacionTipoInstrumento" = 'RV' AND :NewRow."IdTipoInstrumento" = 'SIM')  then
+				CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."FolioCartera" AS varchar(200))  
+						,'TBCTTRTP'
+						,'A'
+			    );         
+        end if; 
+        
+		IF (:NewRow."IdTipoInstrumento" = 'PRT' AND :NewRow."IdTipoPrestamo" = 'PRTVTC')  then
+				CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."FolioCartera" AS varchar(200))  
+						,'TBCTTRCO'
+						,'A'
+			    );         
+        end if; 
+       
+       CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_Cartera'
+						,'A'
+			    ); 
+				
+		-- JK ver llave compuesta para esta vista
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPortafolio" AS varchar(200)) || ':' ||  cast(:NewRow."Nemotecnico" AS varchar(200))  
+					,'Custodia_CustodiaFechaLiquidacion'
+					,'A'
+		    ); 
+		   
+		-- JK ver llave compuesta para esta vista
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPortafolio" AS varchar(200)) || ':' ||  cast(:NewRow."Nemotecnico" AS varchar(200)) 
+					,'Custodia_CustodiaFechaOperacion'
+					,'A'
+		    ); 				
+		   
+	   CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdCartera" AS varchar(200))  
+					,'Custodia_MovimientoCartera'
+					,'A'
+		    );
+
+	  CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdCartera" AS varchar(200))  
+					,'Custodia_CarteraFM'
+					,'A'
+		    );
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdCartera" AS varchar(200))  
+					,'Custodia_CarteraFMHis'
+					,'A'
+			);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdCartera" AS varchar(200))  
+					,'Custodia_CarteraOtrosProductos'
+					,'A'
+			);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraOtrosProductosHis'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRFIF'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRFIFHis'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRV'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRVHis'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_MovimientoCarteraIngresos'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_MovimientoCarteraEgresos'
+						,'A'
+				);
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCartera"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCartera"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::CUS.Cartera"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStackCartera"
+				(  
+						cast(:NewRow."FolioCartera" AS varchar(200))           
+						,:NewRow."IdClasificacionTipoInstrumento"
+						,'A'
+			    ); 
+			    
+		IF (:NewRow."IdClasificacionTipoInstrumento" = 'RV' AND :NewRow."IdTipoInstrumento" = 'SIM')  then
+				CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."FolioCartera" AS varchar(200))  
+						,'TBCTTRTP'
+						,'A'
+			    );         
+        end if; 
+           
+       	IF (:NewRow."IdTipoInstrumento" = 'PRT' AND :NewRow."IdTipoPrestamo" = 'PRTVTC')  then
+				CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."FolioCartera" AS varchar(200))  
+						,'TBCTTRCO'
+						,'A'
+			    );         
+        end if; 
+ 			
+         CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_Cartera'
+						,'A'
+			    ); 
+				
+		-- JK ver llave compuesta para esta vista
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPortafolio" AS varchar(200)) || ':' ||  cast(:NewRow."Nemotecnico" AS varchar(200))   
+					,'Custodia_CustodiaFechaLiquidacion'
+					,'A'
+		    ); 
+		   	
+		-- JK ver llave compuesta para esta vista
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPortafolio" AS varchar(200)) || ':' ||  cast(:NewRow."Nemotecnico" AS varchar(200))   
+					,'Custodia_CustodiaFechaOperacion'
+					,'A'
+		    ); 				
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_MovimientoCartera'
+						,'A'
+			    ); 
+
+		 CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraFM'
+						,'A'
+			    );
+
+	    CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraFMHis'
+						,'A'
+				);
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraOtrosProductos'
+						,'A'
+				);
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraOtrosProductosHis'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRFIF'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRFIFHis'
+						,'A'
+				);	
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRV'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRVHis'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_MovimientoCarteraIngresos'
+						,'A'
+				);
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_MovimientoCarteraEgresos'
+						,'A'
+				);
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCartera"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCartera"
+ AFTER   DELETE ON "BSCL.Custodia.BD::CUS.Cartera"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStackCartera"
+				(  
+						cast(:OldRow."FolioCartera" AS varchar(200))           
+						,:OldRow."IdClasificacionTipoInstrumento"
+						,'D'
+			    ); 
+    
+		IF (:OldRow."IdClasificacionTipoInstrumento" = 'RV' AND :OldRow."IdTipoInstrumento" = 'SIM')  then
+				CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."FolioCartera" AS varchar(200))  
+						,'TBCTTRTP'
+						,'D'
+			    );         
+        end if; 
+        
+        IF (:OldRow."IdTipoInstrumento" = 'PRT' AND :OldRow."IdTipoPrestamo" = 'PRTVTC')  then
+				CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."FolioCartera" AS varchar(200))  
+						,'TBCTTRCO'
+						,'D'
+			    );         
+
+        end if; 
+
+       CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_Cartera'
+						,'D'
+			    );  
+				
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPortafolio" AS varchar(200)) || ':' ||  cast(:OldRow."Nemotecnico" AS varchar(200))   
+						,'Custodia_CustodiaFechaLiquidacion'
+						,'D'
+			    );  
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPortafolio" AS varchar(200)) || ':' ||  cast(:OldRow."Nemotecnico" AS varchar(200))   
+						,'Custodia_CustodiaFechaOperacion'
+						,'D'
+			    );  
+
+        CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_MovimientoCartera'
+						,'D'
+			    ); 	
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraFM'
+						,'D'
+			    ); 	
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraFMHis'
+						,'D'
+			    );
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraOtrosProductos'
+						,'D'
+			    );
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraOtrosProductosHis'
+						,'D'
+			    );
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRFIF'
+						,'D'
+			    );
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRFIFHis'
+						,'D'
+			    );
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRV'
+						,'D'
+			    );
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraRVHis'
+						,'D'
+			    );
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_MovimientoCarteraIngresos'
+						,'D'
+			    );
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_MovimientoCarteraEgresos'
+						,'D'
+			    );
+ END; GO
+ 
+ -- CIRCULARIZACION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCircularizacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCircularizacion"
+ AFTER   INSERT ON "BSCL.Normativa.BD::CIR.Nomina"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdNomina" AS varchar(200))  
+						,'CIRCULARIZACION'
+						,'A'
+			    ); 	 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCircularizacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCircularizacion"
+ AFTER   UPDATE ON "BSCL.Normativa.BD::CIR.Nomina"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdNomina" AS varchar(200))  
+						,'CIRCULARIZACION'
+						,'A'
+			    ); 	 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCircularizacion"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCircularizacion"
+ AFTER   DELETE ON "BSCL.Normativa.BD::CIR.Nomina"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdNomina" AS varchar(200))  
+						,'CIRCULARIZACION'
+						,'D'
+			    ); 
+
+ END; GO
+
+ -- CLIENTE
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCliente"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCliente"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::CLI.Cliente"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200))  
+						,'CLIENTE'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_Cliente'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_IndicadorCliente'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCliente"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCliente"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::CLI.Cliente"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200))  
+						,'CLIENTE'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_Cliente'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_IndicadorCliente'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCliente"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCliente"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::CLI.Cliente"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200))  
+						,'CLIENTE'
+						,'D'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_Cliente'
+						,'D'
+			    );
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_IndicadorCliente'
+						,'D'
+			    );
+ END; GO
+
+ -- COMUNA
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCiudad"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCiudad"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::REG.Ciudad"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCiudad" AS varchar(200))  
+						,'COMUNA'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCiudad" AS varchar(200))  
+						,'Plataforma_Ciudad'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCiudad"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCiudad"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::REG.Ciudad"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCiudad" AS varchar(200))  
+						,'COMUNA'
+						,'A'
+			    );  
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCiudad" AS varchar(200))  
+						,'Plataforma_Ciudad'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCiudad"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCiudad"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::REG.Ciudad"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdCiudad" AS varchar(200))  
+							,'COMUNA'
+							,'D'
+				    ); 
+	
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdCiudad" AS varchar(200))  
+							,'Plataforma_Ciudad'
+							,'D'
+				    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDivisionPais"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDivisionPais"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::REG.DivisionPais"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDivisionPais" AS varchar(200))  
+						,'COMUNA_REGION'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDivisionPais" AS varchar(200))  
+						,'Plataforma_DivisionPais'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDivisionPais"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDivisionPais"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::REG.DivisionPais"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDivisionPais" AS varchar(200))  
+						,'COMUNA_REGION'
+						,'A'
+			    ); 
+	 
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDivisionPais" AS varchar(200))  
+						,'Plataforma_DivisionPais'
+						,'A'
+			    );
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDivisionPais"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDivisionPais"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::REG.DivisionPais"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdDivisionPais" AS varchar(200))  
+						,'COMUNA_REGION'
+						,'D'
+			    );
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdDivisionPais" AS varchar(200))  
+						,'Plataforma_DivisionPais'
+						,'D'
+			    ); 
+ END; GO
+ 
+ -- CUENTA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCuenta"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCuenta"
+ AFTER   INSERT ON "BSCL.Portafolio.BD::POR.Portafolio"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPortafolio" AS varchar(200))  
+						,'PORTAFOLIO'
+						,'A'
+			    ); 
+			       
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPortafolio" AS varchar(200))  
+						,'TBPLFICL'
+						,'A'
+			    ); 	
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPortafolio" AS varchar(200))  
+						,'Portafolio_Portafolio'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPortafolio" AS varchar(200))  
+						,'Plataforma_MatrizComercialPortafolios'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCuenta"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCuenta"
+ AFTER   UPDATE ON "BSCL.Portafolio.BD::POR.Portafolio"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPortafolio" AS varchar(200))  
+						,'PORTAFOLIO'
+						,'A'
+			    ); 
+			    
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPortafolio" AS varchar(200))  
+						,'TBPLFICL'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPortafolio" AS varchar(200))  
+						,'Portafolio_Portafolio'
+						,'A'
+			    );
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPortafolio" AS varchar(200))  
+						,'Plataforma_MatrizComercialPortafolios'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCuenta"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCuenta"
+ AFTER   DELETE ON "BSCL.Portafolio.BD::POR.Portafolio"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPortafolio" AS varchar(200))  
+						,'PORTAFOLIO'
+						,'D'
+			    ); 
+			    	    
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPortafolio" AS varchar(200))  
+						,'TBPLFICL'
+						,'D'
+			    ); 					    
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPortafolio" AS varchar(200))  
+						,'Portafolio_Portafolio'
+						,'D'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPortafolio" AS varchar(200))  
+						,'Plataforma_MatrizComercialPortafolios'
+						,'D'
+			    ); 
+ END; GO
+ 
+ -- CUENTA BANCARIA
+ 
+ SET SCHEMA "BSCL"; GO 
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCuentaBancaria"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaCuentaBancaria"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::PER.CuentaBancaria"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaBancaria" AS varchar(200))  
+						,'CUENTA_BANCARIA'
+						,'A'
+			    );
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaBancaria" AS varchar(200))  
+						,'SocioNegocio_PersonaCuentaBancaria'
+						,'A'
+			    );
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCuentaBancaria"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCuentaBancaria"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::PER.CuentaBancaria"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaBancaria" AS varchar(200))  
+						,'CUENTA_BANCARIA'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaBancaria" AS varchar(200))  
+						,'SocioNegocio_PersonaCuentaBancaria'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCuentaBancaria"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaCuentaBancaria"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::PER.CuentaBancaria"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCuentaBancaria" AS varchar(200))  
+						,'CUENTA_BANCARIA'
+						,'D'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCuentaBancaria" AS varchar(200))  
+						,'SocioNegocio_PersonaCuentaBancaria'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- CUENTA INVERSION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasCuentaInversion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasCuentaInversion"
+ AFTER   INSERT ON "BSCL.CuentaInversion.BD::CTA.CuentaInversion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaInversion" AS varchar(200))  
+						,'TBCTCTCL'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasCuentaInversion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasCuentaInversion"
+ AFTER   UPDATE ON "BSCL.CuentaInversion.BD::CTA.CuentaInversion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+	 	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaInversion" AS varchar(200))  
+						,'TBCTCTCL'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasCuentaInversion"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasCuentaInversion"
+ AFTER   DELETE ON "BSCL.CuentaInversion.BD::CTA.CuentaInversion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCuentaInversion" AS varchar(200))  
+						,'TBCTCTCL'
+						,'D'
+			    ); 
+ END; GO
+ 
+ -- DETALLE ANOTACION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDetalleAnotacionCliente"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDetalleAnotacionCliente"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::CLI.Anotacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAnotacion" AS varchar(200))  
+						,'DETALLE_ANOTACION'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDetalleAnotacionCliente"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDetalleAnotacionCliente"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::CLI.Anotacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAnotacion" AS varchar(200))  
+						,'DETALLE_ANOTACION'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDetalleAnotacionCliente"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDetalleAnotacionCliente"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::CLI.Anotacion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdAnotacion" AS varchar(200))  
+						,'DETALLE_ANOTACION'
+						,'D'
+			    );  
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDetalleAnotacionPortafolio"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDetalleAnotacionPortafolio"
+ AFTER   INSERT ON "BSCL.Portafolio.BD::POR.Anotacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAnotacion" AS varchar(200))  
+						,'DETALLE_ANOTACION_PORTAFOLIO'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDetalleAnotacionPortafolio"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDetalleAnotacionPortafolio"
+ AFTER   UPDATE ON "BSCL.Portafolio.BD::POR.Anotacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdAnotacion" AS varchar(200))  
+						,'DETALLE_ANOTACION_PORTAFOLIO'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDetalleAnotacionPortafolio"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDetalleAnotacionPortafolio"
+ AFTER   DELETE ON "BSCL.Portafolio.BD::POR.Anotacion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdAnotacion" AS varchar(200))  
+						,'DETALLE_ANOTACION_PORTAFOLIO'
+						,'D'
+			    );  
+ END; GO
+ 
+-- DETALLE INDICADOR
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDetalleIndicador"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDetalleIndicador"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::IND.DetalleIndicador"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDetalleIndicador" AS varchar(200))  
+						,'DETALLE_INDICADOR'
+						,'A'
+			    ); 
+			    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdDetalleIndicador" AS varchar(200))  
+					,'DETALLE_INDICADOR'
+					,'A'
+		    );   
+		   
+		   CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDetalleIndicador" AS varchar(200))  
+						,'SocioNegocio_DetalleIndicador'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDetalleIndicador"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDetalleIndicador"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::IND.DetalleIndicador"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDetalleIndicador" AS varchar(200))  
+						,'DETALLE_INDICADOR'
+						,'A'
+			    ); 
+			    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdDetalleIndicador" AS varchar(200))  
+					,'DETALLE_INDICADOR'
+					,'A'
+		    );    
+		   
+		   CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDetalleIndicador" AS varchar(200))  
+						,'SocioNegocio_DetalleIndicador'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDetalleIndicador"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDetalleIndicador"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::IND.DetalleIndicador"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdDetalleIndicador" AS varchar(200))  
+						,'DETALLE_INDICADOR'
+						,'D'
+			    ); 
+			    
+			    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:OldRow."IdDetalleIndicador" AS varchar(200))  
+					,'DETALLE_INDICADOR'
+					,'A'
+		    );     
+		   
+		   CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdDetalleIndicador" AS varchar(200))  
+						,'SocioNegocio_DetalleIndicador'
+						,'D'
+			    ); 
+ END; GO
+ 
+ -- DIRECCIONES
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDireccionFisica"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDireccionFisica"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::PER.DireccionFisica"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		DECLARE v_accion varchar(1);	    	
+	 
+		v_accion = 'A';
+	 	IF (:NewRow."IdEstado" != 'VIG')  then
+        	v_accion = 'D';
+        end if; 
+	 
+    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdDireccionFisica" AS varchar(200))  
+					,'DIRECCION_FISICA'
+					,:v_accion
+		    ); 
+  
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersona" AS varchar(200))  
+					,'USO_DIRECCIONES'
+					,:v_accion
+		    );  
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdDireccionFisica" AS varchar(200))  
+					,'SocioNegocio_PersonaDireccionFisica'
+					,:v_accion
+		    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDireccionFisica"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDireccionFisica"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::PER.DireccionFisica"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		DECLARE v_accion varchar(1);	    	
+	 
+		v_accion = 'A';
+	 	IF (:NewRow."IdEstado" != 'VIG')  then
+        	v_accion = 'D';
+        end if; 
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdDireccionFisica" AS varchar(200))  
+					,'DIRECCION_FISICA'
+					,:v_accion
+		    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersona" AS varchar(200))  
+					,'USO_DIRECCIONES'
+					,:v_accion
+		    );
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdDireccionFisica" AS varchar(200))  
+					,'SocioNegocio_PersonaDireccionFisica'
+					,:v_accion
+		    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDireccionFisica"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDireccionFisica"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::PER.DireccionFisica"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdDireccionFisica" AS varchar(200))  
+						,'DIRECCION_FISICA'
+						,'D'
+			    ); 
+	    
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:OldRow."IdPersona" AS varchar(200))  
+					,'USO_DIRECCIONES'
+					,'D'
+		    ); 
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:OldRow."IdDireccionFisica" AS varchar(200))  
+					,'SocioNegocio_PersonaDireccionFisica'
+					,'D'
+		    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDireccionElectronica"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaDireccionElectronica"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::PER.DireccionElectronica"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		DECLARE v_accion varchar(1);	    	
+	 
+		v_accion = 'A';
+	 	IF (:NewRow."IdEstado" != 'VIG')  then
+        	v_accion = 'D';
+        end if; 
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdDireccionElectronica" AS varchar(200))  
+					,'DIRECCION_ELECTRONICA'
+					,:v_accion
+		    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersona" AS varchar(200))  
+					,'USO_DIRECCIONES'
+					,:v_accion
+		    ); 
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDireccionElectronica" AS varchar(200))  
+						,'SocioNegocio_PersonaDireccionElectronica'
+						,:v_accion
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDireccionElectronica"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaDireccionElectronica"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::PER.DireccionElectronica"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		DECLARE v_accion varchar(1);	    	
+	 
+		v_accion = 'A';
+	 	IF (:NewRow."IdEstado" != 'VIG')  then
+        	v_accion = 'D';
+        end if; 
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdDireccionElectronica" AS varchar(200))  
+					,'DIRECCION_ELECTRONICA'
+					,:v_accion
+		    ); 
+ 
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersona" AS varchar(200))  
+					,'USO_DIRECCIONES'
+					,:v_accion
+		    );
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDireccionElectronica" AS varchar(200))  
+						,'SocioNegocio_PersonaDireccionElectronica'
+						,:v_accion
+			    );
+
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDireccionElectronica"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaDireccionElectronica"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::PER.DireccionElectronica"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdDireccionElectronica" AS varchar(200))  
+						,'DIRECCION_ELECTRONICA'
+						,'D'
+			    ); 
+			    
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:OldRow."IdPersona" AS varchar(200))  
+					,'USO_DIRECCIONES'
+					,'D'
+		    ); 
+		
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdDireccionElectronica" AS varchar(200))  
+						,'SocioNegocio_PersonaDireccionElectronica'
+						,'D'
+			    );
+ END; GO
+ 
+ -- EMPLEADO CORREDORA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaEmpleado"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaEmpleado"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::EMP.Empleado"   
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleado" AS varchar(200))  
+						,'EmpleadoCorredora'
+						,'A'
+			    ); 
+	    	 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleado" AS varchar(200))  
+						,'TBPLOPER'
+						,'A'
+			    ); 
+   
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleado" AS varchar(200))  
+						,'EMPLEADO_FILIAL'
+						,'A'
+			    ); 	
+			
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleado" AS varchar(200))  
+						,'SocioNegocio_Empleado'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'SocioNegocio_IndicadorPersona'
+						,'A'
+			    ); 
+			/*   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_IndicadorPortafolio'
+						,'A'
+			    );*/ 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaEmpleado"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaEmpleado"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::EMP.Empleado"   
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleado" AS varchar(200))  
+						,'EmpleadoCorredora'
+						,'A'
+			    ); 
+			    	    
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleado" AS varchar(200))  
+						,'TBPLOPER'
+						,'A'
+			    ); 		
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleado" AS varchar(200))  
+						,'EMPLEADO_FILIAL'
+						,'A'
+			    ); 	
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleado" AS varchar(200))  
+						,'SocioNegocio_Empleado'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'SocioNegocio_IndicadorPersona'
+						,'A'
+			    ); 
+			/*   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_IndicadorPortafolio'
+						,'A'
+			    ); */
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaEmpleado"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaEmpleado"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::EMP.Empleado"   
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEmpleado" AS varchar(200))  
+						,'EmpleadoCorredora'
+						,'D'
+			    ); 
+			    
+	 	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEmpleado" AS varchar(200))  
+						,'TBPLOPER'
+						,'D'
+			    ); 
+			       
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEmpleado" AS varchar(200))  
+						,'EMPLEADO_FILIAL'
+						,'D'
+			    );  
+			   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEmpleado" AS varchar(200))  
+						,'SocioNegocio_Empleado'
+						,'D'
+			    ); 
+			   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersona" AS varchar(200))  
+						,'SocioNegocio_IndicadorPersona'
+						,'D'
+			    ); 
+		/*	   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200))  
+						,'SocioNegocio_IndicadorPortafolio'
+						,'D'
+			    );  */
+ END; GO
+
+ -- ENCUESTA INVERSIONISTA CALIFICADOS HIST CLIENTE
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaEncuestaInversionistaCalificadosHistCliente"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaEncuestaInversionistaCalificadosHistCliente"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::CLI.RegistroEncuesta"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdRegistroEncuesta" AS varchar(200))  
+						,'ENCUESTA_INVERSIONISTA_CALIFICADOS_HIST_CLIENTE'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaEncuestaInversionistaCalificadosHistCliente"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaEncuestaInversionistaCalificadosHistCliente"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::CLI.RegistroEncuesta"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdRegistroEncuesta" AS varchar(200))  
+						,'ENCUESTA_INVERSIONISTA_CALIFICADOS_HIST_CLIENTE'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaEncuestaInversionistaCalificadosHistCliente"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaEncuestaInversionistaCalificadosHistCliente"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::CLI.RegistroEncuesta"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdRegistroEncuesta" AS varchar(200))  
+						,'ENCUESTA_INVERSIONISTA_CALIFICADOS_HIST_CLIENTE'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- FMMOVTOSSPOT
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaFMMovtosSpot"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaFMMovtosSpot"
+ AFTER   INSERT ON "BSCL.Mesa.BD::SPT.OperacionSpot"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacionSpot" AS varchar(200))  
+						,'FMMovtosSpot'
+						,'A'
+			    ); 
+			    
+			    
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacionSpot" AS varchar(200))  
+						,'TBMOMVTO'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacionSpot" AS varchar(200))  
+						,'Mesa_MovimientosSpot'
+						,'A'
+			    );    
+
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaFMMovtosSpot"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaFMMovtosSpot"
+ AFTER   UPDATE ON "BSCL.Mesa.BD::SPT.OperacionSpot"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacionSpot" AS varchar(200))  
+						,'FMMovtosSpot'
+						,'A'
+			    ); 
+			    
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacionSpot" AS varchar(200))  
+						,'TBMOMVTO'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacionSpot" AS varchar(200))  
+						,'Mesa_MovimientosSpot'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaFMMovtosSpot"; GO 
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaFMMovtosSpot"
+ AFTER   DELETE ON "BSCL.Mesa.BD::SPT.OperacionSpot"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOperacionSpot" AS varchar(200))  
+						,'FMMovtosSpot'
+						,'D'
+			    );  
+			    
+			    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOperacionSpot" AS varchar(200))  
+						,'TBMOMVTO'
+						,'D'
+			    );  
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOperacionSpot" AS varchar(200))  
+						,'Mesa_MovimientosSpot'
+						,'A'
+			    ); 
+ END; GO
+ 
+ -- GARANTIAS
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasGarantia"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasGarantia"
+ AFTER   INSERT ON "BSCL.Custodia.BD::GTA.Garantia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdGarantia" AS varchar(200))  
+						,'TBCTGTIA'
+						,'A'
+			    ); 
+			   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdGarantia" AS varchar(200))  
+						,'Custodia_Garantia'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasGarantia"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasGarantia"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::GTA.Garantia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+	 	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdGarantia" AS varchar(200))  
+						,'TBCTGTIA'
+						,'A'
+			    ); 	 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdGarantia" AS varchar(200))  
+						,'Custodia_Garantia'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasGarantia"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasGarantia"
+ AFTER   DELETE ON "BSCL.Custodia.BD::GTA.Garantia"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdGarantia" AS varchar(200))  
+						,'TBCTGTIA'
+						,'D'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdGarantia" AS varchar(200))  
+						,'Custodia_Garantia'
+						,'D'
+			    );
+ END; GO
+ 
+ -- INDICADOR CLIENTE CUENTA
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaIndicador"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaIndicador"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::IND.Indicador"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		DECLARE v_tabla varchar(50);	    	
+	 
+		v_tabla = '';
+	 	IF (:NewRow."IdTipoEntidad" = 'PORTAFOLIO')  then
+        	v_tabla = 'INDICADORES_CUENTA';
+        end if; 
+	 
+	 	IF (:NewRow."IdTipoEntidad" = 'CLIENTE' OR :NewRow."IdTipoEntidad" = 'PERSONA' )  then
+        	v_tabla = 'INDICADORES_CLIENTE';
+        end if; 
+        
+        
+        IF (:v_tabla != '')  then
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdIndicador" AS varchar(200))  
+						,v_tabla 
+						,'A'
+			    ); 
+		END IF; 
+		
+		
+		IF (:NewRow."IdTipoIndicador" = 25/*(SELECT "IdTipoIndicador" FROM BSCL."BSCL.Plataforma.BD::IND.TipoIndicador" WHERE "CodigoTipoIndicador" = 'FAC_DIRELE')*/ )  then
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdIndicador" AS varchar(200))  
+						, 'INDICADOR_DTE_DIRECCION' 
+						,'A'
+			    ); 
+		END IF; 
+		
+			
+		
+		
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaIndicador"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaIndicador"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::IND.Indicador"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+		DECLARE v_tabla varchar(50);	    	
+	 
+		v_tabla = '';
+	 	IF (:NewRow."IdTipoEntidad" = 'PORTAFOLIO')  then
+        	v_tabla = 'INDICADORES_CUENTA';
+        end if; 
+	 
+	 	IF (:NewRow."IdTipoEntidad" = 'CLIENTE' OR :NewRow."IdTipoEntidad" = 'PERSONA' )  then
+        	v_tabla = 'INDICADORES_CLIENTE';
+        end if; 
+        
+       	IF (:v_tabla != '')  then
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdIndicador" AS varchar(200))  
+						,v_tabla 
+						,'A'
+			    ); 
+	     end if; 
+	     
+	     
+	    IF (:NewRow."IdTipoIndicador" = 25/*(SELECT "IdTipoIndicador" FROM BSCL."BSCL.Plataforma.BD::IND.TipoIndicador" WHERE "CodigoTipoIndicador" = 'FAC_DIRELE')*/ )  then
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdIndicador" AS varchar(200))  
+						, 'INDICADOR_DTE_DIRECCION' 
+						,'A'
+			    ); 
+		END IF; 
+
+		
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaIndicador"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaIndicador"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::IND.Indicador"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+	 
+	DECLARE v_tabla varchar(50);	    	
+	 
+		v_tabla = '';
+	 	IF (:OldRow."IdTipoEntidad" = 'PORTAFOLIO')  then
+        	v_tabla = 'INDICADORES_CUENTA';
+        end if; 
+	 
+	 	IF (:OldRow."IdTipoEntidad" = 'CLIENTE' OR :OldRow."IdTipoEntidad" = 'PERSONA' )  then
+        	v_tabla = 'INDICADORES_CLIENTE';
+        end if; 
+        
+        
+        IF (:v_tabla != '')  then
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdIndicador" AS varchar(200))  
+						,v_tabla 
+						,'D'
+			    ); 
+		END IF;		 
+		
+		
+		
+	    IF (:OldRow."IdTipoIndicador" = 25/*(SELECT "IdTipoIndicador" FROM BSCL."BSCL.Plataforma.BD::IND.TipoIndicador" WHERE "CodigoTipoIndicador" = 'FAC_DIRELE')*/ )  then
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdIndicador" AS varchar(200))  
+						, 'INDICADOR_DTE_DIRECCION' 
+						,'D'
+			    ); 
+		END IF; 		
+	 
+	 
+ END; GO
+ 
+ -- MONEDA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaMoneda"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaMoneda"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::PLA.Moneda"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMoneda" AS varchar(200))  
+						,'MONEDA'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMoneda" AS varchar(200))  
+						,'Plataforma_Moneda'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaMoneda"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaMoneda"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::PLA.Moneda"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMoneda" AS varchar(200))  
+						,'MONEDA'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMoneda" AS varchar(200))  
+						,'Plataforma_Moneda'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaMoneda"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaMoneda"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::PLA.Moneda"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdMoneda" AS varchar(200))  
+						,'MONEDA'
+						,'D'
+			    );  
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdMoneda" AS varchar(200))  
+						,'Plataforma_Moneda'
+						,'D'
+			    ); 
+ END; GO
+ 
+ -- MOVIMIENTO TRANSITO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasGarantia"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasGarantia"
+ AFTER   INSERT ON "BSCL.Custodia.BD::CUS.MovimientoCarteraEnTransito"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+
+	 IF (:NewRow."IdTipoOperacionOrigen" = 'INGTIT' or :NewRow."IdTipoOperacionOrigen" =  'RETTIT')  then
+        	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMovimientoCarteraEnTransito" AS varchar(200))  
+						,'TBCTTRAS'
+						,'A'
+			    ); 
+	
+     end if; 
+        
+	     
+			    
+	 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasGarantia"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasGarantia"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::CUS.MovimientoCarteraEnTransito"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+		IF (:NewRow."IdTipoOperacionOrigen" = 'INGTIT' or :NewRow."IdTipoOperacionOrigen" =  'RETTIT')  then
+	 	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMovimientoCarteraEnTransito" AS varchar(200))  
+						,'TBCTTRAS'
+						,'A'
+			    ); 
+	    end if; 
+	    
+	 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasGarantia"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasGarantia"
+ AFTER   DELETE ON "BSCL.Custodia.BD::CUS.MovimientoCarteraEnTransito"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+	 IF (:OldRow."IdTipoOperacionOrigen" = 'INGTIT' or :OldRow."IdTipoOperacionOrigen" =  'RETTIT')  then
+	 	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdMovimientoCarteraEnTransito" AS varchar(200))  
+						,'TBCTTRAS'
+						,'D'
+			    ); 
+
+	      end if;  
+
+ END; GO
+
+ -- OPERACION MESA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasOperacionMesa"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasOperacionMesa"
+ AFTER   INSERT ON "BSCL.Mesa.BD::MES.Operacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 	
+
+	 	IF (:NewRow."IdTipoProducto" = 'MEFW')  THEN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'FMMOVTOSFORWARD'
+							,'A'
+				    ); 
+	 	
+	 	
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'FMCarteraForward'
+							,'A'
+				    ); 				    
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacion" AS varchar(200))  
+						,'Mesa_MovimientosFWD'
+						,'A'
+			    ); 
+	    end if; 
+	 
+	 	IF (:NewRow."IdTipoProducto" = 'MERF')  then
+
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'TBCPMSPC'
+							,'A'
+				    ); 
+				    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacion" AS varchar(200))  
+						,'OPERACION_PACTO'
+						,'A'
+			    ); 		
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacion" AS varchar(200))  
+						,'Mesa_Pactos'
+						,'A'
+			    ); 			  
+				    
+	    end if; 
+
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasOperacionMesa"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasOperacionMesa"
+ AFTER   UPDATE ON "BSCL.Mesa.BD::MES.Operacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+		 
+	 	IF (:NewRow."IdTipoProducto" = 'MEFW')  THEN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'FMMOVTOSFORWARD'
+							,'A'
+				    ); 
+	 	
+	 	
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'FMCarteraForward'
+							,'A'
+				    ); 				    
+
+	    end if; 
+	 
+	 	IF (:NewRow."IdTipoProducto" = 'MERF')  then
+
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'TBCPMSPC'
+							,'A'
+				    ); 
+				    
+				    
+				CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacion" AS varchar(200))  
+						,'OPERACION_PACTO'
+						,'A'
+			    ); 
+
+			   CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOperacion" AS varchar(200))  
+						,'Mesa_Pactos'
+						,'A'
+			    ); 
+	    end if; 
+
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasOperacionMesa"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasOperacionMesa"
+ AFTER   DELETE ON "BSCL.Mesa.BD::MES.Operacion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+
+	 
+	 	IF (:OldRow."IdTipoProducto" = 'MEFW')  THEN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdOperacion" AS varchar(200))  
+							,'FMMOVTOSFORWARD'
+							,'D'
+				    ); 
+	 	
+	 	
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdOperacion" AS varchar(200))  
+							,'FMCarteraForward'
+							,'D'
+				    ); 				    
+
+	    end if; 
+	 
+	 	IF (:OldRow."IdTipoProducto" = 'MERF')  then
+
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdOperacion" AS varchar(200))  
+							,'TBCPMSPC'
+							,'D'
+				    ); 
+				    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOperacion" AS varchar(200))  
+						,'OPERACION_PACTO'
+						,'D'
+			    );  				    
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOperacion" AS varchar(200))  
+						,'Mesa_Pactos'
+						,'D'
+			    ); 
+	    end if; 
+	 
+ END; GO
+
+ -- OPERACION RESERVA MESA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasOperacionReservaMesa"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablasOperacionReservaMesa"
+ AFTER   INSERT ON "BSCL.Custodia.BD::CUS.Reserva"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+
+	 	IF (:NewRow."IdTipoProducto" = 'MEFW')  THEN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'FMMOVTOSFORWARD'
+							,'A'
+				    ); 
+	 	
+	 	
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'FMCarteraForward'
+							,'A'
+				    ); 				    
+
+	    end if; 
+	 
+	 	IF (:NewRow."IdTipoProducto" = 'MERF')  then
+
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdReserva" AS varchar(200))  
+							,'TBCPDTPC'
+							,'A'
+				    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdReserva" AS varchar(200))  
+							,'Mesa_PactosDetalle'
+							,'A'
+				    ); 
+				    
+	    end if; 
+
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasOperacionReservaMesa"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablasOperacionReservaMesa"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::CUS.Reserva"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+		 
+	 	IF (:NewRow."IdTipoProducto" = 'MEFW')  THEN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'FMMOVTOSFORWARD'
+							,'A'
+				    ); 
+	 	
+	 	
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdOperacion" AS varchar(200))  
+							,'FMCarteraForward'
+							,'A'
+				    ); 				    
+
+	    end if; 
+	 
+	 	IF (:NewRow."IdTipoProducto" = 'MERF')  then
+
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdReserva" AS varchar(200))  
+							,'TBCPDTPC'
+							,'A'
+				    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:NewRow."IdReserva" AS varchar(200))  
+							,'Mesa_PactosDetalle'
+							,'A'
+				    ); 
+	    end if; 
+	    
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasOperacionReservaMesa"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablasOperacionReservaMesa"
+ AFTER   DELETE ON "BSCL.Custodia.BD::CUS.Reserva"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+
+	 
+	 	IF (:OldRow."IdTipoProducto" = 'MEFW')  THEN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdOperacion" AS varchar(200))  
+							,'FMMOVTOSFORWARD'
+							,'D'
+				    ); 
+	 	
+	 	
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdOperacion" AS varchar(200))  
+							,'FMCarteraForward'
+							,'D'
+				    ); 				    
+
+	    end if; 
+	 
+	 	IF (:OldRow."IdTipoProducto" = 'MERF')  then
+
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdReserva" AS varchar(200))  
+							,'TBCPDTPC'
+							,'D'
+				    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+					(  
+							cast(:OldRow."IdReserva" AS varchar(200))  
+							,'Mesa_PactosDetalle'
+							,'D'
+				    ); 
+	    end if; 
+	    
+ END; GO
+
+-- ORDEN
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaOrden"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaOrden"
+ AFTER   INSERT ON "BSCL.Orden.BD::ORD.Orden"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	DECLARE v_Table	varchar(200);
+	 
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+						cast(:NewRow."IdOrden" AS varchar(200))  
+						,'ORDEN'
+						,'A'
+			    ); 
+			    	    
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOrden" AS varchar(200))  
+						,'SOLICITUD'
+						,'A'
+			    ); 		
+			    		
+	  v_Table = concat('OPERACION_' , :NewRow."IdClasificacionTipoInstrumento");
+	    
+	 CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOrden" AS varchar(200))  
+						,v_Table
+						,'A'
+			    ); 			
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOrden" AS varchar(200))  
+						,'Orden_Orden'
+						,'A'
+			    ); 
+ END; GO
+COMMIT;GO
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaOrden"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaOrden"
+ AFTER   UPDATE ON "BSCL.Orden.BD::ORD.Orden"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 DECLARE v_Table		varchar(200);
+	 
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOrden" AS varchar(200))  
+						,'ORDEN'
+						,'A'
+			    ); 
+			    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOrden" AS varchar(200))  
+						,'SOLICITUD'
+						,'A'
+			    ); 		
+			    
+	    v_Table = concat('OPERACION_' , :NewRow."IdClasificacionTipoInstrumento");
+	    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOrden" AS varchar(200))  
+						,v_Table
+						,'A'
+			    ); 		
+			   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdOrden" AS varchar(200))  
+						,'Orden_Orden'
+						,'A'
+			    );
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaOrden"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaOrden"
+ AFTER   DELETE ON "BSCL.Orden.BD::ORD.Orden"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+	 DECLARE v_Table		varchar(200);
+	 
+	 
+	 CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOrden" AS varchar(200))  
+						,'ORDEN'
+						,'D'
+			    ); 
+			    	    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOrden" AS varchar(200))  
+						,'SOLICITUD'
+						,'D'
+			    ); 		
+			    
+	    v_Table = concat('OPERACION_' , :OldRow."IdClasificacionTipoInstrumento");
+	    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOrden" AS varchar(200))  
+						,v_Table
+						,'D'
+			    ); 	
+			   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdOrden" AS varchar(200))  
+						,'Orden_Orden'
+						,'D'
+			    );
+ END; GO
+ 
+ -- PALOS
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaPalos"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaPalos"
+ AFTER   INSERT ON "BSCL.Orden.BD::ORD.Transaccion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 		
+	 		DECLARE v_Table		varchar(200);
+	 
+	 		
+		    v_Table = concat('TBPLTB' , :NewRow."IdClasificacionTipoInstrumento");
+		    
+	 		
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTransaccion" AS varchar(200))  
+						,v_Table
+						,'A'
+			    ); 
+	 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaPalos"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaPalos"
+ AFTER   UPDATE ON "BSCL.Orden.BD::ORD.Transaccion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+	
+	 		DECLARE v_Table		varchar(200);
+	 
+	 		
+		    v_Table = concat('TBPLTB' , :NewRow."IdClasificacionTipoInstrumento");
+		    
+	 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTransaccion" AS varchar(200))  
+						,v_Table
+						,'A'
+			    ); 
+	 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaPalos"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaPalos"
+ AFTER   DELETE ON "BSCL.Orden.BD::ORD.Transaccion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN	
+	 		DECLARE v_Table		varchar(200);
+	 
+	 		
+		    v_Table = concat('TBPLTB' , :OldRow."IdClasificacionTipoInstrumento");
+		    
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTransaccion" AS varchar(200))  
+						,v_Table
+						,'D'
+			    ); 
+			    
+	 
+	 
+ END; GO
+ 
+ -- PERSONA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaPersona"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaPersona"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::PER.Persona"
+ REFERENCING NEW ROW NewRow
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersona" AS varchar(200))  
+					,'PERSONA_RELACIONES' 
+					,'A'
+		    ); 
+ 
+		
+	 
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersona" AS varchar(200))  
+					,'PERSONA'
+					,'A'
+		    ); 
+		    
+		    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'TBPLFICL_PERSONA'
+						,'A'
+			    ); 		
+			    
+			    
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'TBPLPERS'
+						,'A'
+			    ); 			    
+	
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersona" AS varchar(200))  
+					,'TBPLRECL_PERSONA_RELACIONES' 
+					,'A'
+		    );
+	
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersona" AS varchar(200))  
+					,'USO_TELEFONOS' 
+					,'A'
+		    );
+
+	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'SocioNegocio_Persona'
+						,'A'
+			    ); 
+
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaPersona"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaPersona"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::PER.Persona"
+REFERENCING NEW ROW NewRow, OLD ROW OldRow  FOR EACH ROW
+ BEGIN
+	   IF (:NewRow."IdPersonaConyuge" !=  :OldRow."IdPersonaConyuge"  OR 
+	   			:NewRow."IdPersonaEmpleador" !=  :OldRow."IdPersonaEmpleador"  OR 
+	   			:NewRow."IdPersonaRepresentante" !=  :OldRow."IdPersonaRepresentante"  )  THEN
+	   		
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'PERSONA_RELACIONES' 
+						,'A'
+			    ); 
+			
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'TBPLRECL_PERSONA_RELACIONES' 
+						,'A'
+			    ); 
+	   END IF; 
+
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'PERSONA'
+						,'A'
+			    ); 
+			    
+			    
+ 		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'TBPLFICL_PERSONA'
+						,'A'
+			    ); 		
+			    
+			    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'TBPLPERS'
+						,'A'
+			    ); 			    
+			    	
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'USO_TELEFONOS' 
+						,'A'
+			    );
+	 
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPersona" AS varchar(200))  
+						,'SocioNegocio_Persona'
+						,'A'
+			    );
+
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaPersona"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaPersona"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::PER.Persona"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN	
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersona" AS varchar(200))  
+						,'PERSONA_RELACIONES' 
+						,'D'
+			    ); 
+	   
+	   
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersona" AS varchar(200))  
+						,'PERSONA'
+						,'D'
+			    ); 
+			    
+	 
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersona" AS varchar(200))  
+						,'TBPLFICL_PERSONA'
+						,'D'
+			    ); 			    
+	 
+			    
+			    
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersona" AS varchar(200))  
+						,'TBPLPERS'
+						,'D'
+			    );  
+		
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersona" AS varchar(200))  
+						,'TBPLRECL_PERSONA_RELACIONES' 
+						,'D'
+			    ); 
+			   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersona" AS varchar(200))  
+						,'USO_TELEFONOS' 
+						,'D'
+			    ); 
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersona" AS varchar(200))  
+						,'SocioNegocio_Persona'
+						,'D'
+			    );
+
+ END; GO
+ 
+ -- PLANTILLA COBRO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaPlantillaCobro"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaPlantillaCobro"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::COM.DetallePerfilCobros"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilCobros" AS varchar(200))  
+						,'PLANTILLA_COBRO'
+						,'A'
+			    ); 
+			    
+			    
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilCobros" AS varchar(200))  
+						,'COBRO_CANAL'
+						,'A'
+			    ); 		
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilCobros" AS varchar(200))  
+						,'Plataforma_PerfilCobro'
+						,'A'
+			    ); 	
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaPlantillaCobro"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaPlantillaCobro"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::COM.DetallePerfilCobros"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilCobros" AS varchar(200))  
+						,'PLANTILLA_COBRO'
+						,'A'
+			    ); 
+			    
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilCobros" AS varchar(200))  
+						,'COBRO_CANAL'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilCobros" AS varchar(200))  
+						,'Plataforma_PerfilCobro'
+						,'A'
+			    ); 	
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaPlantillaCobro"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaPlantillaCobro"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::COM.DetallePerfilCobros"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPerfilCobros" AS varchar(200))  
+						,'PLANTILLA_COBRO'
+						,'D'
+			    );  
+			    
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPerfilCobros" AS varchar(200))  
+						,'COBRO_CANAL'
+						,'D'
+			    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPerfilCobros" AS varchar(200))  
+						,'Plataforma_PerfilCobro'
+						,'D'
+			    );
+ END; GO
+ 
+ -- PLANTILLA PRODUCTO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaPlantillaProducto"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaPlantillaProducto"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::COM.PerfilProductos"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilProductos" AS varchar(200))  
+						,'PLANTILLA_PRODUCTO'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaPlantillaProducto"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaPlantillaProducto"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::COM.PerfilProductos"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilProductos" AS varchar(200))  
+						,'PLANTILLA_PRODUCTO'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaPlantillaProducto"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaPlantillaProducto"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::COM.PerfilProductos"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPerfilProductos" AS varchar(200))  
+						,'PLANTILLA_PRODUCTO'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- RAZONES SOCIALES
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaRazonesSociales"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaRazonesSociales"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::PER.NombreFantasia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdNombreFantasia" AS varchar(200))  
+						,'RAZONES_SOCIALES'
+						,'A'
+			    ); 
+			
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdNombreFantasia" AS varchar(200))  
+						,'SocioNegocio_PersonaNombreFantasia'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaRazonesSociales"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaRazonesSociales"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::PER.NombreFantasia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdNombreFantasia" AS varchar(200))  
+						,'RAZONES_SOCIALES'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdNombreFantasia" AS varchar(200))  
+						,'SocioNegocio_PersonaNombreFantasia'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaRazonesSociales"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaRazonesSociales"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::PER.NombreFantasia"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdNombreFantasia" AS varchar(200))  
+						,'RAZONES_SOCIALES'
+						,'D'
+			    );  
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdNombreFantasia" AS varchar(200))  
+						,'SocioNegocio_PersonaNombreFantasia'
+						,'D'
+			    ); 
+ END; GO
+ 
+ -- REGION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaClasificacionDivisionPais"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaClasificacionDivisionPais"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::REG.ClasificacionDivisionPais"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+	 
+	 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdClasificacionDivisionPais" AS varchar(200))  
+						,'REGION'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdClasificacionDivisionPais" AS varchar(200))  
+						,'Plataforma_ClasificacionDivisionPais'
+						,'A'
+			    );			   
+	 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaClasificacionDivisionPais"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaClasificacionDivisionPais"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::REG.ClasificacionDivisionPais"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdClasificacionDivisionPais" AS varchar(200))  
+						,'REGION'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdClasificacionDivisionPais" AS varchar(200))  
+						,'Plataforma_ClasificacionDivisionPais'
+						,'A'
+			    );
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaClasificacionDivisionPais"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaClasificacionDivisionPais"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::REG.ClasificacionDivisionPais"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdClasificacionDivisionPais" AS varchar(200))  
+						,'REGION'
+						,'D'
+			    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdClasificacionDivisionPais" AS varchar(200))  
+						,'Plataforma_ClasificacionDivisionPais'
+						,'D'
+			    );
+ END; GO
+ 
+ -- RELACIONES FUNCIONARIOS
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaRelacionesFuncionarios"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaRelacionesFuncionarios"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::EJE.Ejecutivo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleadoEjecutivo" AS varchar(200))  
+						,'RELACIONES_FUNCIONARIOS'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleadoEjecutivo" AS varchar(200))  
+						,'SocioNegocio_Ejecutivo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaRelacionesFuncionarios"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaRelacionesFuncionarios"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::EJE.Ejecutivo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleadoEjecutivo" AS varchar(200))  
+						,'RELACIONES_FUNCIONARIOS'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleadoEjecutivo" AS varchar(200))  
+						,'SocioNegocio_Ejecutivo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaRelacionesFuncionarios"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaRelacionesFuncionarios"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::EJE.Ejecutivo"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEmpleadoEjecutivo" AS varchar(200))  
+						,'RELACIONES_FUNCIONARIOS'
+						,'D'
+			    );  
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEmpleadoEjecutivo" AS varchar(200))  
+						,'SocioNegocio_Ejecutivo'
+						,'D'
+			    ); 
+ END; GO
+ 
+ -- RELACION PERSONA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaRelacionPersona"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaRelacionPersona"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::REL.RelacionPersona"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		DECLARE v_accion varchar(1);	    	
+	 
+		v_accion = 'A';
+	 	IF (:NewRow."IdEstado" != 'VIG')  then
+        	v_accion = 'D';
+        end if; 
+	 
+    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdRelacionPersona" AS varchar(200))  
+					,'Relacion_Persona'
+					,:v_accion
+		    ); 
+		
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdRelacionPersona" AS varchar(200))  
+					,'TBPLRECL_Relacion_Persona'
+					,:v_accion
+		    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersonaOrigen" AS varchar(200))  || ':' || cast(:NewRow."IdPersonaDestino" AS varchar(200))  || ':' || cast(:NewRow."IdTipoRelacion" AS varchar(200))
+					,'SocioNegocio_PersonaRelacion'
+					,:v_accion
+		    );
+ 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaRelacionPersona"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaRelacionPersona"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::REL.RelacionPersona"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+
+	 
+		DECLARE v_accion varchar(1);	    	
+	 
+		v_accion = 'A';
+	 	IF (:NewRow."IdEstado" != 'VIG')  then
+        	v_accion = 'D';
+        end if; 
+	 
+    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdRelacionPersona" AS varchar(200))  
+					,'Relacion_Persona'
+					,:v_accion
+		    ); 
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdRelacionPersona" AS varchar(200))  
+					,'TBPLRECL_Relacion_Persona'
+					,:v_accion
+		    ); 
+ 
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdPersonaOrigen" AS varchar(200))  || ':' || cast(:NewRow."IdPersonaDestino" AS varchar(200))  || ':' || cast(:NewRow."IdTipoRelacion" AS varchar(200))
+					,'SocioNegocio_PersonaRelacion'
+					,:v_accion
+		    );
+	 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaRelacionPersona"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaRelacionPersona"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::REL.RelacionPersona"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdRelacionPersona" AS varchar(200))  
+						,'Relacion_Persona'
+						,'D'
+			    ); 
+		
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdRelacionPersona" AS varchar(200))  
+						,'TBPLRECL_Relacion_Persona'
+						,'D'
+			    ); 
+			    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPersonaOrigen" AS varchar(200))  || ':' || cast(:OldRow."IdPersonaDestino" AS varchar(200))  || ':' || cast(:OldRow."IdTipoRelacion" AS varchar(200))
+						,'SocioNegocio_PersonaRelacion'
+						,'D'
+			    );
+	 
+ END; GO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaAutorizado"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaAutorizado"
+ AFTER   INSERT ON "BSCL.Portafolio.BD::POR.Autorizado"
+ REFERENCING NEW ROW NewRow
+ BEGIN
+	
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdAutorizado" AS varchar(200))  
+					,'RELACION_AUTORIZADO'
+					,'A'
+		    ); 
+		
+	   CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdAutorizado" AS varchar(200))  
+					,'RELACIONES_CUENTA'
+					,'A'
+		    ); 
+	   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdAutorizado" AS varchar(200))  
+					,'TBPLRECL_RELACION_AUTORIZADO'
+					,'A'
+		    );   
+		   
+	 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaAutorizado"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaAutorizado"
+ AFTER   UPDATE ON "BSCL.Portafolio.BD::POR.Autorizado"
+REFERENCING NEW ROW NewRow, OLD ROW OldRow  FOR EACH ROW
+ BEGIN
+
+		
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdAutorizado" AS varchar(200))  
+					,'RELACION_AUTORIZADO'
+					,'A'
+		    ); 
+		
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdAutorizado" AS varchar(200))  
+					,'RELACIONES_CUENTA'
+					,'A'
+		    );
+		
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdAutorizado" AS varchar(200))  
+					,'TBPLRECL_RELACION_AUTORIZADO'
+					,'A'
+		    ); 
+ END; GO
+
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaAutorizado"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaAutorizado"
+ AFTER   DELETE ON "BSCL.Portafolio.BD::POR.Autorizado"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+
+	 
+	   		
+	   
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdAutorizado" AS varchar(200))  
+						,'RELACION_AUTORIZADO'
+						,'D'
+			    ); 
+		
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdAutorizado" AS varchar(200))  
+						,'RELACIONES_CUENTA'
+						,'D'
+			    ); 
+	 
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdAutorizado" AS varchar(200))  
+						,'TBPLRECL_RELACION_AUTORIZADO'
+						,'D'
+			    );
+	 
+ END; GO
+
+-- SUCURSAL
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaSucursal"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaSucursal"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::PLA.Sucursal"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdSucursal" AS varchar(200))  
+						,'SUCURSAL'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaSucursal"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaSucursal"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::PLA.Sucursal"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdSucursal" AS varchar(200))  
+						,'SUCURSAL'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaSucursal"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaSucursal"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::PLA.Sucursal"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdSucursal" AS varchar(200))  
+						,'SUCURSAL'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TBCODTSD
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCODTSD"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCODTSD"
+ AFTER   INSERT ON "BSCL.Contabilidad.BD::ITZ.Movimiento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMovimiento" AS varchar(200))  
+						,'TBCODTSD'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCODTSD"; GO
+ 
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCODTSD"
+ AFTER   UPDATE ON "BSCL.Contabilidad.BD::ITZ.Movimiento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMovimiento" AS varchar(200))  
+						,'TBCODTSD'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCODTSD"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCODTSD"
+ AFTER   DELETE ON "BSCL.Contabilidad.BD::ITZ.Movimiento"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdMovimiento" AS varchar(200))  
+						,'TBCODTSD'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TBCOMSSD
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCOMSSD"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCOMSSD"
+ AFTER   INSERT ON "BSCL.Contabilidad.BD::ITZ.PreComprobante"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPreComprobante" AS varchar(200))  
+						,'TBCOMSSD'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCOMSSD"; GO
+ 
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCOMSSD"
+ AFTER   UPDATE ON "BSCL.Contabilidad.BD::ITZ.PreComprobante"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPreComprobante" AS varchar(200))  
+						,'TBCOMSSD'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCOMSSD"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCOMSSD"
+ AFTER   DELETE ON "BSCL.Contabilidad.BD::ITZ.PreComprobante"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPreComprobante" AS varchar(200))  
+						,'TBCOMSSD'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TBCTCUST
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCTCUST"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCTCUST"
+ AFTER   INSERT ON "BSCL.Normativa.BD::PRO.CuadraturaCustodia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuadratura" AS varchar(200))  
+						,'TBCTCUST'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCTCUST"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCTCUST"
+ AFTER   UPDATE ON "BSCL.Normativa.BD::PRO.CuadraturaCustodia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuadratura" AS varchar(200))  
+						,'TBCTCUST'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCTCUST"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCTCUST"
+ AFTER   DELETE ON "BSCL.Normativa.BD::PRO.CuadraturaCustodia"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCuadratura" AS varchar(200))  
+						,'TBCTCUST'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TBCTDTCF
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCTDTCF"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCTDTCF"
+ AFTER   INSERT ON "BSCL.Facturacion.BD::FAC.ComprobanteDetalle"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteDetalle" AS varchar(200))  
+						,'TBCTDTCF'
+						,'A'
+			    ); 
+	 
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteDetalle" AS varchar(200))  
+						,'Facturacion_ComprobanteDetalle'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCTDTCF"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCTDTCF"
+ AFTER   UPDATE ON "BSCL.Facturacion.BD::FAC.ComprobanteDetalle"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteDetalle" AS varchar(200))  
+						,'TBCTDTCF'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteDetalle" AS varchar(200))  
+						,'Facturacion_ComprobanteDetalle'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCTDTCF"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCTDTCF"
+ AFTER   DELETE ON "BSCL.Facturacion.BD::FAC.ComprobanteDetalle"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobanteDetalle" AS varchar(200))  
+						,'TBCTDTCF'
+						,'D'
+			    ); 
+ 
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobanteDetalle" AS varchar(200))  
+						,'Facturacion_ComprobanteDetalle'
+						,'D'
+			    );
+ END; GO
+ 
+ -- TBCTECCL
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCTECCL"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCTECCL"
+ AFTER   INSERT ON "BSCL.Custodia.BD::CUS.EventoCapitalCliente"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEventoCapitalCliente" AS varchar(200))  
+						,'TBCTECCL'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEventoCapitalCliente" AS varchar(200))  
+						,'Custodia_EventoCapitalCliente'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCTECCL"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCTECCL"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::CUS.EventoCapitalCliente"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEventoCapitalCliente" AS varchar(200))  
+						,'TBCTECCL'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEventoCapitalCliente" AS varchar(200))  
+						,'Custodia_EventoCapitalCliente'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCTECCL"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCTECCL"
+ AFTER   DELETE ON "BSCL.Custodia.BD::CUS.EventoCapitalCliente"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEventoCapitalCliente" AS varchar(200))  
+						,'TBCTECCL'
+						,'D'
+			    );  
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEventoCapitalCliente" AS varchar(200))  
+						,'Custodia_EventoCapitalCliente'
+						,'D'
+			    ); 
+ END; GO
+ 
+ -- TBCTMSCF
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCTMSCF"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBCTMSCF"
+ AFTER   INSERT ON "BSCL.Facturacion.BD::FAC.Comprobante"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobante" AS varchar(200))  
+						,'TBCTMSCF'
+						,'A'
+			    ); 
+
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobante" AS varchar(200))  
+						,'Facturacion_Comprobante'
+						,'A'
+			    );
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCTMSCF"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBCTMSCF"
+ AFTER   UPDATE ON "BSCL.Facturacion.BD::FAC.Comprobante"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobante" AS varchar(200))  
+						,'TBCTMSCF'
+						,'A'
+			    ); 
+	 
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobante" AS varchar(200))  
+						,'Facturacion_Comprobante'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCTMSCF"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBCTMSCF"
+ AFTER   DELETE ON "BSCL.Facturacion.BD::FAC.Comprobante"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobante" AS varchar(200))  
+						,'TBCTMSCF'
+						,'D'
+			    ); 
+			     
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobante" AS varchar(200))  
+						,'Facturacion_Comprobante'
+						,'D'
+			    );
+ END; GO
+ 
+ -- TBPLMAIN
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBPLMAIN"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBPLMAIN"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::INS.Instrumento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdInstrumento" AS varchar(200))  
+						,'TBPLMAIN'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdInstrumento" AS varchar(200))  
+						,'Plataforma_Instrumento'
+						,'A'
+			    );
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBPLMAIN"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBPLMAIN"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::INS.Instrumento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdInstrumento" AS varchar(200))  
+						,'TBPLMAIN'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdInstrumento" AS varchar(200))  
+						,'Plataforma_Instrumento'
+						,'A'
+			    ); 
+ END; GO
+ COMMIT;GO
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBPLMAIN"; GO 
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBPLMAIN"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::INS.Instrumento"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdInstrumento" AS varchar(200))  
+						,'TBPLMAIN'
+						,'D'
+			    );  
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdInstrumento" AS varchar(200))  
+						,'Plataforma_Instrumento'
+						,'D'
+			    );
+ END; GO
+ 
+ -- TBPLPASI
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBPLPASI"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBPLPASI"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::PLA.Configuracion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."CodigoParametro" AS varchar(200))  
+						,'TBPLPASI'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBPLPASI"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBPLPASI"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::PLA.Configuracion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."CodigoParametro" AS varchar(200))  
+						,'TBPLPASI'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBPLPASI"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBPLPASI"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::PLA.Configuracion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."CodigoParametro" AS varchar(200))  
+						,'TBPLPASI'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TBPLTRANPARAM
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBPLTRANPARAM"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBPLTRANPARAM"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::TRA.ConfiguracionOperador"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."CodigoOperador" AS varchar(200))  
+						,'TBPLTRANPARAM'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBPLTRANPARAM"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBPLTRANPARAM"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::TRA.ConfiguracionOperador"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."CodigoOperador" AS varchar(200))  
+						,'TBPLTRANPARAM'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBPLTRANPARAM"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBPLTRANPARAM"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::TRA.ConfiguracionOperador"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."CodigoOperador" AS varchar(200))  
+						,'TBPLTRANPARAM'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TBSILEVC
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBSILEVC"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBSILEVC"
+ AFTER   INSERT ON "BSCL.Custodia.BD::CUS.EventoCapital"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEventoCapital" AS varchar(200))  
+						,'TBSILEVC'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEventoCapital" AS varchar(200))  
+						,'Custodia_EventoCapital'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBSILEVC"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBSILEVC"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::CUS.EventoCapital"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEventoCapital" AS varchar(200))  
+						,'TBSILEVC'
+						,'A'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEventoCapital" AS varchar(200))  
+						,'Custodia_EventoCapital'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBSILEVC"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBSILEVC"
+ AFTER   DELETE ON "BSCL.Custodia.BD::CUS.EventoCapital"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEventoCapital" AS varchar(200))  
+						,'TBSILEVC'
+						,'D'
+			    );  
+		
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEventoCapital" AS varchar(200))  
+						,'Custodia_EventoCapital'
+						,'D'
+			    );
+ END; GO
+ 
+ -- TBTEBACC
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBTEBACC"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBTEBACC"
+ AFTER   INSERT ON "BSCL.Tesoreria.BD::TES.CuentaBanco"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaBanco" AS varchar(200))  
+						,'TBTEBACC'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBTEBACC"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBTEBACC"
+ AFTER   UPDATE ON "BSCL.Tesoreria.BD::TES.CuentaBanco"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaBanco" AS varchar(200))  
+						,'TBTEBACC'
+						,'A'
+			    ); 
+ END; GO
+ --
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBTEBACC"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBTEBACC"
+ AFTER   DELETE ON "BSCL.Tesoreria.BD::TES.CuentaBanco"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCuentaBanco" AS varchar(200))  
+						,'TBTEBACC'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TBTEDCTO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBTEDCTO"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTBTEDCTO"
+ AFTER   INSERT ON "BSCL.Tesoreria.BD::TES.IngresoEgresoFormaDePago"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdIngresoEgresoFormaDePago" AS varchar(200))  
+						,'TBTEDCTO'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBTEDCTO"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTBTEDCTO"
+ AFTER   UPDATE ON "BSCL.Tesoreria.BD::TES.IngresoEgresoFormaDePago"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdIngresoEgresoFormaDePago" AS varchar(200))  
+						,'TBTEDCTO'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBTEDCTO"; GO 
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTBTEDCTO"
+ AFTER   DELETE ON "BSCL.Tesoreria.BD::TES.IngresoEgresoFormaDePago"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdIngresoEgresoFormaDePago" AS varchar(200))  
+						,'TBTEDCTO'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TELEFONOS
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTelefono"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTelefono"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::PER.Telefono"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		DECLARE v_accion varchar(1);	    	
+	 
+		v_accion = 'A';
+	 	IF (:NewRow."IdEstado" != 'VIG')  then
+        	v_accion = 'D';
+        end if; 
+	 
+    
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdTelefono" AS varchar(200))  
+					,'TELEFONO'
+					,:v_accion
+		    ); 
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTelefono" AS varchar(200))  
+						,'SocioNegocio_PersonaTelefono'
+						,:v_accion
+			    );
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTelefono"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTelefono"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::PER.Telefono"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		DECLARE v_accion varchar(1);	    	
+	 
+		v_accion = 'A';
+	 	IF (:NewRow."IdEstado" != 'VIG')  then
+        	v_accion = 'D';
+        end if; 
+	 
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdTelefono" AS varchar(200))  
+					,'TELEFONO'
+					,:v_accion
+		    ); 
+		   
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTelefono" AS varchar(200))  
+						,'SocioNegocio_PersonaTelefono'
+						,:v_accion
+			    );
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTelefono"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTelefono"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::PER.Telefono"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTelefono" AS varchar(200))  
+						,'TELEFONO'
+						,'D'
+			    ); 
+			   
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTelefono" AS varchar(200))  
+						,'SocioNegocio_PersonaTelefono'
+						,'D'
+			    );
+ END; GO
+ 
+ -- TIPO INDICADOR
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTipoIndicador"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertTablaTipoIndicador"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::IND.TipoIndicador"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoIndicador" AS varchar(200))  
+						,'TIPO_INDICADOR'
+						,'A'
+			    ); 
+			    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdTipoIndicador" AS varchar(200))  
+					,'TIPO_DETALLE_INDICADOR'
+					,'A'
+		    ); 
+		   
+		  	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoIndicador" AS varchar(200))  
+						,'Plataforma_TipoIndicador'
+						,'A'
+			    ); 
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTipoIndicador"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaTipoIndicador"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::IND.TipoIndicador"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoIndicador" AS varchar(200))  
+						,'TIPO_INDICADOR'
+						,'A'
+			    ); 
+			    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:NewRow."IdTipoIndicador" AS varchar(200))  
+					,'TIPO_DETALLE_INDICADOR'
+					,'A'
+		    );  
+		   
+		   CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoIndicador" AS varchar(200))  
+						,'Plataforma_TipoIndicador'
+						,'A'
+			    );
+ END; GO
+
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTipoIndicador"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteTablaTipoIndicador"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::IND.TipoIndicador"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTipoIndicador" AS varchar(200))  
+						,'TIPO_INDICADOR'
+						,'D'
+			    ); 
+			    		    
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+			(  
+					cast(:OldRow."IdTipoIndicador" AS varchar(200))  
+					,'TIPO_DETALLE_INDICADOR'
+					,'D'
+		    );  
+		   
+		   	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTipoIndicador" AS varchar(200))  
+						,'Plataforma_TipoIndicador'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- APV_APV
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaAPV_APV"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaAPV_APV"
+ AFTER   INSERT ON "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMatrizAgrupadorAPV" AS varchar(200))  
+						,'APV_APV'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaAPV_APV"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaAPV_APV"
+ AFTER   UPDATE ON "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMatrizAgrupadorAPV" AS varchar(200))  
+						,'APV_APV'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaAPV_APV"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaAPV_APV"
+ AFTER   DELETE ON "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdMatrizAgrupadorAPV" AS varchar(200))  
+						,'APV_APV'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- APV_Contratos
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaAPV_Contratos"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaAPV_Contratos"
+ AFTER   INSERT ON "BSCL.APV.BD::SCS.ContratoSAAPV"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdContratoSAAPV" AS varchar(200))  
+						,'APV_Contratos'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaAPV_Contratos"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaAPV_Contratos"
+ AFTER   UPDATE ON "BSCL.APV.BD::SCS.ContratoSAAPV"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdContratoSAAPV" AS varchar(200))  
+						,'APV_Contratos'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaAPV_Contratos"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaAPV_Contratos"
+ AFTER   DELETE ON "BSCL.APV.BD::SCS.ContratoSAAPV"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdContratoSAAPV" AS varchar(200))  
+						,'APV_Contratos'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- CUENTA INVERSION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCuentaInversion_SaldoFechaMovimiento"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCuentaInversion_SaldoFechaMovimiento"
+ AFTER   INSERT ON "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaInversion" AS varchar(200))  
+						,'CuentaInversion_SaldoFechaMovimiento'
+						,'A'
+			    ); 
+				
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaInversion" AS varchar(200))  
+						,'CuentaInversion_SaldoFechaEfectiva'
+						,'A'
+			    ); 
+				
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCargoAbonoMovimiento" AS varchar(200))  
+						,'CuentaInversion_MovimientosCuentaInversion'
+						,'A'
+			    ); 				
+				
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCuentaInversion_SaldoFechaMovimiento"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCuentaInversion_SaldoFechaMovimiento"
+ AFTER   UPDATE ON "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaInversion" AS varchar(200))  
+						,'CuentaInversion_SaldoFechaMovimiento'
+						,'A'
+			    ); 
+				
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCuentaInversion" AS varchar(200))  
+						,'CuentaInversion_SaldoFechaEfectiva'
+						,'A'
+			    ); 			
+
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCargoAbonoMovimiento" AS varchar(200))  
+						,'CuentaInversion_MovimientosCuentaInversion'
+						,'A'
+			    ); 		
+				
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCuentaInversion_SaldoFechaMovimiento"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCuentaInversion_SaldoFechaMovimiento"
+ AFTER   DELETE ON "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCuentaInversion" AS varchar(200))  
+						,'CuentaInversion_SaldoFechaMovimiento'
+						,'D'
+			    );  
+
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCuentaInversion" AS varchar(200))  
+						,'CuentaInversion_SaldoFechaEfectiva'
+						,'D'
+			    );  
+				
+				
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCargoAbonoMovimiento" AS varchar(200))  
+						,'CuentaInversion_MovimientosCuentaInversion'
+						,'D'
+			    );  				
+ END; GO
+ 
+ -- PATRIMONIO CAJA FECHA LIQUIDACION
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCuentaInversion_PatrimonioCajaFechaLiquidacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCuentaInversion_PatrimonioCajaFechaLiquidacion"
+ AFTER   INSERT ON "BSCL.CuentaInversion.BD::CTA.PatrimonioCaja"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200))
+						,'CuentaInversion_PatrimonioCajaFechaLiquidacion'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200))
+						,'CuentaInversion_PatrimonioCajaFechaOperacion'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200)) || ':' || cast(0 AS varchar(200)) || ':' || cast('NA' AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaLiquidacion'
+						,'A'
+			    );
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCuentaInversion_PatrimonioCajaFechaLiquidacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCuentaInversion_PatrimonioCajaFechaLiquidacion"
+ AFTER   UPDATE ON "BSCL.CuentaInversion.BD::CTA.PatrimonioCaja"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200))  
+						,'CuentaInversion_PatrimonioCajaFechaLiquidacion'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200))  
+						,'CuentaInversion_PatrimonioCajaFechaOperacion'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200))  || ':' || cast(0 AS varchar(200)) || ':' || cast('NA' AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaLiquidacion'
+						,'A'
+			    );
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCuentaInversion_PatrimonioCajaFechaLiquidacion"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCuentaInversion_PatrimonioCajaFechaLiquidacion"
+ AFTER   DELETE ON "BSCL.CuentaInversion.BD::CTA.PatrimonioCaja"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200)) || ':' || cast(:OldRow."IdPortafolio" AS varchar(200))  || ':' || cast(:OldRow."FechaPatrimonio" AS varchar(200))
+						,'CuentaInversion_PatrimonioCajaFechaLiquidacion'
+						,'D'
+			    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200)) || ':' || cast(:OldRow."IdPortafolio" AS varchar(200))  || ':' || cast(:OldRow."FechaPatrimonio" AS varchar(200))
+						,'CuentaInversion_PatrimonioCajaFechaOperacion'
+						,'D'
+			    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200)) || ':' || cast(:OldRow."IdPortafolio" AS varchar(200))  || ':' || cast(:OldRow."FechaPatrimonio" AS varchar(200)) || ':' || cast(0 AS varchar(200)) || ':' || cast('NA' AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaLiquidacion'
+						,'D'
+			    ); 
+ END; GO
+
+ 
+ -- CARTERAHIS
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCustodia_CarteraHis"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCustodia_CarteraHis"
+ AFTER   INSERT ON "BSCL.Custodia.BD::HIS.Cartera"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraHis'
+						,'A'
+			    ); 
+			   
+			   
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  || ':' || cast(:NewRow."Nemotecnico" AS varchar(200)) || ':' || cast(:NewRow."FechaRespaldo" AS varchar(200))  
+						,'Custodia_CustodiaHis'
+						,'A'
+			    ); 
+			   
+			   
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCustodia_CarteraHis"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCustodia_CarteraHis"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::HIS.Cartera"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraHis'
+						,'A'
+			    ); 
+			   
+			   
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCartera" AS varchar(200))  || ':' || cast(:NewRow."Nemotecnico" AS varchar(200)) || ':' || cast(:NewRow."FechaRespaldo" AS varchar(200)) 
+						,'Custodia_CustodiaHis'
+						,'A'
+			    ); 
+			   
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCustodia_CarteraHis"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCustodia_CarteraHis"
+ AFTER   DELETE ON "BSCL.Custodia.BD::HIS.Cartera"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  
+						,'Custodia_CarteraHis'
+						,'D'
+			    );  
+			   
+			   
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCartera" AS varchar(200))  || ':' || cast(:OldRow."Nemotecnico" AS varchar(200)) || ':' || cast(:OldRow."FechaRespaldo" AS varchar(200))  
+						,'Custodia_CustodiaHis'
+						,'D'
+			    );  			   
+ END; GO
+ 
+ -- GARANTIAHIS
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCustodia_GarantiaHis"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCustodia_GarantiaHis"
+ AFTER   INSERT ON "BSCL.Custodia.BD::HIS.Garantia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdGarantia" AS varchar(200)) || ':' || cast(:NewRow."FechaRespaldo" AS varchar(200))  
+						,'Custodia_GarantiaHis'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCustodia_GarantiaHis"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCustodia_GarantiaHis"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::HIS.Garantia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdGarantia" AS varchar(200)) || ':' || cast(:NewRow."FechaRespaldo" AS varchar(200))   
+						,'Custodia_GarantiaHis'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCustodia_GarantiaHis"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCustodia_GarantiaHis"
+ AFTER   DELETE ON "BSCL.Custodia.BD::HIS.Garantia"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdGarantia" AS varchar(200)) || ':' || cast(:OldRow."FechaRespaldo" AS varchar(200))   
+						,'Custodia_GarantiaHis'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- PATRIMONIO CONSOLIDADO FECHA LIQUIDACION
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCustodia_PatrimonioConsolidadoFechaLiquidacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaCustodia_PatrimonioConsolidadoFechaLiquidacion"
+ AFTER   INSERT ON "BSCL.Custodia.BD::CUS.PatrimonioCustodia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200)) || ':' || cast(:NewRow."IdInstrumento" AS varchar(200)) || ':' || cast(:NewRow."IdRegimenTributario" AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaLiquidacion'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200)) || ':' || cast(:NewRow."IdInstrumento" AS varchar(200)) || ':' || cast(:NewRow."IdRegimenTributario" AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaOperacion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCustodia_PatrimonioConsolidadoFechaLiquidacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaCustodia_PatrimonioConsolidadoFechaLiquidacion"
+ AFTER   UPDATE ON "BSCL.Custodia.BD::CUS.PatrimonioCustodia"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200))  || ':' || cast(:NewRow."IdInstrumento" AS varchar(200)) || ':' || cast(:NewRow."IdRegimenTributario" AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaLiquidacion'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCliente" AS varchar(200)) || ':' || cast(:NewRow."IdPortafolio" AS varchar(200))  || ':' || cast(:NewRow."FechaPatrimonio" AS varchar(200))  || ':' || cast(:NewRow."IdInstrumento" AS varchar(200)) || ':' || cast(:NewRow."IdRegimenTributario" AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaOperacion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCustodia_PatrimonioConsolidadoFechaLiquidacion"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaCustodia_PatrimonioConsolidadoFechaLiquidacion"
+ AFTER   DELETE ON "BSCL.Custodia.BD::CUS.PatrimonioCustodia"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200)) || ':' || cast(:OldRow."IdPortafolio" AS varchar(200))  || ':' || cast(:OldRow."FechaPatrimonio" AS varchar(200)) || ':' || cast(:OldRow."IdInstrumento" AS varchar(200)) || ':' || cast(:OldRow."IdRegimenTributario" AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaLiquidacion'
+						,'D'
+			    );  
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200)) || ':' || cast(:OldRow."IdPortafolio" AS varchar(200))  || ':' || cast(:OldRow."FechaPatrimonio" AS varchar(200)) || ':' || cast(:OldRow."IdInstrumento" AS varchar(200)) || ':' || cast(:OldRow."IdRegimenTributario" AS varchar(200))
+						,'Custodia_PatrimonioConsolidadoFechaOperacion'
+						,'D'
+			    );
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200)) || ':' || cast(:OldRow."IdPortafolio" AS varchar(200))  || ':' || cast(:OldRow."FechaPatrimonio" AS varchar(200)) || ':' || cast(:OldRow."IdInstrumento" AS varchar(200)) || ':' || cast(:OldRow."IdRegimenTributario" AS varchar(200))
+						,'Custodia_PatrimonioCustodiaFechaLiquidacion'
+						,'D'
+			    );  
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCliente" AS varchar(200)) || ':' || cast(:OldRow."IdPortafolio" AS varchar(200))  || ':' || cast(:OldRow."FechaPatrimonio" AS varchar(200)) || ':' || cast(:OldRow."IdInstrumento" AS varchar(200)) || ':' || cast(:OldRow."IdRegimenTributario" AS varchar(200))
+						,'Custodia_PatrimonioCustodiaFechaOperacion'
+						,'D'
+			    );			
+ END; GO
+
+ -- COMPROBANTE COBRO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFacturacion_ComprobanteCobro"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFacturacion_ComprobanteCobro"
+ AFTER   INSERT ON "BSCL.Facturacion.BD::FAC.ComprobanteCobro"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteCobro" AS varchar(200))  
+						,'Facturacion_ComprobanteCobro'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFacturacion_ComprobanteCobro"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFacturacion_ComprobanteCobro"
+ AFTER   UPDATE ON "BSCL.Facturacion.BD::FAC.ComprobanteCobro"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteCobro" AS varchar(200))  
+						,'Facturacion_ComprobanteCobro'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFacturacion_ComprobanteCobro"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFacturacion_ComprobanteCobro"
+ AFTER   DELETE ON "BSCL.Facturacion.BD::FAC.ComprobanteCobro"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobanteCobro" AS varchar(200))  
+						,'Facturacion_ComprobanteCobro'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- COMPROBANTE FACTURACION FORMA PAGO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFacturacion_ComprobanteFacturacionFormaPago"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFacturacion_ComprobanteFacturacionFormaPago"
+ AFTER   INSERT ON "BSCL.Facturacion.BD::FAC.ComprobanteFormaDePago"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteFormaDePago" AS varchar(200))  
+						,'Facturacion_ComprobanteFacturacionFormaPago'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFacturacion_ComprobanteFacturacionFormaPago"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFacturacion_ComprobanteFacturacionFormaPago"
+ AFTER   UPDATE ON "BSCL.Facturacion.BD::FAC.ComprobanteFormaDePago"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteFormaDePago" AS varchar(200))  
+						,'Facturacion_ComprobanteFacturacionFormaPago'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFacturacion_ComprobanteFacturacionFormaPago"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFacturacion_ComprobanteFacturacionFormaPago"
+ AFTER   DELETE ON "BSCL.Facturacion.BD::FAC.ComprobanteFormaDePago"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobanteFormaDePago" AS varchar(200))  
+						,'Facturacion_ComprobanteFacturacionFormaPago'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- CONTRATO SUSCRIPCION CUOTAS
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_ContratoSuscripcionCuotas"; GO
+
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_ContratoSuscripcionCuotas"
+ AFTER   INSERT ON "BSCL.FondoMutuo.BD::CSC.ContratoSuscripcionCuotas"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdFolioCSC" AS varchar(200))  
+						,'FondoMutuo_ContratoSuscripcionCuotas'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_ContratoSuscripcionCuotas"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_ContratoSuscripcionCuotas"
+ AFTER   UPDATE ON "BSCL.FondoMutuo.BD::CSC.ContratoSuscripcionCuotas"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdFolioCSC" AS varchar(200))  
+						,'FondoMutuo_ContratoSuscripcionCuotas'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_ContratoSuscripcionCuotas"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_ContratoSuscripcionCuotas"
+ AFTER   DELETE ON "BSCL.FondoMutuo.BD::CSC.ContratoSuscripcionCuotas"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdFolioCSC" AS varchar(200))  
+						,'FondoMutuo_ContratoSuscripcionCuotas'
+						,'D'
+			    );  
+ END; GO
+
+
+ -- FONDO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_Fondo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_Fondo"
+ AFTER   INSERT ON "BSCL.FondoMutuo.BD::FMM.Fondo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdFondo" AS varchar(200))  
+						,'FondoMutuo_Fondo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_Fondo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_Fondo"
+ AFTER   UPDATE ON "BSCL.FondoMutuo.BD::FMM.Fondo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdFondo" AS varchar(200))  
+						,'FondoMutuo_Fondo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_Fondo"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_Fondo"
+ AFTER   DELETE ON "BSCL.FondoMutuo.BD::FMM.Fondo"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdFondo" AS varchar(200))  
+						,'FondoMutuo_Fondo'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- REGIMEN SERIE FONDO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_RegimenSerieFondo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_RegimenSerieFondo"
+ AFTER   INSERT ON "BSCL.FondoMutuo.BD::FMM.RegimenSerieDeFondo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdRegimenFondoMutuo" AS varchar(200)) || ':' || cast(:NewRow."IdSerieFondo" AS varchar(200))
+						,'FondoMutuo_RegimenSerieFondo'
+						,'A'
+			    ); 
+ END; GO
+ COMMIT;GO
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_RegimenSerieFondo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_RegimenSerieFondo"
+ AFTER   UPDATE ON "BSCL.FondoMutuo.BD::FMM.RegimenSerieDeFondo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdRegimenFondoMutuo" AS varchar(200)) || ':' || cast(:NewRow."IdSerieFondo" AS varchar(200))
+						,'FondoMutuo_RegimenSerieFondo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_RegimenSerieFondo"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_RegimenSerieFondo"
+ AFTER   DELETE ON "BSCL.FondoMutuo.BD::FMM.RegimenSerieDeFondo"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdRegimenFondoMutuo" AS varchar(200)) || ':' || cast(:OldRow."IdSerieFondo" AS varchar(200))
+						,'FondoMutuo_RegimenSerieFondo'
+						,'D'
+			    );  
+ END; GO
+
+ -- SERIE DE FONDO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_SerieDeFondo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_SerieDeFondo"
+ AFTER   INSERT ON "BSCL.FondoMutuo.BD::FMM.SerieDeFondo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdSerieFondo" AS varchar(200))  
+						,'FondoMutuo_SerieDeFondo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_SerieDeFondo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_SerieDeFondo"
+ AFTER   UPDATE ON "BSCL.FondoMutuo.BD::FMM.SerieDeFondo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdSerieFondo" AS varchar(200))  
+						,'FondoMutuo_SerieDeFondo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_SerieDeFondo"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_SerieDeFondo"
+ AFTER   DELETE ON "BSCL.FondoMutuo.BD::FMM.SerieDeFondo"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdSerieFondo" AS varchar(200))  
+						,'FondoMutuo_SerieDeFondo'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- REINIVERSION SERIE FONDO DESTINO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_ReinversionSerieFondoDestino"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_ReinversionSerieFondoDestino"
+ AFTER   INSERT ON "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdReinversionSerieFondo" AS varchar(200))
+						,'FondoMutuo_ReinversionSerieFondoDestino'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_ReinversionSerieFondoDestino"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_ReinversionSerieFondoDestino"
+ AFTER   UPDATE ON "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdReinversionSerieFondo" AS varchar(200))
+						,'FondoMutuo_ReinversionSerieFondoDestino'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_ReinversionSerieFondoDestino"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_ReinversionSerieFondoDestino"
+ AFTER   DELETE ON "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdReinversionSerieFondo" AS varchar(200))
+						,'FondoMutuo_ReinversionSerieFondoDestino'
+						,'D'
+			    );  
+ END; GO
+
+ 
+ -- SOLICITUD APORTE RESCATE FONDO MUTUO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_SolicitudAporteRescateFondoMutuo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_SolicitudAporteRescateFondoMutuo"
+ AFTER   INSERT ON "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdSolicitudAporteRescate" AS varchar(200))  
+						,'FondoMutuo_SolicitudAporteRescateFondoMutuo'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdSolicitudAporteRescate" AS varchar(200))  
+						,'FondoMutuo_Reinversion'
+						,'A'
+			    );
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_SolicitudAporteRescateFondoMutuo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_SolicitudAporteRescateFondoMutuo"
+ AFTER   UPDATE ON "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdSolicitudAporteRescate" AS varchar(200))  
+						,'FondoMutuo_SolicitudAporteRescateFondoMutuo'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdSolicitudAporteRescate" AS varchar(200))  
+						,'FondoMutuo_Reinversion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_SolicitudAporteRescateFondoMutuo"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_SolicitudAporteRescateFondoMutuo"
+ AFTER   DELETE ON "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdSolicitudAporteRescate" AS varchar(200))  
+						,'FondoMutuo_SolicitudAporteRescateFondoMutuo'
+						,'D'
+			    ); 
+
+		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdSolicitudAporteRescate" AS varchar(200))  
+						,'FondoMutuo_Reinversion'
+						,'D'
+			    );
+ END; GO
+ 
+ -- TIPO MOVIMIENTO FONDO MUTUO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_TipoMovimientoFondoMutuo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_TipoMovimientoFondoMutuo"
+ AFTER   INSERT ON "BSCL.FondoMutuo.BD::FMM.TipoMovimientoFondoMutuo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoMovimientoFondoMutuo" AS varchar(200))  
+						,'FondoMutuo_TipoMovimientoFondoMutuo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_TipoMovimientoFondoMutuo"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_TipoMovimientoFondoMutuo"
+ AFTER   UPDATE ON "BSCL.FondoMutuo.BD::FMM.TipoMovimientoFondoMutuo"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoMovimientoFondoMutuo" AS varchar(200))  
+						,'FondoMutuo_TipoMovimientoFondoMutuo'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_TipoMovimientoFondoMutuo"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_TipoMovimientoFondoMutuo"
+ AFTER   DELETE ON "BSCL.FondoMutuo.BD::FMM.TipoMovimientoFondoMutuo"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTipoMovimientoFondoMutuo" AS varchar(200))  
+						,'FondoMutuo_TipoMovimientoFondoMutuo'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- VALOR CUOTA HISTORICO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_ValorCuotaHistorico"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaFondoMutuo_ValorCuotaHistorico"
+ AFTER   INSERT ON "BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdValorCuotaHistorico" AS varchar(200))  
+						,'FondoMutuo_ValorCuotaHistorico'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_ValorCuotaHistorico"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaFondoMutuo_ValorCuotaHistorico"
+ AFTER   UPDATE ON "BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdValorCuotaHistorico" AS varchar(200))  
+						,'FondoMutuo_ValorCuotaHistorico'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_ValorCuotaHistorico"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaFondoMutuo_ValorCuotaHistorico"
+ AFTER   DELETE ON "BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdValorCuotaHistorico" AS varchar(200))  
+						,'FondoMutuo_ValorCuotaHistorico'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- COBRO ASIGNACION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaOrden_CobroAsignacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaOrden_CobroAsignacion"
+ AFTER   INSERT ON "BSCL.Orden.BD::ORD.CobroAsignacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCobroAsignacion" AS varchar(200))  
+						,'Orden_CobroAsignacion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaOrden_CobroAsignacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaOrden_CobroAsignacion"
+ AFTER   UPDATE ON "BSCL.Orden.BD::ORD.CobroAsignacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCobroAsignacion" AS varchar(200))  
+						,'Orden_CobroAsignacion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaOrden_CobroAsignacion"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaOrden_CobroAsignacion"
+ AFTER   DELETE ON "BSCL.Orden.BD::ORD.CobroAsignacion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCobroAsignacion" AS varchar(200))  
+						,'Orden_CobroAsignacion'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- COBRO ORDEN
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaOrden_CobroOrden"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaOrden_CobroOrden"
+ AFTER   INSERT ON "BSCL.Orden.BD::ORD.CobroOrden"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCobroOrden" AS varchar(200))  
+						,'Orden_CobroOrden'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaOrden_CobroOrden"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaOrden_CobroOrden"
+ AFTER   UPDATE ON "BSCL.Orden.BD::ORD.CobroOrden"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdCobroOrden" AS varchar(200))  
+						,'Orden_CobroOrden'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaOrden_CobroOrden"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaOrden_CobroOrden"
+ AFTER   DELETE ON "BSCL.Orden.BD::ORD.CobroOrden"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdCobroOrden" AS varchar(200))  
+						,'Orden_CobroOrden'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- CLASIFICACION TIPO INSTRUMENTO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_ClasificacionTipoInstrumento"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_ClasificacionTipoInstrumento"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::INS.ClasificacionTipoInstrumento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdClasificacionTipoInstrumento" AS varchar(200))  
+						,'Plataforma_ClasificacionTipoInstrumento'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_ClasificacionTipoInstrumento"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_ClasificacionTipoInstrumento"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::INS.ClasificacionTipoInstrumento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdClasificacionTipoInstrumento" AS varchar(200))  
+						,'Plataforma_ClasificacionTipoInstrumento'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_ClasificacionTipoInstrumento"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_ClasificacionTipoInstrumento"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::INS.ClasificacionTipoInstrumento"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdClasificacionTipoInstrumento" AS varchar(200))  
+						,'Plataforma_ClasificacionTipoInstrumento'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- CONCEPTO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Concepto"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Concepto"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::PLA.Concepto"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdConcepto" AS varchar(200))  
+						,'Plataforma_Concepto'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Concepto"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Concepto"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::PLA.Concepto"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdConcepto" AS varchar(200))  
+						,'Plataforma_Concepto'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Concepto"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Concepto"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::PLA.Concepto"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdConcepto" AS varchar(200))  
+						,'Plataforma_Concepto'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- EMPRESA
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Empresa"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Empresa"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::PLA.Empresa"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpresa" AS varchar(200))  
+						,'Plataforma_Empresa'
+						,'A'
+			    ); 
+
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Empresa"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Empresa"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::PLA.Empresa"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpresa" AS varchar(200))  
+						,'Plataforma_Empresa'
+						,'A'
+			    ); 
+
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Empresa"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Empresa"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::PLA.Empresa"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEmpresa" AS varchar(200))  
+						,'Plataforma_Empresa'
+						,'D'
+			    );  
+
+ END; GO
+ 
+ -- ESTADO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Estado"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Estado"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::PLA.Estado"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."Nombre" AS varchar(200))
+						,'Plataforma_Estado'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Estado"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Estado"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::PLA.Estado"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."Nombre" AS varchar(200))
+						,'Plataforma_Estado'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Estado"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Estado"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::PLA.Estado"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."Nombre" AS varchar(200))
+						,'Plataforma_Estado'
+						,'D'
+			    );  
+ END; GO
+ -- GIRO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Giro"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Giro"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::REG.Giro"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdGiro" AS varchar(200))  
+						,'Plataforma_Giro'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Giro"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Giro"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::REG.Giro"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdGiro" AS varchar(200))  
+						,'Plataforma_Giro'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Giro"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Giro"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::REG.Giro"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdGiro" AS varchar(200))  
+						,'Plataforma_Giro'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- MATRIZ COMERCIAL
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_MatrizComercialCorredora"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_MatrizComercialCorredora"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::COM.PerfilComercialBase"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilComercialBase" AS varchar(200))  
+						,'Plataforma_MatrizComercialCorredora'
+						,'A'
+			    ); 
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilComercialBase" AS varchar(200))  
+						,'Plataforma_ModeloComercial'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_MatrizComercialCorredora"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_MatrizComercialCorredora"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::COM.PerfilComercialBase"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilComercialBase" AS varchar(200))  
+						,'Plataforma_MatrizComercialCorredora'
+						,'A'
+			    ); 
+			
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPerfilComercialBase" AS varchar(200))  
+						,'Plataforma_ModeloComercial'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_MatrizComercialCorredora"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_MatrizComercialCorredora"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::COM.PerfilComercialBase"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 		CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPerfilComercialBase" AS varchar(200))  
+						,'Plataforma_MatrizComercialCorredora'
+						,'D'
+			    );  
+
+			CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPerfilComercialBase" AS varchar(200))  
+						,'Plataforma_ModeloComercial'
+						,'D'
+			    );
+ END; GO
+ 
+ -- PAIS
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Pais"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Pais"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::REG.Pais"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPais" AS varchar(200))  
+						,'Plataforma_Pais'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Pais"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Pais"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::REG.Pais"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdPais" AS varchar(200))  
+						,'Plataforma_Pais'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Pais"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Pais"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::REG.Pais"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdPais" AS varchar(200))  
+						,'Plataforma_Pais'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- PARAMETRO FINANCIERO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_ParametroFinanciero"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_ParametroFinanciero"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::MER.ParametroFinanciero"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdParametroFinanciero" AS varchar(200)) || ':' || cast(:NewRow."Fecha" AS varchar(200))
+						,'Plataforma_ParametroFinanciero'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_ParametroFinanciero"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_ParametroFinanciero"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::MER.ParametroFinanciero"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdParametroFinanciero" AS varchar(200)) || ':' || cast(:NewRow."Fecha" AS varchar(200))
+						,'Plataforma_ParametroFinanciero'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_ParametroFinanciero"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_ParametroFinanciero"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::MER.ParametroFinanciero"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdParametroFinanciero" AS varchar(200)) || ':' || cast(:OldRow."Fecha" AS varchar(200))
+						,'Plataforma_ParametroFinanciero'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- PERFIL PRODUCTO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_PerfilProducto"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_PerfilProducto"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::COM.DetallePerfilProductos"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDetallePerfilProductos" AS varchar(200))  
+						,'Plataforma_PerfilProducto'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_PerfilProducto"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_PerfilProducto"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::COM.DetallePerfilProductos"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdDetallePerfilProductos" AS varchar(200))  
+						,'Plataforma_PerfilProducto'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_PerfilProducto"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_PerfilProducto"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::COM.DetallePerfilProductos"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdDetallePerfilProductos" AS varchar(200))  
+						,'Plataforma_PerfilProducto'
+						,'D'
+			    );  
+ END; GO
+
+ -- PARIDADES
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Paridades"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Paridades"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::PLA.ParidadYTipoCambio"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."Origen" AS varchar(200))  
+						,'Plataforma_Paridades'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Paridades"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Paridades"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::PLA.ParidadYTipoCambio"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."Origen" AS varchar(200))  
+						,'Plataforma_Paridades'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Paridades"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Paridades"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::PLA.ParidadYTipoCambio"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."Origen" AS varchar(200))  
+						,'Plataforma_Paridades'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- PROFESION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Profesion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_Profesion"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::REG.Profesion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdProfesion" AS varchar(200))  
+						,'Plataforma_Profesion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Profesion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_Profesion"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::REG.Profesion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdProfesion" AS varchar(200))  
+						,'Plataforma_Profesion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Profesion"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_Profesion"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::REG.Profesion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdProfesion" AS varchar(200))  
+						,'Plataforma_Profesion'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TIPO INSTRUMENTO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_TipoInstrumento"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_TipoInstrumento"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::INS.TipoInstrumento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoInstrumento" AS varchar(200))  
+						,'Plataforma_TipoInstrumento'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_TipoInstrumento"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_TipoInstrumento"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::INS.TipoInstrumento"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoInstrumento" AS varchar(200))  
+						,'Plataforma_TipoInstrumento'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_TipoInstrumento"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_TipoInstrumento"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::INS.TipoInstrumento"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTipoInstrumento" AS varchar(200))  
+						,'Plataforma_TipoInstrumento'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TIPO OPERACION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_TipoOperacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_TipoOperacion"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::INS.TipoOperacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoOperacion" AS varchar(200))  
+						,'Plataforma_TipoOperacion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_TipoOperacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_TipoOperacion"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::INS.TipoOperacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoOperacion" AS varchar(200))  
+						,'Plataforma_TipoOperacion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_TipoOperacion"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_TipoOperacion"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::INS.TipoOperacion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTipoOperacion" AS varchar(200))  
+						,'Plataforma_TipoOperacion'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TIPO PRODUCTO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_TipoProducto"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_TipoProducto"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::INS.TipoProducto"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoProducto" AS varchar(200))  
+						,'Plataforma_TipoProducto'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_TipoProducto"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_TipoProducto"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::INS.TipoProducto"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoProducto" AS varchar(200))  
+						,'Plataforma_TipoProducto'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_TipoProducto"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_TipoProducto"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::INS.TipoProducto"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTipoProducto" AS varchar(200))  
+						,'Plataforma_TipoProducto'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- VALOR COBRO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_ValorCobro"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaPlataforma_ValorCobro"
+ AFTER   INSERT ON "BSCL.Plataforma.BD::COM.ValorCobro"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdValorCobro" AS varchar(200))  
+						,'Plataforma_ValorCobro'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_ValorCobro"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaPlataforma_ValorCobro"
+ AFTER   UPDATE ON "BSCL.Plataforma.BD::COM.ValorCobro"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdValorCobro" AS varchar(200))  
+						,'Plataforma_ValorCobro'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_ValorCobro"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaPlataforma_ValorCobro"
+ AFTER   DELETE ON "BSCL.Plataforma.BD::COM.ValorCobro"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdValorCobro" AS varchar(200))  
+						,'Plataforma_ValorCobro'
+						,'D'
+			    );  
+ END; GO
+
+ -- SUPERVISOR
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaSocioNegocio_Supervisor"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaSocioNegocio_Supervisor"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::EJE.Supervisor"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleadoSupervisor" AS varchar(200))  
+						,'SocioNegocio_Supervisor'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaSocioNegocio_Supervisor"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaSocioNegocio_Supervisor"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::EJE.Supervisor"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdEmpleadoSupervisor" AS varchar(200))  
+						,'SocioNegocio_Supervisor'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaSocioNegocio_Supervisor"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaSocioNegocio_Supervisor"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::EJE.Supervisor"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdEmpleadoSupervisor" AS varchar(200))  
+						,'SocioNegocio_Supervisor'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TIPO RELACION
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaSocioNegocio_TipoRelacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaSocioNegocio_TipoRelacion"
+ AFTER   INSERT ON "BSCL.SocioNegocio.BD::REL.TipoRelacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoRelacion" AS varchar(200))  
+						,'SocioNegocio_TipoRelacion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaSocioNegocio_TipoRelacion"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaSocioNegocio_TipoRelacion"
+ AFTER   UPDATE ON "BSCL.SocioNegocio.BD::REL.TipoRelacion"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdTipoRelacion" AS varchar(200))  
+						,'SocioNegocio_TipoRelacion'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaSocioNegocio_TipoRelacion"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaSocioNegocio_TipoRelacion"
+ AFTER   DELETE ON "BSCL.SocioNegocio.BD::REL.TipoRelacion"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdTipoRelacion" AS varchar(200))  
+						,'SocioNegocio_TipoRelacion'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TESORERIA COMPROBANTE
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_Comprobante"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_Comprobante"
+ AFTER   INSERT ON "BSCL.Tesoreria.BD::TES.Comprobante"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobante" AS varchar(200))  
+						,'Tesoreria_Comprobante'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_Comprobante"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_Comprobante"
+ AFTER   UPDATE ON "BSCL.Tesoreria.BD::TES.Comprobante"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobante" AS varchar(200))  
+						,'Tesoreria_Comprobante'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_Comprobante"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_Comprobante"
+ AFTER   DELETE ON "BSCL.Tesoreria.BD::TES.Comprobante"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobante" AS varchar(200))  
+						,'Tesoreria_Comprobante'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TESORERIA COMPROBANTE DETALLE
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_ComprobanteDetalle"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_ComprobanteDetalle"
+ AFTER   INSERT ON "BSCL.Tesoreria.BD::TES.ComprobanteDetalle"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteDetalle" AS varchar(200))  
+						,'Tesoreria_ComprobanteDetalle'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_ComprobanteDetalle"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_ComprobanteDetalle"
+ AFTER   UPDATE ON "BSCL.Tesoreria.BD::TES.ComprobanteDetalle"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteDetalle" AS varchar(200))  
+						,'Tesoreria_ComprobanteDetalle'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_ComprobanteDetalle"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_ComprobanteDetalle"
+ AFTER   DELETE ON "BSCL.Tesoreria.BD::TES.ComprobanteDetalle"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobanteDetalle" AS varchar(200))  
+						,'Tesoreria_ComprobanteDetalle'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TESORERIA COMPROBANTE FORMA DE PAGO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_ComprobanteFormaDePago"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_ComprobanteFormaDePago"
+ AFTER   INSERT ON "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteFormaDePago" AS varchar(200))  
+						,'Tesoreria_ComprobanteFormaDePago'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_ComprobanteFormaDePago"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_ComprobanteFormaDePago"
+ AFTER   UPDATE ON "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdComprobanteFormaDePago" AS varchar(200))  
+						,'Tesoreria_ComprobanteFormaDePago'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_ComprobanteFormaDePago"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_ComprobanteFormaDePago"
+ AFTER   DELETE ON "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdComprobanteFormaDePago" AS varchar(200))  
+						,'Tesoreria_ComprobanteFormaDePago'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- TESORERIA INGRESO EGRESO
+
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_IngresoEgreso"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_IngresoEgreso"
+ AFTER   INSERT ON "BSCL.Tesoreria.BD::TES.IngresoEgreso"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdIngresoEgreso" AS varchar(200))  
+						,'Tesoreria_IngresoEgreso'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_IngresoEgreso"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_IngresoEgreso"
+ AFTER   UPDATE ON "BSCL.Tesoreria.BD::TES.IngresoEgreso"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdIngresoEgreso" AS varchar(200))  
+						,'Tesoreria_IngresoEgreso'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_IngresoEgreso"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_IngresoEgreso"
+ AFTER   DELETE ON "BSCL.Tesoreria.BD::TES.IngresoEgreso"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdIngresoEgreso" AS varchar(200))  
+						,'Tesoreria_IngresoEgreso'
+						,'D'
+			    );  
+ END; GO
+ 
+ -- MANDATO PAC
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_MandatoPAC"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaInsertVistaTesoreria_MandatoPAC"
+ AFTER   INSERT ON "BSCL.Tesoreria.BD::PAC.MandatoPAC"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN 
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMandatoPAC" AS varchar(200))  
+						,'Tesoreria_MandatoPAC'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_MandatoPAC"; GO
+
+CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateVistaTesoreria_MandatoPAC"
+ AFTER   UPDATE ON "BSCL.Tesoreria.BD::PAC.MandatoPAC"
+ REFERENCING NEW ROW NewRow FOR EACH ROW 
+ BEGIN
+		 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:NewRow."IdMandatoPAC" AS varchar(200))  
+						,'Tesoreria_MandatoPAC'
+						,'A'
+			    ); 
+ END; GO
+ 
+ DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_MandatoPAC"; GO
+ 
+ CREATE TRIGGER "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaDeleteVistaTesoreria_MandatoPAC"
+ AFTER   DELETE ON "BSCL.Tesoreria.BD::PAC.MandatoPAC"
+ REFERENCING OLD ROW OldRow FOR EACH ROW 
+ BEGIN
+	 	CALL "BSCL.Replica.BD.Servicios::InsertWorkStack"
+				(  
+						cast(:OldRow."IdMandatoPAC" AS varchar(200))  
+						,'Tesoreria_MandatoPAC'
+						,'D'
+			    );  
+ END; GO
+
+ COMMIT; GO

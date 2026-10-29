@@ -1,0 +1,1 @@
+INSERT INTO #TablaFoliosCarteras ("FolioCartera") VALUES (:FolioCartera)

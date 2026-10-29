@@ -1,0 +1,20 @@
+INSERT INTO "BSCL.SocioNegocio.BD::ENR.DireccionElectronica"
+(
+"IdDireccionElectronica"
+,"Direccion"
+,"CodigoProposito"
+,"Comentario"
+,"IdEnrolamiento"
+,"Predeterminado"
+,"IdDireccionElectronicaPersona"
+)
+VALUES
+(
+:IdDireccionElectronica
+,:Direccion
+,:CodigoProposito
+,:Comentario
+,:IdEnrolamiento
+,:Predeterminado
+,:IdDireccionElectronicaPersona
+);

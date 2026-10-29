@@ -1,0 +1,136 @@
+<div class="row" ng-controller="InterfazAfpCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+				<!-- INICIO FILTROS -->
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base class="col-xs-9" bcs-requerido
+								id="UI_SOCIO_NEGOCIO" auto-cargar="'false'"
+								tipo="data.oClientePortafolio.tipo"
+								seleccionado="data.oClientePortafolio.seleccionado"
+								filtros="filtrosPortafolio" id-actual="filtros.IdPortafolio"
+								configuracion="data.oClientePortafolio.configuracion">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-3" style="padding-left:15px;" translate>UI_FECHA_MOVIMIENTO</label>
+							<bcs-input-date class="col-xs-9" bcs_requerido
+								id="frmIngMvtoFac_UI_FECHA_MOVIMIENTO"
+								name="uFechaMovimientoComprobante"
+								k-ng-model="data.oFechaMovimientoComprobante"
+								k-ng-disabled="data.activaroFechaMovimientoComprobante">
+							</bcs-input-date>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row">
+
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_TIPO_COMPROBANTE</label>
+							<bcs-combobox-base class="col-xs-9"
+								id="ComprobanteFacturacionCtrl_UI_TIPO_COMPROBANTE"
+								auto-cargar="'true'"
+								tipo="data.oConfiguracionTipoComprobante.tipo"
+								configuracion="data.oConfiguracionTipoComprobante.configuracion"
+								id-actual="data.oConfiguracionTipoComprobante.idActual"
+								seleccionado="data.oConfiguracionTipoComprobante.seleccionado"
+								filtros="data.oConfiguracionTipoComprobante.filtros"
+								memoria="COMPROBANTES" todos="'S'" id-defecto="'0'"
+								item-post-filtro="'1'"> </bcs-combobox-base>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-3" style="padding-left:15px;" translate>UI_CLASIFICACION</label>
+							<bcs-combobox-base class="col-xs-9"
+								id="ComprobanteFacturacionCtrl_UI_CLASIFICACION"
+								auto-cargar="'true'"
+								tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+								configuracion="data.oConfiguracionClasificacionTipoInstrumento.configuracion"
+								id-actual="data.oConfiguracionClasificacionTipoInstrumento.idActual"
+								seleccionado="data.oConfiguracionClasificacionTipoInstrumento.seleccionado"
+								filtros="data.oConfiguracionClasificacionTipoInstrumento.filtros"
+								cascada-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+								cascada-valor="'IdClasificacionTipoInstrumento'" todos="'S'"
+								id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row">
+						
+
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+							<bcs-combobox-base class="col-xs-9"
+								id="ComprobanteFacturacionCtrl_UI_TIPO_INSTRUMENTO"
+								auto-cargar="'false'"
+								tipo="data.oConfiguracionTipoInstrumento.tipo"
+								configuracion="data.oConfiguracionTipoInstrumento.configuracion"
+								id-actual="data.oConfiguracionTipoInstrumento.idActual"
+								seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+								filtros="data.oConfiguracionTipoInstrumento.filtros" todos="'S'"
+								id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+			<div class="col-xs-2">
+				<!-- INICIO BOTONES -->
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true" bcs-clic="buscar()"> </bcs-button>
+				</div>
+
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'false'" bcs-texto="'UI_LIMPIAR' | translate"
+						bcs-habilitado="true" bcs-clic="limpiarFiltros()"> </bcs-button>
+				</div>
+				<!-- FIN BOTONES -->
+			</div>
+		</div>
+		<!-- INICIO GRILLA -->
+		<div class="row">
+			<bcs-grid id="grid-operador-afp"
+				configuracion="confBasicaOperadorAfp"
+				seleccionado="seleccionOperadorAfp"
+				fn-exportar-excel="exportarExcel"> </bcs-grid>
+		</div>
+		<!-- FIN GRILLA -->
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="'false'" bcs-texto="'UI_CONFIGURAR_AFP' | translate" 
+			bcs-habilitado="true" bcs-clic="configuracionAFP()">
+		</bcs-button>
+		<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="'false'" bcs-texto="'UI_GENERAR_ARCHIVO_AFP' | translate" 
+			bcs-habilitado="true" bcs-clic="generarArchivoAFP()">
+		</bcs-button>
+		<!-- 
+		<bcs-button  
+			class="col-xs-2" 
+			id = 'InterfazAfpCtrl_btnGenerarInterfazAfp' 
+			bcs-tipo="'principal'"  
+			bcs-auto-desactivar="'true'"  
+			bcs-texto="'UI_GENERAR' | translate"  
+			bcs-habilitado="data.btnActivos" 
+			bcs-clic="data.generarInterfazAfp()">
+		</bcs-button>
+	-->
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'"
+			bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+		<li ng-click="exportarExcel('ArchivoAFP')">{{'UI_EXPORTAR_EXCEL'
+			| translate}}</li>
+		</bcs-menu>
+	</div>
+	<!-- FIN PANEL COMANDOS -->
+
+</div>

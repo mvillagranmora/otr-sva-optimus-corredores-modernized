@@ -1,0 +1,75 @@
+<div id="ClienteContratoSAAPV" class="col-xs-12" ng-controller="ClienteContratoSAAPVCtrl as ccs">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+		  		<label class="col-xs-2" translate>UI_CLIENTE</label>
+				<bcs-combobox-base class="col-xs-5"
+					cache="true"
+					tipo="'combobox-socio-negocio'" 
+					id-actual="ccs.dataCliente.idActual"
+					seleccionado="ccs.dataCliente.seleccionado"
+					filtros="ccs.oConfiguracionCliente.filtros"  
+					auto-cargar='false'
+					carga-cliente-automatico="false">
+				</bcs-combobox-base>
+		  	</div>
+		  	<div class="row"></div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12"
+					bcs-tipo="'bcs-button-search'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_BUSCAR' | translate"
+					bcs-habilitado="true"
+					bcs-clic="ccs.buscar()">
+				</bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12"
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_LIMPIAR' | translate"
+					bcs-habilitado="true"
+					bcs-clic="ccs.limpiar()">
+				</bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<bcs-grid
+				id="ClienteContratoSAAPV_grillaClienteContrato" 
+				fn-exportar-excel="exportarExcel"
+				configuracion="ccs.configuracionGrillaClienteContrato"
+			    seleccionado="ccs.seleccionadoClienteContrato">
+
+				<div bcs-grid-detail ng-non-bindable>
+					<div style="width: 100%;">
+						<uib-tabset>
+							<uib-tab id="ClienteContratoSAAPV_grillaContrato" heading="{{'UI_PORTAFOLIOS_APV' | translate}}">
+								<bcs-grid 
+									configuracion="ccs.configuracionGrillaContrato(dataItem)"
+									seleccionado="ccs.seleccionadoContrato">
+								</bcs-grid>
+							</uib-tab>
+						</uib-tabset>
+					</div>
+				</div>
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-2">
+			<bcs-button id="ClienteContratoSAAPV_botonCambiarPlan" 
+				bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CAMBIAR_A_PLAN_ACTIVO' | translate" 
+				bcs-habilitado="true" 
+				bcs-clic="ccs.cambiarPlan()">
+			</bcs-button>
+		</div>
+	</div>
+</div>

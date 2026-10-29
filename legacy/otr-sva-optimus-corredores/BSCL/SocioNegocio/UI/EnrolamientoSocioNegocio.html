@@ -1,0 +1,126 @@
+<div class="col-xs-12" ng-controller="EnrolamientoSocioNegocioCtrl as admSoc" bcs-escape="ValidaSalidaESC()">
+	<div class="row bcs_titulo"> {{'UI_ADMINISTRAR_SOCIO_NEGOCIO' |translate}}</div>
+	<div class="row bcs-cuerpo"  ng-if="showPanel">
+		<form id="FormSocioNegocio" name="FormSocioNegocio" class="filters-formulario">
+			<div class='row'>
+				<label class="col-xs-2" translate>UI_NOMBRE_COMPLETO</label>
+				<bcs-input-texto class="col-xs-5" k-ng-disabled="'true'" ng-model="admSoc.dataSocioNegocio.NombreCompleto"></bcs-input-texto>
+				<label class="col-xs-1" translate>UI_TIPO_PERSONA</label>
+				<bcs-input-texto class="col-xs-2" k-ng-disabled="'true'" ng-model="admSoc.dataSocioNegocio.TipoPersona"></bcs-input-texto>	
+				<div class="col-xs-2">
+					<bcs-button class="col-xs-4" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_REFRESCAR' | translate" bcs-habilitado="true"  bcs-clic="admSoc.refrescar()"></bcs-button>
+				</div>
+			</div>
+			<div class='row'>
+				<label class="col-xs-2" translate>UI_DOCUMENTO_IDENTIDAD</label>
+				<div ng-if="SesionLocale=='PE'">
+					<bcs-input-texto class="col-xs-1" k-ng-disabled="'true'" ng-model="admSoc.dataSocioNegocio.NombreAbrTipoDocumentoIdentidadDefecto"></bcs-input-texto>								
+					<bcs-input-texto class="col-xs-2" k-ng-disabled="'true'" ng-model="admSoc.dataSocioNegocio.DocumentoIdentidadDefectoFormateado"></bcs-input-texto>
+					<bcs-input-texto class="col-xs-1" k-ng-disabled="'true'" ng-model="admSoc.dataSocioNegocio.NombreAbrTipoDocumentoIdentidadAdicional"></bcs-input-texto>								
+					<bcs-input-texto class="col-xs-2" k-ng-disabled="'true'" ng-model="admSoc.dataSocioNegocio.DocumentoIdentidadAdicional"></bcs-input-texto>
+				</div>
+				<div ng-if="SesionLocale!='PE'">		
+					<bcs-input-texto class="col-xs-1" k-ng-disabled="'true'" ng-model="admSoc.dataSocioNegocio.NombreAbrTipoDocumentoIdentidadDefecto"></bcs-input-texto>								
+					<bcs-input-texto class="col-xs-2" k-ng-disabled="'true'" ng-model="admSoc.dataSocioNegocio.DocumentoIdentidadDefectoFormateado"></bcs-input-texto>
+				</div>				
+			</div>
+			<hr style="margin-bottom:10px"> 
+		    <div  class="row">
+		    	<uib-tabset>
+	       			<uib-tab id="TabPersona" heading="{{'UI_PERSONA'| translate|uppercase }}">
+	       				<div class="row">
+							<uib-tabset>
+								<uib-tab id="TabPersonaTabDatosGenerales" heading="{{'UI_DATOS_GENERALES' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaDatosGenerales'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaDatosGenerales')" deselect="admSoc.fnTabDeselect('Persona','PanelPersonaDatosGenerales')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaDatosGenerales'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabDocumentosIdentidad" heading="{{'UI_DOCUMENTOS_IDENTIDAD' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaDocumentosIdentidad'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaDocumentosIdentidad')"  deselect="admSoc.fnTabDeselect('Persona','PanelPersonaDocumentosIdentidad')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaDocumentosIdentidad'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabCuentasBancarias" heading="{{'UI_CUENTAS_BANCARIAS' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaCuentasBancarias'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaCuentasBancarias')" deselect="admSoc.fnTabDeselect('Persona','PanelPersonaCuentasBancarias')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaCuentasBancarias'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabTarjetasBancarias" heading="{{'UI_TARJETAS_BANCARIAS' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaTarjetasBancarias'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaTarjetasBancarias')"deselect="admSoc.fnTabDeselect('Persona','PanelPersonaTarjetasBancarias')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaTarjetasBancarias'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabDireccionesFisicas" heading="{{'UI_DIRECCIONES_FISICAS' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaDireccionesFisicas'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaDireccionesFisicas')"deselect="admSoc.fnTabDeselect('Persona','PanelPersonaDireccionesFisicas')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaDireccionesFisicas'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabTelefonos" heading="{{'UI_TELEFONOS' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaTelefonos'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaTelefonos')" deselect="admSoc.fnTabDeselect('Persona','PanelPersonaTelefonos')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaTelefonos'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabDireccionesElectronicas" heading="{{'UI_DIRECCIONES_ELECTRONICAS' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaDireccionesElectronicas'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaDireccionesElectronicas')" deselect="admSoc.fnTabDeselect('Persona','PanelPersonaDireccionesElectronicas')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaDireccionesElectronicas'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabGrupoDireccionesElectronicas" heading="{{'UI_GRUPO_DIRECCIONES_ELECTRONICAS' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaGrupoDireccionesElectronicas'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaGrupoDireccionesElectronicas')" deselect="admSoc.fnTabDeselect('Persona','PanelPersonaGrupoDireccionesElectronicas')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaGrupoDireccionesElectronicas'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabAtributos" heading="{{'UI_INDICADORES' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaAtributos'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaAtributos')" deselect="admSoc.fnTabDeselect('Persona','PanelPersonaAtributos')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaAtributos'].id}}" style="min-height:231px;"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabRelaciones" heading="{{'UI_RELACIONES' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaRelaciones'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaRelaciones')"  deselect="admSoc.fnTabDeselect('Persona','PanelPersonaRelaciones')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaRelaciones'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPersonaTabFatca" heading="{{'UI_FATCA_CRS' | translate}}"  active="admSoc.tabs['Persona']['PanelPersonaFatca'].active" select="admSoc.fnTabSelect('Persona','PanelPersonaFatca')" deselect="admSoc.fnTabDeselect('Persona','PanelPersonaFatca')">
+									<div id="{{admSoc.tabs['Persona']['PanelPersonaFatca'].id}}"></div>
+								</uib-tab>
+							</uib-tabset>
+						</div>
+					</uib-tab>
+<!--					<uib-tab id="TabCliente" heading="{{'UI_CLIENTE'| translate|uppercase}}" ng-show="admSoc.dataSocioNegocio.IdCliente>0"  select="admSoc.MaintabSelect('Cliente')">-->
+					<uib-tab id="TabCliente" heading="{{'UI_CLIENTE'| translate|uppercase}}" select="admSoc.MaintabSelect('Cliente')">
+ 				    	<div class="row">
+ 				    		<uib-tabset>
+								<uib-tab id="TabClienteTabDatosGenerales" heading="{{'UI_DATOS_GENERALES' | translate}}"  active="admSoc.tabs['Cliente']['PanelClienteDatosGenerales'].active" select="admSoc.fnTabSelect('Cliente','PanelClienteDatosGenerales')" deselect="admSoc.fnTabDeselect('Cliente','PanelClienteDatosGenerales')">
+									<div id="{{admSoc.tabs['Cliente']['PanelClienteDatosGenerales'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabClienteTabAtributos" heading="{{'UI_INDICADORES' | translate}}"  active="admSoc.tabs['Cliente']['PanelClienteAtributos'].active" select="admSoc.fnTabSelect('Cliente','PanelClienteAtributos')" deselect="admSoc.fnTabDeselect('Cliente','PanelClienteAtributos')">
+									<div id="{{admSoc.tabs['Cliente']['PanelClienteAtributos'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabClienteTabRequisitos" heading="{{'UI_REQUISITOS' | translate}}"  active="admSoc.tabs['Cliente']['PanelClienteRequisitos'].active" select="admSoc.fnTabSelect('Cliente','PanelClienteRequisitos')" deselect="admSoc.fnTabDeselect('Cliente','PanelClienteRequisitos')">
+									<div id="{{admSoc.tabs['Cliente']['PanelClienteRequisitos'].id}}"></div>
+								</uib-tab>
+ 							</uib-tabset>   
+ 				    	</div> 
+ 				   	</uib-tab>
+
+					<uib-tab id="TabPortafolio" heading="{{'UI_PORTAFOLIO'| translate|uppercase}}" select="admSoc.MaintabSelect('Portafolio')">
+						<div class="row">
+							<uib-tabset>
+								<uib-tab id="TabPortafolioCuentaCustodio" heading="{{'UI_CUENTA_CUSTODIO' | translate}}"  active="admSoc.tabs['Portafolio']['PanelCuentaCustodio'].active" select="admSoc.fnTabSelect('Portafolio','PanelPortafolioCuentaCustodio')" deselect="admSoc.fnTabDeselect('Portafolio','PanelPortafolioCuentaCustodio')">
+									<div id="{{admSoc.tabs['Portafolio']['PanelPortafolioCuentaCustodio'].id}}"></div>
+								</uib-tab>
+								<uib-tab id="TabPortafolioPreferenciasPago" heading="{{'UI_PREFERENCIAS_PAGO' | translate}}"  active="admSoc.tabs['Portafolio']['PanelPreferenciasPago'].active" select="admSoc.MaintabSelect('PortafolioPreferenciasPago')" deselect="admSoc.MaintabSelect('PortafolioPreferenciasPago')">
+									<div id="{{admSoc.tabs['Portafolio']['PanelPortafolioPreferenciasPago'].id}}">
+										<div class="row">
+											<uib-tabset>
+												<uib-tab id="TabPortafoliopreferenciasPago_ClienteRecibe" heading="{{'UI_CLIENTE_RECIBE'| translate}}" active="admSoc.tabs['Portafolio']['PanelPortafolioPreferenciasPagoClienteRecibe'].active" select="admSoc.fnTabSelect('Portafolio','PanelPortafolioPreferenciasPagoClienteRecibe')"  deselect="admSoc.fnTabDeselect('Portafolio','PanelPortafolioPreferenciasPagoClienteRecibe')">
+													<div id="{{admSoc.tabs['Portafolio']['PanelPortafolioPreferenciasPagoClienteRecibe'].id}}"></div>
+												</uib-tab>
+												<uib-tab id="TabPortafoliopreferenciasPago_ClientePaga" heading="{{'UI_CLIENTE_PAGA' | translate}}" active="admSoc.tabs['Portafolio']['PanelPortafolioPreferenciasPagoClientePaga'].active" select="admSoc.fnTabSelect('Portafolio','PanelPortafolioPreferenciasPagoClientePaga')" deselect="admSoc.fnTabDeselect('Portafolio','PanelPortafolioPreferenciasPagoClientePaga')">
+													<div id="{{admSoc.tabs['Portafolio']['PanelPortafolioPreferenciasPagoClientePaga'].id}}"></div>
+												</uib-tab>
+											</uib-tabset>
+										</div>
+									</div>
+								</uib-tab>
+								<uib-tab id="TabPortafolioClienteTabRequisitos" heading="{{'UI_PREFERENCIAS_NEGOCIO' | translate}}"  active="admSoc.tabs['Portafolio']['PanelPreferenciasNegocio'].active" select="admSoc.fnTabSelect('Portafolio','PanelPortafolioPreferenciasNegocio')" deselect="admSoc.fnTabDeselect('Portafolio','PanelPortafolioPreferenciasNegocio')">
+									<div id="{{admSoc.tabs['Portafolio']['PanelPortafolioPreferenciasNegocio'].id}}"></div>
+								</uib-tab>
+							</uib-tabset>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</form>
+		<div class="row bcs-panel-comandos">
+			<bcs-button id="EnrolamientoSocioNegocio_crear"
+                    class="col-xs-2 pull-right"
+                    bcs-tipo="'bcs-button-primary'"
+                    bcs-auto-desactivar="false"
+                    bcs-texto="'UI_CREAR_CLIENTE' | translate"
+                    bcs-habilitado="'true'"
+                    bcs-clic="admSoc.CrearCliente()">
+            </bcs-button>
+		</div>
+	</div>
+</div>

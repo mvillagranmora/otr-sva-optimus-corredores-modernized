@@ -1,0 +1,55 @@
+<div class="row" ng-controller='EditarComprobanteFormaDePagoCtrl'>
+	<form name="frmEditarFormaDePago"  class="col-xs-12 form-horizontal">
+		<div class="row bcs-cuerpo">
+
+			<!-- DATOS BASICOS -->			
+			<!-- <div class="row"> -->
+				<bcs-formas-de-pago
+					id-ventana="idVentana"					
+					obj-forma-de-pago="objFormaDePago"
+					saldo-por-asignar="data.saldoPorAsignar"
+					edit-forma-de-pago="data.formaDePagoAEditar"
+					delete-forma-de-pago="data.deleteFormaDePago"
+					limpiar-forma-pago="data.limpiarFormaPago"
+					configuracion-forma-pago="data.configuracionFormaPago"
+					show-bloque-datos-operacion="data.showDatosOperacion"
+					show-bloque-datos-socio="data.showDatosSocio"> 
+				</bcs-formas-de-pago>
+			<!-- </div>  -->
+			<!-- FIN MEDIO DE PAGO -->
+			
+			
+			<!-- Grilla Forma Pago -->
+			<div class="row">
+				<div class="row">
+					<bcs-button class="col-xs-2 pull-right"   bcs-tipo="'bcs-button-secondary'"   bcs-auto-desactivar="false" bcs-texto="'UI_ELIMINAR' | translate"  bcs-habilitado="'true'" 									bcs-clic="eliminarFormaPago()"></bcs-button>
+					<bcs-button class="col-xs-2 pull-right"   bcs-tipo="'bcs-button-primary'"     bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate"   bcs-habilitado="'true'" 	ng-show="data.showBtnAgregar"	bcs-clic="agregarFormaPago()"></bcs-button> <!--frmEditarFormaDePago.$valid-->
+					<bcs-button class="col-xs-2 pull-right"   bcs-tipo="'bcs-button-secondary'"   bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate"  bcs-habilitado="'true'"		ng-show="data.showBtnCancelar" 	bcs-clic="cancelarEdicionFormaDePago()"></bcs-button>
+					<bcs-button class="col-xs-2 pull-right"   bcs-tipo="'bcs-button-primary'"     bcs-auto-desactivar="false" bcs-texto="'UI_EDITAR' | translate"    bcs-habilitado="'true'"		ng-show="data.showBtnEditar"   	bcs-clic="cargarFormaDePagoEditada()"></bcs-button>
+				</div>
+							
+	      		<div class="row" style="padding-top: 10px;">
+					<bcs-grid  id="grid-comprobante-formaDePago"
+						configuracion = "confBasicaComprobanteFormaDePago"						
+						seleccionado = "seleccionComprobanteFormaDePago"
+						fn-doble-click = "EditarFormaDePago(seleccionComprobanteFormaDePago)">
+					</bcs-grid>
+				</div>
+			</div>
+			<!-- FIN Grilla Forma Pago -->			
+		</div>
+
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos" style="padding-top:0px;">
+			<div class="col-xs-12">			
+				<bcs-button class="col-xs-2 pull-right"   bcs-tipo="'bcs-button-primary'"   bcs-auto-desactivar="false" bcs-texto="'UI_GRABAR' | translate"    bcs-habilitado="data.showBtnGrabar" bcs-clic="data.crearComprobanteFormaDePago()"></bcs-button>
+				<bcs-button class="col-xs-2 pull-right"   bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate"  bcs-habilitado="'true'" bcs-clic="data.cancelar('NOK')"></bcs-button>
+				<div class="col-xs-3 pull-left" ng-show="data.showCertificadoAutomatico">		
+					<input type="checkbox" id="frmEditarFormaDePago_CERTIFICADO_AUTOMATICO" ng-model="data.CertificadoAutomatico">
+					<label style="position: absolute; top: 5px; padding-left: 5px;" translate>UI_CERTIFICADO_AUTOMATICO</label>
+				</div>
+			</div>
+			
+		</div>
+	</form>	
+</div>

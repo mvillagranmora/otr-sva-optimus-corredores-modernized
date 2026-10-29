@@ -1,0 +1,44 @@
+<div id="PanelClientePortafoliosAPV" class="row" ng-controller="PanelClientePortafoliosAPVCtrl as pcportapv">
+	<div class="col-xs-12">
+		<bcs-grid 
+			id					= "gridPortafolios"
+			seleccionado		= "pcportapv.portafolioSeleccionado"
+			configuracion		= "pcportapv.portafoliosOptions"
+			fn-doble-click		= "pcportapv.administrarPortafolio(pcportapv.portafolioSeleccionado)">
+			<div bcs-grid-detail ng-non-bindable>
+				<bcs-grid
+					seleccionado	= "pcportapv.portafolioDetalleSeleccionado"
+					configuracion	= "pcportapv.portafoliosOptionsDetalle(dataItem)">
+				</bcs-grid>
+			</div>
+		</bcs-grid>
+	</div>
+	<div class="row col-xs-12 bcs-panel-comandos">
+		<div class="col-xs-12">
+			<bcs-button id="PanelClientePortafolios_crearPortafolio" class="col-xs-2 pull-right" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CREAR_PORTAFOLIO' | translate" 
+				bcs-habilitado="'true'"  
+				bcs-clic="pcportapv.crearPortafolio(pcportapv.nuevoPortafolio)">
+			</bcs-button>
+			<bcs-button  id="PanelClientePortafolios_Bloq_Act" class="col-xs-2 pull-right" 
+				ng-if="pcportapv.portafolioSeleccionado.IdEstado==='BLO' || pcportapv.portafolioSeleccionado.IdEstado==='INA'" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-mostrar="(pcportapv.portafolioSeleccionado.IdPortafolio>0)" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACTIVAR' | translate" 
+				bcs-habilitado="'true'" bcs-clic="pcportapv.activar(pcportapv.portafolioSeleccionado)">
+			</bcs-button>
+			<bcs-button
+				id="PanelClientePortafolios_Bloq_Blo" class="col-xs-2 pull-right" 
+				ng-if="pcportapv.portafolioSeleccionado.IdEstado==='ACT'" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-mostrar="(pcportapv.portafolioSeleccionado.IdPortafolio>0)" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_BLOQUEAR' | translate" 
+				bcs-habilitado="'true'" bcs-clic="pcportapv.bloquear(pcportapv.portafolioSeleccionado)">
+			</bcs-button>
+		</div>
+	</div>
+</div>

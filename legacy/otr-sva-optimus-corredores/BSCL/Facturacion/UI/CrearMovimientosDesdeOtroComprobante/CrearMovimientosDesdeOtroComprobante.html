@@ -1,0 +1,56 @@
+<div ng-controller="CrearMovimientosDesdeOtroComprobanteCtrl">
+	
+	<form class="row" style="min-height:100px" name="CrearMovimientosDesdeOtroComprobanteForm">
+		<div class="row">
+			<label translate class="col-xs-3">UI_CLIENTE_PORTAFOLIO</label>
+			<bcs-combobox-base 
+				class="col-xs-9"
+			 	tipo="'combobox-cliente-portafolio'"
+				ng-style="{'width' : formData.portafolioSeleccionado.IdEstadoCliente !== 'ACT' && formData.portafolioSeleccionado  ? '59%' : '75%'}"
+			    filtros="formData.configuracionPortafolio.filtros"
+	            bcs-requerido
+			    muestra-enlace = "'S'"
+			    seleccionado = "formData.portafolioSeleccionado"
+			    cascada-a="formData.filtrosCuentaCustodio.IdPortafolio"
+				cascada-valor="'IdPortafolio'">
+			</bcs-combobox-base >
+		</div>
+	
+		<div class="row">
+			<label translate class="col-xs-3">UI_COMPROBANTE_ORIGEN</label>
+			<bcs-input-texto 
+					class="col-xs-9"
+					k-ng-disabled="'true'"
+					ng-model="formData.IdComprobante"
+			></bcs-input-texto>
+		</div>
+		<div class="row">
+			<label translate class="col-xs-3">UI_TIPO_COMPROBANTE</label>
+			<bcs-combobox-base ng-show="formData.idTipCmbte === 'FAE' || formData.idTipCmbte === 'FOE' || formData.idTipCmbte === 'FOX' || formData.idTipCmbte === 'FAC' || formData.idTipCmbte === 'FEE' || formData.idTipCmbte === 'FOC'"
+			    id="frmCrearDesOtroCmbte_UI_TIPO_COMPROBANTE"
+			    class="col-xs-9" 
+			    tipo="formData.oTipoComprobante.tipo"
+			    configuracion="formData.oTipoComprobante.configuracion"
+			    id-actual="formData.oTipoComprobante.idActual"
+			    seleccionado="formData.oTipoComprobante.seleccionado"
+			    filtros="formData.oTipoComprobante.filtros"
+			    id-post-filtro="formData.oTipoComprobante.idPostFiltro"
+			    id-defecto ="formData.oTipoComprobante.idDefecto">
+			</bcs-combobox-base>						
+							
+			<bcs-input-texto ng-show="formData.idTipCmbte ==='NCE' || formData.idTipCmbte ==='NCR' || formData.idTipCmbte ==='NEO' || formData.idTipCmbte ==='NCO'"
+				class="col-xs-9"
+				k-ng-disabled="'true'"
+				ng-model="formData.nombTipCmbte">
+			</bcs-input-texto>
+		</div>
+		<hr>
+	</form>
+	<div class="row">
+		<bcs-button  class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="CrearMovimientosDesdeOtroComprobanteForm.$valid"  
+			bcs-clic="formData.aceptar()"></bcs-button>
+			
+		<bcs-button  class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'" bcs-clic="formData.cancelar()"></bcs-button>
+	</div>
+
+</div>

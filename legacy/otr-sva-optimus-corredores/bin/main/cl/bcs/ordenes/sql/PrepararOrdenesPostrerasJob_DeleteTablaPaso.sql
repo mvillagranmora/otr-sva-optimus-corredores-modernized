@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Orden.BD::ORD.ProcesarOrdenesPostreras_Entrada_Ordenes" WHERE "IdTrabajo" = :IdTrabajo;

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="PersonaTelefono" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <descriptions defaultDescription="PersonaTelefono"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources>
+    <DataSource id="BSCL.SocioNegocio.BD::PER.Telefono" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="BSCL" columnObjectName="BSCL.SocioNegocio.BD::PER.Telefono"/>
+    </DataSource>
+    <DataSource id="BSCL.SocioNegocio.BD::PER.TipoTelefono" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="BSCL" columnObjectName="BSCL.SocioNegocio.BD::PER.TipoTelefono"/>
+    </DataSource>
+    <DataSource id="BSCL.SocioNegocio.BD::PER.PropositoMedioContacto" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="BSCL" columnObjectName="BSCL.SocioNegocio.BD::PER.PropositoMedioContacto"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="PersonaTelefono" filterExpressionLanguage="COLUMN_ENGINE">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="IdTelefono"/>
+        <viewAttribute id="IdPais"/>
+        <viewAttribute id="Numero"/>
+        <viewAttribute id="Anexo"/>
+        <viewAttribute id="CodigoProposito"/>
+        <viewAttribute id="Comentario"/>
+        <viewAttribute id="IdEstado"/>
+        <viewAttribute id="IdPersona"/>
+        <viewAttribute id="IdTipoTelefono"/>
+        <viewAttribute id="Borrado"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#BSCL.SocioNegocio.BD::PER.Telefono">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTelefono" source="IdTelefono"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPais" source="IdPais"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Numero" source="Numero"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Anexo" source="Anexo"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CodigoProposito" source="CodigoProposito"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Comentario" source="Comentario"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEstado" source="IdEstado"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTipoTelefono" source="IdTipoTelefono"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Borrado" source="Borrado"/>
+      </input>
+      <filter>&quot;Borrado&quot; = 'N'</filter>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="JoinTipoTelefono" joinOrder="OUTSIDE_IN" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="IdTelefono"/>
+        <viewAttribute id="IdPais"/>
+        <viewAttribute id="Numero"/>
+        <viewAttribute id="Anexo"/>
+        <viewAttribute id="CodigoProposito"/>
+        <viewAttribute id="Comentario"/>
+        <viewAttribute id="IdEstado"/>
+        <viewAttribute id="IdPersona"/>
+        <viewAttribute id="NombreTipoTelefono"/>
+        <viewAttribute id="IdTipoTelefono"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#PersonaTelefono">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTelefono" source="IdTelefono"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPais" source="IdPais"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Numero" source="Numero"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Anexo" source="Anexo"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CodigoProposito" source="CodigoProposito"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Comentario" source="Comentario"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEstado" source="IdEstado"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTipoTelefono" source="IdTipoTelefono"/>
+      </input>
+      <input node="#BSCL.SocioNegocio.BD::PER.TipoTelefono">
+        <mapping xsi:type="Calculation:AttributeMapping" target="NombreTipoTelefono" source="Nombre"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTipoTelefono" source="IdTipoTelefono"/>
+      </input>
+      <joinAttribute name="IdTipoTelefono"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="JoinPropositoMedioContacto" joinOrder="OUTSIDE_IN" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="IdTelefono"/>
+        <viewAttribute id="IdPais"/>
+        <viewAttribute id="Numero"/>
+        <viewAttribute id="Anexo"/>
+        <viewAttribute id="CodigoProposito"/>
+        <viewAttribute id="Comentario"/>
+        <viewAttribute id="IdEstado"/>
+        <viewAttribute id="IdPersona"/>
+        <viewAttribute id="NombreTipoTelefono"/>
+        <viewAttribute id="IdTipoTelefono"/>
+        <viewAttribute id="DescripcionProposito"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#JoinTipoTelefono">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTelefono" source="IdTelefono"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPais" source="IdPais"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Numero" source="Numero"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Anexo" source="Anexo"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CodigoProposito" source="CodigoProposito"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Comentario" source="Comentario"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEstado" source="IdEstado"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NombreTipoTelefono" source="NombreTipoTelefono"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTipoTelefono" source="IdTipoTelefono"/>
+      </input>
+      <input node="#BSCL.SocioNegocio.BD::PER.PropositoMedioContacto">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DescripcionProposito" source="Descripcion"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CodigoProposito" source="IdPropositoMedioContacto"/>
+      </input>
+      <joinAttribute name="CodigoProposito"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="JoinPropositoMedioContacto">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdTelefono" key="true" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdTelefono"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="IdTelefono"/>
+      </attribute>
+      <attribute id="IdPais" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdPais"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="IdPais"/>
+      </attribute>
+      <attribute id="Numero" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Numero"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="Numero"/>
+      </attribute>
+      <attribute id="Anexo" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Anexo"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="Anexo"/>
+      </attribute>
+      <attribute id="CodigoProposito" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CodigoProposito"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="CodigoProposito"/>
+      </attribute>
+      <attribute id="Comentario" order="6" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Comentario"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="Comentario"/>
+      </attribute>
+      <attribute id="IdEstado" order="7" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="IdPersona" order="8" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="NombreTipoTelefono" order="9" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Nombre"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="NombreTipoTelefono"/>
+      </attribute>
+      <attribute id="IdTipoTelefono" order="10" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdTipoTelefono"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="IdTipoTelefono"/>
+      </attribute>
+      <attribute id="DescripcionProposito" order="11" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Descripcion"/>
+        <keyMapping columnObjectName="JoinPropositoMedioContacto" columnName="DescripcionProposito"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="true" modelObjectName="PersonaTelefono" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="50" y="450"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="JoinTipoTelefono" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="50" y="330"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="JoinPropositoMedioContacto" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="50" y="230"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

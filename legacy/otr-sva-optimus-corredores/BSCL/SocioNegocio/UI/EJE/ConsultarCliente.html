@@ -1,0 +1,72 @@
+<div id="ConsultaSupervisor" class="col-xs-12" ng-controller="ConsultarClienteCtrl">
+	<div class="row bcs-cuerpo">
+		<!-- INICIO FILTROS -->
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_SUPERVISOR</label>
+						<bcs-combobox-base 
+							tipo="'combobox-supervisor'" 
+							class="col-xs-9"
+							filtros="data.Supervisor.filtros"
+							id-actual="data.IdEmpleadoSupervisor"
+							id-defecto= "data.IdEmpleadoSupervisorDefecto"
+							cascada-a="data.Ejecutivo.filtros.IdEmpleadoSupervisor"
+							cascada-valor="'IdEmpleadoSupervisor'"
+							todos="'N'">
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_EJECUTIVO</label>
+						<bcs-combobox-base 
+							tipo="'combobox-ejecutivo'" 
+							class="col-xs-9"
+							filtros="data.Ejecutivo.filtros"
+							id-actual="data.IdEmpleadoEjecutivo"
+							id-post-filtro= "data.IdEmpleadoEjecutivoDefecto"
+							todos="'N'">
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-cliente"
+			 	configuracion = "gridCliente"
+			 	fn-exportar-excel = "exportarExcel"
+			 	fn-doble-click="CambiarEjecutivo()"
+				seleccionado = "seleccionGrilla">			
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-3" id="ConsultarCliente_crearCliente" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_MODIFICAR' | translate" 
+				bcs-habilitado="(seleccionGrilla!==undefined)" 
+				bcs-clic="CambiarEjecutivo()">
+			</bcs-button>	
+			
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

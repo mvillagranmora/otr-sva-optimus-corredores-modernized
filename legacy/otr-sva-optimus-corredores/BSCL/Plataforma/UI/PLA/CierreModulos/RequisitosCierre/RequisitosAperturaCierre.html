@@ -1,0 +1,187 @@
+<div id="RequisitosAperturaCierre"
+	ng-controller='RequisitosAperturaCierreCtrl as reap'>
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+			<form name="formularioHorario" class="col-xs-12 form-horizontal">
+				<label class="col-xs-2" translate>UI_HORA_MINIMA</label>
+				<bcs-input-time class="col-xs-3" 
+					bcs-requerido
+				 	ng-model="reap.horaMinima">
+				</bcs-input-time>
+				<div class="col-xs-2" style="width: 17%;"></div>
+				<div class="col-xs-4">
+					<div class="row">
+						<input class="col-xs-1" type="radio" ng-model="reap.tipoHorario"
+							value="A"> <label for="lblApertura" class="label_01"
+							translate>UI_APERTURA</label> 
+					</div>
+					<div class="row">
+						<input class="col-xs-1" type="radio" ng-model="reap.tipoHorario"
+							value="C"> <label for="lblCierre" class="label_01"
+							translate>UI_CIERRE</label>
+					</div>
+				</div>
+				</form>
+			</div>
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'"
+					bcs-texto="'UI_CREAR' | translate" bcs-habilitado="reap.formulario && formularioHorario.$valid && reap.tipoHorario"
+					bcs-clic="reap.grabarRequisitoAperturaCierreModulo('HOR')"></bcs-button>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-xs-10">
+			<form name="formularioUsuario" class="col-xs-12 form-horizontal">
+				<label class="col-xs-2" translate>UI_USUARIO</label>
+				<bcs-combobox-base  
+					class          = "col-xs-3"
+					bcs-requerido
+					auto-cargar    = "true"									
+					tipo           = "reap.oConfiguracionUsuario.tipo"
+					id-actual      = "reap.oConfiguracionUsuario.idActual"													
+					configuracion  = "reap.oConfiguracionUsuario.configuracion"
+					seleccionado   = "reap.oConfiguracionUsuario.seleccionado"							
+					filtros        = "reap.oConfiguracionUsuario.filtros"
+					todos          = "'N'">
+				</bcs-combobox-base>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-5">
+					<div class="row">
+						<input class="col-xs-1" type="radio" ng-model="reap.tipoUsuario"
+							value="A"> <label for="lblApertura" class="label_01"
+							translate>UI_APERTURA</label> 
+					</div>
+					<div class="row">
+						<input class="col-xs-1" type="radio" ng-model="reap.tipoUsuario"
+							value="C"> <label for="lblCierre" class="label_01"
+							translate>UI_CIERRE</label>
+					</div>
+				</div>
+				</form>
+			</div>
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'"
+					bcs-texto="'UI_CREAR' | translate" bcs-habilitado="reap.formulario && formularioUsuario.$valid && reap.tipoUsuario"
+					bcs-clic="reap.grabarRequisitoAperturaCierreModulo('USU')"></bcs-button>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-xs-10">
+			<form name="formularioPerfil" class="col-xs-12 form-horizontal">
+				<label class="col-xs-2" translate>UI_PERFIL</label>
+				<bcs-combobox-base  
+					class          = "col-xs-3"
+					bcs-requerido
+					auto-cargar    = "true"									
+					tipo           = "reap.oConfiguracionPerfil.tipo"
+					id-actual      = "reap.oConfiguracionPerfil.idActual"													
+					configuracion  = "reap.oConfiguracionPerfil.configuracion"
+					seleccionado   = "reap.oConfiguracionPerfil.seleccionado"							
+					filtros        = "reap.oConfiguracionPerfil.filtros"
+					todos          = "'N'">
+				</bcs-combobox-base>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-5">
+					<div class="row">
+						<input class="col-xs-1" type="radio" ng-model="reap.tipoPerfil"
+							value="A"> <label for="lblApertura" class="label_01"
+							translate>UI_APERTURA</label> 
+					</div>
+					<div class="row">
+						<input class="col-xs-1" type="radio" ng-model="reap.tipoPerfil"
+							value="C"> <label for="lblCierre" class="label_01"
+							translate>UI_CIERRE</label>
+					</div>
+				</div>
+			</form>
+			</div>
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'"
+					bcs-texto="'UI_CREAR' | translate" bcs-habilitado="reap.formulario && formularioPerfil.$valid && reap.tipoPerfil"
+					bcs-clic="reap.grabarRequisitoAperturaCierreModulo('PRF')"></bcs-button>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-xs-10">
+			<form name="formularioProcesos" class="col-xs-12 form-horizontal">
+				<label class="col-xs-2" translate>UI_MODULO</label>
+				<div class=col-xs-3>
+					<div class="row">
+						<bcs-combobox-base  
+							class          = "col-xs-12"
+							bcs-requerido
+							auto-cargar    = "true"									
+							tipo           = "reap.oConfiguracionModulo.tipo"
+							id-actual      = "reap.oConfiguracionModulo.idActual"													
+							configuracion  = "reap.oConfiguracionModulo.configuracion"
+							seleccionado   = "reap.oConfiguracionModulo.seleccionado"							
+							filtros        = "reap.oConfiguracionModulo.filtros"
+							cascada-a	   = "reap.oConfiguracionModuloFuncionProceso.filtros.IdCREModuloEmpresa"
+							cascada-valor  = "'IdCREModuloEmpresa'"
+							id-post-filtro = "reap.oConfiguracionModuloFuncionProceso.idPostFiltro"
+							todos          = "'N'">
+						</bcs-combobox-base>
+					</div>
+					<div class="row">
+						<bcs-combobox-base  
+							class          = "col-xs-12"
+							bcs-requerido
+							auto-cargar    = "false"									
+							tipo           = "reap.oConfiguracionModuloFuncionProceso.tipo"
+							id-actual      = "reap.oConfiguracionModuloFuncionProceso.idActual"													
+							configuracion  = "reap.oConfiguracionModuloFuncionProceso.configuracion"
+							seleccionado   = "reap.oConfiguracionModuloFuncionProceso.seleccionado"							
+							filtros        = "reap.oConfiguracionModuloFuncionProceso.filtros"
+							id-post-filtro = "reap.oConfiguracionModuloFuncionProceso.idPostFiltro"
+							todos          = "'N'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-5">
+					<div class="row">
+						<input class="col-xs-1" type="radio" ng-model="reap.tipoProcesos"
+							value="A"> <label for="lblApertura" class="label_01"
+							translate>UI_APERTURA</label> 
+					</div>
+					<div class="row">
+						<input class="col-xs-1" type="radio" ng-model="reap.tipoProcesos"
+							value="C"> <label for="lblCierre" class="label_01"
+							translate>UI_CIERRE</label>
+					</div>
+				</div>
+			</form>
+			</div>
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'"
+					bcs-texto="'UI_CREAR' | translate" bcs-habilitado="reap.formulario && formularioProcesos.$valid && reap.tipoProcesos"
+					bcs-clic="reap.grabarRequisitoAperturaCierreModulo('PRO')"></bcs-button>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+
+		<!-- GRILLA -->
+		<div class="row">
+			<bcs-grid id="grid-Requisitos"
+				configuracion="reap.confBasicaRequisitos"
+				seleccionado="reap.seleccionRequisitos"
+				api="reap.gridApiRequisitos"> </bcs-grid>
+		</div>
+	</div>
+
+</div>

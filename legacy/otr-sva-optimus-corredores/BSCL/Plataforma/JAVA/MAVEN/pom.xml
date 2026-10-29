@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cl.bcs</groupId>
+    <artifactId>bcs-replica-tests</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Rutas relativas a los proyectos fuente -->
+        <dir.utils>${project.basedir}/../BcsUtils/src</dir.utils>
+        <dir.replica.tests>${project.basedir}/../../../Replica/JAVA/BcsReplicaTests/src</dir.replica.tests>
+        <dir.libs>${project.basedir}/../libs</dir.libs>
+    </properties>
+
+    <dependencies>
+
+        <!-- ===== JUnit 5 ===== -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ===== JDBC Drivers ===== -->
+        <!-- PostgreSQL (disponible en Maven Central) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.7</version>
+        </dependency>
+        <!-- SAP HANA JDBC (jar propietario desde libs local) -->
+        <dependency>
+            <groupId>com.sap.db</groupId>
+            <artifactId>ngdbc</artifactId>
+            <version>2.8.12</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/ngdbc-2.8.12.jar</systemPath>
+        </dependency>
+
+        <!-- ===== Apache Commons ===== -->
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <!-- ===== Google (gson, guava) ===== -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <!-- ===== Jackson ===== -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+
+        <!-- ===== Jar interno storedprocedure ===== -->
+        <dependency>
+            <groupId>cl.bcs</groupId>
+            <artifactId>storedprocedure</artifactId>
+            <version>2.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/storedprocedure-2.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+
+        <!-- ===== Todos los jars propietarios de libs (fileTree equivalente) ===== -->
+        <dependency>
+            <groupId>cl.bcs</groupId>
+            <artifactId>libs-all</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/dd-trace-api-0.47.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json-local</artifactId>
+            <version>20160212</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/json-20160212.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch-local</artifactId>
+            <version>0.1.54</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/jsch-0.1.54.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv-local</artifactId>
+            <version>3.7</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/opencsv-3.7.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>cl.bcs</groupId>
+            <artifactId>valo-interactivo</artifactId>
+            <version>0.0</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/valo-interactivo-0.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>cl.bcs</groupId>
+            <artifactId>bcsvalo</artifactId>
+            <version>0.0</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/bcsvalo-0.0.jar</systemPath>
+        </dependency>
+        <!-- commons-io, commons-codec, servlet-api, java-dogstatsd (requeridos por BcsUtils) -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.datadoghq</groupId>
+            <artifactId>java-dogstatsd-client</artifactId>
+            <version>4.2.0</version>
+            <scope>system</scope>
+            <systemPath>${dir.libs}/java-dogstatsd-client-4.2.0.jar</systemPath>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- Directorio de fuentes de test apunta a BcsReplicaTests -->
+        <testSourceDirectory>${dir.replica.tests}</testSourceDirectory>
+
+        <plugins>
+
+            <!-- Agrega BcsUtils como fuente principal -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${dir.utils}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Surefire para ejecutar tests JUnit 5 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <!-- Ejecutar desde la raiz del repo para que encuentre connections.properties -->
+                    <workingDirectory>${project.basedir}/../../../../</workingDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- Compiler plugin con Java 8 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

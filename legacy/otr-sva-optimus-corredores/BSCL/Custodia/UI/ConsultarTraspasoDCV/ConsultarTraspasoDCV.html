@@ -1,0 +1,214 @@
+<form name="frmTraspasoDCV">
+<div class="row" ng-controller='ConsultarTraspasoDCVCtrl'>
+	<form name="frmConsultarTraspasoDCV"  class="col-xs-12 form-horizontal">
+		<div class="row bcs-cuerpo">
+		 
+		<div class="row">
+			<div class="col-xs-10">	
+				<div class="row">
+					<div class="col-xs-4">				
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base 
+							class="col-xs-8"
+							 id="UI_SOCIO_NEGOCIO"
+							 auto-cargar="'false'"
+							 id-Actual="data.oConfiguracionSocioNegocio.idActual"
+							tipo="'combobox-socio-negocio'"
+							seleccionado="data.oConfiguracionSocioNegocio.seleccionado"
+							filtros="data.oConfiguracionSocioNegocio.filtros"
+							configuracion= "data.oConfiguracionSocioNegocio.configuracion"
+							cascada-a="data.oConfiguracionPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+							cascada-defecto="-1" >
+						</bcs-combobox-base >
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA</label>
+						<bcs-input-date class="col-xs-8"
+							id="frmFECHA"
+							k-ng-model="data.kngFecha" 
+							ng-model="data.Fecha"
+							bcs-requerido>
+						</bcs-input-date>	
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base
+							class="col-xs-8" 
+							tipo="data.oConfiguracionEstadoMovimiento.tipo"
+							filtros="data.oConfiguracionEstadoMovimiento.filtros"
+							id-actual="data.oConfiguracionEstadoMovimiento.idActual"
+							seleccionado="data.oConfiguracionEstadoMovimiento.seleccionado"
+							todos="'S'"
+							item-post-filtro="'1'" >
+						</bcs-combobox-base>
+					</div>	
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_MERCADO</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							id="frmMercado"
+							auto-cargar="'true'"
+							todos="'S'"
+							tipo="'combobox-parametro-mesa'"
+							seleccionado="data.oConfiguracionMercado.seleccionado"
+							filtros="data.oConfiguracionMercado.filtros"
+							id-actual="data.oConfiguracionMercado.idActual"
+							configuracion= "data.oConfiguracionMercado.configuracion"
+							id-defecto="data.oConfiguracionMercado.idDefecto"
+							item-post-filtro="'1'" >
+						</bcs-combobox-base>
+					</div>			
+			
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							id="frmTipo_Operacion"
+							auto-cargar="'true'"
+							todos="'S'"
+							tipo="'combobox-parametro-mesa'"
+							seleccionado="data.oConfiguracionTipoOperacion.seleccionado"
+							filtros="data.oConfiguracionTipoOperacion.filtros"
+							id-actual="data.oConfiguracionTipoOperacion.idActual"
+							configuracion= "data.oConfiguracionTipoOperacion.configuracion"
+							id-defecto="data.oConfiguracionTipoOperacion.idDefecto"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>		
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_COMPROBANTE</label>
+						<bcs-combobox-base
+							class="col-xs-8" 
+							id="frmTipo_Comprobante"
+							auto-cargar="'true'"
+							todos="'S'"
+							tipo="'combobox-parametro-mesa'"
+							seleccionado="data.oConfiguracionTipoComprobante.seleccionado"
+							filtros="data.oConfiguracionTipoComprobante.filtros"
+							id-actual="data.oConfiguracionTipoComprobante.idActual"
+							configuracion= "data.oConfiguracionTipoComprobante.configuracion"
+							id-defecto="data.oConfiguracionTipoComprobante.idDefecto"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>	
+			
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_CUENTA_DCV</label>
+						<bcs-combobox-base
+							class="col-xs-8" 
+							id="frmTipo_Cuenta"
+							auto-cargar="'true'"
+							todos="'S'"
+							tipo="'combobox-parametro-mesa'"
+							seleccionado="data.oConfiguracionTipoCuenta.seleccionado"
+							filtros="data.oConfiguracionTipoCuenta.filtros"
+							id-actual="data.oConfiguracionTipoCuenta.idActual"
+							configuracion= "data.oConfiguracionTipoCuenta.configuracion"
+							id-defecto="data.oConfiguracionTipoCuenta.idDefecto"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>			
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<bcs-button 
+					class="row col-xs-12" 
+					bcs-tipo="'bcs-button-search'"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_BUSCAR' | translate" 
+					bcs-habilitado="true"  
+					bcs-clic="buscarOperacionesPendientes()">
+				</bcs-button>
+				<bcs-button 
+					class="row col-xs-12" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_LIMPIAR' | translate" 
+					bcs-habilitado="true" 
+					bcs-clic="limpiarFiltros()">
+				</bcs-button>
+			</div>
+		</div>
+		</div>
+	</form>
+  	
+	<div class="row" >
+		<div class="col-xs-12">			
+			<bcs-grid 
+				id				="gridArchivoDCV"
+	 			configuracion	= "confGrillaArchivoDCV"
+				seleccionado 	= "seleccionMovimiento"
+				fn-click 		= bEC.cargaFiltroCliente(seleccionMovimiento);
+				fn-exportar-excel = "exportarExcel">
+			</bcs-grid>
+		</div>
+		
+		
+		</div>
+	
+	<div class="row">
+		<div class="col-xs-12 bcs-panel-comandos">
+
+			<bcs-button
+				id="BlotterTraspasoDCV_Completado"  
+				class				="col-xs-2" 
+				bcs-tipo			="'bcs-button-primary'" 
+				bcs-habilitado		="'true'" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_COMPLETADO' | translate"
+				bcs-habilitado		="data.btnActivo"  
+				bcs-clic			="btnCompletar(seleccionMovimiento)">
+			</bcs-button>
+						
+			<bcs-button
+				id="BlotterTraspasoDCV_IngresarClave"    
+				class				="col-xs-2" 
+				bcs-tipo			="'bcs-button-secondary'"
+				bcs-habilitado		="'true'" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_INGRESAR_CLAVE' | translate"
+				bcs-habilitado		="data.btnActivo"  
+				bcs-clic			="btnClave()">
+			</bcs-button>
+			
+			<bcs-button
+				id="BlotterTraspasoDCV_ExportarArchivoDcv"    
+				class				="col-xs-2" 
+				bcs-tipo			="'bcs-button-secondary'"
+				bcs-habilitado		="'true'" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_EXPORTAR_ARCHIVO_DCV' | translate"
+				bcs-habilitado		="data.btnActivo"  
+				bcs-clic			="btnExportarDCV(seleccionMovimiento)">
+			</bcs-button>
+
+<!--  
+			<bcs-button  
+				class				="col-xs-2" 
+				bcs-habilitado		="'false'" 
+				bcs-auto-desactivar	="'false'"  
+				bcs-texto			="'UI_EXPORTAR_ARCHIVO_BCS' | translate"
+				bcs-habilitado		="'false'"  
+				bcs-clic			="btnExportarBCS(seleccionMovimiento)">
+			</bcs-button>
+-->
+			<bcs-menu 
+				class			="col-xs-1 pull-right" 
+				bcs-tipo		="'bcs-button-secondary'"
+				bcs-habilitado	="'true'" 
+				bcs-texto		="'UI_OPCIONES' | translate">		            
+					<li ng-click = "exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+				  	<li ng-click = "data.seleccionarTodosMovimientos()">{{'UI_SELECCIONAR_TODO' | translate}}</li>
+				    <li ng-click = "data.deseleccionarTodosMovimientos()">{{'UI_DESELECCIONAR_TODO' | translate}}</li>
+			</bcs-menu>
+
+		</div>
+	</div>
+	</div>
+</div>
+</form>

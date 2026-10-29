@@ -1,0 +1,94 @@
+<div class="col-xs-12" ng-controller="UIPlaygroundCtrl">
+    <div class="bcs-cuerpo">
+    	
+    	<bcs-button-dropdown class="col-xs-3" opciones="opciones">
+    	</bcs-button-dropdown>
+    	
+    	
+    	
+    	<form name="hola">
+	    	<div class="row">
+	    		<bcs-input-checkgroup class="col-xs-6"
+					valores = "valores" 
+					etiquetas = "etiquetas"
+					modo = "U"
+					
+					bcs-requerido>
+				</bcs-input-checkgroup>
+	    	</div>
+    	
+    	</form>
+    	
+    	
+    	
+    	
+    	<bcs-button bcs-habilitado="'true'" bcs-auto-desactivar="'false'" class="col-xs-1" bcs-texto="'IR A PORTAFOLIO'" bcs-clic="clicTest()"></bcs-button>
+    	
+    	
+    	<div class="row">
+    		<ui-select class="col-xs-10 bcs-select" ng-model="ctrl.address.selected"
+             theme="selectize"
+             ng-disabled="ctrl.disabled"
+             reset-search-input="false"
+             
+             title="Nemotecnico">
+		    <ui-select-match placeholder="escribe un nemo...">{{$select.selected.NombreTipoInstrumento}}</ui-select-match>
+		    <ui-select-choices repeat="address in ctrl.addresses track by $index"
+		             refresh="ctrl.refreshTipoInstrumento($select.search)"
+		             refresh-delay="0">
+		      <div ng-bind-html="address.NombreTipoInstrumento | highlight: $select.search"></div>
+		    </ui-select-choices>
+		  </ui-select>
+		</div>
+		
+		<div class="row">
+    		<ui-select class="col-xs-10 bcs-select" ng-model="ctrl.address.selected"
+             theme="bootstrap"
+             ng-disabled="ctrl.disabled"
+             reset-search-input="false"
+             
+             title="Nemotecnico">
+		    <ui-select-match placeholder="escribe un nemo...">{{$select.selected.Nemotecnico}}</ui-select-match>
+		    <ui-select-choices repeat="address in ctrl.addresses track by $index"
+		             refresh="ctrl.refreshAddresses($select.search)"
+		             refresh-delay="0">
+		      <div ng-bind-html="address.Nemotecnico | highlight: $select.search"></div>
+		    </ui-select-choices>
+		  </ui-select>
+		</div>
+    	
+    
+		<div class="row">
+    		<label class="col-xs-2" translate>UI_CLIENTE</label>
+			<bcs-combobox-base class="col-xs-3"
+				auto-cargar="'false'"
+			    tipo="'combobox-socio-negocio'"
+			    id-actual="cliente"
+				cascada-a="filtrosPortafolio.IdCliente"
+				cascada-valor="'IdCliente'">
+			</bcs-combobox-base >
+			<div class="col-xs-2 col-xs-offset-1" >
+				<label translate>UI_PORTAFOLIO</label>
+			</div>
+			<bcs-combobox-base 
+				class="col-xs-3"
+			 	auto-cargar="'false'"
+			    tipo="'combobox-portafolio'"
+			    filtros="filtrosPortafolio"
+	            seleccionado = "portafolioSeleccionado">
+			</bcs-combobox-base >
+		</div>
+		<div class="row">
+			<bcs-button bcs-habilitado="'true'" bcs-auto-desactivar="'false'" class="col-xs-1" bcs-texto="'asdf'" bcs-clic="test()"></bcs-button>
+		</div>
+		<div id="loadMe"></div>
+    	<div class="row">
+    		<label class="col-xs-3">Folio Cartera</label>
+    		<bcs-input-carteras 
+    		id-portafolio="portafolioSeleccionado.IdPortafolio"
+    		class="col-xs-3">
+    		
+    		</bcs-input-carteras>
+    	</div>
+	</div>
+</div>

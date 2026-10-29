@@ -1,0 +1,84 @@
+<div id="PanelContraparteDatosGenerales" class="row"
+	ng-controller="PanelContraparteDatosGeneralesCtrl as pcodg">
+	<form class="col-xs-12 form-horizontal">
+		<div class="row">
+			<label class="col-xs-2" translate>UI_CORREDORA</label>
+			<bcs-input-checkbox class="col-xs-3" ng-disabled="!pcodg.pantalla.modoEdicion" ng-model="pcodg.dataContraparte.Corredora"></bcs-input-checkbox>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_CODIGO_INSCRIPCION</label>
+			<bcs-input-texto id="cntCodigoInscripcion" k-ng-disabled="!pcodg.pantalla.modoEdicion" class="col-xs-3" 
+				ng-model="pcodg.dataContraparte.CodigoInscripcion">
+			</bcs-input-texto>	
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_EMISOR</label> 
+			<bcs-input-checkbox class="col-xs-3" ng-disabled="!pcodg.pantalla.modoEdicion" ng-model="pcodg.dataContraparte.Emisor"></bcs-input-checkbox>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_CAMARA_COMPENSACION</label>
+			<bcs-input-checkbox class="col-xs-3" ng-disabled="!pcodg.pantalla.modoEdicion" ng-model="pcodg.dataContraparte.CamaraDeCompensacion"></bcs-input-checkbox>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_DEPOSITO</label> 
+			<bcs-input-checkbox class="col-xs-3" ng-disabled="!pcodg.pantalla.modoEdicion" ng-model="pcodg.dataContraparte.Depositos"></bcs-input-checkbox>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_BANCO</label> 
+			<bcs-input-checkbox class="col-xs-1" ng-disabled="!pcodg.pantalla.modoEdicion" ng-model="pcodg.dataContraparte.Banco"></bcs-input-checkbox>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_BOLSA</label> 
+			<bcs-input-checkbox class="col-xs-3" ng-disabled="!pcodg.pantalla.modoEdicion" ng-model="pcodg.dataContraparte.Bolsa"></bcs-input-checkbox>
+			<label class="col-xs-2 col-xs-offset-1" translate>UI_BOVEDA</label> 
+			<bcs-input-checkbox class="col-xs-3" ng-disabled="!pcodg.pantalla.modoEdicion" ng-model="pcodg.dataContraparte.Boveda"></bcs-input-checkbox>
+		</div>
+		<div class="row">
+			<label class="col-xs-2" translate>UI_OTROS</label>
+			<bcs-input-texto id="cntOtros" k-ng-disabled="!pcodg.pantalla.modoEdicion" class="col-xs-3" 
+				ng-model="pcodg.dataContraparte.Otros">
+			</bcs-input-texto> 
+		</div>
+		
+		<!-- <div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-3" translate>UI_ESTADO</label>
+				<bcs-input-date k-ng-disabled="!pcodg.pantalla.modoEdicion"
+					class="col-xs-2" k-ng-model="pcodg.dataContraparte.FechaTerminoCargo">
+				</bcs-input-date>
+			</div>
+		</div> -->
+		<br>
+	</form>
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="PanelContraparteDatosGenerales_editar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"
+			ng-show="!pcodg.pantalla.modoEdicion" bcs-auto-desactivar="false"
+			bcs-texto="'UI_EDITAR' | translate"
+			bcs-habilitado="!pcodg.pantalla.modoEdicion && !pcodg.dataSolicitudCambio.CambiosPendientes"
+			bcs-clic="pcodg.editarpcodg()"></bcs-button>
+		<bcs-button id="PanelContraparteDatosGenerales_guardar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"
+			ng-show="pcodg.pantalla.modoEdicion" bcs-auto-desactivar="false"
+			bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="'true'"
+			bcs-clic="pcodg.guardarpcodg()"></bcs-button>
+		<bcs-button id="PanelContraparteDatosGenerales_cancelar" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+			ng-show="pcodg.pantalla.modoEdicion" bcs-auto-desactivar="false"
+			bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'"
+			bcs-clic="pcodg.cancelarpcodg()"></bcs-button>
+		<bcs-button id="PanelContraparteDatosGenerales_mostrarCambios" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+			ng-show="!pcodg.pantalla.modoEdicion && pcodg.dataSolicitudCambio.CambiosPendientes" bcs-auto-desactivar="false"
+			bcs-texto="'UI_MOSTRAR_CAMBIOS' | translate" bcs-habilitado="'true'"
+			bcs-clic="pcodg.mostrarCambios()"></bcs-button>
+		<bcs-button id="PanelContraparteDatosGenerales_bloquear" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+			ng-show="!pcodg.pantalla.modoEdicion && pcodg.dataContraparte.IdEstado === 'ACT'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_BLOQUEAR' | translate"
+			bcs-habilitado="'true'" bcs-clic="pcodg.bloquearContraparte()"></bcs-button>
+		<bcs-button id="PanelContraparteDatosGenerales_desbloquear" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+			ng-show="!pcodg.pantalla.modoEdicion && pcodg.dataContraparte.IdEstado === 'BLO'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_DESBLOQUEAR' | translate"
+			bcs-habilitado="'true'" bcs-clic="pcodg.desbloquearContraparte()"></bcs-button>
+		<bcs-button id="PanelContraparteDatosGenerales_solAutEnrol" class="col-xs-3 pull-right" bcs-tipo="'bcs-button-secondary'"
+			ng-show="!pcodg.pantalla.modoEdicion && pcodg.dataContraparte.IdEstado === 'PEN'"
+			bcs-auto-desactivar="false" bcs-texto="'UI_SOLICITAR_AUTORIZACION_ENROLAMIENTO' | translate"
+			bcs-habilitado="'true'" bcs-clic="pcodg.solicitarEventoAutorizacion()"></bcs-button>
+	 	<span ng-show="!pcodg.pantalla.modoEdicion && pcodg.dataSolicitudCambio.CambioEstadoPendiente" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIO_DE_ESTADO_POR_AUTORIZAR</label> </span>			
+		<span ng-show="!pcodg.pantalla.modoEdicion && pcodg.dataSolicitudCambio.CambiosPendientes" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIOS_POR_AUTORIZAR</label> </span>
+		<span ng-show="!pcodg.pantalla.modoEdicion && pcodg.dataContraparte.IdEstado === 'PEN'" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_ENROLAMIENTO_POR_AUTORIZAR</label> </span>
+	</div>
+
+</div>
+

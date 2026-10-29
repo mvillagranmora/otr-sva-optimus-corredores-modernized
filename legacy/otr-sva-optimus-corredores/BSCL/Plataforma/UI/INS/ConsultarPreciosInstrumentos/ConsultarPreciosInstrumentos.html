@@ -1,0 +1,65 @@
+<div class="row" ng-controller='ConsultarPreciosInstrumentosCtrl'>
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<form name="ConsultarPreciosInstrumentosForm">
+			<div class="col-xs-11">
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-instrumento'"
+							id-defecto = "'ACN'"
+							filtros = "filtrosTipoInstrumento"
+							id-actual="idTipoInstrumento">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-condicion-liquidacion'"
+							id-defecto = "'T2'"
+							filtros = "filtrosCondicionDeLiquidacion"
+							id-actual="idCondicionDeLiquidacion">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-2">
+						<label class="col-xs-3" translate>UI_FECHA</label>
+						<bcs-input-date
+							class="col-xs-9"
+							activado = "'false'"
+							k-ng-model="fecha">
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-2">
+						<label class="col-xs-3" translate>UI_BOLSA</label>
+						<bcs-combobox-base
+							class="col-xs-9"
+							tipo="'combobox-bolsa'"
+							id-defecto = "'BCS'"
+							id-actual="idBolsa">
+						</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+		</form>
+		<!-- FIN FILTROS -->
+		<!-- INICIO BOTONES -->
+		<div class="col-xs-1">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="ConsultarPreciosInstrumentosForm.$valid"
+					  bcs-clic="buscar()"></bcs-button>
+			</div>
+		</div>
+	</div>
+	<!-- FIN BOTONES -->
+	<div class="row">
+		<bcs-grid
+			id="grid-precio-instrumentos"
+			fn-exportar-excel = "exportarExcel"
+			configuracion="configuracion">
+		</bcs-grid>
+	</div>
+
+</div>

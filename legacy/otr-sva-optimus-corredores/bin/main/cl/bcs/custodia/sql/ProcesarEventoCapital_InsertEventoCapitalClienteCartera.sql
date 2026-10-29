@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.Custodia.BD::CUS.EventoCapitalClienteCartera" ("IdEventoCapitalClienteCartera", "IdEventoCapitalCliente", "IdCartera")
+VALUES (:IdEventoCapitalClienteCartera, :IdEventoCapitalCliente, :IdCartera);

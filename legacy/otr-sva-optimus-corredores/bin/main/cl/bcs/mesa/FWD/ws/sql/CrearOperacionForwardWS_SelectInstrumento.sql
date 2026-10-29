@@ -1,0 +1,7 @@
+SELECT
+INSTRUMENTOMONEDA."IdInstrumento"
+,INSTRUMENTOMONEDA."IdTipoProducto"
+,INSTRUMENTO."IdTipoInstrumento"
+FROM "BSCL.Mesa.BD::MES.InstrumentoMoneda" AS INSTRUMENTOMONEDA
+LEFT JOIN "BSCL.Plataforma.BD::INS.Instrumento" AS INSTRUMENTO ON (INSTRUMENTO."Nemotecnico" = INSTRUMENTOMONEDA."Nemotecnico" AND INSTRUMENTO."IdTipoInstrumento" = INSTRUMENTOMONEDA."IdTipoInstrumento")
+WHERE INSTRUMENTO."Nemotecnico" = :Nemotecnico

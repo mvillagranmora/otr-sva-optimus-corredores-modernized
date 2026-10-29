@@ -1,0 +1,56 @@
+<div ng-controller='CargaMasivaDiccionarioCtrl'>
+ 	<div class="row bcs_titulo">
+        <div class="col-xs-12">
+            <span translate>UI_ADMINISTRACION_DICCIONARIO</span>
+        </div>
+    </div>
+	<div class="row bcs-cuerpo">
+		<uib-tabset>
+			<uib-tab heading="Carga Masiva">
+				<div class="row">
+					<input type="file" file-reader="data.fileContent" style="display:inline"/>
+					<bcs-input-checkbox ng-model="data.ignorarPrimeraLinea"></bcs-input-checkbox> Ignorar primera linea
+					<bcs-input-texto tipo-campo="'textarea'" atributos="height:300px;resize:none;width: 100%" ng-model="data.fileContent"></bcs-input-texto>
+				</div>
+				<div class="row bcs-panel-comandos">
+					<bcs-button class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="'true'" bcs-clic="data.guardarDiccionario()"></bcs-button>	
+				</div>
+			</uib-tab>
+						
+			<!-- MODIFICA/AGREGA REGISTRO DICCIONARIO -->
+			<uib-tab heading="Consulta">
+		<div class="row">
+			<div class="col-xs-1 pull-right">
+				<bcs-button bcs-tipo="'default'" bcs-auto-desactivar="false"
+					bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"
+					bcs-clic="data.buscar()"></bcs-button>
+			</div>
+		</div>
+		<div class="row">
+			<bcs-grid id="grid-modifica-diccionario"
+				configuracion="data.defaultOptions"
+				fn-exportar-excel = "exportarExcel" 
+				seleccionado="seleccionRegistro"
+				fn-doble-click="editarDiccionario(seleccionRegistro)"> 
+			</bcs-grid>
+		</div>
+
+		<div class="row bcs-panel-comandos">
+			<bcs-button id="ConsultarIngreso.CrearIngresoEgreso" class="col-xs-2"
+				bcs-tipo="''" bcs-auto-desactivar="false"
+				bcs-texto="'UI_INGRESAR_NUEVO' | translate" bcs-habilitado='true'
+				bcs-clic="crearDiccionario()"></bcs-button>
+			<bcs-button id="ConsultarIngreso.Editar" class="col-xs-2"
+				bcs-tipo="''" bcs-auto-desactivar="false"
+				bcs-texto="'UI_EDITAR' | translate"
+				bcs-habilitado="seleccionRegistro"
+				bcs-clic="editarDiccionario(seleccionRegistro)"></bcs-button>
+			<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+		</uib-tab>
+		</uib-tabset>
+	</div>
+	
+</div>

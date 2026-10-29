@@ -1,0 +1,302 @@
+<div class="col-xs-12" ng-controller="PanelPortafolioDatosGeneralesCtrl as pPortDG">
+	<div class="bcs-cuerpo">
+		<div class="row">
+			<form name="formPortafolioClienteDatosGenerales" class="col-xs-12 form-horizontal">
+				<div class="col-xs-6">
+					<div class="row">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<label class="col-xs-7" translate>{{pPortDG.datosDespues.EstadoPortafolioAutorizacion|translate}}</label>	
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_CODIGO_PORTAFOLIO</label>
+						<bcs-input-texto
+							class="col-xs-7"
+							id="formPortafolioClienteDatosGenerales_codigoPortafolio"
+							ng-model="pPortDG.datosDespues.CodigoPortafolio"
+							k-ng-disabled="true">
+						</bcs-input-texto>
+					</div>
+					<div class="row" ng-show="admPort.datos.TipoPersona==='J'">
+						<label class="col-xs-4" translate>UI_NOMBRE_FANTASIA</label>
+						<bcs-combobox-base class="col-xs-7"
+							tipo="'combobox-nombre-fantasia'"
+							filtros="pPortDG.cmbbx.nombreFantasia.filtros" 
+							id-actual="pPortDG.datosDespues.IdNombreFantasia"
+							id-defecto="pPortDG.datosAntes.IdNombreFantasia" 
+							activado="!pPortDG.win.modoLectura"
+							seleccionado="pPortDG.NombreFantasiaPortafolioObj"
+							id="formPortafolioClienteDatosGenerales_nombreFantasia"
+							bcs-requerido="admPort.datos.TipoPersona === 'J' && pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_nombreFantasia'].Requerido === 'S'">
+						</bcs-combobox-base>
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_ALIAS_RAZON_SOCIAL</label>
+						<bcs-input-texto
+							class="col-xs-7"
+							ng-model="pPortDG.datosDespues.Alias"
+							k-ng-disabled="pPortDG.win.modoLectura"
+							id="formPortafolioClienteDatosGenerales_aliasRazonSocial"
+							bcs-requerido="pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_aliasRazonSocial'].Requerido === 'S'">
+						</bcs-input-texto>
+					</div>		
+					<div class="row" ng-show="SesionLocale === 'PE'"> 
+						<label class="col-xs-4" translate>UI_BROKER</label>
+						<bcs-combobox-base class="col-xs-7"
+							tipo="'combobox-broker-extranjero'"
+							id-actual="pPortDG.datosDespues.IdPersonaBrokerExtranjero"
+							id-defecto="pPortDG.datosAntes.IdPersonaBrokerExtranjero" 
+							activado="!pPortDG.win.modoLectura"
+							seleccionado="pPortDG.BrokerExtranjeroObj"
+							id="formPortafolioClienteDatosGenerales_broker"
+							bcs-requerido="SesionLocale === 'PE'">
+						</bcs-combobox-base>
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_NUMERO_FICHA</label>
+						<bcs-input-texto
+							class="col-xs-7"
+							ng-model="pPortDG.datosDespues.NumeroFicha"
+							k-ng-disabled="pPortDG.win.modoLectura"
+							id="formPortafolioClienteDatosGenerales_numeroFicha"
+							bcs-requerido="pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_numeroFicha'].Requerido === 'S'">
+						</bcs-input-texto>
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_AREA_CLIENTE</label>
+						<bcs-combobox-base
+							id="formPortafolioClienteDatosGenerales_AreaCliente"
+							class="col-xs-7"
+							tipo="'combobox-area-cliente'"
+							id-actual="pPortDG.datosDespues.IdAreaCliente"
+							id-defecto="pPortDG.datosAntes.IdAreaCliente"
+							seleccionado="pPortDG.AreaClienteObj"
+							bcs-requerido="pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_AreaCliente'].Requerido === 'S'"
+							activado="!pPortDG.win.modoLectura"
+						></bcs-combobox-base>
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+						<bcs-input-texto
+							class="col-xs-7"
+							ng-model="pPortDG.datosDespues.DescripcionPortafolio"
+							k-ng-disabled="pPortDG.win.modoLectura"
+							id="formPortafolioClienteDatosGenerales_descripcion"
+							bcs-requerido="pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_descripcion'].Requerido === 'S'">
+						</bcs-input-texto>
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_ENVIO_CORRESPONDENCIA</label>
+						<bcs-combobox-base class="col-xs-7"
+							tipo="'combobox-persona-direccion-fisica'"
+							id-actual="pPortDG.datosDespues.IdDireccionEnvioCorrespondencia"
+							id-defecto="pPortDG.datosAntes.IdDireccionEnvioCorrespondencia"
+							filtros="pPortDG.cmbbx.direccionEnvioCorrespondencia.filtros"
+							id-post-filtro="pPortDG.datosAntes.IdDireccionEnvioCorrespondencia"
+							todos="'N'"
+							activado="!pPortDG.win.modoLectura"
+							seleccionado="pPortDG.DireccionEnvioCorrespondenciaObj"
+							auto-cargar="true"
+							id="formPortafolioClienteDatosGenerales_envioCorrespondencia"
+							bcs-requerido="pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_envioCorrespondencia'].Requerido === 'S'">
+						</bcs-combobox-base>
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_TELEFONO_CONTACTO</label>
+						<bcs-combobox-base class="col-xs-7"
+							id="telefonoContactoPortafolio"
+							tipo="'combobox-persona-telefono'"
+							id-actual="pPortDG.datosDespues.IdTelefonoContacto"
+							id-defecto="pPortDG.datosAntes.IdTelefonoContacto"
+							filtros="pPortDG.cmbbx.telefonoContacto.filtros"
+							id-post-filtro="pPortDG.datosAntes.IdTelefonoContacto"
+							todos="'N'"
+							activado="!pPortDG.win.modoLectura"
+							seleccionado="pPortDG.TelefonoContactoObj"
+							auto-cargar="true"
+							bcs-requerido="pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_telefonoContacto'].Requerido === 'S'">
+						</bcs-combobox-base>
+					</div>
+					<div class="row">
+				  		<label class="col-xs-4" translate>UI_EJECUTIVO_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-7"
+							tipo="'combobox-ejecutivo'" 
+							filtros="pPortDG.cmbbx.ejecutivo.filtros" 
+							id-actual="pPortDG.datosDespues.IdEmpleadoEjecutivo"
+							id-defecto="pPortDG.datosAntes.IdEmpleadoEjecutivo" 
+							seleccionado="pPortDG.EjecutivoObj" 
+							activado="!pPortDG.win.modoLectura"
+							id="formPortafolioClienteDatosGenerales_ejecutivoPortafolio"
+							bcs-requerido="pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_ejecutivoPortafolio'].Requerido === 'S'">
+						</bcs-combobox-base>
+			  		</div>
+			  		<div class="row">
+				  		<label class="col-xs-4" translate>UI_EJECUTIVO_COMERCIAL</label>
+						<bcs-combobox-base class="col-xs-7"
+							tipo="'combobox-ejecutivo'"
+							filtros="pPortDG.cmbbx.ejecutivo.filtros"
+							id-actual="pPortDG.datosDespues.IdEmpleadoEjecutivoComercial"
+							id-defecto="pPortDG.datosAntes.IdEmpleadoEjecutivoComercial" 
+							seleccionado="pPortDG.EjecutivoComercialObj" 
+							activado="!pPortDG.win.modoLectura"
+							id="formPortafolioClienteDatosGenerales_ejecutivoComercial"
+							bcs-requerido="pPortDG.camposRequeridos['formPortafolioClienteDatosGenerales_ejecutivoComercial'].Requerido === 'S'">
+						</bcs-combobox-base>
+			  		</div>
+			  		<div class="row" ng-show="pPortDG.TipoPortafolio === 'APV'">
+						<label class="col-xs-4" translate>UI_CONTRATOS_VIGENTES</label>
+						<bcs-combobox-base class="col-xs-7" 
+							id="UI_OPERACION"
+							tipo="'combobox-folio-contratos-saapv'"
+							filtros="pPortDG.FolioContratoFiltro.filtros"
+							id-actual="pPortDG.FolioContratoSAAPV"
+							seleccionado="pPortDG.FolioContratoSeleccionado"
+							auto-cargar="'true'">
+						</bcs-combobox-base>
+					</div>
+					<div class="row" ng-show="pPortDG.TipoPortafolio === 'APV'">
+						<label class="col-xs-4" translate>UI_NOMBRE_PLAN_AHORRO</label>
+						<bcs-input-texto
+							class="col-xs-7"
+							id="UI_NOMBRE_PLAN_AHORRO"
+							ng-model="pPortDG.FolioContratoSeleccionado.NombrePlan"
+							k-ng-model="pPortDG.FolioContratoSeleccionado.NombrePlan"
+							k-ng-disabled="true">
+						</bcs-input-texto>
+					</div>
+			  		<div class="row" ng-show="pPortDG.TipoPortafolio === 'APV'">
+						<label class="col-xs-4" translate>UI_PRODUCTO</label>
+						<bcs-input-texto
+							class="col-xs-7"
+							id="UI_PRODUCTO"
+							ng-model="pPortDG.FolioContratoSeleccionado.Producto"
+							k-ng-model="pPortDG.FolioContratoSAAPV"
+							k-ng-disabled="true">
+						</bcs-input-texto>
+					</div>
+
+					<div class="row">
+						<label class="col-xs-4" translate>UI_FECHA_ULTIMA_CARTOLA</label>
+						<bcs-input-date
+							id="UI_FECHA_ULTIMA_CARTOLA"
+							k-ng-disabled="true"
+							class="col-xs-7"
+							k-options="pPortDG.kOptFechaUltimaCartola"
+							k-ng-model="pPortDG.datosDespues.FechaUltimaCartola"
+							todo-dias="true">
+					</div>
+					<div class="row">
+						<label class="col-xs-4" translate>UI_ID_ULTIMA_CARTOLA</label>
+						<bcs-input-texto
+							class="col-xs-7"
+							id="UI_ID_ULTIMA_CARTOLA"
+							ng-model="pPortDG.datosDespues.IdUltimaCartola"
+							k-ng-disabled="true">
+						</bcs-input-texto>
+					</div>
+					<div class="row" ng-show="pPortDG.datosDespues.Estado === 'BLOQUEADO'">
+						<label class="col-xs-4" translate>UI_FECHA_BLOQUEO</label>
+						<bcs-input-date 
+							k-ng-disabled="true"
+							class="col-xs-7" 
+							k-ng-model="pPortDG.datosDespues.FechaBloqueo"
+							id="formPortafolioClienteDatosGenerales_fechaBloqueo">
+						</bcs-input-date>
+					</div>
+					<div class="row" ng-show="pPortDG.datosDespues.Estado === 'BLOQUEADO'">
+						<label class="col-xs-4" translate>UI_TIPO_BLOQUEO</label>
+						<bcs-input-texto 
+							class="col-xs-7"
+							id="tipoBloqueoPortafolio"
+							ng-model="pPortDG.datosDespues.IdTipoBloqueo"
+							k-ng-disabled="true">
+						</bcs-input-texto>
+					</div>
+					<div class="row" ng-show="pPortDG.datosDespues.Estado === 'BLOQUEADO'">
+						<label class="col-xs-4" translate>UI_COMENTARIO_BLOQUEO</label>
+						<bcs-input-texto
+							ng-disabled="true"
+							k-ng-disabled="true"
+							maxlength="100"
+							class="col-xs-7"
+							id="formPortafolioClienteDatosGenerales_comentarioBloqueo"
+							tipo-campo="'textarea'"
+							ng-model="pPortDG.datosDespues.ComentarioBloqueo">
+						</bcs-input-texto>
+					</div>
+			  	</div>
+			  	<div class="col-xs-6">
+			  		<div class="row">
+						<div class="col-xs-11">
+					 		<label translate>UI_HISTORIAL_EJECUTIVO</label> 
+							<bcs-grid 
+								configuracion="pPortDG.LogCambioEjecutivoOptions"
+								seleccionado="pPortDG.LogCambioEjecutivoSeleccionado">
+							</bcs-grid>		
+						</div>			
+				 	</div>
+			  	</div>
+			  	
+			</form>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class="row">
+			<div class="col-xs-8">
+				<bcs-button id="AdministrarPortafolioDatosGenerales_editar" 
+					class="col-xs-3" 
+					bcs-tipo="'bcs-button-primary'"  
+					ng-show="pPortDG.win.modoLectura" 
+					bcs-mostrar="pPortDG.win.modoLectura"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_EDITAR' | translate" 
+					bcs-habilitado="'true'"
+					bcs-clic="pPortDG.win.editar();">
+				</bcs-button>
+				<bcs-button id="AdministrarPortafolioDatosGenerales_guardar" 
+					class="col-xs-3" 
+					bcs-tipo="'bcs-button-primary'"  
+					ng-show="!pPortDG.win.modoLectura" 
+					bcs-mostrar="!pPortDG.win.modoLectura"  
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_GUARDAR' | translate" 
+					bcs-habilitado="(pPortDG.guardarHabilitado && formPortafolioClienteDatosGenerales.$valid)"
+					bcs-clic="pPortDG.win.guardar();">
+				</bcs-button>
+				<bcs-button id="AdministrarPortafolioDatosGenerales_cancelar" 
+					class="col-xs-3" 
+					bcs-tipo="'bcs-button-secondary'" 
+					ng-show="!pPortDG.win.modoLectura" 
+					bcs-mostrar="!pPortDG.win.modoLectura" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_CANCELAR' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="pPortDG.win.cancelar();">
+				</bcs-button>
+				<bcs-button 
+					id="AdministrarPortafolioDatosGenerales_solAutNuevo" 
+					class="col-xs-5" bcs-tipo="'bcs-button-secondary'" 
+					ng-show="pPortDG.win.modoLectura && pPortDG.datosAntes.IdEstadoAutorizacion === 'PEN'" 
+					bcs-auto-desactivar="true" 
+					bcs-texto="'UI_SOLICITAR_AUTORIZACION_ENROLAMIENTO' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="pPortDG.win.solicitarEventoAutorizacion()">
+				</bcs-button>
+				<bcs-button id="AdministrarPortafolioDatosGenerales_mostrarCambios"
+				 	class="col-xs-3"
+				  	bcs-tipo="'bcs-button-secondary'"
+				  	ng-show="pPortDG.win.modoLectura && pPortDG.dataSolicitudCambio.CambiosPendientes"
+				  	bcs-auto-desactivar="false"
+				  	bcs-texto="'UI_MOSTRAR_CAMBIOS' | translate"
+				  	bcs-habilitado="'true'"
+				 	bcs-clic="pPortDG.mostrarCambios()">
+				 </bcs-button>
+				 
+			</div>
+		
+			
+		</div>
+	<span ng-show="pPortDG.win.modoLectura && pPortDG.dataSolicitudCambio.CambioEstadoPendiente" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIO_DE_ESTADO_POR_AUTORIZAR</label> </span>
+	<span ng-show="pPortDG.win.modoLectura && pPortDG.dataSolicitudCambio.CambiosPendientes" class="pull-right"><i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i><label translate>UI_CAMBIOS_POR_AUTORIZAR</label> </span>
+					
+	</div>
+</div>

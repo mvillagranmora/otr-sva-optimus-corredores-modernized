@@ -1,0 +1,252 @@
+<div id="BlotterFFM" class="col-xs-12" ng-controller="BlotterFFMCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_CURSE_DESDE</label>
+						<bcs-input-date
+							class				= "col-xs-6"
+							id					= "UI_FECHA_OPERACION"
+							k-ng-model			= "filtros.fechaDesde"
+							bcs-requerido>
+						</bcs-input-date>						
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4 col-xs-offset-1" translate>UI_FECHA_CURSE_HASTA</label>
+						<bcs-input-date
+							class				= "col-xs-6"
+							id					= "UI_FECHA_OPERACION2"
+							k-ng-model			= "filtros.fechaHasta"
+							bcs-requerido>
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4 col-xs-offset-1" translate>UI_TIPO_OPERACION</label>
+						<bcs-combobox-base
+							class				= "col-xs-6"
+							id					= "UI_TIPO_OPERACION"
+							auto-cargar			= "'true'"
+							tipo				= "oConfiguracionOperacion.tipo"
+							filtros				= "oConfiguracionOperacion.filtros"
+							configuracion		= "oConfiguracionOperacion.configuracion"
+							id-actual			= "filtros.IdTipoMovimientoFondoMutuo"
+							seleccionado		= "filtros.IdTipoMovimientoFondoMutuo"
+							todos				= "'S'"
+							id-defecto			= "'0'"
+							item-post-filtro	= "'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ESTADO</label>
+						<bcs-combobox-base
+							class				= "col-xs-6"
+							tipo				= "'combobox-estado-ffmm'"
+							id-actual			= "filtros.IdEstado"
+							id-defecto			= "'0'"
+							todos				= "'S'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4 col-xs-offset-1" translate>UI_EMISOR</label>
+						<bcs-combobox-base
+							class				= "col-xs-6"
+							tipo				= "'combobox-emisor'"
+							id-actual			= "filtros.IdEmisor"
+							filtros				= "formData.filtrosEmisor"
+							todos				= "'S'"
+							id-defecto			= "'0'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4 col-xs-offset-1" translate>UI_INSTRUMENTO</label>
+						<bcs-combobox-buscador-fondos
+							class				= "col-xs-6"
+							muestra-valor-cuota	= "'N'"
+							datos-fondo			= "filtros.FondoMutuo"
+							buscar-fondo		= "formData.setFondo"
+							id-ventana			= "winID">
+						</bcs-combobox-buscador-fondos>
+					</div>
+				</div>
+				
+				<div class="row" ng-if="!MostrarProducto">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-6" id="UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							bcs-requerido
+							id-actual="filtros.IdPortafolio"
+							tipo="oClientePortafolio.tipo"
+							carga-cliente-automatico="'S'" 
+							seleccionado="oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio"
+							configuracion="oClientePortafolio.configuracion">
+						</bcs-combobox-base>				
+					</div>
+				</div>
+				
+				<div class="row" ng-if="MostrarProducto">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base
+							class				= "col-xs-6"
+							id					= "UI_CLIENTE"
+							auto-cargar			= "'false'"
+							tipo				= "'combobox-socio-negocio'"
+							seleccionado		= "oSocioNegocio.seleccionado"
+							filtros				= "oSocioNegocio.filtros"
+							cascada-a			= "oPortafolio.filtros.IdCliente"
+							cascada-valor		= "'IdCliente'"
+							id-actual			= "oSocioNegocio.idActual">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+					    <label class="col-xs-4 col-xs-offset-1" translate>UI_PRODUCTO</label>
+					    <bcs-combobox-base
+					    	class				= "col-xs-6"
+					        id					= "UI_PRODUCTO"
+					        auto-cargar			= "'true'"
+					        tipo				= "'combobox-otro-producto-agrupador'"
+					        seleccionado		= "oProducto.seleccionado"
+							cascada-a			= "oPortafolio.filtros.IdProductoAgrupador"
+							cascada-valor		= "'IdProductoAgrupador'"
+							id-actual			= "oProducto.idActual">
+					    </bcs-combobox-base >
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4 col-xs-offset-1" translate>UI_PORTAFOLIO</label> 
+						<bcs-combobox-base
+							class				= "col-xs-6"
+							id					= "UI_PORTAFOLIO"
+							auto-cargar			= "'false'"
+							tipo				= "'combobox-portafolio'"
+							seleccionado		= "oPortafolio.seleccionado"
+							filtros				= "oPortafolio.filtros"
+							id-actual			= "oPortafolio.idActual"
+							usa-filtros-completos="'S'"
+							activado			= "oSocioNegocio.seleccionado && oProducto.seleccionado">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_SOLICITUD</label>
+						<bcs-combobox-base
+							class				= "col-xs-6"
+							id					= "UI_TIPO_SOLICITUD"
+							auto-cargar			= "'true'"
+							tipo				= "oConfiguracionTipoSolicitud.tipo"
+							configuracion		= "oConfiguracionTipoSolicitud.configuracion"
+							id-actual			= "filtros.TipoSolicitud"
+							filtros				= "oConfiguracionTipoSolicitud.filtros"
+							seleccionado		= "filtros.TipoSolicitud"
+							cascada1-a			= "oConfiguracionOperacion.filtros.CodigoConcepto"
+							cascada1-valor		= "'CodigoConcepto'"
+							todos				= "'S'"
+							id-defecto			= "'0'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4 col-xs-offset-1" translate>UI_MONEDA</label>
+						<bcs-combobox-base
+							class				= "col-xs-6"
+							tipo				= "'combobox-moneda'"
+							id-actual			= "filtros.IdMoneda"
+							id-defecto			= "'0'"
+							todos				= "'S'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button
+						class					= "col-xs-12"
+						bcs-tipo				= "'bcs-button-search'"
+						bcs-auto-desactivar		= "false"
+						bcs-texto				= "'UI_BUSCAR' | translate"
+						bcs-habilitado			= "true"
+						bcs-clic				= "buscarSolicitudes()">
+					</bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button
+						class					= "col-xs-12"
+						bcs-tipo				= "'bcs-button-secondary'"
+						bcs-auto-desactivar		= "false"
+						bcs-texto				= "'UI_LIMPIAR' | translate"
+						bcs-habilitado			= "true"
+						bcs-clic				= "limpiarFiltros()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<bcs-grid
+				id					= "grid-consulta-ffm"
+				configuracion		= "defaultOptions"
+				fn-doble-click		= "abrirDetalle(datos.kNgModel)"
+				api					= "apiGridSolicitud"
+				seleccionado		= "datos.kNgModel"
+				fn-exportar-excel	= "exportarExcel">
+			</bcs-grid>
+		</div>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-1" style="width: 10%;" id="BlotterFFM_ingresarFFM"
+				bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_INGRESAR' | translate" bcs-habilitado="'true'"
+				bcs-clic="ingresarFFM()"> </bcs-button>
+			<bcs-button class="col-xs-1" style="width: 10%;" id="BlotterFFM_ingresarFFM"
+				bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_CERTIFICAR' | translate" bcs-habilitado="'true'"
+				bcs-clic="certificarFFM(datos.kNgModel)"> </bcs-button>
+			<bcs-button class="col-xs-1" style="width: 15%;" id="BlotterFFM_ingresarFFM"
+				bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_CERTIFICAR_MASIVO' | translate"
+				bcs-habilitado="'true'" bcs-clic="certificarMasivoFFM()">
+			</bcs-button>
+			<bcs-button class="col-xs-1" style="width: 10%;" id="AnularOperacion"
+				bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_ANULAR' | translate" bcs-habilitado="'true'"
+				bcs-clic="anularFFM(datos.kNgModel,'ANU')"> </bcs-button>
+			<bcs-button class="col-xs-1" id="BlotterFFM_ingresarFFM"
+				bcs-tipo="'bcs-button-secondary'" style="width: 10%;" bcs-auto-desactivar="false"
+				bcs-texto="'UI_DESMARCAR' | translate" bcs-habilitado="'true'"
+				bcs-clic="anularFFM(datos.kNgModel,'ING')"> </bcs-button>
+			<bcs-button class="col-xs-1" style="width: 10%;" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_PAGO_AGF' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.pagarAGF()"></bcs-button>
+			<bcs-button class="col-xs-1" style="width: 15%;" id="CrearOmnibus"
+				bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_CREAR_OMNIBUS' | translate" bcs-habilitado="'true'"
+				bcs-clic="crearOmnibus(datos.kNgModel)"> </bcs-button>
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" class="col-xs-2" bcs-texto="'UI_OPCIONES_FECHA' | translate" >
+		        <li ng-click="blotterFondosMutuosModificarFechas(datos.kNgModel)">{{'UI_MODIFICAR_FECHAS' | translate}}</li>
+		          
+	            <li ng-click="blotterFondosMutuosHistorialCambiosModificarFechas()">{{'UI_HISTORIAL_CAMBIO_DE_FECHAS' | translate}}</li>       
+			</bcs-menu>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <!--<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>	-->
+	            <!--  li ng-click="blotterCambioSerieFFM()">{{'UI_CAMBIO_SERIE_MASIVO' | translate}}</li>-->
+	            <li id="RevalorizarAportes" ng-click="revalorizarMovimientosFFMM()">{{'UI_REVALORIZAR_APORTES' | translate}}</li>
+	          
+	            <li ng-click="exportacionMasivaBatch()">{{'UI_EXPORTACION_MASIVA_BATCH' | translate}}</li>
+	            
+			</bcs-menu>
+		</div>
+	</div>
+</div>

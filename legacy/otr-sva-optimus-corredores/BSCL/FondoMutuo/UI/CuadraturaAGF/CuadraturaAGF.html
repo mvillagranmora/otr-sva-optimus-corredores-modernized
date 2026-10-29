@@ -1,0 +1,68 @@
+<div id="CuadraturaAGF" class="col-xs-12" ng-controller="CuadraturaAGFCtrl">
+	<div class="row bcs-cuerpo">
+   	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-4">
+			  		<label class="col-xs-4" translate>UI_EMISOR</label> 
+			  		<bcs-combobox-base class="col-xs-6"
+			  			tipo="'combobox-emisor'"
+			  			id-actual="filtros.IdEmisor"
+			  			filtros="formData.filtrosEmisor"
+			  			todos="'S'" 
+			  			id-defecto="'0'">
+			  		</bcs-combobox-base> 
+			  	</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 col-xs-offset-1" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-6"
+						id="UI_FECHA"
+						bcs-requerido
+						k-ng-model="filtros.fechaCuadratura"> 
+					</bcs-input-date>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscar(apiGridCuadratura,filtros)"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-cabecera-ffm"
+			 	configuracion="defaultOptions"
+				api = "apiGridCuadratura"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-3" id="BlotterCuadraturaAGF_cuadraturaAGF" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CARGAR_CUADRATURA_AGF' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="cargarCuadraturaAGF()">
+			</bcs-button>
+			<bcs-menu 
+				class="col-xs-3" 
+				bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+				bcs-texto="'UI_CARGAR_ARCHIVO' | translate">		            
+					<li id="BlotterCuadraturaAGF_ArchivoNacional"  ng-click="cargarArchivo('NACIONAL')">{{'UI_ARCHIVO_NACIONAL' | translate}}</li>
+					<li id="BlotterCuadraturaAGF_ArchivoInternacional"  ng-click="cargarArchivo('INTERNACIONAL')">{{'UI_ARCHIVO_INTERNACIONAL' | translate}}</li>
+			</bcs-menu>
+		</div>
+		<div class="col-xs-2 pull-right">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

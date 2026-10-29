@@ -1,0 +1,78 @@
+<div id="ConsultaPlazosFechas" class="row" ng-controller="ConsultaPlazosFechasCtrl as cPLFE">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-3" translate>UI_UF</label>
+					<bcs-input-numero class="col-xs-7"
+						k-ng-model="cPLFE.datosIndicadores.ValorUF" 
+						k-ng-disabled="true"
+						decimales="cPLFE.win.DecimalUF">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+			  		<label class="col-xs-3" translate>UI_IVP</label>
+					<bcs-input-numero class="col-xs-7"
+						k-ng-model="cPLFE.datosIndicadores.ValorIVP" 
+						k-ng-disabled="true"
+						decimales="cPLFE.win.DecimalIVP">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-3" translate>UI_USD</label>
+					<bcs-input-numero class="col-xs-7"
+						k-ng-model="cPLFE.datosIndicadores.ValorUSD" 
+						k-ng-disabled="true"
+						decimales="cPLFE.win.DecimalUSD">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<br>
+			<hr>
+			<br>
+			<div class="row">
+				<div class="col-xs-9">
+					<label class="col-xs-4" translate>UI_CANTIDAD_DIAS</label>
+					<bcs-combobox-base class="col-xs-6"
+						tipo="'combobox-parametro-mesa'"
+						id-actual="cPLFE.filtro.ValorParametro"
+						id-defecto="cPLFE.filtro.ValorParametroDef"
+						filtros="cPLFE.cmbbx.CantidadDias.filtros"
+						todos="'N'"
+						configuracion="cPLFE.cmbbx.CantidadDias.configuracion"
+						seleccionado="cPLFE.dataFiltros.CantidadDiasObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<bcs-button id="ConsultaPlazosFechas_cargar" class="col-xs-12" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="false" 
+						bcs-texto="'UI_CARGAR' | translate" bcs-habilitado="'true'" bcs-clic="cPLFE.fn.cargar()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+		
+	<div class="row">
+		<bcs-grid
+			configuracion="cPLFE.grilla.PlazosFechas"
+			seleccionado="cPLFE.grilla.plazoFechaSel"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	
+	<div class="row bcs-panel-comandos" style="padding-top: 5px !important;">
+		<!--
+		<div class="col-xs-8">
+			<bcs-button id="ConsultaPlazosFechas_agregar" class="col-xs-3" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="true" bcs-clic="cPLFE.fn.agregar()">
+			</bcs-button>
+		</div>
+		-->
+		<div class="col-xs-10"></div>
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel('ConsultaPlazosFechas')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

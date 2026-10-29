@@ -1,0 +1,331 @@
+<div id="ConsultaSocioNegocio" class="col-xs-12" ng-controller="ConsultarSocioNegocioCtrl as conSocNeg">
+	<div class="row bcs-cuerpo">
+		<!-- INICIO FILTROS -->
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-8">
+				  		<label class="col-xs-3" translate>UI_RAZON_SOCIAL_O_NOMBRE</label>
+						<bcs-input-texto class="col-xs-9" foco="true" ng-model="formData.NombreCompleto" key-enter="fnKeyEnter();"></bcs-input-texto>
+					</div>
+		  			<div class="col-xs-4">
+				  		<label class="col-xs-3" translate>UI_TIPO_ENTIDAD</label>
+						<bcs-combobox-base class="col-xs-9"
+							tipo= "'combobox-tipo-socio-negocio'"
+							id-actual="formData.tipoSocioNegocio"
+							id-defecto="'0'"
+							todos="'S'" 
+							item-post-filtro="'1'" >
+						</bcs-combobox-base>
+				  	</div>
+			  	</div>			  				  	
+
+				<div class="row">
+				  	<div class="col-xs-4">
+				  		<label class="col-xs-6" translate>UI_TIPO_DOCUMENTO_IDENTIDAD</label>
+				  		<bcs-combobox-base class="col-xs-6"
+				  			tipo="'combobox-tipo-documento-identidad'"
+				  			id-actual="formData.tipoDocumentoIdentidad"
+				  			id-defecto="'0'"
+				  			filtros="formData.oConfiguracionTipoDocumentoIdentidad.filtros"
+				  			todos="'S'"
+							item-post-filtro="'1'"
+				  			>
+				  		</bcs-combobox-base>
+					</div>
+			  		<div class="col-xs-4">
+				  		<label class="col-xs-6" translate>UI_DOCUMENTO_IDENTIDAD_ABR</label>
+						<bcs-input-texto class="col-xs-6" 
+							ng-model="formData.NumeroDocumentoIdentidad" 
+							placeholder="placeholder.documentoIdentidad"
+							key-enter="fnKeyEnter();">
+						</bcs-input-texto>
+				 	 </div>
+				 	 <div class="col-xs-4">
+						<label class="col-xs-3" translate>UI_FECHA_INGRESO</label>
+						<div class="col-xs-9">
+							<bcs-input-date
+								class="col-xs-6"
+								k-ng-model = "formData.fechaIngresoDesde">
+							</bcs-input-date>
+							<bcs-input-date
+								class="col-xs-6"
+								k-ng-model = "formData.fechaIngresoHasta">
+							</bcs-input-date>
+						</div>
+					</div>
+			  	</div>
+			  	<div class="row">
+			  		<div class="col-xs-4">
+				  		<label class="col-xs-6" translate>UI_TIPO_ENROLAMIENTO</label>
+				  		<bcs-combobox-base class="col-xs-6"
+				  			tipo="'combobox-tipo-enrolamiento'"
+				  			id-actual="formData.tipoEnrolamiento"
+				  			id-defecto="'0'" 
+				  			todos="'S'" 
+				  			item-post-filtro="'1'">
+				  		</bcs-combobox-base>
+					</div>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="read()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="clear()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-socio-negocio"
+			 	configuracion = "kOptions"
+				seleccionado = "seleccionGrilla"
+				fn-exportar-excel = "exportarExcel"
+				fn-doble-click="abrirDetalleSoc(seleccionGrilla)"
+				api = "kwidget">
+				
+				<div bcs-grid-detail="initDetalle()" ng-non-bindable>
+					<uib-tabset>
+						<uib-tab heading="{{'UI_DATOS_PERSONALES'| translate}}">
+							<div class="row" style="height: 110px; text-align:left;">
+								<div class="row">
+									<label class="col-xs-3" translate>UI_NOMBRES</label>
+									<label class="col-xs-3">: {{dataItem.NombreCompleto}}</label>
+								</div>
+	        					<div class="row">
+							    	<label class="col-xs-3" translate>UI_TIPO_PERSONA</label>
+									<label class="col-xs-3">: {{dataItem.TipoPersona}}</label>
+								</div>
+								<div class="row">
+									<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO_IDENTIDAD</label>
+									<label class="col-xs-3">: {{dataItem.NombreTipoDocumentoIdentidadDefecto || conSocNeg.win.defSinValor}}</label>
+								</div>
+								<div class="row">
+									<label class="col-xs-3" translate>UI_DOCUMENTO_IDENTIDAD</label>
+									<label class="col-xs-3">: {{(dataItem.DocumentoIdentidadDefecto | kformat:dataItem.IdTipoDocumentoIdentidadDefecto) || conSocNeg.win.defSinValor}}</label>
+								</div>
+								<!-- <div class="row">
+									<label class="col-xs-3" translate>UI_PAIS_RESIDENCIA</label>
+									<label class="col-xs-3">: {{dataItem.NombrePaisResidencia || conSocNeg.win.defSinValor}}</label>
+								</div> -->
+								<div class="row">
+									<label class="col-xs-3" translate>UI_ESTADO</label>
+									<label class="col-xs-3">: {{dataItem.NombreEstadoPersona}}</label>
+								</div>
+								<div ng-show="dataItem.EstadoPersona === 'BLO'">
+									 <div class="row">
+					                	<label class="col-xs-3" translate>UI_FECHA_BLOQUEO</label>
+										<label class="col-xs-3">: {{dataItem.FechaBloqueo | date: 'dd-MM-yyyy'}}</label>
+									</div>
+									<div class="row">
+					                	<label class="col-xs-3" translate>UI_COMENTARIO_BLOQUEO</label>
+										<label class="col-xs-3">: {{dataItem.ComentarioBloqueo}}</label>
+					                </div>
+					                <div class="row">
+					                	<label class="col-xs-3" translate>UI_TIPO_BLOQUEO</label>
+										<label class="col-xs-3">: {{dataItem.NombreTipoBloqueo}}</label>
+					                </div>
+				                </div>
+								<!-- <div class="row">
+									<label class="col-xs-3" translate>UI_FECHA_NACIMIENTO</label>
+									<label class="col-xs-3">: {{(dataItem.FechaNacimiento | date: 'dd-MM-yyyy') || conSocNeg.win.defSinValor}}</label>
+								</div> -->
+							</div>
+						</uib-tab>
+						
+						<uib-tab heading="{{'UI_RELACIONADOS'| translate}}" >
+							<div class="row" style="height: 150px;width: 100%;">
+								<bcs-grid
+									seleccionado="dataItem.relacionSeleccionada" 
+									configuracion="gridRelacionados(dataItem)">
+								</bcs-grid>
+							</div>
+						</uib-tab>
+						
+						<uib-tab select="select()" ng-hide="dataItem.IdCliente <= 0" heading="{{'UI_CLIENTE'| translate}}">
+			    			<div class="row" style="height: 110px; text-align:left;">
+				      			<div class="row">
+			                    	<label class="col-xs-3" translate>UI_SEGMENTO_CLIENTE</label>
+									<label class="col-xs-3">: {{dataItem.datosCli.DescripcionSegmento}}</label>
+								</div>
+								<div class="row">
+								    <label class="col-xs-3" translate>UI_CATEGORIA_INVERSIONISTA</label>
+									<label class="col-xs-3">: {{dataItem.datosCli.IdCategoriaInversionista}}</label>
+			                	</div>
+			                	<div class="row">
+				                	<label class="col-xs-3" translate>UI_CANTIDAD_PORTAFOLIOS</label>
+									<label class="col-xs-3">: {{dataItem.datosCli.cantidadPortafolios}}</label>
+				                </div>
+			                	<div class="row">
+			                		<label class="col-xs-3" translate>UI_FECHA_INGRESO</label>
+									<label class="col-xs-3">: {{dataItem.datosCli.FechaIngreso | date: 'dd-MM-yyyy'}}</label>
+								</div>
+								<div class="row">
+								    <label class="col-xs-3" translate>UI_ESTADO</label>
+									<label class="col-xs-3">: {{dataItem.datosCli.NombreEstado| translate}}</label>
+				                </div> 
+				                <div ng-show="dataItem.datosCli.IdEstado === 'BLO'">
+					                <div class="row">
+					                	<label class="col-xs-3" translate>UI_FECHA_BLOQUEO</label>
+										<label class="col-xs-3">: {{dataItem.datosCli.FechaBloqueo | date: 'dd-MM-yyyy'}}</label>
+									</div>
+									<div class="row">
+					                	<label class="col-xs-3" translate>UI_COMENTARIO_BLOQUEO</label>
+										<label class="col-xs-3">: {{dataItem.datosCli.ComentarioBloqueo}}</label>
+					                </div>
+				                </div>
+							</div>
+			      		</uib-tab>
+						<uib-tab ng-hide="dataItem.IdEmpleado <= 0" heading="{{'UI_EMPLEADO'| translate}}">
+			    			<div class="row" style="height: 110px; text-align:left;">
+				      			<div class="row">
+			                    	<label class="col-xs-3" translate>UI_CARGO</label>
+									<label class="col-xs-3">: {{dataItem.datosEmp.NombreTipoCargoEmpleado}}</label>
+								</div>
+								<div class="row">
+								    <label class="col-xs-3" translate>UI_CODIGO</label>
+									<label class="col-xs-3">: {{dataItem.datosEmp.CodigoEmpleado}}</label>
+			                	</div>
+			                	<div class="row">
+				                	<label class="col-xs-3" translate>UI_SUCURSAL</label>
+									<label class="col-xs-3">: {{dataItem.datosEmp.NombreSucursal}}</label>
+				                </div>
+				                <div class="row">
+				                	<label class="col-xs-3" translate>UI_CODIGO_SUPERVISOR</label>
+									<label class="col-xs-3">: {{dataItem.datosEmp.CodigoEmpleadoSupervisor}}</label>
+				                </div>
+			                	<div class="row">
+			                		<label class="col-xs-3" translate>UI_FECHA_INICIO</label>
+									<label class="col-xs-3">: {{dataItem.datosEmp.FechaInicioCargo | date: 'dd-MM-yyyy'}}</label>
+								</div>
+								<div class="row">
+			                		<label class="col-xs-3" translate>UI_VIGENCIA_CARGO</label>
+									<label class="col-xs-3">: {{dataItem.datosEmp.FechaTerminoCargo | date: 'dd-MM-yyyy'}}</label>
+								</div>
+								<div class="row">
+								    <label class="col-xs-3" translate>UI_ESTADO</label>
+									<label class="col-xs-3">: {{dataItem.datosEmp.NombreEstado| translate}}</label>
+				                </div>
+				                <div class="row">
+								    <label class="col-xs-3" translate>UI_EMPLEADO_BANCO</label>
+									<label class="col-xs-3">: {{dataItem.datosEmp.IndEmpleadoCorredora| translate}}</label>
+				                </div>  
+							</div>
+						</uib-tab>
+						<uib-tab ng-hide="dataItem.IdProveedor <= 0" heading="{{'UI_PROVEEDOR'| translate}}">
+			    			<div class="row" style="height: 110px; text-align:left;">
+				      			<div class="row">
+			                    	<label class="col-xs-3" translate>UI_AREA</label>
+									<label class="col-xs-3">: {{dataItem.datosPro.NombreAreaProveedor}}</label>
+								</div>
+								<div class="row">
+								    <label class="col-xs-3" translate>UI_ESTADO</label>
+									<label class="col-xs-3">: {{dataItem.datosPro.NombreEstado}}</label>
+			                	</div>
+							</div>
+						</uib-tab>
+						<uib-tab ng-hide="dataItem.IdContraparte <= 0" heading="{{'UI_CONTRAPARTE'| translate}}">
+			    			<div class="row" style="height: 110px; text-align:left;">
+				      			<div class="row">
+				      				<div class="col-xs-3">
+				                    	<label class="col-xs-8" translate>UI_CORREDORA</label>
+										<bcs-input-checkbox ng-model="dataItem.datosCnt.Corredora" ng-disabled="true"></bcs-input-checkbox> 
+									</div>
+									<div class="col-xs-3" ng-show="dataItem.datosCnt.Corredora">
+				                    	<label class="col-xs-8" translate>UI_CODIGO</label>
+										<label class="col-xs-3">: {{dataItem.datosCnt.Codigo}}</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-3">
+									    <label class="col-xs-8" translate>UI_EMISOR</label>
+										<bcs-input-checkbox ng-model="dataItem.datosCnt.Emisor" ng-disabled="true"></bcs-input-checkbox>
+									</div>
+									<div class="col-xs-3">
+					                	<label class="col-xs-8" translate>UI_CAMARA_COMPENSACION</label>
+										<bcs-input-checkbox ng-model="dataItem.datosCnt.CamaraDeCompensacion" ng-disabled="true"></bcs-input-checkbox>
+									</div>
+				                </div>
+				                <div class="row">
+				                	<div class="col-xs-3">
+					                	<label class="col-xs-8" translate>UI_DEPOSITO</label>
+										<bcs-input-checkbox ng-model="dataItem.datosCnt.Depositos" ng-disabled="true"></bcs-input-checkbox>
+									</div>
+									<div class="col-xs-3">
+				                		<label class="col-xs-8" translate>UI_BANCO</label>
+										<bcs-input-checkbox ng-model="dataItem.datosCnt.Banco" ng-disabled="true"></bcs-input-checkbox>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-3">
+				                		<label class="col-xs-8" translate>UI_BOLSA</label>
+										<bcs-input-checkbox ng-model="dataItem.datosCnt.Bolsa" ng-disabled="true"></bcs-input-checkbox>
+									</div>
+								</div>
+							</div>
+						</uib-tab>
+					</uib-tabset>
+				</div>			
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-2" id="ConsultaSocioNegocio_crearPersona" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR_PERSONA' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="crearPersona()">
+			</bcs-button>	
+			<bcs-button class="col-xs-2" id="ConsultaSocioNegocio_crearCliente" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR_CLIENTE' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="crearCliente()">
+			</bcs-button>	
+			<bcs-button class="col-xs-2" id="ConsultaSocioNegocio_crearEmpleado" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR_EMPLEADO' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="crearEmpleado()">
+			</bcs-button>	
+			<bcs-button class="col-xs-3" id="ConsultaSocioNegocio_crearContraparte" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR_CONTRAPARTE' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="crearContraparte()">
+			</bcs-button>	
+			<bcs-button class="col-xs-2" id="ConsultaSocioNegocio_crearProveedor" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR_PROVEEDOR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="crearProveedor()">
+			</bcs-button>
+			<bcs-button class="col-xs-2" id="ConsultaSocioNegocio_crearClienteFinal" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR_CLIENTE_FINAL' | translate" 
+				bcs-habilitado="'true'" 
+				ng-show = "SesionLocale === 'PE'"
+				bcs-clic="crearClienteFinal()">
+			</bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel(undefined,false)">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>
+	            <li ng-click="crearClienteNomina()">{{'UI_INGRESAR_CLIENTE_NOMINA' | translate}}</li>
+	            <li ng-click="exportarExcel(undefined,true)">{{'UI_EXPORTAR_TODO_EXCEL' | translate}}</li>
+	            <li ng-click="exportarClientesFallecidos()">{{'UI_EXPORTAR_CLIENTES_FALLECIDOS' | translate}}</li>
+	            <!-- li ng-click="bloqueoDesbloqueoMasivo()">{{'UI_BLOQUEO_DESBLOQUEO_MASIVO' | translate}}</li-->
+			</bcs-menu>
+		</div>
+	</div>
+</div>

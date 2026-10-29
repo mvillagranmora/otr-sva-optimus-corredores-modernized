@@ -1,0 +1,204 @@
+<div id="CartolaOnline" ng-controller="CartolaOnlineController" style="padding: 40px;">
+	
+	<!-- Encabezado de pagina -->
+	<div id="encabezado" class="col-xs-12" style="background-color: #fff !important; z-index:9999; margin-bottom: 10px;">
+	
+		<div class = "row">
+			  <div class="col-xs-12">
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="panel-heading" id="logoCartola" >
+					    </div>	
+				    </div>
+				</div>
+			  </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="row"> 
+					<bcs-button class="col-xs-3"
+			            bcs-tipo="'principal'"
+			            bcs-auto-desactivar="'false'"
+			           bcs-texto="'UI_DESCARGAR' | translate"
+			            bcs-habilitado="verCartolaHabilitado"
+			            ng-show = "'true'"
+			            bcs-clic="descargar()">
+		           </bcs-button>
+		         </div>
+		         <div ng-show="!esPorGrupo">
+					  <div class="row">
+							<label class="col-xs-2" translate style="font-weight: bold; text-align:left;">UI_CLIENTE</label>
+							<label  class="col-xs-4" style="font-weight: bold;" translate>{{NombreSocioNegocio}}</label>
+					  </div>
+					  <div class="row">
+							<label  class="col-xs-2" translate style="font-weight: bold; text-align:left">UI_RUT</label>
+							<label  class="col-xs-4" style="font-weight: bold;"  translate>{{DocumentoIdentidad}}</label>
+					  </div>
+				</div>
+				<div ng-show="esPorGrupo">
+					  <div class="row">
+							<label class="col-xs-2" translate style="font-weight: bold; text-align:left;">UI_GRUPOS_DE_CLIENTES</label>
+							<label  class="col-xs-4" style="font-weight: bold;" translate>{{NombreGrupoCliente}}</label>
+					  </div>
+				</div>
+				 <div class="row">
+						<label  class="col-xs-2" translate style="font-weight: bold; text-align:left">UI_FECHA</label>
+						<label  class="col-xs-4" style="font-weight: bold;" translate>{{FechaActual}}</label>
+				 </div>
+				 <div class="row">
+						<label  class="col-xs-2" translate style="font-weight: bold; text-align:left">UI_MONEDA</label>
+						<label  class="col-xs-4" style="font-weight: bold;" translate>{{MonedaCartola}}</label>
+				 </div>
+			</div>
+			<div class="col-xs-4"></div>
+			
+			<div class="col-xs-4">
+				<div class="row">
+					<label  class="col-xs-2" translate style="font-weight: bold; text-align:left">UI_EJECUTIVO</label>
+					<label  class="col-xs-4" style="font-weight: bold;" translate>{{NombreEjecutivo}}</label>
+				</div>
+				<div class="row">
+					<label  class="col-xs-2" translate style="font-weight: bold; text-align:left">UI_TELEFONO</label>
+					<label  class="col-xs-4" style="font-weight: bold;" translate>{{Telefono}}</label>
+				</div>
+				<div class="row">
+					<label  class="col-xs-2" translate style="font-weight: bold; text-align:left">UI_PORTAFOLIO</label>
+					<label  class="col-xs-4" style="font-weight: bold;" translate>{{CodigoPortafolio}}</label>
+				</div>
+			</div>  
+		</div> <!-- considerar  -->	
+	</div>
+	<!-- RESUMEN INVERSIONES  -->
+
+	<div class="col-xs-12">
+    	<div class="col-xs-6">
+        	<div class="row" id="flujoPatrimonial"></div>   <!-- Flujo patrimonial -->
+        	
+        	<br><br>
+        	<div class="col-xs-6" id="graficoexposicionpormonedas">
+        	</div>
+        	
+        	<div class="col-xs-6" id="graficoporclasedeactivos">
+        	</div> 
+        	
+        	<div class="row"><label  class="col-xs-12" translate style="text-align:left">UI_LEYENDA_FLUJO_PATRIMONIAL</label></div> 
+    	</div>
+    	<div class="col-xs-1"></div>
+    	<div class="col-xs-5">
+        	<div class="row" id="composicionCartera" ></div> <!-- Composicion de cartera -->
+    	</div>
+	</div>
+	<br>
+	
+	<!-- CARTERA INVERSIONES -->
+	<div class="col-xs-12">
+		<div class="row">
+			<label class="col-xs-12" translate style="font-weight: bold; text-align:center; text-transform: uppercase; font-size: 14px !important;" id="tit_carteraInver">{{uiCarteraInv}}</label>		
+		</div>
+		
+		 <div class="col-xs-12">
+			<div id="containerCarteraInversiones" class="row">
+				<div id="carteraInversiones" class="row" ></div>								
+			</div>
+		</div>
+	</div>
+	
+	<!-- MOVIMIENTOS DE TITULOS -->
+	<div class="col-xs-12">
+		<div class="row">
+			 <label class="col-xs-12" translate style="font-weight: bold; text-align:center; text-transform: uppercase; font-size: 14px !important;" id="tit_movTitulos">{{uiMovTitulos}}</label>			
+		</div>
+		
+		<div class="col-xs-12">
+			<div id="containerMovimientoTitulos" class="row">
+				<div id="movimientoTitulos" class="row" ></div>								
+			</div>
+		</div>
+	</div>
+	
+	<!-- MOVIMIENTOS DE CAJA-->
+	<div class="col-xs-12">
+		<div class="row">
+			<label class="col-xs-12" translate style="font-weight: bold; text-align:center; text-transform: uppercase; font-size: 14px !important;" id="tit_movCaja">{{uiMovCaja}}</label>			
+		</div>
+		<div class="col-xs-12">
+			<div id="containerMovimientosCaja" class="row">
+				<div class="row" id="movimientosCaja"></div>								
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+.k-grid-header{
+	padding-right: 0px !important;
+}
+.k-grid-content{
+		overflow-y: unset !important;
+	}
+.k-block, .k-widget, .k-input, .k-textbox, .k-group, .k-content, .k-header, .k-filter-row > th, .k-editable-area, .k-separator, .k-textbox > input, .k-autocomplete, .k-dropdown-wrap, .k-toolbar, .k-group-footer td, .k-grid-footer, .k-footer-template td, .k-state-default, .k-state-default .k-select, .k-state-disabled, .k-grid-header, .k-grid-header-wrap, .k-grid-header-locked, .k-grid-footer-locked, .k-grid-content-locked, .k-grid td, .k-grid td.k-state-selected, .k-grid-footer-wrap, .k-pager-wrap, .k-pager-wrap .k-link, .k-pager-refresh, .k-grouping-header, .k-grouping-header .k-group-indicator, .k-panelbar > .k-item > .k-link, .k-panel > .k-item > .k-link, .k-panelbar .k-panel, .k-panelbar .k-content, .k-treemap-tile, .k-calendar th, .k-slider-track, .k-splitbar, .k-dropzone-active, .k-tiles, .k-tooltip, .k-button-group .k-tool, .k-upload-files, .k-popup.k-align .k-list .k-item:last-child, .k-editor-dialog .k-tabstrip-items, .k-maskedtextbox.k-state-disabled > .k-textbox:hover, .k-dateinput.k-state-disabled > .k-textbox:hover{ border-color: #ffffff;}
+
+	.tituloPrincipalGrillaCartola{
+		background-color: #f9a940 !important;
+		/*border: none !important;*/
+		font-size: 11px !important;
+	}
+	
+	.tituloPrincipalGrillaCartolaGris{
+		background-color: #808080 !important;
+		color: #FFFFFF !important;
+		/*border: none !important;*/
+		font-size: 11px !important;
+		text-align: center !important;
+	}
+	
+	.columnaNumeroCartola{
+		text-align: right !important;
+		border: none !important;
+	}
+	
+	.columnaTextoCartola{
+		text-align: left !important;
+		border: none !important;
+	}
+	
+	.rowTotalMercado{
+		background-color: #808080 !important;
+		border: none !important;
+		color: #f9a940 !important;
+		font-weight: bold !important;
+		padding-bottom: 20px !important;
+		font-size: 11px !important;
+	}
+	
+	.rowTotalMercadoNegra{
+		background-color: #808080 !important;
+		border: none !important;
+		color: #000000 !important;
+		font-weight: bold !important;
+		padding-bottom: 20px !important;
+		font-size: 11px !important;
+	}
+	
+	.rowTotalSubMercado{
+		background-color: #d2d2d2 !important;
+		border: none !important;
+		font-weight: bold !important;
+		font-size: 11px !important;
+	}
+	
+	.rowTotalClasificacion{
+		background-color: white !important;
+		border: none !important;
+		font-weight: bold !important;
+		font-size: 11px !important;
+	}
+	
+	.rowDetalle{
+		background-color: white !important;
+		border: none !important;
+		font-size: 11px !important;
+	}
+	
+	
+</style>

@@ -1,0 +1,22 @@
+SELECT
+Fatca."IdPersona"
+,COALESCE (Fatca."NombreClasificacionFatca",'') AS "NombreClasificacionFatca"
+,COALESCE (Fatca."IdClasificacionEmpresaFatca",'') AS "IdClasificacionEmpresaFatca"
+,COALESCE (Fatca."NombreClasificacionEmpresaFatca",'') AS "NombreClasificacionEmpresaFatca"
+,COALESCE (Fatca."NumeroGIIN",'') AS "NumeroGIIN"
+,COALESCE (Fatca."FechaFirmaFormularioString",'') AS "FechaFirmaFormularioString"
+,COALESCE (Fatca."AutorizacionInformarOrganismo",'') AS "AutorizacionInformarOrganismo"
+,COALESCE (Fatca."NACEEUU",'') AS "NACEEUU"
+,COALESCE (Fatca."NACEEUUExplicacion",'') AS "NACEEUUExplicacion"
+,COALESCE (Fatca."ObligacionesFiscales",'') AS "ObligacionesFiscales"
+,COALESCE (Fatca."ObligacionesFiscalesExplicacion",'') AS "ObligacionesFiscalesExplicacion"
+,COALESCE (Fatca."ExcepcionResidente",'') AS "ExcepcionResidente"
+,COALESCE (Fatca."ExcepcionNacimiento",'') AS "ExcepcionNacimiento"
+,COALESCE (Fatca."ExcepcionDomicilio",'') AS "ExcepcionDomicilio"
+,COALESCE (Fatca."ExcepcionTelefono",'') AS "ExcepcionTelefono"
+,COALESCE (Fatca."ExcepcionOrdenPermanente",'') AS "ExcepcionOrdenPermanente"
+,COALESCE (Fatca."ExcepcionFirma",'') AS "ExcepcionFirma"
+,COALESCE (Fatca."ParticipacionSociedadesUSA",'') AS "ParticipacionSociedadesUSA"
+,COALESCE (Fatca."OrdenPermanente",'') AS "OrdenPermanente"
+FROM "BSCL.SocioNegocio.BD.Vistas::PER.ConsultarPersonaFatca" Fatca
+WHERE "IdPersona" IN (:p_IdPersonas);

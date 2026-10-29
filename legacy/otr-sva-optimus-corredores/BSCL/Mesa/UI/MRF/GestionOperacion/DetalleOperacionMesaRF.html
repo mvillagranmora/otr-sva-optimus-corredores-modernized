@@ -1,0 +1,120 @@
+<div class="bcs-modal-window" ng-controller="DetalleOperacionMesaRFCtrl">
+	<div class="form-horizontal">
+		<div class="form-group">
+			<h5 translate>UI_INFORMACION</h5>
+		</div>
+		<div class="form-group">
+			<table class="table">
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_SECUENCIA'}}</strong></td>
+					<td>{{operacion.SecuenciaOperacion}}</td>
+					<td><strong class="align_right" translate>{{'UI_INTERMESA'}}</strong></td>
+					<td><label class="" translate>{{operacion.EsIntermesa}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" >{{'UI_FOLIO' | translate}}</strong></td>
+					<td>{{operacion.FolioOperacion}}</td>
+					<td><strong class="align_right" translate>{{'UI_ESTADO'}}</strong></td>
+					<td><label class="" >{{operacion.NombreEstado}}</label></td>
+				</tr>
+				<tr>
+                    <td><strong class="align_right" translate>{{'UI_FOLIO_CARTERA'}}</strong></td>
+                    <td><label class="" >{{operacion.FolioCartera}}</label></td>
+                    <td><strong class="align_right" translate>{{'UI_CLIENTE_OPERA'}}</strong></td>
+                    <td><label class="">{{operacion.AfectaCustodia === 'S' ? 'CUSTODIA' : 'UI_NOMINAL' | translate | uppercase}}</label></td>
+                </tr>
+				<tr>
+					<td><strong class="align_right" >{{'UI_MESA_ORIGEN' | translate}}</strong></td>
+					<td>{{operacion.NombreMesaOrigen}}</td>
+					<td><strong class="align_right" translate>{{'UI_MESA_DESTINO'}}</strong></td>
+					<td><label class="" >{{operacion.NombreMesaDestino}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_CLIENTE'}}</strong></td>
+					<td><label class="">{{operacion.NombreCliente}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_PORTAFOLIO'}}</strong></td>
+					<td><label class="" >{{operacion.PortafolioCliente}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_TIPO_OPERACION'}}</strong></td>
+					<td><label class="">{{operacion.TipoOperacion}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_FECHA_OPERACION'}}</strong></td>
+					<td><label class="" >{{operacion.FechaOperacion | kformat:'d'}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_TIPO_REAJUSTE'}}</strong></td>
+					<td><label class="">{{operacion.IdTipoReajuste}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_TASA'}}</strong></td>
+					<td><label class="" >{{operacion.IdEstado !== 'ANT'?operacion.Tasa : operacion.TasaAnticipo | kformat:'n':operacion.IdTipoReajuste:'tasa':'GEN':'':operacion.IdTipoInstrumentoDetalle}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_PLAZO'}}</strong></td>
+					<td><label class="">{{operacion.Plazo}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_FECHA_VENCIMIENTO'}}</strong></td>
+					<td><label class="" >{{operacion.FechaVencimiento | kformat:'d'}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_CONDICION_LIQUIDACION'}}</strong></td>
+					<td><label class="">{{operacion.IdEstado !== 'ANT'?operacion.NombreCondicionLiquidacion : operacion.NombreCondicionLiquidacionAnticipo}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_FECHA_LIQUIDACION'}}</strong></td>
+					<td><label class="" >{{operacion.IdEstado !== 'ANT'?operacion.FechaCondicionLiquidacion : operacion.FechaCondicionLiquidacionAnticipo | kformat:'d'}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_MONTO'}}</strong></td>
+					<td><label class="" >{{operacion.IdEstado !== 'ANT'?operacion.MontoOperacionMoneda : operacion.MontoOperacionMonedaAnticipo | kformat:'c':operacion.IdTipoReajuste:'monto':'GEN'}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_VALOR_FINAL'}}</strong></td>
+					<td><label class="">{{operacion.IdEstado !== 'ANT'?operacion.MontoOperacionFinalMoneda : operacion.MontoOperacionFinalMonedaAnticipo | kformat:'c':operacion.IdTipoReajuste:'monto':'GEN'}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_MONTO_EQUIVALENTE'}}</strong></td>
+					<td><label class="" >{{operacion.IdEstado !== 'ANT'?operacion.MontoOperacion : operacion.MontoOperacionAnticipo | kformat:'c':IdMonedaPrincipal:'monto':'GEN'}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_MONTO_FINAL'}}</strong></td>
+					<td><label class="">{{operacion.IdEstado !== 'ANT'?operacion.MontoOperacionFinal : operacion.MontoOperacionFinalAnticipo | kformat:'c':IdMonedaPrincipal:'monto':'GEN'}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_AGENTE'}}</strong></td>
+					<td><label class="" >{{operacion.NombreAgente}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_TASA_AGENTE'}}</strong></td>
+					<td><label class="">{{operacion.TasaAgente | kformat:'n':operacion.IdTipoReajuste:'tasa':'GEN':'':operacion.IdTipoInstrumentoDetalle}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_OPERADOR'}}</strong></td>
+					<td><label class="" >{{operacion.NombreOperador}}</label></td>
+					<td><strong class="align_right" translate>{{'UI_MONEDA_LIQUIDACION'}}</strong></td>
+					<td><label class="">{{operacion.IdMonedaLiquidacion}}</label></td>
+				</tr>
+				<tr>
+					<td><strong class="align_right" translate>{{'UI_COMENTARIO'}}</strong></td>
+					<td colspan="3"><label class="" >{{operacion.Comentarios}}</label></td>
+				</tr>
+			</table>
+		</div>
+		<div ng-show="detalleOperacion.length > 0" class="form-group"><br/>
+			<div  class="form-group">
+				<h5>{{'UI_CARTERAS' | translate}} ({{detalleOperacion.length}})</h5>
+			</div>
+			<div  class="form-group">
+				<bcs-grid id="gridDetalleOperacion" 
+						  configuracion = "confBasicaDetalleOperacion">
+				</bcs-grid>
+			</div>
+		</div>
+		<br>
+		<br>
+		<div class="form-group">
+			<h5>{{'UI_FORMA_DE_PAGO' | translate}}</h5>
+		</div>
+		<div  class="form-group">
+			<bcs-grid id="gridFormaPagoOperacionEntregamos" 
+				      configuracion = "confBasicaFormaPagoOperacionEntregamos">
+			</bcs-grid>
+		</div>
+		<br>
+		<br>
+		<div  class="form-group">
+			<bcs-grid id="gridFormaPagoOperacionRecibimos" 
+					  configuracion = "confBasicaFormaPagoOperacionRecibimos">
+			</bcs-grid>
+		</div>				
+	</div>
+</div>

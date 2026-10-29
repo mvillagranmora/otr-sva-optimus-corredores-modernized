@@ -1,0 +1,616 @@
+<div class="row" ng-controller='MantenedorInstrumentoCtrl'>
+    <form name="MantenedorInstrumentoForm">
+        <uib-tabset style="min-height:235px">
+            <uib-tab heading="{{'UI_DATOS_BASICOS' | translate}}">
+
+                <div class="row">
+                    <div class="row">
+                        <label class="col-xs-2" translate>UI_CLASIFICACION</label>
+                        <bcs-combobox-base
+                            class="col-xs-3"
+                            bcs-requerido
+                            tipo="'combobox-clasificacion-tipo-instrumento'"
+                            id-defecto="instrumentoDef.IdClasificacionTipoInstrumento"
+                            id-actual="instrumento.IdClasificacionInstrumento"
+                            cascada1-a="formData.filtros.tipoInstrumento.IdClasificacionTipoInstrumento"
+                            cascada1-valor="'IdClasificacionTipoInstrumento'"
+                            cascada2-a="formData.filtros.entidadClasificadoraRiesgo.IdClasificacionTipoInstrumento"
+                            cascada2-valor="'IdClasificacionTipoInstrumento'" 
+                            cascada3-a="formData.filtros.tipoInstrumentoSubyacente.IdClasificacionTipoInstrumentoSubyacente"
+                            cascada3-valor="'IdClasificacionTipoInstrumento'"                           
+                            >
+                        </bcs-combobox-base >
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_TIPO_INSTRUMENTO</label>
+                        <bcs-combobox-base
+                            class="col-xs-3"
+                            bcs-requerido
+                            tipo="'combobox-tipo-instrumento'"
+                            filtros="formData.filtros.tipoInstrumento"
+                            auto-cargar="'false'"
+                            id-post-filtro="instrumentoDef.IdTipoInstrumento"
+                            id-actual="instrumento.IdTipoInstrumento">
+                        </bcs-combobox-base >
+                    </div>
+
+                    <div class="row" ng-show="instrumento.IdTipoInstrumento == 'OPC'">
+                        <label class="col-xs-2" translate>UI_INSTRUMENTO_SUBYACENTE</label>
+                        <bcs-input-instrumentos
+								id 						= "IngresarOrdenOpcionesForm_inputInstrumentos" 
+								class					= "col-xs-3"
+								buscar-instrumento		= "formData.setInstrumentoSubyacente" 
+								datos-instrumento		= "formData.instrumentoSubyacente" 
+								muestra-precio 			= "'N'" 
+								consulta-precio 		= "'S'" 
+								filtro-estado 			= "'ACT'"
+								filtro-clasificacion	= "['RV']">
+						</bcs-input-instrumentos>
+                    </div>
+
+					<div class="row">
+                        <label class="col-xs-2" translate>UI_NEMOTECNICO</label>
+                        <bcs-input-texto class="col-xs-3" ng-model="instrumento.Nemotecnico" bcs-requerido
+                                         k-ng-disabled="instrumento.IdTipoInstrumento == 'OPC' || modo == 'MODIFICAR'"
+                                         ng-blur="obtenerCuponesPorNemotecnico();"
+                        	></bcs-input-texto>
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_ISIN</label>
+                        <bcs-input-texto class="col-xs-3" ng-model="instrumento.ISIN"></bcs-input-texto>
+                    </div>
+                    
+					<div class="row" ng-show = "ActivarIntegracion">
+                        <label class="col-xs-2" translate>UI_NEMOTECNICO_RAIZ</label>                        
+                        <bcs-input-texto class="col-xs-3" ng-model="instrumento.NemotecnicoRaiz" ng-show = "modo == 'MODIFICAR'"                                        
+                                         k-ng-disabled="instrumento.IdTipoInstrumento == 'OPC' || modo == 'MODIFICAR'"                                     
+                        ></bcs-input-texto>
+					
+					
+						<bcs-input-instrumentos
+							class="col-xs-3" 
+							ng-show = "modo == 'INGRESAR'"
+							datos-instrumento="formData.instrumento"
+							buscar-instrumento="formData.buscarInstrumento"
+							filtro-tipo-instrumento = "instrumento.IdTipoInstrumento"
+							filtro-clasificacion="instrumento.IdClasificacionInstrumento" 
+							filtro-bolsa = $root.SesionBolsaDefectoSistema 
+							filtro-estado="'ACT'"> 
+						</bcs-input-instrumentos>                        
+                    </div>                    
+                    
+                    <div class="row">
+                        <label class="col-xs-2" translate>UI_RAZON_SOCIAL</label>
+                        <bcs-input-texto class="col-xs-3" ng-model="instrumento.RazonSocial" bcs-requerido></bcs-input-texto>
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_EMISOR</label>
+                        <bcs-combobox-base
+                            class="col-xs-3"
+                            tipo="'combobox-emisores-lite'"
+                            filtros = "formData.filtros.emisores"
+                            bcs-requerido
+                            id-defecto="instrumentoDef.IdEmisor"
+                            id-actual="instrumento.IdEmisor">
+                        </bcs-combobox-base >
+                    </div>
+
+                    <div class="row">
+                        <label class="col-xs-2" translate>UI_ESTADO</label>
+                        <bcs-combobox-base
+                            class="col-xs-3"
+                            bcs-requerido
+                            tipo="'combobox-estado-instrumento'"
+                            id-defecto="instrumentoDef.IdEstado"
+                            id-actual="instrumento.IdEstado">
+                        </bcs-combobox-base >
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_INSCRITO</label>
+                        <bcs-input-checkbox class="col-xs-3" ng-model="instrumento.EstaInscrito"></bcs-input-checkbox>
+                    </div>
+                    
+					<div class="row" ng-show = "ActivarIntegracion" >
+						<label class="col-xs-2" translate>UI_CONDICION_LIQUIDACION</label>
+						<bcs-combobox-base 
+					     	class="col-xs-3"
+					     	filtros = "oConfiguracionCondicionLiquidacion.filtros"
+							tipo="'combobox-condicion-liquidacion'"
+							id-actual="instrumento.oConfiguracionCondicionLiquidacion"
+							id-defecto="instrumento.IdCondicionDeLiquidacion">
+						</bcs-combobox-base>
+					</div>                    
+
+                    <div class="row">
+						<label class="col-xs-2" translate>UI_AUTORIZADO</label>
+						<bcs-input-checkbox class="col-xs-3"
+							ng-model="instrumento.EsAutorizado" ng-disabled="ActivarCheckEsAutorizar"></bcs-input-checkbox>
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_AFECTO_ART_107</label>
+                        <bcs-input-checkbox class="col-xs-3" ng-model="instrumento.AfectoArt107"></bcs-input-checkbox>
+                    </div>
+
+                    <div class="row">
+						<div ng-show="muestraCheckEsInstrumentoCalificado()">
+							<label class="col-xs-2" translate>UI_INSTRUMENTO_CALIFICADO</label>
+							<bcs-input-checkbox class="col-xs-3" ng-model="instrumento.EsInstrumentoCalificado"></bcs-input-checkbox>
+                        </div>
+                        <label class="col-xs-5" ng-show="!muestraCheckEsInstrumentoCalificado()" translate></label>
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_AFECTO_ART_104</label>
+                        <bcs-input-checkbox class="col-xs-3" ng-model="instrumento.AfectoArt104"></bcs-input-checkbox>
+                    </div>
+                    
+                    <div class="row">
+                        <div ng-show="instrumento.IdClasificacionInstrumento == 'RV'">
+                            <label class="col-xs-2" translate>UI_DIVIDENDO_OTRAS_MONEDAS</label>
+                            <bcs-input-checkbox class="col-xs-3" ng-model="instrumento.DividendoOtraMoneda"></bcs-input-checkbox>
+                        </div>
+                        <label class="col-xs-5" ng-show="instrumento.IdClasificacionInstrumento != 'RV'" translate></label>
+   	                    <label class="col-xs-2 col-xs-offset-2" translate>UI_COBRO_COMISIONES_CUSTODIA</label>
+                        <bcs-input-checkbox class="col-xs-3" ng-model="instrumento.CobroComisionesCustodia"></bcs-input-checkbox>
+                    </div>
+    
+                    <div class="row" ng-show="SesionLocale=='PE'">
+                        <label class="col-xs-2" translate>UI_INSTRUMENTO_ACREDITADO</label>
+                        <bcs-input-checkbox class="col-xs-3" ng-model="instrumento.InstrumentoAcreditado"></bcs-input-checkbox>
+                    	<label class="col-xs-1 col-xs-offset-2" translate>UI_FECHA_HASTA</label>
+                        <bcs-input-date class="col-xs-2" k-ng-model="instrumento.FechaHastaAcreditado"
+	                        bcs-requerido="instrumento.InstrumentoAcreditado"></bcs-input-date>
+                    </div>
+                    
+                    <div class="row" ng-show="SesionLocale=='PE'">
+                    	<label class="col-xs-2" translate>UI_NEMOTECNICO_CAMBIO</label>
+                        <bcs-input-texto class="col-xs-3" ng-model="instrumento.NemotecnicoCambio"
+                        bcs-requerido="instrumento.InstrumentoAcreditado"></bcs-input-texto>
+                    </div>
+                    <hr>
+                    
+                    <div class="row">
+                        <label class="col-xs-2" translate>UI_FECHA_EMISION</label>
+                        <bcs-input-date class="col-xs-3" k-ng-model="instrumento.FechaEmision" bcs-requerido="esBono(instrumento)"></bcs-input-date>
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_FECHA_VENCIMIENTO</label>
+                        <bcs-input-date class="col-xs-3" k-ng-model="instrumento.FechaVencimiento"
+	                        bcs-requerido="esBono(instrumento)"></bcs-input-date>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-xs-2" translate>UI_CORTE_MINIMO</label>
+                        <bcs-input-numero class="col-xs-3" k-ng-model="instrumento.CorteMinimo"></bcs-input-numero>
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_TAMANO_CONTRATO</label>
+                        <bcs-input-numero decimales="'0'" class="col-xs-3" k-ng-model="instrumento.Tamano"></bcs-input-numero>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-xs-2" translate>UI_TIPO_REAJUSTE</label>
+                        <bcs-combobox-base
+                            class="col-xs-3"
+                            tipo="'combobox-tipo-reajuste'"
+                            bcs-requerido="esBono(instrumento)"
+                            id-defecto="instrumentoDef.IdTipoReajuste"
+                            id-actual="instrumento.IdTipoReajuste">
+                        </bcs-combobox-base >
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_MONEDA</label>
+                        <bcs-combobox-base
+                            class="col-xs-3"
+                            bcs-requerido
+                            tipo="'combobox-moneda'"
+                            id-defecto="instrumentoDef.IdMoneda"
+                            id-actual="instrumento.IdMoneda">
+                        </bcs-combobox-base >
+                    </div>
+
+                    <div class="row" ng-show="instrumento.IdTipoInstrumento == 'OPC'">
+                        <label class="col-xs-2" translate>UI_PRECIO_STRIKE</label>
+                        <bcs-input-monetario class="col-xs-3" decimales = "'3'" bcs-requerido="instrumento.IdTipoInstrumento == 'OPC'" k-ng-model="instrumento.PrecioStrike" simbolo = "instrumento.IdMoneda"></bcs-input-monetario>
+                    </div>
+                    
+                     <div class="row">
+                        <label class="col-xs-2" translate>UI_PRECIO_BASE</label>
+                        <bcs-input-monetario class="col-xs-3" k-ng-model="instrumento.Precio" simbolo = "instrumento.IdMoneda"></bcs-input-monetario>
+                        <label class="col-xs-2 col-xs-offset-2"" translate>UI_TASA</label>
+                        <bcs-input-numero class="col-xs-3" k-ng-model="instrumento.Tasa" decimales="2"></bcs-input-numero>
+                    </div>
+
+	                <div class="row" ng-show="esBono(instrumento)">
+	                    <label class="col-xs-2" translate>UI_CANTIDAD_CUPONES</label>
+	                    <bcs-input-numero
+	                        class="col-xs-3"
+	                        atributos="width:100%"
+	                        bcs-requerido="esBono(instrumento)"
+	                        decimales="'0'"
+	                        k-options="{format : 'n0', spinners : false}"
+	                        k-ng-model="instrumento.NumeroCupones">
+	                    </bcs-input-numero>
+	                    <label class="col-xs-2 col-xs-offset-2" translate>UI_PERIODO_PAGO</label>
+	                    <div class= "col-xs-3">
+							<select kendo-combo-box
+							    ng-model = "instrumento.FrecuenciaCupon"
+							    options = "FrecuenciaCuponOptions"/></select>
+						</div>
+	                </div>
+	                
+	            	<div class="row" ng-show="SesionLocale=='PE'">
+                     <label class="col-xs-2"  translate>UI_ORIGEN_INSTRUMENTO</label>
+                    		<bcs-combobox-base
+		                        class="col-xs-3"
+		                        tipo="'combobox-tipo-origen-instrumento'"
+		                        bcs-requerido="SesionLocale=='PE'"
+		                        ng-disabled="!esBono(instrumento)"
+		                        id-defecto="instrumento.OrigenInstrumento"
+		                        id-actual="instrumento.OrigenInstrumento">
+		                    </bcs-combobox-base>
+
+                     <label class="col-xs-2 col-xs-offset-2"  ng-show="SesionLocale=='PE'" translate>UI_TIPO_RENTA</label>
+                    	<bcs-combobox-base
+	                        class="col-xs-3"
+	                        tipo="'combobox-tipo-renta'"
+	                        bcs-requerido="SesionLocale=='PE'"
+	                        ng-disabled="!esBono(instrumento)"
+	                        id-defecto="instrumento.TipoRenta"
+	                        id-actual="instrumento.TipoRenta">
+	                    </bcs-combobox-base>	                    
+		            </div>
+		            
+                    <div class="row" ng-show="SesionLocale=='PE'">
+                        <label class="col-xs-2"  translate>UI_FACTOR_EXPOSICION</label>
+                        <bcs-input-numero class="col-xs-3" k-ng-model="instrumento.FactorExposicion"></bcs-input-numero>
+                        
+                        <label class="col-xs-2 col-xs-offset-2" translate>UI_RELACIONADO_GRUPO</label>
+                         <bcs-combobox-base
+	                        class="col-xs-3"
+	                        tipo="'combobox-relacion-grupo'"
+	                        bcs-requerido="SesionLocale=='PE'"
+	                        id-defecto="instrumento.RelacionadoGrupo"
+	                        id-actual="instrumento.RelacionadoGrupo">
+	                    </bcs-combobox-base>
+                        
+                         
+                        <!--<bcs-input-checkbox class="col-xs-3" ng-model="instrumento.RelacionadoGrupo"></bcs-input-checkbox>-->
+                    </div>
+		            
+		            
+		            <div class="row" ng-show="SesionLocale=='PE'">
+	                 	<label class="col-xs-2"  ng-show="esBono(instrumento)" translate>UI_TIPO_BONO</label>
+                   			<bcs-combobox-base		                        
+                   				class="col-xs-3"
+                   				ng-show="esBono(instrumento)"		                        		                         
+		                        tipo="'combobox-tipo-bono-irf'"
+		                        bcs-requerido="SesionLocale=='PE' && esBono(instrumento)"
+		                        ng-disabled="!esBono(instrumento)"
+		                        id-defecto="instrumento.TipoBonoIRF"
+		                        id-actual="instrumento.TipoBonoIRF">
+	                    	</bcs-combobox-base>
+                        <label class="col-xs-2 col-xs-offset-2" ng-show="esBono(instrumento)" translate>UI_PACTO_ANDINO</label>
+                        <!--<bcs-input-checkbox class="col-xs-3" 	ng-show="esBono(instrumento)" ng-model="instrumento.PactoAndino"></bcs-input-checkbox>-->	
+                        <bcs-combobox-base
+	                        class="col-xs-3"
+	                        tipo="'combobox-pacto-andino'"
+	                        ng-show="esBono(instrumento)"
+	                        bcs-requerido="SesionLocale==='PE' && esBono(instrumento)"
+	                        id-defecto="instrumento.PactoAndino"
+	                        id-actual="instrumento.PactoAndino">
+	                    </bcs-combobox-base>                    	
+		            </div>
+		            
+                    <div class="row" ng-show="SesionLocale=='PE'">
+                        <label class="col-xs-2" translate>UI_PORCENTAJE_DESCUENTO</label>
+                        <bcs-input-porcentaje class="col-xs-3" k-ng-model="instrumento.PorcentajeCastigo" decimales = 2></bcs-input-porcentaje>
+                    	<label class="col-xs-2 col-xs-offset-2" ng-show="!esBono(instrumento)" translate>UI_FORMADOR_MERCADO</label>
+                        <!--<bcs-input-checkbox class="col-xs-3"    ng-show="!esBono(instrumento)" ng-model="instrumento.FormadorMercado"></bcs-input-checkbox>-->
+                         <bcs-combobox-base
+	                        class="col-xs-3"
+	                        tipo="'combobox-formador-mercado'"
+	                        ng-show="SesionLocale=='PE' && !esBono(instrumento)"
+	                        bcs-requerido="SesionLocale=='PE' && !esBono(instrumento)"
+	                        id-defecto="instrumento.FormadorMercado"
+	                        id-actual="instrumento.FormadorMercado">
+	                    </bcs-combobox-base>                   
+                    </div>
+
+                    <div class="row" ng-show="SesionLocale=='PE'">
+                    	<label class="col-xs-2 " ng-show="esBono(instrumento)" translate>UI_LARGO_PLAZO</label>
+                        <bcs-input-checkbox class="col-xs-3" 	ng-show="esBono(instrumento)"ng-model="instrumento.LargoPlazo"></bcs-input-checkbox>
+                    
+                    </div>
+		            
+		            <div class="row" ng-show="SesionLocale=='PE'">
+                        <label class="col-xs-2"  translate>UI_TIPO_OPCIONES</label>
+                        <bcs-combobox-base 
+							 	class="col-xs-3"
+							 	tipo="'combobox-tipo-opciones'"
+					            bcs-requerido = "SesionLocale=='PE' && instrumento.IdTipoInstrumento === 'OPC'"
+							    seleccionado = "instrumento.TipoOpcion"
+                            	id-post-filtro="instrumentoDef.TipoOpcion">
+						</bcs-combobox-base >
+                    </div>	            
+        
+                </div>
+            </uib-tab>
+
+			<uib-tab heading="{{'UI_BOLSAS' | translate}}">
+			
+				<div class="row">
+				    <label class="col-xs-1" translate>UI_BOLSA</label>
+				    <bcs-combobox-base
+				        class="col-xs-2"
+				        seleccionado = "formData.bolsaSeleccionada"
+				        id-actual = "formData.idBolsaSeleccionada"
+				        cascada-a = "formData.filtros.tipoInstrumentoSubyacente.IdBolsa"
+				        cascada-valor="'IdBolsa'"
+				        tipo="'combobox-bolsa'">
+				    </bcs-combobox-base >
+				    <label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+				    <bcs-combobox-base
+						class="col-xs-2"
+						seleccionado = "formData.tipoInstrumentoSeleccionado"
+						id-post-filtro = "formData.tipoInstrumentoSeleccionadoGrilla"
+						id-actual = "formData.idTipoInstrumentoSeleccionado"
+						filtros = "formData.filtros.tipoInstrumentoSubyacente"
+						tipo="'combobox-tipo-instrumento-subyacente'"
+						auto-cargar="false"
+						>
+					</bcs-combobox-base>
+					<label class="col-xs-2" translate>UI_GARANTIZABLE</label>
+					<bcs-input-checkbox class="col-xs-1" 
+						ng-model="formData.esGarantizable"
+						ng-disabled="formData.deshabilitarGarantizable">
+					</bcs-input-checkbox>
+				    <bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="'false'" bcs-texto="'UI_AGREGAR' | translate"
+				        bcs-habilitado="formData.bolsaSeleccionada"
+				        bcs-clic="formData.agregarBolsa()"></bcs-button>
+				   
+				</div>
+                <div class="row">
+                    <bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ELIMINAR' | translate"
+                    bcs-habilitado="formData.bolsaGridSeleccionada"
+                    bcs-clic="formData.eliminarBolsa()"></bcs-button>
+                </div>
+			
+				<div class="row">
+					<bcs-grid
+					    configuracion="formData.configuracionBolsas"
+					    seleccionado = "formData.bolsaGridSeleccionada">
+					</bcs-grid>
+				</div>
+			</uib-tab>
+			
+            <uib-tab heading="{{'UI_VALORES_DE_RIESGO' | translate}}">
+                <div class="row">
+                    <div class="row">
+                        <label class="col-xs-1" translate>UI_ENTIDAD</label>
+                        <bcs-combobox-base
+                            class="col-xs-3"
+                            item-post-filtro = "'1'"
+                            seleccionado	 = "formData.entidadClasificadoraRiesgoSeleccionada"
+                            tipo			 = "'combobox-entidad-clasificadora-riesgo'"
+                            filtros			 = "formData.filtros.entidadClasificadoraRiesgo">
+                        </bcs-combobox-base >
+                        <label class="col-xs-1 col-xs-offset-1" translate>UI_VALOR</label>
+                        <bcs-combobox-base
+                            class				= "col-xs-2"
+                            item-post-filtro 	= "'1'"
+                            filtros 			= "formData.filtros.valorClasificacionRiesgo"
+                            tipo				= "'combobox-clasificacion-riesgo'"
+                            seleccionado 		= "formData.valorClasificacionRiesgoSeleccionada">
+                        </bcs-combobox-base >
+                        <bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="'false'" bcs-texto="'UI_AGREGAR' | translate"
+                            bcs-habilitado="'true'"
+                            bcs-clic="formData.agregarValorRiesgo()"></bcs-button>
+                    </div>
+                    <div class="row">
+                        <bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ELIMINAR' | translate"
+                            bcs-habilitado="formData.valorSeleccionado"
+                            bcs-clic="formData.eliminarValorRiesgo()"></bcs-button>
+                    </div>
+
+                    <div class="row">
+                        <bcs-grid
+                            configuracion="formData.configuracionValoresRiesgo"
+                            seleccionado = "formData.valorSeleccionado">
+                        </bcs-grid>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="{{'UI_BONO_INTERNACIONAL' | translate}}" ng-show="esBono(instrumento)">
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_COMMON</label>
+                    <bcs-input-texto
+                        class="col-xs-3"
+                        atributos="width:100%"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.COMMON">
+                    </bcs-input-texto>
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_TASA_EMISION</label>
+                    <bcs-input-numero
+                        class="col-xs-3"
+                        atributos="width:100%"
+                        bcs-requerido="esBono(instrumento)"
+                        ng-disabled="!esBono(instrumento)"
+                        decimales="'6'"
+                        k-options="{format : 'n6', spinners : false}"
+                        k-ng-model="bono.TasaEmision">
+                    </bcs-input-numero>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_CUSIP</label>
+                    <bcs-input-texto
+                        class="col-xs-3"
+                        atributos="width:100%"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.CUSIP">
+                    </bcs-input-texto>
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_DEVENGO</label>
+                    <bcs-input-date
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento)"
+                        bcs-requerido="esBono(instrumento)"
+                        k-ng-model="bono.FechaDevengo">
+                    </bcs-input-date>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_SEDOL</label>
+                    <bcs-input-texto
+                        class="col-xs-3"
+                        atributos="width:100%"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.SEDOL">
+                    </bcs-input-texto>
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_PREPAGO</label>
+                    <bcs-input-date
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento)"
+                        k-ng-model="bono.FechaPrepago">
+                    </bcs-input-date>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_TICKER_BLOOMBERG</label>
+                    <bcs-input-texto
+                        class="col-xs-3"
+                        atributos="width:100%"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.TickerBloomberg">
+                    </bcs-input-texto>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_CUPONERA_VARIABLE</label>
+                    <bcs-input-checkbox
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.CuponeraVariable">
+                    </bcs-input-checkbox>
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_CALL_CONFIRMADO</label>
+                    <bcs-input-checkbox
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento) || !bono.CuponeraVariable"
+                        ng-model="bono.CallConfirmado">
+                    </bcs-input-checkbox>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_PRESENCIA_BURSATIL</label>
+                    <bcs-input-checkbox
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.PresenciaBursatil">
+                    </bcs-input-checkbox>
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_MERCADO_LOCAL</label>
+                    <bcs-input-checkbox
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.MercadoLocal">
+                    </bcs-input-checkbox>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_MERCADO_EXTRABURSATIL</label>
+                    <bcs-input-checkbox
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.MercadoExtrabursatil">
+                    </bcs-input-checkbox>
+                    <!-- 
+                    <label class="col-xs-3" translate>UI_MERCADO_EXTRANJERO</label>
+                    <bcs-input-checkbox
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.MercadoExtranjero">
+                    </bcs-input-checkbox>
+                     -->
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_AJUSTE_FIN_DE_MES</label>
+                    <bcs-input-checkbox
+                        class="col-xs-3"
+                        ng-disabled="!esBono(instrumento)"
+                        ng-model="bono.AjusteFinDeMes">
+                    </bcs-input-checkbox>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_CONVENCION_DIAS</label>
+                    <bcs-combobox-base
+                        class="col-xs-3"
+                        bcs-requerido="esBono(instrumento)"
+                        ng-disabled="!esBono(instrumento)"
+                        tipo="'combobox-convencion-dias'"
+                        id-defecto="bonoDef.ConvencionDias"
+                        id-actual="bono.ConvencionDias">
+                    </bcs-combobox-base>
+                    
+                    
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_CALENDARIO</label>
+                    <bcs-combobox-base
+                        class="col-xs-3"
+                        tipo="'combobox-calendario'"
+                        ng-disabled="!esBono(instrumento)"
+                        id-defecto="bonoDef.IdCalendario"
+                        id-actual="bono.IdCalendario">
+                    </bcs-combobox-base>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_PAIS_TRANSACCION</label>
+                    <bcs-combobox-base
+                        class="col-xs-3"
+                        tipo="'combobox-pais'"
+                        ng-disabled="!esBono(instrumento)"
+                        id-defecto="bonoDef.IdPaisTransaccion"
+                        id-actual="bono.IdPaisTransaccion">
+                    </bcs-combobox-base>
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_LIBOR </label>
+                    <bcs-combobox-base
+                        class="col-xs-3"
+                        tipo="'combobox-tipo-libor'"
+                        ng-disabled="!esBono(instrumento)"
+                        id-defecto="bonoDef.TipoLibor"
+                        id-actual="bono.TipoLibor">
+                    </bcs-combobox-base>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_TIPO_INFLACION</label>
+                    <bcs-combobox-base
+                        class="col-xs-3"
+                        tipo="'combobox-tipo-inflacion'"
+                        ng-disabled="!esBono(instrumento)"
+                        id-defecto="bonoDef.IdTipoInflacion"
+                        id-actual="bono.IdTipoInflacion">
+                    </bcs-combobox-base>
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_TENOR_INFLACION</label>
+                    <bcs-combobox-base
+                        class="col-xs-3"
+                        tipo="'combobox-tenor-inflacion'"
+                        ng-disabled="!esBono(instrumento)"
+                        id-defecto="bonoDef.TenorInflacion"
+                        id-actual="bono.TenorInflacion">
+                    </bcs-combobox-base>
+                </div>
+
+                <div class="row">
+                    <label class="col-xs-3" translate>UI_TIPO_CALCULO_CUPON</label>
+                    <bcs-combobox-base
+                        class="col-xs-3"
+                        tipo="'combobox-tipo-calculo-intereses'"
+                        bcs-requerido="esBono(instrumento)"
+                        ng-disabled="!esBono(instrumento)"
+                        id-defecto="bonoDef.TipoCalculoInteresesCupon"
+                        id-actual="bono.TipoCalculoInteresesCupon">
+                    </bcs-combobox-base>
+                    <label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_CALCULO_INTERESES</label>
+                    <bcs-combobox-base
+                        class="col-xs-3"
+                        tipo="'combobox-tipo-calculo-intereses'"
+                        bcs-requerido="esBono(instrumento)"
+                        ng-disabled="!esBono(instrumento)"
+                        id-defecto="bonoDef.TipoCalculoInteresesDevengados"
+                        id-actual="bono.TipoCalculoInteresesDevengados">
+                    </bcs-combobox-base>
+                </div>
+                
+                
+
+                
+            </uib-tab>
+        </uib-tabset>
+    </form>
+
+    <div class="row bcs-panel-comandos" style="padding-top: 5px !important;">
+        <bcs-button id="UI_ACEPTAR" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="MantenedorInstrumentoForm.$valid" bcs-clic="aceptar()"></bcs-button>
+        <bcs-button id="UI_CUPONES" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_CUPONES' | translate" bcs-habilitado="esBono(instrumento) && bono.CuponeraVariable && MantenedorInstrumentoForm.$valid" bcs-clic="cupones()"></bcs-button>
+        <bcs-button id="UI_VALORIZAR" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="'false'" bcs-texto="'UI_VALORIZAR' | translate" bcs-habilitado="esBono(instrumento) && MantenedorInstrumentoForm.$valid" bcs-clic="valorizar()"></bcs-button>
+        <bcs-button id="UI_CANCELAR" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="'false'" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'" bcs-clic="cancelar()"></bcs-button>
+    </div>
+</div>

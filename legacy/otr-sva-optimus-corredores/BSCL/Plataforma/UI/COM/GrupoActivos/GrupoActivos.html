@@ -1,0 +1,87 @@
+<div class="row" ng-controller="GrupoActivosCtrl as GrupoAct">
+	<!-- PANEL PRINCIPAL DE PERFILES DE PRODUCTOS -->
+	<div class="col-xs-12">
+		<div class="row">
+			<div>
+				<div class="row" ng-style="GrupoAct.pantalla.grupoActivos.modoLectura ? {'padding-top':'0px'} : {'padding-top':'0px'}">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_CODIGO</label>
+						<bcs-combobox-base class="col-xs-8"
+							tipo="'combobox-grupo-activos'"
+							id-actual="GrupoAct.conf.grupoActivos.oConfiguracionGrupoActivos.idActual"
+							id-defecto="GrupoAct.conf.grupoActivos.oConfiguracionGrupoActivos.idDefecto"
+							todos="'N'"
+							activado="GrupoAct.pantalla.grupoActivos.modoLectura"
+							filtros="GrupoAct.conf.grupoActivos.oConfiguracionGrupoActivos.filtros"
+							seleccionado="GrupoAct.dataGrupoActivos.GrupoActivosObj">
+						</bcs-combobox-base>
+				  	</div>
+				  	<bcs-button class="col-xs-1 pull-right" bcs-tipo="'bcs-button-input-form'" ng-if="GrupoAct.dataGrupoActivos.muestraCargarDatos" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="GrupoAct.pantalla.grupoActivos.modoLectura" bcs-clic="GrupoAct.dataGrupoActivos.cargarDatos();"></bcs-button>
+		  		</div>
+		  	<hr style="margin: 10px 0px">
+			</div>
+			<div>
+			<div class="row">
+			  	<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_CODIGO</label>
+					<bcs-input-texto class="col-xs-8" ng-model="GrupoAct.dataGrupoActivos.IdGrupoActivos" k-ng-model="GrupoAct.dataGrupoActivos.CodigoGrupoActivosObj" k-ng-disabled="GrupoAct.pantalla.grupoActivos.modoLectura"></bcs-input-texto>
+				</div>
+			  	<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+					<bcs-input-texto class="col-xs-8" ng-model="GrupoAct.dataGrupoActivos.DescripcionGrupoActivos" k-ng-model="GrupoAct.dataGrupoActivos.DescripcionGrupoActivosObj" k-ng-disabled="GrupoAct.pantalla.grupoActivos.modoLectura"></bcs-input-texto>
+			  	</div>
+		  	</div>
+		  	<div class="row">
+			  	<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_TIPO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-grupo-activos'"
+						id-actual="GrupoAct.conf.grupoActivos.oConfiguracionTipoGrupoActivos.idActual"
+						id-defecto="GrupoAct.conf.grupoActivos.oConfiguracionTipoGrupoActivos.idDefecto"
+						todos="'N'"
+						activado="!GrupoAct.pantalla.grupoActivos.modoLectura"
+						filtros="GrupoAct.conf.grupoActivos.oConfiguracionTipoGrupoActivos.filtros"
+						seleccionado="GrupoAct.dataGrupoActivos.TipoGrupoActivosObj">
+					</bcs-combobox-base>
+				</div>
+			  	<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_HABILITADO</label>
+					<bcs-input-checkbox 
+						ng-model="GrupoAct.dataGrupoActivos.Habilitado" 
+						ng-disabled="GrupoAct.pantalla.grupoActivos.modoLectura">
+					</bcs-input-checkbox> 
+			  	</div>
+		  	</div> 
+		</div>
+		
+		
+			
+		<div class="row">					
+			<bcs-grid
+				id="grid-com-matriz-productos" 
+				configuracion="GrupoAct.formData.grillaGrupoActivos"
+				seleccionado="GrupoAct.formData.grillaGrupoActivosSeleccionado.kNgModel">
+			</bcs-grid>
+		</div>
+			
+		
+		<div class="row col-xs-12 bcs-panel-comandos">
+			<div class="col-xs-10">
+				<bcs-button id="AdmPla_GrupoDeActivos_crear" class="col-xs-2" bcs-tipo="'bcs-button-primary'"  bcs-habilitado="GrupoAct.dataGrupoActivos.muestraCrear"  bcs-auto-desactivar="false" bcs-texto="'UI_CREAR' | translate" bcs-clic="GrupoAct.dataGrupoActivos.crear();"></bcs-button>
+				<bcs-button id="AdmPla_GrupoDeActivos_modificar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-habilitado="!GrupoAct.dataGrupoActivos.muestraCrear"  bcs-auto-desactivar="false" bcs-texto="'UI_EDITAR' | translate" bcs-clic="GrupoAct.dataGrupoActivos.editar();"></bcs-button>
+				<bcs-button id="AdmPla_GrupoDeActivos_agregarDetalle" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-habilitado="!GrupoAct.dataGrupoActivos.muestraCrear"  bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR_DETALLE' | translate" bcs-clic="GrupoAct.dataGrupoActivos.crearDetalle();"></bcs-button>
+				<bcs-button id="AdmPla_GrupoDeActivos_modificarDetalle" class="col-xs-2" bcs-tipo="'bcs-button-secondary'"  bcs-habilitado="!GrupoAct.dataGrupoActivos.muestraCrear && GrupoAct.formData.grillaGrupoActivosSeleccionado.kNgModel.IdDetalleGrupoActivos != undefined"  bcs-auto-desactivar="false" bcs-texto="'UI_EDITAR_DETALLE' | translate" bcs-clic="GrupoAct.dataGrupoActivos.editarDetalle();"></bcs-button>
+
+				<bcs-button id="AdmPla_GrupoDeActivos_cancelar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="GrupoAct.dataGrupoActivos.muestraCancelar" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="GrupoAct.dataGrupoActivos.cancelar();"></bcs-button>
+			</div>
+			<div class="col-xs-1"></div>
+			<bcs-menu class="col-xs-1" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="">{{'UI_EXTRAER_PLANTILLAS_POR_CORREDORA' | translate}}</li>
+	            <li ng-click="">{{'UI_EXTRAER_PLANTILLAS_POR_CLIENTE' | translate}}</li>
+	            <li ng-click="">{{'UI_IMPRIMIR' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>
+
+

@@ -1,0 +1,154 @@
+<div id="ModalDireccionFisica" ng-controller="ModalDireccionFisicaCtrl as mdfi">
+	<div class="row bcs-cuerpo">
+		<form name="mdfi.formDireccionFisica" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PAIS_RESIDENCIA</label>
+				<bcs-combobox-base
+						id="formDireccionFisica_paisResidencia"
+						class="col-xs-9"
+						auto-cargar="true"
+						cache="true"
+						tipo="'combobox-pais'"
+						id-actual="mdfi.DireccionFisica.IdPais"
+						id-post-filtro="mdfi.DireccionFisicaOriginal.IdPais"
+						cascada1-a="mdfi.filtroCiudad.IdPais"
+						cascada1-valor="'IdPais'"
+						cascada2-a="mdfi.filtroDivisionPais.IdPais"
+						cascada2-valor="'IdPais'"
+						seleccionado="mdfi.paisResidenciaSeleccionado"
+						bcs-requerido="mdfi.camposRequeridos['direccionFisica_paisResidencia'].Requerido === 'S'"
+				></bcs-combobox-base>
+			</div>
+			<div class="row">
+				<div ng-show="mdfi.paisResidenciaSeleccionado.UsaDivisionPais !== 'S'">
+					<label class="col-xs-3" translate>UI_CIUDAD</label>
+					<bcs-combobox-base id="formDireccionFisica_ciudad"
+						class="col-xs-9"
+						auto-cargar="true"
+						cache="true"
+						bcs-requerido = "mdfi.paisResidenciaSeleccionado.UsaDivisionPais !== 'S' && mdfi.camposRequeridos['formDireccionFisica_ciudad'].Requerido === 'S'"
+						tipo="'combobox-ciudad'" 
+						id-actual="mdfi.DireccionFisica.IdCiudad"
+						id-post-filtro="mdfi.DireccionFisicaOriginal.IdCiudad"
+						seleccionado="mdfi.ciudadSeleccionado"
+						filtros = "mdfi.filtroCiudad"
+						cascada1-a="mdfi.filtroDivisionPais.IdCiudad"
+						cascada1-valor="'IdCiudad'">
+					</bcs-combobox-base>
+				</div>
+				<div ng-show="mdfi.paisResidenciaSeleccionado.UsaDivisionPais === 'S'">
+					<label class="col-xs-3" translate>{{mdfi.paisResidenciaSeleccionado.NombreDivisionPais || 'UI_COMUNA'}}</label>
+					<bcs-combobox-base id="formDireccionFisica_nombreDivisionPais"
+						class="col-xs-9"
+						auto-cargar="true"
+						bcs-requerido="mdfi.paisResidenciaSeleccionado.UsaDivisionPais === 'S' && mdfi.camposRequeridos['direccionFisica_divisionPais'].Requerido === 'S'"
+						tipo="'combobox-division-pais'" 
+						filtros = "mdfi.filtroDivisionPais"
+						id-actual="mdfi.DireccionFisica.IdDivisionPais"
+						id-post-filtro="mdfi.DireccionFisicaOriginal.IdDivisionPais"
+						seleccionado="mdfi.divisionPaisSeleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row" ng-show="mdfi.paisResidenciaSeleccionado.UsaDivisionPais === 'S' && (mdfi.divisionPaisSeleccionado.IdClasificacionDivisionPais1>0 || mdfi.divisionPaisSeleccionado.IdClasificacionDivisionPais2>0)">
+				<div class="col-xs-3"></div>
+				<label class="col-xs-9" style="color:#6B6B6B;">
+					{{mdfi.divisionPaisSeleccionado.TextoClasificacionDivisionPais1 + '   ' + mdfi.divisionPaisSeleccionado.TextoClasificacionDivisionPais2}}
+				</label> 
+			</div> 
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CALLE</label>
+				<bcs-input-texto
+						id="formDireccionFisica_calle"
+						bcs-requerido="mdfi.camposRequeridos['formDireccionFisica_calle'].Requerido === 'S'"
+						class="col-xs-9"
+						ng-model="mdfi.DireccionFisica.Calle"
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_NUMERO</label>
+				<bcs-input-texto
+						id="formDireccionFisica_numero"
+						bcs-requerido="mdfi.camposRequeridos['formDireccionFisica_numero'].Requerido === 'S'"
+						class="col-xs-9"
+						ng-model="mdfi.DireccionFisica.Numero"
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>{{(SesionLocale == 'PE')?'UI_REFERENCIA':'UI_COMPLEMENTO'}}</label>
+				<bcs-input-texto
+						id="formDireccionFisica_referencia_complemento"
+						bcs-requerido="mdfi.camposRequeridos['formDireccionFisica_referenciaComplemento'].Requerido === 'S'"
+						class="col-xs-9"
+						ng-model="mdfi.DireccionFisica.Departamento"
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_SECTOR</label>
+				<bcs-input-texto
+						id="formDireccionFisica_sector"
+						bcs-requerido="mdfi.camposRequeridos['formDireccionFisica_sector'].Requerido === 'S'"
+						class="col-xs-9"
+						ng-model="mdfi.DireccionFisica.Sector"
+
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CODIGO_POSTAL</label>
+				<bcs-input-texto
+						id="formDireccionFisica_codigoPostal"
+						bcs-requerido="mdfi.camposRequeridos['formDireccionFisica_codigoPostal'].Requerido === 'S'"
+						class="col-xs-9"
+						ng-model="mdfi.DireccionFisica.CodigoPostal"
+				></bcs-input-texto>
+			</div>			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PROPOSITO</label>
+				<bcs-combobox-base
+						id="formDireccionFisica_proposito"
+						bcs-requerido="mdfi.camposRequeridos['formDireccionFisica_proposito'].Requerido === 'S'"
+						class="col-xs-9"
+						tipo="'combobox-proposito-contacto'"
+						filtros="mdfi.configuracionProposito.filtros"
+						id-actual="mdfi.DireccionFisica.CodigoProposito"
+						id-defecto="mdfi.DireccionFisicaOriginal.CodigoProposito"
+				></bcs-combobox-base>
+			</div>
+			<div class="row" ng-show="mdfi.paisResidenciaSeleccionado.UsaDivisionPais === 'S'">
+				<label class="col-xs-3" translate>{{(SesionLocale == 'PE')?'UI_UBIGEO':'UI_CODIGO_UNICO_TERRITORIAL'}}</label>
+				<bcs-input-texto
+						id="formDireccionFisica_ubigeo_codigoUnicoTerritorial"
+						class="col-xs-9"
+						bcs-requerido="mdfi.paisResidenciaSeleccionado.UsaDivisionPais === 'S' && mdfi.camposRequeridos['formDireccionFisica_ubigeoCodigoUnicoTerritorial'].Requerido === 'S'"
+						ng-model="mdfi.divisionPaisSeleccionado.CodigoDivisionPais"
+				></bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_COMENTARIO</label>
+				<bcs-input-texto
+						id="formDireccionFisica_comentario"
+						bcs-requerido="mdfi.camposRequeridos['formDireccionFisica_comentario'].Requerido === 'S'"
+						class="col-xs-9"
+						ng-model="mdfi.DireccionFisica.Comentario"
+				></bcs-input-texto>
+			</div>					
+			<div class="row">
+				<label class="col-xs-3" translate>UI_ESTADO</label>
+				<bcs-combobox-base
+						id="formDireccionFisica_estado"
+						class="col-xs-9"
+						auto-cargar="true"
+						bcs-requerido="mdfi.camposRequeridos['direccionFisica_estado'].Requerido === 'S'"
+						filtros="mdfi.cmbbxEstadoDireccionFisica.filtros"
+						tipo="'combobox-estado-direccion-fisica'"
+						id-actual="mdfi.DireccionFisica.IdEstado"
+						id-post-filtro="mdfi.DireccionFisicaOriginal.IdEstado"
+				></bcs-combobox-base>
+			</div>						
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="ModalDireccionFisica_aceptar" class="col-xs-2 pull-right" bcs-habilitado="mdfi.formDireccionFisica.$valid" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="mdfi.aceptar()"></bcs-button>
+		<bcs-button id="ModalDireccionFisica_cancelar" class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mdfi.cancelar()"></bcs-button>
+	</div>
+</div>

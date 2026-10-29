@@ -1,0 +1,49 @@
+<div id="MantenedorTipoRelaciones" class="col-xs-12" ng-controller="MantenedorTipoRelacionesCtrl as mtr">
+	<div class="row"> 
+		<div class="col-xs-10"> 
+			<div class="row">
+				<div class="col-xs-7">
+			  		<label class="col-xs-4" translate>UI_NOMBRE_TIPO_RELACION</label>
+					<bcs-input-texto class="col-xs-7" ng-model="mtr.formData.NombreTipoRelacion"></bcs-input-texto>
+				</div>
+		  	</div>
+			<div class="row">
+			  	<div class="col-xs-4">
+			  		<label class="col-xs-7" translate>UI_PERSONA_NATURAL</label>
+			  		<bcs-input-checkbox ng-model="mtr.formData.EsPersonaNatural"></bcs-input-checkbox>
+				</div>
+		  		<div class="col-xs-4">
+			  		<label class="col-xs-4" translate>UI_INDEFINIDA</label>
+					<bcs-input-checkbox ng-model="mtr.formData.EsIndefinida"></bcs-input-checkbox>
+			 	 </div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="mtr.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="mtr.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<div class="row">
+		<bcs-grid 
+			seleccionado="mtr.tipoRelacionSeleccionada"
+			fn-exportar-excel = "exportarExcel"  
+			configuracion="mtr.gridTipoRelaciones" 
+			fn-doble-click="mtr.modificar(mtr.tipoRelacionSeleccionada)">
+		</bcs-grid>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="MantenedorTipoRelaciones_agregar" class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" 
+			bcs-habilitado="'true'" bcs-clic="mtr.agregar()">
+		</bcs-button>
+		<bcs-button id="MantenedorTipoRelaciones_modificar" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" bcs-texto="'UI_MODIFICAR' | translate" 
+			bcs-habilitado="mtr.tipoRelacionSeleccionada" bcs-clic="mtr.modificar(mtr.tipoRelacionSeleccionada)">
+		</bcs-button>
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

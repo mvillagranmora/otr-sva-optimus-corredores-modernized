@@ -1,0 +1,97 @@
+<div id="PanelItems" class="row" ng-controller="PanelItemsCtrl as pItems">
+	<!-- INICIO FILTROS -->
+	<form name="formItem">
+		<div class="row bcs-cuerpo">
+			<!-- INICIO FILTROS DE BÚSQUEDA -->		
+			<div class="col-xs-10">
+  		  		<div class="col-xs-5"> 
+			  		<label class="col-xs-3" translate>UI_ILS_REPORTE</label>
+					<bcs-combobox-base 
+						class="col-xs-8"
+						filtros=""
+						id="resultadoReporteId"					
+						id-actual="pItems.filtro.IdReporte"
+						id-defecto="'0'"
+						seleccionado="pItems.reporte.seleccionado"
+						tipo="'combobox-mesas'"
+						todos="'S'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-3 col-xs-offset-1" translate>UI_ILS_FECHA_CONTABLE</label>
+					<bcs-input-date 
+						activado="'false'" 
+						class="col-xs-8" 
+						id="resultadoFechaContableId"
+						k-ng-model="pItems.kngFechaContable">
+					</bcs-input-date>						
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-3 col-xs-offset-1" translate>UI_ILS_EMPRESA</label>
+					<bcs-combobox-base 
+						class="col-xs-8"
+						filtros=""
+						id="resultadoEmpresaId"						
+						id-actual="pItems.filtro.IdEmpresa"
+						id-defecto="'0'"
+						seleccionado="pItems.empresa.seleccionado"
+						tipo="'combobox-tipo-producto-mesa-modulo'"
+						todos="'S'">
+					</bcs-combobox-base>
+				</div> 
+			</div>
+			<!-- FIN FILTROS DE BÚSQUEDA -->
+			
+			<!-- INICIO BOTÓNES DE ACCIÓN  DE BÚSQUEDA -->									
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button 
+						bcs-auto-desactivar="false" 
+						bcs-clic=""
+						bcs-habilitado="true"   
+						bcs-texto="'UI_ILS_BUSCAR' | translate" 
+						bcs-tipo="'principal'"  
+						class="col-xs-12" 
+						id="buttonBuscar"> 
+					</bcs-button>	
+				</div>
+				<div class="row">
+					<bcs-button 
+						bcs-auto-desactivar="false" 
+						bcs-clic="pItems.fn.limpiar()"
+						bcs-habilitado="true" 
+						bcs-texto="'UI_ILS_LIMPIAR' | translate" 
+						bcs-tipo="'default'" 
+						class="col-xs-12"
+						id="buttonLimpiar">
+					</bcs-button>
+				</div>
+		  	</div>
+			<!-- FIN BOTÓNES DE ACCIÓN  DE BÚSQUEDA -->		  	
+		</div>
+			
+		<div class="row">
+			<!-- INICIO GRILLA -->		
+			<bcs-grid 
+				 id="grid-mov" 
+				 fn-exportar-excel = "exportarExcel"
+				 configuracion="confItems" 
+				 seleccionado="ObjSeleccionGrilla.seleccionGrillaPunta"
+				 fn-doble-click="ConsultarOperacionUI()">
+			</bcs-grid>			
+			<!-- FIN GRILLA -->			
+		</div>
+	</form>
+		
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-2 col-xs-offset-10">
+			<bcs-button  class="col-xs-12" 
+				bcs-auto-desactivar="'false'" 
+				bcs-texto="'UI_ILS_EXPORTAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-tipo="'principal'"
+				bcs-clic="exportarExcel()">
+			</bcs-button>
+		</div>
+	</div>
+</div>

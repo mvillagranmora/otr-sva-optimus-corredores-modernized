@@ -1,0 +1,4 @@
+SELECT DOCUMENTO_IDENTIDAD."IdDocumentoIdentidad"
+FROM "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" AS DOCUMENTO_IDENTIDAD
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.Persona" AS PERSONA ON DOCUMENTO_IDENTIDAD."IdDocumentoIdentidad" = PERSONA."IdDocumentoIdentidad"
+WHERE DOCUMENTO_IDENTIDAD."IdPersona" IN (:IdPersona) AND DOCUMENTO_IDENTIDAD."Borrado" = 'N' AND PERSONA."IdPersona" IS NULL;

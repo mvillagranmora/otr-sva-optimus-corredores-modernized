@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.SocioNegocio.BD::ENR.TarjetaBancaria" WHERE "IdTarjetaBancaria" = :IdTarjetaBancaria;

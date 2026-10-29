@@ -1,0 +1,1 @@
+SELECT "FechaSistema" FROM "BSCL.Plataforma.BD::PAU.Ejecucion" WHERE "FechaSistema" = :FechaSistema

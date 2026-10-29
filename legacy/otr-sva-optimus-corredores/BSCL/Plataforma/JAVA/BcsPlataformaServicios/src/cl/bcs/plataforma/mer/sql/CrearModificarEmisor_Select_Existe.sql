@@ -1,0 +1,1 @@
+SELECT COUNT(*) AS "Contador" FROM "BSCL.Plataforma.BD::MER.Emisor" WHERE "IdEmisor" = :p_IdEmisor;

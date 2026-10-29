@@ -1,0 +1,120 @@
+<div id="ConsultaSaldoBanco" class="row" ng-controller='ConsultaSaldoBancoCtrl'>
+	<form name="frmConsultaSaldoBanco"  class="col-xs-12 form-horizontal">	
+		<div class="row bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-10">
+					<div class="row">	
+						<div class="col-xs-10">					
+							<label class="col-xs-2" translate>UI_BANCO</label>
+							<bcs-combobox-base  class="col-xs-10" id="frmConsultaSaldoBanco_banco"
+								auto-cargar="'true'"
+								tipo			= "'combobox-banco-cuentas-bancarias-corredora'"
+								configuracion	= "filtros.oConfiguracionBanco.configuracion"
+								seleccionado	= "filtros.oConfiguracionBanco.seleccionado"
+								id-actual		= "filtros.oConfiguracionBanco.idActual"
+								filtros			= "filtros.oConfiguracionBanco.filtros"
+								todos			= "'S'" id-defecto="0" item-post-filtro="'1'">
+							</bcs-combobox-base>
+						</div>				
+					
+					</div>
+
+					<div class="row">
+						<div class="col-xs-10">					
+							<label class="col-xs-2" translate>UI_FECHA_CONSULTA</label>
+							<bcs-input-date class="col-xs-10" id="frmConsultaSaldoBanco_FECHA_CONSULTA"
+								k-ng-model="filtros.kngFechaSistema" 
+								ng-model="filtros.FechaSistema"
+								k-ng-disabled = "'false'">
+							</bcs-input-date>
+						</div>
+					</div>
+					
+					<div class="row">	
+						<div class="col-xs-10">					
+							<label class="col-xs-2" translate>UI_MONEDA</label>
+							<bcs-combobox-base class="col-xs-10" id="frmConsultaSaldoBanco_moneda"
+								auto-cargar		= "'true'"
+								tipo			= "'combobox-moneda-tesoreria'"
+								configuracion	= "filtros.oConfiguracionMonedaTesoreria.configuracion"
+								seleccionado	= "filtros.oConfiguracionMonedaTesoreria.seleccionado"
+								id-actual		= "filtros.oConfiguracionMonedaTesoreria.idActual"
+								filtros			= "filtros.oConfiguracionMonedaTesoreria.filtros"
+								todos			= "'S'" id-defecto="0" item-post-filtro="'1'">
+							</bcs-combobox-base>
+						</div>
+						
+						<div class="col-xs-2"></div>
+											
+					</div>
+					
+				</div>
+
+				<div class="col-xs-2">
+					<div class="row">
+						<bcs-button class="col-xs-12" id="frmConsultaSaldoBanco_btn_buscar"
+							bcs-tipo="'bcs-button-search'"  
+							bcs-auto-desactivar="'false'" 
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-habilitado="'true'" 						
+							bcs-clic="buscarInfoSaldos()"
+						></bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" id="frmConsultaSaldoBanco_btn_limpiar"
+							bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="'false'" 
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-habilitado="'true'"
+							bcs-clic="limpiarFiltros()"
+						></bcs-button>
+					</div>
+				</div>
+			</div>
+
+			
+
+			<div class="row">
+				<bcs-grid id="frmConsultaSaldoBanco_grid_saldo_banco_userSettings"
+					configuracion = "confBasicaSaldoBanco"
+					seleccionado = "seleccionSaldoBanco"
+     				fn-exportar-excel = "exportarExcel"
+					fn-exportar-pdf ="exportarPDF"
+					fn-doble-click="MostrarCartolaMovimientos(seleccionSaldoBanco)">					
+				</bcs-grid>
+			</div>
+		</div>
+
+		<div class="row bcs-panel-comandos">
+			<bcs-button  class="col-xs-2" id="frmConsultaSaldoBanco_btnDocumentos"
+				bcs-tipo="'bcs-button-primary'"  
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_MOVIMIENTOS' | translate" 
+				bcs-habilitado="seleccionSaldoBanco"  
+				bcs-clic="consultarDocumentos(seleccionSaldoBanco)">
+			</bcs-button>
+			
+			<bcs-button  class="col-xs-3" id="frmConsultaSaldoBanco_btnCartolaMovimientos"
+				bcs-tipo="'bcs-button-secondary'"  
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_CARTOLA_MOVIMIENTOS' | translate" 
+				bcs-habilitado="seleccionSaldoBanco"  
+				bcs-clic="MostrarCartolaMovimientos(seleccionSaldoBanco)">
+			</bcs-button>			
+			
+			<bcs-button  class="col-xs-2" id="frmConsultaSaldoBanco_btnLibretaBanco"
+				bcs-tipo="'bcs-button-secondary'"  
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_LIBRETA_BANCO' | translate" 
+				bcs-habilitado="seleccionSaldoBanco"  
+				bcs-clic="libretaBanco(seleccionSaldoBanco)">
+			</bcs-button>			
+				
+			<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'" >
+	            <li ng-click="exportaExcelPdf()">{{'UI_EXPORTAR_PDF_EXCEL' | translate}}</li>
+			<!--	<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>  -->
+			</bcs-menu>
+		</div> 
+	</form>
+</div>
+

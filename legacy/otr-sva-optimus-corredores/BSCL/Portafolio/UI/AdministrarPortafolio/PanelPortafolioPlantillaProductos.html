@@ -1,0 +1,93 @@
+<div class="row" ng-controller="PanelPortafolioPlantillaProductosCtrl as pPortProd">
+	<form class="row" name="formPortafolioClientePerfilProductos">
+		<uib-tabset>
+			<uib-tab id="AdmPortPerfCom_PerfilComercial" heading="{{'UI_BASE'| translate}}" select="admPort.fnTabPortafolioPerfilComercial()">
+				<div class="row">
+					<div class="col-xs-6"></div>
+					<div class="col-xs-1 text-center">
+						<label class="col-xs-12" translate>UI_MOSTRAR_TODOS</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_PLANTILLA_PRODUCTOS</label>
+						<bcs-combobox-base
+								id="formPortafolioClientePerfilProductos_plantillaProductos"
+								class="col-xs-7"
+								tipo="'combobox-perfil-productos'"
+								id-actual="pPortProd.datosDespues.IdPerfilProductos"
+								id-defecto="pPortProd.datosDespues.IdPerfilProductosDef"
+								seleccionado="pPortProd.objPlantillaProductos"
+								todos="'N'"
+								filtros="pPortProd.cmbbx.PerfilProductosBase.filtros"
+								activado="!pPortProd.winBase.modoLectura"
+								bcs-requerido="pPortProd.camposRequeridos['formPortafolioClientePerfilProductos_plantillaProductos'].Requerido === 'S'"
+								disabled="pPortProd.winBase.modoLectura"
+						></bcs-combobox-base>
+					</div>
+					<div class="col-xs-1">
+						<div class="col-xs-5"></div>
+						<bcs-input-checkbox
+								id="formPortafolioClientePerfilProductos_todasPlantillasProductos"
+								class="col-xs-7"
+								ng-model="pPortProd.AllPlantillasProductos"
+								ng-disabled="pPortProd.winBase.modoLectura"
+						></bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<bcs-plantilla-productos
+						id-plantilla="pPortProd.objPlantillaProductos.IdPerfilProductos"
+						modo="'PB'">
+					</bcs-plantilla-productos>
+				</div>
+				<div class="row col-xs-12 bcs-panel-comandos">
+					<div class="col-xs-8">
+						<bcs-button id="AdmPortPerfCom_PerfilProductos_editar" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-primary'"  
+							ng-if="pPortProd.winBase.modoLectura" 
+							bcs-mostrar="pPortProd.winBase.modoLectura"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EDITAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="pPortProd.winBase.editar();">
+						</bcs-button>
+						<bcs-button id="AdmPortPerfCom_PerfilProductos_guardar" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-primary'"  
+							ng-if="!pPortProd.winBase.modoLectura" 
+							bcs-mostrar="!pPortProd.winBase.modoLectura"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_GUARDAR' | translate" 
+							bcs-habilitado="formPortafolioClientePerfilProductos.$valid"
+							bcs-clic="pPortProd.winBase.guardar();">
+						</bcs-button>
+						<bcs-button id="AdmPortPerfCom_PerfilProductos_cancelar" 
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-secondary'" 
+							ng-if="!pPortProd.winBase.modoLectura" 
+							bcs-mostrar="!pPortProd.winBase.modoLectura" 
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_CANCELAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="pPortProd.winBase.cancelar();">
+						</bcs-button>
+					</div>
+				</div>
+			</uib-tab>
+			<uib-tab id="AdmPortPerfCom_PerfilProductos" heading="{{'UI_EXTRA' | translate}}" select="admPort.fnTabPortafolioPerfilProductos()">
+				<div class="row" ng-if="pPortProd.datosDespues.IdPerfilProductosExtra">
+					<bcs-plantilla-productos
+						id="grid-plantilla-productos"
+						id-plantilla="pPortProd.datosDespues.IdPerfilProductosExtra"
+						modo="'PE'"
+						accion-btn="pPortProd.accionExtra"
+						guardar-ok = "pPortProd.ok"
+						finalizar-ok = "pPortProd.finalizarOk">
+					</bcs-plantilla-productos>
+				</div>
+			</uib-tab>
+		</uib-tabset>
+	</form>
+</div>

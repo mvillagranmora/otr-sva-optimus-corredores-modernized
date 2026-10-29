@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="SerieDeFondo" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="SerieDeFondo"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="NVARCHAR" id="IdSerieFondo" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdInstrumento"/>
+        <viewAttribute datatype="NVARCHAR" id="IdFondo" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreSerieFondo" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoSerie" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="Alias" length="40"/>
+        <viewAttribute datatype="BIGINT" id="DecimalesValorCuota"/>
+        <viewAttribute datatype="BIGINT" id="DecimalesCuota"/>
+        <viewAttribute datatype="DECIMAL" id="MontoMinimo" length="28" scale="6"/>
+        <viewAttribute datatype="DECIMAL" id="MontoMaximo" length="28" scale="6"/>
+        <viewAttribute datatype="BIGINT" id="DiasRetencionesRescate"/>
+        <viewAttribute datatype="NVARCHAR" id="ExcluyeGarantia" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="CobraComision" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="Diferido" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="InstrumentoDCV" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="Omnibus" length="1"/>
+        <viewAttribute datatype="DECIMAL" id="PatrimonioMinimo" length="28" scale="6"/>
+        <viewAttribute datatype="NVARCHAR" id="IdSerieFondoOrigen" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="Estado" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="BIGINT" id="DiasValutaCertificacionAporte"/>
+        <viewAttribute datatype="BIGINT" id="DiasValutaCertificacionRescate"/>
+        <viewAttribute datatype="BIGINT" id="DiasValutaCurseAporte"/>
+        <viewAttribute datatype="BIGINT" id="DiasValutaCurseRescate"/>
+        <viewAttribute datatype="BIGINT" id="DiasRetencionesAporte"/>
+        <viewAttribute datatype="BIGINT" id="DiasValutaValorCuotaAporte"/>
+        <viewAttribute datatype="BIGINT" id="DiasValutaValorCuotaRescate"/>
+        <viewAttribute datatype="NVARCHAR" id="CambioFondo" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="ISIN" length="40"/>
+        <viewAttribute datatype="DATE" id="FechaValorCuota"/>
+        <viewAttribute datatype="DECIMAL" id="ValorCuota" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreFamilia" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="MedioPagoAbono" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="MedioPagoCargo" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = 
+	 	 SELECT 
+		&quot;IdSerieFondo&quot;
+		, &quot;IdInstrumento&quot;
+		, &quot;IdFondo&quot;
+		, &quot;NombreSerieFondo&quot;
+		, &quot;CodigoSerie&quot;
+		, &quot;Alias&quot;
+		, &quot;DecimalesValorCuota&quot;
+		, &quot;DecimalesCuota&quot;
+		, &quot;MontoMinimo&quot;
+		, &quot;MontoMaximo&quot;
+		, &quot;DiasRetencionesRescate&quot;
+		, &quot;ExcluyeGarantia&quot;
+		, &quot;CobraComision&quot;
+		, &quot;Diferido&quot;
+		, &quot;InstrumentoDCV&quot;
+		, &quot;Omnibus&quot;
+		, &quot;PatrimonioMinimo&quot;
+		, &quot;IdSerieFondoOrigen&quot;
+		, &quot;Estado&quot;
+		, &quot;IdEmpresa&quot;
+		, &quot;IdCliente&quot;
+		, &quot;IdPortafolio&quot;
+		, &quot;DiasValutaCertificacionAporte&quot;
+		, &quot;DiasValutaCertificacionRescate&quot;
+		, &quot;DiasValutaCurseAporte&quot;
+		, &quot;DiasValutaCurseRescate&quot;
+		, &quot;DiasRetencionesAporte&quot;
+		, &quot;DiasValutaValorCuotaAporte&quot;
+		, &quot;DiasValutaValorCuotaRescate&quot;
+		, &quot;CambioFondo&quot;
+		, &quot;ISIN&quot;
+		, &quot;FechaValorCuota&quot;
+		, &quot;ValorCuota&quot;
+		, &quot;NombreFamilia&quot;
+		, &quot;MedioPagoAbono&quot;
+		, &quot;MedioPagoCargo&quot;
+		FROM &quot;BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarSerieDeFondoAnalitica&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdSerieFondo" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdSerieFondo"/>
+      </attribute>
+      <attribute id="IdInstrumento" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumento"/>
+      </attribute>
+      <attribute id="IdFondo" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdFondo"/>
+      </attribute>
+      <attribute id="NombreSerieFondo" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreSerieFondo"/>
+      </attribute>
+      <attribute id="CodigoSerie" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoSerie"/>
+      </attribute>
+      <attribute id="Alias" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Alias"/>
+      </attribute>
+      <attribute id="DecimalesValorCuota" order="7">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DecimalesValorCuota"/>
+      </attribute>
+      <attribute id="DecimalesCuota" order="8">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DecimalesCuota"/>
+      </attribute>
+      <attribute id="MontoMinimo" order="9">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoMinimo"/>
+      </attribute>
+      <attribute id="ExcluyeGarantia" order="12">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="ExcluyeGarantia"/>
+      </attribute>
+      <attribute id="CobraComision" order="13">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CobraComision"/>
+      </attribute>
+      <attribute id="Diferido" order="14">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Diferido"/>
+      </attribute>
+      <attribute id="InstrumentoDCV" order="15">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="InstrumentoDCV"/>
+      </attribute>
+      <attribute id="Omnibus" order="16">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Omnibus"/>
+      </attribute>
+      <attribute id="PatrimonioMinimo" order="17">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="PatrimonioMinimo"/>
+      </attribute>
+      <attribute id="IdSerieFondoOrigen" order="18">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdSerieFondoOrigen"/>
+      </attribute>
+      <attribute id="Estado" order="19">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Estado"/>
+      </attribute>
+      <attribute id="IdEmpresa" order="20">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="IdCliente" order="21">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="22">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="DiasValutaCertificacionAporte" order="23">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasValutaCertificacionAporte"/>
+      </attribute>
+      <attribute id="DiasValutaCertificacionRescate" order="24">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasValutaCertificacionRescate"/>
+      </attribute>
+      <attribute id="DiasValutaCurseAporte" order="25">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasValutaCurseAporte"/>
+      </attribute>
+      <attribute id="DiasValutaCurseRescate" order="26">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasValutaCurseRescate"/>
+      </attribute>
+      <attribute id="DiasRetencionesAporte" order="27">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasRetencionesAporte"/>
+      </attribute>
+      <attribute id="DiasValutaValorCuotaAporte" order="28">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasValutaValorCuotaAporte"/>
+      </attribute>
+      <attribute id="DiasValutaValorCuotaRescate" order="29">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasValutaValorCuotaRescate"/>
+      </attribute>
+      <attribute id="CambioFondo" order="30">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CambioFondo"/>
+      </attribute>
+      <attribute id="ISIN" order="31">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="ISIN"/>
+      </attribute>
+      <attribute id="FechaValorCuota" order="32">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaValorCuota"/>
+      </attribute>
+      <attribute id="ValorCuota" order="33">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorCuota"/>
+      </attribute>
+      <attribute id="NombreFamilia" order="34">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreFamilia"/>
+      </attribute>
+      <attribute id="MedioPagoAbono" order="35">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="MedioPagoAbono"/>
+      </attribute>
+      <attribute id="MedioPagoCargo" order="36">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="MedioPagoCargo"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures>
+      <measure id="MontoMaximo" order="10" aggregationType="sum" measureType="simple">
+        <descriptions/>
+        <measureMapping columnObjectName="Script_View" columnName="MontoMaximo"/>
+      </measure>
+      <measure id="DiasRetencionesRescate" order="11" aggregationType="sum" measureType="simple">
+        <descriptions/>
+        <measureMapping columnObjectName="Script_View" columnName="DiasRetencionesRescate"/>
+      </measure>
+    </baseMeasures>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

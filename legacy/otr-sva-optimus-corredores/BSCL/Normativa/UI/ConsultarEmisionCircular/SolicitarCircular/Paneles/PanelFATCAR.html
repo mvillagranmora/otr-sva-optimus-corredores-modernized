@@ -1,0 +1,179 @@
+<div id="PanelFATCAR" class="row" ng-controller="PanelFATCARCtrl as pfatcar">
+<form class="col-xs-12 form-horizontal">
+	<!-- div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pfatcar.FecInicio"
+				></bcs-input-date>
+			</div>
+			
+	</div-->
+	
+<div class="row">
+
+		<label class="col-xs-2" translate>Cliente</label>
+
+		<bcs-combobox-base class="col-xs-6" id="comboboxSocioNegocio"
+			auto-cargar="'false'" tipo="'combobox-socio-negocio'"
+			configuracion="oConfiguracionSocioNegocio.configuracion"
+			id-Actual="oConfiguracionSocioNegocio.idActual"
+			seleccionado="oConfiguracionSocioNegocio.seleccionado"
+			activado="activadoCli">
+		</bcs-combobox-base>
+
+		<label class="col-xs-1" > </label>
+		<bcs-input-checkbox class="col-xs-1" k-ng-model="filtros.TodosCli" >
+		</bcs-input-checkbox>
+		<label class="col-xs-1">Todos</label>
+
+</div>	
+	 
+<div class="row">
+		<label class="col-xs-2" translate>Monto Min.</label>
+		<bcs-input-numero class="col-xs-3"  id="MontoMin" 
+		 k-ng-model="filtros.MontoMin" Decimal="4">
+		</bcs-input-numero>
+
+		<label class="col-xs-1" > </label>
+		
+		<label class="col-xs-2" translate>Monto Max.</label>
+	
+		<bcs-input-numero class="col-xs-3"  id="MontoMax" 
+		 k-ng-model="filtros.MontoMax" Decimal="4">
+		</bcs-input-numero>
+
+</div>	
+
+<br><hr>
+
+
+<div class="row">
+
+			<label class="col-xs-2">Fechas</label>
+
+			
+</div>
+
+<div class="row">
+</div>
+
+<div class="row">
+			
+			
+			<label class="col-xs-2">F. Ejecucion</label>
+			<bcs-input-date class="col-xs-2" k-ng-model="filtros.FecEjec"
+			k-ng-disabled="seleccionFecEjec"
+			></bcs-input-date>
+			<label class="col-xs-2" > </label>
+			<label class="col-xs-2">F. Enrolamiento</label>
+			<bcs-input-date class="col-xs-2" k-ng-model="filtros.FecEnrol"
+			k-ng-disabled="seleccionFecEnrol"
+			></bcs-input-date>
+		
+</div>
+
+<br><hr>
+
+<div class="row">
+ 
+			<b><label class="col-xs-2">Fechas Indicios</label></b>
+
+
+</div>
+
+<div class="row">
+</div>
+
+<div class="row">
+			
+			
+			<label class="col-xs-2">F. Desde</label>
+			<bcs-input-date class="col-xs-2" k-ng-model="filtros.FecDesde"
+			k-ng-disabled="seleccionFecDesde"
+			></bcs-input-date>
+			<label class="col-xs-2" > </label>
+			<label class="col-xs-2">F. Hasta</label>
+			<bcs-input-date class="col-xs-2" k-ng-model="filtros.FecHasta"
+			k-ng-disabled="seleccionFecHasta"
+			></bcs-input-date>
+			
+</div>
+
+<br><hr>
+
+<div class="row">
+
+	
+	   <label class="col-xs-2" translate>UI_CLASIFICACION_FATCA</label>
+		<bcs-combobox-base
+			class="col-xs-3"
+			tipo="'combobox-clasificacion-fatca'"
+			todos = "'S'"
+			id-defecto='0'
+			seleccionado="ClasificacionFatca.seleccionado">
+			
+			<!-- activado="activadoClasiFatca"> -->
+		</bcs-combobox-base>
+		<label class="col-xs-1" > </label>
+		<label class="col-xs-2" translate>Indicador Fatca</label>
+		<bcs-combobox-base
+			class="col-xs-2"
+			tipo="'combobox-clasificacion-fatca'"
+			todos = "'S'"
+			id-defecto='0'
+			seleccionado="IndicadorFatca.seleccionado">
+			<!-- activado="activadoIndFatca"> -->
+		</bcs-combobox-base>
+</div>
+
+<div class="row">
+		<label class="col-xs-2" translate>UI_TIPO_PERSONA</label>
+		<bcs-combobox-base 
+			id="TipoPersona" 
+			class="col-xs-3" bcs-requerido
+			tipo="'combobox-tipo-persona'"
+			id-defecto = "'0'"
+			seleccionado="TipoPersona.seleccionado"
+			todos = "'S'"
+			filtros="configData.filtroTipoPersona"> 
+		</bcs-combobox-base>
+		
+		<label class="col-xs-1" > </label>
+		
+		
+		<label class="col-xs-2" translate>Sin Indicios</label>
+		<bcs-input-checkbox class="col-xs-1"
+			ng-model="filtros.registroIndicios"
+			ng-disabled="modoLectura">
+		</bcs-input-checkbox>
+</div>
+
+
+
+
+ 
+</form>		
+	<div class="row bcs-panel-comandos">
+	
+					
+		<div class="col-xs-12" style="top: 10px">
+			<bcs-button class="col-xs-2 pull-left" bcs-tipo="'principal'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_EMITIR' | translate"
+				bcs-habilitado="true"
+			    bcs-clic="pfatcar.solicitar()">
+			 </bcs-button>
+
+			 
+			<bcs-button class="col-xs-2 pull-left" bcs-tipo="'default'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+				bcs-habilitado="true" bcs-clic="pfatcar.clear()">
+			</bcs-button>
+			
+		</div>
+		
+
+	
+	</div> 
+	
+</div>

@@ -1,0 +1,343 @@
+<div ng-controller="IngresarGarantiaCtrl">
+	<div class="row bcs_titulo">
+		<div class="col-xs-12">
+			<span>{{'UI_TITULO_INGRESAR_GARANTIA'|translate}}</span>
+		</div>
+	</div>
+	<div class="col-xs-12 bcs-cuerpo">
+		<!-- FILTROS -->
+		<form name="formIngresarGarantia" class="filters-formulario">
+			<div class="row">
+				<div class="col-xs-10">
+					<div class="row">
+							<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base class="col-xs-10" style="width: 81.5%;" id="UI_SOCIO_NEGOCIO"
+								bcs-requerido="'true'" 
+								auto-cargar="'false'"
+								carga-cliente-automatico="'S'"
+								id-actual="data.oClientePortafolio.idActual"
+								id-defecto="data.oClientePortafolio.idDefecto"
+								tipo="data.oClientePortafolio.tipo"
+								seleccionado="data.oClientePortafolio.seleccionado"
+								filtros="filtrosPortafolio"
+								configuracion="data.oClientePortafolio.configuracion">
+							</bcs-combobox-base>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-2" translate>UI_FECHA_MOVIMIENTO</label>
+							<bcs-input-date class="col-xs-10"
+								k-ng-model="data.kngFechaSistema"
+								ng-model="data.fechaMovimiento" k-ng-disabled="'false'"></bcs-input-date>
+						</div>
+						<div class="col-xs-6"></div>
+					</div>
+					<div class="row">
+						<label class="col-xs-2" translate>UI_CONCEPTO</label>
+						<bcs-combobox-base class="col-xs-10" bcs-requerido="'true'"
+							auto-seleccion="'true'"
+							tipo="data.oConfiguracionConceptoGarantia.tipo"
+							filtros="data.oConfiguracionConceptoGarantia.filtros"
+							configuracion="data.oConfiguracionConceptoGarantia.configuracion"
+							id-actual="data.oConfiguracionConceptoGarantia.idActual"
+							seleccionado="data.oConfiguracionConceptoGarantia.seleccionado"
+							cascada1-a="data.oConfiguracionEntidadDestinoGarantia.filtros.IdEntidadDestinoGarantia"
+							cascada1-valor="'IdEntidadDestinoGarantia'"
+							cascada2-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada2-valor="'IdClasificacionTipoInstrumento'"
+							cascada3-a="data.oConfiguracionTipoInstrumento.filtros.IdTipoInstrumento"
+							cascada3-valor="'IdTipoInstrumento'"
+							cascada4-a="data.oConfiguracionTipoInstrumentoExigeGarantia.filtros.IdTipoInstrumento"
+							cascada4-valor="'IdTipoInstrumento'"> </bcs-combobox-base>
+						<!-- cascada-defecto = "'IdEntidadDestinoGarantia'"  -->
+					</div>
+
+					<div class="row">
+						<label class="col-xs-2" translate>UI_ENTIDAD_DESTINO</label>
+						<bcs-combobox-base class="col-xs-10" 
+							bcs-requerido
+							tipo="data.oConfiguracionEntidadDestinoGarantia.tipo"
+							configuracion="data.oConfiguracionEntidadDestinoGarantia.configuracion"
+							id-actual="data.oConfiguracionEntidadDestinoGarantia.idActual"
+							id-defecto="data.oConfiguracionEntidadDestinoGarantia.idDefecto"
+							seleccionado="data.oConfiguracionEntidadDestinoGarantia.seleccionado"
+							filtros="data.oConfiguracionEntidadDestinoGarantia.filtros"
+							id-post-filtro="data.oConfiguracionEntidadDestinoGarantia.idPostFiltro"
+		            		cascada1-a= "data.oConfiguracionInstrumentoExigeGarantia.filtros.IdEntidadDestinoGarantia"
+		            		cascada1-valor= "'IdEntidadDestinoGarantia'">
+						</bcs-combobox-base>
+					</div>
+
+
+					<div class="row" ng-hide="(data.oConfiguracionConceptoGarantia.seleccionado.IdClasificacionTipoInstrumento == 'DV')">
+						<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-3"
+							bcs-requerido="!data.Prendaria && !(data.oConfiguracionConceptoGarantia.seleccionado.IdClasificacionTipoInstrumento == 'DV')" 
+							activado="!data.Prendaria"
+							auto-cargar="'false'"
+							tipo="data.oConfiguracionTipoInstrumento.tipo"
+							filtros="data.oConfiguracionTipoInstrumento.filtros"
+							configuracion="data.oConfiguracionTipoInstrumento.configuracion"
+							id-actual="data.oConfiguracionTipoInstrumento.idActual"
+							id-defecto="data.oConfiguracionTipoInstrumento.idDefecto"
+							seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+							cascada1-a="data.oConfiguracionInstrumento.filtros.IdTipoInstrumento"
+							cascada1-valor="'IdTipoInstrumento'"> </bcs-combobox-base>
+
+
+						<label class="col-xs-1" translate style="padding-left: 15px">UI_OPERACION</label>
+						<bcs-combobox-base class="col-xs-2"
+							bcs-requerido="(!data.Prendaria && !(data.oConfiguracionConceptoGarantia.seleccionado.IdClasificacionTipoInstrumento == 'DV'))"
+							activado="!data.Prendaria" auto-cargar="'false'"
+							tipo="data.oConfiguracionInstrumento.tipo"
+							filtros="data.oConfiguracionInstrumento.filtros"
+							configuracion="data.oConfiguracionInstrumento.configuracion"
+							id-actual="ccc.idActual"
+							id-defecto="data.oConfiguracionInstrumento.idDefecto"
+							seleccionado="data.oConfiguracionInstrumento.seleccionado"
+							id-post-filtro="data.oConfiguracionInstrumento.idPostFiltro"
+							usa-filtros-completos="'S'"> </bcs-combobox-base>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-3">
+							<bcs-input-checkbox style="padding-left: 15px"
+								id="frmIngresoGarantia_GarantiaPrendaria"
+								ng-model="data.Prendaria" ng-disabled="'false'">
+							</bcs-input-checkbox>
+							&nbsp;{{'UI_GARANTIA_PRENDARIA' | translate}}
+						</div>
+					</div>
+
+					<div class="row"
+						ng-hide="!(data.oConfiguracionConceptoGarantia.seleccionado.IdClasificacionTipoInstrumento == 'DV')">
+						<hr>
+						<b>Instrumento Cobertura Forward</b>
+						<div class="row">
+							<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO_GARANTIZADO</label>
+							<bcs-combobox-base class="col-xs-3"
+								activado="'false'"
+								auto-seleccion="'true'"
+								tipo="data.oConfiguracionTipoInstrumentoExigeGarantia.tipo"
+								configuracion="data.oConfiguracionTipoInstrumentoExigeGarantia.configuracion"
+								seleccionado="data.oConfiguracionTipoInstrumentoExigeGarantia.seleccionado"
+								filtros="data.oConfiguracionTipoInstrumentoExigeGarantia.filtros"
+								id-actual="data.oConfiguracionTipoInstrumentoExigeGarantia.idActual"
+								id-defecto="data.oConfiguracionTipoInstrumentoExigeGarantia.idDefecto"
+								cascada1-a="data.oConfiguracionInstrumentoExigeGarantia.filtros.IdTipoInstrumento"		                
+				    			cascada1-valor="'IdTipoInstrumento'">
+							</bcs-combobox-base>
+
+							<label class="col-xs-1" translate style="padding-left: 15px">UI_INSTRUMENTO_GARANTIZADO</label>
+							<bcs-combobox-base class="col-xs-2"
+								auto-cargar="false"
+								tipo="data.oConfiguracionInstrumentoExigeGarantia.tipo"
+								configuracion="data.oConfiguracionInstrumentoExigeGarantia.configuracion"
+								seleccionado="data.oConfiguracionInstrumentoExigeGarantia.seleccionado"
+								filtros="data.oConfiguracionInstrumentoExigeGarantia.filtros"
+								id-actual="data.oConfiguracionInstrumentoExigeGarantia.idActual"
+								id-defecto="data.oConfiguracionInstrumentoExigeGarantia.idDefecto"
+								item-post-filtro = "'1'">
+							</bcs-combobox-base>
+							<div class="col-xs-1"></div>
+							<div class="col-xs-3">
+								<bcs-input-checkbox style="padding-left: 15px"
+									id="frmIngresoGarantia_GarantiaPrendaria"
+									ng-model="data.Prendaria" ng-disabled="'false'">
+								</bcs-input-checkbox>
+								&nbsp;{{'UI_GARANTIA_PRENDARIA' | translate}}
+							</div>
+						</div>
+					</div>
+					<hr>
+					<b>Instrumento Búsqueda</b>
+					<div class="row">
+						<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-5" bcs-requerido
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionTipoInstrumentoB.tipo"
+							filtros="data.oConfiguracionTipoInstrumentoB.filtros"
+							configuracion="data.oConfiguracionTipoInstrumentoB.configuracion"
+							id-actual="data.oConfiguracionTipoInstrumentoB.idActual"
+							seleccionado="data.oConfiguracionTipoInstrumentoB.seleccionado"
+							todos="'S'"
+							cascada1-a="data.oConfiguracionInstrumentoB.filtros.IdTipoInstrumento"
+							cascada1-valor="'IdTipoInstrumento'" item-post-filtro="'1'"
+							activado="!(data.oConfiguracionConceptoGarantia.seleccionado.IdClasificacionTipoInstrumento == 'DV')"></bcs-combobox-base>
+						<bcs-input-instrumentos class="col-xs-5" name="uInstrumento"
+							datos-instrumento="data.instrumentoBusqueda"
+							buscar-instrumento="oConfiguracionInstrumento.buscar"
+							filtro-tipo-instrumento="data.oConfiguracionTipoInstrumentoB.idActual"
+							filtro-estado="'ACT'" filtroSoloVigentes='S'
+							activado="!(data.oConfiguracionConceptoGarantia.seleccionado.IdClasificacionTipoInstrumento == 'DV')">
+							
+						</bcs-input-instrumentos>
+					</div>
+				</div>
+				<div class="col-xs-2">
+					<div class="row">
+						<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"
+							bcs-habilitado="btnActivo && formIngresarGarantia.$valid"
+							bcs-clic="data.buscar()"></bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate"
+							bcs-habilitado="btnActivo" bcs-clic="data.limpiar()"></bcs-button>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12" style="padding-bottom: 10px;">
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_FOLIO_OPERACION</label>
+						<div class="col-xs-3" style="padding-left: 12px;">
+							<span class="k-textbox k-space-right" style="width: 100%;">
+								<bcs-input-texto class="col-xs-12"
+									ng-model="data.ngFolioOperacion"
+									ng-disabled="data.oConfiguracionConceptoGarantia.seleccionado.IdClasificacionTipoInstrumento == 'DV'"> </bcs-input-texto> <a
+								href="#" ng-click="fnBusquedaFolio()"
+								class="k-select k-icon k-i-search">&nbsp;</a>
+							</span>
+						</div>
+						<label class="col-xs-3" style="padding-left: 25px;" translate>UI_MONTO_OPERACION</label>
+						<bcs-input-monetario class="col-xs-3" style="padding-right:30px;"
+							k-ng-disabled="'false'" simbolo="data.MontoOperacionSimbolo"
+							decimales="data.MontoOperacionDecimales"
+							k-ng-model="data.kngmontoOperacion"></bcs-input-monetario>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-7" translate>UI_MONTO_EXIG_CORR_ABR</label>
+						<bcs-input-monetario class="col-xs-5" style="padding-left:10px;"
+							k-ng-disabled="'false'"
+							simbolo="data.MontoExigibilidadCorredoraSimbolo"
+							decimales="data.MontoExigibilidadCorredoraDecimales"
+							k-ng-model="data.kngmontoExigibilidadCorredora"></bcs-input-monetario>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-6" style="padding-left: 5px;" translate>UI_MONTO_EXIG_ENT_ABR</label>
+						<bcs-input-monetario class="col-xs-5" style="padding-left:10px;"
+							k-ng-disabled="'false'"
+							simbolo="data.MontoExigibilidadEntidadSimbolo"
+							decimales="data.MontoExigibilidadEntidadDecimales"
+							k-ng-model="data.kngmontoExigibilidadEntidad"></bcs-input-monetario>
+					</div>
+				</div>
+			</div>
+
+
+		</form>
+		<!-- TABS INICIO -->
+		<div class="row" style="padding-top: 10px;">
+			<tabset> 
+                <tab heading="{{'UI_CUSTODIA' | translate}}">
+					   <bcs-grid id="grid-Custodia" configuracion="data.confBasicaCustodia"
+						  seleccionado="data.seleccionCustodia"> </bcs-grid> 
+				</tab> 
+				<tab heading="{{'UI_CUENTA_INVERSION' | translate}}"> <bcs-grid
+					id="grid-Cuenta-inversion"
+					configuracion="data.confBasicaCuentaInversion"
+					seleccionado="data.seleccionCuentaInversion"> </bcs-grid> 
+				</tab> <!-- PENDIENTE DESARROLLO
+					<tab heading="{{'UI_RELACIONADO' | translate}}" select="select(['gridCtaRel','gridCustodiaRel'])">
+						<div class="row">
+							<label class="col-xs-2" translate>UI_PERSONA_RELACIONADA</label>
+							<bcs-combobox-base class="col-xs-10"
+							    auto-cargar="false"
+								tipo="data.oConfiguracionPersonaRelacionada.tipo"  
+								configuracion= "data.oConfiguracionPersonaRelacionada.configuracion" 
+								id-actual="data.oConfiguracionPersonaRelacionada.idActual" 
+								seleccionado="data.oConfiguracionPersonaRelacionada.seleccionado" 
+								filtros="data.oConfiguracionPersonaRelacionada.filtros"
+								memoria= "'INGRESOGARANTIA'"
+							></bcs-combobox-base >															
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+								<label class="col-xs-2" translate>UI_INSTRUMENTO</label>	
+								<bcs-input-instrumentos class="col-xs-10" 
+									datos-instrumento="data.instrumento"  
+									filtro-estado = "'ACT'" 
+								></bcs-input-instrumentos>
+							</div>
+							<div class="col-xs-6">
+								<label class="col-xs-1" translate></label>
+								<label class="col-xs-2" translate>UI_BOVEDA</label>	
+								<bcs-combobox-base class="col-xs-9"
+								    auto-cargar="false"
+									tipo="data.oConfiguracionBoveda.tipo"  
+									configuracion= "data.oConfiguracionBoveda.configuracion" 
+									id-actual="data.oConfiguracionBoveda.idActual" 
+									seleccionado="data.oConfiguracionBoveda.seleccionado" 
+									filtros="data.oConfiguracionBoveda.filtros"
+								></bcs-combobox-base >		
+							</div>			
+						</div>	
+						<div class="row"><br></div>
+						<div class="row" id="gridCustodiaRel">
+							<bcs-grid-base-v2 
+								seleccionado="data.custodiaRelacionadoSeleccionada" 
+								configuracion="data.optCustodiaRelacionado"
+							></bcs-grid-base-v2>
+						</div>		
+						<div class="row" id="gridCtaRel">
+							<bcs-grid-base-v2 
+								seleccionado="data.CuentaInversionRelacionadoSeleccionada" 
+								configuracion="data.optCuentaInversionRelacionado"
+							></bcs-grid-base-v2>
+						</div>
+					</tab> --> <tab heading="{{'UI_OTROS' | translate}}">
+			<div class="row" style="height: 385px">
+				<div class="row">
+					<label class="col-xs-2" translate>UI_ESPECIE</label>
+					<bcs-combobox-base class="col-xs-4" auto-cargar="'true'"
+						tipo="data.oConfiguracionEspecie.tipo"
+						configuracion="data.oConfiguracionEspecie.configuracion"
+						id-actual="data.oConfiguracionEspecie.idActual"
+						seleccionado="data.oConfiguracionEspecie.seleccionado"
+						filtros="data.oConfiguracionEspecie.filtros"></bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_MONEDA</label>
+					<bcs-input-texto class="col-xs-4" k-ng-disabled="'true'"
+						k-ng-model="data.kngMonedaSistema" ng-model="data.monedaSistema">
+					</bcs-input-texto>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_MONTO</label>
+					<bcs-input-monetario class="col-xs-4" ng-model="data.monto"
+						k-ng-model="data.kngMonto"
+						k-options="{ format : 'n0', min:0, spinners: false }"></bcs-input-monetario>
+				</div>
+				<div class="row">
+					<label class="col-xs-2" translate>UI_DESCRIPCION</label>
+					<textarea class="col-xs-10" id="descripcion"
+						ng-model="data.descripcion"></textarea>
+				</div>
+			</div>
+			</tab> </tabset>
+		</div>
+		<!-- TABS FIN -->
+	</div>
+
+	<!-- BOTONES -->
+	<!-- UNA VEZ MIGRADO LOS CAMBIOS A CHILE Y PERU CORREGUIR FUNCIONAMIENTO DE BOTONES -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2"
+			bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'true'"
+			bcs-texto="'UI_CREAR' | translate"
+			bcs-habilitado="btnActivo && formIngresarGarantia.$valid"
+			bcs-clic="data.ingresarGarantia()">
+		</bcs-button>
+		<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+			bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="btnActivo"
+			bcs-clic="data.cancelar('true')">
+		</bcs-button>
+		<label class="col-xs-2 col-xs-offset-4" translate>UI_TOTAL_MONTO_A_GARANTIZAR</label>
+		<bcs-input-monetario class="col-xs-2" k-ng-disabled="'false'"
+			k-ng-model="data.kngTotalMontoGarantizado"
+			k-options="{ format : 'c', decimals: 2, min:0, spinners: false }"></bcs-input-monetario>
+
+	</div>
+</div>
+

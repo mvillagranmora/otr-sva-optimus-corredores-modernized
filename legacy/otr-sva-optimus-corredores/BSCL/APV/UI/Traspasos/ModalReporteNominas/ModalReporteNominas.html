@@ -1,0 +1,68 @@
+<div id="ReporteNomina" ng-controller="ReporteNominasCtrl as repNom" >
+	<div class="row">
+		<form name="formReporteNomina" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<div class="row">
+					<label class="col-xs-3" translate>UI_DOCUMENTO_ENTIDAD</label>
+					<bcs-combobox-base 
+						id				= "UI_DOCUMENTO_ENTIDAD"
+						class			= "col-xs-9" 
+						todos			= "'N'"	
+						auto-cargar		= "'true'"
+						seleccionado	= "repNom.datosForm.documentoEntidadSeleccionado"
+						id-actual		= "repNom.datosForm.documentoEntidadIdActual"
+						tipo			= "'combobox-entidad-recaudadora'"
+						filtros			= "repNom.ConfiguracionCmbo.Estado.filtros"
+						cascada-a		= "repNom.ConfiguracionCmbo.Rut.filtros.DocumentoEntidad"
+						cascada-valor	= "'DocumentoEntidad'">
+						<!-- tipo			= "'combobox-documento-entidad-nomina'" -->					
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-3" translate>UI_DOCUMENTO_IDENTIDAD</label>
+					<bcs-combobox-base 
+						id				= "UI_RUT"
+						class			= "col-xs-9" 
+						todos			= "'N'"
+						tipo			= "'combobox-documento-identidad-nomina'"
+						filtros			= "repNom.ConfiguracionCmbo.Rut.filtros"
+						auto-cargar		= "'true'"
+						activado		= "repNom.HabilitoControlesBusqueda"
+						seleccionado	= "repNom.datosForm.rutSeleccionado"
+						id-actual		= "repNom.datosForm.RutActual"
+					>
+					</bcs-combobox-base>		
+				</div>
+				<div class="col-xs-12">
+					<label class="col-xs-3" translate>UI_FECHA_DESDE</label>
+					<bcs-input-date
+						class				= "col-xs-3"
+						k-ng-model			= "repNom.fechaDesde">
+					</bcs-input-date>
+					<label class="col-xs-offset-1 col-xs-2" translate>UI_FECHA_HASTA</label>
+					<bcs-input-date
+						class				= "col-xs-3"
+						k-ng-model			= "repNom.fechaHasta">
+					</bcs-input-date>
+				</div>
+				<br><br>
+				<div class="row col-xs-12 alignButtonsToRight">
+						<bcs-button class="col-xs-3" 
+							bcs-tipo="'bcs-button-primary'"  
+							bcs-texto="'UI_GENERAR' | translate" 
+							bcs-auto-desactivar="false" 
+							bcs-habilitado="true"  							
+							bcs-clic="repNom.fn.GeneraNomina(0,[],[],true)">
+						</bcs-button>
+						<bcs-button class="col-xs-3" 
+							bcs-tipo="'bcs-button-secondary'"  
+							bcs-texto="'UI_LIMPIAR' | translate"
+							bcs-auto-desactivar="false" 
+							bcs-habilitado="true"  							
+							bcs-clic="repNom.fn.Limpiar()">
+						</bcs-button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,1 @@
+SELECT COUNT(*) AS "Contador" FROM "BSCL.SocioNegocio.BD::PER.DireccionFisica" WHERE "IdPersona" = :IdPersona AND "Borrado" = 'N';

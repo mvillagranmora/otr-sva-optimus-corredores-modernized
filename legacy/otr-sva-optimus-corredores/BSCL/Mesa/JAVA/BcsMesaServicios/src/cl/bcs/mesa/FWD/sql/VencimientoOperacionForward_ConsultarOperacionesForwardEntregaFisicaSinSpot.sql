@@ -1,0 +1,31 @@
+SELECT CAR."IdCartera"
+	, CAR."IdConcepto"
+	, CAR."IdCondicionLiquidacion"
+	, CAR."FechaLiquidacion"
+	, PORT."IdEmpleadoEjecutivo"
+	, EMPPORT."IdSucursal" AS "IdSucursalEmpleadoEjecutivo"
+	, CAR."IdTipoProducto"
+	, CAR."IdTipoOperacion"
+	, CAR."IdOperacion"
+	, CAR."FechaVencimientoOperacion"
+	, CAR."IdMonedaPrincipal"
+	, CAR."INGMontoMonedaSecundaria"
+	, CAR."IdInstrumento"
+	, CAR."IdTipoInstrumento"
+	, CAR."EGRCantidad"
+	, CAR."INGCantidad"
+	, CAR."IdPortafolio"
+	, CAR."IdMonedaSecundaria"
+	, PORT."IdPersona"
+	, TI."IdClasificacionTipoInstrumento"
+	, INS."Nemotecnico"  AS "InstrumentoNemotecnico" 
+FROM "BSCL.Custodia.BD::CUS.Cartera" AS CAR
+INNER JOIN "BSCL.Mesa.BD::MES.Operacion" AS OPE ON OPE."IdOperacion" = CAR."IdOperacion" AND OPE."IdTipoProducto" = CAR."IdTipoProducto"
+INNER JOIN "BSCL.Portafolio.BD.Vistas::ConsultarPortafolio" PORT ON PORT."IdPortafolio" = CAR."IdPortafolio"
+LEFT JOIN "BSCL.SocioNegocio.BD.Vistas::EMP.ConsultarEmpleado" EMPPORT ON EMPPORT."IdEmpleado" = PORT."IdEmpleadoEjecutivo"
+LEFT JOIN "BSCL.Plataforma.BD::INS.TipoInstrumento" TI ON TI."IdTipoInstrumento" = CAR."IdTipoInstrumento"
+LEFT JOIN "BSCL.Plataforma.BD::INS.Instrumento" INS ON INS."IdInstrumento" = CAR."IdInstrumento"
+WHERE CAR."IdCartera" IN (:p_IdCartera)
+  AND CAR."IdTipoProducto" = 'MEFW'
+  AND (CAR."IdMonedaPrincipal" <> 'UF' AND CAR."IdMonedaSecundaria" <> 'UF')
+  AND CAR."IdEmpresa" = :p_IdEmpresa;

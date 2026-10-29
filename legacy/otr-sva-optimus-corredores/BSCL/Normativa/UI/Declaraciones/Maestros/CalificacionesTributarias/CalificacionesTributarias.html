@@ -1,0 +1,120 @@
+<div id="CalificacionesTributarias" class="col-xs-12" ng-controller="CalificacionesTributariasCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base tipo="'combobox-mercado-calificaciones-tributarias'" class="col-xs-8"
+							item-post-filtro="'1'" id-actual="filtros.IdClasificacionTipoInstrumento"
+							seleccionado="filtros.Clasificacion"
+							cascada-a="datos.filtrosTipoInstrumento.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_ORIGEN</label>
+                        <bcs-combobox-base tipo="'combobox-origen-calificacion-tributaria'" class="col-xs-8" todos="'S'"
+							item-post-filtro="filtros.itemPostFiltro" filtro-IdOrigen="filtros.IdOrigen"
+							id-actual="filtros.IdOrigen" activado="filtros.activado">
+						</bcs-combobox-base>
+					</div>
+                    <div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_PERIODO_COMERCIAL</label>
+						<bcs-combobox-base tipo="'combobox-periodo-comercial-calificaciones-tributarias'"
+							class="col-xs-8" item-post-filtro="1" id-actual="filtros.PeriodoComercial"
+							filtro-Ejercicio="filtros.PeriodoComercial">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_CALIFICACION_PENDIENTE</label>
+						<bcs-input-checkbox id="" class="col-xs-8" name=""
+							ng-model="filtros.esCalificacionPendiente">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<div class="row">
+						<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false"
+							bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"
+							bcs-clic="buscarCalificacionesTributarias(apiGridCalificacionesTributarias,filtros)">
+						</bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+							bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="limpiarFiltros()">
+						</bcs-button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<bcs-grid id="grid-consulta-calificaciones-tributarias" configuracion="defaultOptions" fn-doble-click=""
+				fn-click="validarOrigen(datos.kNgModel)" api="apiGridCalificacionesTributarias"
+				seleccionado="datos.kNgModel" fn-exportar-excel="exportarExcel">
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-buttons">
+		<div class=col-xs-9>
+            <bcs-button class="col-xs-2" id="CalificacionesTributarias_IngresarCalificacion" 
+                bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="" 
+                bcs-texto="'UI_INGRESAR' | translate"
+                bcs-habilitado="'true'"
+				bcs-clic="ingresarCalificacionTributaria()">
+			</bcs-button>
+
+			<bcs-button class="col-xs-2" id="CalificacionesTributarias_ModificarCalificacion" 
+                bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" 
+                bcs-texto="'UI_MODIFICAR' | translate" 
+                bcs-habilitado="filtros.validarBotonModificar"
+				bcs-clic="modificarCalificacionTributaria(datos.kNgModel)">
+			</bcs-button>
+			
+			<bcs-button class="col-xs-2" id="CalificacionesTributarias_EliminarCalificacion" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ELIMINAR' | translate" 
+				bcs-habilitado="filtros.validarBotonEliminar"
+				bcs-clic="eliminarCalificacionTributaria(datos.kNgModel)">
+			</bcs-button>	
+
+			<bcs-button class="col-xs-1" id="CalificacionesTributarias_CopiarCalificacion" 
+                bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="" 
+                bcs-texto="'UI_COPIAR' | translate" 
+                bcs-habilitado="filtros.validarBotonCopiar"
+				bcs-clic="agregarCalificacionTributaria(datos.kNgModel)">
+            </bcs-button>
+
+            <bcs-button class="col-xs-2" id="CalificacionesTributarias_CargarCalificacion" 
+                bcs-tipo="'bcs-button-secondary'" 
+                bcs-auto-desactivar="" 
+                bcs-texto="'UI_CARGAR_XFACTOR' | translate" 
+                bcs-habilitado="'true'"
+                bcs-clic="cargarCalificacionTributaria(1)">
+            </bcs-button>
+
+			<bcs-button class="col-xs-2" id="CalificacionesTributarias_CargarCalificacionMonto" 
+                bcs-tipo="'bcs-button-secondary'" 
+                bcs-auto-desactivar="" 
+                bcs-texto="'UI_CARGAR_XMONTO' | translate" 
+                bcs-habilitado="'true'"
+                bcs-clic="cargarCalificacionTributaria(2)">
+            </bcs-button>
+		</div>
+		<div class="col-xs-1 pull-right">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+				<!--   <li ng-click="anexo()">{{'UI_ANEXO' | translate}}</li> -->
+				<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

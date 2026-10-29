@@ -1,0 +1,9 @@
+INSERT INTO "BSCL.Tesoreria.BD::GBL.CrearIngresoEgreso_Entrada_FormaDePago"
+("NumeroReferencia","IdMedioDePago","IdModalidadDePago","IdMoneda","Monto","IdCuentaBancariaCorredora","IdTarjetaBancariaCorredora","IdChequera"
+,"NumeroDocumentoCorredora","FechaDocumentoPagoCorredora","IdCuentaBancariaSocio","IdBancoSocio","NombreCuentaBancariaSocio","NumeroCuentaBancariaSocio"
+,"IdTipoCuentaBancariaSocio","NombreTipoCuentaBancariaSocio","IdTarjetaBancariaSocio","IdTipoTarjetaBancariaSocio","NombreTipoTarjetaBancariaSocio"
+,"NumeroTarjetaBancariaSocio","NumeroSerieSocio","NumeroDocumentoSocio","FechaDocumentoPagoSocio")
+VALUES(:NumeroReferencia,:IdMedioDePago,:IdModalidadDePago,:IdMoneda,:Monto,:IdCuentaBancariaCorredora,:IdTarjetaBancariaCorredora,:IdChequera
+,:NumeroDocumentoCorredora,:FechaDocumentoPagoCorredora,:IdCuentaBancariaSocio,:IdBancoSocio,:NombreCuentaBancariaSocio,:NumeroCuentaBancariaSocio
+,:IdTipoCuentaBancariaSocio,:NombreTipoCuentaBancariaSocio,:IdTarjetaBancariaSocio,:IdTipoTarjetaBancariaSocio,:NombreTipoTarjetaBancariaSocio
+,:NumeroTarjetaBancariaSocio,:NumeroSerieSocio,:NumeroDocumentoSocio,:FechaDocumentoPagoSocio)

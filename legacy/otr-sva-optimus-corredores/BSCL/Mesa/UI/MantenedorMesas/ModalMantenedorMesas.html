@@ -1,0 +1,149 @@
+<div id="ModalMantenedorMesas" class="row" ng-controller="ModalMantenedorMesasCtrl as mMM">
+	<div class="row">
+		<div ng-class="mMM.win.modoEditar ? 'col-xs-9' : 'col-xs-12'">
+			<form name="ModalMantenedorMesas">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_NOMBRE_MESA</label>
+					<bcs-input-texto class="col-xs-8" 
+						ng-model="mMM.datosMesa.Nombre"
+						bcs-requerido 
+						k-ng-disabled="false">
+					</bcs-input-texto>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CODIGO_MESA</label>
+					<bcs-input-texto class="col-xs-8" 
+						ng-model="mMM.datosMesa.Codigo"
+						bcs-requerido
+						k-ng-disabled="mMM.win.modoEditar">
+					</bcs-input-texto>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						cache="true"
+						tipo="'combobox-socio-negocio'"
+						id-actual="mMM.datosMesa.IdSocioDeNegocio"
+						id-defecto="mMM.datosMesa.IdSocioDeNegocioDef"
+						filtros="mMM.cmbbx.Cliente.filtros"
+						auto-cargar="'true'"
+						bcs-requerido
+						activado="false"
+						seleccionado="mMM.datosMesa.ClienteObj"
+						cascada1-a="mMM.cmbbx.Portafolio.filtros.IdCliente"
+						cascada1-defecto="'-1'"
+						cascada1-valor="'IdCliente'">
+					</bcs-combobox-base>
+					<!--filtros="mMM.cmbbx.Cliente.filtros"-->
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-portafolio'"
+						id-actual="mMM.datosMesa.IdPortafolio"
+						id-defecto="mMM.datosMesa.IdPortafolioDef"
+						filtros="mMM.cmbbx.Portafolio.filtros"
+						todos="'N'"
+						auto-cargar='false'
+						bcs-requerido
+						seleccionado="mMM.datosMesa.PortafolioObj">
+					</bcs-combobox-base>
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-4" translate>UI_TIPO_PRODUCTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-producto-mesa-modulo'"
+						id-actual="mMM.datosMesa.IdTipoProductoMesaModulo"
+						id-defecto="mMM.datosMesa.IdTipoProductoMesaModuloDef"
+						filtros="mMM.cmbbx.TipoProductoMesaModulo.filtros"
+						todos="'N'"
+						bcs-requerido
+						activado="!mMM.win.modoEditar"
+						seleccionado="mMM.datosMesa.TipoProductoMesaModuloObj">
+					</bcs-combobox-base>
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-4" translate>UI_VALOR_RAZONABLE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-parametro-mesa'"
+						id-actual="mMM.datosMesa.ValorRazonable"
+						id-defecto="mMM.datosMesa.ValorRazonableDef"
+						filtros="mMM.cmbbx.ValorRazonable.filtros"
+						todos="'N'"
+						bcs-requerido
+						configuracion="mMM.cmbbx.ValorRazonable.configuracion"
+						seleccionado="mMM.datosMesa.ValorRazonableObj">
+					</bcs-combobox-base>
+			  	</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-estado-mesas'"
+						id-actual="mMM.datosMesa.IdEstado"
+						id-defecto="mMM.datosMesa.IdEstadoDef"
+						filtros="mMM.cmbbx.Estado.filtros"
+						todos="'N'"
+						bcs-requerido
+						seleccionado="mMM.datosMesa.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CATEGORIA_IFRS</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido ="mMM.datosMesa.TipoProductoMesaModuloObj.IdTipoProductoMesa==='MRF'"				
+						id-defecto="mMM.datosMesa.CodigoCarteraIFRS" 
+						todos = "'N'"
+						configuracion= "mMM.dataIFRS.oConfiguracionClasificacionIfrs.configuracion"
+						tipo="mMM.dataIFRS.oConfiguracionClasificacionIfrs.tipo"						
+						seleccionado="mMM.dataIFRS.oConfiguracionClasificacionIfrs.seleccionado"
+						filtros="mMM.dataIFRS.oConfiguracionClasificacionIfrs.filtros"
+						activado="mMM.datosMesa.TipoProductoMesaModuloObj.IdTipoProductoModulo === 'MRF'">
+					</bcs-combobox-base >
+			    </div>		
+				<div class="row">
+				<div>
+			  		<label class="col-xs-4" translate>UI_POR_DEFECTO</label>
+					<bcs-input-checkbox 
+						ng-model="mMM.datosMesa.PorDefecto" 
+						ng-disabled="mMM.win.PorDefectoAsignado">
+					</bcs-input-checkbox>
+				</div>
+				
+					<div >
+			  		<label class="col-xs-4" translate>UI_APLICA_FUSION_RF_IIF</label>
+					<bcs-input-checkbox 
+						ng-model="mMM.datosMesa.AplicaFusion" 
+						ng-disabled="mMM.win.AplicaFusionDisable">
+					</bcs-input-checkbox>
+				</div>
+
+			</div>
+			</form>
+		</div>
+	</div>
+	<br>
+	
+	<div ng-if="mMM.win.modoEditar">
+		<div class="row">
+			<bcs-grid
+				configuracion="mMM.grilla.OperadoresMesa"
+				seleccionado="mMM.grilla.OperadoresMesaSel">
+			</bcs-grid>
+		</div>
+	</div>
+	
+	
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-12 alignButtonsToRight">
+			<bcs-button id={{mMM.IdBotonAceptar}} class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalMantenedorMesas.$valid" bcs-clic="mMM.fn.aceptar();">
+			</bcs-button>
+			<bcs-button id="ModalMantenedorMesas_cancelar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="mMM.fn.cancelar();">
+			</bcs-button>
+		</div>
+	</div>
+
+
+	
+</div>

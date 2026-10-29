@@ -1,0 +1,51 @@
+<div id="AgregarComprobanteGiroEgreso" class="row" ng-controller='AgregarComprobanteGiroEgresoCtrl'>	
+	<div class="row bcs-cuerpo" ng-form="frmAgregarComprobanteGiroEgreso">
+
+		<div class="row">
+			<bcs-grid id="grid-comprobantes-tesoreria"
+				configuracion = "confBasicaComprobantes"
+				seleccionado = "seleccionComprobantes"
+				fn-exportar-excel = "exportarExcel"
+			    fn-doble-click = "detalleComprobante(seleccionComprobantes)">
+				
+				<div bcs-grid-detail ng-non-bindable>
+					<div style="width : 1650px;">
+					<uib-tabset>
+						<uib-tab heading="{{'UI_DETALLE' | translate}}">
+							<div class="TabComprobanteDetalle"><bcs-grid
+								configuracion = "confBasicaComprobanteDetalle(dataItem)"
+								seleccionado = "seleccionComprobanteDetalle">
+							</bcs-grid></div>
+						</uib-tab>
+						<uib-tab heading="{{'UI_FORMA_DE_PAGO' | translate}}">
+							<div class="TabComprobanteFormaPago"><bcs-grid
+								configuracion = "confBasicaComprobanteFormaPago(dataItem)"
+								seleccionado = "seleccionComprobanteFormaPago">
+							</bcs-grid></div>
+						</uib-tab>
+					</uib-tabset>
+					</div>
+				</div>			
+			</bcs-grid>
+		</div>		 
+	</div>
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-menu class="col-xs-2"  bcs-habilitado=true bcs-texto="'UI_AGREGAR' | translate" bcs-tipo="'bcs-button-primary'"> 
+			<li ng-click="agregarSeleccionados()">{{'UI_AGREGAR_SELECCIONADOS' | translate}}</li>
+			<li ng-click="agregarTodos()">{{'UI_AGREGAR_TODOS' | translate}}</li>			
+
+		</bcs-menu>
+		<bcs-button  class="col-xs-2" id="AgregarComprobanteGiroEgreso_btn_cancelar"
+			bcs-tipo			= "'bcs-button-secondary'"  		  
+			bcs-auto-desactivar	= "false"  
+			bcs-texto			= "'UI_CANCELAR' | translate"  
+			bcs-habilitado		= "true"  
+			bcs-clic			= "cerrarVentana()">
+		</bcs-button>
+	   
+		
+	</div>
+</div>
+

@@ -1,0 +1,1 @@
+ant -f BcsJarOptimusTomEE8.xml -DRUTA="C:\Nuam\Repos\otr-sva-optimus-corredores" -DDEPLOY="C:\SAPBOBSCOM\TMP_JAR" -Dfile.encoding=UTF8

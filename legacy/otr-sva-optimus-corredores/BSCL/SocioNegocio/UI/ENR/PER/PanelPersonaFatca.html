@@ -1,0 +1,421 @@
+<div id="PanelPersonaFatca" class="row" ng-controller="PanelEnrolamientoPersonaFatcaEnrolCtrl as ppf" style="overflow:auto; height:250px ; padding:10px;">
+	<ng-form class="col-xs-12 form-horizontal" name="formPanelPersonaFatca" >
+		<div style="overflow: auto; height: auto;">
+			<div class="row" >
+				<label class="col-xs-6"  translate>UI_CLASIFICACIONES_SEGUN_FATCA</label>
+			</div>
+			<hr>
+			<div class="row"> 
+				<div class="row"> 
+					<label class="col-xs-2" translate>UI_FECHA_FIRMA_FATCA</label>
+					<bcs-input-date 
+						id="formPanelPersonaFatca_FechaFirmaFormulario"
+						class="col-xs-4" 
+						bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_FechaFirmaFormulario'].Requerido === 'S'"
+						k-ng-disabled="!ppf.Habilitado" 
+						k-ng-model="ppf.dataEnrolamiento.FechaFirmaFormulario">
+					</bcs-input-date>
+				</div>
+				<div class="row"> 
+					<label class="col-xs-2" translate>UI_CLASIFICACION_FATCA</label>
+					<bcs-combobox-base
+						id="formPanelPersonaFatca_IdClasificacionFatca"
+						class="col-xs-4"
+						tipo="'combobox-clasificacion-fatca'"
+						bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_IdClasificacionFatca'].Requerido === 'S'"
+						filtros="ppf.combo.ClasificacionFatca.filtros"
+						id-actual="ppf.dataEnrolamiento.IdClasificacionFatca"
+						id-defecto="ppf.dataEnrolamientoOriginal.IdClasificacionFatca"
+						activado="ppf.Habilitado">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="ppf.CodigoTipoPersona === 'J'">
+					<label  class="col-xs-2" translate>UI_CLASIFICACION_EMPRESA</label>
+					<bcs-combobox-base
+						id="formPanelPersonaFatca_IdClasificacionEmpresaFatca"
+						class="col-xs-4"
+						bcs-requerido="ppf.CodigoTipoPersona === 'J' && ppf.camposRequeridos['formPanelPersonaFatca_IdClasificacionEmpresaFatca'].Requerido === 'S'"
+						tipo="'combobox-clasificacion-empresa-fatca'"
+						filtros="ppf.combo.ClasificacionEmpresa.filtros"
+						id-actual="ppf.dataEnrolamiento.IdClasificacionEmpresaFatca"
+						id-defecto="ppf.dataEnrolamientoOriginal.IdClasificacionEmpresaFatca"
+						activado="ppf.Habilitado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_AUTORIZACION_INFORMAR_FATCA</label>
+				<bcs-input-checkbox 
+					class="col-xs-4" 
+					ng-disabled="!ppf.Habilitado" 
+					ng-model="ppf.dataEnrolamiento.AutorizacionInformarOrganismo">
+				</bcs-input-checkbox>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_PARTICIPACION_MAYOR</label>
+				<bcs-input-checkbox 
+					class="col-xs-4" 
+					ng-disabled="!ppf.Habilitado" 
+					ng-model="ppf.dataEnrolamiento.ParticipacionSociedadesUSA">
+				</bcs-input-checkbox>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_ORDENES_PERMANENTES</label>
+				<bcs-input-checkbox 
+					class="col-xs-4" 
+					ng-disabled="!ppf.Habilitado" 
+					ng-model="ppf.dataEnrolamiento.OrdenPermanente">
+				</bcs-input-checkbox>
+			</div>
+			<div class="row" >
+				<label class="col-xs-6" translate>UI_INDICIOS_FATCA</label>
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-10" translate>{{ppf.CodigoTipoPersona === 'N'?'UI_PAISES_RESIDENCIA':'UI_PAISES_CASA_MATRIZ'| translate}}</label>
+			</div>
+			<div class="row">
+				<bcs-grid
+					configuracion="ppf.GrillaPaisResidencia"
+					seleccionado="ppf.seleccionadoPaisResidencia">
+				</bcs-grid>
+			</div>
+			<br>
+			<div class="row bcs-panel-comandos" ng-show="ppf.Habilitado">
+				<bcs-button class="col-xs-1" 
+					bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="'false'" 
+					bcs-habilitado="'true'"
+					bcs-texto="'UI_CREAR' | translate"
+					bcs-clic="ppf.agregarPaisResidencia()"> 
+				</bcs-button>
+				<bcs-button class="col-xs-1" 
+					bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="'false'" 
+					bcs-habilitado="ppf.seleccionadoPaisResidencia"
+					bcs-texto="'UI_MODIFICAR' | translate"
+					bcs-clic="ppf.modificarPaisResidencia(ppf.seleccionadoPaisResidencia)"> 
+				</bcs-button>
+				<bcs-button class="col-xs-1"
+				 bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_ELIMINAR' | translate"
+					bcs-habilitado="ppf.seleccionadoPaisResidencia"
+					bcs-clic="ppf.eliminarPaisResidencia()"> 
+				</bcs-button>
+			</div>
+			<hr>
+			<div ng-show="!(ppf.CodigoTipoPersona==='J')">
+				<div class="row">
+					<p translate>UI_CERTIFICADO_NAC_EEUU</p>
+					<hr>
+					<div class="col-xs-12">
+						<bcs-input-checkgroup
+							valores="ppf.NacEEUU"
+							etiquetas="{UI_CERTIFICADO_NAC_EEUU1: 'UI_CERTIFICADO_NAC_EEUU1', UI_CERTIFICADO_NAC_EEUU2	: 'UI_CERTIFICADO_NAC_EEUU2'}"
+							orientacion="V"
+							modo="U"
+							activado="ppf.Habilitado">
+						</bcs-input-checkgroup>
+						<bcs-input-texto 
+							id="formPanelPersonaFatca_NACEEUUExplicacion"
+							class="col-xs-4" 
+							bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_NACEEUUExplicacion'].Requerido === 'S'"
+							k-ng-disabled="(!ppf.HabilitadoNACEEUUExplicacion) || (!ppf.Habilitado)" 
+							ng-model="ppf.dataEnrolamiento.NACEEUUExplicacion">
+						</bcs-input-texto>
+					</div>
+				</div>
+			</div>
+			
+			<!-- CUENTAS BANCARIAS -->
+			<div class="row" >
+				<label class="col-xs-6"  translate>UI_EXCEPCIONES_INDICIOS</label>
+			</div>
+			<hr>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_RESIDENTE_EEUU</label>
+				<bcs-input-checkbox 
+					class="col-xs-4" 
+					ng-disabled="!ppf.Habilitado" 
+					ng-model="ppf.dataEnrolamiento.ExcepcionResidente" >
+				</bcs-input-checkbox>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_LUGAR_NAC_EEUU</label>
+				<bcs-input-checkbox 
+					class="col-xs-4"
+					ng-disabled="!ppf.Habilitado" 
+				 	ng-model="ppf.dataEnrolamiento.ExcepcionNacimiento">
+				</bcs-input-checkbox>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_DOMICILIO_EEUU</label>
+				<bcs-input-checkbox 
+					class="col-xs-4" 
+					ng-disabled="!ppf.Habilitado" 
+					ng-model="ppf.dataEnrolamiento.ExcepcionDomicilio">
+				</bcs-input-checkbox>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_NUM_TELF_EEUU</label>
+				<bcs-input-checkbox 
+					class="col-xs-4" 
+					ng-disabled="!ppf.Habilitado" 
+					ng-model="ppf.dataEnrolamiento.ExcepcionTelefono">
+				</bcs-input-checkbox>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_ORDENES_PERMANENTES</label>
+				<bcs-input-checkbox 
+					class="col-xs-4" 
+					ng-disabled="!ppf.Habilitado" 
+					ng-model="ppf.dataEnrolamiento.ExcepcionOrdenPermanente">
+				</bcs-input-checkbox>
+			</div>
+			<div class="row"> 
+				<label class="col-xs-2" translate>UI_FIRMA_AUTORIZADA_PERSONA</label>
+				<bcs-input-checkbox 
+					class="col-xs-4" 
+					ng-disabled="!ppf.Habilitado" 
+					ng-model="ppf.dataEnrolamiento.ExcepcionFirma">
+				</bcs-input-checkbox>
+			</div>
+			<br>
+			
+			<div ng-show="(ppf.CodigoTipoPersona==='J')">
+				<div class="row">
+					<p translate>UI_ACTIVIDAD_ENTIDAD</p>
+					<hr>
+					<div class="col-xs-12">
+						<label class="col-xs-3" translate>UI_ACTIVIDAD_ENTIDAD_FINANCIERA</label>
+						<bcs-input-checkgroup
+							valores="ppf.EntidadFinanciera"
+							etiquetas="{UI_ACTIVIDAD_ENTIDAD_FINANCIERA1: 'UI_ACTIVIDAD_ENTIDAD_FINANCIERA1', UI_ACTIVIDAD_ENTIDAD_FINANCIERA2	: 'UI_ACTIVIDAD_ENTIDAD_FINANCIERA2'}"
+							orientacion="H"
+							modo="U"
+							activado="ppf.Habilitado">
+						</bcs-input-checkgroup>
+					</div>
+				</div>
+				<div class="row">
+					<p translate>UI_TIPO_INST_FINANCIERA</p>
+					<bcs-input-checkgroup
+						valores="ppf.TipoInstitucionFinanciera"
+						etiquetas="{UI_TIPO_INST_FINANCIERA1: 'UI_TIPO_INST_FINANCIERA1', 
+						UI_TIPO_INST_FINANCIERA2	: 'UI_TIPO_INST_FINANCIERA2',
+						UI_TIPO_INST_FINANCIERA3	: 'UI_TIPO_INST_FINANCIERA3',
+						UI_TIPO_INST_FINANCIERA4	: 'UI_TIPO_INST_FINANCIERA4',
+						UI_TIPO_INST_FINANCIERA5	: 'UI_TIPO_INST_FINANCIERA5',
+						UI_TIPO_INST_FINANCIERA6	: 'UI_TIPO_INST_FINANCIERA6',
+						UI_TIPO_INST_FINANCIERA7	: 'UI_TIPO_INST_FINANCIERA7',
+						UI_TIPO_INST_FINANCIERA8	: 'UI_TIPO_INST_FINANCIERA8',
+						UI_TIPO_INST_FINANCIERA9	: 'UI_TIPO_INST_FINANCIERA9',
+						UI_TIPO_INST_FINANCIERA10	: 'UI_TIPO_INST_FINANCIERA10',
+						UI_TIPO_INST_FINANCIERA11	: 'UI_TIPO_INST_FINANCIERA11',
+						UI_TIPO_INST_FINANCIERA12	: 'UI_TIPO_INST_FINANCIERA12',
+						UI_TIPO_INST_FINANCIERA13	: 'UI_TIPO_INST_FINANCIERA13',
+						UI_TIPO_INST_FINANCIERA14	: 'UI_TIPO_INST_FINANCIERA14',
+						UI_TIPO_INST_FINANCIERA15	: 'UI_TIPO_INST_FINANCIERA15',
+						UI_TIPO_INST_FINANCIERA16	: 'UI_TIPO_INST_FINANCIERA16',
+						UI_TIPO_INST_FINANCIERA17	: 'UI_TIPO_INST_FINANCIERA17',
+						UI_TIPO_INST_FINANCIERA18	: 'UI_TIPO_INST_FINANCIERA18'}"
+						orientacion="V"
+						modo="U"
+						activado="ppf.Habilitado">
+					</bcs-input-checkgroup>
+					<div class="col-xs-12">
+						<label class="col-xs-3" translate>UI_TIPO_INST_FINANCIERA19</label>
+						<bcs-input-checkgroup
+							valores="ppf.EntidadGestionada"
+							etiquetas="{UI_TIPO_INST_FINANCIERA19_1: 'UI_TIPO_INST_FINANCIERA19_1', UI_TIPO_INST_FINANCIERA19_2	: 'UI_TIPO_INST_FINANCIERA19_2'}"
+							orientacion="H"
+							modo="U"
+							activado="ppf.Habilitado">
+						</bcs-input-checkgroup>
+					</div>
+				</div>
+				<div class="row">
+					<p translate>UI_OTRAS_INSTITUCIONES</p>
+					<hr>
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_OTRAS_INSTITUCIONES1</label>
+						<bcs-input-checkgroup
+							valores="ppf.IngresosPasivos"
+							etiquetas="{UI_OTRAS_INSTITUCIONES1_1: 'UI_OTRAS_INSTITUCIONES1_1', UI_OTRAS_INSTITUCIONES1_2	: 'UI_OTRAS_INSTITUCIONES1_2'}"
+							orientacion="H"
+							modo="U"
+							activado="ppf.Habilitado">
+						</bcs-input-checkgroup>
+					</div>
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_OTRAS_INSTITUCIONES2</label>
+						<bcs-input-checkgroup
+							valores="ppf.GenerarIngresosPasivos"
+							etiquetas="{UI_OTRAS_INSTITUCIONES2_1: 'UI_OTRAS_INSTITUCIONES2_1', UI_OTRAS_INSTITUCIONES2_2	: 'UI_OTRAS_INSTITUCIONES2_2'}"
+							orientacion="H"
+							modo="U"
+							activado="ppf.Habilitado">
+						</bcs-input-checkgroup>
+					</div>
+					<label class="col-xs-12" translate>UI_OTRAS_INSTITUCIONES3</label>
+					<bcs-input-checkgroup
+						valores="ppf.CategoriaEntidad"
+						etiquetas="{UI_OTRAS_INSTITUCIONES3_1: 'UI_OTRAS_INSTITUCIONES3_1',
+						UI_OTRAS_INSTITUCIONES3_2: 'UI_OTRAS_INSTITUCIONES3_2',
+						UI_OTRAS_INSTITUCIONES3_3: 'UI_OTRAS_INSTITUCIONES3_3',
+						UI_OTRAS_INSTITUCIONES3_4: 'UI_OTRAS_INSTITUCIONES3_4',
+						UI_OTRAS_INSTITUCIONES3_5: 'UI_OTRAS_INSTITUCIONES3_5',
+						UI_OTRAS_INSTITUCIONES3_6: 'UI_OTRAS_INSTITUCIONES3_6',
+						UI_OTRAS_INSTITUCIONES3_7: 'UI_OTRAS_INSTITUCIONES3_7',
+						UI_OTRAS_INSTITUCIONES3_8: 'UI_OTRAS_INSTITUCIONES3_8',
+						UI_OTRAS_INSTITUCIONES3_9: 'UI_OTRAS_INSTITUCIONES3_9',
+						UI_OTRAS_INSTITUCIONES3_10: 'UI_OTRAS_INSTITUCIONES3_10',
+						UI_OTRAS_INSTITUCIONES3_11: 'UI_OTRAS_INSTITUCIONES3_11',
+						UI_OTRAS_INSTITUCIONES3_12: 'UI_OTRAS_INSTITUCIONES3_12',
+						UI_OTRAS_INSTITUCIONES3_13: 'UI_OTRAS_INSTITUCIONES3_13',}"
+						orientacion="V"
+						modo="U"
+						activado="ppf.Habilitado">
+					</bcs-input-checkgroup>				
+				</div>
+				<div class="row">
+					<p translate>UI_INFORMACION_COM</p>
+					<hr>
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_INFORMACION_COM1</label>
+						<bcs-input-texto 
+							id="formPanelPersonaFatca_GIINEntidad"
+							class="col-xs-5" 
+							bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_GIINEntidad'].Requerido === 'S'"
+							k-ng-disabled="!ppf.Habilitado" 
+							ng-model="ppf.dataEnrolamiento.GIINEntidad">
+						</bcs-input-texto>
+					</div>
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_INFORMACION_COM2</label>
+						<bcs-input-texto
+							id="formPanelPersonaFatca_RazonSocial" 
+							class="col-xs-5" 
+							bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_RazonSocial'].Requerido === 'S'"
+							k-ng-disabled="!ppf.Habilitado" 
+							ng-model="ppf.dataEnrolamiento.RazonSocial">
+						</bcs-input-texto>
+					</div>
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_INFORMACION_COM3</label>
+						<bcs-input-date 
+							id="formPanelPersonaFatca_FechaLiquidacion"
+							class="col-xs-5"
+							bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_FechaLiquidacion'].Requerido === 'S'" 
+							k-ng-disabled="!ppf.Habilitado"  
+							k-ng-model="ppf.dataEnrolamiento.FechaLiquidacion">
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_INFORMACION_COM4</label>
+						<bcs-input-texto
+							id="formPanelPersonaFatca_NombreMercado" 
+							class="col-xs-5" 
+							k-ng-disabled="!ppf.Habilitado" 
+							bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_NombreMercado'].Requerido === 'S'" 
+							ng-model="ppf.dataEnrolamiento.NombreMercado">
+						</bcs-input-texto>
+					</div>
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_INFORMACION_COM5</label>
+						<bcs-input-date 
+							id="formPanelPersonaFatca_FechaConstitucion"
+							class="col-xs-5" 
+							bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_FechaConstitucion'].Requerido === 'S'" 
+							k-ng-disabled="!ppf.Habilitado"  
+							k-ng-model="ppf.dataEnrolamiento.FechaConstitucion">
+						</bcs-input-date>
+					</div>
+				</div>
+				<div class="row">
+					<p translate>UI_BENEFICIARIOS_OBLIGACIONES</p>
+					<hr>
+					<label class="col-xs-12" translate>UI_BENEFICIARIOS_OBLIGACIONES1</label>
+					<br>
+					<bcs-input-checkgroup
+						valores="ppf.ObligacionesFiscales"
+						etiquetas="{UI_BENEFICIARIOS_OBLIGACIONES1_1: 'UI_BENEFICIARIOS_OBLIGACIONES1_1', UI_BENEFICIARIOS_OBLIGACIONES1_2	: 'UI_BENEFICIARIOS_OBLIGACIONES1_2'}"
+						orientacion="V"
+						modo="U"
+						activado="ppf.Habilitado"></bcs-input-checkgroup>
+					<bcs-input-texto 
+						id="formPanelPersonaFatca_ObligacionesFiscalesExplicacion"
+						class="col-xs-4" 
+						bcs-requerido="ppf.camposRequeridos['formPanelPersonaFatca_ObligacionesFiscalesExplicacion'].Requerido === 'S'"
+						k-ng-disabled="!ppf.Habilitado" 
+						ng-model="ppf.dataEnrolamiento.ObligacionesFiscalesExplicacion">
+					</bcs-input-texto>
+				</div>
+				<div class="row">
+					<h5 translate>UI_ANEXO_FACTA</h5>
+					<hr>
+					<p translate>UI_INDIVIDUO_CONTROL</p>
+					<label class="col-xs-12" translate>UI_INDIVIDUO_CONTROL1</label>
+					<bcs-input-checkgroup
+						valores="ppf.IndividuoControl"
+						etiquetas="{UI_INDIVIDUO_CONTROL1_1: 'UI_INDIVIDUO_CONTROL1_1',
+						UI_INDIVIDUO_CONTROL1_2: 'UI_INDIVIDUO_CONTROL1_2',
+						UI_INDIVIDUO_CONTROL1_3: 'UI_INDIVIDUO_CONTROL1_3',
+						UI_INDIVIDUO_CONTROL1_4: 'UI_INDIVIDUO_CONTROL1_4',
+						UI_INDIVIDUO_CONTROL1_5: 'UI_INDIVIDUO_CONTROL1_5',
+						UI_INDIVIDUO_CONTROL1_6: 'UI_INDIVIDUO_CONTROL1_6',
+						UI_INDIVIDUO_CONTROL1_7: 'UI_INDIVIDUO_CONTROL1_7',
+						UI_INDIVIDUO_CONTROL1_8: 'UI_INDIVIDUO_CONTROL1_8',
+						UI_INDIVIDUO_CONTROL1_9: 'UI_INDIVIDUO_CONTROL1_9',
+						UI_INDIVIDUO_CONTROL1_10: 'UI_INDIVIDUO_CONTROL1_10',
+						UI_INDIVIDUO_CONTROL1_11: 'UI_INDIVIDUO_CONTROL1_11',
+						UI_INDIVIDUO_CONTROL1_12: 'UI_INDIVIDUO_CONTROL1_12',
+						UI_INDIVIDUO_CONTROL1_13: 'UI_INDIVIDUO_CONTROL1_13'}"
+						orientacion="V"
+						modo="U"
+						activado="ppf.Habilitado">
+					</bcs-input-checkgroup>
+				</div>
+				<br>
+				<div class="row">
+					<label class="col-xs-10" translate>UI_CUENTAS_EXTRANJERAS_ORDENES_PERMANENTES</label>
+				</div>
+				<div class="row">
+					<bcs-grid
+						configuracion="ppf.GrillaCuentasBancarias"
+						seleccionado="ppf.GrillaCuentasBancariasSeleccionado">
+					</bcs-grid>
+				</div>
+			</div>
+		</div>			
+	</ng-form>
+
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="PanelEnrolamientoFatca_editar" 
+			class="col-xs-2"
+			ng-show="!ppf.Habilitado"
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_EDITAR' | translate"
+			bcs-habilitado="'true'"
+			bcs-clic="ppf.editar()"></bcs-button>
+		<bcs-button id="PanelEnrolamientoFatca_guardar" 
+			class="col-xs-2"
+			ng-show="ppf.Habilitado"
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_GUARDAR' | translate"
+			bcs-habilitado="formPanelPersonaFatca.$valid"
+			bcs-clic="ppf.guardar()"></bcs-button>
+		<bcs-button id="PanelEnrolamientoFatca_cancelar"
+			class="col-xs-2"
+			ng-show="ppf.Habilitado"
+			bcs-tipo="'bcs-button-secondary'" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate"
+			bcs-habilitado="'true'"
+			bcs-clic="ppf.cancelar()">
+		</bcs-button>		
+	</div>
+</div>

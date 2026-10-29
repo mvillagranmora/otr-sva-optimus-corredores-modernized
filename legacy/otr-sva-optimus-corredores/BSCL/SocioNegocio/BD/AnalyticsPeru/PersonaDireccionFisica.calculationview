@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="PersonaDireccionFisica" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="PersonaDireccionFisica"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="BIGINT" id="IdDireccionFisicaPrincipal"/>
+        <viewAttribute datatype="BIGINT" id="IdCiudad"/>
+        <viewAttribute datatype="NVARCHAR" id="Ciudad" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Calle" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Numero" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="Departamento" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoProposito" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="Comentario" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="DescripcionProposito" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaCreacion" length="20"/>
+        <viewAttribute datatype="NVARCHAR" id="Distrito" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Provincia" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+     var_out =  
+        SELECT 
+    DF.&quot;IdPersona&quot;,
+    DF.&quot;IdDireccionFisica&quot; AS &quot;IdDireccionFisicaPrincipal&quot;,
+    DF.&quot;IdCiudad&quot;,
+    CDP.&quot;NombreDivisionPais&quot; AS &quot;Ciudad&quot;,
+    DF.&quot;Calle&quot;,
+    DF.&quot;Numero&quot;,
+    DF.&quot;Departamento&quot;,
+    DF.&quot;CodigoProposito&quot;,
+    DF.&quot;Comentario&quot;,
+    DF.&quot;IdEstado&quot;,
+    PMC.&quot;Descripcion&quot; AS&quot;DescripcionProposito&quot;,
+    DF.&quot;FechaCreacion&quot;,
+    CDP.&quot;NombreClasificacionDivisionPais1&quot; AS &quot;Distrito&quot;,
+    CDP.&quot;NombreClasificacionDivisionPais2&quot; AS &quot;Provincia&quot;
+FROM &quot;BSCL.SocioNegocio.BD::PER.DireccionFisica&quot; DF
+LEFT JOIN &quot;BSCL.SocioNegocio.BD::PER.PropositoMedioContacto&quot; PMC ON PMC.&quot;IdPropositoMedioContacto&quot; = DF.&quot;CodigoProposito&quot;   
+LEFT JOIN &quot;BSCL.Plataforma.BD.Vistas::REG.ConsultarDivisionPais&quot; CDP ON DF.&quot;IdDivisionPais&quot; = CDP.&quot;IdDivisionPais&quot; AND DF.&quot;IdCiudad&quot; = CDp.&quot;IdCiudad&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdPersona" order="1">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="IdDireccionFisicaPrincipal" order="2">
+        <descriptions defaultDescription="IdDireccionFisicaPrincipal"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdDireccionFisicaPrincipal"/>
+      </attribute>
+      <attribute id="IdCiudad" order="3">
+        <descriptions defaultDescription="IdCiudad"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCiudad"/>
+      </attribute>
+      <attribute id="Ciudad" order="4">
+        <descriptions defaultDescription="Ciudad"/>
+        <keyMapping columnObjectName="Script_View" columnName="Ciudad"/>
+      </attribute>
+      <attribute id="Calle" order="5">
+        <descriptions defaultDescription="Calle"/>
+        <keyMapping columnObjectName="Script_View" columnName="Calle"/>
+      </attribute>
+      <attribute id="Numero" order="6">
+        <descriptions defaultDescription="Numero"/>
+        <keyMapping columnObjectName="Script_View" columnName="Numero"/>
+      </attribute>
+      <attribute id="Departamento" order="7">
+        <descriptions defaultDescription="Departamento"/>
+        <keyMapping columnObjectName="Script_View" columnName="Departamento"/>
+      </attribute>
+      <attribute id="CodigoProposito" order="8">
+        <descriptions defaultDescription="CodigoProposito"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoProposito"/>
+      </attribute>
+      <attribute id="Comentario" order="9">
+        <descriptions defaultDescription="Comentario"/>
+        <keyMapping columnObjectName="Script_View" columnName="Comentario"/>
+      </attribute>
+      <attribute id="IdEstado" hidden="false" order="10">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="DescripcionProposito" order="11">
+        <descriptions defaultDescription="DescripcionProposito"/>
+        <keyMapping columnObjectName="Script_View" columnName="DescripcionProposito"/>
+      </attribute>
+      <attribute id="FechaCreacion" order="12">
+        <descriptions defaultDescription="FechaCreacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="Distrito" hidden="false" order="13">
+        <descriptions defaultDescription="Distrito"/>
+        <keyMapping columnObjectName="Script_View" columnName="Distrito"/>
+      </attribute>
+      <attribute id="Provincia" hidden="false" order="14">
+        <descriptions defaultDescription="Provincia"/>
+        <keyMapping columnObjectName="Script_View" columnName="Provincia"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

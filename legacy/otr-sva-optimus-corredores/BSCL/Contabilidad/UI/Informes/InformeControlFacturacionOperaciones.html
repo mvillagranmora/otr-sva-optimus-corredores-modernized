@@ -1,0 +1,116 @@
+<div ng-controller="ControlFacturacionCtrl">
+	<form name="formControlFacturacion" class="filters-formulario">
+		<div class="col-xs-12 bcs-cuerpo">
+			<!-- PARAMETROS INICIALES -->
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_FECHA</label>
+						<bcs-input-date class="col-xs-7"
+							id="FechaConsulta"
+							k-ng-model="data.kngFechaConsulta"
+							id-actual="data.oConfiguracionFecha.idActual"
+							todo-dias="'true'"
+							bcs-requerido>
+						</bcs-input-date>
+					</div>
+				</div>
+
+
+			<div class='row'>
+				<div class="col-xs-12">
+					<label class="col-xs-5" translate>UI_TIPO_CONTROL</label>
+					<bcs-combobox-base class="col-xs-7" id="frmMesa_ACTIVA"
+						auto-cargar="'true'"
+                        tipo="'combobox-tipo-control'"
+                        id-actual="data.oConfiguracionTipoControl.idActual"
+                        bcs-requerido>
+                    </bcs-combobox-base>
+				</div>
+			</div>
+			<div class='row' ng-show="data.oConfiguracionTipoControl.idActual =='S'">
+				<div class='row'>
+					<div class="col-xs-12">
+						<label class="col-xs-5" translate>UI_BOLSA</label>
+							<bcs-combobox-base 
+								class="col-xs-7"
+								tipo="'combobox-bolsa'"
+								id-actual="data.oConfiguracionBolsa.idActual"
+								filtros= "data.oConfiguracionBolsa.filtros" 
+								todos="'S'"
+								item-post-filtro = "'1'">
+							</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class="col-xs-12">
+                    <label class="col-xs-5" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-7" 
+						auto-cargar			= "'true'"
+						id					= "UI_CLASIFICACION"
+						bcs-requerido		= "'true'"
+                        todos				="'S'"
+						tipo				= "'combobox-clasificacion-tipo-instrumento'" 
+						configuracion		= "data.oConfiguracionClasificacion.configuracion" 				
+						seleccionado		= "data.oConfiguracionClasificacion.seleccionado"
+						filtros				= "data.oConfiguracionClasificacion.filtros" 
+						id-actual			= "data.oConfiguracionClasificacion.idActual"						
+						id-defecto			= "0"						
+						cascada1-a			= "data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor		= "'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class='row'>
+				<div class="col-xs-12">
+					<label class="col-xs-5" translate>UI_TIPO_INSTRUMENTO</label>
+                    <bcs-combobox-base class="col-xs-7"
+                            id					= "UI_TIPO_INSTRUMENTO" 
+                            auto-cargar			= "'false'"						
+                            todos				="'S'"
+                            tipo				="'combobox-tipo-instrumento'"
+                            configuracion		= "data.oConfiguracionTipoInstrumento.configuracion"
+                            seleccionado		= "data.oConfiguracionTipoInstrumento.seleccionado"
+                            filtros				= "data.oConfiguracionTipoInstrumento.filtros"
+                            id-defecto			= "0"
+                            id-actual			= "data.oConfiguracionTipoInstrumento.idActual"
+							bcs-requerido		= "'true'"
+							>
+                    </bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class='row'>
+				<div class="col-xs-12">
+					<label class="col-xs-5" translate>UI_MONEDA</label>
+                    <bcs-combobox-base
+                        id="UI_MONEDA"
+                        class="col-xs-7"
+                        auto-cargar="true"
+                        todos="'S'"
+                        bcs-requerido= "'true'"
+                        tipo="'combobox-moneda'" 
+                        id-defecto= "0"
+                        id-actual= "data.oConfiguracionMoneda.idActual">
+                    >
+                    </div>
+				</div>
+			</div>
+			<div class="row">
+			</div>
+			<div class="row">
+			<hr>
+			<div class="col-xs-12 alignButtonsToRight">
+					<bcs-button  class="col-xs-3" 
+								bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="false"
+								bcs-texto="'UI_GENERAR' | translate" 
+								bcs-habilitado="formControlFacturacion.$valid" 
+								bcs-clic="data.generarReporte()">
+					</bcs-button>
+			</div>
+			</div>
+	</div>
+	</form>

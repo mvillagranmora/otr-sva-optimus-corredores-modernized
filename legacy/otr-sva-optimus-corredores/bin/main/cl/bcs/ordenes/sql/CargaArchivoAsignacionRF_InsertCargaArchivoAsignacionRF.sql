@@ -1,0 +1,5 @@
+INSERT INTO "BSCL.Orden.BD::ORD.CargaAsignacionRF"
+("IdCargaTransaccionRF","FechaEmision","RutCavali","CodigoPortafolio","TipoOperacion","Instrumento","Cantidad","Yope","Precio","Modalidad","Tipo","Moneda","MontoNominal","FechaLibroSubasta",
+"IndicadorCalculaComision","IndicadorIncorporaAllIn","TipoComision","MontoComisionFija","EnRuedaFueraRueda","Asesor","FolioTransaccion","IdEstado","Resultado","Boveda","Cuenta")
+VALUES("BSCL.Orden.BD.Secuencias::CargaAsignacionRF".NEXTVAL,:FechaEmision,:RutCavali,:CodigoPortafolio,:TipoOperacion,:Instrumento,:Cantidad,:Yope,:Precio,:Modalidad,:Tipo,:Moneda,:MontoNominal,:FechaLibroSubasta,
+:IndicadorCalculaComision,:IndicadorIncorporaAllIn,:TipoComision,:MontoComisionFija,:EnRuedaFueraRueda,:Asesor,:FolioTransaccion,:IdEstado,:Resultado,:Boveda,:Cuenta)

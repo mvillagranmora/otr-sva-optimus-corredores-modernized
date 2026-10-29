@@ -1,0 +1,1 @@
+CREATE LOCAL TEMPORARY TABLE #INPUT_PERSONA LIKE "BSCL.SocioNegocio.BD.Tipos::SOC.ConsultarEnrolamiento";

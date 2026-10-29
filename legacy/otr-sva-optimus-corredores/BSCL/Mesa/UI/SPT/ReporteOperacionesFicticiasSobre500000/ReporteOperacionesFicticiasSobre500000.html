@@ -1,0 +1,128 @@
+<div ng-controller="ReporteCalceOperaciones">
+	<form name="formReporteCalceOperaciones" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{UI_REPORTE_CALCE_OPERACIONES|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA</label>
+					<bcs-input-date
+						class="col-xs-7"
+						id="UI_FECHA"
+						ng-model="data.Fecha"
+						k-ng-model="data.kngFecha"
+						k-options="data.LimiteFecha"
+					>
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_SOCIO_NEGOCIO</label>
+					<bcs-combobox-base 
+ 						class="col-xs-7"						
+						id="UI_SOCIO_NEGOCIO"
+						bcs-requerido="true"
+						auto-cargar="'false'"
+						id-Actual="data.oSocioNegocio.idActual"						
+						tipo="'combobox-socio-negocio'"
+						seleccionado="data.oSocioNegocio.seleccionado"
+						filtros="data.oSocioNegocio.filtros"
+						cascada-a="data.oPortafolio.filtros.IdCliente"
+						cascada-valor="'IdCliente'"
+						cascada-defecto="-1"
+						activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)"
+					> 
+					</bcs-combobox-base >
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						bcs-requerido="true"
+						id="UI_PORTAFOLIO"
+						auto-cargar="'false'"
+						id-Actual="data.PortafolioIdActual"
+						tipo="'combobox-portafolio'"
+						seleccionado="data.oPortafolio.seleccionado"
+						filtros="data.oPortafolio.filtros"
+						item-post-filtro="'1'"
+						activado="(!bloqueoAnular && !bloqueoModificar && !bloqueoAnticipo)"
+					>
+					</bcs-combobox-base >
+				</div>		
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_MONEDA_PRINCIPAL</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						id="UI_MONEDA_PRINCIPAL"
+					 	auto-cargar="'true'"
+					 	bcs-requerido="true"
+					    tipo="'combobox-moneda-principal'"
+					    id-defecto="data.MonedaPrincipalDefecto"
+					    seleccionado="data.oConfiguracionMonedaPrincipal.seleccionado"
+					    filtros="data.oConfiguracionMonedaPrincipal.filtros"
+				        id-actual="data.MonedaPrincipalIdActual"
+				        cascada1-a="data.oConfiguracionMedioDePago.filtros.IdMonedaPrincipal"
+						cascada1-valor="'IdMonedaPrincipal'"
+						activado="(!bloqueoAnular && !bloqueoModificar)"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_MONEDA_SECUNDARIA</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						id="UI_MONEDA_SECUNDARIA"
+						bcs-requerido="true"
+					 	auto-cargar="'true'"
+					    tipo="'combobox-moneda-secundaria'"
+					    id-defecto="data.MonedaSecundariaDefecto"
+					    seleccionado="data.oConfiguracionMonedaSecundaria.seleccionado"
+					    filtros="data.oConfiguracionMonedaSecundaria.filtros"
+				        id-actual="data.MonedaSecundariaIdActual"
+				        cascada1-a="data.oConfiguracionMedioDePago.filtros.IdMonedaSecundaria"
+						cascada1-valor="'IdMonedaSecundaria'"
+						activado="(!bloqueoAnular && !bloqueoModificar)"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						id="UI_TIPO_INSTRUMENTO"
+						bcs-requerido="true"
+						auto-cargar="'true'"
+						item_post_filtro="'1'"
+						tipo="'combobox-tipoinstrumento-mesa'"
+						filtros="data.oConfiguracionTipoInstrumento.filtros"
+						seleccionado="data.tipoInstrumentoSeleccionado"
+						id-actual="data.tipoInstrumentoIdActual"
+						cascada1-a="data.oConfiguracionMedioDePago.filtros.IdInstrumento"
+						cascada1-valor="'IdInstrumento'"
+						activado="false"
+					>
+					</bcs-combobox-base >
+				</div>
+			</div>
+			<hr>	
+			<div class="row">
+				<div class="col-xs-3">
+					<bcs-button  
+						bcs-tipo="'principal'"
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_GENERAR_REPORTE' | translate"
+						bcs-habilitado="true"
+						bcs-clic="generarReporteCalce()" 
+					>
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+

@@ -1,0 +1,90 @@
+<div id="CalculadoraSpot" class="row" ng-controller='CalculadoraSpotCtrl as pCalc'>
+
+
+	<form name="frm">
+
+	<div class="row">
+	<div class="col-xs-2">
+		<label class="col-xs-3" translate>UI_PRECIO</label>
+		<bcs-input-numero class="col-xs-8" 
+			id="UI_PRECIO"
+			bcs-mayor-que="'0'" 
+			ng-model="pCalc.win.precio"
+			k-ng-model="pCalc.win.precioM"
+			decimales="3"
+		
+		></bcs-input-numero>
+	</div>
+	
+		<div class="col-xs-2">
+			<label class="col-xs-3" translate>UI_FECHA</label>
+			<bcs-input-date class="col-xs-8"					
+				bcs-requerido
+				k-ng-model    = "pCalc.Fecha"
+				k-options     = "">
+			</bcs-input-date>
+		</div>	
+	
+
+	<div class="col-xs-2">
+		<label class="col-xs-3" translate>UI_MESA</label>                 
+		<bcs-combobox-base class="col-xs-8"
+		bcs-requerido
+		id="UI_MESA"
+		auto-cargar="'true'"
+		todos="'S'"
+ 	    tipo="'combobox-mesas'"
+	    filtros="pCalc.cmbbx.mesa.filtros"
+	    seleccionado="pCalc.cmbbx.mesa.seleccionado"
+	    item-post-filtro="'1'"
+		configuracion= "pCalc.cmbbx.mesa.Config" 
+		id-actual="pCalc.cmbbx.mesa.Actual" >
+			>
+		</bcs-combobox-base >
+	</div>  
+	<div class="col-xs-4">
+		<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO_ABR</label>
+		<bcs-combobox-base class="col-xs-4"
+		bcs-requerido
+		id="UI_TIPO_INSTRUMENTO"
+		auto-cargar="'true'"
+		tipo="'combobox-tipoinstrumento-mesa'"
+		todos="'S'"
+		seleccionado="pCalc.cmbbx.tipo_instrumento.seleccionado"	
+		filtros="pCalc.cmbbx.tipo_instrumento.filtros"
+		item-post-filtro="'1'"
+		configuracion= "pCalc.cmbbx.tipo_instrumento.Config" 
+		id-actual="pCalc.cmbbx.tipo_instrumento.Actual"  
+			>
+				>
+		</bcs-combobox-base>
+	</div>
+  </form>	
+
+	<div class="col-xs-2" ng-show="true">
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="pCalc.fn.aceptar()"></bcs-button>
+		<bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pCalc.limpiar()"></bcs-button>
+	</div>
+  
+
+	<div class="col-xs-12">
+		<div class="row" >
+		
+			<bcs-grid 
+		     	id="pCalc.grilla.confCalculadoraSpotId"
+			  	configuracion = "pCalc.grilla.confCalculadoraSpot"
+				seleccionado = "pCalc.grilla.confCalculadoraSpotSel"
+				fn-exportar-excel="exportarExcel"
+						>
+			</bcs-grid>					
+		</div>
+		<div class= "row">
+			<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="exportarExcel('CalculadoraSpot')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+		</div>
+	</div>
+
+		
+
+</div>

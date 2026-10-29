@@ -1,0 +1,298 @@
+<div class="row" ng-controller='ConsultarOrdenesCtrl' bcs-enter="buscarOrdenes(apiGridOrdenes,filtros)" tabindex="1">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-11">
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						class="col-xs-8"
+						todos = "'S'"
+						filtros = "datos.filtrosClasificacion"
+						item-post-filtro = "'1'"
+						id-actual="filtros.IdClasificacionTipoInstrumento"
+						cascada-a="datos.filtrosTipoInstrumento.IdClasificacionTipoInstrumento"
+						cascada-valor="'IdClasificacionTipoInstrumento'"
+						cascada1-a="datos.filtrosInstrumentos.IdClasificacionTipoInstrumento"
+						cascada1-valor="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base
+						class="col-xs-7"
+						tipo="'combobox-tipo-instrumento'"
+						todos = "'S'"
+						item-post-filtro = "'1'"
+						filtros="datos.filtrosTipoInstrumento"
+						id-actual="filtros.IdTipoInstrumento"
+						cascada-a="datos.filtrosOperacion.IdTipoInstrumento"
+						cascada-valor="'IdTipoInstrumento'"
+						cascada1-a="datos.filtrosInstrumentos.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5" translate>UI_OPERACION</label>					
+					<bcs-combobox-base
+						class="col-xs-7"
+						todos = "'S'"
+						item-post-filtro = "'1'"
+						tipo="'combobox-operacion'"
+						id-actual="filtros.AccionOrden"
+						filtros="datos.filtrosOperacion"
+						cascada-a="datos.filtrosCondicionDeLiquidacion.AccionTipoOperacion"
+						cascada-valor="'AccionOrden'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5" translate>UI_INSTRUMENTO</label>
+					<bcs-combobox-base 
+						class = "col-xs-7"
+						tipo = "'combobox-instrumento'"
+						seleccionado = "filtros.instrumento"
+						id-actual = "filtros.buscarInstrumento"
+						filtros = "datos.filtrosInstrumentos">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_FECHA_ORDEN</label>
+					<bcs-input-date class="col-xs-4" k-ng-model="filtros.fechaDesde"></bcs-input-date>
+					<bcs-input-date class="col-xs-4" k-ng-model="filtros.fechaHasta"></bcs-input-date>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5" translate>UI_LIBRO_ORDENES</label>
+					<bcs-combobox-base 
+				     	class="col-xs-7"
+				     	filtros = "datos.filtrosLibroDeOrdenes"
+				     	tipo="'combobox-libro-orden'"
+						id-actual="filtros.IdLibroOrdenes"
+						id-defecto = "defecto.IdLibroOrdenes"
+						todos="'S'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5" translate>UI_COND_DE_LIQUIDACION</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						filtros = "datos.filtrosCondicionDeLiquidacion"
+						tipo="'combobox-condicion-liquidacion'"
+						id-actual="filtros.IdCondicionDeLiquidacion"
+						todos = "'S'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base >
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5" translate>UI_CANAL_INGRESO</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						filtros = "datos.filtrosCanalIngreso"
+						tipo="'combobox-tipo-canal-ingreso'"
+						id-actual="filtros.IdTipoCanalIngreso"
+						todos = "'S'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="col-xs-4" translate>UI_MONEDA</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						filtros = "datos.filtrosMonedaNegociacion"
+						tipo="'combobox-moneda-negociacion'"
+						id-actual="filtros.IdMoneda"
+						todos = "'S'"
+						item-post-filtro = "'1'">
+					</bcs-combobox-base >
+				</div>
+			</div>
+			<div class="row" ng-if ="!MostrarProducto">
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base 
+						class="col-xs-9"
+					 	tipo="'combobox-cliente-portafolio'"
+					 	filtros = "filtrosPortafolio"
+					 	id-actual="filtros.IdPortafolio"
+					 	seleccionado="datos.oClientePortafolio.seleccionado"
+					 	configuracion="datos.oClientePortafolio.configuracion"
+					 	memoria="''">
+					</bcs-combobox-base >
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-6" style= "position:absolute" translate>UI_INCLUIR_ORDENES_NO_VIGENTES</label>
+					<bcs-input-checkbox 
+				     	class="col-xs-2"				     	
+				     	ng-model="filtros.OrdenesVigentes"
+				     	style= "display:flex;margin-left:50%">
+					</bcs-input-checkbox>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-5" translate>UI_VENTA_CORTA</label>
+					<bcs-input-checkbox 
+				     	class="col-xs-2"
+				     	ng-model="filtros.EsVentaCorta">
+					</bcs-input-checkbox>
+				</div>
+				<div class="col-xs-2">
+                    <label class="col-xs-8" translate>UI_ORDENES_ASIGNAR</label>
+                    <bcs-input-checkbox 
+                        class="col-xs-2"
+                        ng-model="filtros.OrdenPorAsignar">
+                    </bcs-input-checkbox>
+                </div>
+			</div>
+			
+			                
+			
+			
+			<div class="row" ng-if="MostrarProducto">
+				<div class="col-xs-6">
+					<label class="col-xs-2" translate>UI_CLIENTE</label>
+					<bcs-combobox-base
+						class				= "col-xs-10"
+						id					= "UI_CLIENTE"
+						auto-cargar			= "'false'"
+						tipo				= "'combobox-socio-negocio'"
+						seleccionado		= "oSocioNegocio.seleccionado"
+						filtros				= "oSocioNegocio.filtros"
+						cascada-a			= "oPortafolio.filtros.IdCliente"
+						cascada-valor		= "'IdCliente'"
+						id-actual			= "oSocioNegocio.idActual">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+				    <label class="col-xs-5" translate>UI_PRODUCTO</label>
+				    <bcs-combobox-base
+				    	class				= "col-xs-7"
+				        id					= "UI_PRODUCTO"
+				        auto-cargar			= "'true'"
+				        tipo				= "'combobox-otro-producto-agrupador'"
+				        seleccionado		= "oProducto.seleccionado"
+						cascada-a			= "!oSocioNegocio.seleccionado?0:oPortafolio.filtros.IdProductoAgrupador"
+						cascada-valor		= "'IdProductoAgrupador'"
+						id-actual			= "oProducto.idActual">
+				    </bcs-combobox-base >
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5" translate>UI_PORTAFOLIO</label> 
+					<bcs-combobox-base
+						class				= "col-xs-7"
+						id					= "UI_PORTAFOLIO"
+						auto-cargar			= "'false'"
+						tipo				= "'combobox-portafolio'"
+						seleccionado		= "oPortafolio.seleccionado"
+						filtros				= "oPortafolio.filtros"
+						id-actual			= "oPortafolio.idActual"
+						activado			= "oSocioNegocio.seleccionado && oProducto.seleccionado">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row" ng-if ="MostrarProducto">
+				<div class="col-xs-2">
+					<label class="col-xs-6" translate>UI_VENTA_CORTA</label>
+					<bcs-input-checkbox 
+				     	class		= "col-xs-2"
+				     	ng-model	= "filtros.EsVentaCorta">
+					</bcs-input-checkbox>
+				</div>
+				<div class="col-xs-3 col-xs-offset-1">
+					<label class="col-xs-9" translate>UI_INCLUIR_ORDENES_NO_VIGENTES</label>
+					<bcs-input-checkbox 
+				     	class		= "col-xs-1"
+				     	ng-model	= "filtros.OrdenesVigentes">
+					</bcs-input-checkbox>
+				</div>
+				<div class="col-xs-3">
+                    <label class=" col-xs-8" translate>UI_ORDENES_ASIGNAR</label>
+                    <bcs-input-checkbox 
+                        class		= "col-xs-2"
+                        ng-model	= "filtros.OrdenPorAsignar">
+                    </bcs-input-checkbox>
+                </div>
+			</div>
+			<div class="col-xs-4">
+				<i id='toolConsultarOrdenes' class="glosa-icono"></i>
+				<label translate>UI_GLOSA</label>
+			</div>
+			<div class="row">
+				<div ng-if="SesionLocale === 'PE'" class="col-xs-2">
+					<label class="col-xs-8" translate>UI_SOLO_ORDENES_ESPECIALES</label>
+					<bcs-input-checkbox 
+                        class="col-xs-2"
+                        ng-model="filtros.OrdenEspecial" >
+                    </bcs-input-checkbox>
+				</div>
+			</div>
+		</div>
+		<!-- FIN FILTROS -->
+		<!-- INICIO BOTONES -->
+		<div class="col-xs-1">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarOrdenes(filtros);limpiarTotalizador();"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+		</div>
+	</div>
+	<!-- FIN BOTONES -->
+	<div class="row">
+		<bcs-grid id="grid-ordenes"
+			fn-exportar-excel = "exportarExcel"
+			fn-doble-click="abrirDetalle(datos.kNgModel)"
+			api = "apiGridOrdenes"
+			seleccionado="datos.kNgModel"
+			configuracion="defaultOptionsNew">
+		</bcs-grid>
+	</div>
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row col-xs-12 bcs-panel-comandos">
+		<div class="col-xs-8">
+			<div class="row" style="margin-top: -5px;">
+				<div class="col-xs-3 pull-right">
+					<label translate class="row">UI_SUMA_MONTO</label><label style="margin-right: 5px;">:</label>{{sumaMonto}}
+				</div>
+				<div class="col-xs-3 pull-right">
+					<label translate class="row">UI_SUMA_CANTIDAD</label><label style="margin-right: 5px;">:</label>{{sumaCantidad}}
+				</div>
+			</div>
+		<bcs-button ng-show="SesionLocale!='PE' && (!PermiteVentaCortaRF || (PermiteVentaCortaRF && !PermiteIngresoOrdenVentaCortaRentaFija))" bcs-tipo="'bcs-button-primary'" class="col-xs-2" bcs-auto-desactivar="'false'" bcs-texto="'UI_INGRESAR' | translate" id = "ConsultarOrdenes_ingresarOrden"
+			bcs-habilitado="'true'" bcs-clic="crearOrden()"></bcs-button>
+		<bcs-menu bcs-tipo="'bcs-button-secondary'" ng-show="SesionLocale=='PE'|| (PermiteVentaCortaRF && PermiteIngresoOrdenVentaCortaRentaFija)" class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_INGRESAR' | translate" >
+			<li style="width:100px" ng-click="crearOrden()">{{'UI_ORDEN_RV' | translate}}</li>
+		    <li style="width:100px" ng-click="crearOrdenRF()">{{'UI_ORDEN_RF' | translate}}</li>
+		    <li ng-show="SesionLocale=='PE'" style="width:100px" ng-click="crearOrdenOpciones()">{{'UI_ORDEN_OPCION' | translate}}</li>
+		</bcs-menu>	
+		<bcs-button  class="col-xs-2" bcs-auto-desactivar="'false'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_ANULAR' | translate" id = "ConsultarOrdenes_anularOrden"
+			bcs-habilitado="datos.kNgModel" bcs-clic="anularOrdenes(datos.kNgModel)"></bcs-button>
+		<bcs-button  class="col-xs-2" bcs-auto-desactivar="'false'" bcs-tipo="'bcs-button-secondary'" style="width:105px" bcs-texto="'UI_EXPORTAR_LIBRO' | translate" id = "ConsultarOrdenes_exportarLibro"
+			bcs-habilitado="'true'" bcs-clic="exportarLibro()"></bcs-button>
+		<bcs-button  class="col-xs-2" bcs-auto-desactivar="'false'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_BITACORA' | translate" id = "ConsultarOrdenes_bitacoraOrden"
+			bcs-habilitado="datos.kNgModel.length === 1" bcs-clic="verBitacora(datos.kNgModel)"></bcs-button>
+		<bcs-button ng-if="SesionLocale === 'PE'" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_MODIFICAR' | translate"
+			bcs-habilitado="datos.kNgModel.length === 1" bcs-clic="modificar(datos.kNgModel)"></bcs-button>
+		<bcs-button ng-if="SesionLocale === 'PE'" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_CONTRAORDEN' | translate"
+			bcs-habilitado="datos.kNgModel" bcs-clic="contraorden(datos.kNgModel)"></bcs-button>
+		<bcs-button  class="col-xs-3" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_MAPA_DE_RELACIONES' | translate" id = "ConsultarOrdenes_mapaRelaciones"
+			bcs-habilitado="datos.kNgModel.length === 1" bcs-clic="verMapaRelaciones(datos.kNgModel)"></bcs-button>
+		</div>
+		<div class="col-xs-4 alignButtonsToRight">
+			<table style="width: 250px;border: #c9c9c9 1px solid;">
+				<tr><td style="width: 30%;"><strong translate>{{nemo}}</strong></td><td style="width: 30%"><label class="k-window-subtitle" translate>UI_COMPRAS</label></td><td style="width: 30%"><label class="k-window-subtitle" translate>UI_VENTAS</label></td></tr>
+				
+				<tr><td><label class="k-window-subtitle">Cantidad</label></td><td><label translate>{{sumaCompras}}</label></td><td><label translate>{{sumaVentas}}</label></td></tr>
+				<tr><td><label class="k-window-subtitle" translate>UI_PRECIO_MENOR</label></td><td><label translate>{{precioMenorCompras}}</label></td><td><label translate>{{precioMenorVentas}}</label></td></tr>
+				<tr><td><label class="k-window-subtitle" translate>UI_PRECIO_MAYOR</label></td><td><label translate>{{precioMayorCompras}}</label></td><td><label translate>{{precioMayorVentas}}</label></td></tr>
+			</table>
+		</div>
+	</div>
+	
+</div>

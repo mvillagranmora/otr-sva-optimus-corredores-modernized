@@ -1,0 +1,115 @@
+<div ng-controller="ConsultaCartolasConsolidadaController">
+        <div class="col-xs-10">
+        <div class="row col-xs-12">
+            <label class="col-xs-1" translate>UI_CLIENTE</label>
+            <bcs-combobox-base class="col-xs-4"
+                id="UI_CLIENTE"
+                auto-cargar="'false'"
+                bcs-requerido
+                tipo="'combobox-socio-negocio'"
+                filtros="configSocioNegocio.filtros"
+                cascada1-a="configPortafolio.filtros.IdCliente"
+                cascada1-valor="'IdCliente'"
+                cascada2-a="configGrupoPortafolio.filtros.IdCliente"
+                cascada2-valor="'IdCliente'"
+                cascada-defecto="'-1'"
+                id-actual="IdCliente"
+                seleccionado="ClienteSeleccionado">
+            </bcs-combobox-base>
+
+            <label class="col-xs-2" style="padding-left: 30px" translate>UI_PORTAFOLIO</label>
+            <bcs-combobox-base class="col-xs-3"
+                id="UI_PORTAFOLIO"
+                auto-cargar="'false'"
+                bcs-requerido
+                tipo="'combobox-portafolio'"
+                filtros="configPortafolio.filtros"
+                item-post-filtro="'1'"
+                id-actual="IdPortafolio"
+                todos="'S'"
+                usa-filtros-completos="'S'"
+                activado="!GrupoPortafolioSeleccionado"
+                seleccionado="PortafolioSeleccionado">
+            </bcs-combobox-base>           
+		</div>
+        <div class="row col-xs-12">
+            <label class="col-xs-1" translate>UI_ANO</label>
+            <bcs-combobox-base class="col-xs-2"
+                tipo="'combobox-ano-proceso-cartolas'"
+                id-actual="AnoDesde"
+                id-defecto="''">
+            </bcs-combobox-base>
+            <bcs-combobox-base class="col-xs-2"
+                tipo="'combobox-ano-proceso-cartolas'"
+                id-actual="AnoHasta"
+                id-defecto="''">
+            </bcs-combobox-base>
+            
+            <label class="col-xs-2" style="padding-left: 30px" translate>UI_GRUPOS_DE_CLIENTES</label>
+            <bcs-combobox-base class="col-xs-3"
+                id="UI_GRUPO_PORTAFOLIOS"
+                auto-cargar="'false'"
+                bcs-requerido
+                tipo="'combobox-estado-grupo-clientes-activos'"
+                filtros="configGrupoPortafolio.filtros"
+                id-actual="IdGrupo"
+                usa-filtros-completos="'S'"
+                seleccionado="GrupoPortafolioSeleccionado">
+            </bcs-combobox-base>           
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class=row>
+        <bcs-button
+					bcs-tipo="'bcs-button-search'"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_BUSCAR' | translate"
+					bcs-habilitado="!GrupoPortafolioSeleccionado"
+					bcs-clic="buscarCartolas()">
+		    	</bcs-button>
+            </div>
+        <div class=row>
+        <bcs-button
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'false'"
+					bcs-texto="'UI_LIMPIAR' | translate"
+					bcs-habilitado="'true'"
+					bcs-clic="limpiarFiltros()">s
+		    	</bcs-button>
+            </div>
+    </div>
+
+
+    <div class="col-xs-12">
+        <bcs-grid id="gridDescargaCartolas"
+            configuracion="configuracionGrillaDescargaCartolas"
+            seleccionado="CartolaSeleccionada"
+            >
+        </bcs-grid>
+    </div>
+    <div class="row col-xs-12 bcs-panel-comandos">
+        <hr>
+        <label class="col-xs-1 text-center" translate >UI_FECHA</label>
+        <bcs-input-date class="col-xs-3" k-ng-model="FechaHasta"></bcs-input-date>
+   		<label class="col-xs-1 text-center" translate >UI_MONEDA</label>
+		<bcs-combobox-base 
+			class="col-xs-3"
+			id="MonedaCartola"
+			auto-cargar="'true'"
+			id-post-filtro="'CLP'"
+			tipo = "'combobox-moneda'"
+			seleccionado="MonedaCartola.seleccionado"
+			filtros="MonedaCartola.filtroMoneda"
+   	        id-actual="MonedaCartola.idActual">
+		</bcs-combobox-base>
+        <div class=col-xs-1></div>
+		<bcs-button class="col-xs-3"
+            bcs-tipo="'bcs-button-input-form'"
+            bcs-auto-desactivar="'false'"
+            bcs-texto="'UI_CARTOLA_CONSOLIDADA' | translate"
+            bcs-habilitado="verCartolaHabilitado"
+            ng-show = "'true'"
+            bcs-clic="solicitarCartolaOnline()">
+        </bcs-button>
+    </div>
+</div>

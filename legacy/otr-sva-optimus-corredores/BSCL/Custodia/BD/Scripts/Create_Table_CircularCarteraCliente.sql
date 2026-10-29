@@ -1,0 +1,38 @@
+SET SCHEMA "BSCL";
+
+CREATE COLUMN TABLE "BSCL.Custodia.BD::CUS.CircularCarteraCMF" ("Fecha" DATE CS_DAYDATE DEFAULT '0001-01-01' NOT NULL ,
+"IdClasificacionTipoInstrumento" NVARCHAR(3) NOT NULL ,
+"Nemotecnico" NVARCHAR(40) NOT NULL ,
+"IdEmisor" NVARCHAR(40) NOT NULL ,
+"IdPortafolio" BIGINT CS_FIXED NOT NULL ,
+"ISIN" NVARCHAR(40) NOT NULL ,
+"IdCliente" BIGINT CS_FIXED NOT NULL ,
+"IdTipoInstrumento" NVARCHAR(3) NOT NULL ,
+"FechaVencimiento" DATE CS_DAYDATE DEFAULT '0001-01-01' NOT NULL ,
+"ClasificacionRiesgoInstrumento" NVARCHAR(3) NOT NULL ,
+"IdMonedaPrincipal" NVARCHAR(10) NOT NULL ,
+"IdMonedaInstrReajuste" NVARCHAR(10) NOT NULL ,
+"ValorMercadoCustodia" DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"MontoMercadoCustodia" DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"PrecioMercadoCustodia" DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"PrecioCompraCustodia"DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"TasaMercadoCustodia" DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"CantidadTotal" DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"ValorCompra" DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"MontoCompra" DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"CantidadGarantia" DECIMAL(38,
+16) CS_FIXED NOT NULL ,
+"IdBoveda" NVARCHAR(3) NOT NULL ,
+"CantidadCustodia" DECIMAL(38,
+16) CS_FIXED NOT NULL ) UNLOAD PRIORITY 5 AUTO MERGE;
+
+COMMIT;
+

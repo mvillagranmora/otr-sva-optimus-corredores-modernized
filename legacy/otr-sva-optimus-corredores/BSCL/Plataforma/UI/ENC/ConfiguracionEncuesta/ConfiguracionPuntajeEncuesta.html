@@ -1,0 +1,59 @@
+<div ng-controller="ConfiguracionPuntajeEncuestaCtrl">
+
+	<div class="row">
+		<div class="row">
+			<bcs-grid class="col-xs-12" id="grillaPuntajes"
+				seleccionado = "seleccionado"
+				api = "api"
+				configuracion="configuracion">
+			</bcs-grid>
+			
+		</div>
+		<br/>
+		<hr/>
+		<form name="formm">
+		<div class="row">
+			<label class="col-xs-2" translate>UI_PUNTAJE_HASTA</label>
+			<bcs-input-numero class="col-xs-2"
+				decimales = "0"
+				bcs-requerido = "edicion.creando || edicion.modificando"
+				k-ng-disabled="!(edicion.creando || edicion.modificando)" 
+				k-ng-model="edicion.puntajeHasta"></bcs-input-numero>
+			<label class="col-xs-3" translate>UI_CATEGORIA_INVERSIONISTA</label>
+			<bcs-combobox-base class="col-xs-4"
+				bcs-requerido = "edicion.creando || edicion.modificando"
+				activado = "edicion.creando || edicion.modificando"
+				id-actual = "edicion.idCategoria"
+				tipo="'combobox-categoria-inversionista'"
+				seleccionado = "edicion.categoriaSeleccionada">
+				</bcs-combobox-base>
+		</div>
+		</form>
+		<div class="row">
+			<bcs-button bcs-clic="agregarPuntaje()" ng-show="!(edicion.creando || edicion.modificando)"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'"></bcs-button>
+			<bcs-button bcs-clic="modificarPuntaje()" ng-show="!(edicion.creando || edicion.modificando)" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="seleccionado"></bcs-button>
+			<bcs-button bcs-clic="quitarPuntaje()" ng-show="!(edicion.creando || edicion.modificando)" class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_QUITAR' | translate" bcs-habilitado="seleccionado"></bcs-button>	
+				
+			<bcs-button bcs-clic="guardarPuntaje()" ng-show="edicion.creando"  class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="edicion.creando && formm.$valid"></bcs-button>
+				
+			<bcs-button bcs-clic="actualizarPuntaje()" ng-show="edicion.modificando"  class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="edicion.modificando && formm.$valid"></bcs-button>
+					
+					
+			<bcs-button bcs-clic="cancelarPuntaje()" ng-show="edicion.creando || edicion.modificando"  class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="edicion.creando || edicion.modificando"></bcs-button>	
+		</div>
+	</div>
+	<hr/>
+	<div class="row bcs-panel-comandos">
+	<bcs-button  class="col-xs-2" bcs-auto-desactivar="'false'" bcs-tipo="'principal'" bcs-clic = "guardarCambios()" bcs-texto="'UI_GUARDAR' | translate" 
+		bcs-habilitado="'true'"   ></bcs-button>
+	<bcs-button  class="col-xs-2" bcs-auto-desactivar="'false'" bcs-clic = "cancelarCambios()" bcs-texto="'UI_CANCELAR' | translate" 
+		bcs-habilitado="form.seleccionado" ></bcs-button>
+
+	</div>
+</div>

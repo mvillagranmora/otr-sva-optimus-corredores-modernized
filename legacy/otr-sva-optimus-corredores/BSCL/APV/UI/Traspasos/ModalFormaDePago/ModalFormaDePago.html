@@ -1,0 +1,178 @@
+<div id="FormaDePagoAPV" class="row" ng-controller="FormaDePagoAPVCtrl as fmpagAPV">
+	<div class="row">
+		<form name="formFormaDePagoAPV" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<div class="col-xs-4">
+			  		<label class="col-xs-3" translate>UI_MEDIO_PAGO</label>
+					<bcs-combobox-base 
+						id="UI_MEDIO_PAGO"
+						class="col-xs-9"
+						auto-cargar="'true'"
+						bcs-requerido
+						tipo="'combobox-medio-pago'"
+						seleccionado="fmpagAPV.datosForm.MedioPagoSeleccionado"
+						filtros="fmpagAPV.ConfiguracionCmbo.MedioPago"
+		                id-actual="fmpagAPV.datosForm.MedioPagoIdActual"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-8" ng-show="!fmpagAPV.EsEntidadDestino">
+			  		<label class="col-xs-3" translate>UI_SOCIO_NEGOCIO</label>
+					<bcs-combobox-base 
+						id				= "UI_CLIENTE"
+						class			= "col-xs-9"
+					    tipo			= "'combobox-socio-negocio'"
+					    seleccionado	= "fmpagAPV.datosForm.SocioNegocioSeleccionado"
+	                    id-actual		= "fmpagAPV.datosForm.SocioNegocioidActual"
+	                    id-defecto		= "fmpagAPV.datosForm.SocioNegocioidActualDefecto"      
+	                    activado		= "false">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-8" ng-show="fmpagAPV.EsEntidadDestino">
+      				  <label class="col-xs-3" translate="">UI_ENTIDAD_DESTINO</label>
+					<bcs-combobox-base 
+						id				= "UI_ENTIDAD_DESTINO"
+						class			= "col-xs-9"
+						tipo			= "'combobox-entidad-recaudadora'"
+						filtro			= "fmpagAPV.datosForm.EntidadDestino.filtros"
+						seleccionado	= "fmpagAPV.datosForm.EntidadDestinoSeleccionado"
+						id-actual 		= "fmpagAPV.datosForm.EntidadDestinoIdActual"
+						id-defecto		= "fmpagAPV.datosForm.EntidadDestinoIdActualDefecto"
+						id-post-filtro	= "fmpagAPV.datosForm.EntidadDestinoIdActualPostFiltro"
+						activado		= "false">
+					</bcs-combobox-base>    			
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+				  	<label class="col-xs-3" translate>UI_MONTO_TOTAL</label> 
+			  		<bcs-input-numero
+						class="col-xs-9"
+						k-ng-model="fmpagAPV.datosForm.kngMontoTotal" 
+						k-ng-disabled="'true'"
+					>
+					</bcs-input-numero>	
+				</div>
+				<div class="col-xs-4">
+				  	<label class="col-xs-3" translate>UI_MONTO</label> 
+			  		<bcs-input-numero
+						class="col-xs-9"
+						k-ng-model="fmpagAPV.datosForm.kngMonto" 
+						k-ng-disabled="'true'" 
+					>
+					</bcs-input-numero>	
+				</div>
+				<div class="col-xs-4" >
+				  	<label class="col-xs-3" translate>UI_RETENCION</label> 
+			  		<bcs-input-numero
+						class="col-xs-9"
+						k-ng-model="fmpagAPV.datosForm.kngMontoRetencion" 
+						k-ng-disabled="'true'"
+					>
+					</bcs-input-numero>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+				  	<label class="col-xs-2 ng-scope" translate="">UI_BANCO</label>
+					<bcs-combobox-base 
+						id="UI_BANCO"
+						class="col-xs-10"
+						auto-cargar="'true'"
+						bcs-requerido="fmpagAPV.datosForm.HabilitaBanco"
+						tipo="'combobox-persona-cuentas-bancarias'"
+						seleccionado="fmpagAPV.datosForm.CuentaBancariaSeleccion"
+						filtros="fmpagAPV.datosForm.ConfiguracionCuentaBancaria.filtros"
+						id-actual="fmpagAPV.datosForm.CuentaBancariaIdActual"
+						activado="fmpagAPV.datosForm.HabilitaBanco">
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+				  	<label class="col-xs-2 ng-scope" translate="">UI_CUENTA_CORRIENTE</label>
+					<bcs-input-texto 
+						id="UI_CUENTA_CORRIENTE"
+						class="col-xs-10"
+						ng-model="fmpagAPV.datosForm.CuentaCorriente" 
+						k-ng-disabled="'true'"
+					>
+					</bcs-input-texto>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-2 ng-scope" translate="">UI_FECHA_PAGO</label>
+					<bcs-input-date 
+						id="UI_FECHA_PAGO" 
+						class="col-xs-10" 
+						k-ng-model = "fmpagAPV.datosForm.kngFechaPago"
+					>
+					</bcs-input-date>
+				</div>
+			</div>
+			<br>
+			<div class="row" ng-show="false">
+				<div class="col-xs-8">
+				</div>
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_AGREGAR"
+								bcs-tipo			= "''" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_AGREGAR' | translate" 
+								bcs-habilitado		= "fmpagAPV.fn.HabilitoAgregarMedioPago()" 							
+								bcs-clic			= "invAPV.fn.AgregoMedioPago()"
+					>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_ELIMINAR"
+								bcs-tipo			= "''" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_ELIMINAR' | translate" 
+								bcs-habilitado		= "fmpagAPV.datasource.MedioPagoSeleccion !== undefined" 							
+								bcs-clic			= "invAPV.fn.EliminarMedioPago()"
+					>
+				</div>
+			</div>	
+			<!-- 	GRILLAS 	-->
+			<div class="row" ng-show="false">			
+				<div class="col-xs-12">											
+					<bcs-grid 
+						id					= "gridMedioPago"
+						configuracion 		= "fmpagAPV.datasource.MedioPago"
+						seleccionado 		= "fmpagAPV.datasource.MedioPagoSeleccion"
+					>
+					</bcs-grid>
+				</div>
+			</div>
+			<br>			
+			<div class="row">
+				<div class="col-xs-10">
+				</div>
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_ENVIAR"
+								bcs-tipo			= "'principal'" 
+								bcs-texto			= "'UI_ENVIAR' | translate" 
+								bcs-habilitado		= "true" 	 							
+								bcs-clic			= "fmpagAPV.fn.EnviarTraspaso()"
+					>
+					</bcs-button>
+				</div>
+				<!-- 
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_CANCELAR"
+								bcs-tipo			= "''" 
+								bcs-texto			= "'UI_CANCELAR' | translate" 
+								bcs-habilitado		= "'true'"  							
+								bcs-clic			= ""
+					>
+					</bcs-button>
+				</div>
+				 -->
+			</div>
+		</form>
+	</div>
+</div>

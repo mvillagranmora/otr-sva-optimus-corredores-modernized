@@ -1,0 +1,1 @@
+SELECT top 1 "IdUsuario" FROM  "BSCL.Plataforma.BD::ACC.Usuario" WHERE "CodigoUsuario" in ('SISTEMA','SISTEMA_PRE');

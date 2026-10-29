@@ -1,0 +1,5 @@
+
+
+ALTER TABLE BSCL."BSCL.Normativa.BD::TRI.DatosDJ1922" DROP ("TributaSa");
+
+ALTER TABLE BSCL."BSCL.Normativa.BD::TRI.DatosDJ1922" ADD ("TributaSa" NVARCHAR(1) DEFAULT '');

@@ -1,0 +1,22 @@
+
+
+SELECT "BSCL.Orden.BD.Secuencias::DMA_IdInterno".NEXTVAL as "IdInterno","TipoMensaje" as "_TipoMensaje","IdMensaje1" as "_IdMensaje1","IdMensaje2" as "_IdMensaje2",
+COALESCE("NRO_ENTRADA",-1) AS "NRO_ENTRADA","FOLIO_TRANS","FECHA","NEMO","SEC_ORDEN","CANTIDAD","PRECIO","CAN_ASIG_ACUM",
+"PRECIO_PROM","MENSAJE",COALESCE("ESTADO",'-1') AS "ESTADO", "PROCESADO","IN_SGC","MONEDA","BOLSA","CONDICION_LIQUIDACION","SPONSORING_FIRM","EXEC_ID","ORDER_ID","MERCADO","SUB_MERCADO","PREPAGO","TASA_MAXIMA", "TASA_PROPIA",
+"TASA_ADJUDICACION","MEJOR_POSTURA","ID_REFERENCIA","FECHA_VENCIMIENTO","DIVISIBLE","OD","HORA_ADJUDICACION","SEC_ORDER_OD","TIPO_OPERAC","OP_INTERNO","SEC_ORDEN_2","ID_CLIENTE","OIB_TRANSACCION","CANTIDAD_RESTANTE","BROKER","CONTRA_BROKER"
+
+FROM (
+
+	SELECT *
+	FROM "BSCL.Orden.BD::ORD.ControlMercado" cm 
+	LEFT JOIN "<NOMBRE_TABLA>" dma on cm."IdMensaje1" = CAST(dma."NRO_ENTRADA" AS NVARCHAR(40)) AND cm."IdMensaje2" = (dma."FECHA" || dma."IN_SGC")
+	--LEFT JOIN "BSCL.Orden.BD::DMA.TBRESPUESTAS" dma on cm."IdMensaje1" = CAST(dma."NRO_ENTRADA" AS NVARCHAR(40)) AND cm."IdMensaje2" = dma."FECHA"
+	where "TipoMensaje" = :TipoMensaje AND "Procesado" IN ('N')
+	UNION
+	SELECT *
+	FROM "BSCL.Orden.BD::ORD.ControlMercado" cm 
+	LEFT JOIN "<NOMBRE_TABLA>" dma on cm."IdMensaje1" = CAST(dma."NRO_ENTRADA" AS NVARCHAR(40)) AND cm."IdMensaje2" = (dma."FECHA" || dma."IN_SGC")
+	--LEFT JOIN "BSCL.Orden.BD::DMA.TBRESPUESTAS" dma on cm."IdMensaje1" = CAST(dma."NRO_ENTRADA" AS NVARCHAR(40)) AND cm."IdMensaje2" = dma."FECHA"
+	where "TipoMensaje" = :TipoMensaje AND "Procesado" IN ('R')
+)
+ORDER BY "FechaIngresoRegistro" ASC

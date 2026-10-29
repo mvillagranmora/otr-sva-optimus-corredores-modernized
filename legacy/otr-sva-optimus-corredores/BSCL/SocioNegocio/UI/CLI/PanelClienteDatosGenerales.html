@@ -1,0 +1,273 @@
+<div id="PanelClienteDatosGenerales" class="row" ng-controller="PanelClienteDatosGeneralesCtrl as pcdg" >
+	<ng-form name="pcdg.formClienteDatosGenerales" class="col-xs-12 form-horizontal">
+		<div class="col-xs-6">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_ESTADO</label>
+				<label class="col-xs-3" translate>{{pcdg.dataCliente.NombreEstado|translate}}</label>
+				<label class="col-xs-3" ng-show="pcdg.dataCliente.TipoEnrolamiento === 'FULL'" translate>UI_FOLIO</label>
+				<label class="col-xs-1" ng-show="pcdg.dataCliente.TipoEnrolamiento === 'FULL'" translate>{{pcdg.dataCliente.NumeroCliente}}</label>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_ENROLAMIENTO</label>
+				<bcs-combobox-base
+						id="formPanelEnrolamientoClienteDatosGenerales_tipoEnrolamiento"
+						class="col-xs-7"
+						tipo="'combobox-tipo-enrolamiento'"
+						id-actual="pcdg.dataCliente.TipoEnrolamiento"
+						bcs-requerido
+						activado="pcdg.pantalla.modoEdicion && pcdg.dataClienteOriginal.TipoEnrolamiento !== 'FULL'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_CLIENTE</label>
+				<bcs-combobox-base
+					id="id_tipoCliente"
+					class="col-xs-7"
+					tipo="'combobox-tipo-cliente'"
+					filtros="pcdg.oConfiguracionTipoCliente.filtros"
+					id-actual="pcdg.dataCliente.IdTipoCliente"
+					seleccionado="pcdg.TipoClienteObj"
+					activado="pcdg.pantalla.modoEdicion"
+					id-post-filtro="pcdg.dataClienteOriginal.IdTipoCliente"
+					bcs-requerido="pcdg.camposRequeridos['formCrearCliente_tipoCliente'].Requerido === 'S'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CATEGORIA_INVERSIONISTA</label>
+				<bcs-combobox-base
+						id="formPanelEnrolamientoClienteDatosGenerales_categoriaInversionista"
+						class="col-xs-7"
+						tipo="'combobox-categoria-inversionista'"
+						filtros="pcdg.oConfiguracionCategoriaInversionista.filtros"
+						id-actual="pcdg.dataCliente.IdCategoriaInversionista"
+						id-post-filtro="pcdg.dataClienteOriginal.IdCategoriaInversionista"
+						activado="pcdg.pantalla.modoEdicion"
+						bcs-requerido="pcdg.camposRequeridos['formCrearCliente_categoriaInversionista'].Requerido === 'S'">
+				></bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_SEGMENTO_CLIENTE</label>
+				<bcs-combobox-base
+						id="formPanelEnrolamientoClienteDatosGenerales_segmentoCliente"
+						class="col-xs-7"
+						tipo="'combobox-tipo-segmento'"
+						filtros="pcdg.oConfiguracionTipoSegmento.filtros"
+						id-actual="pcdg.dataCliente.IdSegmentoCliente"
+						id-post-filtro="pcdg.dataClienteOriginal.IdSegmentoCliente"
+						activado="pcdg.pantalla.modoEdicion"
+						bcs-requerido="pcdg.camposRequeridos['formPanelEnrolamientoClienteDatosGenerales_segmentoCliente'].Requerido === 'S'"
+				></bcs-combobox-base>
+			</div>
+			<div class="row" ng-show="SesionLocale=='PE'">
+				<label class="col-xs-4" translate>UI_CLASE_CLIENTE</label>
+				<bcs-combobox-base
+					id="id_claseCliente"
+					class="col-xs-7"
+					tipo="'combobox-clase-cliente'"
+					filtros="pcdg.oConfiguracionClaseCliente.filtros"
+					id-actual="pcdg.dataCliente.IdClaseCliente"
+					seleccionado="pcdg.ClaseClienteObj"
+					id-post-filtro="pcdg.dataClienteOriginal.IdClaseCliente"
+					activado="pcdg.pantalla.modoEdicion"
+					bcs-requerido="SesionLocale=='PE'">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_EJECUTIVO</label>
+				<bcs-combobox-base
+						class="col-xs-7"
+						id="formPanelEnrolamientoClienteDatosGenerales_ejecutivo"
+						tipo="'combobox-ejecutivo'"
+						filtros="pcdg.oConfiguracionEjecutivo.filtros"
+						id-actual="pcdg.dataCliente.IdEmpleadoEjecutivo"
+						id-defecto="pcdg.dataClienteOriginal.idEmpleadoEjecutivoDefecto"
+						id-post-filtro="pcdg.dataClienteOriginal.IdEmpleadoEjecutivo" 
+						seleccionado="pcdg.EjecutivoObj"
+						item-defecto="pcdg.EjecutivoDefectoObj"
+						activado="pcdg.pantalla.modoEdicion"
+						bcs-requerido="pcdg.camposRequeridos['formCrearCliente_ejecutivo'].Requerido === 'S'"
+				></bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_CODIGO_EJECUTIVO_EXTERNO</label>
+				<bcs-input-texto
+						id="formPanelEnrolamientoClienteDatosGenerales_codigoEjecutivoExterno"
+						k-ng-disabled="!pcdg.pantalla.modoEdicion" class="col-xs-7"
+						ng-model="pcdg.dataCliente.CodigoEjecutivoExterno"
+						bcs-requerido="pcdg.camposRequeridos['formPanelEnrolamientoClienteDatosGenerales_codigoEjecutivoExterno'].Requerido === 'S'"
+				></bcs-input-texto>
+			</div>
+			<div class="row" ng-show="SesionLocale == 'PE' && pcdg.dataCliente.Tipo === 'J' && pcdg.dataCliente.IdTipoCliente === 'INSTITUCIONAL'">
+				<label class="col-xs-4" translate>UI_INFORMACION_INTERMEDIARIO</label>
+				<bcs-combobox-base
+						class="col-xs-7"
+						id="formPanelEnrolamientoClienteDatosGenerales_informacionIntermediario"
+						tipo="'combobox-broker-extranjero'"
+						filtros="pcdg.oPersonaBrokerExtranjero.filtros"
+						id-actual="pcdg.dataCliente.IdPersonaBrokerExtranjero"
+						id-defecto="pcdg.dataClienteOriginal.IdPersonaBrokerExtranjero"
+						seleccionado="pcdg.PersonaBrokerExtranjeroObj"
+						activado="pcdg.pantalla.modoEdicion"
+						bcs-requerido="(SesionLocale == 'PE' && pcdg.dataCliente.Tipo === 'J' && pcdg.dataCliente.IdTipoCliente === 'INSTITUCIONAL')"
+				></bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_SUCURSAL_PREFERENCIA_CLIENTE</label>
+				<bcs-combobox-base
+						id="formPanelEnrolamientoClienteDatosGenerales_sucursalPreferenciaCliente"
+						class="col-xs-7"
+						tipo="'combobox-sucursal'"
+						filtros="pcdg.oConfiguracionSucursalPreferencia.filtros"
+						id-actual="pcdg.dataCliente.IdSucursalPreferencia"
+						id-defecto="pcdg.dataClienteOriginal.IdSucursalPreferencia"
+						seleccionado="pcdg.SucursalPreferenciaObj"
+						activado="pcdg.pantalla.modoEdicion"
+						bcs-requerido="pcdg.camposRequeridos['formPanelEnrolamientoClienteDatosGenerales_sucursalPreferenciaCliente'].Requerido === 'S'"
+				></bcs-combobox-base>
+			</div>
+			<div class="row" ng-show="SesionLocale == 'PE'">
+				<label class="col-xs-4" translate>UI_CODIGO_ADICIONAL_HOLDING</label>
+				<bcs-input-texto
+						id="formPanelEnrolamientoClienteDatosGenerales_codigoAdicionalHolding"
+						class="col-xs-7"
+						bcs-requerido="SesionLocale == 'PE'"
+						k-ng-disabled="!pcdg.pantalla.modoEdicion"
+						ng-model="pcdg.dataCliente.CodigoAdicionalHolding"
+				></bcs-input-texto>
+			</div>
+			<div class="row" ng-show="pcdg.dataCliente.IdEstado === 'BLO'">
+				<label class="col-xs-4" translate>UI_TIPO_BLOQUEO</label>
+				<bcs-combobox-base
+						id="formPanelEnrolamientoClienteDatosGenerales_tipoBloqueo"
+						class="col-xs-7"
+						tipo="'combobox-tipo-bloqueo-socio-negocio'"
+						filtros="pcdg.oConfiguracionTipoBloqueo.filtros"
+						id-actual="pcdg.dataCliente.IdTipoBloqueo"
+						id-post-filtro="pcdg.dataClienteOriginal.IdTipoBloqueo"
+						activado="false"
+				></bcs-combobox-base> <!-- "pcdg.pantalla.modoEdicion" -->
+			</div>
+			<div class="row" ng-show="pcdg.dataCliente.IdEstado === 'BLO'">
+				<label class="col-xs-4" translate>UI_FECHA_BLOQUEO</label>
+				<!-- "!pcdg.pantalla.modoEdicion"  -->
+				<bcs-input-date
+						id="formPanelEnrolamientoClienteDatosGenerales_fechaBloqueo"
+						k-ng-disabled="true"
+						class="col-xs-7"
+						k-ng-model="pcdg.dataCliente.FechaBloqueo"
+				></bcs-input-date>
+			</div>
+
+			<div class="row">
+			  <label class="col-xs-4" translate>UI_CLIENTE_FINAL</label>
+				<bcs-input-checkbox
+						id="formPanelEnrolamientoClienteDatosGenerales_clienteFinal"
+						ng-disabled="!pcdg.pantalla.modoEdicion"
+						ng-model="pcdg.dataCliente.EsClienteFinal"
+				></bcs-input-checkbox>
+			</div>
+
+			<div class="row" ng-show="pcdg.dataCliente.IdEstado === 'BLO'">
+				<label for="formPanelEnrolamientoClienteDatosGenerales_comentarioBloqueo" class="col-xs-4" translate>UI_COMENTARIO_BLOQUEO</label>
+				<!-- !pcdg.pantalla.modoEdicion -->
+				<textarea
+						id="formPanelEnrolamientoClienteDatosGenerales_comentarioBloqueo"
+						ng-disabled="true"
+						class="col-xs-7"
+						ng-model="pcdg.dataCliente.ComentarioBloqueo"
+				></textarea>
+			</div>
+		</div>
+		<div class="col-xs-6">
+			<div class="row">
+				<div class="col-xs-11">
+					<label translate>UI_HISTORIAL_EJECUTIVO</label>
+					<bcs-grid
+						configuracion="pcdg.LogCambioEjecutivoOptions"
+						seleccionado="pcdg.LogCambioEjecutivoSeleccionado">
+					</bcs-grid>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<div class="row"></div>
+		<div class="row bcs-panel-comandos">
+			<bcs-button id="PanelClienteDatosGenerales_editar"
+				class="col-xs-2 pull-right"
+				bcs-tipo="'bcs-button-primary'"
+				ng-show="!pcdg.pantalla.modoEdicion"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_EDITAR' | translate"
+				bcs-habilitado="(!pcdg.pantalla.modoEdicion && !pcdg.dataSolicitudCambio.CambiosPendientes) || pcdg.dataAutorizacionEvento.EventosVencidos"
+				bcs-clic="pcdg.editarpcdg()">
+			</bcs-button>
+			<bcs-button id="PanelClienteDatosGenerales_guardar"
+				class="col-xs-2 pull-right"
+				bcs-tipo="'bcs-button-primary'"
+				ng-show="pcdg.pantalla.modoEdicion"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_GUARDAR' | translate"
+				bcs-habilitado="pcdg.formClienteDatosGenerales.$valid"
+				bcs-clic="pcdg.guardarpcdg()">
+			</bcs-button>
+			<bcs-button id="PanelClienteDatosGenerales_cancelar"
+				class="col-xs-2 pull-right"
+				bcs-tipo="'bcs-button-secondary'"
+				ng-show="pcdg.pantalla.modoEdicion"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_CANCELAR' | translate"
+				bcs-habilitado="'true'"
+				bcs-clic="pcdg.cancelarpcdg()">
+			</bcs-button>
+			<bcs-button id="PanelClienteDatosGenerales_mostrarCambios"
+				class="col-xs-2 pull-right"
+				bcs-tipo="'bcs-button-secondary'"
+				ng-show="!pcdg.pantalla.modoEdicion && pcdg.dataSolicitudCambio.CambiosPendientes && !pcdg.dataAutorizacionEvento.EventosVencidos"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_MOSTRAR_CAMBIOS' | translate"
+				bcs-habilitado="'true'"
+				bcs-clic="pcdg.mostrarCambios()">
+			</bcs-button>
+			<bcs-button id="PanelClienteDatosGenerales_bloquear"
+				class="col-xs-2 pull-right"
+				bcs-tipo="'bcs-button-secondary'"
+				ng-show="!pcdg.pantalla.modoEdicion && pcdg.dataCliente.IdEstado === 'ACT' && pcdg.dataCliente.IdEstadoPersona === 'ACT'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_BLOQUEAR' | translate"
+				bcs-habilitado="!pcdg.pantalla.modoEdicion"
+				bcs-clic="pcdg.bloquearCliente()">
+			</bcs-button>
+			<bcs-button id="PanelClienteDatosGenerales_desbloquear"
+				class="col-xs-2 pull-right"
+				bcs-tipo="'bcs-button-secondary'"
+				ng-show="!pcdg.pantalla.modoEdicion && pcdg.dataCliente.IdEstado === 'BLO' && pcdg.dataCliente.IdEstadoPersona === 'ACT'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_DESBLOQUEAR' | translate"
+				bcs-habilitado="!pcdg.pantalla.modoEdicion"
+				bcs-clic="pcdg.desbloquearCliente()">
+			</bcs-button>
+			<bcs-button id="PanelClienteDatosGenerales_solAutEnrol"
+				class="col-xs-3 pull-right"
+				bcs-tipo="'bcs-button-secondary'"
+				ng-show="!pcdg.pantalla.modoEdicion && pcdg.dataCliente.IdEstado === 'PEN'"
+				bcs-auto-desactivar="false" bcs-texto="'UI_SOLICITAR_AUTORIZACION_ENROLAMIENTO' | translate"
+				bcs-habilitado="!pcdg.pantalla.modoEdicion"
+				bcs-clic="pcdg.solicitarEventoAutorizacion()">
+			</bcs-button>
+			<span ng-show="!pcdg.pantalla.modoEdicion && pcdg.dataSolicitudCambio.CambioEstadoPendiente" class="pull-right">
+				<i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i>
+				<label translate>UI_CAMBIO_DE_ESTADO_POR_AUTORIZAR</label>
+			</span>
+			<span ng-show="!pcdg.pantalla.modoEdicion && pcdg.dataSolicitudCambio.CambiosPendientes" class="pull-right">
+				<i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i>
+				<label translate>UI_CAMBIOS_POR_AUTORIZAR</label>
+			</span>
+			<span ng-show="!pcdg.pantalla.modoEdicion && pcdg.dataCliente.IdEstado === 'PEN'" class="pull-right">
+				<i class="  fa fa-exclamation-triangle" style="padding-right:7px;color:orange" ></i>
+				<label translate>UI_ENROLAMIENTO_POR_AUTORIZAR</label>
+			</span>
+
+		</div>
+	</ng-form>
+</div>

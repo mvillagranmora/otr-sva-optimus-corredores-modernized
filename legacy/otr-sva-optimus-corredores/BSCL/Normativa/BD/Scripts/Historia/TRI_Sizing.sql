@@ -1,0 +1,45 @@
+
+select SCHEMA_NAME as 'Schema', round(sum(MEMORY_SIZE_IN_TOTAL) /1024/1024) as 'MB Used'
+from M_CS_TABLES
+GROUP by SCHEMA_NAME
+
+order by
+“MB Used”
+desc
+
+---- Tamaño para 800 datos
+select TABLE_NAME,(MEMORY_SIZE_IN_TOTAL), MEMORY_SIZE_IN_MAIN, MEMORY_SIZE_IN_DELTA, RECORD_COUNT,  ((MEMORY_SIZE_IN_TOTAL)  /1024/1024) as "MBUsados",
+       ( ((MEMORY_SIZE_IN_TOTAL)  /1024/1024) * 4 + ((MEMORY_SIZE_IN_TOTAL)  /1024/1024)  )as "MBDisco"
+from M_CS_TABLES
+where TABLE_NAME = 'BSCL.Normativa.BD::TRI.DatosDJ1891'
+order by TABLE_NAME
+
+--Disco = (Memoria * 4) + (Memoria)
+
+
+select * from "BSCL"."BSCL.Normativa.BD::TRI.DatosDJ1891";
+
+SELECT COLUMN_NAME AS "Column", LOADED AS "Is Loaded",
+round(UNCOMPRESSED_SIZE/1024/1024) AS "Uncompressed MB",
+round(MEMORY_SIZE_IN_MAIN/1024/1024) AS "Main MB",
+round(MEMORY_SIZE_IN_DELTA/1024/1024) AS "Delta MB",
+round(MEMORY_SIZE_IN_TOTAL/1024/1024) AS "Total Used MB",
+round(COMPRESSION_RATIO_IN_PERCENTAGE/100, 2) AS "Compr. Ratio"
+FROM M_CS_Columns WHERE TABLE_NAME = 'BSCL.Normativa.BD::TRI.DatosDJ1891';
+
+
+SELECT COLUMN_NAME AS "Column", LOADED AS "Is Loaded",
+round(UNCOMPRESSED_SIZE) AS "Uncompressed MB",
+round(MEMORY_SIZE_IN_MAIN) AS "Main MB",
+round(MEMORY_SIZE_IN_DELTA) AS "Delta MB",
+round(MEMORY_SIZE_IN_TOTAL) AS "Total Used MB",
+round(COMPRESSION_RATIO_IN_PERCENTAGE/100, 2) AS "Compr. Ratio"
+FROM M_CS_Columns WHERE TABLE_NAME = 'BSCL.Normativa.BD::TRI.DatosDJ1891';
+
+select * from M_CS_Columns WHERE TABLE_NAME = 'BSCL.Normativa.BD::TRI.DatosDJ1891';
+
+SELECT round(SUM(UNCOMPRESSED_SIZE/1024/1024)) AS "Uncompressed MB",
+SUM(MEMORY_SIZE_IN_MAIN/1024/1024) AS "Main MB",
+SUM(MEMORY_SIZE_IN_DELTA/1024/1024) AS "Delta MB",
+SUM(MEMORY_SIZE_IN_TOTAL/1024/1024) AS "Total Used MB"
+FROM M_CS_Columns WHERE TABLE_NAME = 'BSCL.Normativa.BD::TRI.DatosDJ1891';

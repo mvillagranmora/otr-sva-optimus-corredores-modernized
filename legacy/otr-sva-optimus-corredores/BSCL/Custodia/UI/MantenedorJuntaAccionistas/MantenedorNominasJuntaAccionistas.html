@@ -1,0 +1,58 @@
+<div id="MantenedorNominasJuntaAccionista" class="col-xs-12" ng-controller="MantenedorNominasJuntaAccionistaCtrl">
+	<div class="row bcs-cuerpo">
+   	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-1" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-11"
+							id="UI_CLIENTE"
+						 	auto-cargar="'false'"
+						    tipo="'combobox-socio-negocio'"
+						    seleccionado="oSocioNegocio.seleccionado"
+						    filtros="oSocioNegocio.filtros"
+		                    cascada-defecto="'-1'"
+		                    id-actual="oSocioNegocio.idActual"
+						    configuracion= "oSocioNegocio.configuracion">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarCustodiaCierreJuntaAccionista()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-mantenedor-nominas-junta-accionista"
+			 	configuracion="defaultOptions"
+				api = "apiMantenedorNominasJuntaAccionista"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-3" id="MantenedorNominasJuntaAccionista_Notificar" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_NOTIFICAR_CLIENTE' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="notificarCliente(datos.kNgModel)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"  bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+	            <li ng-click="notificarNomina()">{{'UI_NOTIFICAR_NOMINA' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

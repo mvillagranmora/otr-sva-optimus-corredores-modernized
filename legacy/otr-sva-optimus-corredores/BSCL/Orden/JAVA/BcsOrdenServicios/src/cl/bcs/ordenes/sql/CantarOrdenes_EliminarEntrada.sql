@@ -1,0 +1,1 @@
+DROP TABLE #entrada_cantar_ordenes;

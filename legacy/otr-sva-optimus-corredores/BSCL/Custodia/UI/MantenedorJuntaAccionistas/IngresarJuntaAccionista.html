@@ -1,0 +1,177 @@
+<div class="row" ng-controller='IngresarJuntaAccionistasCtrl'>
+	<form name="FormIngresarJuntaAccionistas" class="filters-formulario">
+		<div class="row bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="row" ng-show="EsModificacion === 'S'">
+						<div class="col-xs-12">
+							<label class="col-xs-3" translate>UI_TIPO_JUNTA_ACCIONISTA</label>
+							<bcs-input-texto class="col-xs-9"
+						  		ng-model="datosAntes.TipoJunta"
+								k-ng-disabled="'true'">
+					  		</bcs-input-texto>
+						</div>
+					</div>
+					<div class="row" ng-show="EsModificacion === 'N'">
+						<div class="col-xs-12">
+							<label class="col-xs-3" translate>UI_TIPO_JUNTA_ACCIONISTA</label>
+							<bcs-combobox-base
+								class="col-xs-9"
+								bcs-requerido
+								tipo="data.oConfiguracionTipoJuntaAccionista.tipo"
+								filtros="data.oConfiguracionTipoJuntaAccionista.filtros"
+								id-actual="datosDespues.tipoJuntaAccionista"
+								id-defecto="datosAntes.tipoJuntaAccionista"
+								seleccionado="filtros.tipoJuntaAccionistaSeleccionado"
+								>
+							</bcs-combobox-base>
+						</div>
+					</div>
+					
+					<div class="row" ng-show="EsModificacion === 'S'">
+						<div class="col-xs-6">
+							<label class="col-xs-6" translate>UI_FECHA_REALIZACION</label>
+							<bcs-input-texto class="col-xs-6"
+						  		ng-model="datosAntes.FecRealizacionUI"
+								k-ng-disabled="'true'">
+					  		</bcs-input-texto>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-6" translate>UI_HORA</label>
+							<bcs-input-texto class="col-xs-6"
+						  		ng-model="datosAntes.HoraRealizacion"
+								k-ng-disabled="'true'">
+					  		</bcs-input-texto>
+						</div>
+					</div>
+					
+					<div class="row" ng-show="EsModificacion === 'N'">
+						<div class="col-xs-6">
+							<label class="col-xs-6" translate>UI_FECHA_REALIZACION</label>
+							<bcs-input-date class="col-xs-6" bcs-requerido k-ng-model="datosDespues.FecRealizacion"></bcs-input-date>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-6" translate>UI_HORA</label>
+							<bcs-input-time 
+								class="col-xs-6" 
+								bcs-requerido
+								ng-model="datosDespues.HoraRealizacion" >
+							</bcs-input-time>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-6" ng-show="EsModificacion === 'N'">
+							<label class="col-xs-6" translate>UI_EMISOR</label> 
+					  		<bcs-combobox-base class="col-xs-6" 
+					  			tipo="'combobox-emisor'"
+					  			bcs-requerido
+					  			id-actual="datosDespues.IdEmisor"
+					  			filtros="data.filtrosEmisor"
+					  			id-defecto="datosAntes.IdEmisor"
+					  			seleccionado="emisor.seleccionado">
+					  		</bcs-combobox-base> 
+					  	</div>
+					  	<div class="col-xs-6" ng-show="EsModificacion === 'S'">
+							<label class="col-xs-6" translate>UI_EMISOR</label> 
+					  		<bcs-input-texto class="col-xs-6"
+						  		ng-model="datosAntes.IdEmisor"
+								k-ng-disabled="'true'">
+					  		</bcs-input-texto>
+					  	</div>
+						<div class="col-xs-6" ng-show="fechaCierreEditable === 'S'">
+							<label class="col-xs-6" translate>UI_FECHA_CIERRE_RA</label>
+							<bcs-input-date class="col-xs-6" bcs-requerido k-ng-model="datosDespues.FecCierre"></bcs-input-date>
+						</div>
+						<div class="col-xs-6" ng-show="fechaCierreEditable === 'N'">
+							<label class="col-xs-6" translate>UI_FECHA_CIERRE_RA</label>
+							<bcs-input-texto class="col-xs-6"
+						  		ng-model="datosAntes.FecCierreUI"
+								k-ng-disabled="'true'">
+					  		</bcs-input-texto>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-3" translate>UI_NOMBRE_EMISOR</label> 
+					  		<bcs-input-texto class="col-xs-9"
+						  		maxlength="100"
+								ng-model="datosDespues.nombreEmisor"
+								k-ng-disabled="'true'">
+					  		</bcs-input-texto>
+					  	</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-3" translate>UI_LUGAR</label> 
+					  		<bcs-input-texto class="col-xs-9"
+						  		maxlength="100"
+						  		bcs-requerido
+								ng-model="datosDespues.lugar">
+					  		</bcs-input-texto>
+					  	</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-3" translate>UI_INSTRUCCION_MASIVA</label> 
+					  		<bcs-input-texto class="col-xs-9"
+						  		maxlength="500"
+								ng-model="datosDespues.instruccionMasiva">
+					  		</bcs-input-texto>
+					  	</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-3" translate>UI_CUADRATURA_DCV</label> 
+					  		<bcs-input-numero class="col-xs-9"
+					  			decimales = 0
+						  		maxlength="26"
+								k-ng-model="datosDespues.cuadraturaDCV">
+					  		</bcs-input-numero>
+					  	</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-3" translate>UI_MATERIAS</label> 
+					  		<bcs-input-texto class="col-xs-9"
+						  		maxlength="500"
+						  		bcs-requerido
+								tipo-campo="'textarea'"
+								ng-model="datosDespues.materias"
+								atributos="margin: 0px; height:73px;resize:none;width: 100%">
+					  		</bcs-input-texto>
+				  		</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button class="col-xs-3" id="IngresarJuntaAccionistas_Ingresar" 
+			ng-show="EsModificacion === 'N'"
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="false"
+			bcs-habilitado="FormIngresarJuntaAccionistas.$valid" 
+			bcs-texto="'UI_INGRESAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="ingresarJuntaAccionista()">
+		</bcs-button>
+		<bcs-button class="col-xs-3" id="IngresarJuntaAccionistas_Ingresar"
+			ng-show="EsModificacion === 'S'"
+			bcs-tipo="'bcs-button-primary'" 
+			bcs-auto-desactivar="true"
+			bcs-habilitado="EstadoValido" 
+			bcs-texto="'UI_MODIFICAR' | translate" 
+			bcs-habilitado="'true'" 
+			bcs-clic="ingresarJuntaAccionista()">
+		</bcs-button>
+	</div>
+	
+	
+</div>

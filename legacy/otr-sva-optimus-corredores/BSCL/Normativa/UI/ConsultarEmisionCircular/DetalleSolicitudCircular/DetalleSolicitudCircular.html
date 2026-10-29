@@ -1,0 +1,90 @@
+<div class ="col-xs-12" ng-controller="DetalleSolicitudCircularCtrl">
+
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-2">
+						<label translate>UI_NORMATIVA</label>
+					</div>
+					<div class="col-xs-4">
+						<bcs-combobox-base
+							bcs-requerido
+							auto-cargar		="true"
+							tipo			= "data.oConfiguracionCircular.tipo"
+							configuracion	= "data.oConfiguracionCircular.configuracion"
+							seleccionado	= "data.oConfiguracionCircular.seleccionado"
+							id-actual		= "data.oConfiguracionCircular.idActual"
+							todos 			="'S'"
+							id-defecto		="'0'" >
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-2">
+						<label translate>UI_FECHA_DESDE</label>
+					</div>
+					<div class="col-xs-4">
+						<bcs-input-date k-ng-model="data.kngFechaDesde"></bcs-input-date>
+					</div>
+					<div class="col-xs-2">
+						<label translate>UI_FECHA_HASTA</label>
+					</div>
+					<div class="col-xs-4">
+						<bcs-input-date k-ng-model="data.kngFechaHasta"></bcs-input-date>
+					</div>
+				</div>
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12"
+						bcs-tipo="''"
+						bcs-auto-desactivar="'false'"
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="btnActivo"
+						bcs-clic="buscarDetalleSolicitudCircular()" 
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="''"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="btnActivo" 
+						bcs-clic="limpiarFiltros()"
+					></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONONES -->
+		</div>
+		
+		<!-- GRILLA -->
+		<div class="row">
+			<bcs-grid id="grid-detalle-solicitud-circular"
+				configuracion = "confBasicaDetalleSolicitudCircular"
+				seleccionado = "seleccionDetalleSolicitudCircular">
+				<div bcs-grid-detail ng-non-bindable>
+					<uib-tabset class=row>
+						<uib-tab heading="{{'UI_PARAMETROS_SOLICITUD'| translate}}">
+							<div style="width: 40%;">
+								<bcs-grid id="grid-parametros-solicitud-circular"
+									configuracion="confBasicaParametrosSolicitudCircular(dataItem)"
+									seleccionado="seleccionParametrosSolicitudCircular">
+								</bcs-grid>
+							</div>
+						</uib-tab>
+					</uib-tabset>
+				</div>
+			</bcs-grid>
+		</div>
+		<!-- FIN GRILLA -->
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+	</div>
+</div>

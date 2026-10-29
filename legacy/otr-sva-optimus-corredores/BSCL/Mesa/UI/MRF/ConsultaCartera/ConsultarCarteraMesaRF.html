@@ -1,0 +1,124 @@
+<div class="loaderCSS"></div>
+
+<div class="col-xs-12" ng-controller="gConsultarCarteraMesaRFCtrl">
+	<form name="frmCartolaMovimiento"  class="col-xs-12 form-horizontal">
+
+		<div class="row bcs-cuerpo">
+			<div class="row">	
+				<div class="col-xs-10">
+				    <div class="row">   
+                        <div class="col-xs-8">
+                             <label class="col-xs-2" translate>UI_MESA</label>
+                             <bcs-combobox-base class="col-xs-9" id="frmMesa_ACTIVA"
+                                auto-cargar="'true'"
+                                tipo="'combobox-mesas'"
+                                seleccionado="data.oConfiguracionMesaActiva.seleccionado"
+                                filtros="data.oConfiguracionMesaActiva.filtros"                         
+                                id-actual="data.oConfiguracionMesaActiva.idActual"
+                                item-post-filtro="data.oConfiguracionMesaActiva.itemPostFiltro"                         
+                                configuracion= "data.oConfiguracionMesaActiva.configuracion"
+                                todos="'N'" >
+                            </bcs-combobox-base>
+                        </div>
+                        <div class="col-xs-4">                  
+                            <div class="col-xs-4"><label translate>UI_FECHA</label></div>
+                            <bcs-input-date class="col-xs-8"
+                                id="frmMesa_FECHA"
+                                k-ng-model="data.kngFecha" 
+                                ng-model="data.Fecha"
+                                k-ng-disabled = "'false'">
+                            </bcs-input-date>               
+                        </div>
+                    </div> 
+					<div class="row">	
+						<div class="col-xs-8">
+							 <label class="col-xs-2" translate>UI_CLIENTE</label>
+							 <bcs-combobox-base class="col-xs-9" id="frmMesa_SOCIO_NEGOCIO"
+								auto-cargar="'true'"
+								tipo="'combobox-socio-negocio'"
+								seleccionado="data.oConfiguracionSocioNegocio.seleccionado"
+								filtros="data.oConfiguracionSocioNegocio.filtros"						    
+								id-actual="data.oConfiguracionSocioNegocio.idActual"
+								id-post-filtro="data.oConfiguracionSocioNegocio.idPostFiltro"
+								id-defecto="data.oConfiguracionSocioNegocio.idDefecto"						    
+								configuracion= "data.oConfiguracionSocioNegocio.configuracion"
+								cascada-a="data.oConfiguracionPortafolio.filtros.IdCliente"
+								cascada-valor="'IdCliente'"
+								cascada-defecto="-1"
+								activado = "false">
+							</bcs-combobox-base>
+						</div>
+                        <!-- 
+						<div class="col-xs-4">
+							<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+							 <bcs-combobox-base class="col-xs-8" id="frmMesa_PORTAFOLIO"
+								auto-cargar="'false'"
+								tipo="'combobox-portafolio'"
+								seleccionado="data.oConfiguracionPortafolio.seleccionado"
+								id-actual="data.oConfiguracionPortafolio.idActual"								
+								filtros="data.oConfiguracionPortafolio.filtros"
+								configuracion= "data.oConfiguracionPortafolio.configuracion"						    
+								
+								item-post-filtro="'1'">
+							</bcs-combobox-base >
+						</div>-->  
+					</div>
+					
+					<!-- FIN FILTROS -->		
+				</div>
+				<div class="col-xs-2">
+					<!-- BOTONES -->
+					<div class="row">
+						<bcs-button class="col-xs-12" id="frmMesa_BUSCAR"
+							bcs-tipo="'bcs-button-search'"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="data.buscarCarteraMesa(apiGridCartera,data)">
+						</bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" id="frmMesa_LIMPIAR"
+							bcs-tipo="'bcs-button-secondary'"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-habilitado="'true'"  
+							bcs-clic="data.limpiarFiltros()">
+						</bcs-button>
+					</div>
+				</div>
+			</div>
+ 
+			<div class="row col-xs-12">
+				<bcs-grid id="frmMesa_grid-cartera"
+					fn-exportar-excel = "exportarExcel"
+					api = "apiGridCartera"
+					configuracion = "data.confBasicaCartera"
+					seleccionado = "seleccionCartera">
+					<div bcs-grid-detail ng-non-bindable>
+						<div class="row" >
+							<uib-tabset class="col-xs-3">
+								<uib-tab heading="{{'UI_RESERVADO' | translate}}">
+								   <bcs-grid configuracion = "data.confBasicaCarteraReservada(dataItem)"
+										seleccionado = "dataItem.seleccionCarteraReservada">
+									</bcs-grid>
+								</uib-tab>
+							 </uib-tabset>	
+						</div>
+					</div>
+				</bcs-grid>
+			</div>
+		</div>
+
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos">
+			<bcs-menu ng-show="SesionLocale==='PE'" class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+			   <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			   <li ng-click="data.abrirDepositosYAutodesembolsos()" >{{'UI_DEPOSITOS_Y_AUTODESEMBOLSOS' | translate}}</li>
+			</bcs-menu>
+			<bcs-menu ng-show="SesionLocale!=='PE'" class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'" >
+			   <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</form>	
+</div>

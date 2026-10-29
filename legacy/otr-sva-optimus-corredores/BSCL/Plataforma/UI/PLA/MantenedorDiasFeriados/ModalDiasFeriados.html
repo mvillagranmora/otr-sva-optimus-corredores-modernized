@@ -1,0 +1,86 @@
+<div id="ModalDiasFeriados" class="row" ng-controller="ModalDiasFeriadosCtrl as modDF">
+	<div class="row">
+		<form name="ModalDiasFeriados" class="col-xs-12">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_TIPO_DIA_FERIADO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-tipo-dia-feriado'"
+					id-actual="modDF.datosFeriado.IdTipoDiaFeriado"
+					id-defecto="modDF.datosFeriado.IdTipoDiaFeriadoDef"
+					filtros="modDF.cmbbx.TipoDiaFeriado.filtros"
+					bcs-requerido
+					activado="!modDF.win.modoEditar"
+					seleccionado="modDF.datosFeriado.TipoDiaFeriadoObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_FECHA</label>
+				<bcs-input-date class="col-xs-8" ng-if="modDF.datosFeriado.IdTipoDiaFeriado === 'FERIADO'"
+					k-ng-model="modDF.datosFeriado.Fecha"
+					bcs-requerido="modDF.datosFeriado.IdTipoDiaFeriado === 'FERIADO'"
+					todo-dias="true"
+					k-options="modDF.datosFeriado.FechakOpt">
+				</bcs-input-date>
+				<bcs-input-texto class="col-xs-8" ng-if="modDF.datosFeriado.IdTipoDiaFeriado === 'INHABIL'"
+					ng-model="modDF.datosFeriado.FechaInhabil"
+					bcs-requerido="modDF.datosFeriado.IdTipoDiaFeriado === 'INHABIL'"
+					k-ng-disabled="true">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_DIA</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-parametro-mesa'"
+					id-actual="modDF.datosFeriado.ValorParametro"
+					id-defecto="modDF.datosFeriado.ValorParametroDef"
+					filtros="modDF.cmbbx.Dia.filtros"
+					bcs-requerido
+					activado="modDF.datosFeriado.IdTipoDiaFeriado === 'INHABIL'"
+					configuracion="modDF.cmbbx.Dia.configuracion"
+					seleccionado="modDF.datosFeriado.DiaObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+				<bcs-input-texto class="col-xs-8" 
+					ng-model="modDF.datosFeriado.DescripcionDia"
+					bcs-requerido>
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-4" translate>UI_AGNO_CARGA</label>
+				<bcs-input-texto class="col-xs-8"
+					ng-model="modDF.datosFeriado.AgnoCarga" 
+					bcs-requerido
+					>
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PAIS</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-pais'"
+					id-actual="modDF.datosFeriado.IdPais"
+					id-defecto="modDF.datosFeriado.IdPaisDef"
+					bcs-requerido
+					seleccionado="modDF.datosFeriado.PaisObj">
+				</bcs-combobox-base>
+			</div>
+			<div class="row" ng-show="modDF.win.modoEditar">
+				<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-input-checkbox	
+						ng-disabled="false" 
+						ng-model="modDF.datosFeriado.IdEstado">
+					</bcs-input-checkbox>
+			</div>
+		</form>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id={{modDF.IdBotonAceptar}} class="col-xs-4" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalDiasFeriados.$valid" bcs-clic="modDF.fn.aceptar();">
+		</bcs-button>
+		<bcs-button id="ModalDiasFeriados_cancelar" class="col-xs-4" bcs-tipo="''" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="modDF.fn.cancelar();">
+		</bcs-button>
+	</div>
+</div>

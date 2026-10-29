@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Fondo" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Fondo"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="NVARCHAR" id="IdFondo" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEmisor" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdPaisEmisor"/>
+        <viewAttribute datatype="NVARCHAR" id="Nemotecnico" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreFondo" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdPaisOrigen"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoSVS" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="MoneyMarket" length="1"/>
+        <viewAttribute datatype="DATE" id="FechaCreacion"/>
+        <viewAttribute datatype="DATE" id="FechaConstitucion"/>
+        <viewAttribute datatype="DATE" id="FechaCierre"/>
+        <viewAttribute datatype="NVARCHAR" id="Vigencia" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="FondoExtranjero" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="HoraCierreAporteComercial" length="8"/>
+        <viewAttribute datatype="NVARCHAR" id="HoraCierreRescateComercial" length="8"/>
+        <viewAttribute datatype="NVARCHAR" id="HoraCierreReinversionComercial" length="8"/>
+        <viewAttribute datatype="NVARCHAR" id="HoraCierreLiquidezComercial" length="8"/>
+        <viewAttribute datatype="NVARCHAR" id="HoraCierreAporteBackoffice" length="8"/>
+        <viewAttribute datatype="NVARCHAR" id="HoraCierreRescateBackoffice" length="8"/>
+        <viewAttribute datatype="NVARCHAR" id="HoraCierreReinversionBackoffice" length="8"/>
+        <viewAttribute datatype="NVARCHAR" id="HoraCierreLiquidezBackoffice" length="8"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoAporteComercial" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoRescateComercial" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoReinversionComercial" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoLiquidezComercial" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoAporteBackoffice" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoRescateBackoffice" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoReinversionBackoffice" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoLiquidezBackoffice" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="BloqueoAporte" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="BloqueoRescate" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="BloqueoIndefinido" length="1"/>
+        <viewAttribute datatype="DATE" id="FechaBloqueoDesde"/>
+        <viewAttribute datatype="DATE" id="FechaBloqueoHasta"/>
+        <viewAttribute datatype="DATE" id="FechaFondo"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidadFondo" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoFondo" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="CategoriaPerfilFondoMutuo" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = 
+ 	 
+ 	 	SELECT
+ 	 		&quot;Fondo&quot;.&quot;IdEmpresa&quot; 
+ 	 		,&quot;Fondo&quot;.&quot;IdFondo&quot;
+			,&quot;Fondo&quot;.&quot;IdEmisor&quot;
+			,&quot;Fondo&quot;.&quot;IdPaisEmisor&quot;
+			,&quot;Fondo&quot;.&quot;Nemotecnico&quot;
+			,&quot;Fondo&quot;.&quot;NombreFondo&quot;
+			,&quot;Fondo&quot;.&quot;IdPaisOrigen&quot;
+			,&quot;Fondo&quot;.&quot;CodigoSVS&quot;
+			,&quot;Fondo&quot;.&quot;MoneyMarket&quot;
+			,&quot;Fondo&quot;.&quot;FechaCreacion&quot;
+			,&quot;Fondo&quot;.&quot;FechaConstitucion&quot;
+			,&quot;Fondo&quot;.&quot;FechaCierre&quot;
+			,&quot;Fondo&quot;.&quot;Vigencia&quot;
+			,&quot;Fondo&quot;.&quot;FondoExtranjero&quot;
+			,&quot;Fondo&quot;.&quot;IdMoneda&quot;
+			,&quot;Fondo&quot;.&quot;IdTipoInstrumento&quot;
+			,&quot;HoraCierreAporteComercial&quot;
+			,&quot;HoraCierreRescateComercial&quot;
+			,&quot;HoraCierreReinversionComercial&quot;
+			,&quot;HoraCierreLiquidezComercial&quot;
+			,&quot;HoraCierreAporteBackoffice&quot;
+			,&quot;HoraCierreRescateBackoffice&quot;
+			,&quot;HoraCierreReinversionBackoffice&quot;
+			,&quot;HoraCierreLiquidezBackoffice&quot;
+			,&quot;Fondo&quot;.&quot;EstadoAporteComercial&quot;
+			,&quot;Fondo&quot;.&quot;EstadoRescateComercial&quot;
+			,&quot;Fondo&quot;.&quot;EstadoReinversionComercial&quot;
+			,&quot;Fondo&quot;.&quot;EstadoLiquidezComercial&quot;
+			,&quot;Fondo&quot;.&quot;EstadoAporteBackoffice&quot;
+			,&quot;Fondo&quot;.&quot;EstadoRescateBackoffice&quot;
+			,&quot;Fondo&quot;.&quot;EstadoReinversionBackoffice&quot;
+			,&quot;Fondo&quot;.&quot;EstadoLiquidezBackoffice&quot;
+			,&quot;Fondo&quot;.&quot;BloqueoAporte&quot;
+			,&quot;Fondo&quot;.&quot;BloqueoRescate&quot;
+			,&quot;Fondo&quot;.&quot;BloqueoIndefinido&quot;
+			,&quot;Fondo&quot;.&quot;FechaBloqueoDesde&quot;
+			,&quot;Fondo&quot;.&quot;FechaBloqueoHasta&quot;
+			,&quot;Fondo&quot;.&quot;FechaFondo&quot;
+			,&quot;Fondo&quot;.&quot;DocumentoIdentidadFondo&quot;
+			,&quot;TipoFondo&quot;
+			,&quot;CategoriaPerfilFondoMutuo&quot;
+		FROM &quot;BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarFondoAnalitica&quot; &quot;Fondo&quot;;
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdEmpresa" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="IdFondo" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdFondo"/>
+      </attribute>
+      <attribute id="IdEmisor" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmisor"/>
+      </attribute>
+      <attribute id="IdPaisEmisor" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPaisEmisor"/>
+      </attribute>
+      <attribute id="Nemotecnico" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Nemotecnico"/>
+      </attribute>
+      <attribute id="NombreFondo" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreFondo"/>
+      </attribute>
+      <attribute id="IdPaisOrigen" order="7">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPaisOrigen"/>
+      </attribute>
+      <attribute id="CodigoSVS" order="8">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoSVS"/>
+      </attribute>
+      <attribute id="MoneyMarket" order="9">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="MoneyMarket"/>
+      </attribute>
+      <attribute id="FechaCreacion" order="10">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="FechaConstitucion" order="11">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaConstitucion"/>
+      </attribute>
+      <attribute id="FechaCierre" order="12">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCierre"/>
+      </attribute>
+      <attribute id="Vigencia" order="13">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Vigencia"/>
+      </attribute>
+      <attribute id="FondoExtranjero" order="14">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FondoExtranjero"/>
+      </attribute>
+      <attribute id="IdMoneda" order="15">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="IdTipoInstrumento" order="16">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoInstrumento"/>
+      </attribute>
+      <attribute id="HoraCierreAporteComercial" order="17">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="HoraCierreAporteComercial"/>
+      </attribute>
+      <attribute id="HoraCierreRescateComercial" order="18">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="HoraCierreRescateComercial"/>
+      </attribute>
+      <attribute id="HoraCierreReinversionComercial" order="19">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="HoraCierreReinversionComercial"/>
+      </attribute>
+      <attribute id="HoraCierreLiquidezComercial" order="20">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="HoraCierreLiquidezComercial"/>
+      </attribute>
+      <attribute id="HoraCierreAporteBackoffice" order="21">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="HoraCierreAporteBackoffice"/>
+      </attribute>
+      <attribute id="HoraCierreRescateBackoffice" order="22">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="HoraCierreRescateBackoffice"/>
+      </attribute>
+      <attribute id="HoraCierreReinversionBackoffice" order="23">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="HoraCierreReinversionBackoffice"/>
+      </attribute>
+      <attribute id="HoraCierreLiquidezBackoffice" order="24">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="HoraCierreLiquidezBackoffice"/>
+      </attribute>
+      <attribute id="EstadoAporteComercial" order="25">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoAporteComercial"/>
+      </attribute>
+      <attribute id="EstadoRescateComercial" order="26">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoRescateComercial"/>
+      </attribute>
+      <attribute id="EstadoReinversionComercial" order="27">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoReinversionComercial"/>
+      </attribute>
+      <attribute id="EstadoLiquidezComercial" order="28">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoLiquidezComercial"/>
+      </attribute>
+      <attribute id="EstadoAporteBackoffice" order="29">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoAporteBackoffice"/>
+      </attribute>
+      <attribute id="EstadoRescateBackoffice" order="30">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoRescateBackoffice"/>
+      </attribute>
+      <attribute id="EstadoReinversionBackoffice" order="31">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoReinversionBackoffice"/>
+      </attribute>
+      <attribute id="EstadoLiquidezBackoffice" order="32">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoLiquidezBackoffice"/>
+      </attribute>
+      <attribute id="BloqueoAporte" order="33">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="BloqueoAporte"/>
+      </attribute>
+      <attribute id="BloqueoRescate" order="34">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="BloqueoRescate"/>
+      </attribute>
+      <attribute id="BloqueoIndefinido" order="35">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="BloqueoIndefinido"/>
+      </attribute>
+      <attribute id="FechaBloqueoDesde" order="36">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaBloqueoDesde"/>
+      </attribute>
+      <attribute id="FechaBloqueoHasta" order="37">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaBloqueoHasta"/>
+      </attribute>
+      <attribute id="FechaFondo" order="38">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaFondo"/>
+      </attribute>
+      <attribute id="DocumentoIdentidadFondo" order="39">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidadFondo"/>
+      </attribute>
+      <attribute id="TipoFondo" order="40">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoFondo"/>
+      </attribute>
+      <attribute id="CategoriaPerfilFondoMutuo" order="41">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CategoriaPerfilFondoMutuo"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

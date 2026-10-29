@@ -1,0 +1,156 @@
+<div class="row" ng-controller='CrearModificarInstrumentoCtrl'>
+	<form name="CrearModificarInstrumentoForm">
+	<uib-tabset style="min-height:235px">
+		<uib-tab heading="{{'UI_DATOS_BASICOS' | translate}}">
+			
+				<div class="row">
+					<div class="row">
+						<label class="col-xs-2" translate>UI_NEMOTECNICO</label>
+						<bcs-input-texto class="col-xs-3" ng-model="instrumento.Nemotecnico" bcs-requerido></bcs-input-texto>	
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_ISIN</label>
+						<bcs-input-texto class="col-xs-3" ng-model="instrumento.ISIN"></bcs-input-texto>	
+					</div>
+					
+					<div class="row">
+						<label class="col-xs-2" translate>UI_CORTE_MINIMO</label>
+						<bcs-input-numero class="col-xs-3" k-ng-model="instrumento.CorteMinimo"></bcs-input-numero>	
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_INSCRITO</label>
+						<bcs-input-checkbox class="col-xs-3" ng-model="instrumento.EstaInscrito"></bcs-input-checkbox>
+					</div>
+					
+					<div class="row">
+						<label class="col-xs-2" translate>UI_RAZON_SOCIAL</label>
+						<bcs-input-texto class="col-xs-3" ng-model="instrumento.RazonSocial" bcs-requerido></bcs-input-texto>	
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_EMISION</label>
+						<bcs-input-date class="col-xs-3" k-ng-model="instrumento.FechaEmision"></bcs-input-date>	
+					</div>
+					
+					<div class="row">
+						<label class="col-xs-2" translate>UI_FECHA_VENCIMIENTO</label>
+						<bcs-input-date class="col-xs-3" k-ng-model="instrumento.FechaVencimiento"></bcs-input-date>	
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_EMISOR</label>
+						<bcs-combobox-base 
+							class="col-xs-3"
+							tipo="'combobox-emisor'"
+							bcs-requerido
+							id-defecto="instrumentoDef.IdEmisor"
+							id-actual="instrumento.IdEmisor">
+						</bcs-combobox-base >
+					</div>
+					
+					<div class="row">
+						<label class="col-xs-2" translate>UI_TIPO_REAJUSTE</label>
+						<bcs-combobox-base 
+							class="col-xs-3"
+							tipo="'combobox-tipo-reajuste'"
+							id-defecto="instrumentoDef.IdTipoReajuste"
+							id-actual="instrumento.IdTipoReajuste">
+						</bcs-combobox-base >
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_MONEDA</label>
+						<bcs-combobox-base 
+							class="col-xs-3"
+							bcs-requerido
+							tipo="'combobox-moneda'"
+							id-defecto="instrumentoDef.IdMoneda"
+							id-actual="instrumento.IdMoneda">
+						</bcs-combobox-base >
+					</div>
+					
+					<div class="row">
+						<label class="col-xs-2" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base 
+							class="col-xs-3"
+							bcs-requerido
+							tipo="'combobox-clasificacion-tipo-instrumento'"
+							id-defecto="instrumentoDef.IdClasificacionTipoInstrumento"
+							id-actual="instrumento.IdClasificacionInstrumento"
+							cascada-a="formData.filtros.tipoInstrumento.IdClasificacionTipoInstrumento"
+							cascada-valor="'IdClasificacionTipoInstrumento'">
+						</bcs-combobox-base >
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base 
+							class="col-xs-3"
+							bcs-requerido
+							tipo="'combobox-tipo-instrumento'"
+							filtros="formData.filtros.tipoInstrumento"
+							auto-cargar="'false'"
+							id-post-filtro="instrumentoDef.IdTipoInstrumento"
+							id-actual="instrumento.IdTipoInstrumento"
+							cascada-a="formData.filtros.valorClasificacionRiesgo.IdTipoInstrumento"
+							cascada-valor="'IdTipoInstrumento'"
+							cascada1-a="formData.filtros.entidadClasificadoraRiesgo.IdTipoInstrumento"
+							cascada1-valor="'IdTipoInstrumento'">
+						</bcs-combobox-base >
+					</div>
+					<div class="row">
+						<label class="col-xs-2" translate>UI_PRECIO_REFERENCIA</label>
+						<bcs-input-monetario class="col-xs-3" k-ng-model="instrumento.PrecioReferencia"></bcs-input-monetario>	
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_REFERENCIA</label>
+						<bcs-input-date class="col-xs-3" k-ng-model="instrumento.FechaReferencia"></bcs-input-date>	
+					</div>
+					<div class="row">
+						<label class="col-xs-2" translate>UI_PRECIO_BASE</label>
+						<bcs-input-monetario class="col-xs-3" k-ng-model="instrumento.Precio" bcs-requerido></bcs-input-monetario>	
+					</div>
+					<div class="row">
+						<label class="col-xs-2" translate>UI_ESTADO</label>
+						<bcs-combobox-base 
+							class="col-xs-3"
+							bcs-requerido
+							tipo="'combobox-estado-instrumento'"
+							id-defecto="instrumentoDef.IdEstado"
+							id-actual="instrumento.IdEstado">
+						</bcs-combobox-base >
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_TAMANO_CONTRATO</label>
+						<bcs-input-numero decimales="'0'" class="col-xs-3" k-ng-model="instrumento.Tamano"></bcs-input-numero>	
+					</div>
+				</div>
+			
+		</uib-tab>
+		<uib-tab heading="{{'UI_VALORES_DE_RIESGO' | translate}}">
+			<div class="row">
+				<div class="row">
+					<label class="col-xs-1" translate>UI_ENTIDAD</label>
+					<bcs-combobox-base 
+						class="col-xs-2"
+						bcs-requerido
+						item-post-filtro = "'1'"
+						seleccionado = "formData.entidadClasificadoraRiesgoSeleccionada"
+						tipo="'combobox-entidad-clasificadora-riesgo'"
+						filtros = "formData.filtros.entidadClasificadoraRiesgo"
+						cascada-a="formData.filtros.valorClasificacionRiesgo.IdEntidadClasificadoraRiesgo"
+						cascada-valor="'IdEntidadClasificadoraRiesgo'">
+					</bcs-combobox-base >
+					<label class="col-xs-1" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base 
+						class="col-xs-2"
+						bcs-requerido
+						item-post-filtro = "'1'"
+						filtros = "formData.filtros.valorClasificacionRiesgo"
+						tipo="'combobox-clasificacion-riesgo'"
+						seleccionado = "formData.valorClasificacionRiesgoSeleccionada">
+					</bcs-combobox-base >
+					<bcs-button class="col-xs-2" bcs-tipo="''" bcs-auto-desactivar="'false'" bcs-texto="'UI_AGREGAR' | translate"
+						 bcs-habilitado="'true'"
+						bcs-clic="formData.agregarValorRiesgo()"></bcs-button>
+					<bcs-button class="col-xs-2 pull-right" bcs-tipo="''" bcs-auto-desactivar="'false'" bcs-texto="'UI_ELIMINAR' | translate"
+						 bcs-habilitado="formData.valorSeleccionado"  
+						bcs-clic="formData.eliminarValorRiesgo()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-grid
+						configuracion="formData.configuracionValoresRiesgo"
+						seleccionado = "formData.valorSeleccionado">
+					</bcs-grid>
+				</div>
+				
+			</div>
+			
+		</uib-tab>
+	</uib-tabset>
+	</form>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="UI_ACEPTAR" class="col-xs-2" bcs-tipo="'principal'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ACEPTAR' | translate"  bcs-habilitado="CrearModificarInstrumentoForm.$valid" bcs-clic="aceptar()"></bcs-button>
+		<bcs-button id="UI_CANCELAR" class="col-xs-2" bcs-auto-desactivar="'false'" bcs-texto="'UI_CANCELAR' | translate"  bcs-habilitado="'true'" bcs-clic="cancelar()"></bcs-button>
+	</div>
+</div>

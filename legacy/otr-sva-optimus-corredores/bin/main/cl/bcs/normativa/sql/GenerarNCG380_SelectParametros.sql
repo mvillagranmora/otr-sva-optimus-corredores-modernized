@@ -1,0 +1,1 @@
+select top 1 "Valor" from "BSCL.Normativa.BD::NOR.Configuracion" where "CodigoParametro"='DocumentosNCG380Pauta';

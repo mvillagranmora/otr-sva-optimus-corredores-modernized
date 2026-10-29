@@ -1,0 +1,41 @@
+<div id="ModalLimitesCuentaPropiaEmisor" class="row" ng-controller="ModalLimitesCuentaPropiaEmisorCtrl as mlCPE">
+	<div class="row">
+		<form name="ModalLimitesCuentaPropiaEmisor" class="col-xs-12">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_EMISOR</label>
+				<bcs-combobox-base class="col-xs-8" ng-if="!mlCPE.win.modoEditar"
+					tipo="'combobox-emisor'"
+					id-actual="mlCPE.respuesta.IdEmisor"
+					id-defecto="mlCPE.respuesta.IdEmisorDef"
+					filtros = "mlCPE.cmbbx.Emisor.filtros"
+					todos="'N'"
+					bcs-requerido
+					seleccionado="mlCPE.dataModal.EmisorObj">
+				</bcs-combobox-base>
+				<div class="col-xs-8" ng-if="mlCPE.win.modoEditar">
+					<label class="col-xs-12">{{mlCPE.respuesta.IdEmisor}} &nbsp;-&nbsp; {{mlCPE.respuesta.RazonSocial}}</label>
+				</div>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_ESTADO</label>
+				<bcs-combobox-base class="col-xs-8"
+					tipo="'combobox-estado-limites'"
+					id-actual="mlCPE.respuesta.IdEstado"
+					id-defecto="mlCPE.respuesta.IdEstadoDef"
+					filtros="mlCPE.cmbbx.Estado.filtros"
+					todos="'N'"
+					bcs-requerido
+					seleccionado="mlCPE.dataModal.EstadoObj">
+				</bcs-combobox-base>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id={{mlCPE.IdBotonAceptar}} class="col-xs-3" bcs-tipo="'principal'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" bcs-habilitado="ModalLimitesCuentaPropiaEmisor.$valid" bcs-clic="mlCPE.aceptar();">
+		</bcs-button>
+		<bcs-button id="ModalLimitesCuentaPropiaEmisor_cancelar" class="col-xs-3" bcs-tipo="''" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true" bcs-clic="mlCPE.cancelar();">
+		</bcs-button>
+	</div>
+</div>

@@ -1,0 +1,86 @@
+<div id="ModalDocumentoIdentidad" ng-controller="ModalDocumentoIdentidadCtrl as mdi">
+	<div class="row bcs-cuerpo">
+		<form name="formDocumentoIdentidad" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_DOCUMENTO_IDENTIDAD</label>
+				<bcs-input-documento-identidad
+					id="formModalDocumentoIdentidad_documentoIdentidad"
+	    			class="col-xs-9"
+                    ng-model="mdi.DocumentoIdentidad.DocumentoIdentidad"
+                    documento-asociado="mdi.DocumentoIdentidad.DocumentoIdentidadAsociado"
+                    id-tipo-persona="mdi.tipoPersona"
+                    id-tipo-documento="mdi.DocumentoIdentidad.IdTipoDocumentoIdentidad"
+                    id-tipo-documento-asociado="mdi.DocumentoIdentidad.IdTipoDocumentoIdentidadAsociado"
+                    id-defecto="mdi.DocumentoIdentidadOriginal.IdTipoDocumentoIdentidad"
+                    cambiar-documento-identidad="mdi.DocumentoIdentidadOriginal.DocumentoIdentidad"
+                    forzar-tipo-documento="mdi.forzarTipoDocumento"
+                    tipo="'combobox-tipo-documento-identidad'"
+                    tipo-documento-identidad-activado="(!mdi.bloqueoTipoDocumentoIdentidad)"
+                    documento-identidad-activado="(!mdi.bloqueoDocumentoIdentidad)"
+                    blur="mdi.blurDocumentoIdentidad(mdi.DocumentoIdentidad.IdTipoDocumentoIdentidadAsociado)"
+                    requerido="mdi.camposRequeridos['formModalDocumentoIdentidad_documentoIdentidad'].Requerido === 'S'">
+                 </bcs-input-documento-identidad>
+			</div>
+			
+			<div class="row" ng-show="mdi.DocumentoIdentidad.IdTipoDocumentoIdentidadAsociado!=='RUC'">
+				<label class="col-xs-3" translate>UI_NUMERO_SERIE</label>
+				<bcs-input-texto id="formModalDocumentoIdentidad_numeroSerie"
+					maxlength="20" 
+					class="col-xs-9"
+					ng-model="mdi.DocumentoIdentidad.NumeroSerie"
+					bcs-requerido="mdi.DocumentoIdentidad.IdTipoDocumentoIdentidadAsociado!=='RUC' && mdi.camposRequeridos['formModalDocumentoIdentidad_numeroSerie'].Requerido === 'S'">
+				</bcs-input-texto>	
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA_EMISION</label>
+				<bcs-input-date 
+					id="formModalDocumentoIdentidad_fechaEmision"
+					class="col-xs-9" 
+					k-ng-model="mdi.DocumentoIdentidad.FechaEmision"
+					bcs-requerido="mdi.camposRequeridos['formModalDocumentoIdentidad_fechaEmision'].Requerido === 'S'">
+				</bcs-input-date>	
+			</div>
+			<div class="row" ng-show="mdi.DocumentoIdentidad.IdTipoDocumentoIdentidadAsociado!=='RUC' && mdi.DocumentoIdentidad.FechaEmision && mdi.DocumentoIdentidad.FechaVencimiento && mdi.DocumentoIdentidad.FechaEmision.getTime() > mdi.DocumentoIdentidad.FechaVencimiento.getTime()">
+				<label class="col-xs-12" style="color:red" translate>UI_FECHA_EMISION_MENOR</label>
+			</div>
+			
+			<div class="row" ng-show="mdi.DocumentoIdentidad.IdTipoDocumentoIdentidadAsociado!=='RUC'">
+				<label class="col-xs-3" translate>UI_FECHA_VENCIMIENTO</label>
+				<bcs-input-date
+					id="formModalDocumentoIdentidad_fechaVencimiento"
+					class="col-xs-9" 
+					k-ng-model="mdi.DocumentoIdentidad.FechaVencimiento"
+					bcs-requerido="mdi.DocumentoIdentidad.IdTipoDocumentoIdentidadAsociado!=='RUC' && mdi.camposRequeridos['formModalDocumentoIdentidad_fechaVencimiento'].Requerido === 'S'">
+				</bcs-input-date>	
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button
+			id="ModalDocumentoIdentidad_aceptar"
+			class="col-xs-2 pull-right"
+			bcs-habilitado="mdi.documentoValidado"
+			bcs-tipo="'bcs-button-primary'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_ACEPTAR' | translate"
+			bcs-clic="mdi.aceptar()">
+		</bcs-button>
+		<bcs-button
+			id="ModalDocumentoIdentidad_cargarFirma"
+			class="col-xs-2 pull-right"
+			bcs-habilitado="'true'"
+			bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'CARGAR_FIRMA' | translate"
+			bcs-clic="mdi.cargarFirma()"></bcs-button>
+		<bcs-button
+			id="ModalDocumentoIdentidad_cancelar"
+			class="col-xs-2 pull-right"
+			bcs-habilitado="'true'"
+			bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_CANCELAR' | translate"
+			bcs-clic="mdi.cancelar()"></bcs-button>
+	</div>
+</div>

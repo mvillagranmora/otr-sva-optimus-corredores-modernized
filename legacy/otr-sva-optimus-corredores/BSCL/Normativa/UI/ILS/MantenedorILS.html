@@ -1,0 +1,263 @@
+<div id="mantenedorILS" class="row" ng-controller="MantenedorILSCtrl as mantenedorILS"> 
+	<div class="col-xs-12 bcs-cuerpo">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-5"> 
+					<label class="col-xs-2" translate>UI_REPORTE</label>
+					<bcs-combobox-base 
+						class="col-xs-9"
+						id="resultadoReporteId"					
+						id-actual="mantenedorILS.filtro.IdReporte"  
+						tipo="'combobox-informe-tipo-ils'"
+						filtros=""
+						item-post-filtro="'1'"
+						seleccionado="mantenedorILS.reporte.seleccionado"
+						configuracion= "mantenedorILS.reporte.configuracion">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-4 col-xs-offset-1" translate>UI_FECHA_CONTABLE</label>
+					<bcs-input-date 
+						activado="'false'" 
+						class="col-xs-7" 
+						id="resultadoFechaContableId"
+						k-ng-model="mantenedorILS.kngFechaContable">
+					</bcs-input-date>						
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-5">
+					<label class="col-xs-2" translate>UI_EMPRESA</label>
+					<bcs-combobox-base 
+						class="col-xs-9"
+						filtros=""
+						id="resultadoEmpresaId"						
+						id-actual="pResultado.filtro.IdEmpresa"
+						id-defecto="'1'"
+						seleccionado="mantenedorILS.empresa.seleccionado"
+						tipo="'combobox-empresas-ils'">
+					</bcs-combobox-base>
+				</div> 
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button 
+					bcs-auto-desactivar="false" 
+					bcs-clic="mantenedorILS.BuscarResultado()"
+					bcs-habilitado="true"   
+					bcs-texto="'UI_BUSCAR' | translate" 
+					bcs-tipo="'bcs-button-search'"  
+					class="col-xs-12" 
+					id="buttonBuscar"> 
+				</bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button 
+					bcs-auto-desactivar="false" 
+					bcs-clic="mantenedorILS.Limpiar()"
+					bcs-habilitado="true" 
+					bcs-texto="'UI_LIMPIAR' | translate" 
+					bcs-tipo="'bcs-button-secondary'" 
+					class="col-xs-12"
+					id="buttonLimpiar">
+				</bcs-button>	
+			</div>
+		</div>
+		<hr>	
+		<div class="col-xs-12">			
+			<uib-tabset>
+				<!-- RESULTADO INDICES -->
+				<uib-tab id="TabResultado" heading="{{'UI_RESULTADO_INDICES' | translate}}">
+					<div id="PanelResultado" class="row" ng-controller="PanelResultadoCtrl as pResultado">
+						<!-- INICIO GRILLA -->		
+						<new-bcs-grid
+							 id="grid-resultados"
+							 configuracion="mantenedorILS.confResultados" 
+							 seleccionado="mantenedorILS.seleccionGrillaIndices">
+						</new-bcs-grid>
+						<!-- FIN GRILLA -->			
+					</div>
+				</uib-tab>
+				<!-- CONCEPTOS -->
+				<uib-tab id="TabConceptos" heading="{{'UI_CONCEPTOS' | translate}}">
+					<div id="PanelConceptos" class="row" ng-controller="PanelConceptosCtrl as pConceptos">
+						<!-- INICIO GRILLA -->		
+						<new-bcs-grid
+							id="grid-conceptos"
+							configuracion="mantenedorILS.confConceptos"
+							seleccionado="mantenedorILS.seleccionGrillaConceptos">
+						</new-bcs-grid>
+						<!-- FIN GRILLA -->			
+					</div>
+				</uib-tab>
+
+				<!-- GRUPOS CONCEPTOS -->
+				<uib-tab id="TabGrupoConcepto" heading="{{'UI_GRUPO_CONCEPTO' | translate}}" select="select('grid-grupos-conceptos')">
+					<div id="PanelGrupoConcepto" class="row">
+						<!-- INICIO GRILLA -->		
+						<new-bcs-grid
+							 id="grid-grupos-conceptos"
+							 configuracion="mantenedorILS.confGC" 
+							 seleccionado="mantenedorILS.seleccionGrillaGC">
+						</new-bcs-grid>
+						<!-- FIN GRILLA -->			
+					</div>
+				</uib-tab>
+				<!-- ITEMS -->
+				<uib-tab id="TabItems" heading="{{'UI_ITEM' | translate}}" select="select('grid-items')">
+					<div id="PanelItems" class="row" ng-controller="PanelItemsCtrl as pItems">
+						<!-- INICIO GRILLA -->		
+						<new-bcs-grid
+							 id="grid-items"
+							 configuracion="mantenedorILS.confItems" 
+							 seleccionado="mantenedorILS.seleccionGrillaItems">
+						</new-bcs-grid>
+						<!-- FIN GRILLA -->			
+					</div>
+				</uib-tab>
+				<!-- DETALLE ITEM -->
+				<uib-tab id="TabDetalleItem" heading="{{'UI_DETALLE_ITEM' | translate}}" select="select('grid-detalle-item')">
+					<div id="PanelDetalleItem" class="row" ng-controller="PanelDetalleItemCtrl as pDetalleItem" style="margin-bottom: 28px">
+						<new-bcs-grid
+							 id="grid-detalle-item"
+							 configuracion="mantenedorILS.confDetalleItem" 
+							 seleccionado="mantenedorILS.seleccionGrillaDetalleItem">
+						</new-bcs-grid>
+					</div>
+				</uib-tab>
+				<!-- DETALLE COBERTURA -->
+				<uib-tab ng-show="SesionLocale!='PE'" id="TabDetalleCobertura" heading="{{'UI_DETALLE_COBERTURA' | translate}}" select="select('grid-detalle-cobertura')">
+					<div id="IdPanelDetalleCobertura" class="row" ng-controller="PanelDetalleCoberturaCtrl as pDetalleCobertura">
+						<new-bcs-grid
+							 id="grid-detalle-cobertura"
+							 configuracion="mantenedorILS.confDetalleCobertura" 
+							 seleccionado="mantenedorILS.seleccionGrillaDetalleCobertura">
+						</new-bcs-grid>
+					</div>
+				</uib-tab>
+				
+				<uib-tab ng-show="SesionLocale==='PE'" id="TabExposicionCPRO" heading="{{'UI_EXPOSICION_CPRO' | translate}}">
+					<div id="IdPanelExposicionCPRO" class="row" ng-controller="PanelExposicionCPROCtrl as pExposicionCPRO">
+						<new-bcs-grid
+							 id="grid-mov" 
+							 configuracion="mantenedorILS.confExposicionCPRO" 
+							 seleccionado="mantenedorILS.seleccionGrillaExposicionCPRO">
+						</new-bcs-grid>
+					</div>
+				</uib-tab>
+				<uib-tab ng-show="SesionLocale==='PE'" id="TabPosicionesDescubiertas" heading="{{'UI_POSICIONES_DESCUBIERTAS' | translate}}">
+					<div id="IdPanelPosicionesDescubiertas" class="row" ng-controller="PanelPosicionesDescubiertasCtrl as pPosicionesDescubiertas">
+						<new-bcs-grid
+							 id="grid-mov" 
+							 configuracion="mantenedorILS.confPosicionesDescubiertas" 
+							 seleccionado="mantenedorILS.seleccionGrillaPosicionesDescubiertas">
+						</new-bcs-grid>
+					</div>
+				</uib-tab>
+				
+				<!-- DETALLE SALDO CUENTA CONTABLE-->
+				<uib-tab id="TabDetalleSaldoCuentaContable" heading="{{'UI_DETALLE_SALDO_CUENTA_CONTABLE' | translate}}" select="select('grid-cuenta-contable', true)">
+					<div class="row bcs-panel-comandos">
+						<bcs-button id="frmGenerarReporteSaldosCuentasContables"  
+							class="col-xs-2" 
+							bcs-tipo="'bcs-button-input-form'" 
+							style="margin-top: 3px"
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_EXPORTAR_EXCEL' | translate"  
+							bcs-habilitado="true" 
+							bcs-clic="data.GenerarReporteSaldosCuentaContable()">
+						</bcs-button>
+					</div>
+					<div id="IdPanelDetalleSaldoCuentaContable" class="row" >
+						<!-- <bcs-grid 
+							 id="grid-mov" 
+							 configuracion="mantenedorILS.confDetalleSaldoCuentaContable" 
+							 seleccionado="mantenedorILS.seleccionGrillaDetalleSaldoCuentaContable">
+						</bcs-grid>	-->
+						<!-- div kendo-tree-list = "mantenedorILS.xx" k-options="mantenedorILS.confDetalleSaldoCuentaContable"></div-->
+						<div id="grid-cuenta-contable" kendo-tree-list="mantenedorILS.DetalleSaldoCuentaContableTreeList" k-options="mantenedorILS.confDetalleSaldoCuentaContableTreeList"></div>
+					</div>
+				</uib-tab>
+				<!-- FIN TABS -->				
+			</uib-tabset>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class="col-xs-2" style="margin-top: 5px">
+				<bcs-button  class="col-xs-12"
+					bcs-clic="mantenedorILS.DigitarResultadoUI()"
+					bcs-texto="'UI_DIGITAR' | translate" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-habilitado="data.habilitaDig">
+				</bcs-button>
+			</div>
+			<div class="col-xs-2" style="margin-top: 5px">
+				<bcs-button  class="col-xs-12" 
+					bcs-texto="'UI_GENERAR' | translate" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-habilitado="data.habilitaDig"
+					bcs-clic="mantenedorILS.Generar()">
+				</bcs-button>
+			</div>
+			<div id="agregarConcepto"  style="visibility: hidden"></div>
+			<!--
+			<div class="col-xs-2">
+				<bcs-button  class="col-xs-12" 
+					bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_EXPORTAR' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-tipo="'default'"
+					bcs-clic="mantenedorILS.Exportar()">
+				</bcs-button>
+			</div>
+			<div ng-show="SesionLocale!='PE'" class="col-xs-2">
+				<bcs-button  class="col-xs-12"
+				    bcs-auto-desactivar="'false'"  
+					bcs-texto="'UI_GENERAR_REPORTE_MONEDA_EXTRANJERA' | translate"
+					bcs-habilitado="'true'" 
+					bcs-clic="mantenedorILS.GenerarReporteMonedaExtranjera()">
+				</bcs-button>
+			</div>-->
+			<div class="col-xs-2" style="margin-top: 5px">
+			    <bcs-menu ng-show="SesionLocale!='PE'" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"  bcs-texto="'UI_REPORTE_ILS' | translate" >					
+					<li ng-click="mantenedorILS.ReporteResumidoILSUI(mantenedorILS)">{{'UI_REPORTE_ILS_RESUMIDO' | translate}}</li>
+					<li ng-click="mantenedorILS.ReporteDetalladoILSUI(mantenedorILS)">{{'UI_REPORTE_ILS_DETALLADO' | translate}}</li>		            
+				</bcs-menu>
+			</div>
+			<div class="col-xs-2"style="margin-top: 5px">
+				<bcs-button  class="col-xs-12" 
+					bcs-texto="'UI_LOG_PROCESO' | translate" 
+					bcs-habilitado="mantenedorILS.habilitado"
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-clic="mantenedorILS.ConsultaLog()">
+				</bcs-button>
+			</div>		
+			
+			<div class="col-xs-2 pull-right" style="margin-top: 5px">
+				<bcs-menu ng-show="SesionLocale!='PE'" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+					 <li ng-click="mantenedorILS.ObtenerSaldosContablesSAP()">{{'UI_OBTENER_SALDOS_CONTABLES_SAP' | translate}}</li>
+					<!-- <li ng-click="mantenedorILS.HomologarPlanDeCuentas()">{{'UI_HOMOLOGAR_OBTENER_SALDO_PLAN_CUENTAS' | translate}}</li> -->
+					<!-- <li ng-click="mantenedorILS.GenerarReporteCoberturaPatrimonial()">{{'UI_COBERTURA_PATRIMONIAL' | translate}}</li>-->
+					<li ng-click="mantenedorILS.GenerarReporteMonedaExtranjera()">{{'UI_GENERAR_REPORTE_MONEDA_EXTRANJERA' | translate}}</li>					
+		            <!-- <li ng-click="">{{'UI_PROCESO_POSICIONES_DESCUBIERTAS' | translate}}</li>
+		            <li ng-click="">{{'UI_PROCESO_EXPOSICION_CARTERA_PROPIA' | translate}}</li>
+		            <li ng-click="">{{'UI_GENERAR_ANEXO_DCI' | translate}}</li>
+		            <li ng-click="">{{'UI_GENERAR_ANEXO_RCP' | translate}}</li>
+		            <li ng-click="">{{'UI_GENERAR_ANEXO_DPD' | translate}}</li>-->
+				</bcs-menu>				
+			</div>
+						
+			<div class="col-xs-4">
+				<bcs-menu ng-show="SesionLocale==='PE'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+					<!-- <li ng-click="mantenedorILS.ObtenerSaldosContablesSAP()">{{'UI_OBTENER_SALDOS_CONTABLES_SAP' | translate}}</li>-->
+					<li ng-click="mantenedorILS.HomologarPlanDeCuentas()">{{'UI_HOMOLOGAR_OBTENER_SALDO_PLAN_CUENTAS' | translate}}</li>
+		            <li ng-click="">{{'UI_PROCESO_POSICIONES_DESCUBIERTAS' | translate}}</li>
+		            <li ng-click="">{{'UI_PROCESO_EXPOSICION_CARTERA_PROPIA' | translate}}</li>
+		            <li ng-click="">{{'UI_GENERAR_ANEXO_DCI' | translate}}</li>
+		            <li ng-click="">{{'UI_GENERAR_ANEXO_RCP' | translate}}</li>
+		            <li ng-click="">{{'UI_GENERAR_ANEXO_DPD' | translate}}</li>
+				</bcs-menu>
+			</div>
+		</div>
+	</div>
+</div>

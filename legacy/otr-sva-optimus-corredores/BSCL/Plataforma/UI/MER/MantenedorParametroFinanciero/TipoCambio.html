@@ -1,0 +1,43 @@
+<div id="tipoCambio" ng-controller='TipoCambioCtrl as tipoCambio'>
+	<div class="row">
+		<!-- INICIO FILTROS -->
+		<div class="col-xs-11">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-5" translate>UI_TIPO_PERIODO</label>
+					<bcs-combobox-base class="col-xs-5"
+			  			tipo="'combobox-frecuencia-tipo-cambio'"
+			  			id-actual="tipoCambio.filtros.tipoPeriodo"
+			  			id-defecto="'DI'"
+			  			todos="'N'">
+			  		</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-2" translate>UI_PERIODO</label>
+					<bcs-input-date
+						class="col-xs-5"
+						id="tipoCambio_Periodo"
+						k-options="tipoCambio.configuracionPeriodo"
+						k-ng-model="tipoCambio.filtros.periodo"
+						todo-dias="'true'">
+					</bcs-input-date>
+				</div>
+			</div>
+		</div>
+		<!-- FIN FILTROS -->
+	</div>
+	<!-- INICIO GRILLA -->
+	<div class="row">
+		<bcs-grid
+			id="tipo-cambio-parametros-financieros"
+			api = "tipoCambio.apiGrid"
+			fn-exportar-excel="tipoCambio.exportarExcel"
+			seleccionado = "tipoCambio.registroSeleccionado"
+			configuracion="tipoCambio.defaultOptions">
+		</bcs-grid>
+	</div>
+	<!-- FIN GRILLA -->
+	<div class="row bcs-panel-buttons alignButtonsToRight">
+		<bcs-button id="tipoCambio_guardar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-habilitado="tipoCambio.grillaCargada" bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR' | translate" bcs-clic="tipoCambio.guardar()"></bcs-button>
+	</div>
+</div>

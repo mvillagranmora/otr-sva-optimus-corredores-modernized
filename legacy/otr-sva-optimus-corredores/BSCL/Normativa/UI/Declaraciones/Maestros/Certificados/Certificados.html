@@ -1,0 +1,64 @@
+<div id="CertificadosTributarios" ng-controller="CertificadosTributariosCtrl as solCir">
+
+	<form class="col-xs-12 form-horizontal">
+		<div class="row">
+		<label class="col-xs-3" translate>UI_USUARIO</label>
+				<label style="font-weight: bold" class="col-xs-6" id="User"
+					ng-model="solCir.lblUsuario" translate>{{SesionUsuario}}</label>
+		</div>
+		<div class="row" >
+				<label class="col-xs-3" translate> Fecha Ingreso Solicitud: </label>
+				<bcs-input-date class="col-xs-6" bcs-requerido
+					k-ng-model="solCir.fechaInicioSol"
+					k-ng-readonly="'true'">
+				</bcs-input-date>
+		</div>
+
+		</form>
+				
+	<form class="col-xs-12 form-horizontal">
+		<div class="row" >
+			<label class="col-xs-3" translate>UI_NORMATIVA</label>
+			<bcs-combobox-base class="col-xs-6"
+						tipo = "'combobox-tipo-normativa'"
+						seleccionado="solCir.cmbbx.IdNormativaObj"
+						bcs-requerido
+						auto-cargar="true"
+						item-post-filtro="'1'"
+						id-defecto="solCir.params.PrevNormativa.idactual"
+						id-actual = "'TRIBUTARIO'"
+						filtros="solCir.cmbbx.Normativa.filtros">   
+		 	</bcs-combobox-base >		
+		</div>
+		<div class="row" >
+			<label class="col-xs-3" translate>UI_TIPO_DOCUMENTO</label>
+			<bcs-combobox-base class="col-xs-6"
+						tipo = "'combobox-tipo-documento-normativa'"
+						id-actual = "solCir.cmbbx.IdTipoDocumento"
+						filtros="solCir.cmbbx.TipoDocumento.filtros"
+						auto-cargar="true"
+						item-post-filtro="'1'"
+						id-defecto="solCir.params.PrevDocumento.IdTipoDocumento"
+						todos="'N'"
+						seleccionado="solCir.cmbbx.IdTipoDocumentoObj">
+		 	</bcs-combobox-base >		
+		</div>
+		<hr>
+		<br>
+			<div class="col-xs-12" >
+			<uib-tabset>
+					
+
+					<uib-tab id="TabINFTRABCS"  heading="{{'UI_CERTIFICADOS_TRIBUTARIOS' | translate}}" select="solCir.fnTabINFTRABCS()" active="solCir.params" ng-show="solCir.params">
+						<div class="row">
+							<div id="PanelINFTRABCS"></div>
+						</div>
+					</uib-tab>	
+						
+	</uib-tabset> 
+			</div>
+	</form>
+	<form class="col-xs-12 form-horizontal">	
+		<br>
+	</form>	
+</div>

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Tesoreria.BD::GBL.LiquidarComprobantes_Servicio_ComprobantesMuevenCuentaInversion" WHERE "IdComprobante" = :IdComprobante;

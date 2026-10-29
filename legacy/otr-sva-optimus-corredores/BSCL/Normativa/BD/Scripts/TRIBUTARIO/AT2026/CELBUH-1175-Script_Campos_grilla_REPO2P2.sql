@@ -1,0 +1,6 @@
+SET SCHEMA BSCL;
+
+
+UPDATE "BSCL.Normativa.BD::DOC.Campo" SET "OcultoEnGrilla"='S' WHERE "Grupo"='3. COMPLEMENTARIOS' AND "Esquema"='REPO2P2';
+
+COMMIT;

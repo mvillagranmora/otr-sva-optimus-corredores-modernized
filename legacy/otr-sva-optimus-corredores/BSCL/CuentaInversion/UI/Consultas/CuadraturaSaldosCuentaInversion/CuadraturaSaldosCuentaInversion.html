@@ -1,0 +1,84 @@
+<div ng-controller="CuadraturaSaldosCuentaInversionCtrl">
+    <div class="row bcs-cuerpo" ng-form="frmCuadraturaSaldosCuentaInversion">
+
+        <form name="frmCuadraturaSaldosCuentaInversion"><div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-12">
+						<label style="width: 14.6%;" translate class="col-xs-2">UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base id = "frmCuadraturaSaldosCuentaInversion_clientePortafolio"  style="width: 85.4%;" class="col-xs-10"
+							bcs-requerido
+							auto-cargar="'true'"
+							carga-cliente-automatico="'S'"
+							muestra-enlace = "'N'"
+							tipo="'combobox-cliente-portafolio'"
+							id-actual="filtros.oConfiguracionPortafolio.idActual"						 	
+						    filtros="filtros.oConfiguracionPortafolio.filtros"
+						    seleccionado="filtros.oConfiguracionPortafolio.seleccionado"
+						    configuracion= "filtros.oConfiguracionPortafolio.configuracion"
+						    cascada1-a="filtros.oConfiguracionCuentaInversion.filtros.IdPortafolio"
+							cascada1-valor="'IdPortafolio'"
+							cascada1-defecto="-1"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <label class="col-xs-3" translate>UI_CUENTA_INVERSION</label>			
+                        <bcs-combobox-base id="frmCuadraturaSaldosCuentaInversion_CuentaInversion" class="col-xs-9"
+                            auto-cargar="'false'"
+                            tipo="filtros.oConfiguracionCuentaInversion.tipo"  
+                            configuracion= "filtros.oConfiguracionCuentaInversion.configuracion" 
+                            id-actual="filtros.oConfiguracionCuentaInversion.idActual" 
+                            seleccionado="filtros.oConfiguracionCuentaInversion.seleccionado"
+                            filtros="filtros.oConfiguracionCuentaInversion.filtros"
+                            todos="'S'"  item-post-filtro="'1'"
+                        ></bcs-combobox-base >
+                    </div>
+                    <div class="col-xs-5">					
+						<label class="col-xs-4" style="padding-left: 15px" translate>UI_FECHA_CONSULTA</label>
+						<bcs-input-date id="frmCuadraturaSaldosCuentaInversion_FechaEfectivaDesde" class="col-xs-4"
+							k-ng-model="filtros.kngFechaEfectivaDesde" 
+							k-options="filtros.kOpFechaEfectivaDesde">
+						</bcs-input-date>
+						<bcs-input-date id="frmCuadraturaSaldosCuentaInversion_FechaEfectivaHasta" class="col-xs-4"
+							k-ng-model="filtros.kngFechaEfectivaHasta" 
+							k-options="filtros.kOpFechaEfectivaHasta">
+						</bcs-input-date>
+					</div>
+                </div>
+                <div class="row">
+                    <bcs-input-checkbox style="padding-left: 15px" id="frmCuadraturaSaldosCuentaInversion_SaldoPorFechaEfectiva" 
+                        ng-model="filtros.SaldoPorFechaEfectiva">
+                    </bcs-input-checkbox>&nbsp;{{'UI_SALDO_POR_FECHA_EFECTIVA' | translate}} 
+                    <bcs-input-checkbox id="frmCuadraturaSaldosCuentaInversion_SaldoPorFechaMovimiento" 
+                        ng-model="filtros.SaldoPorFechaMovimiento">
+                    </bcs-input-checkbox>&nbsp;{{'UI_SALDO_POR_FECHA_MOVIMIENTO' | translate}}                                       
+                </div>
+            </div>
+            <div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmCuadraturaSaldosCuentaInversion_Buscar" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="frmCuadraturaSaldosCuentaInversion.$valid"  bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmCuadraturaSaldosCuentaInversion_Limpiar" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+			</div>
+        </div></form>
+
+        <div class="row">
+            <bcs-grid id="frmCuadraturaSaldosCuentaInversion_gridCuadraturaSaldosCuentaInversion"
+                configuracion = "grid.confCuadraturaSaldosCuentaInversion"
+                seleccionado = "grid.seleccionCuadraturaSaldosCuentaInversion">					
+            </bcs-grid>
+        </div>
+
+        <div class="row bcs-panel-comandos alignButtonsToRight">		
+            <div class="col-xs-4">	
+                <bcs-button  bcs-tipo="'bcs-button-primary'" id="frmCuadraturaSaldosCuentaInversion_Cuadratura" bcs-auto-desactivar="false"  bcs-texto="'UI_CORRER_PROCESO_CUADRTURA' | translate"  bcs-habilitado="frmCuadraturaSaldosCuentaInversion.$valid"  bcs-clic="EjecutarCuadratura()"></bcs-button>
+            </div>
+        </div>
+        		
+    </div>
+</div>

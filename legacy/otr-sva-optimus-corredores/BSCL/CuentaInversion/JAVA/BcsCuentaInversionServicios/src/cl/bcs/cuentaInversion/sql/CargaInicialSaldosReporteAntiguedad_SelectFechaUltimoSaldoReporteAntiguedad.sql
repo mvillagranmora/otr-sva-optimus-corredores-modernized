@@ -1,0 +1,1 @@
+SELECT MAX("FechaSistema") AS "FechaRegistro" FROM "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad";

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="ComprobanteFacturacionFormaPago" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="ComprobanteFacturacionFormaPago"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdComprobanteFormaDePago"/>
+        <viewAttribute datatype="CHAR" id="FechaIngresoRegistro" length="27"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobante"/>
+        <viewAttribute datatype="CHAR" id="FechaComprobante" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMedioDePago" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMedioDePago" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroSerie" length="40"/>
+        <viewAttribute datatype="BIGINT" id="NumeroDocumento"/>
+        <viewAttribute datatype="BIGINT" id="IdCuentaBancaria"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCuentaBancaria" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoCuentaBancaria" length="4"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoCuentaBancaria" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroCuentaBancaria" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdTarjetaBancaria"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoTarjetaBancaria" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoTarjetaBancaria" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroTarjetaBancaria" length="100"/>
+        <viewAttribute datatype="CHAR" id="FechaVctoTarjetaBancaria" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdModalidadDePago" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreModalidadDePago" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdBanco"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoBanco" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreBanco" length="100"/>
+        <viewAttribute datatype="CHAR" id="FechaDocumentoPago" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaLiquidacion" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="MontoMonedaLiquidacion" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition>&#xD;
+ &#xD;
+ /********* Begin Procedure Script ************/ &#xD;
+ BEGIN &#xD;
+ 	 var_out = SELECT   &#xD;
+      &quot;CmbteFPag&quot;.&quot;IdComprobanteFormaDePago&quot;,&#xD;
+      CASE WHEN IFNULL(&quot;CmbteFPag&quot;.&quot;FechaIngresoRegistro&quot;,'')= '' THEN '0001-01-01 00:00:00' &#xD;
+					 	                              ELSE  &#xD;
+					 	                                  CASE WHEN  &quot;CmbteFPag&quot;.&quot;FechaIngresoRegistro&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' &#xD;
+					 	                                  	ELSE LEFT(TO_CHAR(ADD_SECONDS (&quot;CmbteFPag&quot;.&quot;FechaIngresoRegistro&quot;, CONFIGURACION.&quot;Valor&quot;)),27)&#xD;
+					 	                                  END &#xD;
+		END AS &quot;FechaIngresoRegistro&quot;,&#xD;
+&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdComprobante&quot; = 0 THEN NULL ELSE &quot;CmbteFPag&quot;.&quot;IdComprobante&quot; END AS &quot;IdComprobante&quot;,&#xD;
+      LEFT(TO_CHAR(IFNULL(Comprobante.&quot;FechaComprobante&quot;,'0001-01-01')),10) AS &quot;FechaComprobante&quot;,&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdMedioDePago&quot; = '' THEN NULL ELSE &quot;CmbteFPag&quot;.&quot;IdMedioDePago&quot; END AS &quot;IdMedioDePago&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NombreMedioDePago&quot; AS NVARCHAR(100)) AS &quot;NombreMedioDePago&quot;,&#xD;
+&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NumeroSerie&quot; AS NVARCHAR(40)) AS &quot;NumeroSerie&quot;,&#xD;
+      &quot;CmbteFPag&quot;.&quot;NumeroDocumento&quot;,&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdCuentaBancaria&quot; = 0 THEN NULL ELSE &quot;CmbteFPag&quot;.&quot;IdCuentaBancaria&quot; END AS &quot;IdCuentaBancaria&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NombreCuentaBancaria&quot; AS NVARCHAR(100)) AS &quot;NombreCuentaBancaria&quot;,&#xD;
+&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdTipoCuentaBancaria&quot; = '' THEN NULL ELSE &quot;CmbteFPag&quot;.&quot;IdTipoCuentaBancaria&quot; END AS &quot;IdTipoCuentaBancaria&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NombreTipoCuentaBancaria&quot; AS NVARCHAR(100)) AS &quot;NombreTipoCuentaBancaria&quot;,&#xD;
+&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NumeroCuentaBancaria&quot; AS NVARCHAR(100)) AS &quot;NumeroCuentaBancaria&quot;,&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdTarjetaBancaria&quot; = 0 THEN NULL ELSE &quot;CmbteFPag&quot;.&quot;IdTarjetaBancaria&quot; END AS &quot;IdTarjetaBancaria&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;IdTipoTarjetaBancaria&quot; AS NVARCHAR(40))AS &quot;IdTipoTarjetaBancaria&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NombreTipoTarjetaBancaria&quot; AS NVARCHAR(100)) AS &quot;NombreTipoTarjetaBancaria&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NumeroTarjetaBancaria&quot; AS NVARCHAR(100)) AS &quot;NumeroTarjetaBancaria&quot;,&#xD;
+      LEFT(TO_CHAR(IFNULL(&quot;CmbteFPag&quot;.&quot;FechaVctoTarjetaBancaria&quot;,'0001-01-01')),10) AS &quot;FechaVctoTarjetaBancaria&quot;,&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdModalidadDePago&quot; = '' THEN NULL ELSE &quot;CmbteFPag&quot;.&quot;IdModalidadDePago&quot; END AS &quot;IdModalidadDePago&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NombreModalidadDePago&quot; AS NVARCHAR(100)) AS &quot;NombreModalidadDePago&quot;,&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdBanco&quot; = 0 THEN NULL ELSE  &quot;CmbteFPag&quot;.&quot;IdBanco&quot; END AS &quot;IdBanco&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;CodigoBanco&quot; AS NVARCHAR(40)) AS &quot;CodigoBanco&quot;,&#xD;
+      CAST(&quot;CmbteFPag&quot;.&quot;NombreBanco&quot; AS NVARCHAR(100)) AS &quot;NombreBanco&quot;,&#xD;
+      LEFT(TO_CHAR(IFNULL(&quot;CmbteFPag&quot;.&quot;FechaDocumentoPago&quot;,'0001-01-01')),10) AS &quot;FechaDocumentoPago&quot;,&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdMoneda&quot; = '' THEN NULL ELSE &quot;CmbteFPag&quot;.&quot;IdMoneda&quot; END AS &quot;IdMonedaLiquidacion&quot;,&#xD;
+      &quot;CmbteFPag&quot;.&quot;MontoLiquidacionFormaDePago&quot; AS &quot;MontoMonedaLiquidacion&quot;,&#xD;
+      CASE WHEN &quot;CmbteFPag&quot;.&quot;IdEstado&quot; = '' THEN NULL ELSE &quot;CmbteFPag&quot;.&quot;IdEstado&quot; END AS &quot;IdEstado&quot; &#xD;
+From &quot;BSCL.Facturacion.BD::FAC.ComprobanteFormaDePago&quot; As &quot;CmbteFPag&quot; &#xD;
+INNER JOIN &quot;BSCL.Facturacion.BD::FAC.Comprobante&quot; AS Comprobante ON Comprobante.&quot;IdComprobante&quot; = &quot;CmbteFPag&quot;.&quot;IdComprobante&quot; &#xD;
+CROSS JOIN (select top 1 &quot;Valor&quot; from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Configuracion&quot;&#xD;
+			            where &quot;CodigoParametro&quot; = 'PLA.SegundosZonaHoraria') AS CONFIGURACION &#xD;
+LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PAG.MedioDePago&quot; AS &quot;MedioDePago&quot; ON (&quot;MedioDePago&quot;.&quot;IdMedioDePago&quot; = &quot;CmbteFPag&quot;.&quot;IdMedioDePago&quot;) &#xD;
+LEFT OUTER JOIN &quot;BSCL.Facturacion.BD::FAC.EstadoFacturacion&quot; AS &quot;EstadoFacturacion_$2&quot; ON (&quot;EstadoFacturacion_$2&quot;.&quot;IdEstado&quot; = &quot;CmbteFPag&quot;.&quot;IdEstado&quot;) &#xD;
+LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Estado&quot; AS &quot;Estado_$3&quot; ON (&quot;Estado_$3&quot;.&quot;IdEstado&quot; = &quot;EstadoFacturacion_$2&quot;.&quot;IdEstado&quot;) &#xD;
+LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Moneda&quot; AS &quot;Moneda_$4&quot; ON (&quot;Moneda_$4&quot;.&quot;IdMoneda&quot; = &quot;CmbteFPag&quot;.&quot;IdMoneda&quot;) &#xD;
+WHERE Upper(&quot;EstadoFacturacion_$2&quot;.&quot;NombreEntidad&quot;) = Upper('FAC.ComprobanteFormaDePago');&#xD;
+END /********* End Procedure Script ************/&#xD;
+</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdComprobanteFormaDePago" order="1">
+        <descriptions defaultDescription="IdComprobanteFormaDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobanteFormaDePago"/>
+      </attribute>
+      <attribute id="FechaIngresoRegistro" order="2">
+        <descriptions defaultDescription="FechaIngresoRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaIngresoRegistro"/>
+      </attribute>
+      <attribute id="IdComprobante" order="3">
+        <descriptions defaultDescription="IdComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobante"/>
+      </attribute>
+      <attribute id="FechaComprobante" order="4">
+        <descriptions defaultDescription="FechaComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaComprobante"/>
+      </attribute>
+      <attribute id="IdMedioDePago" order="5">
+        <descriptions defaultDescription="IdMedioDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMedioDePago"/>
+      </attribute>
+      <attribute id="NombreMedioDePago" order="6">
+        <descriptions defaultDescription="NombreMedioDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMedioDePago"/>
+      </attribute>
+      <attribute id="NumeroSerie" order="7">
+        <descriptions defaultDescription="NumeroSerie"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroSerie"/>
+      </attribute>
+      <attribute id="NumeroDocumento" order="8">
+        <descriptions defaultDescription="NumeroDocumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroDocumento"/>
+      </attribute>
+      <attribute id="IdCuentaBancaria" order="9">
+        <descriptions defaultDescription="IdCuentaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCuentaBancaria"/>
+      </attribute>
+      <attribute id="NombreCuentaBancaria" order="10">
+        <descriptions defaultDescription="NombreCuentaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCuentaBancaria"/>
+      </attribute>
+      <attribute id="IdTipoCuentaBancaria" order="11">
+        <descriptions defaultDescription="IdTipoCuentaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoCuentaBancaria"/>
+      </attribute>
+      <attribute id="NombreTipoCuentaBancaria" order="12">
+        <descriptions defaultDescription="NombreTipoCuentaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoCuentaBancaria"/>
+      </attribute>
+      <attribute id="NumeroCuentaBancaria" order="13">
+        <descriptions defaultDescription="NumeroCuentaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroCuentaBancaria"/>
+      </attribute>
+      <attribute id="IdTarjetaBancaria" order="14">
+        <descriptions defaultDescription="IdTarjetaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTarjetaBancaria"/>
+      </attribute>
+      <attribute id="IdTipoTarjetaBancaria" order="15">
+        <descriptions defaultDescription="IdTipoTarjetaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoTarjetaBancaria"/>
+      </attribute>
+      <attribute id="NombreTipoTarjetaBancaria" order="16">
+        <descriptions defaultDescription="NombreTipoTarjetaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoTarjetaBancaria"/>
+      </attribute>
+      <attribute id="NumeroTarjetaBancaria" order="17">
+        <descriptions defaultDescription="NumeroTarjetaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroTarjetaBancaria"/>
+      </attribute>
+      <attribute id="FechaVctoTarjetaBancaria" order="18">
+        <descriptions defaultDescription="FechaVctoTarjetaBancaria"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaVctoTarjetaBancaria"/>
+      </attribute>
+      <attribute id="IdModalidadDePago" order="19">
+        <descriptions defaultDescription="IdModalidadDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdModalidadDePago"/>
+      </attribute>
+      <attribute id="NombreModalidadDePago" order="20">
+        <descriptions defaultDescription="NombreModalidadDePago"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreModalidadDePago"/>
+      </attribute>
+      <attribute id="IdBanco" order="21">
+        <descriptions defaultDescription="IdBanco"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdBanco"/>
+      </attribute>
+      <attribute id="CodigoBanco" order="22">
+        <descriptions defaultDescription="CodigoBanco"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoBanco"/>
+      </attribute>
+      <attribute id="NombreBanco" order="23">
+        <descriptions defaultDescription="NombreBanco"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreBanco"/>
+      </attribute>
+      <attribute id="FechaDocumentoPago" order="24">
+        <descriptions defaultDescription="FechaDocumentoPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaDocumentoPago"/>
+      </attribute>
+      <attribute id="IdMonedaLiquidacion" order="25">
+        <descriptions defaultDescription="IdMonedaLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaLiquidacion"/>
+      </attribute>
+      <attribute id="MontoMonedaLiquidacion" order="26">
+        <descriptions defaultDescription="MontoMonedaLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoMonedaLiquidacion"/>
+      </attribute>
+      <attribute id="IdEstado" order="27">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

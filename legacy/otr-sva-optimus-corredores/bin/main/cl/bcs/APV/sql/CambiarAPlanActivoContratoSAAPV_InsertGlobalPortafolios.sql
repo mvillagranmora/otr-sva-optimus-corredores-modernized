@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.APV.BD::GBL.PortafoliosCambioPlanActivo" ("IdPortafolio") VALUES(:IdPortafolio);

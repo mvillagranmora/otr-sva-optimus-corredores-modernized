@@ -1,0 +1,356 @@
+<div id="CrearContraparte" class="col-xs-12" ng-controller="CrearContraparteCtrl" bcs-escape="ValidaSalidaESC()">
+ <div class="row bcs_titulo">
+        <div class="col-xs-12">
+            <span>{{'UI_CREAR_CONTRAPARTE'|translate}}</span>
+        </div>
+    </div>
+    <div class="bcs-cuerpo">
+    	<div class="row">
+			<form name="formBuscarContraparte" class="col-xs-12 form-horizontal">
+				<div class="row col-xs-10">
+					<div class="row">
+					<label class="col-xs-3" style="width: 29.8%;" translate>UI_TIPO_PERSONA</label>
+					<bcs-combobox-base 
+						id="formBuscarContraparte_tipo_persona" 
+						class="col-xs-8" style="width: 66.3%;" bcs-requerido
+						activado="(configData.bloqueoPersona && !configData.bloqueoBuscador)"
+						tipo="'combobox-tipo-persona'"
+						filtros="configData.filtroTipoPersona"
+						id-defecto = "formConfig.tipoPersona"
+						id-actual = 'recordData.tipoPersona'>
+					</bcs-combobox-base>
+					</div>
+					<div class="row">
+					<label class="col-xs-3" style="width: 29.6%;" translate>{{formConfig.labelNumeroIdentidad||'UI_DOCUMENTO_IDENTIDAD'}}</label>
+					<bcs-input-documento-identidad
+					    class="col-xs-8"
+                        ng-model="searchData.NumeroDocumentoIdentidad"
+                        id-tipo-persona="recordData.tipoPersona"
+                        id-tipo-documento="searchData.IdTipoDocumentoIdentidad"
+                        id-tipo-documento-asociado="searchData.IdTipoDocumentoIdentidadAsociado"
+                        id-defecto="formConfig.tipoDocIdentidadDef"
+                        tipo="'combobox-tipo-documento-identidad'"
+                        tipo-documento-identidad-activado="!configData.TipoDocumentoIdentidadBloqueado"
+                        documento-identidad-activado="!configData.bloqueoBuscador"
+                        working-net="workingNet.TipoDocumentoIdentidad"
+                        cambiar-documento-identidad="recordData.documentoIdentidadNuevo"
+                        focus="true"
+                        blur="blurDocumentoIdentidad(searchData.IdTipoDocumentoIdentidad,false)">
+                    </bcs-input-documento-identidad>
+					</div>
+					<div class="row" ng-show="formConfig.showNumeroAdicional"> 
+						<label class="col-xs-3" style="width: 29.6%;" translate>UI_NUMERO_ADICIONAL</label>
+						<bcs-input-documento-identidad
+							class="col-xs-8"
+							ng-model="searchData.NumeroDocumentoIdentidadAdicional"
+							id-tipo-persona="recordData.tipoPersona"
+							id-tipo-documento="searchData.IdTipoDocumentoIdentidadAdicional"
+							id-defecto="formConfig.tipoDocIdentidadAdicionalDef"
+							tipo="'combobox-tipo-documento-identidad'"
+							tipo-documento-identidad-activado="false"
+							documento-identidad-activado="!configData.bloqueoBuscador"
+							working-net="workingNet.TipoDocumentoIdentidadAdicional"
+							cambiar-documento-identidad="recordData.NumeroDocumentoIdentidadAdicional"
+							focus="false"
+							blur="blurDocumentoIdentidad(searchData.IdTipoDocumentoIdentidadAdicional,true)"
+							forzar-tipo-documento="'S'">
+						</bcs-input-documento-identidad>
+					</div>	
+				</div>
+				<div class="row col-xs-2">
+                    <bcs-button 
+						ng-show="SesionLocale!='PE'"
+						bcs-tipo="'bcs-button-search'"
+						id="formBuscarContraparte_btnBuscar"
+						k-ng-disabled = 'configData.bloqueoBuscador' 
+						class="col-xs-12" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="(searchData.NumeroDocumentoIdentidad && !configData.bloqueoBuscador)" 
+						bcs-clic="configData.buscarContraparte()">
+					</bcs-button> 
+					<bcs-button 
+						ng-show="SesionLocale=='PE'"
+						bcs-tipo="'bcs-button-search'"
+						id="formBuscarContraparte_btnBuscar_PE"
+						k-ng-disabled = "configData.bloqueoBuscador" 
+						class="col-xs-12" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="searchData.NumeroDocumentoIdentidad
+										&& !errorValidarNumeroDocumentoIdentidad && !errorValidarNumeroDocumentoIdentidadAdicional
+										&& !configData.bloqueoBuscador"
+						bcs-clic="configData.buscarContraparte()">
+					</bcs-button> 
+	            </div>
+			</form>
+		</div>
+		<hr>
+		<div class="row">
+			<form name="formCrearContraparte" class="col-xs-12 form-horizontal">
+				<div class="row" ng-show="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'">
+					<label class="col-xs-3" translate>UI_NOMBRES</label>
+					<bcs-input-texto class="col-xs-9" bcs-requerido="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'"
+						k-ng-disabled='configData.bloqueoPersona' = 
+						ng-model="recordData.nombres">
+					</bcs-input-texto>	
+				</div>
+				<div class="row" ng-show="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'">
+					<label class="col-xs-3" translate>UI_APELLIDO_PATERNO</label>
+					<bcs-input-texto class="col-xs-9" bcs-requerido="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'" 
+						k-ng-disabled='configData.bloqueoPersona'
+						ng-model="recordData.apellidoPaterno">
+					</bcs-input-texto>	
+				</div>
+				<div class="row" ng-show="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'">
+					<label class="col-xs-3" translate>UI_APELLIDO_MATERNO</label>
+					<bcs-input-texto class="col-xs-9"
+						k-ng-disabled='configData.bloqueoPersona'
+						ng-model="recordData.apellidoMaterno">
+					</bcs-input-texto>	
+				</div>
+				<div class="row" ng-show="recordData.tipoPersona === 'J'">
+					<label class="col-xs-3" translate>UI_RAZON_SOCIAL</label>
+					<bcs-input-texto class="col-xs-9" bcs-requerido="recordData.tipoPersona === 'J'"
+						k-ng-disabled='configData.bloqueoPersona'
+						ng-model="recordData.razonSocial">
+					</bcs-input-texto>	
+				</div>
+				
+				<div class="row" ng-show="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'">
+					<label class="col-xs-3" translate>UI_PAIS_NACIMIENTO</label>
+					<bcs-combobox-base class="col-xs-3" bcs-requerido="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'"
+						activado='!configData.bloqueoPersona'
+						id-actual = 'recordData.idPaisNacimiento'				 
+						tipo="'combobox-pais'">
+					</bcs-combobox-base>
+					
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_NACIMIENTO</label>
+					<bcs-input-date class="col-xs-3 " bcs-requerido="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'"
+						k-ng-disabled="configData.bloqueoPersona"
+						k-options="kOptFechaNacimiento"
+						k-ng-model = "recordData.fechaNacimiento"
+						k-ng-readonly="false"
+						todo-dias="true"
+						ng-blur="validaFechaNacimiento()">
+					</bcs-input-date>	
+				</div>
+				<div class="row" ng-show="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'">
+					<label class="col-xs-3" translate>UI_ESTADO_CIVIL</label>
+					<bcs-combobox-base bcs-requerido="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'"
+						class="col-xs-3" activado='!configData.bloqueoPersona'
+						id-actual = 'recordData.idEstadoCivil'
+						tipo="'combobox-estado-civil'">
+					</bcs-combobox-base>
+				
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_GENERO</label>
+					<bcs-combobox-base class="col-xs-3" bcs-requerido="recordData.tipoPersona === 'N' || recordData.tipoPersona === 'M'"
+						activado='!configData.bloqueoPersona'
+						id-actual = 'recordData.idGenero'	
+						tipo="'combobox-tipo-genero'"
+						filtros="configData.filtroGenero">
+					</bcs-combobox-base>
+				</div>
+				<div class="row" ng-show="(recordData.idEstadoCivil === 'CA' || recordData.idEstadoCivil === 'CC')">
+	                <div class="row">
+	                    <label class="col-xs-3" translate>{{recordData.idEstadoCivil === 'CA'?'UI_CONYUGE':'UI_CONVIVIENTE_CIVIL'}}</label>
+	                    <bcs-combobox-base class="col-xs-3"
+	                        cache="true"
+	                        tipo="'combobox-socio-negocio'" 
+	                        filtros="configData.filtroConyuge" 
+	                        id-actual="recordData.IdSocNegPersonaConyuge" 
+	                        seleccionado="recordData.RelacionadoObj"  
+	                        auto-cargar='true'
+	                        activado="!configData.bloqueoPersona"
+	                        carga-cliente-automatico="false">
+	                    </bcs-combobox-base>
+                        <bcs-button id="ModalRelacion_crearPersona" 
+                            class="col-xs-1" bcs-tipo="'bcs-button-input-form'" 
+                            bcs-habilitado="!configData.bloqueoPersona" 
+                            bcs-auto-desactivar="false"     
+                            bcs-texto="'UI_NUEVO'|translate" 
+                            bcs-clic="crearConyuge()">
+                        </bcs-button>   
+	                    <label class="col-xs-2" translate>UI_REGIMEN_CONYUGAL</label>       
+                        <bcs-combobox-base class="col-xs-3"                                 
+                            tipo="'combobox-regimen-conyugal'"                              
+                            cache="true"                                                    
+                            filtros="formConfig.oConfiguracionRegimenConyugal.filtros"      
+                            id-actual="recordData.RegimenConyugal"
+                            seleccionado="recordData.RegimenConyugalObj"
+                            id-defecto="recordData.RegimenConyugalOriginal"                         
+                            activado="!configData.bloqueoPersona"                           
+                            auto-cargar="true">                                             
+                        </bcs-combobox-base>  
+	                </div>
+	                <!-- bcs-texto="(recordData.idEstadoCivil==='CA')?'UI_INGRESAR_CONYUGE':'UI_INGRESAR_CONVIVIENTE_CIVIL' | translate"  -->
+	                <!-- <div class="row">
+                        <bcs-button id="ModalRelacion_crearPersona" 
+                            class="col-xs-offset-3 col-xs-4" bcs-tipo="''" 
+                            bcs-habilitado="!configData.bloqueoPersona" 
+                            bcs-auto-desactivar="false"     
+                            bcs-texto="'UI_NUEVO'|translate" 
+                            bcs-clic="crearConyuge()">
+                        </bcs-button>
+	                </div>                  -->                                                 
+	            </div> 
+				<hr>
+				<div class="row">
+					<label class="col-xs-3" translate>UI_PAIS_RESIDENCIA</label>
+					<bcs-combobox-base class="col-xs-9"
+						id="formCrearContraparte_paisResidencia"
+						activado='!configData.bloqueoPersona'
+						id-actual = "recordData.idPaisResidencia"
+						id-defecto = "recordData.idPaisResidenciaDefecto"		 
+						tipo="'combobox-pais'"
+						working-net="workingNet.PaisResidencia"
+						seleccionado="paisResidenciaSeleccionado"
+						cascada1-a="configData.filtroCiudad.IdPais"
+						cascada1-valor="'IdPais'"
+						cascada2-a="configData.filtroDivisionPais.IdPais"
+						cascada2-valor="'IdPais'">
+					</bcs-combobox-base>	
+				</div>
+				<div class="row">
+					<div ng-show="paisResidenciaSeleccionado.UsaDivisionPais !== 'S'">		
+						<label class="col-xs-3" translate>UI_CIUDAD</label>
+						<bcs-combobox-base 
+							id="formCrearContraparte_ciudadResidencia"
+							class="col-xs-9" 
+							cache="true"
+							working-net="workingNet.CiudadResidencia"
+							bcs-requerido = "paisResidenciaSeleccionado.UsaDivisionPais !== 'S'"
+							activado="!configData.bloqueoPersona"
+							filtros = "configData.filtroCiudad"
+							id-actual = "recordData.idCiudad"
+							id-defecto = "recordData.idCiudadDefecto"
+							tipo="'combobox-ciudad'"
+							seleccionado="ciudadSeleccionado">
+						</bcs-combobox-base>
+					</div>
+					<div ng-show="paisResidenciaSeleccionado.UsaDivisionPais === 'S'">
+						<label class="col-xs-3" translate>{{paisResidenciaSeleccionado.NombreDivisionPais || 'UI_COMUNA'}}</label>
+						<bcs-combobox-base class="col-xs-9"
+							id="formCrearContraparte_divisionPais" 
+							cache="true"
+							working-net="workingNet.DivisionPaisResidencia"
+							bcs-requerido="paisResidenciaSeleccionado.UsaDivisionPais === 'S'"
+							activado='!configData.bloqueoPersona'
+							filtros = "configData.filtroDivisionPais"
+							id-actual = "recordData.idDivisionPais"
+							id-post-filtro = "recordData.idDivisionPaisDefecto"
+							tipo="'combobox-division-pais'"
+							seleccionado="divisionPaisSeleccionado">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-xs-3" translate>UI_CALLE</label>
+					<bcs-input-texto class="col-xs-9" bcs-requerido
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.direccionCalle">
+					</bcs-input-texto>	
+				</div>
+				<div class="row">
+					<label class="col-xs-3" translate>UI_NUMERO</label>
+					<bcs-input-texto class="col-xs-3" bcs-requerido
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.direccionNumero">
+					</bcs-input-texto>	
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_COMPLEMENTO</label>
+					<bcs-input-texto class="col-xs-3"
+						k-ng-disabled="configData.bloqueoPersona"
+						ng-model="recordData.direccionDepartamento">
+					</bcs-input-texto>	
+				</div> 
+				<hr>
+				<div class="row">
+					<label class="col-xs-3" translate>UI_TIPO_TELEFONO</label>
+					<bcs-combobox-base class="col-xs-3" 
+						bcs-requerido
+						activado='!configData.bloqueoPersona'
+						id-actual = "recordData.idTipoTelefono"
+						id-post-filtro = "recordData.idTipoTelefonoDefecto"
+						tipo="'combobox-tipo-telefono'"
+						seleccionado="tipoTelefonoSeleccionado">
+					</bcs-combobox-base>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_TELEFONO</label>
+					<bcs-input-texto class="col-xs-3" bcs-requerido
+						k-ng-disabled="configData.bloqueoPersona" 
+						ng-model="recordData.telefono"
+						placeholder="placeholder.telefono" 
+						ng-blur="validaFormatoTelefono()">
+					</bcs-input-texto>	
+				</div>
+				<div class="row">
+					<label class="col-xs-3" translate>UI_EMAIL</label>
+					<bcs-input-texto class="col-xs-9" bcs-requerido
+						k-ng-disabled="configData.bloqueoPersona" 
+						ng-model="recordData.email" 
+						ng-blur="validaFormatoEmail()">
+					</bcs-input-texto>	
+				</div>
+				<hr>
+				 <!--	
+				<div class="row">
+						<label class="col-xs-3" translate>UI_EMISOR</label>
+						<input	 type="checkbox"  class="col-xs-3"
+				  		 ng-model="recordData.Emisor" >
+				  		
+				  		<label class="col-xs-3 col-xs-offset-1" translate>UI_CORREDORA</label>
+				  		<input	 type="checkbox"  class="col-xs-2"
+				  		 ng-model="recordData.Corredora" >
+			  			
+				  		
+			  	</div>	
+			  				
+				<div class="row">
+				  		<label class="col-xs-3" translate>UI_DEPOSITO</label>
+				  		<input	 type="checkbox"  class="col-xs-3"
+				  		 ng-model="recordData.Depositos" >
+				  		 
+				  		<label class="col-xs-3 col-xs-offset-1" translate>UI_CAMARA_COMPENSACION</label>
+				  		<input	 type="checkbox"  class="col-xs-2"
+				  		 ng-model="recordData.CamaraDeCompensacion" >	 
+				  		 
+				  		 
+			  	</div>					
+				<div class="row">
+				  		<label class="col-xs-3" translate>UI_BOLSA</label>
+				  		<input	 type="checkbox"  class="col-xs-3"
+				  		 ng-model="recordData.Bolsa" >
+				  		 
+				  		<label class="col-xs-3 col-xs-offset-1" translate>UI_BANCO</label>
+				  		<input	 type="checkbox"  class="col-xs-2"
+				  		 ng-model="recordData.Banco" >	 
+			  	</div>	
+			  	-->				
+			  	<div class="row">
+				  		<label class="col-xs-3" translate>UI_CODIGO_INSCRIPCION</label>
+						<bcs-input-texto 
+							k-ng-disabled="configData.bloqueoContraparte" class="col-xs-3"
+							ng-model="recordData.CodigoInscripcion" >
+						</bcs-input-texto>
+						 <!--
+						<label class="col-xs-3 col-xs-offset-1" translate>UI_BOVEDA</label>
+				  		<input	 type="checkbox"  class="col-xs-2"
+				  		 ng-model="recordData.Boveda" >	
+				  		 -->
+			  	</div>
+			  	<div class="row">
+				  		<label class="col-xs-3" translate>UI_OTROS</label>
+						<bcs-input-texto 
+							k-ng-disabled="configData.bloqueoContraparte" class="col-xs-3"
+							ng-model="recordData.Otros" >
+						</bcs-input-texto>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="formCrearContraparte_crear"				class="col-xs-3 pull-right" bcs-tipo="'bcs-button-primary'"		bcs-auto-desactivar="false" bcs-texto="'UI_CREAR_CONTRAPARTE' | translate" bcs-habilitado="formCrearContraparte.$valid" bcs-clic="crearContraparte()"></bcs-button>
+		<bcs-button id="formCrearContraparte_guardarBorrador"	class="col-xs-3 pull-right" bcs-tipo="'bcs-button-secondary'"	bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR_BORRADOR' | translate" bcs-habilitado="configData.bloqueoBuscador" bcs-clic="guardarBorrador()"></bcs-button>
+		<bcs-button id="formCrearContraparte_cancelar"			class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"	bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="configData.bloqueoBuscador" bcs-clic="cancelar()"></bcs-button>
+						
+	</div>
+</div>

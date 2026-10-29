@@ -1,0 +1,657 @@
+<div id="InversionAPV" class="row" ng-controller="InversionAPVCtrl as invAPV">
+	<div class="row">
+		<form name="formInversionAPV" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<div class="col-xs-9">
+				</div>
+				<div class="col-xs-3">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="invAPV.datosForm.fechaInicial" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+				 </div> 	
+			 </div> 	
+			<hr>
+			<div class="col-xs-12">
+				<div class="row">
+					<div class="col-xs-4">
+				  		<label class="col-xs-2" translate>UI_CLIENTE</label>
+						<bcs-combobox-base 
+								id				= "UI_CLIENTE"
+								class			= "col-xs-9"
+							 	auto-cargar		= "'false'"
+							 	bcs-requerido
+							    tipo			= "'combobox-socio-negocio'"
+							    seleccionado	= "invAPV.datosForm.SocioNegocioSeleccionado"
+							    filtros			= "invAPV.ConfiguracionCmbo.SocioNegocio.filtros"
+								cascada-a		= "invAPV.ConfiguracionCmbo.Portafolio.filtros.IdCliente"
+								cascada-valor	= "'IdCliente'"
+			                    cascada-defecto	= "'-1'"
+			                    activado		= "invAPV.HabilitoControlesBusqueda"
+			                    id-actual		= "invAPV.datosForm.SocioNegocioidActual"
+						>
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-5" translate="">UI_NOMBRE_PLAN_AHORRO</label>
+						<bcs-combobox-base 
+							id					= "UI_NOMBRE_PLAN_AHORRO" 
+							class				= "col-xs-6"
+							item-post-filtro	= "'1'"
+							todos				= "'S'"
+							tipo				= "'combobox-nombre-plan-ahorro'"
+							id-actual			= "invAPV.datosForm.PlanAhorroIdActual"
+							activado			= "invAPV.HabilitoControlesBusqueda"
+							seleccionado		= "invAPV.datosForm.NombrePlanAhorroSeleccionado"
+						>
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-3" translate>UI_PRODUCTO</label>
+						<bcs-combobox-base class="col-xs-9"
+							id					= "UI_PRODUCTO"
+							bcs-requerido
+							item-post-filtro	= "'1'"
+							todos				= "'S'"
+							tipo				= "'combobox-producto-agrupador'"
+							id-actual			= "invAPV.datosForm.ProductoAgrupadorIdActual"
+							id-defecto			= "invAPV.datosForm.ProductoAgrupadorIdDefecto"
+							auto-cargar			= "'true'"
+							activado			= "invAPV.HabilitoControlesBusqueda"
+							seleccionado		= "invAPV.datosForm.ProductoAgrupadorSeleccionado">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+					<!-- 
+					<label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-9"
+						id="UI_PORTAFOLIO"
+					 	auto-cargar		= "'false'"
+					 	bcs-requerido
+					    tipo			= "'combobox-portafolio'"					
+					    activado		= "invAPV.HabilitoControlesBusqueda"	    
+					    seleccionado	= "invAPV.datosForm.PortafolioSeleccionado"
+					    filtros			= "invAPV.ConfiguracionCmbo.Portafolio.filtros"
+	                    id-actual		= "invAPV.datosForm.PortafolioidActual"
+	                    id-defecto		= "invAPV.datosForm.PortafolioidDefecto"
+	                    cascada-a		= "invAPV.ConfiguracionCmbo.filtrosCuentaInversion.filtros.IdPortafolio"
+		                cascada-valor	= "'IdPortafolio'"
+					>
+					</bcs-combobox-base >
+					 -->
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-5" translate="">UI_REGIMEN</label>
+						<bcs-combobox-base 
+							id					= "UI_REGIMEN"
+							class				= "col-xs-6" 
+							item-post-filtro	= "'1'"
+							todos				= "'S'"
+							tipo				= "'combobox-regimen-tributario'"
+							auto-cargar			= "'true'"
+							activado			= "invAPV.HabilitoControlesBusqueda"
+							seleccionado		= "invAPV.datosForm.RegimenAgrupadorSeleccionado"
+							id-actual			= "invAPV.datosForm.RegimenAgrupadorIdActual"
+						>
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-offset-10 col-xs-2"> 
+						<bcs-button 
+							class				= "col-xs-12" 
+							id					= "invAPV_buscar"
+							bcs-tipo			= "'bcs-button-search'" 
+							bcs-auto-desactivar	= "false" 
+							bcs-texto			= "'UI_BUSCAR' | translate" 
+							bcs-habilitado		= "invAPV.HabilitoControlesBusqueda" 							
+							bcs-clic			= "invAPV.consultas.buscarMovimientos()"
+							>
+					</div>					
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-xs-6">
+					<br>
+					
+					<!-- 			PESTAÑAS 							-->	
+					<uib-tabset	>						
+					<!-- TAB 1 -->	
+					<!-- RENTA VARIABLE -->
+						<uib-tab heading="{{'UI_RENTA_VARIABLE' | translate}}" select = "invAPV.fn.seleccionTab('RV')"> 
+						<div class="row"></div>
+							<div class="row">
+								<div class="col-xs-12">
+									<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+									<bcs-input-instrumentos
+										id 						= "IngresarOrdenRVForm_inputInstrumentos"
+										k-ng-disabled			= "invAPV.datosForm.instrumentoDeshabilitado" 
+										class					= "col-xs-8" 
+										bcs-requerido
+										buscar-instrumento		= "invAPV.datosForm.setInstrumento" 
+										datos-instrumento		= "invAPV.datosForm.instrumento" 
+										muestra-precio 			= "'N'" 
+										consulta-precio 		= "'S'" 
+										filtro-estado 			= "'ACT'"
+										filtro-clasificacion	= "['RV','DV']"
+										filtro-tipo-instrumento = "['ACN','ACX','MIL','CFI','CFX','ETX','ETN','MON','OSA','FDO','FIP','FIC','FUF']"
+										valida-flujo-custodia 	= "invAPV.datosForm.validaFlujoCustodia"
+										fecha-flujo 			= "invAPV.datosForm.fechaLiquidacion"
+										id-portafolio			= "invAPV.datosForm.portafolioSeleccionado.IdPortafolio"
+										id-tipo-operacion		= "invAPV.datosForm.IdTipoOperacion"
+										id-boveda				= "invAPV.datosForm.bovedaSeleccionada.IdBoveda">
+									</bcs-input-instrumentos>
+								</div>
+							</div>					
+						
+							<div class="row">
+								<div class="col-xs-12">
+									<label class="col-xs-4" translate>UI_PRECIO</label>
+									<bcs-combobox-base
+										id 				= "IngresarOrdenRVForm_comboTipoPrecio" 
+										class			= "col-xs-3"
+										bcs-requerido 
+										tipo			= "'combobox-tipo-precio'"
+										seleccionado	= "invAPV.datosForm.tipoPrecioSeleccionado"
+										id-actual		= "invAPV.datosForm.idTipoPrecio"
+										filtros			= "invAPV.configuracionTipoPrecio.filtros"
+										id-defecto 		= "invAPV.datosForm.configuracionTipoPrecio.defecto"
+										item-post-filtro= "'1'"
+										activado		= "false"
+									>
+									</bcs-combobox-base >
+									<bcs-input-monetario
+										id 				= "IngresarOrdenRVForm_inputPrecio" 
+										class			= "col-xs-5"
+										decimales 		= "invAPV.datosForm.decimalesPrecio"
+										simbolo			= "invAPV.datosForm.instrumento.IdMoneda" 
+										bcs-requerido
+										k-ng-model		= "invAPV.datosForm.precio" 
+										k-ng-disabled 	= "invAPV.datosForm.tipoPrecioSeleccionado.IdTipoPrecioOrden === 'M'">
+									</bcs-input-monetario>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+									<bcs-input-condicion-liquidacion
+										class = "col-xs-8"
+										bcs-requerido
+										set-id-condicion-liquidacion 	= "invAPV.datosForm.IdCondicionDeLiquidacion"
+										fecha-inicial 					= "invAPV.datosForm.fechaInicial"
+										condicion-de-liquidacion 		= "invAPV.datosForm.condicionLiquidacion"
+										id-tipo-operacion				= "invAPV.datosForm.IdTipoOperacion"
+										fecha-liquidacion				= "invAPV.datosForm.fechaLiquidacion"
+										filtros							= "invAPV.configuracionCondicionLiquidacion.filtros"
+										activado 						= "'false'">
+									</bcs-input-condicion-liquidacion>
+								</div>	
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<label class="col-xs-4" translate>UI_BOLSA_DESTINO</label>
+									<bcs-combobox-base
+										id = "IngresarOrdenRVForm_comboBolsa" 
+										class="col-xs-8"
+										bcs-requerido
+										tipo			= "'combobox-bolsa-instrumento'"
+										id-defecto		= "invAPV.datosForm.bolsaSeleccionadaIdActualDefecto"
+										todos 			= "'S'"
+										seleccionado	= "invAPV.datosForm.bolsaSeleccionada" 
+										id-actual		= "invAPV.datosForm.bolsaSeleccionadaIdActual" 
+										filtros			= "invAPV.configuracionBolsa.filtros"
+										cascada-a		= "invAPV.configuracionCanalDistribucion.filtros.IdBolsa"
+										cascada-valor	= "'IdBolsa'">
+									</bcs-combobox-base>
+								</div>	
+							</div>
+							<div class="row">
+								<div class="col-xs-12">	
+									<label class="col-xs-4" translate>UI_VIGENCIA</label>
+									<bcs-combobox-base
+										id				= "IngresarOrdenRVForm_comboTipoVigencia" 
+										class="col-xs-3"
+										bcs-requerido
+										tipo			= "'combobox-tipo-fecha-vigencia-orden'"
+										seleccionado	= "invAPV.datosForm.tipoVigenciaSeleccionada"
+										filtros			= "invAPV.ConfiguracionCmbo.TipoVigencia.filtros"
+										id-defecto		= "invAPV.datosForm.TipoVigenciaIdActualDefecto"
+										id-actual       = "invAPV.datosForm.TipoVigenciaIdActual">
+									</bcs-combobox-base >
+									<bcs-input-date
+										id				= "IngresarOrdenRVForm_inputFechaVigencia" 
+										class			= "col-xs-5"
+										k-ng-model		= "invAPV.datosForm.fechaVigencia" 
+										k-ng-disabled	= "invAPV.datosForm.tipoVigenciaSeleccionada.IdTipoVigenciaOrden !== 'FF'">
+									</bcs-input-date>
+								</div>	
+							</div>	
+							<div class="row">
+								<div class="col-xs-12">
+									<label class="col-xs-4" translate>UI_MONEDA_LIQUIDACION</label>
+									<bcs-combobox-base class="col-xs-8"
+									 	id 					= "IngresarOrdenRVForm_comboMonedaLiquidacion" 
+									 	auto-cargar			= "'false'"
+									    tipo				= "'combobox-tipo-instrumento-moneda-liquidacion'"
+									    item-post-filtro	= "'1'"
+									    filtros 			= "invAPV.ConfiguracionCmbo.MonedaLiquidacionOrden.filtros"
+									    bcs-requerido
+									    seleccionado		= "invAPV.datosForm.monedaLiquidacionOrdenSeleccionada"
+									    cascada-a			= "invAPV.ConfiguracionCmboPreferenciaPagoPortafolio.filtros.IdMoneda"
+										cascada-valor		="'IdMonedaLiquidacion'">
+									</bcs-combobox-base >
+								</div>											
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<label class="col-xs-4" translate>UI_MECANISMO_DE_CAPTACION</label>
+									<bcs-combobox-base
+										class			="col-xs-8"
+										bcs-requerido
+										tipo			= "'combobox-detalle-tipo-atributo'"
+										seleccionado	= "invAPV.datosForm.mecanismoDeCaptacion"
+										id-actual		= "invAPV.ConfiguracionCmbo.MecanismoCaptacion.idActual"
+										filtros			= "invAPV.ConfiguracionCmbo.MecanismoCaptacion.filtros">
+									</bcs-combobox-base>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-12">
+									<label class="col-xs-4" translate>UI_CANTIDAD_MONTO_TOTAL</label>
+									<bcs-input-numero
+										id 				= "invAPV_inputCantidad" 
+										decimales		= "invAPV.datosForm.decimalesCantidad"
+										class			= "col-xs-4" 
+										bcs-requerido	= '!invAPV.datosForm.montoInicial'
+										k-ng-model		= "invAPV.datosForm.cantidadInicial">
+									</bcs-input-numero> 
+									<bcs-input-monetario
+										id 				= "invAPV_inputMonto" 
+										class			= "col-xs-4" 
+										decimales 		= "invAPV.datosForm.decimalesMonto"
+										simbolo			= "invAPV.datosForm.monedaLiquidacionOrdenSeleccionada.IdMonedaLiquidacion" 
+										bcs-requerido	= '!invAPV.datosForm.cantidadInicial'
+										k-ng-model		= "invAPV.datosForm.montoInicial">
+									</bcs-input-monetario>
+								</div>								
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_BOVEDA</label>
+								<bcs-combobox-base
+									id 				= "invAPV_comboBoveda" 
+									class			="col-xs-8"
+									bcs-requerido
+									id-defecto 		= "invAPV.datosForm.BovedaIdActualDefecto"
+									id-actual 		= "invAPV.datosForm.BovedaIdActual"
+									tipo			="'combobox-boveda'"
+									seleccionado	="invAPV.datosForm.bovedaSeleccionada"
+									filtros			="invAPV.ConfiguracionCmbo.Boveda.filtros"
+									cascada-a		="invAPV.datosForm.configuracionCuentaCustodio.filtros.IdBoveda"
+									cascada-valor	="'IdBoveda'">
+								</bcs-combobox-base >	
+							</div>
+							<div class="row">
+							  	<label class="col-xs-4" translate>UI_MEDIO_PAGO</label> 
+						  		<bcs-combobox-base
+										class			= "col-xs-8"
+										activado		= "false"
+										tipo			= "'combobox-medio-pago'"
+										id-actual		= "invAPV.datosForm.IdMedioPagoRVActual"
+										id-defecto		= "invAPV.datosForm.IdMedioPagoRVActualDefecto"
+										seleccionado	= "invAPV.datosForm.MedioPagoRVSeleccionado" 
+										filtros			= "invAPV.datosForm.filtroMedioPagoRV">
+								</bcs-combobox-base>	
+						  	</div>
+						  	<div class="row">
+								<label class="col-xs-4" translate>UI_SALDO_CAJA</label>
+								<bcs-saldo-cta-inversion
+									class="col-xs-8"
+									uso = "'ORDENES_DE_COMPRA'"
+									id-moneda = "invAPV.datosForm.IdMonedaLiquidacion"
+									id-portafolio = "invAPV.datosForm.IdPortafolio"
+									fecha-saldo = "invAPV.datosForm.fechaLiquidacion"
+									>
+								</bcs-saldo-cta-inversion>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_SALDO_CUSTODIA</label>
+								<bcs-saldo-custodia
+									class="col-xs-8"
+									modo					= "FLJORD"
+									filtro-flujo-custodia	= "FLUJO_ORDEN"
+									id-boveda 				= "invAPV.datosForm.bovedaSeleccionada.IdBoveda"
+									id-instrumento 			= "invAPV.datosForm.instrumento.IdInstrumento"
+									id-portafolio 			= "invAPV.datosForm.IdPortafolio"						
+									id-tipo-operacion 		= "'COMACN'"						
+									fecha-saldo 			= "invAPV.datosForm.fechaLiquidacion">
+								</bcs-saldo-cta-inversion>
+							</div>
+<!--  				BOTONES	RENTA  VARIABLE							 -->
+
+							<div class="row">
+								<div class="row bcs-panel-comandos">
+									<div class=col-xs-12>
+										<div class="col-xs-offset-4 col-xs-8">
+										<bcs-button class="col-xs-6" id="invAPV_ingresar"
+											bcs-tipo="'bcs-button-input-form'" 
+											bcs-auto-desactivar = "false" 
+											bcs-texto			= "'UI_INGRESAR' | translate" 
+											bcs-habilitado		= "'true'" 
+											bcs-clic			= "invAPV.fn.ingresarOrdenRV()"
+											>
+										</bcs-button>	
+										<bcs-button 
+											class				= "col-xs-6" 
+											id					= "invAPV_limpiar"
+											bcs-tipo			= "'bcs-button-input-form'" 
+											bcs-auto-desactivar	= "false" 
+											bcs-texto			= "'UI_LIMPIAR' | translate" 
+											bcs-habilitado		= "'true'" 							
+											bcs-clic			= "invAPV.fn.limpiarDatosRV()"
+											>
+										</bcs-button>
+										</div>
+									</div>
+								</div>
+							</div>				
+						</uib-tab> 
+							
+		<!--		TAB 2							-->
+	<!-- 			FONDOS MUTUOS 						-->
+						<uib-tab heading="{{'UI_FONDOS_MUTUOS' | translate}}" select = "invAPV.fn.seleccionTab('FM')"> 
+							<div class="row"></div>
+								<div class="row"></div>								
+								<div class="row">
+									<div class="col-xs-11">
+										<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+										<div class="col-xs-7">
+											<bcs-combobox-base
+												id				= "BUSCADOR_SERIE_FONDO"
+												bcs-requerido	= "'true'"
+												tipo			= "'combobox-instrumento-ffmm'"
+												id-actual		= "invAPV.datosForm.Instrumentonemotecnico"
+												id-defecto		= "invAPV.datosForm.InstrumentoidDefecto"
+												seleccionado	= "invAPV.datosForm.InstrumentoSeleccionado"
+												todos			= "'N'">
+											</bcs-combobox-base>
+											<div>
+												<span ng-show="invAPV.datosForm.InstrumentoSeleccionado">VC: {{invAPV.datosForm.InstrumentoSeleccionado.IdMoneda}} {{invAPV.datosForm.InstrumentoSeleccionado.ValorFormato}}<br/></span>
+												<div ng-show="invAPV.datosForm.InstrumentoSeleccionado.ValorFormato <= 0"><span class="red-font" translate>{{'UI_NO_EXISTE_VALOR_CUOTA'}}</span><br/></div>
+												<span ng-show="invAPV.datosForm.InstrumentoSeleccionado.NombreSerieFondo">{{invAPV.datosForm.InstrumentoSeleccionado.NombreSerieFondo}}<br/></span>
+												<span ng-show="invAPV.datosForm.InstrumentoSeleccionado.MoneyMarket">MoneyMarket: {{invAPV.datosForm.InstrumentoSeleccionado.EsMoneyMarketUI | translate}}</span>
+											</div>
+										</div> 
+									</div>
+								</div>		
+								<div class="row">
+									<div class="col-xs-11">
+										<label class="col-xs-4" translate>UI_AUTORIZADOR</label>
+										<bcs-combobox-base
+												class			= "col-xs-7"
+												bcs-requerido 	= "invAPV.datosForm.Portafolioseleccionado.portafolio.TipoPersona === 'J'"
+												tipo			= "'combobox-autorizado-dar-ordenes'"
+												id-actual		= "invAPV.datosForm.idAutorizadoDarOrdenes"
+												id-defecto		= "invAPV.datosForm.idAutorizadoDarOrdenesDefecto"
+												seleccionado	= "invAPV.datosForm.autorizadoDarOrdenesSeleccionado" 
+												filtros			= "invAPV.datosForm.FiltrosAutorizarOrden"	>
+										</bcs-combobox-base>	
+									</div>
+								</div>																											
+								<div class="row">
+									<span class="col-xs-11">
+										<label class="col-xs-4" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+										<em class="col-xs-4" style="text-decoration: underline;" ng-show="!masInformacion" ng-click="masInformacion = !masInformacion">({{'+' | translate}})</em>
+										<em class="col-xs-4" style="text-decoration: underline;" ng-show="masInformacion" ng-click="masInformacion = !masInformacion">({{'-' | translate}})</em>
+									</span>
+								</div>												
+								<div class="row" ng-show="masInformacion">
+									<div class="row">
+									  	<label class="col-xs-3" translate>UI_TIPO_FONDO</label> 
+								  		<label class="col-xs-3">{{invAPV.datosForm.InstrumentoSeleccionado.NombreCorto}}</label>
+								  		<label class="col-xs-3" translate>UI_PERFIL</label> 
+								  		<label class="col-xs-3">{{invAPV.datosForm.InstrumentoSeleccionado.IdCategoriaPerfilFondoMutuo}}</label>
+									</div>
+									<div class="row">
+									  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+								  		<label class="col-xs-3">{{invAPV.datosForm.InstrumentoSeleccionado.NombreRegimen}}</label>
+								  		<label class="col-xs-3" translate>UI_PROPOSITO_SERIE</label> 
+								  		<label class="col-xs-3">{{invAPV.datosForm.InstrumentoSeleccionado.NombreProposito}}</label>
+									</div>
+									<div class="row">
+									  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.EsComisionSalidaUI}}</label>
+								  		<label class="col-xs-3" translate>UI_MINIMO_PATRIMONIO</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.EsPatrimonioMinimoUI}}</label>
+									</div>
+									<div class="row">
+									  	<label class="col-xs-3" translate>UI_BLOQUEO_APORTE</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.BloqueoAporteUI}}</label>
+								  		<label class="col-xs-3" translate>UI_BLOQUEO_RESCATE</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.BloqueoRescateUI}}</label>
+									</div>
+									<div class="row">
+									  	<label class="col-xs-3" translate>UI_ESTADO_APORTE_COMERCIAL</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.EstadoAporteComercialUI}}</label>
+								  		<label class="col-xs-3" translate>UI_ESTADO_APORTE_BACKOFFICE</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.EstadoAporteBackOfficeUI}}</label>
+									</div>
+									<div class="row">
+									  	<label class="col-xs-3" translate>UI_ESTADO_RESCATE_COMERCIAL</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.EstadoRescateComercialUI}}</label>
+								  		<label class="col-xs-3" translate>UI_ESTADO_RESCATE_BACKOFFICE</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.EstadoRescateBackOfficeUI}}</label>
+									</div>
+									<div class="row">
+									  	<label class="col-xs-3" translate>UI_ESTADO_REINVERSION_COMERCIAL</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.EstadoReinversionComercialUI}}</label>
+								  		<label class="col-xs-3" translate>UI_ESTADO_REINVERSION_BACKOFFICE</label> 
+								  		<label class="col-xs-3" translate>{{invAPV.datosForm.InstrumentoSeleccionado.EstadoReinversionBackofficeUI}}</label>
+									</div>
+								</div>	
+
+								<div class="row" ng-if="invAPV.datosForm.InstrumentoSeleccionado.Diferido">
+									<div class="col-xs-11">
+				  						<label class="col-xs-4" translate>UI_MONEDA</label>
+								  		<bcs-combobox-base 
+											class			= "col-xs-5"
+											id				= "UI_MONEDA"
+											bcs-requerido	= "invAPV.datosForm.InstrumentoSeleccionado.Diferido === 'S'"
+										 	auto-cargar		= "'true'"
+										 	id-actual		= "invAPV.datosForm.IdMonedaAporte"
+										 	id-defecto		= "invAPV.datosForm.IdMoneda"
+										 	filtros			= "invAPV.ConfiguracionCmbo.filtrosCuentaInversion.filtros"
+										 	tipo			= "'combobox-moneda-cuenta-inversion-ffmm'"
+										 	ng-if			= "invAPV.datosForm.InstrumentoSeleccionado.Diferido === 'S'">
+										</bcs-combobox-base>
+										<bcs-input-texto 
+											class			= "col-xs-5"
+									 		k-ng-disabled	= "'true'"
+									 		ng-model		= "invAPV.datosForm.IdMonedaAporte"
+									 		ng-if			= "invAPV.datosForm.InstrumentoSeleccionado.Diferido === 'N'"
+									 	>
+									 	</bcs-input-texto>									 		
+							  		</div>
+						  		</div>
+								
+								<div class="row">
+									<div class="col-xs-11">
+								  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+							  		<bcs-input-monetario class="col-xs-7"
+							  			id="UI_MONTO_INICIAL"
+							  			k-ng-model	="invAPV.datosForm.kngMontoInicial"
+							  			bcs-requerido
+							  			decimales 	="invAPV.datosForm.InstrumentoSeleccionado.decimalesCantidad"
+										simbolo		="invAPV.datosForm.IdMonedaAporte">
+							  		</bcs-input-monetario> 
+							  		</div>
+						  		</div>
+								<div class="row">
+									<div class="col-xs-11">
+								  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+							  		<bcs-input-numero 
+							  			class			= "col-xs-7"
+							  			id				= "UI_NUMERO_CUOTAS"
+										decimales 		= "invAPV.datosForm.InstrumentoSeleccionado.decimalesCantidad"
+										k-ng-model		= "invAPV.datosForm.kngNumeroCuotas"
+										k-ng-disabled	= "'true'">
+									</bcs-input-numero> 
+									</div>
+						  		</div>
+						  		<div class="row">
+							  		<div class="col-xs-11">
+								  		<bcs-fechas-solicitud-fondo
+											fecha-emision = "invAPV.datosForm.InstrumentoSeleccionado.FechaFondo"
+											id-serie-fondo = "invAPV.datosForm.InstrumentoSeleccionado.IdSerieFondo"
+											traspaso = "'N'"
+											tipo-solicitud="'APO'"
+											mostrar-fecha-aceptacion="'true'"
+											mostrar-fecha-valor-cuota="'true'"
+											mostrar-fecha-certificacion="'true'"
+											mostrar-fecha-liquidacion="'true'"
+											fecha-aceptacion-saldo = "invAPV.datosForm.fechaAceptacion">
+										</bcs-fechas-solicitud-fondo>
+							  		</div>
+						  		</div>
+						  		<div class="row">
+									<div class="col-xs-11">
+									  	<label class="col-xs-4" translate>UI_MEDIO_PAGO</label> 
+								  		<bcs-combobox-base
+												class			= "col-xs-7"
+												activado		= "false"
+												tipo			= "'combobox-medio-pago'"
+												id-actual		= "invAPV.datosForm.IdMedioPagoFMActual"
+												id-defecto		= "invAPV.datosForm.IdMedioPagoFMActualDefecto"
+												seleccionado	= "invAPV.datosForm.MedioPagoFMSeleccionado" 
+												filtros			= "invAPV.datosForm.filtroMedioPagoFM">
+										</bcs-combobox-base>	
+									</div>
+						  		</div>
+						  		<div class="row">
+						  			<div class="col-xs-11">
+							  			<label class="col-xs-4" translate>UI_SALDO_CAJA</label>
+										<bcs-saldo-cta-inversion
+											class="col-xs-7"
+											uso = "'INGRESO_APORTE_FMM'"
+											id-moneda = "invAPV.datosForm.IdMonedaAporte"
+											id-portafolio = "invAPV.datosForm.IdPortafolio"
+											fecha-saldo = "invAPV.datosForm.fechaAceptacion"
+										>
+										</bcs-saldo-cta-inversion>
+									</div>
+						  		</div>	
+								<!-- 	BOTONES FONDOS MUTUOS		-->
+								<div class="row">
+									<div class="row bcs-panel-comandos">
+										<div class=col-xs-12>
+											<div class="col-xs-offset-4 col-xs-8">
+												<bcs-button class="col-xs-6" id="invAPV_ingresar"
+													bcs-tipo="'bcs-button-input-form'" 
+													bcs-auto-desactivar = "false" 
+													bcs-texto			= "'UI_INGRESAR' | translate" 
+													bcs-habilitado		= "invAPV.datosForm.kngNumeroCuotas > 0" 
+													bcs-clic			= "invAPV.fn.IngresaOrdenesFM(invAPV.datasource.SaldoCuentaInversionSeleccion)"
+													>
+												</bcs-button>	
+												<bcs-button 
+													class				= "col-xs-6" 
+													id					= "invAPV_limpiar"
+													bcs-tipo			= "'bcs-button-input-form'" 
+													bcs-auto-desactivar	= "false" 
+													bcs-texto			= "'UI_LIMPIAR' | translate" 
+													bcs-habilitado		= "'true'" 							
+													bcs-clic			= "invAPV.fn.limpiarDatosFM()"
+													>
+												</bcs-button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</uib-tab> 							
+						</uib-tabset>
+						<!-- FIN TABS -->
+					</div>
+					<br>			
+					<!-- 	GRILLAS 	-->
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="col-xs-12">											
+								<strong class="col-xs-4"  translate="">UI_SALDO_CUENTA_INVERSION</strong>
+								<div class="col-xs-12">
+									<bcs-grid 
+										id					= "gridinvAPVSaldos"
+										configuracion 		= "invAPV.datasource.SaldoCuentaInversion"
+										seleccionado 		= "invAPV.datasource.SaldoCuentaInversionSeleccion"
+										fn-exportar-excel	= "excelGestionContratosSAAPV"
+										fn-click			= "invAPV.fn.SaldoCajaCustodia()"
+									>
+									</bcs-grid>
+								</div>
+							</div>
+						</div>	
+					</div>			
+				</div>
+				<div class="row">
+					<div class="col-xs-6"></div>
+					<div class="col-xs-6">
+						<div>
+							<strong class="col-xs-3" translate="">UI_SALDO</strong>
+							<bcs-input-numero 
+								class		= "col-xs-3" 
+								id			= "UI_SALDO"
+								k-ng-model	= "invAPV.datosForm.kngSaldoTotal"
+								decimales	= "0"
+							>								
+							</bcs-input-numero>	
+						</div>
+						<div></div>
+						<div>
+							<strong class="col-xs-3" translate="">UI_SALDO_DISPONIBLE</strong>
+							<bcs-input-numero 
+								class		= "col-xs-3" 
+								id			= "UI_SALDO_DISPONIBLE"
+								k-ng-model	= "invAPV.datosForm.kngSaldoTotalInvertido"
+								decimales	= "0"
+								>								
+							</bcs-input-numero>
+						</div>
+					</div> 				
+				</div>
+				<br>
+				<!-- 	GRILLAS 	-->
+				<div class="row">
+					<div class="col-xs-12">
+						<bcs-grid id			= "gridinvAPV"
+							configuracion 		= "invAPV.datasource.Ordenes"
+							seleccionado 		= "invAPV.datasource.OrdenesSeleccion"							
+							fn-exportar-excel	= "excelGestionContratosSAAPV"
+						> 
+						</bcs-grid>
+					</div>
+				</div>
+				<br>			
+				<div class="row col-xs-12 alignButtonsToRight">
+					<bcs-button class				= "col-xs-3" 
+									id					= "UI_ENVIAR"
+									bcs-tipo			= "'bcs-button-primary'" 
+									bcs-auto-desactivar	= "false" 
+									bcs-texto			= "'UI_ENVIAR' | translate" 
+									bcs-habilitado		= "'true'" 							
+									bcs-clic			= "invAPV.fn.enviarInversion()"
+						>
+						<bcs-button class				= "col-xs-3" 
+									id					= "UI_ELIMINAR"
+									bcs-tipo			= "'bcs-button-secondary'" 
+									bcs-auto-desactivar	= "false" 
+									bcs-texto			= "'UI_ELIMINAR' | translate" 
+									bcs-habilitado		= "invAPV.datasource.OrdenesSeleccion" 							
+									bcs-clic			= "invAPV.fn.EliminaOrden(invAPV.datasource.OrdenesSeleccion)"
+						>
+				</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,82 @@
+<div id="BlotterCargaOperacionFFM" class="col-xs-12" ng-controller="BlotterCargaOperacionFFMCtrl">
+	<div class="row bcs-cuerpo">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+				  		<label class="col-xs-4" translate>UI_EMISOR</label> 
+				  		<bcs-combobox-base class="col-xs-6"
+				  			tipo="'combobox-emisor'"
+				  			id-actual="filtros.IdEmisor"
+				  			filtros="formData.filtrosEmisor"
+				  			todos="'S'" 
+				  			id-defecto="'0'">
+				  		</bcs-combobox-base> 
+			  		</div>
+					<div class="col-xs-4">
+				  		<label class="col-xs-4 col-xs-offset-1" translate>UI_TIPO_OPERACION</label>
+				  		<bcs-combobox-base class="col-xs-6"
+				  				tipo="'combobox-tipo-operacion-ffmm'"
+					  			id-actual="filtros.IdTipoMovimientoCarga"
+					  			id-defecto="'0'"
+					  			seleccionado="filtros.tipoOperacion"
+					  			filtros="oConfiguracionTipoOperacion.filtros"
+					  			todos="'S'"
+					  			item-post-filtro="'1'">
+				  		</bcs-combobox-base> 
+			  		</div>
+			  		<div class="col-xs-4">
+				  		<label class="col-xs-4 col-xs-offset-1" translate>UI_INSTRUMENTO</label> 
+				  		<bcs-combobox-buscador-fondos class="col-xs-6" 
+							muestra-valor-cuota = "'N'"
+							datos-fondo="filtros.FondoMutuo"
+							buscar-fondo="formData.setFondo"
+							id-ventana="winID">
+						</bcs-combobox-buscador-fondos>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarOperacionesCarga(apiGrid,filtros)"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+	  		</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-carga-operaciones-ffm"
+			 	configuracion="defaultOptions"
+				api = "apiGrid"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-3" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CARGA_OPERACIONES' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="cargaOperacionesFFM()">
+			</bcs-button>
+			<bcs-button class="col-xs-4" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_RESUMEN_CARGA_OPERACIONES' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="resumenCargaOperacionesFFM()">
+			</bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

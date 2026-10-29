@@ -1,0 +1,92 @@
+<div id="PanelContratos" class="row" ng-controller="PanelContratosCtrl as panelContratos">
+	<div class="row bcs-cuerpo">
+	   	<div class="row">
+			<div class="col-xs-10">
+				 <div class="row">
+					<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label> 
+			  		<bcs-combobox-base 					
+					 	class="col-xs-8"
+					 	tipo="'combobox-cliente-portafolio'"
+						id-actual = "panelContratos.filtros.IdPortafolio"
+						id-defecto="'0'">
+					</bcs-combobox-base >
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="panelContratos.buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="panelContratos.limpiarFiltros()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-consulta-contratos"
+			 	configuracion="panelContratos.configuracionGrillaContratos"
+				seleccionado="panelContratos.datos.kNgModel"
+				fn-exportar-excel = "exportarExcel"
+				k-on-change="handleChange(event)">	
+				
+			<div bcs-grid-detail ng-non-bindable>
+				<div style="width: 1000px;">
+					<uib-tabset> <uib-tab
+						heading="{{'UI_DETALLE' | translate}}"> <bcs-grid
+						id="grid-consulta-detalles-comision" 
+						configuracion="panelContratos.configuracionGrillaDetalleComision(panelContratos.datos.kNgModel)"
+						seleccionado="panelContratos.dataItem.kNgModel"> </bcs-grid> 
+					</bcs-grid> 
+					<div class="row">
+						<div class=col-xs-9>
+							<bcs-button class="col-xs-2"
+								bcs-tipo="'principal'" 
+								bcs-auto-desactivar="false"
+								bcs-texto="'UI_AGREGAR_DETALLE' | translate" 
+								bcs-habilitado="panelContratos.datos.kNgModel"
+								bcs-clic="panelContratos.crearDetalle(panelContratos.datos.kNgModel);">
+							</bcs-button>
+							<bcs-button class="col-xs-2"
+								bcs-tipo="'principal'" 
+								bcs-auto-desactivar="false"
+								bcs-texto="'UI_EDITAR_DETALLE' | translate" 
+								bcs-habilitado="panelContratos.dataItem.kNgModel"
+								bcs-clic="panelContratos.editarDetalle(panelContratos.dataItem.kNgModel);">
+							</bcs-button>
+							<bcs-button class="col-xs-2"
+								bcs-tipo="'principal'" 
+								bcs-auto-desactivar="false"
+								bcs-texto="'UI_ELIMINAR_DETALLE' | translate" 
+								bcs-habilitado="panelContratos.dataItem.kNgModel"
+								bcs-clic="panelContratos.eliminarDetalle(panelContratos.dataItem.kNgModel);">
+							</bcs-button>
+						</div>
+						<div class="col-xs-1"></div>
+					</div>
+					</uib-tab> </uib-tabset>
+				</div>
+			</div>
+			</bcs-grid>		
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button 			
+				class="col-xs-2" 
+				bcs-tipo="'principal'"   
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_NUEVO' | translate" 
+				bcs-habilitado="'true'"  
+				bcs-clic="panelContratos.crear();">
+			</bcs-button>
+			<bcs-button class="col-xs-2"
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_EDITAR' | translate" 
+				bcs-habilitado="panelContratos.datos.kNgModel"
+				bcs-clic="panelContratos.editar(panelContratos.datos.kNgModel);">
+			</bcs-button>
+		</div>
+		<div class="col-xs-1"></div>
+	</div>
+</div>

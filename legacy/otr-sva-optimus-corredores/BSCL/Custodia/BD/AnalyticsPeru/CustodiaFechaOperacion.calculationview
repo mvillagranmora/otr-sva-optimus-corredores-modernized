@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CustodiaFechaOperacion" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Consulta de Custodia de un Portafolio con parametros de entrada."/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoFechaConsulta" length="3"/>
+        <viewAttribute datatype="CHAR" id="FechaCustodia" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdClasificacionTipoInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreClasificacionTipoInstrumento" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoInstrumento" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="ISIN" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdInstrumento"/>
+        <viewAttribute datatype="NVARCHAR" id="Nemotecnico" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEmisor" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="EsFungible" length="1"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCliente" length="302"/>
+        <viewAttribute datatype="NVARCHAR" id="Rut" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoDocumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidad" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdBoveda" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroCuentaBoveda" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="Relacion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="DescripcionRelacion" length="100"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadCustodia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PPPCustodia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorPPPCustodia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoPPPCustodia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioMercadoCustodia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="Rentabilidad" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorMercadoCustodia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoMercadoCustodia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="DiferenciaMercadoCustodia" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaReajuste" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="EsPagaderoEn" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadSimulCom" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PPPSimulCom" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorPPPSimulCom" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioMercadoSimulCom" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorMercadoSimulCom" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="DiferenciaMercadoSimulCom" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadSimulVen" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PPPSimulVen" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorPPPSimulVen" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioMercadoSimulVen" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorMercadoSimulVen" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="DiferenciaMercadoSimulVen" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadPrestamo" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PPPPrestamo" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorPPPPrestamo" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioMercadoPrestamo" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorMercadoPrestamo" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="DiferenciaMercadoPrestamo" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadEmpresti" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PPPEmpresti" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorPPPEmpresti" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioMercadoEmpresti" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorMercadoEmpresti" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="DiferenciaMercadoEmpresti" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadGarantia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PPPGarantia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorPPPGarantia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioMercadoGarantia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="ValorMercadoGarantia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="DiferenciaMercadoGarantia" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadTransIng" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="CantidadTransEgr" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="TotalPosicion" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="TotalPosicionPresunta" length="26" scale="8"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition>  /********* Begin Procedure Script ************/ &#xD;
+ BEGIN &#xD;
+ 	&#xD;
+	 /**************************************&#xD;
+	 * CONSUMO DATOS CENTRALIZADOS&#xD;
+	 * EN PROCEDIMIENTO ALMACENADO&#xD;
+	 * (Para no hacer lo mismo N veces!!!)&#xD;
+	 **************************************/&#xD;
+	 var_out = &#xD;
+	 select&#xD;
+		 cast(&quot;IdEmpresa&quot; as bigint)				 			as &quot;IdEmpresa&quot;&#xD;
+		,cast(&quot;TipoFechaConsulta&quot; as nvarchar(3)) 				as &quot;TipoFechaConsulta&quot;&#xD;
+		,cast(&quot;FechaCustodia&quot; as nvarchar(10)) 					as &quot;FechaCustodia&quot;&#xD;
+		,CASE WHEN &quot;IdClasificacionTipoInstrumento&quot; = '' THEN NULL ELSE cast(&quot;IdClasificacionTipoInstrumento&quot; as nvarchar(3)) END	as &quot;IdClasificacionTipoInstrumento&quot; &#xD;
+		,cast(&quot;NombreClasificacionTipoInstrumento&quot; as nvarchar(100)) as &quot;NombreClasificacionTipoInstrumento&quot;&#xD;
+		,CASE WHEN &quot;IdTipoInstrumento&quot; = '' THEN NULL ELSE cast(&quot;IdTipoInstrumento&quot; as nvarchar(3)) END as &quot;IdTipoInstrumento&quot; &#xD;
+		,cast(&quot;NombreTipoInstrumento&quot; as nvarchar(100)) 		as &quot;NombreTipoInstrumento&quot; &#xD;
+		,cast(&quot;ISIN&quot; as nvarchar(40)) 							as &quot;ISIN&quot;&#xD;
+		,CASE WHEN &quot;IdInstrumento&quot; = 0 THEN NULL ELSE cast(&quot;IdInstrumento&quot; as bigint) END as &quot;IdInstrumento&quot; &#xD;
+		,cast(&quot;Nemotecnico&quot; as nvarchar(40)) 					as &quot;Nemotecnico&quot; &#xD;
+		,CASE WHEN &quot;IdEmisor&quot; = '' THEN NULL ELSE cast(&quot;IdEmisor&quot; as nvarchar(40)) END as &quot;IdEmisor&quot; &#xD;
+		,cast(&quot;EsFungible&quot; as nvarchar(1)) 						as &quot;EsFungible&quot; &#xD;
+		,CASE WHEN &quot;IdCliente&quot; = 0 THEN NULL ELSE cast(&quot;IdCliente&quot; as bigint) END as &quot;IdCliente&quot; &#xD;
+		,CASE WHEN &quot;IdPortafolio&quot; = 0 THEN NULL ELSE cast(&quot;IdPortafolio&quot; as bigint) END as &quot;IdPortafolio&quot; &#xD;
+		,cast(&quot;NombreCliente&quot; as nvarchar(302)) 				as &quot;NombreCliente&quot; &#xD;
+		,cast(&quot;DocumentoIdentidadRutCavali&quot; as NVARCHAR(40))	as &quot;Rut&quot;&#xD;
+		,cast(&quot;TipoDocumento&quot; as NVARCHAR(3))					as &quot;TipoDocumento&quot;&#xD;
+		,cast(&quot;Rut&quot; as nvarchar(40)) 							as &quot;DocumentoIdentidad&quot; &#xD;
+		,cast(&quot;CodigoPortafolio&quot; as nvarchar(100)) 				as &quot;CodigoPortafolio&quot; &#xD;
+		,CASE WHEN &quot;IdBoveda&quot; = '' THEN NULL ELSE cast(&quot;IdBoveda&quot; as nvarchar(3)) END as &quot;IdBoveda&quot; &#xD;
+		,cast(&quot;NumeroCuentaBoveda&quot; as nvarchar(40)) 			as &quot;NumeroCuentaBoveda&quot;&#xD;
+		,cast(&quot;Relacion&quot; as nvarchar(100)) 						as &quot;Relacion&quot; &#xD;
+		,cast(&quot;DescripcionRelacion&quot; as nvarchar(100)) 			as &quot;DescripcionRelacion&quot; &#xD;
+	--CUSTODIA&#xD;
+		,cast(&quot;CantidadCustodia&quot; as decimal(26,8)) 				as &quot;CantidadCustodia&quot; &#xD;
+		,cast(&quot;PPPCustodia&quot; as decimal(26,8)) 					as &quot;PPPCustodia&quot; &#xD;
+		,cast(&quot;ValorPPPCustodia&quot; as decimal(26,8)) 				as &quot;ValorPPPCustodia&quot; &#xD;
+		,cast(&quot;MontoPPPCustodia&quot; as decimal(26,8))	 			as &quot;MontoPPPCustodia&quot; &#xD;
+		,cast(&quot;PrecioMercadoCustodia&quot; as decimal(26,8)) 		as &quot;PrecioMercadoCustodia&quot;&#xD;
+		--,cast(&quot;PrecioCompraCustodia&quot; as decimal(26,8)) 			as &quot;PrecioCompraCustodia&quot;&#xD;
+		,cast(&quot;Rentabilidad&quot; as decimal(26,8)) 					as &quot;Rentabilidad&quot;&#xD;
+		,cast(&quot;ValorMercadoCustodia&quot; as decimal(26,8)) 			as &quot;ValorMercadoCustodia&quot;&#xD;
+		,cast(&quot;MontoMercadoCustodia&quot; as decimal(26,8)) 			as &quot;MontoMercadoCustodia&quot;&#xD;
+		,cast(&quot;DiferenciaMercadoCustodia&quot; as decimal(26,8)) 	as &quot;DiferenciaMercadoCustodia&quot;&#xD;
+		,CASE WHEN &quot;IdMonedaInstrReajuste&quot; &lt;> '' THEN cast(&quot;IdMonedaInstrReajuste&quot; as nvarchar(3)) else '' END as &quot;IdMonedaReajuste&quot;&#xD;
+		,cast(&quot;EsPagaderoEn&quot; as nvarchar(3)) 					as &quot;EsPagaderoEn&quot;&#xD;
+	--SIMULTANEA COMPRA&#xD;
+		,cast(&quot;CantidadSimulCom&quot; as decimal(26,8)) 				as &quot;CantidadSimulCom&quot; &#xD;
+		,cast(&quot;PPPSimulCom&quot; as decimal(26,8)) 					as &quot;PPPSimulCom&quot; &#xD;
+		,cast(&quot;ValorPPPSimulCom&quot; as decimal(26,8)) 				as &quot;ValorPPPSimulCom&quot; &#xD;
+		,cast(&quot;PrecioMercadoSimulCom&quot; as decimal(26,8)) 		as &quot;PrecioMercadoSimulCom&quot;&#xD;
+		,cast(&quot;ValorMercadoSimulCom&quot; as decimal(26,8)) 			as &quot;ValorMercadoSimulCom&quot;&#xD;
+		,cast(&quot;DiferenciaMercadoSimulCom&quot; as decimal(26,8)) 	as &quot;DiferenciaMercadoSimulCom&quot;&#xD;
+	--SIMULTANEA VENTA&#xD;
+		,cast(&quot;CantidadSimulVen&quot; as decimal(26,8)) 				as &quot;CantidadSimulVen&quot; &#xD;
+		,cast(&quot;PPPSimulVen&quot; as decimal(26,8)) 					as &quot;PPPSimulVen&quot; &#xD;
+		,cast(&quot;ValorPPPSimulVen&quot; as decimal(26,8)) 				as &quot;ValorPPPSimulVen&quot; &#xD;
+		,cast(&quot;PrecioMercadoSimulVen&quot; as decimal(26,8)) 		as &quot;PrecioMercadoSimulVen&quot;&#xD;
+		,cast(&quot;ValorMercadoSimulVen&quot; as decimal(26,8)) 			as &quot;ValorMercadoSimulVen&quot;&#xD;
+		,cast(&quot;DiferenciaMercadoSimulVen&quot; as decimal(26,8)) 	as &quot;DiferenciaMercadoSimulVen&quot;&#xD;
+	--PRESTAMO&#xD;
+		,cast(&quot;CantidadPrestamo&quot; as decimal(26,8)) 				as &quot;CantidadPrestamo&quot; &#xD;
+		,cast(&quot;PPPPrestamo&quot; as decimal(26,8)) 					as &quot;PPPPrestamo&quot; &#xD;
+		,cast(&quot;ValorPPPPrestamo&quot; as decimal(26,8)) 				as &quot;ValorPPPPrestamo&quot; &#xD;
+		,cast(&quot;PrecioMercadoPrestamo&quot; as decimal(26,8)) 		as &quot;PrecioMercadoPrestamo&quot;&#xD;
+		,cast(&quot;ValorMercadoPrestamo&quot; as decimal(26,8)) 			as &quot;ValorMercadoPrestamo&quot;&#xD;
+		,cast(&quot;DiferenciaMercadoPrestamo&quot; as decimal(26,8)) 	as &quot;DiferenciaMercadoPrestamo&quot;&#xD;
+	--EMPRESTITO&#xD;
+		,cast(&quot;CantidadEmpresti&quot; as decimal(26,8)) 				as &quot;CantidadEmpresti&quot; &#xD;
+		,cast(&quot;PPPEmpresti&quot; as decimal(26,8)) 					as &quot;PPPEmpresti&quot; &#xD;
+		,cast(&quot;ValorPPPEmpresti&quot; as decimal(26,8)) 				as &quot;ValorPPPEmpresti&quot; &#xD;
+		,cast(&quot;PrecioMercadoEmpresti&quot; as decimal(26,8)) 		as &quot;PrecioMercadoEmpresti&quot;&#xD;
+		,cast(&quot;ValorMercadoEmpresti&quot; as decimal(26,8)) 			as &quot;ValorMercadoEmpresti&quot;&#xD;
+		,cast(&quot;DiferenciaMercadoEmpresti&quot; as decimal(26,8)) 	as &quot;DiferenciaMercadoEmpresti&quot;&#xD;
+	--GARANTIA&#xD;
+		,cast(&quot;CantidadGarantia&quot; as decimal(26,8)) 				as &quot;CantidadGarantia&quot; &#xD;
+		,cast(&quot;PPPGarantia&quot; as decimal(26,8)) 					as &quot;PPPGarantia&quot; &#xD;
+		,cast(&quot;ValorPPPGarantia&quot; as decimal(26,8)) 				as &quot;ValorPPPGarantia&quot; &#xD;
+		,cast(&quot;PrecioMercadoGarantia&quot; as decimal(26,8)) 		as &quot;PrecioMercadoGarantia&quot;&#xD;
+		,cast(&quot;ValorMercadoGarantia&quot; as decimal(26,8)) 			as &quot;ValorMercadoGarantia&quot;&#xD;
+		,cast(&quot;DiferenciaMercadoGarantia&quot; as decimal(26,8)) 	as &quot;DiferenciaMercadoGarantia&quot;&#xD;
+	--INGRESO&#xD;
+		,cast(&quot;CantidadTransIng&quot; as decimal(26,8)) 				as &quot;CantidadTransIng&quot; &#xD;
+	--EGRESO&#xD;
+		,cast(&quot;CantidadTransEgr&quot; as decimal(26,8)) 				as &quot;CantidadTransEgr&quot; &#xD;
+	--TOTALIZADORES&#xD;
+		,cast(&quot;TotalPosicion&quot; as decimal(26,8)) 				as &quot;TotalPosicion&quot;    &#xD;
+		,cast(&quot;TotalPosicionPresunta&quot; as decimal(26,8)) 		as &quot;TotalPosicionPresunta&quot;&#xD;
+		&#xD;
+	 from &quot;BSCL.Custodia.BD.Vistas::ConsultarCustodiaPortafolioAnalitica&quot; WITH PARAMETERS(&#xD;
+		'PLACEHOLDER' = ('$$p_idempresa$$','1'),&#xD;
+		'PLACEHOLDER' = ('$$p_fechaconsulta$$','0001-01-01'),&#xD;
+		'PLACEHOLDER' = ('$$p_tipofechaconsulta$$','ADQ')&#xD;
+);&#xD;
+	 &#xD;
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdEmpresa" order="1">
+        <descriptions defaultDescription="IdEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="TipoFechaConsulta" order="2">
+        <descriptions defaultDescription="TipoFechaConsulta"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoFechaConsulta"/>
+      </attribute>
+      <attribute id="FechaCustodia" order="3">
+        <descriptions defaultDescription="FechaCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCustodia"/>
+      </attribute>
+      <attribute id="IdClasificacionTipoInstrumento" order="4">
+        <descriptions defaultDescription="IdClasificacionTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdClasificacionTipoInstrumento"/>
+      </attribute>
+      <attribute id="NombreClasificacionTipoInstrumento" order="5">
+        <descriptions defaultDescription="NombreClasificacionTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreClasificacionTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdTipoInstrumento" order="6">
+        <descriptions defaultDescription="IdTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoInstrumento"/>
+      </attribute>
+      <attribute id="NombreTipoInstrumento" order="7">
+        <descriptions defaultDescription="NombreTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoInstrumento"/>
+      </attribute>
+      <attribute id="ISIN" order="8">
+        <descriptions defaultDescription="ISIN"/>
+        <keyMapping columnObjectName="Script_View" columnName="ISIN"/>
+      </attribute>
+      <attribute id="IdInstrumento" order="9">
+        <descriptions defaultDescription="IdInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumento"/>
+      </attribute>
+      <attribute id="Nemotecnico" order="10">
+        <descriptions defaultDescription="Nemotecnico"/>
+        <keyMapping columnObjectName="Script_View" columnName="Nemotecnico"/>
+      </attribute>
+      <attribute id="IdEmisor" order="11">
+        <descriptions defaultDescription="IdEmisor"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmisor"/>
+      </attribute>
+      <attribute id="EsFungible" order="12">
+        <descriptions defaultDescription="EsFungible"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsFungible"/>
+      </attribute>
+      <attribute id="IdCliente" order="13">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="14">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="NombreCliente" order="15">
+        <descriptions defaultDescription="NombreCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCliente"/>
+      </attribute>
+      <attribute id="Rut" order="16">
+        <descriptions defaultDescription="Rut"/>
+        <keyMapping columnObjectName="Script_View" columnName="Rut"/>
+      </attribute>
+      <attribute id="TipoDocumento" order="17">
+        <descriptions defaultDescription="TipoDocumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoDocumento"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" order="18">
+        <descriptions defaultDescription="DocumentoIdentidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="CodigoPortafolio" order="19">
+        <descriptions defaultDescription="CodigoPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolio"/>
+      </attribute>
+      <attribute id="IdBoveda" order="20">
+        <descriptions defaultDescription="IdBoveda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdBoveda"/>
+      </attribute>
+      <attribute id="NumeroCuentaBoveda" order="21">
+        <descriptions defaultDescription="NumeroCuentaBoveda"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroCuentaBoveda"/>
+      </attribute>
+      <attribute id="Relacion" order="22">
+        <descriptions defaultDescription="Relacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="Relacion"/>
+      </attribute>
+      <attribute id="DescripcionRelacion" order="23">
+        <descriptions defaultDescription="DescripcionRelacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="DescripcionRelacion"/>
+      </attribute>
+      <attribute id="CantidadCustodia" order="24">
+        <descriptions defaultDescription="CantidadCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadCustodia"/>
+      </attribute>
+      <attribute id="PPPCustodia" order="25">
+        <descriptions defaultDescription="PPPCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="PPPCustodia"/>
+      </attribute>
+      <attribute id="ValorPPPCustodia" order="26">
+        <descriptions defaultDescription="ValorPPPCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorPPPCustodia"/>
+      </attribute>
+      <attribute id="MontoPPPCustodia" order="27">
+        <descriptions defaultDescription="MontoPPPCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoPPPCustodia"/>
+      </attribute>
+      <attribute id="PrecioMercadoCustodia" order="28">
+        <descriptions defaultDescription="PrecioMercadoCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioMercadoCustodia"/>
+      </attribute>
+      <attribute id="Rentabilidad" order="29">
+        <descriptions defaultDescription="Rentabilidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="Rentabilidad"/>
+      </attribute>
+      <attribute id="ValorMercadoCustodia" order="30">
+        <descriptions defaultDescription="ValorMercadoCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorMercadoCustodia"/>
+      </attribute>
+      <attribute id="MontoMercadoCustodia" order="31">
+        <descriptions defaultDescription="MontoMercadoCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoMercadoCustodia"/>
+      </attribute>
+      <attribute id="DiferenciaMercadoCustodia" order="32">
+        <descriptions defaultDescription="DiferenciaMercadoCustodia"/>
+        <keyMapping columnObjectName="Script_View" columnName="DiferenciaMercadoCustodia"/>
+      </attribute>
+      <attribute id="IdMonedaReajuste" order="33">
+        <descriptions defaultDescription="IdMonedaReajuste"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaReajuste"/>
+      </attribute>
+      <attribute id="EsPagaderoEn" order="34">
+        <descriptions defaultDescription="EsPagaderoEn"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsPagaderoEn"/>
+      </attribute>
+      <attribute id="CantidadSimulCom" order="35">
+        <descriptions defaultDescription="CantidadSimulCom"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadSimulCom"/>
+      </attribute>
+      <attribute id="PPPSimulCom" order="36">
+        <descriptions defaultDescription="PPPSimulCom"/>
+        <keyMapping columnObjectName="Script_View" columnName="PPPSimulCom"/>
+      </attribute>
+      <attribute id="ValorPPPSimulCom" order="37">
+        <descriptions defaultDescription="ValorPPPSimulCom"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorPPPSimulCom"/>
+      </attribute>
+      <attribute id="PrecioMercadoSimulCom" order="38">
+        <descriptions defaultDescription="PrecioMercadoSimulCom"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioMercadoSimulCom"/>
+      </attribute>
+      <attribute id="ValorMercadoSimulCom" order="39">
+        <descriptions defaultDescription="ValorMercadoSimulCom"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorMercadoSimulCom"/>
+      </attribute>
+      <attribute id="DiferenciaMercadoSimulCom" order="40">
+        <descriptions defaultDescription="DiferenciaMercadoSimulCom"/>
+        <keyMapping columnObjectName="Script_View" columnName="DiferenciaMercadoSimulCom"/>
+      </attribute>
+      <attribute id="CantidadSimulVen" order="41">
+        <descriptions defaultDescription="CantidadSimulVen"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadSimulVen"/>
+      </attribute>
+      <attribute id="PPPSimulVen" order="42">
+        <descriptions defaultDescription="PPPSimulVen"/>
+        <keyMapping columnObjectName="Script_View" columnName="PPPSimulVen"/>
+      </attribute>
+      <attribute id="ValorPPPSimulVen" order="43">
+        <descriptions defaultDescription="ValorPPPSimulVen"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorPPPSimulVen"/>
+      </attribute>
+      <attribute id="PrecioMercadoSimulVen" order="44">
+        <descriptions defaultDescription="PrecioMercadoSimulVen"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioMercadoSimulVen"/>
+      </attribute>
+      <attribute id="ValorMercadoSimulVen" order="45">
+        <descriptions defaultDescription="ValorMercadoSimulVen"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorMercadoSimulVen"/>
+      </attribute>
+      <attribute id="DiferenciaMercadoSimulVen" order="46">
+        <descriptions defaultDescription="DiferenciaMercadoSimulVen"/>
+        <keyMapping columnObjectName="Script_View" columnName="DiferenciaMercadoSimulVen"/>
+      </attribute>
+      <attribute id="CantidadPrestamo" order="47">
+        <descriptions defaultDescription="CantidadPrestamo"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadPrestamo"/>
+      </attribute>
+      <attribute id="PPPPrestamo" order="48">
+        <descriptions defaultDescription="PPPPrestamo"/>
+        <keyMapping columnObjectName="Script_View" columnName="PPPPrestamo"/>
+      </attribute>
+      <attribute id="ValorPPPPrestamo" order="49">
+        <descriptions defaultDescription="ValorPPPPrestamo"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorPPPPrestamo"/>
+      </attribute>
+      <attribute id="PrecioMercadoPrestamo" order="50">
+        <descriptions defaultDescription="PrecioMercadoPrestamo"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioMercadoPrestamo"/>
+      </attribute>
+      <attribute id="ValorMercadoPrestamo" order="51">
+        <descriptions defaultDescription="ValorMercadoPrestamo"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorMercadoPrestamo"/>
+      </attribute>
+      <attribute id="DiferenciaMercadoPrestamo" order="52">
+        <descriptions defaultDescription="DiferenciaMercadoPrestamo"/>
+        <keyMapping columnObjectName="Script_View" columnName="DiferenciaMercadoPrestamo"/>
+      </attribute>
+      <attribute id="CantidadEmpresti" order="53">
+        <descriptions defaultDescription="CantidadEmprestito"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadEmpresti"/>
+      </attribute>
+      <attribute id="PPPEmpresti" order="54">
+        <descriptions defaultDescription="PPPEmprestito"/>
+        <keyMapping columnObjectName="Script_View" columnName="PPPEmpresti"/>
+      </attribute>
+      <attribute id="ValorPPPEmpresti" order="55">
+        <descriptions defaultDescription="ValorPPPEmprestito"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorPPPEmpresti"/>
+      </attribute>
+      <attribute id="PrecioMercadoEmpresti" order="56">
+        <descriptions defaultDescription="PrecioMercadoEmprestito"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioMercadoEmpresti"/>
+      </attribute>
+      <attribute id="ValorMercadoEmpresti" order="57">
+        <descriptions defaultDescription="ValorMercadoEmprestito"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorMercadoEmpresti"/>
+      </attribute>
+      <attribute id="DiferenciaMercadoEmpresti" order="58">
+        <descriptions defaultDescription="DiferenciaMercadoEmprestito"/>
+        <keyMapping columnObjectName="Script_View" columnName="DiferenciaMercadoEmpresti"/>
+      </attribute>
+      <attribute id="CantidadGarantia" order="59">
+        <descriptions defaultDescription="CantidadGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadGarantia"/>
+      </attribute>
+      <attribute id="PPPGarantia" order="60">
+        <descriptions defaultDescription="PPPGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="PPPGarantia"/>
+      </attribute>
+      <attribute id="ValorPPPGarantia" order="61">
+        <descriptions defaultDescription="ValorPPPGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorPPPGarantia"/>
+      </attribute>
+      <attribute id="PrecioMercadoGarantia" order="62">
+        <descriptions defaultDescription="PrecioMercadoGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioMercadoGarantia"/>
+      </attribute>
+      <attribute id="ValorMercadoGarantia" order="63">
+        <descriptions defaultDescription="ValorMercadoGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorMercadoGarantia"/>
+      </attribute>
+      <attribute id="DiferenciaMercadoGarantia" order="64">
+        <descriptions defaultDescription="DiferenciaMercadoGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="DiferenciaMercadoGarantia"/>
+      </attribute>
+      <attribute id="CantidadTransIng" order="65">
+        <descriptions defaultDescription="CantidadTransIng"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadTransIng"/>
+      </attribute>
+      <attribute id="CantidadTransEgr" order="66">
+        <descriptions defaultDescription="CantidadTransEgr"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadTransEgr"/>
+      </attribute>
+      <attribute id="TotalPosicion" order="67">
+        <descriptions defaultDescription="TotalPosicion"/>
+        <keyMapping columnObjectName="Script_View" columnName="TotalPosicion"/>
+      </attribute>
+      <attribute id="TotalPosicionPresunta" order="68">
+        <descriptions defaultDescription="TotalPosicionPresunta"/>
+        <keyMapping columnObjectName="Script_View" columnName="TotalPosicionPresunta"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

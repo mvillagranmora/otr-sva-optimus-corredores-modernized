@@ -1,0 +1,20 @@
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino"
+(
+"IdReinversionSerieFondo"
+,"IdSolicitudAporteRescate"
+,"IdSerieFondoDestino"
+,"Porcentaje"
+,"IdRegimenTributario"
+,"Switch"
+,"PorcentajeReal"
+,"FechaFinalReinversion"
+)VALUES(
+"BSCL.FondoMutuo.BD.Secuencias::IdReinversionSerieFondo".NEXTVAL
+,:IdSolicitudAporteRescate
+,:IdSerieFondoDestino
+,:Porcentaje
+,:IdRegimenTributario
+,:Switch
+,:PorcentajeReal
+,:FechaFinalReinversion
+)

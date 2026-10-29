@@ -1,0 +1,254 @@
+<div class="col-xs-12" ng-controller="IngresoNominalesMesaRFCtrl">
+	<div class="row bcs-cuerpo">
+		<form name="frmIngresoNominal" class="col-xs-12 form-horizontal">
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+				<bcs-combobox-base class="col-xs-8" 
+					auto-cargar="true"
+					bcs-requerido
+					tipo="dataNominal.oConfiguracionClasificacion.tipo" 
+					configuracion= "dataNominal.oConfiguracionClasificacion.configuracion" 				
+					seleccionado="dataNominal.oConfiguracionClasificacion.seleccionado"
+					filtros="dataNominal.oConfiguracionClasificacion.filtros" 
+					id-actual="dataNominal.oConfiguracionClasificacion.idActual"
+					memoria="'OPERACION'"
+					item-post-filtro="'1'"
+					activado = "dataNominal.valorizar"
+					>
+				</bcs-combobox-base>
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+				<bcs-input-instrumentos class="col-xs-8" 
+					name="uInstrumento" 
+					bcs-requerido
+					datos-instrumento="dataNominal.instrumento"
+					buscar-instrumento="dataNominal.setInstrumento"
+					filtro-clasificacion="dataNominal.oConfiguracionClasificacion.idActual" 
+					filtro-estado = "'ACT'"
+					filtro-solo-vigentes = "'S'"
+					filtro-moneda = "dataNominal.oConfiguracionClasificacion.idActual==='RF'?dataNominal.IdMonedaLiquidacionOperacion:null"
+					k-ng-Disabled = "!dataNominal.valorizar"
+					consulta-precio = "'S'"
+					>
+				</bcs-input-instrumentos>
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_EMISOR</label>
+				<bcs-combobox-base class="col-xs-6"
+					bcs-requerido = "dataNominal.emisorRequerido"
+					tipo="dataNominal.oConfiguracionEmisor.tipo" 
+					id-actual="dataNominal.oConfiguracionEmisor.idActual" 
+					configuracion= "dataNominal.oConfiguracionEmisor.configuracion"
+					seleccionado="dataNominal.oConfiguracionEmisor.seleccionado" 
+					filtros="dataNominal.oConfiguracionEmisor.filtros"
+					activado="dataNominal.activarEmisor && dataNominal.valorizar">
+				</bcs-combobox-base >
+				<label class="col-xs-2">
+					<bcs-input-checkbox ng-model="dataNominal.switchFungible" ng-disabled ="!dataNominal.PuedeCambiarFungible" ></bcs-input-checkbox>
+					{{'UI_FUNGIBLE' | translate}}
+				</label>
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_BOVEDA</label>
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					todos = "'N'"
+					configuracion= "dataNominal.oConfiguracionBoveda.configuracion"
+					tipo="dataNominal.oConfiguracionBoveda.tipo"
+					id-actual="dataNominal.oConfiguracionBoveda.idActual"
+					seleccionado="dataNominal.oConfiguracionBoveda.seleccionado"
+					filtros="dataNominal.oConfiguracionBoveda.filtros"
+					id-defecto="data.oConfiguracionBoveda.idDefecto"
+					activado="dataNominal.valorizar">
+				</bcs-combobox-base >
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_CATEGORIA_IFRS</label>
+				<bcs-combobox-base class="col-xs-8"					
+					todos = "'N'"
+					id-defecto="dataNominal.CodigoCarteraIFRS" 
+					configuracion= "dataNominal.oConfiguracionClasificacionIfrs.configuracion"
+					tipo="dataNominal.oConfiguracionClasificacionIfrs.tipo"					
+					seleccionado="dataNominal.oConfiguracionClasificacionIfrs.seleccionado"
+					filtros="dataNominal.oConfiguracionClasificacionIfrs.filtros"
+					activado="false">
+				</bcs-combobox-base >
+			</div>
+ 			<!--
+			<div class="col-xs-12">
+               <label class="col-xs-4" translate>UI_MONEDA_EMISION</label>
+               <bcs-combobox-base class="col-xs-6"
+                   auto-cargar="'false'"
+                   tipo="dataNominal.oConfiguracionMonedaEmision.tipo"
+                   bcs-requerido = "dataNominal.tipoReajusteRequerido"
+                   configuracion= "dataNominal.oConfiguracionMonedaEmision.configuracion"
+                   seleccionado="dataNominal.oConfiguracionMonedaEmision.seleccionado"
+                   filtros="dataNominal.oConfiguracionMonedaEmision.filtros"
+                   id-actual="dataNominal.oConfiguracionMonedaEmision.idActual"                                             
+                   activado="dataNominal.activarTipoReajuste && dataNominal.valorizar"
+                   item-post-filtro="'1'">
+               </bcs-combobox-base >
+           </div>-->
+           <div class="row col-xs-12">
+                <label class="col-xs-4" translate>UI_TIPO_REAJUSTE</label>
+                <bcs-combobox-base class="col-xs-8"
+                    auto-cargar="false"
+                    bcs-requerido = "dataNominal.tipoReajusteRequerido"
+                    tipo="dataNominal.oConfiguracionInstrumentoTipoReajuste.tipo"
+                    configuracion= "dataNominal.oConfiguracionInstrumentoTipoReajuste.configuracion"
+                    seleccionado="dataNominal.oConfiguracionInstrumentoTipoReajuste.seleccionado"
+                    filtros="dataNominal.oConfiguracionInstrumentoTipoReajuste.filtros"
+                    id-actual="dataNominal.oConfiguracionInstrumentoTipoReajuste.idActual"
+                    activado="dataNominal.activarTipoReajuste && dataNominal.valorizar"
+                    item-post-filtro="'1'">
+                </bcs-combobox-base>
+            </div>
+            
+           <div class="row col-xs-12">
+	           <label class="col-xs-4" translate>UI_MONEDA_LIQUIDACION</label>
+               <bcs-combobox-base class="col-xs-8"
+                   auto-cargar="true"
+                   bcs-requerido = "dataNominal.tipoReajusteRequerido"
+                   tipo="dataNominal.oConfiguracionMonedaLiquidacionInstrumento.tipo"
+                   configuracion= "dataNominal.oConfiguracionMonedaLiquidacionInstrumento.configuracion"
+                   filtros="dataNominal.oConfiguracionMonedaLiquidacionInstrumento.filtros"
+                   seleccionado="dataNominal.oConfiguracionMonedaLiquidacionInstrumento.seleccionado"
+                   id-actual="dataNominal.oConfiguracionMonedaLiquidacionInstrumento.idActual"
+                   id-defecto="dataNominal.oConfiguracionMonedaLiquidacionInstrumento.idDefecto"
+                   activado="dataNominal.activarMonedaLiquidacion &&dataNominal.valorizar"
+                   item-post-filtro="'1'">
+                 </bcs-combobox-base >
+            </div>
+			
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_FECHA_VENCIMIENTO</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="dataNominal.kngFechaVencimiento" bcs-requerido="dataNominal.fechaVencimientoRequerido" k-ng-disabled ="dataNominal.activarFechaVencimiento || !dataNominal.valorizar" k-options="dataNominal.oConfiguracionFechaVencimiento" todo-dias="true"></bcs-input-date>
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_CORTE_MINIMO</label>
+				<bcs-input-numero class="col-xs-8" 
+					name="uCorteMinimo"
+					ng-model="dataNominal.corteMinimo" 
+					k-ng-model="dataNominal.kngCorteMinimo"
+					decimales="dataNominal.IdDecimalRescateDisplay"					 
+					k-ng-disabled="true">
+				</bcs-input-numero>
+			</div><!-- 
+<!--  MSH 			
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_REPETICIONES</label>
+				<bcs-input-numero class="col-xs-6" name="uRepeticiones" bcs-requerido = "dataNominal.numeroRepeticionesRequerido" ng-model="dataNominal.numeroRepeticiones" k-ng-model="dataNominal.kngNumeroRepeticiones" k-ng-disabled="dataNominal.activarNumeroRepeticiones || !dataNominal.valorizar" k-options="dataNominal.oConfiguracionNumeroRepeticiones"></bcs-input-numero>
+			</div>
+-->
+			<div class="row col-xs-12">
+				<label class="col-xs-4" >{{dataNominal.oConfiguracionClasificacion.idActual === 'IF'? 'UI_CANTIDAD_REPETICIONES' : 'UI_CANTIDAD' | translate}}</label>
+				<bcs-input-numero class="col-xs-8" 
+					name="uCantidad" 
+					bcs-requerido = "dataNominal.cantidadRequerido" 
+					ng-model="dataNominal.cantidad"
+					decimales="dataNominal.IdDecimalRescateDisplay"
+					k-ng-model="dataNominal.kngCantidad" 
+					k-ng-disabled="dataNominal.activarCantidad || !dataNominal.valorizar" 
+					k-options="dataNominal.oConfiguracionCantidad">
+				</bcs-input-numero>
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_VALOR_RESCATE</label>
+				<bcs-input-monetario class="col-xs-8" 
+					name="uValorRescate"  
+					simbolo="dataNominal.IdMonedaRescateDisplay" 
+					decimales="dataNominal.IdDecimalRescateDisplay" 
+					ng-model="dataNominal.valorRescate" 
+					k-ng-model="dataNominal.kngValorRescate"  
+					k-ng-disabled="dataNominal.activarValorRescate || !dataNominal.valorizar"></bcs-input-monetario>
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_TASA</label>
+				<bcs-input-numero class="col-xs-3" 
+					name="uTasa" 
+					bcs-requerido = "dataNominal.tasaRequerido"
+					decimales="dataNominal.IdDecimalTasa" 
+					ng-model="dataNominal.tasa" 
+					k-ng-model="dataNominal.kngTasa"  
+					k-ng-disabled="dataNominal.activarTasa || !dataNominal.valorizar" 
+					k-options="dataNominal.oConfiguracionTasa">
+				</bcs-input-numero>
+				<label class="col-xs-2" translate>UI_MERCADO</label>
+				<bcs-input-numero class="col-xs-3" 
+					name="uTasaMercado" 
+					decimales="dataNominal.IdDecimalTasa"
+					ng-model="dataNominal.tasaMercado" 
+					k-ng-model="dataNominal.kngTasaMercado" 
+					k-ng-disabled="true">
+				</bcs-input-numero>
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_PRECIO</label>
+				<bcs-input-numero class="col-xs-3" 
+					name="uPrecio" 
+					bcs-requerido = "dataNominal.precioRequerido" 
+					decimales="dataNominal.IdDecimalPrecio" 
+					ng-model="dataNominal.precio" 
+					k-ng-model="dataNominal.kngPrecio" 
+					k-ng-disabled="dataNominal.activarPrecio || !dataNominal.valorizar">
+				</bcs-input-numero>
+				<label class="col-xs-2" translate>UI_MERCADO</label>
+				<bcs-input-numero class="col-xs-3" 
+					name="uPrecioMercado" 
+					ng-model="dataNominal.PrecioMercado" 
+					k-ng-model="dataNominal.kngPrecioMercado"
+					decimales="dataNominal.IdDecimalPrecio" 
+					k-ng-disabled="true">
+				</bcs-input-numero>					
+			</div>
+			<div class="row col-xs-12">
+				<label class="col-xs-4" translate>UI_MONTO</label>
+				<bcs-input-monetario class="col-xs-8" 
+					name="uMonto" 
+					simbolo="dataNominal.IdMonedaMontoDisplay" 
+					decimales="dataNominal.IdDecimalMontoDisplay"   
+					ng-model="dataNominal.monto" 
+					k-ng-model="dataNominal.kngMonto"  
+					k-ng-disabled="dataNominal.activarMonto || !dataNominal.valorizar"></bcs-input-monetario>
+			</div>
+			<div class="row col-xs-12">
+                <label class="col-xs-4" translate>UI_MONTO_LIQUIDACION</label>
+                <bcs-input-monetario class="col-xs-8" 
+                    name="uMonto" 
+                    simbolo="dataNominal.IdMonedaMontoLiquidacionDisplay" 
+                    decimales="dataNominal.IdDecimalMontoLiquidacionDisplay"   
+                    ng-model="dataNominal.montoLiquidacionOperacion" 
+                    k-ng-model="dataNominal.kngMontoLiquidacionOperacion"  
+                    k-ng-disabled="true"></bcs-input-monetario>
+            </div>
+			
+			
+			<div class="row bcs-panel-comandos" style="padding-top: 5px !important;">
+				<bcs-button id="frmAgregarCartera"  
+					class="col-xs-4 pull-right" 
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="dataNominal.valorizar?'UI_VALORIZAR_CARTERA':'UI_AGREGAR' | translate"  
+					bcs-habilitado="frmIngresoNominal.$valid" 
+					bcs-clic="dataNominal.valorizar?dataNominal.valoriza():dataNominal.aceptar()">
+				</bcs-button>
+				<bcs-button id="frmEliminarCartera" 
+					class="col-xs-3 pull-right" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false"
+					bcs-texto="dataNominal.valorizar?'UI_CANCELAR':'UI_MODIFICAR' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="!dataNominal.valorizar?dataNominal.cancelar():dataNominal.cerrar()">
+				</bcs-button>
+			</div>
+			
+		</form>
+	</div>
+</div>
+			
+			
+			
+			
+			
+			

@@ -1,0 +1,136 @@
+<div id="PanelMonto" class="row" ng-controller="PanelMontoCtrl as pct">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecInicio"
+				></bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_HASTA</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="pct.FecTermino"></bcs-input-date>
+			</div>
+		  	</div>
+		  	<div class="row">
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pct.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pct.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pct.SocioDeNegocioObj">
+					</bcs-combobox-base>
+					
+					
+				</div>
+				
+				<div class="col-xs-6">
+				<!-- 
+					<label class="col-xs-4" translate>UI_TOLERANCIA_EXCESO_PORCENTAJE</label>
+						<bcs-input-numero
+							class="col-xs-3"
+							id="UI_TOLERANCIA"
+							bcs-requerido
+							bcs-mayor-que="'0'"
+							k-ng-model="pct.Tolerancia"
+							k-options ="pct.ToleranciaOptions"
+							ng-blur="win.blurMonto()">
+						</bcs-input-numero>
+				 -->			
+				</div>
+		  
+		  
+		  	</div>
+		  	<div class="row">
+		  	<div class="col-xs-6">
+			  		
+				</div>	 
+		  	</div>
+		  	
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pct.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<!-- configuracion="pct.grilla.Monto" -->
+		<!--configuracion="pct.grillaCong" -->
+	<div class="row">
+		<bcs-grid
+			id="gridMonto"
+			
+			configuracion="pct.grilla.Monto"
+			
+			seleccionado="pct.grilla.MontoSel"
+			fn-exportar-excel="excelMonto"
+			api="gridApi">
+			
+			<div bcs-grid-detail="pct.initDetalle()" ng-non-bindable>
+			
+				
+						<uib-tabset>
+							<uib-tab  ng-if="dataItem.TipoEvaluacion !== 'MOVIMIENTO_ASOCIADO'" heading="{{'UI_ESTADISTICA'| translate}}">
+								<div class="row" style="height: 110px; text-align:left;">
+									<div class="row">
+										<label class="col-xs-3" translate>UI_FECHA_HASTA</label>
+										<label class="col-xs-3">:	{{dataItem.datosEst.FechaIngreso | date: 'dd-MM-yyyy'}}</label>
+									</div>
+									<div class="row">										
+										<label class="col-xs-3" translate>UI_DIAS</label>
+										<label class="col-xs-3">:	{{dataItem.datosEst.CantidadDias}}</label>
+									</div>
+									<div class="row">
+										<label class="col-xs-3" translate>UI_MONEDA</label>
+										<label class="col-xs-3">:	{{dataItem.datosEst.Moneda}}</label>
+									</div>
+									<div class="row">	
+										<label class="col-xs-3" translate>UI_MONTO_TOTAL</label>
+										<label class="col-xs-3">:	{{dataItem.datosEst.MontoTotalDias}}</label>
+									</div>	
+									
+									<div class="row">
+										<label class="col-xs-3" translate>UI_MONTO_PROMEDIO</label>
+										<label class="col-xs-3">:	{{dataItem.datosEst.MontoPromedioDiario}}</label>
+									</div>	
+									<div class="row">											
+										<label class="col-xs-3" translate>UI_MONTO_MAXIMO</label>
+										<label class="col-xs-3">:	{{dataItem.datosEst.MontoMaximo}}</label>
+									</div>
+								
+									<hr>
+								</div>
+							</uib-tab>
+						</uib-tabset>
+						
+			
+			</div>
+			
+		</bcs-grid>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12" style="top:10px; padding-bottom: 10px;">
+		  		<bcs-button id="Cumplimiento_estadistica" class="col-xs-2 pull-left"  bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_ESTADISTICA_CLIENTE' | translate"  bcs-habilitado="'true'" bcs-clic="pct.EstadisticaCliente(pct.grilla.MontoSel)"></bcs-button>
+				<bcs-menu 
+				class="col-xs-1 pull-right"
+				bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelMonto('Monto')">						  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+				<li ng-click="pct.EstadisticaCliente(pct.grilla.MontoSel)">	{{'UI_ESTADISTICA_CLIENTE' 	| translate}}</li>				
+			</bcs-menu>	
+		</div>
+		
+	</div>
+	
+	
+	
+	
+</div>

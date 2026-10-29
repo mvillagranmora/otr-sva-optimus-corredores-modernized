@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Eventos" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Eventos"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdMovimiento"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoDatoEvento" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoEvento" length="25"/>
+        <viewAttribute datatype="NVARCHAR" id="ValorVarChar" length="60"/>
+        <viewAttribute datatype="INTEGER" id="ValorDecimal"/>
+        <viewAttribute datatype="NVARCHAR" id="Descripcion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Estado" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEstado" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = SELECT
+			CTB_itzMovimientoDato.&quot;IdMovimiento&quot; AS &quot;IdMovimiento&quot;,
+		    CTB_itzMovimientoDato.&quot;IdTipoDatoEvento&quot; AS &quot;IdTipoDatoEvento&quot;,
+		    CTB_itzMovimientoDato.&quot;TipoEvento&quot; AS &quot;TipoEvento&quot;,
+		    CASE WHEN CTB_itzEventoTipoDato.&quot;TipoDato&quot; = 'V' THEN
+				CTB_itzMovimientoDato.&quot;ValorVarchar&quot;
+		    ELSE
+				CAST(CAST(CTB_itzMovimientoDato.&quot;ValorDecimal&quot; AS DECIMAL(18,4)) AS NVARCHAR(60))
+		    END AS &quot;ValorVarChar&quot;,
+		    0 AS &quot;ValorDecimal&quot;,
+		    CASE WHEN COALESCE(CVT.&quot;Descripcion&quot;,'') = '' THEN 
+				CASE WHEN CTB_itzEventoTipoDato.&quot;TipoDato&quot; = 'V' THEN
+					CTB_itzMovimientoDato.&quot;ValorVarchar&quot;
+				ELSE
+					CAST(CAST(CTB_itzMovimientoDato.&quot;ValorDecimal&quot; AS DECIMAL(18,4)) AS NVARCHAR(60))
+				END
+		    ELSE 
+				CVT.&quot;Descripcion&quot;
+		    END AS &quot;Descripcion&quot;,
+		    CTB_itzMovimientoDato.&quot;Estado&quot; AS &quot;Estado&quot;,
+		    EstadoContabilidad.&quot;NombreEstado&quot; AS &quot;NombreEstado&quot;
+		    FROM &quot;BSCL.Contabilidad.BD::ITZ.MovimientoDato&quot; AS CTB_itzMovimientoDato 
+		    INNER JOIN &quot;BSCL.Contabilidad.BD::ITZ.EventoTipoDato&quot; AS CTB_itzEventoTipoDato 
+				ON CTB_itzEventoTipoDato.&quot;IdTipoDatoEvento&quot; = CTB_itzMovimientoDato.&quot;IdTipoDatoEvento&quot;
+		    LEFT JOIN &quot;BSCL.Contabilidad.BD.Vistas::ITZ.ConsultarEstadoContabilidad&quot;  AS EstadoContabilidad 
+				ON EstadoContabilidad.&quot;IdEstadoContabilidad&quot; = CTB_itzMovimientoDato.&quot;Estado&quot;
+		    LEFT JOIN &quot;BSCL.Contabilidad.BD.Vistas::ITZ.ConsultarValoresTipoDato&quot; CVT
+				ON CVT.&quot;IdTipoDatoEvento&quot; = CTB_itzMovimientoDato.&quot;IdTipoDatoEvento&quot; 
+				AND CVT.&quot;Valor&quot; = CTB_itzMovimientoDato.&quot;ValorVarchar&quot;;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdMovimiento" order="1">
+        <descriptions defaultDescription="IdMovimiento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMovimiento"/>
+      </attribute>
+      <attribute id="IdTipoDatoEvento" order="2">
+        <descriptions defaultDescription="IdTipoDatoEvento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoDatoEvento"/>
+      </attribute>
+      <attribute id="TipoEvento" order="3">
+        <descriptions defaultDescription="TipoEvento"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoEvento"/>
+      </attribute>
+      <attribute id="ValorVarChar" order="4">
+        <descriptions defaultDescription="ValorVarChar"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorVarChar"/>
+      </attribute>
+      <attribute id="ValorDecimal" order="5">
+        <descriptions defaultDescription="ValorDecimal"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorDecimal"/>
+      </attribute>
+      <attribute id="Descripcion" order="6">
+        <descriptions defaultDescription="Descripcion"/>
+        <keyMapping columnObjectName="Script_View" columnName="Descripcion"/>
+      </attribute>
+      <attribute id="Estado" order="7">
+        <descriptions defaultDescription="Estado"/>
+        <keyMapping columnObjectName="Script_View" columnName="Estado"/>
+      </attribute>
+      <attribute id="NombreEstado" order="8">
+        <descriptions defaultDescription="NombreEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEstado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

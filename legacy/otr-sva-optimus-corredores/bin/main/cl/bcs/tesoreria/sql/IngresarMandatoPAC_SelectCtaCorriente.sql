@@ -1,0 +1,1 @@
+SELECT top 1 "NumeroCuentaBancaria", "CodigoBanco", "IdBanco" FROM "BSCL.SocioNegocio.BD.Vistas::PER.ConsultarPersonaCuentasBancarias" WHERE "IdCuentaBancaria" in (:IdCuentaBancaria)   --AND "NumeroCuentaBancaria" <> NULL

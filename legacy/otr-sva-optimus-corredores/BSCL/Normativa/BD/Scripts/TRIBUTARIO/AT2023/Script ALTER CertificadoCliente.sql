@@ -1,0 +1,3 @@
+SET SCHEMA BSCL;
+
+ALTER TABLE "BSCL"."BSCL.Normativa.BD::TRI.CertificadoCliente" ADD ("Nemo" NVARCHAR(40) DEFAULT '');

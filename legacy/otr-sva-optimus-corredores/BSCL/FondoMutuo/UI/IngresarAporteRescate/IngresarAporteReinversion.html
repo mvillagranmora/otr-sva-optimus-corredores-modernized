@@ -1,0 +1,573 @@
+<div class="col-xs-12" ng-controller="IngresarAporteReinversionFFMCtrl as aporteReinversion">
+	<!-- Pre-Ingreso -->
+	<div class="row bcs-cuerpo" ng-show="aporteReinversion.formData.IngresoConfirmacion === 'I'">
+	 <div ng-show="aporteReinversion.formData.DatosAdicionales === 'N'">	
+	 	<form name="FormIngresoFFM" class="filters-formulario">
+		   	<div class="row">
+				<div class="col-xs-12">
+				  	<div class="row">
+				  	<!-- Inicio GCMBIPAPAS-1 Filtro de clientes por Perfiles-->	
+				  	<!--				  	
+						<label class="col-xs-4" translate>UI_CLIENTE</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_CLIENTE"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-socio-negocio'"
+						    carga-cliente-automatico="'S'"
+						    seleccionado="aporteReinversion.oSocioNegocio.seleccionado"
+						    filtros="aporteReinversion.oSocioNegocio.filtros"
+							cascada-a="aporteReinversion.oPortafolio.filtros.IdCliente"
+							cascada-valor="'IdCliente'"
+		                    cascada1-a="aporteReinversion.formData.IdCategoriaInversionista"
+		                    cascada1-valor="'IdCategoriaInversionista'"
+		                    cascada2-a="aporteReinversion.formData.FiltrosBusquedaFondoDestino.IdCliente"
+		                    cascada2-valor="'IdCliente'"
+		                    cascada3-a="aporteReinversion.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada3-valor="'IdCliente'"
+		                    cascada-defecto="'-1'"
+		                    id-actual="aporteReinversion.oSocioNegocio.idActual"
+						    configuracion= "aporteReinversion.oSocioNegocio.configuracion">
+						</bcs-combobox-base>
+					-->
+						<label class="col-xs-4" translate>UI_CLIENTE_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8" id="UI_SOCIO_NEGOCIO"
+							auto-cargar="'false'"
+							bcs-requerido
+							id-actual="aporteReinversion.oClientePortafolio.idActual"
+							tipo="aporteReinversion.oClientePortafolio.tipo"
+							ng-style="{'width' : aporteReinversion.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && aporteReinversion.oClientePortafolio.seleccionado  ? '50%' : '66.66666667%'}"
+							carga-cliente-automatico="'S'" 
+							seleccionado="aporteReinversion.oClientePortafolio.seleccionado"
+							filtros="filtrosPortafolio"
+
+		                    cascada-a="aporteReinversion.formData.IdCategoriaInversionista"
+		                    cascada-valor="'IdCategoriaInversionista'"
+		                    cascada1-a="aporteReinversion.formData.FiltrosBusquedaFondoDestino.IdCliente"
+		                    cascada1-valor="'IdCliente'"
+		                    cascada2-a="aporteReinversion.formData.FiltrosBusquedaFondo.IdCliente"
+		                    cascada2-valor="'IdCliente'"
+		                    
+		                    cascada3-a="aporteReinversion.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"		                    
+		                    cascada4-a="aporteReinversion.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada4-valor="'IdPortafolio'"
+		                    cascada5-a="aporteReinversion.formData.FiltrosBusquedaFondoDestino.IdPortafolio"
+		                    cascada5-valor="'IdPortafolio'"		    
+
+		                    cascada-defecto="'-1'"							
+							
+							configuracion="aporteReinversion.oClientePortafolio.configuracion">
+						</bcs-combobox-base>						
+						<!-- Cascadas cubiertas en $watch del js
+		                    cascada6-a="aporteReinversion.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada6-valor="'IdPortafolio'"		                    		                    
+		                    cascada7-a="aporteReinversion.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada7-valor="'IdPortafolio'"
+		                -->											
+					</div>      
+					<!--										
+		 			<div class="row">
+						<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+						<bcs-combobox-base class="col-xs-8"
+							id="UI_PORTAFOLIO"
+						 	auto-cargar="'false'"
+						 	bcs-requerido
+						    tipo="'combobox-portafolio'"
+						    seleccionado="aporteReinversion.oPortafolio.seleccionado"
+						    filtros="aporteReinversion.oPortafolio.filtros"
+		                    item-post-filtro="'1'"
+		                    id-actual="aporteReinversion.oPortafolio.idActual"
+		                    cascada-a="aporteReinversion.formData.filtrosFormaPago.IdPortafolio"
+		                    cascada-valor="'IdPortafolio'"
+		                    cascada1-a="aporteReinversion.formData.filtrosCuentaInversion.IdPortafolio"
+		                    cascada1-valor="'IdPortafolio'"
+		                    cascada2-a="aporteReinversion.formData.FiltrosBusquedaFondoDestino.IdPortafolio"
+		                    cascada2-valor="'IdPortafolio'"
+		                    cascada3-a="aporteReinversion.formData.FiltrosBusquedaFondo.IdPortafolio"
+		                    cascada3-valor="'IdPortafolio'"
+		                    cascada4-a="aporteReinversion.formData.FiltrosAutorizarOrden.IdPortafolio"
+		                    cascada4-valor="'IdPortafolio'"
+						    configuracion= "aporteReinversion.oPortafolio.configuracion">
+						</bcs-combobox-base >
+					</div>
+					-->
+					<!-- Fin GCMBIPAPAS-1 -->
+					<div class="row">
+ 						<label class="col-xs-4" translate>UI_AUTORIZADOR</label>
+						<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "aporteReinversion.oClientePortafolio.seleccionado.portafolio.TipoPersona === 'J'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "aporteReinversion.formData.idAutorizadoDarOrdenes"
+								id-defecto				= "aporteReinversion.formData.idAutorizadoDarOrdenesDefecto"
+								seleccionado			= "autorizadoDarOrdenes" 
+								filtros					= "aporteReinversion.formData.FiltrosAutorizarOrden"	
+								usa-filtros-completos   = "'S'">
+						</bcs-combobox-base>						
+ 					</div>
+					
+					<div class="row">
+			  			<em class="col-xs-4">({{'UI_ORIGEN_CUOTAS' | translate}})</em>
+				  	</div>
+				  	<hr>
+				  	<div class="row">
+					  	<label class="col-xs-4">
+								{{'UI_INSTRUMENTO' | translate}}
+						</label> 	
+					  	<bcs-input-texto class="col-xs-8"
+						 		ng-model="aporteReinversion.IdSerieFondoOrigen">
+						 </bcs-input-texto>
+					</div>
+					<div class="row">
+				  		<label class="col-xs-4">
+							{{'UI_MANDATO_LIQUIDACION_TRANSFERENCIAS' | translate}}
+						</label>
+						<div class="col-xs-1">
+			  				<bcs-input-checkbox ng-model="aporteReinversion.formData.esMLT"></bcs-input-checkbox>
+			  			</div>
+		  			</div>
+		  			<div class="row">
+		  				<label class="col-xs-4" translate>UI_MONEDA_APORTE</label>
+				  		<bcs-combobox-base 
+							class="col-xs-8"
+							id="UI_MONEDA"
+							bcs-requerido
+						 	auto-cargar="'true'"
+						 	id-actual="aporteReinversion.formData.IdMonedaOrigen"
+						 	id-defecto="false"
+						 	filtros="aporteReinversion.formData.filtrosCuentaInversion"
+						 	tipo="'combobox-moneda-cuenta-inversion-ffmm'"
+						 	usa-filtros-completos="'S'">
+						</bcs-combobox-base>
+		  			</div>
+					<div class="row">
+					  	<label class="col-xs-4" translate>UI_MONTO_APORTE_ORIGEN</label> 
+				  		<bcs-input-monetario class="col-xs-8"
+				  			id="UI_MONTO_APORTE_ORIGEN"
+				  			k-ng-model="aporteReinversion.formData.montoAporteOrigen"
+				  			decimales = "aporteReinversion.formData.DecimalesFondoOrigen"
+				  			bcs-requerido
+							simbolo="aporteReinversion.formData.IdMonedaOrigen">
+				  		</bcs-input-monetario>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_COSTO_UF</label> 
+				  		<bcs-input-numero class="col-xs-8"
+				  			id="UI_COSTO_UF"
+							decimales = "'2'"
+							k-ng-model="aporteReinversion.formData.costoUF">
+						</bcs-input-numero> 
+			  		</div>
+			  		<div class="row">
+			  			<label class="col-xs-4" translate>UI_EMISOR_ORIGEN</label> 
+				  		<bcs-input-texto class="col-xs-8"
+						 		ng-model="aporteReinversion.IdEmisorOrigen">
+						 </bcs-input-texto>
+			  		</div> 
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_ORIGEN_INVERSION</label> 
+				  		<bcs-input-date
+				  			id="UI_FECHA_ORIGEN_INVERSION"
+							class="col-xs-8"
+							k-ng-model="aporteReinversion.formData.fechaOrigenInversion">
+						</bcs-input-date>
+			  		</div>
+					<div class="row">
+			  			<em class="col-xs-4">({{'UI_DATOS_INVERSION' | translate}})</em>
+				  	</div>
+				  	<hr>
+				  	<bcs-combobox-buscador-fondos
+				  			id="UI_BUSCADOR_FONDO_APORTE_REINVERSION_DESTINO"
+							datos-fondo="aporteReinversion.datosFondo" 
+							muestra-valor-cuota = "'S'"
+							buscar-fondo="aporteReinversion.formData.setFondo"
+							id-ventana="aporteReinversion.winID"
+							muestra-detalle="'S'"
+							es-detalle="'S'"
+							mas-informacion="aporteReinversion.masInformacion"
+							filtros="aporteReinversion.formData.FiltrosBusquedaFondo"
+							filtros-combobox="aporteReinversion.formData.FiltrosComboFondo">
+					</bcs-combobox-buscador-fondos>
+			  		<hr>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="aporteReinversion.formData.fechaSistema" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+						</bcs-input-date>
+			  		</div>
+		  			<div class="row" ng-if="aporteReinversion.datosFondo.Diferido && aporteReinversion.oClientePortafolio.seleccionado && aporteReinversion.oClientePortafolio.seleccionado.IdPortafolio">
+				  		<label class="col-xs-4" translate>UI_MONEDA_APORTE</label>
+				  		<bcs-combobox-base 
+							class="col-xs-3"
+							id="UI_MONEDA"
+							bcs-requerido="aporteReinversion.datosFondo.Diferido === 'S'"
+						 	auto-cargar="'true'"
+						 	id-actual="aporteReinversion.formData.IdMonedaAporte"
+						 	id-defecto="aporteReinversion.datosFondo.IdMoneda"
+						 	filtros="aporteReinversion.formData.filtrosCuentaInversion"
+						 	tipo="'combobox-moneda-cuenta-inversion-ffmm'"
+						 	usa-filtros-completos="'S'"
+						 	ng-show="aporteReinversion.datosFondo.Diferido === 'S'">
+						</bcs-combobox-base>
+					 	<bcs-input-texto class="col-xs-3"
+					 		k-ng-disabled="'true'"
+					 		ng-model="aporteReinversion.formData.IdMonedaAporte"
+					 		ng-show="aporteReinversion.datosFondo.Diferido === 'N'"
+					 	>
+					 	</bcs-input-texto>
+					 	<label class="col-xs-2" translate>UI_DOLAR_OBSERVADO</label>
+				  		<bcs-dolar-observado-serie-fondo class="col-xs-3"
+				  			id-serie-fondo = "aporteReinversion.datosFondo.IdSerieFondo"
+				  			id-tipo-solicitud= "'APO'"
+				  			fecha="aporteReinversion.formData.fechaSistema"
+				  			dolar-observado-serie-fondo="aporteReinversion.formData.DolarObservadoSerieFondo">
+				  		</bcs-dolar-observado-serie-fondo>
+			  		</div>
+			  		<div class="row" ng-if="aporteReinversion.datosFondo && aporteReinversion.oClientePortafolio.seleccionado.IdPortafolio">
+			  			<label class="col-xs-4" translate>UI_REGIMEN</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-regimen-serie-fondo'"
+				  			id-actual="aporteReinversion.formData.IdRegimenFondoMutuo"
+				  			seleccionado="aporteReinversion.formData.regimenFondoMutuo"
+							id-defecto="aporteReinversion.formData.RegimenDefecto"
+				  			item-post-filtro="'1'"
+				  			filtros="aporteReinversion.formData.filtrosRegimen"
+				  			bcs-requerido
+				  			todos="'N'">
+						</bcs-combobox-base>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+				  		<bcs-input-monetario class="col-xs-8"
+				  			id="UI_MONTO_INICIAL"
+				  			k-ng-model="aporteReinversion.formData.montoInicial"
+				  			decimales = "aporteReinversion.formData.decimalesMonto"
+				  			bcs-requerido
+				  			k-ng-disabled="'true'"
+							simbolo="aporteReinversion.formData.IdMonedaAporte">
+				  		</bcs-input-monetario>
+			  		</div>
+			  		<div class="row">
+					  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+				  		<bcs-input-numero class="col-xs-8"
+				  			id="UI_NUMERO_CUOTAS"
+							decimales = "aporteReinversion.formData.decimalesCantidad"
+							bcs-requerido
+							k-ng-model="aporteReinversion.formData.numeroCuotas"
+							k-ng-disabled="'true'">
+						</bcs-input-numero> 
+			  		</div>
+			  		<div ng-if="aporteReinversion.datosFondo.IdSerieFondo">
+			  			<bcs-fechas-solicitud-fondo
+						fecha-emision = "aporteReinversion.datosFondo.FechaFondo"
+						id-serie-fondo = "aporteReinversion.datosFondo.IdSerieFondo"
+						traspaso = "'N'"
+						tipo-solicitud="'APO'"
+						mostrar-fecha-aceptacion="'true'"
+						mostrar-fecha-valor-cuota="'true'"
+						mostrar-fecha-certificacion="'true'"
+						mostrar-fecha-liquidacion="'true'"
+						>
+						</bcs-fechas-solicitud-fondo>
+			  		</div>
+				  	<div class="row">
+					  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+				  		<bcs-input-texto class="col-xs-8"
+				  			id="UI_GLOSA"
+					  		maxlength="100"
+							tipo-campo="'textarea'"
+							ng-model="aporteReinversion.formData.comentario"
+							atributos="margin: 0px; height:73px;resize:none;width: 100%">
+				  		</bcs-input-texto>
+			  		</div>	 	
+				</div>
+			</div>
+			
+			</form>
+        
+			<div class="row bcs-panel-comandos">
+				<div class=col-xs-8>
+					<bcs-button class="col-xs-4" id="BlotterFFM_ingresarFFM" 
+						bcs-texto="'UI_INGRESAR' | translate" 
+						bcs-habilitado="FormIngresoFFM.$valid"
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-auto-desactivar="true"
+						bcs-clic="aporteReinversion.formData.ingresarAporteRescate()">
+					</bcs-button>	
+					<bcs-button class="col-xs-4" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="aporteReinversion.limpiarFMM()"
+						bcs-blur="aporteReinversion.formData.resetFoco()">
+					</bcs-button>
+				</div>
+				<div class="col-xs-4">
+					<bcs-button class="col-xs-7 pull-right" id="BlotterFFM_ingresarFFM"
+						bcs-tipo="'bcs-button-secondary'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_MAS_DATOS' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="aporteReinversion.formData.masDatos()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+		<div ng-show="aporteReinversion.formData.DatosAdicionales === 'S'">
+			<div class="row">
+				<label class="col-xs-4" translate>UI_INSTRUCCION_COBRO</label>
+			</div>
+			<hr> 
+			<div class="row">
+			  	<label class="col-xs-4" translate>UI_MONTO_APORTE</label> 
+		  		<bcs-input-monetario class="col-xs-8"
+		  			k-ng-model="aporteReinversion.formData.montoInicial"
+		  			decimales = "aporteReinversion.formData.decimalesMonto"
+		  			k-ng-disabled="'true'"
+					simbolo="aporteReinversion.datosFondo.IdMoneda">
+		  		</bcs-input-monetario>
+	  		</div>
+	  		<div class="row">
+		  		<label class="col-xs-4" translate>UI_MEDIOS_DE_PAGO</label>					
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					tipo="aporteReinversion.oConfiguracionMedioDePago.tipo" 
+					configuracion= "aporteReinversion.oConfiguracionMedioDePago.configuracion" 				
+					seleccionado="aporteReinversion.oConfiguracionMedioDePago.seleccionado"
+					id-actual="aporteReinversion.formData.IdMedioDePago"
+					filtros="aporteReinversion.oConfiguracionMedioDePago.filtros">
+				</bcs-combobox-base>	
+	  		</div>
+	  		<div class="row bcs-panel-comandos">
+				<div class="col-xs-8"></div>
+				<div class="col-xs-4">
+					<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM" 
+						bcs-texto="'UI_VOLVER' | translate" 
+						bcs-tipo="'bcs-button-primary'" 
+						bcs-habilitado="'true'" 
+						bcs-auto-desactivar="false" 
+						bcs-clic="aporteReinversion.formData.masDatos()">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Solicitud Ingresada -->
+	<div class="row bcs-cuerpo" ng-show="aporteReinversion.formData.IngresoConfirmacion === 'C'">
+		<div class="row">
+			<div class="col-xs-12">
+			    <div class="row" ng-show="true">
+				  	<label class="col-xs-4" translate>UI_SECUENCIA_OPERACION</label> 
+			  		<bcs-input-texto 
+			  		class="col-xs-8" 
+			  		ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.SecuenciaOperacion" 
+			  		k-ng-disabled="'true'"></bcs-input-texto>
+		  		</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_OPERACION</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="oOperacion.seleccionado.Descripcion"
+			  			k-ng-disabled="'true'"
+			  		> 
+			  	</div>
+			  	<hr>
+			  	<div class="row">
+					<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteReinversion.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>      
+	 			<div class="row">
+					<label class="col-xs-4" translate>UI_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteReinversion.oClientePortafolio.seleccionado.KdataTextTemplate"
+			  			k-ng-disabled="'true'"
+			  		>
+				</div>
+			  	<hr>
+			  	<div class="row">
+			  	    <label class="col-xs-4" translate>UI_FONDO_MUTUO</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.IdSerieFondoOrigen"
+			  			k-ng-disabled="'true'"
+			  		>
+		  		</div>
+		  		<hr>
+		  		<div class="row">
+		  			<label class="col-xs-4">
+						{{'UI_MANDATO_LIQUIDACION_TRANSFERENCIAS' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-4"
+				 		k-ng-disabled="'true'"
+				 		ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.esMLT">
+				 	</bcs-input-texto>	
+		  		</div>
+		  		<div class="row">
+			  		<label class="col-xs-4" translate>UI_MONEDA_APORTE</label>
+				 	<bcs-input-texto class="col-xs-3"
+				 		k-ng-disabled="'true'"
+				 		ng-model="aporteReinversion.formData.IdMonedaAporte">
+				 	</bcs-input-texto> 
+				 	<label class="col-xs-2" translate>UI_DOLAR_OBSERVADO</label>
+			  		<bcs-input-monetario class="col-xs-3"
+			  			k-ng-model="aporteReinversion.formData.DolarObservadoSerieFondo"
+						simbolo="'CLP'"
+						k-ng-disabled="'true'">
+			  		</bcs-input-monetario>
+		  		</div>  
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_MONTO_APORTE_ORIGEN</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.MontoAporteOrigen"
+			  			decimales = "aporteReinversion.formData.DecimalesFondoOrigen"
+			  			k-ng-disabled="'true'"
+			  			simbolo="aporteReinversion.datosFondoOrigen.IdMoneda">
+			  		</bcs-input-monetario> 
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_COSTO_UF</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.CostoUF"
+			  			decimales = "'2'"
+			  			k-ng-disabled="'true'">
+			  		</bcs-input-monetario>
+		  		</div>		
+		  		<div class="row">
+		  			<label class="col-xs-4" translate>UI_EMISOR_ORIGEN</label>
+				 	<bcs-input-texto class="col-xs-8"
+				 		k-ng-disabled="'true'"
+				 		ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.IdEmisorOrigen">
+				 	</bcs-input-texto>	
+				</div>
+				<div class="row">
+				  	<label class="col-xs-4" translate>UI_FECHA_ORIGEN_INVERSION</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.FechaOrigenInversion"
+			  			k-ng-disabled="'true'">
+			  		</bcs-input-texto>
+		  		</div>
+		  		<hr>
+		  		<div class="row">
+			  	    <label class="col-xs-4" translate>UI_FONDO_MUTUO</label>
+				  	<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteReinversion.datosFondo.IdSerieFondo"
+			  			k-ng-disabled="'true'"
+			  		>
+		  		</div>
+		  		<div class="row">
+					<span class="col-xs-6">
+						<label class="col-xs-8" translate>UI_MAS_INFORMACION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresoFFM.aporteReinversion.muestraDetalle" ng-click="ingresoFFM.aporteReinversion.muestraDetalle = !ingresoFFM.aporteReinversion.muestraDetalle;ajustaVentana()">({{'+' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresoFFM.aporteReinversion.muestraDetalle" ng-click="ingresoFFM.aporteReinversion.muestraDetalle = !ingresoFFM.aporteReinversion.muestraDetalle;ajustaVentana()">({{'-' | translate}})</em>
+					</span>
+				</div>
+				<div class="row" ng-show="ingresoFFM.aporteReinversion.muestraDetalle">
+					<div class="row">
+					  	<label class="col-xs-3" translate>UI_TIPO_FONDO</label> 
+				  		<label class="col-xs-3" translate>{{aporteReinversion.datosFondo.NombreCorto}}</label>
+				  		<label class="col-xs-3" translate>UI_PERFIL</label> 
+				  		<label class="col-xs-3" translate>{{aporteReinversion.datosFondo.IdCategoriaPerfilFondoMutuo}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_REGIMEN_TRIBUTARIO</label> 
+				  		<label class="col-xs-3" translate>{{aporteReinversion.datosFondo.IdRegimenTributario}}</label>
+				  		<label class="col-xs-3" translate>UI_PROPOSITO_SERIE</label> 
+				  		<label class="col-xs-3" translate>{{aporteReinversion.datosFondo.PropositoSerie}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_ENTRADA</label> 
+				  		<label class="col-xs-3" translate>{{aporteReinversion.datosFondo.EsComisionEntradaUI}}</label>
+				  		<label class="col-xs-3" translate>UI_MINIMO_PATRIMONIO</label> 
+				  		<label class="col-xs-3" translate>{{aporteReinversion.datosFondo.EsPatrimonioMinimoUI}}</label>
+		  			</div>
+		  			<div class="row">
+					  	<label class="col-xs-3" translate>UI_COMISION_SALIDA</label> 
+				  		<label class="col-xs-3" translate>{{aporteReinversion.datosFondo.EsComisionSalidaUI}}</label>
+		  			</div>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label> 
+				  		<bcs-input-date
+							class="col-xs-8"
+							k-ng-model="aporteReinversion.formData.fechaSistema" 
+							bcs-requerido
+							k-ng-disabled="'true'">
+					</bcs-input-date>
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-4" translate>UI_REGIMEN</label>
+				 	<bcs-input-texto class="col-xs-8"
+				 		k-ng-disabled="'true'"
+				 		ng-model="aporteReinversion.formData.regimenFondoMutuo.Descripcion">
+				 	</bcs-input-texto>
+				</div> 
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_MONTO_INICIAL</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			k-ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.MontoInicial"
+			  			decimales = "aporteReinversion.formData.DecimalesFondo"
+			  			k-ng-disabled="'true'"
+			  			simbolo="aporteReinversion.formData.IdMonedaAporte">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+				  	<label class="col-xs-4" translate>UI_NUMERO_CUOTAS</label> 
+			  		<bcs-input-texto class="col-xs-8"
+			  			ng-model="aporteReinversion.formData.ResultadoSolicitudAporteRescate.NumeroCuotas"
+			  			k-ng-disabled="'true'"	
+			  		>
+			  		</bcs-input-texto>
+		  		</div>
+		  		<bcs-fechas-solicitud-fondo
+					fecha-emision = "aporteReinversion.datosFondo.FechaFondo"
+					id-serie-fondo = "aporteReinversion.datosFondo.IdSerieFondo"
+					traspaso = "'N'"
+					tipo-solicitud="'APO'"
+					mostrar-fecha-aceptacion="'true'"
+					mostrar-fecha-valor-cuota="'true'"
+					mostrar-fecha-certificacion="'true'"
+					mostrar-fecha-liquidacion="'true'">
+				</bcs-fechas-solicitud-fondo>
+			  	<div class="row">
+				  	<label class="col-xs-4" translate>UI_GLOSA</label> 
+			  		<bcs-input-texto class="col-xs-8"
+				  		maxlength="260"
+						tipo-campo="'textarea'"
+						ng-model="aporteReinversion.formData.comentario"
+						atributos="margin: 0px; height:73px;resize:none;width: 100%"
+						k-ng-disabled="'true'">
+			  		</bcs-input-texto>
+		  		</div>
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class=col-xs-12>
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VOLVER' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-clic="aporteReinversion.limpiarFMM('true')"
+					foco = "aporteReinversion.formData.focoVolver">
+				</bcs-button>	
+				<bcs-button class="col-xs-4 pull-right" id="BlotterFFM_ingresarFFM"
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_VER_COMPROBANTE' | translate" 
+					bcs-habilitado="'true'" 
+					bcs-blur="aporteReinversion.formData.resetFoco()"
+					bcs-clic="aporteReinversion.formData.verComprobante()"
+					foco = "aporteReinversion.formData.focoComprobante">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+	
+</div>

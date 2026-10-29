@@ -1,0 +1,66 @@
+<div id="ConsultarNotificacionCliente" ng-controller="ConsultarNotificacionClienteCtrl">
+    <div class="row">
+        <div class="col-xs-10">
+	             <!-- Inicio filtros de búsqueda -->
+	                 
+            <div class="row">
+	                 
+                 <label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<bcs-combobox-base class="col-xs-4" id="UI_SOCIO_NEGOCIO"
+					auto-cargar="'false'"
+					bcs-requerido
+					id-actual="filtros.IdPortafolio"
+					tipo="data.oClientePortafolio.tipo"
+					carga-cliente-automatico="'S'" 
+					seleccionado="data.oClientePortafolio.seleccionado"
+					filtros="filtrosPortafolio"
+					configuracion="data.oClientePortafolio.configuracion">
+				</bcs-combobox-base>
+			
+	               
+                
+             </div>
+             
+             <div class="row">
+             	 <div class="col-xs-6">
+                     <label class="col-xs-4" translate>UI_ESTADO</label>
+                     <bcs-combobox-base class="col-xs-8"
+                         id-actual = 'busqueda.estado'   
+                         tipo="'combobox-estado-archivo-contrato'"
+                         todos="'S'"
+                         id-defecto="'0'"
+                         item-post-filtro="busqueda.idEstado">
+                     </bcs-combobox-base>
+                 </div> 
+             </div>
+               
+        </div>
+        <div class="col-xs-2">
+            <!-- botones -->
+            <bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate"  bcs-habilitado="true"  bcs-clic="buscar()"></bcs-button>
+            <bcs-button class="row col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+        </div>
+    </div>
+    
+    <div class="row">
+        <bcs-grid id="grid-listado-clientes"
+        api="data.apiGridListadoClientes"
+        fn-exportar-excel = "exportarExcel"
+        configuracion = "confGrillaNotificacionesCliente"
+        seleccionado = "seleccionDetalleCliente"
+        fn-doble-click>
+        </bcs-grid>
+    </div>
+
+    
+    <div class="row bcs-panel-comandos">
+        <div class="col-xs-2"></div>
+        <bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+        </bcs-menu>
+    </div>
+        
+            
+    
+    
+</div>

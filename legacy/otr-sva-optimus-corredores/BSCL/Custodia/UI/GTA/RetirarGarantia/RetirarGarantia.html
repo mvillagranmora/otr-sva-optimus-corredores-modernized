@@ -1,0 +1,85 @@
+<div ng-controller="RetirarGarantiaCtrl">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{'UI_TITULO_RETIRAR_GARANTIA'|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+		<form name="formRetirarGarantia" class="filters-formulario">
+			<!-- FILTROS -->	
+			<div class="row">
+				<label class="col-xs-1" translate>UI_FECHA_MOVIMIENTO</label>
+				<bcs-input-date class="col-xs-2"
+					k-ng-model="data.kngFechaSistema"
+					k-ng-disabled = "'false'"
+				></bcs-input-date>															
+			</div>
+			<br/>
+		</form>
+		
+			<!-- GRILLAS -->
+			<div class="row">
+				<tabset>
+					<tab heading="{{'UI_CUSTODIA' | translate}}">
+						<bcs-grid id="grid-Custodia-Retirar"
+							configuracion = "data.confBasicaCustodiaRetirar"
+							seleccionado = "data.seleccionCustodiaRetirar"
+							>
+						</bcs-grid>
+					</tab>
+					<tab heading="{{'UI_CUENTA_INVERSION' | translate}}" select="select(['gridCuentaInversion'])">
+						<bcs-grid id="grid-Cuenta-inversion-Retirar"
+							configuracion = "data.confBasicaCuentaInversionRetirar"
+							seleccionado = "data.seleccionCuentaInversionRetirar"
+							>
+						</bcs-grid>
+					</tab>
+					<!-- PENDIENTE DESARROLLO 
+					<tab heading="{{'UI_RELACIONADOS' | translate}}">
+					</tab>
+					PENDIENTE DESARROLLO -->
+					<tab heading="{{'UI_OTROS' | translate}}" select="select(['gridEspecie'])">
+						<bcs-grid id="grid-especie-Retirar"
+							configuracion = "data.confBasicaEspecieRetirar"
+							seleccionado = "data.seleccionEspecieRetirar"
+							>
+						</bcs-grid>
+					</tab>
+				</tabset>
+			</div>		
+			<!-- TABS FIN -->
+			
+			<!-- TOTALIZADORES -->
+			<div class="row" align="right">				
+				<label class="col-xs-9" translate>UI_TOTAL_MONTO_A_RETIRAR</label>	
+				<bcs-input-monetario class="col-xs-3" 
+					k-ng-disabled = "'false'"
+					k-ng-model="data.kngTotalMontoARetirar" 
+					simbolo="data.SimboloMonedaLocal"
+					decimales="data.DecimalesMonedaLocal"
+				></bcs-input-monetario>							
+			</div>
+	
+			
+			<!-- BOTONES -->
+			<!-- UNA VEZ MIGRADO LOS CAMBIOS A CHILE Y PERU CORREGUIR FUNCIONAMIENTO DE BOTONES -->
+			<div class="row bcs-panel-comandos">
+				<bcs-button class="col-xs-2"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="'true'" 
+					bcs-texto="'UI_RETIRAR' | translate" 
+					bcs-habilitado="btnActivo && formRetirarGarantia.$valid" 
+					bcs-clic="data.retirarGarantia()"					
+				></bcs-button>
+				<bcs-button class="col-xs-2" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_CANCELAR' | translate" 
+					bcs-habilitado="btnActivo" 
+					bcs-clic="data.cancelar('true')"
+				></bcs-button>
+			</div>		
+		</div>			
+
+</div>
+

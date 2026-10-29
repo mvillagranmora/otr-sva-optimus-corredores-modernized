@@ -1,0 +1,184 @@
+<div id = "ConsultaOperacionesMesaRF" class="row" ng-controller='ConsultarOperacionesMesaRFCtrl as conOperacion'>
+	<form name="frmConsultarOperacionesMesa"  class="col-xs-12 form-horizontal">
+		<div class="row bcs-cuerpo">
+			<div class="row">
+				<div class="col-xs-10">
+						
+						<div class="col-xs-12">
+							<label class="col-xs-2" translate>UI_MESA</label>
+							<bcs-combobox-base class="col-xs-10"
+								id="UI_MESA"
+								tipo="data.oConfiguracionMesas.tipo"
+								auto-cargar="'true'"
+								bcs-requerido
+								seleccionado="data.oConfiguracionMesas.seleccionado"
+								filtros="data.oConfiguracionMesas.filtros"
+								id-actual="data.oConfiguracionMesas.idActual"
+								configuracion= "data.oConfiguracionMesas.configuracion"
+								item-post-filtro="'1'">
+							</bcs-combobox-base>
+						</div>		
+					
+				</div>
+				<div class="col-xs-2">
+						<bcs-button id="frmBuscarMesaRF"  style="position: absolute;"
+						class="col-xs-12 pull-right" 
+						bcs-tipo="'bcs-button-search'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate"  
+						bcs-habilitado="frmConsultarOperacionesMesa.$valid" 
+						bcs-clic="data.btnBuscar()">  
+					</bcs-button>
+				</div>
+			</div>
+			<div class="col-xs-10" ng-show="data.opcionesFiltro.opPorEstadoFecha">
+				<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_FECHA_OPERACION_DESDE</label>
+					<bcs-input-date class="col-xs-5" 
+						id="FechaOperacion"
+						k-ng-disabled="!data.opcionesFiltro.opPorEstadoFecha" 
+						k-ng-model="data.kngFechaOperacion"
+						k-options="data.oConfiguracionFechaDesde">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+                    <label class="col-xs-6 col-xs-offset-1" translate>UI_FECHA_OPERACION_HASTA</label>
+                    <bcs-input-date class="col-xs-5" 
+                        id="FechaOperacionFin"
+                        k-ng-disabled="!data.opcionesFiltro.opPorEstadoFecha" 
+                        k-ng-model="data.kngFechaOperacionFin"
+                        k-options="data.oConfiguracionFechaHasta">
+                    </bcs-input-date>
+                </div>
+                <div class="col-xs-4">
+                	<label class="col-xs-3 col-xs-offset-2" translate>UI_ESTADO</label>
+					<bcs-combobox-base 
+						class="col-xs-7"
+						auto-cargar="'true'"
+						tipo="'combobox-estado-operacion-mesa'"
+						seleccionado="data.cmbbx.EstadoObj"
+						id-actual="data.cmbbx.IdEstado"
+						item-post-filtro = "'1'"
+						activado="data.opcionesFiltro.opPorEstadoFecha"
+						todos="'S'"
+						id-defecto = "'VIG'">
+					</bcs-combobox-base>
+                </div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4 row">
+					<bcs-input-checkgroup
+						valores="data.opcionesFiltro"
+						etiquetas="{opPorDia :'UI_MRF_OPERACIONES_POR_DIA', opPorEstadoFecha: 'UI_MRF_OPERACIONES_POR_ESTADO_FECHA'}"
+						orientacion="HZ"
+						modo="U"
+						activado="'true'"></bcs-input-checkgroup>
+				</div>
+				<div class="col-xs-3 row" style="margin-left: 4%">
+					<bcs-input-checkgroup
+						valores="data.opcionesPacto"
+						etiquetas="{confPacto :'UI_CONFIRMA_PACTO'}"
+						orientacion="H"
+						modo="U"
+						activado="'false'"></bcs-input-checkgroup>
+				</div>
+				<div class="col-xs-4">
+                    <i id='toolConsultaOperacionesMesaRF' class="glosa-icono"></i>
+                    <label translate>UI_GLOSA</label>
+                </div>				
+				
+				<!--<label class="col-xs-2 col-xs-offset-1" translate>UI_FECHA_OPERACION</label>
+						<bcs-input-date class="col-xs-3" 
+							id="FechaOperacion"
+							activado="'false'" 
+							k-ng-model="data.kngFechaOperacion"
+							k-options = "data.FechaOperacionOpt">
+						</bcs-input-date>-->
+
+			</div>
+			
+			<div class="row">
+				<bcs-grid id="grid-operacionMesaRF"
+					fn-exportar-excel = "exportarExcel"
+				 	configuracion  = "data.confBasicaOperacionesMesaRF"
+					seleccionado   = "data.seleccionOperacionesMesaRF"
+					api            = "data.gridApiOperacionesMesaRF"
+					fn-doble-click = "data.detalleOperacion(data.seleccionOperacionesMesaRF)"	>
+				</bcs-grid>
+			</div>
+			<bcs-websocket bcs-msg='msgWebsocket(message)'></bcs-websocket>
+		</div>
+		
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos">
+			<bcs-button  class="col-xs-1" style="margin-bottom: 5px; width: 12%;" id="frmConsultarMesaRentaFija_btn_ingresoOperacion"
+				bcs-tipo="'bcs-button-primary'"           
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_INGRESO_OPERACION' | translate" 
+				bcs-habilitado="data.HabilitaBotones" 
+				bcs-clic="crearIngresoOperacion('CREAR')">
+			</bcs-button>
+			<bcs-button  class="col-xs-1" style="margin-bottom: 5px; width: 13%;" id="frmConsultarMesaRentaFija_btn_modificarOperacion"
+				bcs-tipo="'bcs-button-secondary'"           
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_MODIFICAR_OPERACION' | translate" 
+				bcs-habilitado="data.seleccionOperacionesMesaRF !== undefined && data.seleccionOperacionesMesaRF && data.seleccionOperacionesMesaRF.IdEstado === 'PEN' && data.HabilitaBotones" 
+				bcs-clic="crearIngresoOperacion('MODIFICAR')">
+			</bcs-button>
+			<bcs-button  class="col-xs-1" style="margin-bottom: 5px; width: 11%;" id="frmConsultarMesaRentaFija_btn_anularOperacion"
+				bcs-tipo="'bcs-button-secondary'"           
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_ANULAR_OPERACION' | translate" 
+				bcs-habilitado="data.seleccionOperacionesMesaRF !== undefined && data.seleccionOperacionesMesaRF && data.seleccionOperacionesMesaRF.IdEstado !== 'ANU' && data.HabilitaBotones" 
+				bcs-clic="anularOperacionMesaRF()">
+			</bcs-button>
+			<bcs-button  class="col-xs-1" style="margin-bottom: 5px; width: 11%;" id="frmConsultarMesaRentaFija_btn_mandato"
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_GENERAR_MANDATO' | translate" 
+				bcs-habilitado="data.seleccionOperacionesMesaRF !== undefined && ['VIG','ANT','LIQ','RGN'].includes(data.seleccionOperacionesMesaRF.IdEstado)"
+				bcs-clic="generarReporteMesaRF('MANDATO')">
+			</bcs-button>
+			<bcs-button  class="col-xs-1" style="margin-bottom: 5px; width: 11%;" id="frmConsultarMesaRentaFija_btn_adendum"
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_GENERAR_ADENDUM' | translate" 
+				bcs-habilitado="data.seleccionOperacionesMesaRF !== undefined && ['VIG','ANT','LIQ'].includes(data.seleccionOperacionesMesaRF.IdEstado) && (data.seleccionOperacionesMesaRF.IdTipoOperacion === 'COMPAC' || data.seleccionOperacionesMesaRF.IdTipoOperacion === 'VENPAC')" 
+				bcs-clic="generarReporteMesaRF('ADENDUM')">
+			</bcs-button>
+			<bcs-button  class="col-xs-1" style="margin-bottom: 5px; width: 16%;" id="frmConsultarMesaRentaFija_btn_confirmar"
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_CONFIRMAR_DESCONF' | translate" 
+				bcs-habilitado="data.seleccionOperacionesMesaRF !== undefined && data.seleccionOperacionesMesaRF.IdEstado === 'VIG' && (data.seleccionOperacionesMesaRF.IdTipoOperacion === 'COMPAC' || data.seleccionOperacionesMesaRF.IdTipoOperacion === 'VENPAC')" 
+				bcs-clic="confirmarPacto()">
+			</bcs-button>
+			<bcs-button  class="col-xs-1" style="margin-bottom: 5px; width: 7%;" id="frmConsultarMesaRentaFija_btn_reasignar"
+				bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_REASIGNAR' | translate" 
+				bcs-habilitado="data.seleccionOperacionesMesaRF !== undefined && ['VIG'].includes(data.seleccionOperacionesMesaRF.IdEstado) && (data.seleccionOperacionesMesaRF.IdTipoOperacion === 'COMTER' || data.seleccionOperacionesMesaRF.IdTipoOperacion === 'VENTER')" 
+				bcs-clic="reasignar(data.seleccionOperacionesMesaRF)">
+			</bcs-button>
+			<bcs-button  class="col-xs-2" style="width: 13%;" id="frmConsultarResumenPosicion_btn_resumen"
+				bcs-texto="'UI_GESTION_MESA_RENTA_FIJA_RESUMEN' | translate" bcs-tipo="'bcs-button-secondary'"
+				bcs-habilitado="ventanaResumen!=undefinned && !validaVentana(ventanaResumen)" 
+				bcs-clic="abrirResumenPosicion()">
+			</bcs-button>
+			<!--
+			<bcs-button  class="col-xs-2" id="frmConsultarMesaRentaFija_btn_condGrales"
+				bcs-tipo=""
+				bcs-auto-desactivar="false"  
+				bcs-texto="'UI_TMP_CONDGRALES' | translate" 
+				bcs-habilitado="data.seleccionOperacionesMesaRF" 
+				bcs-clic="generarReporteMesaRF('CONDGRALES')">
+			</bcs-button>
+			-->
+			<bcs-menu class="col-xs-1 pull-right" style="width: 6%;" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+				<!-- <li ng-click="informeCarteraPropia('M')">{{'UI_INFORME_CARTERA_PROPIA_MERCADO' | translate}}</li>
+				<li ng-click="informeCarteraPropia('C')">{{'UI_INFORME_CARTERA_PROPIA_COMPRA' | translate}}</li>-->
+				<li ng-click="exportarExcel(NombreArchivo)">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</form>
+</div>

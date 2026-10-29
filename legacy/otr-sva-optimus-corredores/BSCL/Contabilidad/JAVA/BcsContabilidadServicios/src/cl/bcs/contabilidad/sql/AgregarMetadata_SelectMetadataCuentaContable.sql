@@ -1,0 +1,1 @@
+SELECT "BSCL.Contabilidad.BD.Secuencias::IdMetadataCuentaContable".NEXTVAL AS "IdMetadataCuentaContable" FROM DUMMY

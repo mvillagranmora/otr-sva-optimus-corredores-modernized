@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Orden.BD::ORD.CrearAsignaciones_Proceso" ("IdOrden", "IdTransaccion") VALUES (:IdOrden, :IdTransaccion)

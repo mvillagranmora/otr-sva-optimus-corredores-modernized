@@ -1,0 +1,96 @@
+<div id="PanelMetodoPosicion" class="row" ng-controller="PanelMetodoPosicionCtrl as pMetPos">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_TIPO_REAJUSTE</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pMetPos_TipoReajuste"
+						tipo="'combobox-tipo-reajuste'"
+						id-actual="pMetPos.filtro.IdTipoReajuste"
+						id-defecto="'0'"
+						filtros="pMetPos.cmbbx.TipoReajuste.filtros"
+						todos="'S'"
+						configuracion="pMetPos.cmbbx.TipoReajuste.configuracion" 
+						seleccionado="pMetPos.dataFiltros.TipoReajusteObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" style="text-align:center" translate>UI_MESA</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pMetPos_Mesa"
+						tipo="'combobox-mesas'"
+						id-actual="pMetPos.filtro.IdMesa"
+						id-defecto="'0'"
+						filtros="pMetPos.cmbbx.Mesa.filtros"
+						todos="'S'"
+						seleccionado="pMetPos.dataFiltros.MesaObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pMetPos_Estado"
+						tipo="'combobox-estado-mesas'"
+						id-actual="pMetPos.filtro.IdEstado"
+						id-defecto="'0'"
+						filtros="pMetPos.cmbbx.Estado.filtros"
+						todos="'S'"
+						seleccionado="pMetPos.dataFiltros.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" style="text-align:center" translate>UI_ES_POSICION_INICIAL</label>
+					<input class="col-xs-7" type="checkbox" ng-model="pMetPos.filtro.esPosicionInicial">
+					</label>
+				</div>
+				<!-- div class="col-xs-6">
+					<label class="col-xs-4" style="text-align:center" translate>UI_TIPO_POSICION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pMetPos_TipoPos"
+						tipo="'combobox-tipo-pos-mesas'"
+						id-actual="pMetPos.filtro.IdTipoPosicion"
+						id-defecto="'0'"
+						filtros="pMetPos.cmbbx.TipoPos.filtros"
+						todos="'S'"
+						seleccionado="pMetPos.dataFiltros.TipoPosObj">
+					</bcs-combobox-base>
+				</div-->
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pMetPos.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pMetPos.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<br>
+	
+	<div class="row">
+		<bcs-grid
+			configuracion="pMetPos.grilla.MetodosPosicion"
+			seleccionado="pMetPos.grilla.metodoPosicionSel"
+			fn-doble-click="pMetPos.fn.modificar(pMetPos.grilla.metodoPosicionSel)"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	
+	<div class="row bcs-panel-buttons">
+		<bcs-button id="PanelMetodoPosicion_agregar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'" bcs-clic="pMetPos.fn.agregar()">
+		</bcs-button>
+		<bcs-button id="PanelMetodoPosicion_modificar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="'true'" bcs-clic="pMetPos.fn.modificar(pMetPos.grilla.metodoPosicionSel)">
+		</bcs-button>
+		
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel('MetodoPosicion')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

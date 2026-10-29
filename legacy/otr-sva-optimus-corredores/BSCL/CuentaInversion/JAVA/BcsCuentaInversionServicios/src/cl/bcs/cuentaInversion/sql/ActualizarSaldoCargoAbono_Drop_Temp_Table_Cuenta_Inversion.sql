@@ -1,0 +1,1 @@
+DROP TABLE #ActualizarSaldoCargoAbono_CuentaInversion;

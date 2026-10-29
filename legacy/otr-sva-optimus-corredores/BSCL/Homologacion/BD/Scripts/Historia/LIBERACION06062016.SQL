@@ -1,0 +1,235 @@
+-- ########################################################################################
+--
+--  =========================================================
+--  ESTE ARCHIVO CONTIEN LOS SCRIPT HISTORICOS DE LIBERACION
+--  =========================================================
+--  * Debe incluir los ALTER de Tablas
+--  * Debe incluir nuevas tablas, indices, secuencuias, etc.
+--  * Debe incluir insert de datos maestros necesarios para el funcionamiento 
+--  NOTA: Este archivo no reemplaza los scripts de creación que deben ir en cada módulo.
+-- 
+-- ########################################################################################
+
+SET SCHEMA BSCL;
+--
+--
+-- LIBERACION SEMANA: 20-05-2016
+
+DROP PROCEDURE "BSCL.Homologacion.BD.Servicios::CargarDatosClientesPortafolios";
+
+DROP TABLE  "BSCL"."BSCL.Homologacion.BD::HOM.Transaccion"; 
+CREATE COLUMN TABLE "BSCL"."BSCL.Homologacion.BD::HOM.Transaccion" (
+ "IdTransaccion" 						BIGINT NOT NULL,
+ "Folio" 								NVARCHAR(40),
+ "FechaSistemaCreacion" 				DATE NOT NULL DEFAULT '0001-01-01',
+ "HoraSistemaCreacion" 					TIME NOT NULL DEFAULT '00:00:00',
+ "FechaOperacion" 						SECONDDATE 	NOT NULL DEFAULT '0001-01-01 00:00:00',
+ "FechaModificacionOperacion" 			SECONDDATE  NOT NULL DEFAULT '0001-01-01 00:00:00',
+ "FechaLiquidacion" 					DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaEmision" 						DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaVencimiento" 					DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaIngresoOferta" 					TIMESTAMP NOT NULL,
+ "FechaIngresoRegistro" 				TIMESTAMP NOT NULL,
+ "IdSistemaBursatil" 					BIGINT NOT NULL,
+ "EsOD" 								NVARCHAR(1) DEFAULT 'N' NOT NULL ,
+ "EsCuentaPropia" 						NVARCHAR(1) DEFAULT 'N' NOT NULL ,
+ "EsFungible" 							NVARCHAR(1) DEFAULT 'N' NOT NULL ,
+ "EsFueraRueda" 						NVARCHAR(1) DEFAULT 'N' NOT NULL ,
+ "EsAPlazo" 							NVARCHAR(1) DEFAULT 'N' NOT NULL ,
+ "EsVentaCorta"							NVARCHAR(1) DEFAULT 'N' NOT NULL ,
+ "IdOperadorContraparte" 				NVARCHAR(40) NOT NULL DEFAULT '',
+ "CodigoOperadorContraparte"			NVARCHAR(40) NOT NULL DEFAULT '',
+ "IdOperadorCorredor" 					NVARCHAR(40) NOT NULL DEFAULT '',
+ "IdEmisor" 							NVARCHAR(40),
+ "Cantidad" 							DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "Monto" 								DECIMAL(26,8) NOT NULL DEFAULT 0,--se guarda en moneda Instrumento
+ "MontoValorizado"						DECIMAL(26,8) NOT NULL DEFAULT 0,--se guarda en moneda Intrumenot
+ "Precio" 								DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "Tasa" 								DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "Plazo" 								BIGINT DEFAULT 0 NOT NULL,
+ "Nemotecnico" 							NVARCHAR(40) NOT NULL,
+ "NemotecnicoSVS" 						NVARCHAR(40) NOT NULL,
+ "ValorRescate" 						DECIMAL(26,8)NOT NULL DEFAULT 0,
+ "ValorCaptacion" 						DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "IdEstado" 							NVARCHAR(3),
+ "IdTransaccionPlazo" 					BIGINT NOT NULL DEFAULT 0,
+ "IdTransaccionOd"	 					BIGINT NOT NULL DEFAULT 0,
+ "IdTipoInstrumento" 					NVARCHAR(3) NOT NULL,
+ "IdClasificacionTipoInstrumento" 		NVARCHAR(3) NOT NULL,
+ "IdTipoReajuste" 						NVARCHAR(3) NOT NULL,
+ "IdEmpleado" 							BIGINT NOT NULL,
+ "IdTipoOperacion" 						NVARCHAR(6) NOT NULL ,
+ "IdCondicionDeLiquidacion" 			NVARCHAR(2) NOT NULL,
+ "IdMoneda" 							NVARCHAR(3) NOT NULL,
+ "IdMonedaLiquidacion"					NVARCHAR(3) NOT NULL,
+ "IdCorredor" 							BIGINT NOT NULL,
+ "Reservado"	    					NVARCHAR(1) NOT NULL DEFAULT 'N', 
+ "IdUsuarioReserva" 					BIGINT NOT NULL DEFAULT 0,
+ "MotivoReserva"						NVARCHAR(40) NOT NULL DEFAULT '',
+ "Bloqueado"		   					NVARCHAR(1) NOT NULL DEFAULT 'N', 
+ "IdUsuarioBloqueo" 					BIGINT NOT NULL DEFAULT 0,
+ "MotivoBloqueo"						NVARCHAR(40) NOT NULL DEFAULT '',
+ "IdEmpresa" 							BIGINT NOT NULL,
+ "IdBolsa" 								NVARCHAR(3) NOT NULL,
+ "IdLibroOrdenes" 						BIGINT NOT NULL,
+ "IdInstrumento" 						BIGINT NOT NULL,
+ "NemotecnicoSubyacente"				NVARCHAR(40) NOT NULL,
+ "IdInstrumentoSubyacente" 				BIGINT NOT NULL,
+ "IdMonedaSubyacente"					NVARCHAR(3) NOT NULL,
+ "FechaParidad" 						DATE NOT NULL DEFAULT '0001-01-01',
+ "ValorParidad" 						DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "FechaTipoCambio" 						DATE NOT NULL DEFAULT '0001-01-01',
+ "ValorTipoCambio"						DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "IdCarga"                              BIGINT NOT NULL DEFAULT 0, 
+ "IdComprobanteTesoreria"		        BIGINT 	NOT NULL DEFAULT 0,  -- No tiene FK ya que si no está liquidado puede estar en cero.  
+ "MERCADO"								NVARCHAR(10),
+ "FEC_TRANS"                            NVARCHAR(30),
+ "FOLIO_TRANS"							NVARCHAR(30),
+ "IND_BOLSA"                            NVARCHAR(3),
+ "TIPO_OPERAC" 							NVARCHAR(3),
+ "FOLIO_SIMUL"                          NVARCHAR(10),
+ "IND_SIMUL"                            NVARCHAR(3),
+ "IND_OD"								NVARCHAR(50),
+ "RUEDA"								NVARCHAR(10),
+ "SEC_MOVTO_FAC"                        BIGINT,
+ PRIMARY KEY ("IdTransaccion"));
+
+DROP TABLE "BSCL"."BSCL.Homologacion.BD::HOM.Orden";
+CREATE COLUMN TABLE "BSCL"."BSCL.Homologacion.BD::HOM.Orden" (
+ "IdOrden" 								BIGINT NOT NULL,
+ "Folio"								NVARCHAR(40),
+ "FechaRecepcion" 						SECONDDATE NOT NULL DEFAULT '0001-01-01 00:00:00',
+ "FechaIngresoRegistro"					TIMESTAMP NOT NULL DEFAULT '0001-01-01 00:00:00.000000',
+ "FechaIngresoRegistroCorta"			DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaSolicitudAnulacion"				SECONDDATE NOT NULL DEFAULT '0001-01-01 00:00:00',
+ "FechaAnulacion" 						SECONDDATE NOT NULL DEFAULT '0001-01-01 00:00:00',
+ "FechaOperacion"						SECONDDATE NOT NULL DEFAULT '0001-01-01 00:00:00',
+ "FechaVigencia" 						DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaVencimiento" 					DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaEmision" 						DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaLiquidacion" 					DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaAceptacion" 						DATE NOT NULL DEFAULT '0001-01-01',
+ "FechaAutorizacion" 					DATE NOT NULL DEFAULT '0001-01-01',
+ "Glosa" 								NVARCHAR(520),
+ "IdEstadoOrden" 						NVARCHAR(3) NOT NULL ,
+ "Cantidad" 							DECIMAL(26,8) NOT NULL DEFAULT 0 ,
+ "Tasa" 								DECIMAL(26,8) NOT NULL DEFAULT 0 ,
+ "Plazo" 								BIGINT NOT NULL DEFAULT 0 ,
+ "ValorRescate" 						DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "IdTipoReajuste" 						NVARCHAR(3) NOT NULL,
+ "PrecioOrden" 							DECIMAL(26,8) NOT NULL DEFAULT 0 ,
+ "PrecioMercado" 						DECIMAL(26,8) NOT NULL DEFAULT 0 ,
+ "TasaAgente" 							DECIMAL(26,8) NOT NULL,
+ "IndicadorFacturacionInmediata" 		NVARCHAR(1) NOT NULL,
+ "ValorCaptacion" 						DECIMAL(26,8),
+ "IdCondicionDeLiquidacion" 			NVARCHAR(2) NOT NULL,
+ "IdTipoOperacion" 						NVARCHAR(6) NOT NULL,
+ "IdCliente" 							BIGINT NOT NULL,
+ "IdPortafolioCliente" 					BIGINT NOT NULL,
+ "IdTipoCanalIngreso" 					NVARCHAR(3) NOT NULL ,
+ "IdLibroOrdenes" 						BIGINT NOT NULL,
+ "IdEmisor" 							NVARCHAR(40) NOT NULL,
+ "IdEmpresa" 							BIGINT NOT NULL,
+ "IdBolsa" 								NVARCHAR(3) NOT NULL , 
+ "IdBolsaDistribucion"					NVARCHAR(3) NOT NULL DEFAULT '',
+ "EspecificaBolsa"						NVARCHAR(1) NOT NULL DEFAULT 'S',
+ "IdTipoCanalDistribucion"				NVARCHAR(3) NOT NULL DEFAULT '',
+ "IdInstrumento" 						BIGINT NOT NULL,
+ "IdTipoInstrumento" 					NVARCHAR(3) NOT NULL ,
+ "IdClasificacionTipoInstrumento" 		NVARCHAR(3) NOT NULL ,
+ "IdProducto" 							NVARCHAR(4) NOT NULL ,
+ "Nemotecnico" 							NVARCHAR(40) NOT NULL ,
+ "IdEstadoAsignacion" 					NVARCHAR(3) NOT NULL DEFAULT 'SEN',
+ "IdGrupoCobro" 						BIGINT NOT NULL,
+ "IdCarga"                              BIGINT NOT NULL DEFAULT 0,
+ "EsVentaCorta"							NVARCHAR(1) NULL DEFAULT 'N',
+ "SecOrdenMigracion"                    BIGINT DEFAULT 0 ,
+ "Reservado"	    					NVARCHAR(1) NOT NULL DEFAULT 'N', 
+ "IdUsuarioReserva" 					BIGINT NOT NULL DEFAULT 0,
+ "MotivoReserva"						NVARCHAR(40) NOT NULL DEFAULT '',
+ "Bloqueado"		   					NVARCHAR(1) NOT NULL DEFAULT 'N', 
+ "IdUsuarioBloqueo" 					BIGINT NOT NULL DEFAULT 0,
+ "MotivoBloqueo"						NVARCHAR(40) NOT NULL DEFAULT '',
+ "IdInstrumentoSubyacente"              BIGINT NOT NULL DEFAULT 0,
+ "IdEmpleadoPortafolio"					BIGINT NOT NULL DEFAULT 0,
+ "IdEmpleadoDigitador" 					BIGINT NOT NULL DEFAULT 0,
+ "IdTipoPrecio" 						NVARCHAR(1) NOT NULL DEFAULT '',
+ "IdTipoTasa" 							NVARCHAR(1) NOT NULL DEFAULT '',
+ "IdPorcentajeVisibilidad" 				BIGINT NOT NULL DEFAULT 0,
+ "IdTipoVigenciaOrden" 					NVARCHAR(2) NOT NULL DEFAULT '',
+ "IdMonedaOrden"						NVARCHAR(3) NOT NULL DEFAULT '',
+ "IdMonedaLiquidacionOrden"				NVARCHAR(3) NOT NULL DEFAULT '',
+ "MontoLocal" 							DECIMAL(26,8) NOT NULL DEFAULT 0 ,
+ "MontoOrden" 							DECIMAL(26,8) NOT NULL DEFAULT 0 ,
+ "MontoLiquidacion"						DECIMAL(26,8) NOT NULL DEFAULT 0 ,
+ "TipoCambio"							DECIMAL(26,8) NOT NULL DEFAULT 0 ,
+ "IdTipoCustodia" 						NVARCHAR(3) NOT NULL DEFAULT '',
+ "IdFormaCustodia" 						NVARCHAR(3) NOT NULL DEFAULT '',
+ "sol_sec"								BIGINT,
+ "ord_sec"								BIGINT,
+ "ord_folio"							BIGINT,
+ "RUT_CLI"								NVARCHAR(11),
+ "SEC_RUT_CLI"                          BIGINT, --cuenta es igual a sec_rut_cli
+ "TIPO_OPERAC" 							NVARCHAR(1),
+ "ope_id"								NVARCHAR(4),
+ "MERCADO"								NVARCHAR(4),
+ "sol_tipo_gasto" 						NVARCHAR(40), 
+ "sol_tipo_comision" 					NVARCHAR(40), 
+ "sol_tipo_derecho" 					NVARCHAR(40),
+ "sol_val_gastos" 						DECIMAL(26,8), 
+ "sol_val_comision" 					DECIMAL(26,8),
+ "sol_val_derechos" 					DECIMAL(26,8),                			
+ "orv_mto_gastos" 						DECIMAL(26,8),
+ "orv_mto_comision" 					DECIMAL(26,8), 
+ "orv_mto_derechos"						DECIMAL(26,8),
+ "sol_ind_vta_corta"					NVARCHAR(4),
+ "sol_ind_simul"						NVARCHAR(4),  	
+ PRIMARY KEY ("IdOrden"));
+ 
+ 
+DROP TABLE "BSCL"."BSCL.Homologacion.BD::HOM.Asignacion";
+CREATE COLUMN TABLE "BSCL"."BSCL.Homologacion.BD::HOM.Asignacion" (
+ "IdAsignacion"                         BIGINT NOT NULL,
+ "FechaAsignacion"                      TIMESTAMP NOT NULL DEFAULT '0001-01-01 00:00:00.000000',
+ "FechaIngresoRegistro"                 TIMESTAMP NOT NULL DEFAULT '0001-01-01 00:00:00.000000',
+ "CantidadAsignada"                     DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "MontoAsignado"                        DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "ValorRescateAsignado"                 DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "CantidadAsignadaRef"                	DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "ValorRescateAsignadoRef" 				DECIMAL(26,8) NOT NULL DEFAULT 0,
+ "IdEstadoAsignacion"                   NVARCHAR(40) NOT NULL,
+ "IdEstadoFacturacion"                  NVARCHAR(40) NOT NULL,
+ "IdTransaccion"                        BIGINT NOT NULL,
+ "IdCarga"                              BIGINT NOT NULL DEFAULT 0,
+ "IdOrden"                              BIGINT NOT NULL, 
+ "IdLibroOrdenes" 						BIGINT NOT NULL,
+ "EsAPlazo" 							NVARCHAR(1) DEFAULT 'N' NOT NULL,
+ "IdAsignacionRef"						BIGINT NOT NULL DEFAULT 0,
+ "IdCompFacturacionRef"					BIGINT NOT NULL DEFAULT 0,
+ "EsOD"									NVARCHAR(1) NOT NULL DEFAULT 'N',
+ "SecAsignacionMigracion"               BIGINT DEFAULT 0 NOT NULL,
+ "sol_sec"								BIGINT,
+ "FEC_TRANS"                            NVARCHAR(30),
+ "FOLIO_TRANS"							NVARCHAR(40),
+ "MERCADO"								NVARCHAR(4),
+ "SEC_ASIGNACION"						BIGINT,
+ "TIPO_OPERAC"							NVARCHAR(1),
+ "NEMO"									NVARCHAR(50),
+ "RUT_CLI"								NVARCHAR(11),
+ "SEC_RUT_CLI"							BIGINT,
+ "IND_BOLSA"							NVARCHAR(3),
+ "IND_SIMUL"							NVARCHAR(4),
+ "IND_LIQUID"							NVARCHAR(4),
+ "SEC_MOVTO_FAC"						BIGINT,				
+ PRIMARY KEY ("IdAsignacion")) ;
+
+
+--################################################
+--       <INICIALES DESARROLLADOR>.<MOTIVO>
+--################################################
+
+-- PEW PEW!
+
+--------------------------------------------------
+--      FIN <MOTIVO>
+--------------------------------------------------

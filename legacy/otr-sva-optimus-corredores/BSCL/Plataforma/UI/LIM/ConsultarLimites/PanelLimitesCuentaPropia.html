@@ -1,0 +1,67 @@
+<div id="PanelLimitesCuentaPropia" class="row" ng-controller="PanelLimitesCuentaPropiaCtrl as pLCP">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_TIPO_LIMITE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-limite'"
+						id-actual="pLCP.filtro.IdTipoLimite"
+						id-defecto="pLCP.filtro.IdTipoLimiteDef"
+						filtros="pLCP.cmbbx.TipoLimite.filtros"
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+			  		<label class="col-xs-2" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						id-actual="pLCP.filtro.IdClasificacionTipoInstrumento"
+						id-defecto="pLCP.filtro.IdClasificacionTipoInstrumentoDef"
+						filtros="pLCP.cmbbx.ClasificacionTipoInstrumento.filtros"
+						todos="'S'"
+						seleccionado="pLCP.dataModal.ClasificacionTipoInstrumentoObj"
+						cascada1-a="pLCP.cmbbx.TipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						id-actual="pLCP.filtro.IdTipoInstrumento"
+						id-post-filtro="pLCP.filtro.IdTipoInstrumentoDef"
+						filtros="pLCP.cmbbx.TipoInstrumento.filtros"
+						todos="'S'"
+						seleccionado="pLCP.dataModal.TipoInstrumentoObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pLCP.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pLCP.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		
+	<div class="row">
+		<bcs-grid
+			configuracion="pLCP.grilla.LimitesCuentaPropia"
+			seleccionado="pLCP.grilla.limiteSel"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-1" bcs-tipo="''" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_EXPORTAR' | translate" bcs-habilitado="true" bcs-clic="exportarExcel('LimitesCuentaPropia')">
+		</bcs-button>
+	</div>
+</div>

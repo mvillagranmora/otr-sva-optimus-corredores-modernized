@@ -1,0 +1,244 @@
+<div class="row" ng-controller="ModalAgregarValorCobroDetalleCtrl as mavcd">
+	<div class="row"> 
+		<form name="ModalAgregarValorCobroDetalle" class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO_PRODUCTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido="true"
+						tipo="'combobox-tipo-producto'"
+						filtros = "mavcd.cmbbx.TipoProducto.filtros"
+						id-actual="mavcd.respuesta.IdTipoProducto"
+						id-post-filtro="mavcd.respuesta.IdTipoProductoDef"
+						activado="!(mavcd.parametros.lineaDetalle)"
+						seleccionado="mavcd.dataModal.TipoProductoObj"
+						cascada1-a="mavcd.cmbbx.TipoOperacion.filtros.IdTipoProducto"
+						cascada1-valor="'IdTipoProducto'"
+						cascada2-a="mavcd.cmbbx.ValorCobro.filtros.IdTipoProducto"
+						cascada2-valor="'IdTipoProducto'">
+					</bcs-combobox-base>
+				</div>
+			</div>			
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_CLASIFICACION_COBRO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido="true"
+						tipo="'combobox-cobro-clasificacion'"
+						filtros = "mavcd.cmbbx.CobroClasificacion.filtros"
+						id-actual="mavcd.respuesta.IdCobroClasificacion"
+						id-post-filtro="mavcd.respuesta.IdCobroClasificacionDef"
+						todos="'N'"
+						activado="!(mavcd.parametros.lineaDetalle)"
+						seleccionado="mavcd.dataModal.CobroClasificacionObj"
+						cascada1-a="mavcd.cmbbx.ValorCobro.filtros.IdCobroClasificacion"
+						cascada1-valor="'IdCobroClasificacion'"
+						cascada2-a="mavcd.cmbbx.Cobro.filtros.IdCobroClasificacion"
+						cascada2-valor="'IdCobroClasificacion'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div ng-show="mavcd.parametros.esPersonalizado!=true">
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_VALOR_COBRO</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido="!mavcd.parametros.esPersonalizado"
+							tipo="'combobox-valor-cobro'"
+							filtros = "mavcd.cmbbx.ValorCobro.filtros"
+							id-actual = "mavcd.respuesta.IdValorCobro"
+							id-post-filtro="mavcd.respuesta.IdValorCobroDef"
+							todos="'N'"
+							activado="!(mavcd.parametros.lineaDetalle)"
+							seleccionado="mavcd.dataModal.ValorCobroObj"
+							envia-todos = "'S'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row" style="min-height:14px;">
+					<div class="col-xs-12">
+						<label class="col-xs-4"></label>
+						<div class="col-xs-8" style="background-color:#E7E7E7;min-height:14px;">
+							<label>{{mavcd.etiquetaValorCobro}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_MONEDA</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido="!mavcd.parametros.esPersonalizado"
+							tipo="'combobox-moneda'"
+							filtros="mavcd.cmbbx.Moneda.filtros"
+							id-actual="mavcd.respuesta.IdMoneda"
+							id-defecto="mavcd.respuesta.IdMonedaDef"
+							todos="'N'"
+							seleccionado="mavcd.dataModal.MonedaSeleccionado">
+						</bcs-combobox-base>
+					</div>
+				</div>
+			</div>
+			<div ng-show="mavcd.parametros.esPersonalizado==true">
+				<hr>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_COBRO</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido="mavcd.parametros.esPersonalizado"
+							tipo="'combobox-cobro'"
+							activado="!(mavcd.parametros.lineaDetalle)"
+							filtros="mavcd.cmbbx.Cobro.filtros"
+							id-actual="mavcd.respuesta.IdCobro"
+							id-post-filtro="mavcd.respuesta.IdCobroDef"
+							seleccionado="mavcd.dataModal.CobroSeleccionado">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_MONEDA</label>
+						<bcs-combobox-base class="col-xs-8"
+							bcs-requerido="mavcd.parametros.esPersonalizado"
+							tipo="'combobox-moneda'"
+							filtros="mavcd.cmbbx.Moneda.filtros"
+							id-actual="mavcd.respuesta.IdMoneda"
+							id-defecto="mavcd.respuesta.IdMonedaDef"
+							todos="'N'"
+							seleccionado="mavcd.dataModal.MonedaSeleccionado">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div ng-if="mavcd.dataModal.CobroSeleccionado.FormaCobro==='V'"><!-- porcentaje! -->
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-4" translate>UI_VALOR_VARIABLE</label>
+							<bcs-input-porcentaje class="col-xs-8"
+								bcs-requerido = "mavcd.parametros.esPersonalizado&&mavcd.dataModal.CobroSeleccionado.FormaCobro==='V'"
+								k-ng-model="mavcd.respuesta.ValorCobro"  
+								decimales="4"
+								k-ng-disabled="(mavcd.dataModal.CobroSeleccionado.PermiteCambiarValor==='N')">
+							</bcs-input-porcentaje>
+						</div>
+					</div>
+				</div>
+				<div ng-if="mavcd.dataModal.CobroSeleccionado.FormaCobro==='F'"><!-- FIJO -->
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-4" translate>UI_VALOR_FIJO</label>
+							<bcs-input-numero class="col-xs-8"
+								bcs-requerido = "mavcd.parametros.esPersonalizado&&mavcd.dataModal.CobroSeleccionado.FormaCobro==='F'"
+								k-ng-model="mavcd.respuesta.ValorCobro"  
+								decimales="4"
+								k-ng-disabled="(mavcd.dataModal.CobroSeleccionado.PermiteCambiarValor==='N')">
+							</bcs-input-numero>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_VALOR_TOPE_MINIMO</label>
+						<bcs-input-numero class="col-xs-8"
+							k-ng-model="mavcd.respuesta.ValorTopeMinimoOrden"  
+							decimales="4"
+							k-ng-disabled="(mavcd.dataModal.CobroSeleccionado.PermiteCambiarValor==='N')">
+						</bcs-input-numero>
+					</div>
+				</div>
+				<hr>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_BOLSA</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-bolsa'"
+						filtros = "mavcd.cmbbx.Bolsa.filtros"
+						id-actual="mavcd.respuesta.IdBolsa"
+						id-post-filtro="mavcd.respuesta.IdBolsaDef"
+						todos="'S'"
+						seleccionado="mavcd.dataModal.BolsaObj">
+					</bcs-combobox-base>
+				</div>
+			</div>			
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-tipo-operacion'"
+						filtros="mavcd.cmbbx.TipoOperacion.filtros"
+						id-actual="mavcd.respuesta.IdTipoOperacion"
+						id-post-filtro="mavcd.respuesta.IdTipoOperacionDef"
+						todos="'S'"
+						seleccionado="mavcd.dataModal.TipoOperacionObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_CANAL</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-tipo-canal-ingreso'"
+						filtros="mavcd.cmbbx.TipoCanalIngreso.filtros"
+						id-actual="mavcd.respuesta.IdCanalIngreso"
+						id-post-filtro="mavcd.respuesta.IdCanalIngresoDef"
+						todos="'S'"
+						seleccionado="mavcd.dataModal.TipoCanalIngresoObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<!-- <div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_PLAZO</label>
+					<bcs-input-numero class="col-xs-8"
+						bcs-requerido
+						k-ng-model="mavcd.respuesta.DiasPlazo"  
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_PRIORIDAD</label>
+					<bcs-input-numero class="col-xs-8"
+						bcs-requerido
+						k-ng-model="mavcd.respuesta.Prioridad"
+						decimales="0">
+					</bcs-input-numero>
+				</div>
+			</div> -->
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo="'combobox-estado-perfil-comercial'"
+						filtros="mavcd.cmbbx.EstadoPerfilComercial.filtros"
+						id-actual="mavcd.respuesta.EstadoDetalle"
+						id-post-filtro="mavcd.respuesta.EstadoDetalleDef"
+						todos="'N'"
+						seleccionado="mavcd.dataModal.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+			</div>
+		</form>
+	</div>
+	<hr>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-3 pull-right" 
+			bcs-tipo="'bcs-button-primary'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-habilitado="ModalAgregarValorCobroDetalle.$valid"  
+			bcs-clic="mavcd.aceptar();">
+		</bcs-button>
+		<bcs-button class="col-xs-3 pull-right" 
+			bcs-tipo="'bcs-button-secondary'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-habilitado="true"  
+			bcs-clic="mavcd.cancelar();">
+		</bcs-button>
+	</div>
+</div>

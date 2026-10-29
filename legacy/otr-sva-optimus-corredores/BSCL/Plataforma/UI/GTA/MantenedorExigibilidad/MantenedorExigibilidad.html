@@ -1,0 +1,84 @@
+<div class="row" ng-controller='MantenedorExigibilidadCtrl'>
+	<div class="row bcs_titulo">
+		<div class="col-xs-12">
+			<span>{{'UI_BLOTTER_REVISION_COBERTURA'|translate}}</span>
+		</div>
+	</div>
+	<div class="row"> 
+		<div class="col-xs-10">
+                <div class="row">
+					<label class="col-xs-2" translate>UI_ENTIDAD</label>
+					<bcs-combobox-base class="col-xs-8"
+						auto-cargar		= "'true'"						    						    
+						tipo			= "data.oConfiguracionEntidadDestinoGarantia.tipo"  
+						configuracion	= "data.oConfiguracionEntidadDestinoGarantia.configuracion" 
+						id-actual		= "data.oConfiguracionEntidadDestinoGarantia.idActual" 
+						seleccionado	= "data.oConfiguracionEntidadDestinoGarantia.seleccionado" 
+						filtros			= "data.oConfiguracionEntidadDestinoGarantia.filtros"
+						cascada1-a		= "data.oConfiguracionTipoInstrumentoExigeGarantia.filtros.IdEntidadDestinoGarantia"
+						cascada1-valor	= "'IdEntidadDestinoGarantia'"
+						cascada2-a		= "data.oConfiguracionInstrumentoExigeGarantia.filtros.IdEntidadDestinoGarantia"
+						cascada2-valor	= "'IdEntidadDestinoGarantia'">
+					</bcs-combobox-base>
+                </div>
+               <div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-4"
+							auto-cargar="false"			
+							tipo			 = "data.oConfiguracionTipoInstrumentoExigeGarantia.tipo"
+							configuracion	 = "data.oConfiguracionTipoInstrumentoExigeGarantia.configuracion"
+							seleccionado	 = "data.oConfiguracionTipoInstrumentoExigeGarantia.seleccionado"
+							filtros			 = "data.oConfiguracionTipoInstrumentoExigeGarantia.filtros"
+							id-actual		 = "data.oConfiguracionTipoInstrumentoExigeGarantia.idActual"
+							id-defecto		 = "data.oConfiguracionTipoInstrumentoExigeGarantia.idDefecto"
+							todos			 = "'S'"
+							item-post-filtro = "'1'"
+							cascada1-a		 = "data.oConfiguracionInstrumentoExigeGarantia.filtros.IdTipoInstrumento"		                
+							cascada1-valor	 = "'IdTipoInstrumento'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_SUBYACENTE</label>
+							<bcs-combobox-base class="col-xs-4"
+							auto-cargar		 = "false"
+							tipo			 = "data.oConfiguracionInstrumentoExigeGarantia.tipo"
+							configuracion	 = "data.oConfiguracionInstrumentoExigeGarantia.configuracion"
+							seleccionado	 = "data.oConfiguracionInstrumentoExigeGarantia.seleccionado"
+							todos			 = "'S'"
+							item-post-filtro = "'1'"
+							filtros			 = "data.oConfiguracionInstrumentoExigeGarantia.filtros"
+							id-actual		 = "data.oConfiguracionInstrumentoExigeGarantia.idActual"
+							id-defecto		 = "data.oConfiguracionInstrumentoExigeGarantia.idDefecto">
+						</bcs-combobox-base>
+					</div>
+		    	</div>
+		</div>
+		<div class="col-xs-2">
+		    <div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="buscarExigibilidad()" ></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+	 
+		</div>
+	</div>
+	<div class="row">
+		<!-- <bcs-grid-base-v2 seleccionado="RegistrosExigibilidad" elemento="data.GridRegistroExigibilidad"  fn-exportar-excel="exportarExcel" configuracion="defaultOptions" ></bcs-grid-base-v2>-->
+		<bcs-grid id="grid-exigibilidad"
+			fn-exportar-excel = "exportarExcel" 
+		 	configuracion = "confExigibilidad"
+			seleccionado = "seleccionExigibilidad">		
+		</bcs-grid>
+	</div>
+	
+    <div class="row bcs-panel-comandos">
+	    <bcs-button id="MantenedorExigibilidad_ActExigibilidad" class="col-xs-2" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_ACT_EXIGIBILIDAD_GTA' | translate" bcs-habilitado="true"  bcs-clic="GrabarExigibilidad()"></bcs-button>
+		<div class="col-xs-2"> </div>
+		<div class="col-xs-6"> </div>  
+		<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>  
+	</div>
+</div>

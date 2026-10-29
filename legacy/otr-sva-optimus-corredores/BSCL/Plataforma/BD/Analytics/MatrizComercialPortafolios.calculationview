@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="MatrizComercialPortafolios" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true" hierarchiesSQLEnabled="false" translationRelevant="true">
+  <descriptions defaultDescription="MatrizComercialPortafolios"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdEmpresa"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCliente" length="302"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidad" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdCategoriaInversionista" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoProducto" length="4"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoProducto" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdBolsa" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="EsExtraCobros" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EsExtraProductos" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoOperacion" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoOperacion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdCanalIngreso" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="CanalIngreso" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdCobroClasificacion"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoCobroClasificacion" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdCobro" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCobro" length="100"/>
+        <viewAttribute datatype="DECIMAL" id="ValorCobro" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="FormaCobro" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="ValorTopeMinimoOrden" length="26" scale="8"/>
+        <viewAttribute datatype="BIGINT" id="Prioridad"/>
+        <viewAttribute datatype="BIGINT" id="DiasPlazo"/>
+        <viewAttribute datatype="NVARCHAR" id="IdValorCobro" length="40"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	 var_out = 
+
+SELECT DISTINCT
+				PRODUCTOS.&quot;IdEmpresa&quot;,
+				CASE WHEN COBROS.&quot;IdCliente&quot; = 0 THEN NULL ELSE COBROS.&quot;IdCliente&quot; END AS &quot;IdCliente&quot;,
+				CAST(COBROS.&quot;NombreCliente&quot; AS NVARCHAR(302)) AS &quot;NombreCliente&quot;,
+				CAST(PRODUCTOS.&quot;DocumentoIdentidad&quot; AS NVARCHAR(40)) AS &quot;DocumentoIdentidad&quot;,
+				CASE WHEN PRODUCTOS.&quot;IdPortafolio&quot; = 0 THEN NULL ELSE PRODUCTOS.&quot;IdPortafolio&quot; END AS &quot;IdPortafolio&quot;,
+				CAST(PRODUCTOS.&quot;CodigoPortafolio&quot; AS NVARCHAR(100)) AS &quot;CodigoPortafolio&quot;,
+				CASE WHEN PRODUCTOS.&quot;IdCategoriaInversionista&quot; = '' THEN NULL ELSE CAST(PRODUCTOS.&quot;IdCategoriaInversionista&quot; AS NVARCHAR(40))END AS &quot;IdCategoriaInversionista&quot;,
+				CASE WHEN PRODUCTOS.&quot;IdTipoProducto&quot; = '' THEN NULL ELSE PRODUCTOS.&quot;IdTipoProducto&quot; END AS &quot;IdTipoProducto&quot;,
+				CAST(PRODUCTOS.&quot;TipoProducto&quot; AS NVARCHAR(100)) AS &quot;TipoProducto&quot;,
+				CASE WHEN COBROS.&quot;IdBolsa&quot; = '' THEN NULL ELSE COBROS.&quot;IdBolsa&quot; END AS &quot;IdBolsa&quot;,
+				COBROS.&quot;EsExtra&quot; as &quot;EsExtraCobros&quot;,
+				PRODUCTOS.&quot;EsExtra&quot; as &quot;EsExtraProductos&quot;,
+				CASE WHEN PRODUCTOS.&quot;IdTipoOperacion&quot;=COBROS.&quot;IdTipoOperacion&quot; THEN PRODUCTOS.&quot;IdTipoOperacion&quot;
+					WHEN PRODUCTOS.&quot;IdTipoOperacion&quot; = '0' THEN COBROS.&quot;IdTipoOperacion&quot;
+					ELSE PRODUCTOS.&quot;IdTipoOperacion&quot; END AS &quot;IdTipoOperacion&quot;,
+				CASE WHEN PRODUCTOS.&quot;IdTipoOperacion&quot;=COBROS.&quot;IdTipoOperacion&quot; THEN CAST(PRODUCTOS.&quot;TipoOperacion&quot; AS NVARCHAR(100)) 
+					WHEN PRODUCTOS.&quot;IdTipoOperacion&quot; = '0' THEN CAST(COBROS.&quot;TipoOperacion&quot; AS NVARCHAR(100))
+					ELSE CAST(PRODUCTOS.&quot;TipoOperacion&quot; AS NVARCHAR(100)) END AS &quot;TipoOperacion&quot;,
+				CASE WHEN PRODUCTOS.&quot;IdCanalIngreso&quot;=COBROS.&quot;IdCanalIngreso&quot; THEN PRODUCTOS.&quot;IdCanalIngreso&quot;
+					WHEN PRODUCTOS.&quot;IdCanalIngreso&quot; = '0' THEN COBROS.&quot;IdCanalIngreso&quot;
+					ELSE PRODUCTOS.&quot;IdCanalIngreso&quot; END AS &quot;IdCanalIngreso&quot;,
+				CASE WHEN PRODUCTOS.&quot;IdCanalIngreso&quot;=COBROS.&quot;IdCanalIngreso&quot; THEN CAST(PRODUCTOS.&quot;CanalIngreso&quot; AS NVARCHAR(100))
+					WHEN PRODUCTOS.&quot;IdCanalIngreso&quot; = '0' THEN CAST(COBROS.&quot;CanalIngreso&quot; AS NVARCHAR(100))
+					ELSE CAST(PRODUCTOS.&quot;CanalIngreso&quot; AS NVARCHAR(100)) END AS &quot;CanalIngreso&quot;,
+				CASE WHEN COBROS.&quot;IdCobroClasificacion&quot; = 0 THEN NULL ELSE COBROS.&quot;IdCobroClasificacion&quot; END AS &quot;IdCobroClasificacion&quot;,
+				coalesce(CAST(COBROS.&quot;CodigoCobroClasificacion&quot; AS NVARCHAR(40)),'') AS &quot;CodigoCobroClasificacion&quot;,
+				CASE WHEN COBROS.&quot;IdCobro&quot; = '' THEN NULL ELSE COBROS.&quot;IdCobro&quot; END AS &quot;IdCobro&quot;,
+				coalesce(CAST(COBROS.&quot;NombreCobro&quot; AS NVARCHAR(100)),'') AS &quot;NombreCobro&quot;,
+				COBROS.&quot;ValorCobro&quot;,-- ej:si es variable 19 es 19% , si es fijo 19 es 19 pesos/uf/etc...
+				COBROS.&quot;FormaCobro&quot;,
+				CASE WHEN COBROS.&quot;IdMoneda&quot; = '' THEN NULL ELSE COBROS.&quot;IdMoneda&quot; END AS &quot;IdMoneda&quot;,
+				COBROS.&quot;ValorTopeMinimoOrden&quot;,
+				coalesce(COBROS.&quot;Prioridad&quot;,0) as &quot;Prioridad&quot;,
+				COBROS.&quot;DiasPlazo&quot;,
+				COBROS.&quot;IdValorCobro&quot;
+			FROM --PlantillaCobrosConsolidada 
+				(
+					SELECT
+						BASE.&quot;IdCliente&quot;,
+						LEFT(BASE.&quot;NombreCompleto&quot;,100) as &quot;NombreCliente&quot;,
+						BASE.&quot;DocumentoIdentidad&quot;,
+						BASE.&quot;IdPortafolio&quot;,
+						BASE.&quot;CodigoPortafolio&quot;,
+						IFNULL(EXTRA.&quot;IdInternal&quot;,BASE.&quot;IdInternal&quot;) 								as &quot;IdInternal&quot;,
+						IFNULL(EXTRA.&quot;Prioridad&quot;,BASE.&quot;Prioridad&quot;) 									as &quot;Prioridad&quot;,
+						IFNULL(EXTRA.&quot;IdPerfilCobros&quot;,BASE.&quot;IdPerfilCobros&quot;) 						as &quot;IdPerfilCobros&quot;,
+						IFNULL(EXTRA.&quot;DescripcionPerfilCobros&quot;,BASE.&quot;DescripcionPerfilCobros&quot;) 		as &quot;DescripcionPerfilCobros&quot;,
+						IFNULL(EXTRA.&quot;IdEmpresa&quot;,BASE.&quot;IdEmpresa&quot;) 									as &quot;IdEmpresa&quot;,
+						IFNULL(EXTRA.&quot;EstadoPerfilCobros&quot;,BASE.&quot;EstadoPerfilCobros&quot;) 				as &quot;EstadoPerfilCobros&quot;,
+						IFNULL(EXTRA.&quot;NombreEstadoPerfilCobros&quot;,BASE.&quot;NombreEstadoPerfilCobros&quot;) 	as &quot;NombreEstadoPerfilCobros&quot;,
+						IFNULL(EXTRA.&quot;EsPerfilPersonalizado&quot;,BASE.&quot;EsPerfilPersonalizado&quot;) 			as &quot;EsPerfilPersonalizado&quot;,
+						IFNULL(EXTRA.&quot;IdDetallePerfilCobros&quot;,BASE.&quot;IdDetallePerfilCobros&quot;) 			as &quot;IdDetallePerfilCobros&quot;,
+						IFNULL(EXTRA.&quot;IdBolsa&quot;,BASE.&quot;IdBolsa&quot;) 										as &quot;IdBolsa&quot;,
+						IFNULL(EXTRA.&quot;IdTipoProducto&quot;,BASE.&quot;IdTipoProducto&quot;) 						as &quot;IdTipoProducto&quot;,
+						IFNULL(EXTRA.&quot;TipoProducto&quot;,BASE.&quot;TipoProducto&quot;) 							as &quot;TipoProducto&quot;,
+						IFNULL(EXTRA.&quot;IdTipoOperacion&quot;,BASE.&quot;IdTipoOperacion&quot;) 						as &quot;IdTipoOperacion&quot;,
+						IFNULL(EXTRA.&quot;TipoOperacion&quot;,BASE.&quot;TipoOperacion&quot;) 							as &quot;TipoOperacion&quot;,
+						IFNULL(EXTRA.&quot;IdCanalIngreso&quot;,BASE.&quot;IdCanalIngreso&quot;) 						as &quot;IdCanalIngreso&quot;,
+						IFNULL(EXTRA.&quot;CanalIngreso&quot;,BASE.&quot;CanalIngreso&quot;) 							as &quot;CanalIngreso&quot;,
+						IFNULL(EXTRA.&quot;DiasPlazo&quot;,BASE.&quot;DiasPlazo&quot;) 									as &quot;DiasPlazo&quot;,
+						IFNULL(EXTRA.&quot;EstadoDetalle&quot;,BASE.&quot;EstadoDetalle&quot;) 							as &quot;EstadoDetalle&quot;,
+						IFNULL(EXTRA.&quot;NombreEstadoDetalle&quot;,BASE.&quot;NombreEstadoDetalle&quot;) 				as &quot;NombreEstadoDetalle&quot;,
+						IFNULL(EXTRA.&quot;IdValorCobro&quot;,BASE.&quot;IdValorCobro&quot;) 							as &quot;IdValorCobro&quot;,
+						IFNULL(EXTRA.&quot;DescripcionValorCobro&quot;,BASE.&quot;DescripcionValorCobro&quot;) 			as &quot;DescripcionValorCobro&quot;,
+						IFNULL(EXTRA.&quot;IdCobro&quot;,BASE.&quot;IdCobro&quot;) 										as &quot;IdCobro&quot;,
+						IFNULL(EXTRA.&quot;ValorCobro&quot;,BASE.&quot;ValorCobro&quot;) 								as &quot;ValorCobro&quot;,
+						IFNULL(EXTRA.&quot;ValorCobroTexto&quot;,BASE.&quot;ValorCobroTexto&quot;) 						as &quot;ValorCobroTexto&quot;,
+						IFNULL(EXTRA.&quot;ValorTopeMinimoOrden&quot;,BASE.&quot;ValorTopeMinimoOrden&quot;) 			as &quot;ValorTopeMinimoOrden&quot;,
+						IFNULL(EXTRA.&quot;ValorTopeMinimoOrdenTexto&quot;,BASE.&quot;ValorTopeMinimoOrdenTexto&quot;) 	as &quot;ValorTopeMinimoOrdenTexto&quot;,
+						IFNULL(EXTRA.&quot;IdMoneda&quot;,BASE.&quot;IdMoneda&quot;) 									as &quot;IdMoneda&quot;,
+						IFNULL(EXTRA.&quot;EstadoValorCobro&quot;,BASE.&quot;EstadoValorCobro&quot;) 					as &quot;EstadoValorCobro&quot;,
+						IFNULL(EXTRA.&quot;NombreCobro&quot;,BASE.&quot;NombreCobro&quot;) 								as &quot;NombreCobro&quot;,
+						IFNULL(EXTRA.&quot;IdCobroClasificacion&quot;,BASE.&quot;IdCobroClasificacion&quot;) 			as &quot;IdCobroClasificacion&quot;,
+						IFNULL(EXTRA.&quot;FormaCobro&quot;,BASE.&quot;FormaCobro&quot;) 								as &quot;FormaCobro&quot;,
+						IFNULL(EXTRA.&quot;PermiteCambiarValor&quot;,BASE.&quot;PermiteCambiarValor&quot;) 				as &quot;PermiteCambiarValor&quot;,
+						IFNULL(EXTRA.&quot;CodigoCobroClasificacion&quot;,BASE.&quot;CodigoCobroClasificacion&quot;) 	as &quot;CodigoCobroClasificacion&quot;,
+						IFNULL(EXTRA.&quot;CobroCalculado&quot;,BASE.&quot;CobroCalculado&quot;) 						as &quot;CobroCalculado&quot;,
+						IFNULL(EXTRA.&quot;EsExtra&quot;,BASE.&quot;EsExtra&quot;) 										as &quot;EsExtra&quot;
+					FROM 
+							(SELECT P.&quot;IdPortafolio&quot;,P.&quot;CodigoPortafolio&quot;,CLI.&quot;IdCliente&quot;, 
+								CASE &quot;PER&quot;.&quot;Tipo&quot; WHEN 'N' THEN &quot;PER&quot;.&quot;Nombres&quot; ||' '|| &quot;PER&quot;.&quot;ApellidoPaterno&quot; || ' ' ||&quot;PER&quot;.&quot;ApellidoMaterno&quot; 
+								ELSE &quot;PER&quot;.&quot;RazonSocial&quot; END AS &quot;NombreCompleto&quot;,DOC.&quot;DocumentoIdentidad&quot;,PCOB.*, 'N' as &quot;EsExtra&quot; 
+								--FROM &quot;BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente&quot; CLI
+								FROM &quot;BSCL.SocioNegocio.BD::CLI.Cliente&quot; CLI
+								JOIN &quot;BSCL.SocioNegocio.BD::PER.Persona&quot; PER ON CLI.&quot;IdPersona&quot; = PER.&quot;IdPersona&quot;
+								JOIN &quot;BSCL.SocioNegocio.BD::PER.DocumentoIdentidad&quot; DOC ON PER.&quot;IdDocumentoIdentidad&quot; = DOC.&quot;IdDocumentoIdentidad&quot;
+								JOIN &quot;BSCL.Portafolio.BD.Vistas::ConsultarPortafolioDatosPlantilla&quot; P ON CLI.&quot;IdCliente&quot; = P.&quot;IdCliente&quot;
+								JOIN &quot;BSCL.Plataforma.BD.Vistas::COM.ConsultarDetallePerfilCobros&quot; as PCOB ON PCOB.&quot;IdPerfilCobros&quot; = P.&quot;IdPerfilCobros&quot;
+								LEFT JOIN &quot;BSCL.Plataforma.BD.Vistas::COM.ConsultarDetallePerfilCobros&quot; as PCOB2
+									ON ( PCOB.&quot;IdPerfilCobros&quot; = PCOB2.&quot;IdPerfilCobros&quot;
+									AND PCOB.&quot;IdBolsa&quot; = PCOB2.&quot;IdBolsa&quot;  
+									AND PCOB.&quot;IdTipoProducto&quot; = PCOB2.&quot;IdTipoProducto&quot;
+									AND (PCOB.&quot;IdTipoOperacion&quot; = PCOB2.&quot;IdTipoOperacion&quot;)
+									AND PCOB.&quot;IdCanalIngreso&quot; = PCOB2.&quot;IdCanalIngreso&quot;
+									AND PCOB.&quot;CodigoCobroClasificacion&quot;  = PCOB2.&quot;CodigoCobroClasificacion&quot;
+									AND PCOB.&quot;Prioridad&quot;>PCOB2.&quot;Prioridad&quot;)
+								WHERE 
+									PCOB2.&quot;Prioridad&quot; IS NULL
+									AND PCOB.&quot;EstadoPerfilCobros&quot; = 'ACT'
+								) as BASE 
+							FULL JOIN
+								(SELECT P.&quot;IdPortafolio&quot;,P.&quot;CodigoPortafolio&quot;,
+								CASE &quot;PER&quot;.&quot;Tipo&quot; WHEN 'N' THEN &quot;PER&quot;.&quot;Nombres&quot; ||' '|| &quot;PER&quot;.&quot;ApellidoPaterno&quot; || ' ' ||&quot;PER&quot;.&quot;ApellidoMaterno&quot; 
+								ELSE &quot;PER&quot;.&quot;RazonSocial&quot; END AS &quot;NombreCompleto&quot;,DOC.&quot;DocumentoIdentidad&quot;,PCOB.*, 'S' as &quot;EsExtra&quot; 
+								--FROM &quot;BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente&quot; CLI
+								FROM &quot;BSCL.SocioNegocio.BD::CLI.Cliente&quot; CLI
+								JOIN &quot;BSCL.SocioNegocio.BD::PER.Persona&quot; PER ON CLI.&quot;IdPersona&quot; = PER.&quot;IdPersona&quot;
+								JOIN &quot;BSCL.SocioNegocio.BD::PER.DocumentoIdentidad&quot; DOC ON PER.&quot;IdDocumentoIdentidad&quot; = DOC.&quot;IdDocumentoIdentidad&quot;
+								JOIN &quot;BSCL.Portafolio.BD.Vistas::ConsultarPortafolioDatosPlantilla&quot; P ON CLI.&quot;IdCliente&quot; = P.&quot;IdCliente&quot;
+								JOIN &quot;BSCL.Plataforma.BD.Vistas::COM.ConsultarDetallePerfilCobros&quot; as PCOB ON PCOB.&quot;IdPerfilCobros&quot; = IFNULL(P.&quot;IdPerfilCobrosExtra&quot;,'')
+								LEFT JOIN &quot;BSCL.Plataforma.BD.Vistas::COM.ConsultarDetallePerfilCobros&quot; as PCOB2
+									ON ( PCOB.&quot;IdPerfilCobros&quot; = PCOB2.&quot;IdPerfilCobros&quot;
+									AND PCOB.&quot;IdBolsa&quot; = PCOB2.&quot;IdBolsa&quot;  
+									AND PCOB.&quot;IdTipoProducto&quot; = PCOB2.&quot;IdTipoProducto&quot;
+									AND (PCOB.&quot;IdTipoOperacion&quot; = PCOB2.&quot;IdTipoOperacion&quot;)
+									AND PCOB.&quot;IdCanalIngreso&quot; = PCOB2.&quot;IdCanalIngreso&quot;
+									AND PCOB.&quot;CodigoCobroClasificacion&quot;  = PCOB2.&quot;CodigoCobroClasificacion&quot;
+									AND PCOB.&quot;Prioridad&quot;>PCOB2.&quot;Prioridad&quot;)
+								WHERE 
+									PCOB2.&quot;Prioridad&quot; IS NULL
+									AND PCOB.&quot;EstadoPerfilCobros&quot; = 'ACT'
+									
+								) as EXTRA	
+						ON  
+							    EXTRA.&quot;IdEmpresa&quot; 	= BASE.&quot;IdEmpresa&quot;
+							AND EXTRA.&quot;IdBolsa&quot; = BASE.&quot;IdBolsa&quot;
+							AND (EXTRA.&quot;IdPortafolio&quot;	 			= BASE.&quot;IdPortafolio&quot;) 
+							AND (EXTRA.&quot;IdTipoProducto&quot; 			= BASE.&quot;IdTipoProducto&quot;)
+							AND (EXTRA.&quot;IdTipoOperacion&quot; 			= BASE.&quot;IdTipoOperacion&quot;)
+							AND (EXTRA.&quot;IdCanalIngreso&quot; 			= BASE.&quot;IdCanalIngreso&quot;)
+							AND (EXTRA.&quot;CodigoCobroClasificacion&quot; 	= BASE.&quot;CodigoCobroClasificacion&quot;)
+					WHERE 
+						IFNULL(EXTRA.&quot;EstadoDetalle&quot;,BASE.&quot;EstadoDetalle&quot;) = 'ACT'	
+				
+				) COBROS
+			INNER JOIN --PlantillaProductosConsolidada 
+				(
+					SELECT 
+						BASE.&quot;IdPortafolio&quot;,BASE.&quot;CodigoPortafolio&quot;,BASE.&quot;NombreCompleto&quot;,BASE.&quot;DocumentoIdentidad&quot;,
+						IFNULL(EXTRA.&quot;IdPerfilProductos&quot;,BASE.&quot;IdPerfilProductos&quot;) as &quot;IdPerfilProductos&quot;,
+						IFNULL(EXTRA.&quot;DescripcionPerfilProductos&quot;,BASE.&quot;DescripcionPerfilProductos&quot;) as &quot;DescripcionPerfilProductos&quot;,
+						IFNULL(EXTRA.&quot;IdCategoriaInversionista&quot;,BASE.&quot;IdCategoriaInversionista&quot;) as &quot;IdCategoriaInversionista&quot;,
+						IFNULL(EXTRA.&quot;FechaCreacion&quot;,BASE.&quot;FechaCreacion&quot;) as &quot;FechaCreacion&quot;,
+						IFNULL(EXTRA.&quot;FechaModificacion&quot;,BASE.&quot;FechaModificacion&quot;) as &quot;FechaModificacion&quot;,
+						IFNULL(EXTRA.&quot;EstadoPerfilProductos&quot;,BASE.&quot;EstadoPerfilProductos&quot;) as &quot;EstadoPerfilProductos&quot;,
+						IFNULL(EXTRA.&quot;PorDefecto&quot;,BASE.&quot;PorDefecto&quot;) as &quot;PorDefecto&quot;,
+						IFNULL(EXTRA.&quot;IdEmpresa&quot;,BASE.&quot;IdEmpresa&quot;) as &quot;IdEmpresa&quot;,
+						IFNULL(EXTRA.&quot;EsPerfilPersonalizado&quot;,BASE.&quot;EsPerfilPersonalizado&quot;) as &quot;EsPerfilPersonalizado&quot;,
+						IFNULL(EXTRA.&quot;IdTipoProducto&quot;,BASE.&quot;IdTipoProducto&quot;) as &quot;IdTipoProducto&quot;,
+						IFNULL(EXTRA.&quot;TipoProducto&quot;,BASE.&quot;TipoProducto&quot;) as &quot;TipoProducto&quot;,
+						IFNULL(EXTRA.&quot;IdTipoOperacion&quot;,BASE.&quot;IdTipoOperacion&quot;) as &quot;IdTipoOperacion&quot;,
+						IFNULL(EXTRA.&quot;TipoOperacion&quot;,BASE.&quot;TipoOperacion&quot;) as &quot;TipoOperacion&quot;,
+						IFNULL(EXTRA.&quot;IdCanalIngreso&quot;,BASE.&quot;IdCanalIngreso&quot;) as &quot;IdCanalIngreso&quot;,
+						IFNULL(EXTRA.&quot;CanalIngreso&quot;,BASE.&quot;CanalIngreso&quot;) as &quot;CanalIngreso&quot;,
+						IFNULL(EXTRA.&quot;IdMoneda&quot;,BASE.&quot;IdMoneda&quot;) as &quot;IdMoneda&quot;,
+						IFNULL(EXTRA.&quot;IdGrupoActivos&quot;,BASE.&quot;IdGrupoActivos&quot;) as &quot;IdGrupoActivos&quot;,
+						IFNULL(EXTRA.&quot;EstadoProducto&quot;,BASE.&quot;EstadoProducto&quot;) as &quot;EstadoProducto&quot;,
+						IFNULL(EXTRA.&quot;NombreEstadoProducto&quot;,BASE.&quot;NombreEstadoProducto&quot;) as &quot;NombreEstadoProducto&quot;,
+						IFNULL(EXTRA.&quot;EsExtra&quot;,BASE.&quot;EsExtra&quot;) as &quot;EsExtra&quot;
+					FROM
+						(SELECT P.&quot;IdPortafolio&quot;,P.&quot;CodigoPortafolio&quot;,
+						CASE &quot;PER&quot;.&quot;Tipo&quot; WHEN 'N' THEN &quot;PER&quot;.&quot;Nombres&quot; ||' '|| &quot;PER&quot;.&quot;ApellidoPaterno&quot; || ' ' ||&quot;PER&quot;.&quot;ApellidoMaterno&quot; 
+								ELSE &quot;PER&quot;.&quot;RazonSocial&quot; END AS &quot;NombreCompleto&quot;,DOC.&quot;DocumentoIdentidad&quot;, C.*, 'N' as &quot;EsExtra&quot;  
+						--FROM &quot;BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente&quot; CLI
+						FROM &quot;BSCL.SocioNegocio.BD::CLI.Cliente&quot; CLI
+						JOIN &quot;BSCL.SocioNegocio.BD::PER.Persona&quot; PER ON CLI.&quot;IdPersona&quot; = PER.&quot;IdPersona&quot;
+						JOIN &quot;BSCL.SocioNegocio.BD::PER.DocumentoIdentidad&quot; DOC ON PER.&quot;IdDocumentoIdentidad&quot; = DOC.&quot;IdDocumentoIdentidad&quot;
+						JOIN &quot;BSCL.Portafolio.BD.Vistas::ConsultarPortafolioDatosPlantilla&quot; P ON CLI.&quot;IdCliente&quot; = P.&quot;IdCliente&quot; 
+						JOIN &quot;BSCL.Plataforma.BD.Vistas::COM.ConsultarDetallePerfilProductos&quot; C ON C.&quot;IdPerfilProductos&quot; = P.&quot;IdPerfilProductos&quot;
+						) 
+								AS BASE
+						FULL JOIN 
+							(SELECT P.&quot;IdPortafolio&quot;,P.&quot;CodigoPortafolio&quot;,CLI.&quot;IdCliente&quot;,
+							CASE &quot;PER&quot;.&quot;Tipo&quot; WHEN 'N' THEN &quot;PER&quot;.&quot;Nombres&quot; ||' '|| &quot;PER&quot;.&quot;ApellidoPaterno&quot; || ' ' ||&quot;PER&quot;.&quot;ApellidoMaterno&quot; 
+								ELSE &quot;PER&quot;.&quot;RazonSocial&quot; END AS &quot;NombreCompleto&quot;,DOC.&quot;DocumentoIdentidad&quot;, C.*, 'S' as &quot;EsExtra&quot;  
+							--FROM &quot;BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente&quot; CLI
+							FROM &quot;BSCL.SocioNegocio.BD::CLI.Cliente&quot; CLI
+							JOIN &quot;BSCL.SocioNegocio.BD::PER.Persona&quot; PER ON CLI.&quot;IdPersona&quot; = PER.&quot;IdPersona&quot;
+							JOIN &quot;BSCL.SocioNegocio.BD::PER.DocumentoIdentidad&quot; DOC ON PER.&quot;IdDocumentoIdentidad&quot; = DOC.&quot;IdDocumentoIdentidad&quot;
+							JOIN &quot;BSCL.Portafolio.BD.Vistas::ConsultarPortafolioDatosPlantilla&quot; P ON CLI.&quot;IdCliente&quot; = P.&quot;IdCliente&quot;
+							JOIN &quot;BSCL.Plataforma.BD.Vistas::COM.ConsultarDetallePerfilProductos&quot; C ON IFNULL(P.&quot;IdPerfilProductosExtra&quot;,'') = C.&quot;IdPerfilProductos&quot; 
+							) AS EXTRA
+						ON   
+							     BASE.&quot;IdEmpresa&quot; 	 	= EXTRA.&quot;IdEmpresa&quot; 	
+							AND (BASE.&quot;IdPortafolio&quot; 	= EXTRA.&quot;IdPortafolio&quot;)
+							AND (BASE.&quot;IdTipoProducto&quot; 	= EXTRA.&quot;IdTipoProducto&quot;)
+							AND (BASE.&quot;IdTipoOperacion&quot; = EXTRA.&quot;IdTipoOperacion&quot;)
+							AND (BASE.&quot;IdCanalIngreso&quot; 	= EXTRA.&quot;IdCanalIngreso&quot;)
+				)
+				PRODUCTOS
+				ON 	
+					COBROS.&quot;IdPortafolio&quot; = PRODUCTOS.&quot;IdPortafolio&quot;
+					AND (COBROS.&quot;IdTipoProducto&quot; = PRODUCTOS.&quot;IdTipoProducto&quot;
+					)
+					AND (COBROS.&quot;IdTipoOperacion&quot; = PRODUCTOS.&quot;IdTipoOperacion&quot; 
+						OR (COBROS.&quot;IdTipoOperacion&quot; = '0' AND IFNULL(PRODUCTOS.&quot;IdTipoOperacion&quot;,'') != '') 
+						OR (PRODUCTOS.&quot;IdTipoOperacion&quot; = '0' AND IFNULL(COBROS.&quot;IdTipoOperacion&quot;,'') != '') 
+					)
+					AND (COBROS.&quot;IdCanalIngreso&quot; = PRODUCTOS.&quot;IdCanalIngreso&quot;
+						OR (COBROS.&quot;IdCanalIngreso&quot; = '0' AND IFNULL(PRODUCTOS.&quot;IdCanalIngreso&quot;,'') != '') 
+						OR (PRODUCTOS.&quot;IdCanalIngreso&quot; = '0' AND IFNULL(COBROS.&quot;IdCanalIngreso&quot;,'') != '') 
+					)
+			ORDER BY 
+				PRODUCTOS.&quot;IdEmpresa&quot;,
+				COBROS.&quot;IdCliente&quot;,
+				COBROS.&quot;NombreCliente&quot;,
+				PRODUCTOS.&quot;DocumentoIdentidad&quot;,
+				PRODUCTOS.&quot;IdPortafolio&quot;,
+				PRODUCTOS.&quot;CodigoPortafolio&quot;,
+				PRODUCTOS.&quot;IdCategoriaInversionista&quot;,
+				PRODUCTOS.&quot;IdTipoProducto&quot;,
+				PRODUCTOS.&quot;TipoProducto&quot;,
+				COBROS.&quot;IdBolsa&quot;,
+				PRODUCTOS.&quot;IdTipoOperacion&quot;,
+				COBROS.&quot;IdCobro&quot;,
+				COBROS.&quot;IdMoneda&quot;; 
+
+ 	 
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdEmpresa" order="1">
+        <descriptions defaultDescription="IdEmpresa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEmpresa"/>
+      </attribute>
+      <attribute id="IdCliente" order="2">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="NombreCliente" order="3">
+        <descriptions defaultDescription="NombreCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCliente"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" order="4">
+        <descriptions defaultDescription="DocumentoIdentidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="5">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="CodigoPortafolio" order="6">
+        <descriptions defaultDescription="CodigoPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolio"/>
+      </attribute>
+      <attribute id="IdCategoriaInversionista" order="7">
+        <descriptions defaultDescription="IdCategoriaInversionista"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCategoriaInversionista"/>
+      </attribute>
+      <attribute id="IdTipoProducto" order="8">
+        <descriptions defaultDescription="IdTipoProducto"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoProducto"/>
+      </attribute>
+      <attribute id="TipoProducto" order="9">
+        <descriptions defaultDescription="TipoProducto"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoProducto"/>
+      </attribute>
+      <attribute id="IdBolsa" order="10">
+        <descriptions defaultDescription="IdBolsa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdBolsa"/>
+      </attribute>
+      <attribute id="EsExtraCobros" order="11">
+        <descriptions defaultDescription="EsExtraCobros"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsExtraCobros"/>
+      </attribute>
+      <attribute id="EsExtraProductos" order="12">
+        <descriptions defaultDescription="EsExtraProductos"/>
+        <keyMapping columnObjectName="Script_View" columnName="EsExtraProductos"/>
+      </attribute>
+      <attribute id="IdTipoOperacion" order="13">
+        <descriptions defaultDescription="IdTipoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoOperacion"/>
+      </attribute>
+      <attribute id="TipoOperacion" order="14">
+        <descriptions defaultDescription="TipoOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoOperacion"/>
+      </attribute>
+      <attribute id="IdCanalIngreso" order="15">
+        <descriptions defaultDescription="IdCanalIngreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCanalIngreso"/>
+      </attribute>
+      <attribute id="CanalIngreso" order="16">
+        <descriptions defaultDescription="CanalIngreso"/>
+        <keyMapping columnObjectName="Script_View" columnName="CanalIngreso"/>
+      </attribute>
+      <attribute id="IdCobroClasificacion" order="17">
+        <descriptions defaultDescription="IdCobroClasificacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCobroClasificacion"/>
+      </attribute>
+      <attribute id="CodigoCobroClasificacion" order="18">
+        <descriptions defaultDescription="CodigoCobroClasificacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoCobroClasificacion"/>
+      </attribute>
+      <attribute id="IdCobro" order="19">
+        <descriptions defaultDescription="IdCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCobro"/>
+      </attribute>
+      <attribute id="NombreCobro" order="20">
+        <descriptions defaultDescription="NombreCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCobro"/>
+      </attribute>
+      <attribute id="ValorCobro" order="21">
+        <descriptions defaultDescription="ValorCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorCobro"/>
+      </attribute>
+      <attribute id="FormaCobro" order="22">
+        <descriptions defaultDescription="FormaCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FormaCobro"/>
+      </attribute>
+      <attribute id="IdMoneda" order="23">
+        <descriptions defaultDescription="IdMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="ValorTopeMinimoOrden" order="24">
+        <descriptions defaultDescription="ValorTopeMinimoOrden"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorTopeMinimoOrden"/>
+      </attribute>
+      <attribute id="Prioridad" order="25">
+        <descriptions defaultDescription="Prioridad"/>
+        <keyMapping columnObjectName="Script_View" columnName="Prioridad"/>
+      </attribute>
+      <attribute id="DiasPlazo" order="26">
+        <descriptions defaultDescription="DiasPlazo"/>
+        <keyMapping columnObjectName="Script_View" columnName="DiasPlazo"/>
+      </attribute>
+      <attribute id="IdValorCobro" order="27">
+        <descriptions defaultDescription="IdValorCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdValorCobro"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

@@ -1,0 +1,403 @@
+SET SCHEMA "BSCL";
+GO
+DROP VIEW "BSCL.Mesa.BD.Vistas::MRF.ConsultarCarteraInstrumento";
+GO
+CREATE VIEW "BSCL.Mesa.BD.Vistas::MRF.ConsultarCarteraInstrumento" AS
+SELECT 'DISPONIBLE' as "Estado"
+		,CCS."IdEmpresa"
+		,CCS."IdMesa"
+		,CCS."IdCliente"
+		,CCS."RazonSocial"
+		,CCS."IdPortafolio"
+		,CCS."CodigoPortafolio"
+		,CCS."DocumentoIdentidad"
+		,CCS."FolioCartera"
+		,CCS."FechaOperacion"
+		,CCS."FechaLiquidacion"
+		,CCS."IdInstrumento"
+		,CCS."Nemotecnico"
+		,CCS."NemoSVS"
+		,CCS."IdClasificacionTipoInstrumento"
+		,CCS."IdTipoInstrumento"
+		,CCS."IdMonedaInstrumento"
+		,CCS."TipoInstrumento"
+		,CCS."IdEmisor"
+		,CCS."CorteMinimo"
+		,CCS."IdTipoReajuste"
+		,CASE WHEN CCS."IdClasificacionTipoInstrumento"='IF' THEN CCS."INGValorRescate" ELSE CCS."INGCantidad" END AS "INGCantidad"
+		,CCS."PrecioCompra" as "Precio"
+		,CCS."TasaCompra"	as "Tasa"
+		,CCS."MontoCompraMonedaInstrumento"	as "Monto"
+		,CCS."INGPrecioMercadoActual"
+		,CCS."INGTasaMercadoActual"
+		,CCS."INGMontoATasaMercadoActual" AS "INGMontoATasaMercadoActual"
+		,CCS."FechaVencimientoInstrumento"
+		,'0001-01-01' AS "FechaVencimientoOperacion"
+		,CCS."EsFungible"
+		,CCS."CodigoIFRS"
+		,COALESCE(CatIFRS."CarteraIFRS",'')  AS "CodigoDescIFRS"
+		,CCS."IdBoveda"
+		,CCS."INGDurationCompraProximo"
+		,CCS."INGDurationCompraActual"
+		,CASE WHEN CCS."IdClasificacionTipoInstrumento" = 'IF' 
+		THEN EMI."ValorClasificacionRiesgoIIF" 
+		ELSE CCS."ValorClasificacionRiesgo" END AS "ValorClasificacionRiesgo"
+--* 2018-09-12 MSH
+--* ,"INGMontoCompraActualMonedaInstrumento" AS "INGMontoATasaCompraActual"
+--* ,"INGValorRescate"
+	  ,CCS."INGMontoInteresCompraProximoMonedaInstrumento" AS "INGMontoInteresCompraProximo"
+	  ,CCS."INGMontoReajusteCompraProximo" AS "INGMontoReajusteCompraProximo" --anterior
+		,CCS."INGMontoATasaCompraActual"
+		,CASE WHEN CCS."IdClasificacionTipoInstrumento" = 'RF' THEN 0
+			  ELSE CCS."INGValorRescate" 
+		 END AS "INGValorRescate"
+		,CCS."TasaCompra"
+		,CCS."MontoCompraMonedaInstrumento" AS "MontoCompra"
+		,CCS."INGMontoMercadoActualMonedaInstrumento"
+		,CCS."INGMontoCompraActualMonedaInstrumento"
+		,CCS."INGMontoInteresAcumTIFMonedaInstrumento"
+		,CCS."INGMontoATasaCompraProximo"
+		,CCS."MontoAPlazoMonedaInstrumento"
+		,CCS."PlazoEnDiasOperacion"
+		,CCS."INGTasaCompra"
+FROM 	"BSCL.Custodia.BD.Vistas::CUS.ConsultarCarteraSaldos" AS CCS
+		LEFT JOIN "BSCL.Custodia.BD.Vistas::CUS.ConsultarClasificacionCartera" AS CatIFRS ON (CCS."CodigoIFRS" = CatIFRS."CodigoCarteraIFRS")
+		LEFT JOIN "BSCL.Plataforma.BD::MER.Emisor" AS EMI ON (EMI."IdEmisor" = CCS."IdEmisor" )
+WHERE 	(CCS."IdClasificacionTipoInstrumento"  = 'RF' or CCS."IdClasificacionTipoInstrumento"  ='IF') AND CCS."IdTipoInstrumento" != 'PAC'
+--* ------------------------------------------------------------------------------------------------------------------------------------
+UNION ALL 
+--* ------------------------------------------------------------------------------------------------------------------------------------
+SELECT 	'TRANSITO' as "Estado"
+		,TRNS."IdEmpresa"
+		,TRNS."IdMesa"--colocar el id de la mesa entregado por la vista
+		--,TRNS."IdCliente"
+		,Mes."IdCliente"
+		,TRNS."NombreCliente" as "RazonSocial"
+		--,TRNS."IdPortafolio"
+		,Mes."IdPortafolio"
+		,TRNS."CodigoPortafolio"
+		,TRNS."DocumentoIdentidad"
+		,TRNS."FolioCarteraGarantizada" as "FolioCartera"
+		,TRNS."FechaOperacion"
+		,TRNS."FechaLiquidacion"
+		,TRNS."IdInstrumento"
+		,TRNS."Nemotecnico"
+		,TRNS."NemoSVS"
+		,TRNS."IdClasificacionTipoInstrumento"
+		,TRNS."IdTipoInstrumento"
+		,TRNS."IdMonedaInstrumento"
+		,TRNS."TipoInstrumento"
+		,TRNS."IdEmisor"
+		,TRNS."CorteMinimo"
+		,TRNS."IdTipoReajuste"
+		,CASE WHEN TRNS."IdClasificacionTipoInstrumento"='IF' THEN TRNS."ValorRescate" ELSE TRNS."Cantidad" END AS "INGCantidad"
+		,TRNS."PrecioCompra" as "Precio"
+		,TRNS."TasaCompra" as "Tasa"
+		,TRNS."MontoCompraMonedaInstrumento" as "Monto"
+		,0 as "INGPrecioMercadoActual"
+		,0 as "INGTasaMercadoActual"
+		,0 as "INGMontoATasaMercadoActual"
+		,TRNS."FechaVencimientoInstrumento"
+		,TRNS."FechaVencimientoOperacion"
+		,TRNS."EsFungible"
+		,TRNS."CodigoIFRS"
+		,COALESCE(CatIFRS."CarteraIFRS",'')  AS "CodigoDescIFRS"
+		,TRNS."IdBoveda"
+		,0 as "INGDurationCompraProximo"
+		,0 as "INGDurationCompraActual"
+		,CASE WHEN TRNS."IdClasificacionTipoInstrumento" = 'IF' 
+		THEN EMI."ValorClasificacionRiesgoIIF" 
+		ELSE TRNS."ValorClasificacionRiesgo" END AS "ValorClasificacionRiesgo"
+		,0 as "INGMontoInteresCompraProximo"
+		,0 as "INGMontoReajusteCompraProximo"
+		,TRNS."MontoCompra" AS "INGMontoATasaCompraActual"
+		,TRNS."ValorRescate" AS "INGValorRescate"
+		,TRNS."TasaCompra" 
+		,TRNS."MontoCompra" AS "Monto"
+		,0 AS "INGMontoMercadoActualMonedaInstrumento"
+		,TRNS."MontoCompraMonedaInstrumento" AS "INGMontoCompraActualMonedaInstrumento"
+		,0 AS "INGMontoInteresAcumTIFMonedaInstrumento"
+		,0 AS "INGMontoATasaCompraProximo"
+		,0 AS "MontoAPlazoMonedaInstrumento"
+		,0 AS "PlazoEnDiasOperacion"
+		,0 AS "INGTasaCompra"
+FROM 	"BSCL.Custodia.BD.Vistas::CUS.ConsultarMovimientoCarteraEnTransito" TRNS
+		LEFT JOIN "BSCL.Mesa.BD.Vistas::ConsultarMesas" AS Mes ON (TRNS."IdMesa" = Mes."IdMesa")
+		LEFT JOIN "BSCL.Custodia.BD.Vistas::CUS.ConsultarClasificacionCartera" AS CatIFRS ON (TRNS."CodigoIFRS" = CatIFRS."CodigoCarteraIFRS")
+		LEFT JOIN "BSCL.Plataforma.BD::MER.Emisor" AS EMI ON (EMI."IdEmisor" = TRNS."IdEmisor" )
+WHERE 	(TRNS."IdClasificacionTipoInstrumento"  = 'RF' or TRNS."IdClasificacionTipoInstrumento"  ='IF') AND TRNS."IdEstado" = 'PEN' AND TRNS."IdTipoInstrumento" != 'PAC'
+--* ------------------------------------------------------------------------------------------------------------------------------------
+UNION ALL 
+--* ------------------------------------------------------------------------------------------------------------------------------------
+SELECT 	'GARANTIA' as "Estado"
+		,CGS."IdEmpresa"
+		,CGS."IdMesaOperacionOrigen" as "IdMesa"
+		,CGS."IdCliente"
+		,CGS."NombreCliente" as "RazonSocial"
+		,CGS."IdPortafolio"
+		,CGS."CodigoPortafolio"
+		,CGS."DocumentoIdentidad"
+		,CGS."FolioCarteraOrigen" as "FolioCartera"
+		,CGS."FechaOperacion"
+		,CGS."FechaLiquidacion"
+		,CGS."IdInstrumento"
+		,CGS."Nemotecnico"
+		,CGS."NemoSVS"
+		,CGS."IdClasificacionTipoInstrumento"
+		,CGS."IdTipoInstrumento"
+		,CGS."IdMonedaInstrumento"
+		,CGS."NombreTipoInstrumento" as "TipoInstrumento"
+		,CGS."IdEmisor"
+		,CGS."CorteMinimo"
+		,CGS."IdTipoReajuste"
+		,CASE WHEN CGS."IdClasificacionTipoInstrumento"='IF' THEN CGS."INGValorRescate" ELSE CGS."INGCantidad" END AS "INGCantidad"
+		,CGS."PrecioCompraOperacionOrigen" as "Precio"
+		,CGS."TasaCompraOperacionOrigen" as "Tasa"
+		,CGS."INGMonto" as "Monto"
+		,CGS."INGPrecioMercadoActual"
+		,CGS."INGTasaMercadoActual"
+		,CGS."INGMontoATasaMercadoActual"
+		,CGS."FechaVencimientoInstrumento"
+		,CGS."FechaVencimientoOperacion"
+		,CGS."EsFungible"
+		,CGS."CodigoIFRS"
+		,COALESCE(CatIFRS."CarteraIFRS",'')  AS "CodigoDescIFRS"
+		,CGS."IdBovedaOperacionOrigen"	as "IdBoveda"
+		,CGS."INGDurationCompraProximo"
+		,0 AS "INGDurationCompraActual"
+		,CASE WHEN CGS."IdClasificacionTipoInstrumento" = 'IF' 
+		THEN EMI."ValorClasificacionRiesgoIIF" 
+		ELSE CGS."ValorClasificacionRiesgo" END AS "ValorClasificacionRiesgo"
+		,CGS."INGMontoInteresCompraProximo"
+		,CGS."INGMontoReajusteCompraProximo"
+		,CGS."INGMontoATasaCompraActual"
+		,CGS."INGValorRescate"
+		,CGS."TasaCompraOperacionOrigen" AS "TasaCompra" 
+		,CGS."INGMonto" AS "MontoCompra"
+		,CGS."MontoGarantia" AS "INGMontoMercadoActualMonedaInstrumento"
+		,0 AS "INGMontoCompraActualMonedaInstrumento"
+		,0 AS "INGMontoInteresAcumTIFMonedaInstrumento"
+		,0 AS "INGMontoATasaCompraProximo"
+		,0 AS "MontoAPlazoMonedaInstrumento"
+		,CGS."PlazoEnDiasOperacion"
+		, 0 AS "INGTasaCompra"
+FROM 	"BSCL.Custodia.BD.Vistas::GTA.ConsultarGarantiasSaldos" AS CGS
+		LEFT JOIN "BSCL.Custodia.BD.Vistas::CUS.ConsultarClasificacionCartera" AS CatIFRS ON (CGS."CodigoIFRS" = CatIFRS."CodigoCarteraIFRS")
+		LEFT JOIN "BSCL.Plataforma.BD::MER.Emisor" AS EMI ON (EMI."IdEmisor" = CGS."IdEmisor" )
+WHERE 	CGS."IdClasificacionTipoInstrumento"  = 'RF' OR CGS."IdClasificacionTipoInstrumento"  ='IF'
+--* ------------------------------------------------------------------------------------------------------------------------------------
+UNION ALL 
+--* ------------------------------------------------------------------------------------------------------------------------------------
+SELECT 			'RETROVENTA'																			as "Estado"
+				,CAR."IdEmpresa" as "IdEmpresa"
+				,CAR."IdMesa"
+				,CLI."IdCliente"	
+				,CLI."RazonSocial"																		AS "RazonSocial"
+				,PORT."IdPortafolio"
+				,PORT."CodigoPortafolio"																AS "CodigoPortafolio"																	
+				,CLI."DocumentoIdentidad" 																AS "DocumentoIdentidad"
+				,CAR."FolioCartera" 																	AS "FolioCartera"
+				,OP."FechaOperacion"																	AS "FechaOperacion"
+				,CAR."FechaLiquidacion"
+				,RE."IdInstrumento"
+				,RE."Nemotecnico"
+				,CAR."NemoSVS"	
+				,RE."IdClasificacionTipoInstrumento"													AS "IdClasificacionTipoInstrumento"
+				,RE."IdTipoInstrumento"																		
+				,RE."IdTipoReajuste"																	AS "IdMonedaInstrumento"
+				,RE."IdTipoInstrumento"																	AS "TipoInstrumento"
+				,RE."IdEmisor"
+				,RE."CorteMinimo"
+				,RE."IdTipoReajuste"																	AS "TipoReajuste"
+				,CASE WHEN RE."IdClasificacionTipoInstrumento" = 'IF' THEN CAR."INGValorRescate"
+				 ELSE CAR."INGCantidad" 
+				 END 																				    AS "INGCantidad"
+				,RE."Precio"																			AS "Precio"
+				,COALESCE(RE."Tasa", 0.0)																AS "Tasa"
+				,COALESCE(CAR."INGMontoCompraActualMonedaInstrumento", 0.0) 							AS "Monto"
+				,CAR."INGPrecioMercadoActual"
+				,CAR."INGTasaMercadoActual"
+				,CAR."INGMontoATasaMercadoActual"
+				,CAR."FechaVencimientoInstrumento"														AS "FechaVencimientoInstrumento"
+				,OP."FechaVencimiento"																	AS "FechaVencimientoOperacion"														
+				,CAR."EsFungible"
+				,CAR."CodigoIFRS"
+				,COALESCE(CatIFRS."CarteraIFRS",'')  													AS "CodigoDescIFRS"
+				,CAR."IdBoveda"
+				,CAR."INGDurationCompraProximo"
+				,CAR."INGDurationCompraActual"
+				,CASE WHEN CAR."IdClasificacionTipoInstrumento" = 'IF' 
+				THEN Emi."ValorClasificacionRiesgoIIF" 
+				ELSE ICR."ValorClasificacionRiesgo" END 												AS "ValorClasificacionRiesgo"--suby."car_ClasificacionRiesgo"  as "ValorClasificacionRiesgo"
+				,CAR."INGMontoInteresCompraProximoMonedaInstrumento" AS "INGMontoInteresCompraProximo"
+				,CAR."INGMontoReajusteCompraProximo"
+				,CAR."INGMontoATasaCompraActual"
+				,CASE WHEN CAR."IdClasificacionTipoInstrumento" = 'RF' THEN 0
+			  		ELSE CAR."INGValorRescate" 
+		 		END AS "INGValorRescate"
+				,CAR."TasaCompra" 
+				,CAR."INGMontoCompraActualMonedaInstrumento" AS "MontoCompra"
+				,CAR."INGMontoMercadoActualMonedaInstrumento"
+				,CAR."INGMontoCompraActualMonedaInstrumento"
+				,CAR."INGMontoInteresAcumTIFMonedaInstrumento"
+				,CAR."INGMontoATasaCompraProximo"
+				,CAR."MontoAPlazoMonedaInstrumento"
+				,CAR."PlazoEnDiasOperacion"
+				,CAR."INGTasaCompra"
+				FROM 	"BSCL.Mesa.BD::MES.Operacion"  OP
+				INNER JOIN 	"BSCL.Custodia.BD::CUS.Reserva" RE ON (OP."IdOperacion" = RE."IdOperacion")
+				INNER JOIN 	"BSCL.Custodia.BD::CUS.Cartera"  CAR ON (OP."IdOperacion" = CAR."FolioComprobante" AND RE."IdCarteraCustodia" = CAR."IdCartera" AND  CAR."EGRIdConcepto" in('','VNPCME')) --AND  CAR."EGRIdConcepto" = '' /*AND RE."IdCarteraCustodia" = CAR."IdCartera"*/)
+				LEFT JOIN   "BSCL.Plataforma.BD::MER.Emisor" AS Emi  ON RE."IdEmisor" = Emi."IdEmisor" --Traer Clasificacion Riesgo IIF
+				LEFT JOIN "BSCL.Plataforma.BD::INS.InstrumentoValorClasificacionRiesgo" AS ICR ON ICR."IdInstrumento" = RE."IdInstrumento"
+				LEFT JOIN "BSCL.Portafolio.BD::POR.Portafolio" AS PORT ON (PORT."IdPortafolio" = CAR."IdPortafolioRelacionado" OR PORT."IdPortafolio" = CAR."IdPortafolio")
+				LEFT JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" AS CLI ON CLI."IdCliente" = PORT."IdCliente"
+				LEFT JOIN "BSCL.Custodia.BD::CUS.ClasificacionCartera" AS CatIFRS ON (RE."CodigoIFRS" = CatIFRS."CodigoCarteraIFRS")
+				WHERE CAR."IdTipoOperacion" IN ('COMPAC') AND   OP."IdEstado" = 'VIG' AND CAR."IdTipoInstrumento" <> 'PAC'
+--* ------------------------------------------------------------------------------------------------------------------------------------
+UNION ALL 
+--* ------------------------------------------------------------------------------------------------------------------------------------
+SELECT          'RETROCOMPRA'																			as "Estado"
+				,CAR."IdEmpresa" as "IdEmpresa"
+				,CAR."IdMesa"
+				,CLI."IdCliente"	
+				,CLI."RazonSocial"																		AS "RazonSocial"
+				,PORT."IdPortafolio"
+				,PORT."CodigoPortafolio"																AS "CodigoPortafolio"																	
+				,CLI."DocumentoIdentidad" 																AS "DocumentoIdentidad"
+				,RE."FolioCarteraOrigen" 																AS "FolioCartera"
+				,OP."FechaOperacion"																	AS "FechaOperacion"
+				,CAR."FechaLiquidacion"
+				,RE."IdInstrumento"
+				,RE."Nemotecnico"
+				,CAR."NemoSVS"	
+				,RE."IdClasificacionTipoInstrumento"													AS "IdClasificacionTipoInstrumento"
+				,RE."IdTipoInstrumento"																		
+				,RE."IdTipoReajuste"																	AS "IdMonedaInstrumento"
+				,RE."IdTipoInstrumento"																	AS "TipoInstrumento"
+				,RE."IdEmisor"
+				,RE."CorteMinimo"
+				,RE."IdTipoReajuste"																	AS "TipoReajuste"
+				,CASE WHEN RE."IdClasificacionTipoInstrumento" = 'IF' THEN CAR."INGValorRescate"
+				 ELSE CAR."INGCantidad" 
+				 END 																				    AS "INGCantidad"
+				,RE."Precio"																			AS "Precio"
+				,COALESCE(RE."Tasa", 0.0)																AS "Tasa"
+				,COALESCE(CAR."INGMontoCompraActualMonedaInstrumento", 0.0) 							AS "Monto"
+				,CAR."INGPrecioMercadoActual"
+				,CAR."INGTasaMercadoActual"
+				,CAR."INGMontoATasaMercadoActual"
+				,CAR."FechaVencimientoInstrumento"														AS "FechaVencimientoInstrumento"
+				,OP."FechaVencimiento"																	AS "FechaVencimientoOperacion"														
+				,CAR."EsFungible"
+				,CAR."CodigoIFRS"
+				,COALESCE(CatIFRS."CarteraIFRS",'')  													AS "CodigoDescIFRS"
+				,CAR."IdBoveda"
+				,CAR."INGDurationCompraProximo"
+				,CAR."INGDurationCompraActual"
+				,CASE WHEN CAR."IdClasificacionTipoInstrumento" = 'IF' 
+				THEN Emi."ValorClasificacionRiesgoIIF" 
+				ELSE ICR."ValorClasificacionRiesgo" END 												AS "ValorClasificacionRiesgo"--suby."car_ClasificacionRiesgo"  as "ValorClasificacionRiesgo"
+				,CAR."INGMontoInteresCompraProximoMonedaInstrumento" AS "INGMontoInteresCompraProximo"
+				,CAR."INGMontoReajusteCompraProximo"
+				,CAR."INGMontoATasaCompraActual"
+				,CASE WHEN CAR."IdClasificacionTipoInstrumento" = 'RF' THEN 0
+			  		ELSE CAR."INGValorRescate" 
+		 		END AS "INGValorRescate"
+				,CAR."TasaCompra" 
+				,CAR."INGMontoCompraActualMonedaInstrumento" AS "MontoCompra"
+				,CAR."INGMontoMercadoActualMonedaInstrumento"
+				,CAR."INGMontoCompraActualMonedaInstrumento"
+				,CAR."INGMontoInteresAcumTIFMonedaInstrumento"
+				,CAR."INGMontoATasaCompraProximo"
+				,CAR."MontoAPlazoMonedaInstrumento"
+				,CAR."PlazoEnDiasOperacion"
+				,CAR."INGTasaCompra"
+				FROM 	"BSCL.Mesa.BD::MES.Operacion"  OP
+				INNER JOIN 	"BSCL.Custodia.BD::CUS.Reserva" RE ON (OP."IdOperacion" = RE."IdOperacion")
+				INNER JOIN 	"BSCL.Custodia.BD::CUS.Cartera"  CAR ON ( 
+					RE."IdCarteraCustodia" = CAR."IdCartera"
+					AND (
+						(OP."AfectaCustodia" = 'N' AND RE."IdCarteraCustodia" <> RE."IdCarteraOrigen")
+						OR OP."AfectaCustodia" <> 'N'
+					)
+				)
+				LEFT JOIN   "BSCL.Plataforma.BD::MER.Emisor" AS Emi  ON RE."IdEmisor" = Emi."IdEmisor" --Traer Clasificacion Riesgo IIF
+				LEFT JOIN "BSCL.Plataforma.BD::INS.InstrumentoValorClasificacionRiesgo" AS ICR ON ICR."IdInstrumento" = RE."IdInstrumento"
+				LEFT JOIN "BSCL.Portafolio.BD::POR.Portafolio" AS PORT ON (PORT."IdPortafolio" = CAR."IdPortafolioRelacionado" OR PORT."IdPortafolio" = CAR."IdPortafolio")
+				LEFT JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" AS CLI ON CLI."IdCliente" = PORT."IdCliente"
+				LEFT JOIN "BSCL.Custodia.BD::CUS.ClasificacionCartera" AS CatIFRS ON (RE."CodigoIFRS" = CatIFRS."CodigoCarteraIFRS")
+				WHERE OP."IdTipoOperacion" IN ('VENPAC') AND   OP."IdEstado" = 'VIG' AND CAR."IdTipoInstrumento" <> 'PAC'
+--* ------------------------------------------------------------------------------------------------------------------------------------
+UNION ALL 
+--* ------------------------------------------------------------------------------------------------------------------------------------
+SELECT          'RETROCOMPRA' 
+				,OP."IdEmpresa" as "IdEmpresa"
+				,OP."IdMesaOrigen"
+				,Mes."IdCliente"
+				,CLI."RazonSocial"																		AS "RazonSocial"
+				,PORT."IdPortafolio"
+				,PORT."CodigoPortafolio"																AS "CodigoPortafolio"																	
+				,CLI."DocumentoIdentidad" 																AS "DocumentoIdentidad"
+				,RE."FolioCarteraOrigen"																AS "FolioCartera"
+				,OP."FechaOperacion"																	AS "FechaOperacion"
+				,OP."FechaLiquidacion"
+				,RE."IdInstrumento"
+				,RE."Nemotecnico"
+				,SUB."NemoSVS"	
+				,RE."IdClasificacionTipoInstrumento"													AS "IdClasificacionTipoInstrumento"
+				,RE."IdTipoInstrumento"																		
+				,RE."IdTipoReajuste"																	AS "IdMonedaInstrumento"
+				,RE."IdTipoInstrumento"																	AS "TipoInstrumento"
+				,RE."IdEmisor"
+				,RE."CorteMinimo"
+				,RE."IdTipoReajuste"																	AS "TipoReajuste"
+				,CASE WHEN RE."IdClasificacionTipoInstrumento" = 'IF' THEN SUB."INGValorRescate"
+				 ELSE SUB."INGCantidad" 
+				 END 																				    AS "INGCantidad"
+				,RE."Precio"																			AS "Precio"
+				,COALESCE(RE."Tasa", 0.0)																AS "Tasa"
+				,COALESCE(SUB."INGMontoCompraActualMonedaInstrumento", 0.0) 							AS "Monto"
+				,SUB."INGPrecioMercadoActual"
+				,SUB."INGTasaMercadoActual"
+				,SUB."INGMontoATasaMercadoActual"
+				,SUB."FechaVencimientoInstrumento"														AS "FechaVencimientoInstrumento"
+				,OP."FechaVencimiento"																	AS "FechaVencimientoOperacion"														
+				,SUB."EsFungible"
+				,RE."CodigoIFRS"
+				,COALESCE(CatIFRS."CarteraIFRS",'')  													AS "CodigoDescIFRS"
+				,RE."IdBoveda"
+				,SUB."INGDurationCompraProximo"
+				,SUB."INGDurationCompraActual"
+				,CASE WHEN SUB."IdClasificacionTipoInstrumento" = 'IF' 
+				THEN Emi."ValorClasificacionRiesgoIIF" 
+				ELSE ICR."ValorClasificacionRiesgo" END 												AS "ValorClasificacionRiesgo"
+				,SUB."INGMontoInteresCompraProximoMonedaInstrumento" AS "INGMontoInteresCompraProximo"
+				,SUB."INGMontoReajusteCompraProximo"
+				,SUB."INGMontoATasaCompraActual"
+				,CASE WHEN SUB."IdClasificacionTipoInstrumento" = 'RF' THEN 0
+			  		ELSE SUB."INGValorRescate" 
+		 		END AS "INGValorRescate"
+				,RE."Tasa" AS "TasaCompra"
+				,SUB."INGMontoCompraActualMonedaInstrumento" AS "MontoCompra"
+				,SUB."INGMontoMercadoActualMonedaInstrumento"
+				,SUB."INGMontoCompraActualMonedaInstrumento"
+				,SUB."INGMontoInteresAcumTIFMonedaInstrumento"
+				,SUB."INGMontoATasaCompraProximo"
+				,RE."INGMontoAPlazoMonedaInstrumento" AS "MontoAPlazoMonedaInstrumento"
+				,OP."PlazoEnDias" AS "PlazoEnDiasOperacion"
+				,RE."Tasa" AS "INGTasaCompra"
+				FROM 	"BSCL.Mesa.BD::MES.Operacion"  OP
+				INNER JOIN "BSCL.Custodia.BD::CUS.Reserva" RE ON (OP."IdOperacion" = RE."IdOperacion")
+				INNER JOIN "BSCL.Custodia.BD::CUS.Subyacente"  SUB ON ( RE."FolioSubyacente" = SUB."FolioSubyacente" )
+				LEFT JOIN "BSCL.Mesa.BD.Vistas::ConsultarMesas" AS Mes ON (OP."IdMesaOrigen" = Mes."IdMesa")
+				LEFT JOIN "BSCL.Plataforma.BD::MER.Emisor" AS Emi  ON RE."IdEmisor" = Emi."IdEmisor" --Traer Clasificacion Riesgo IIF
+				LEFT JOIN "BSCL.Plataforma.BD::INS.InstrumentoValorClasificacionRiesgo" AS ICR ON ICR."IdInstrumento" = RE."IdInstrumento"
+				LEFT JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" AS CLI ON CLI."IdCliente" = Mes."IdCliente"
+				LEFT JOIN "BSCL.Portafolio.BD::POR.Portafolio" AS PORT ON (PORT."IdPortafolio" = Mes."IdPortafolio")
+				LEFT JOIN "BSCL.Custodia.BD::CUS.ClasificacionCartera" AS CatIFRS ON (RE."CodigoIFRS" = CatIFRS."CodigoCarteraIFRS")
+				WHERE OP."IdTipoOperacion" IN ('VENPAC') AND   OP."IdEstado" = 'VIG'
+				AND OP."AfectaCustodia" = 'N';
+
+
+GO
+GRANT SELECT ON "BSCL.Mesa.BD.Vistas::MRF.ConsultarCarteraInstrumento" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

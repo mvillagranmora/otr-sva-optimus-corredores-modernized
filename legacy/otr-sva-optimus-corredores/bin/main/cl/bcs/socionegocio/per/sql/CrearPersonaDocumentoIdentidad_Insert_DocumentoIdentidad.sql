@@ -1,0 +1,30 @@
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad"
+(
+	"IdPersona",
+	"IdDocumentoIdentidad",
+	"DocumentoIdentidad",
+	"IdTipoDocumentoIdentidad",
+	"NumeroSerie",
+	"FechaEmision",
+	"FechaVencimiento",
+	"IdEstado",
+	"FechaIngreso",
+	"FechaCreacion",
+	"FechaModificacion",
+	"IdEstadoAutorizacion",
+	"IdUsuarioCreador"
+) VALUES (
+	:IdPersona,
+	:IdDocumentoIdentidad,
+	:DocumentoIdentidad,
+	:IdTipoDocumentoIdentidad,
+	:NumeroSerie,
+	:FechaEmision,
+	:FechaVencimiento,
+	'ACT',
+	:FechaIngreso,
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	:IdEstadoAutorizacion,
+	:IdUsuarioCreador
+)

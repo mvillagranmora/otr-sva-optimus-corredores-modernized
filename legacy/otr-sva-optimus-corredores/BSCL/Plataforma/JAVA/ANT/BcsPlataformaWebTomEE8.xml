@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="BcsPlataformaWeb">
+<!--
+
+
+ RECUERDE PASAR EN EL COMANDO SU RUTA DEL REPOSITORIO Y  
+ 
+ EJEMPLO: -DRUTA=C:/Users/cstange/hana_work/DB9_02_CSTANGE/__empty__/  -DDEPLOY=C:/BCS/DEPLOY/ -Dfile.encoding=UTF8
+ 
+ 
+-->
+    <property environment="env"/> 
+	<property name="fileName" value="PLA"/>
+	<property name="web.xml" value="${RUTA}/BSCL/Plataforma/JAVA/ANT/config/Plataforma.xml"/>
+    <path id="src.path">
+    	<!-- Obligatorio valida sesion -->
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsFilters/src"/>
+    	<!--
+    	    *************************************
+    	             RESPETAR 
+    	    **************************************
+    	    -> Los SERVLET  deben ir en BcsPlataformaWeb/src/cl/bcs/plataforma/services/[pkg]
+    	    -> Las clases deben estar en cada modulos   Bcs[Modulo]Servicios/src/cl/bcs/[modulo]/   
+    	    -> API deben estar independientes y no depender de otros fuentes/clases modulos  Bcs[API]/xx/yy/zz    
+    	-->
+    	
+    	<!-- NORMATIVO -->
+    	    	    	
+    	<!-- APIS -->
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsUtils/src"/>
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsPlataformaReporteApi/src"/>
+    	
+    	<!-- SERVLET UNICO PARA TODOS LOS MODULOS -->
+    	<pathelement location="${RUTA}/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src"/>
+    	    	
+
+    </path>   
+	<fileset id="lib.jars" dir="${RUTA}/BSCL/Plataforma/JAVA/libsTomEE8/">	
+		<include  name="storedprocedure-2.0-SNAPSHOT.jar"/>
+		<include  name="kaiser-odata-1.12.01.jar"/>
+	</fileset>  
+	<fileset id="compile.jars" dir="${RUTA}/BSCL/Plataforma/JAVA/libsTomEE8/">
+		<!-- ESTOS ARCHIVOS ESTAN EN tom/lib -->
+		<include  name="guava-18.0.jar"/>
+		<include  name="json-simple-1.1.1.jar"/>
+		<include  name="commons-fileupload-1.3.2.jar"/>		
+		<include  name="opencsv-3.7.jar"/>
+		<include  name="JDBInterface.jar"/>
+		<include  name="websocket-api.jar"/>
+		<include  name="servlet-api.jar"/>
+		<include  name="javaee-api-8.0-6-tomcat.jar"/>
+		<include  name="gson-2.6.2.jar"/>
+		<include  name="commons-dbcp-1.4.jar"/>
+		<include  name="commons-codec-1.10.jar"/>
+		<include  name="javax.mail-1.5.1.jar"/>
+		<include  name="commons-io-2.4.jar"/>	
+		<include  name="commons-lang-2.6.jar"/>
+		<include  name="commons-lang3-3.12.0.jar"/>
+		<include  name="log4j.jar"/>
+		<include  name="log4j-api-2.17.0.jar"/>  
+		<include  name="log4j-core-2.17.0.jar"/>
+		<include  name="postgresql-42.7.7.jar"/>
+		<include  name="webreporting-jsf.jar"/>	
+		<include  name="webreporting.jar"/>	
+		<include  name="freemarker-2.3.23.jar"/>
+		<include  name="CrystalCommon2.jar"/>
+		<include  name="commons-configuration-1.2.jar"/>
+		<include  name="cvom.jar"/>
+		<include  name="DatabaseConnectors.jar"/>
+		<include  name="icu4j-71_1.jar"/>		
+		<include  name="keycodeDecoder.jar"/>
+		<include  name="logging.jar"/>
+		<include  name="pfjgraphics.jar"/>
+		<include  name="poi-3.14-20160307.jar"/>
+		<include  name="poi-ooxml-3.14-20160307.jar"/>
+		<include  name="poi-scratchpad-3.14-20160307.jar"/>
+		<include  name="CrystalReportsRuntime.jar"/>
+		<include  name="avalon-framework-4.2.0.jar"/>
+		<include  name="barcode4j.jar"/>
+		<include  name="sql2o-1.5.4.jar"/>
+		<include  name="cqengine-2.9.2-all.jar"/>
+		<include  name="commons-dbutils-1.6.jar"/>
+		<!-- USADAS PARA LAS CARTOLAS -->
+		
+		<include name="com.lowagie.text-2.1.7.jar"/>
+		<include name="commons-beanutils-1.9.4.jar"/> 
+		<include name="commons-digester-2.1.jar"/>
+		<include name="commons-logging-1.2.jar"/>
+		<include name="DynamicJasper-core-fonts-1.0.jar"/>
+		<include name="ecj-4.4.jar"/>
+		<include name="groovy-2.4.7.jar"/>
+		<include name="iReport-utils-2.0.1.jar"/>
+		<include name="com.fasterxml.jackson.databind.jar"/>
+		<include name="jackson-annotations-2.1.2.jar"/>
+		<include name="jackson-core-2.2.3.jar"/>
+		<include name="jasperreports-6.3.0.jar"/>
+		<include name="jcommon-1.0.23.jar"/>
+		<include name="jfreechart-1.0.19.jar"/>
+		<include name="org.springframework.beans.jar"/>
+		<include name="org.springframework.core.jar"/>
+		<include name="velocity-1.7.jar"/>
+		<include  name="dd-java-agent.jar"/>
+		<include  name="opentracing-api-0.33.0.jar"/>
+		<include  name="opentracing-noop-0.33.0.jar"/>
+		<include  name="opentracing-util-0.33.0.jar"/>
+		<include  name="java-dogstatsd-client-4.2.0.jar"/>
+
+		<include  name="jsch-0.1.54.jar"/>
+
+	</fileset> 	
+<!-- NO SE META SI NO SABE -->
+    <path id="build.classpath">
+        <pathelement location="${DEPLOY}/bin"/>
+    	<fileset refid="lib.jars" />
+    	<fileset refid="compile.jars" />
+    </path>   	
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="jargs" value="-nowarn"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+	<property name="log4j.file.name" value="log4j2_tomEE.xml"/>
+	<pathconvert property="mf.classpath" pathsep=" ">
+		<path refid="build.classpath"/>
+		<mapper>
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*.jar" to="lib/*.jar"/>
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+	<pathconvert property="mf.src" pathsep=",">
+			<path refid="src.path"/>
+	</pathconvert>
+	<target name="init">
+        <mkdir dir="${DEPLOY}/bin"/>
+        <mkdir dir="${DEPLOY}/deploy"/>	
+    	<mkdir dir="${DEPLOY}/libsTomEE8"/>	
+    </target>
+    <target name="clean">
+        <delete dir="${DEPLOY}/bin"/>
+        <delete dir="${DEPLOY}/deploy"/>
+    	<delete dir="${DEPLOY}/libsTomEE8"/>	
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="clean,build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+    	<copy todir="${DEPLOY}/libsTomEE8">
+    		<fileset refid="lib.jars" />
+    	</copy>
+    	<copy todir="${DEPLOY}/bin" verbose="false">
+			<multirootfileset basedirs="${mf.src}">
+	    		<include name="**/*.sql"/>	     			 
+			</multirootfileset>
+		</copy>
+    	<javac debug="true" debuglevel="${debuglevel}"  encoding="utf-8"
+        	   destdir="${DEPLOY}/bin" 
+               includeantruntime="false"
+               excludes="cl/bcs/plataforma/report/demo/**"        	
+        	   source="${source}" 
+               target="${target}">
+            <src refid="src.path" />
+            <compilerarg value="${jargs}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+    	<copy file="${RUTA}/BSCL/Plataforma/JAVA/ANT/config/${log4j.file.name}" tofile="${DEPLOY}/bin/log4j2.xml"/>
+	<!-- La magia del WAR Bundle -->
+        <war destfile="${DEPLOY}/deploy/${fileName}.war" webxml="${web.xml}" >
+          <lib dir="${DEPLOY}/libsTomEE8" />
+          <classes dir="${DEPLOY}/bin/" />
+        </war>           	  	
+    </target>
+</project>

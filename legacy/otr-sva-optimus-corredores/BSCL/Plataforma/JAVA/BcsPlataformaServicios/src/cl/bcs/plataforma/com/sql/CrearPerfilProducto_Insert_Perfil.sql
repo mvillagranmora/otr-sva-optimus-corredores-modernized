@@ -1,0 +1,32 @@
+INSERT INTO "BSCL.Plataforma.BD::COM.PerfilProductos"(
+	"IdPerfilProductos",
+	"DescripcionPerfilProductos",
+	"IdCategoriaInversionista",
+	"EsPerfilPersonalizado",
+	"TipoEntidadReferencia",
+	"IdReferencia",
+	"FechaCreacion",
+	"FechaModificacion",
+	"IdEstado",
+	"PorDefecto",
+	"IdEmpresa",
+	"FechaIngreso",
+	"IdEstadoAutorizacion",
+	"IdUsuarioCreador"
+)
+VALUES(
+	:IdPerfilProductos,
+	:DescripcionPerfilProductos,
+	:IdCategoriaInversionista,
+	:EsPerfilPersonalizado,
+	:TipoEntidadReferencia,
+	:IdReferencia,
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	:IdEstado,
+	:PorDefecto,
+	:IdEmpresa,
+	:FechaIngreso,
+	:IdEstadoAutorizacion,
+	:IdUsuarioCreador
+)

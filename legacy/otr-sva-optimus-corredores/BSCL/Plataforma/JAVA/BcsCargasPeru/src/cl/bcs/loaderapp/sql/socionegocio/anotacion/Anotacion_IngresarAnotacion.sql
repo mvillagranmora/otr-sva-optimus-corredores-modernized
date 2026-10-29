@@ -1,0 +1,33 @@
+insert into "BSCL.SocioNegocio.BD::CLI.Anotacion" 
+(
+	"IdAnotacion",
+	"IdCliente",
+	"FechaAnotacion",
+	"IdMotivoAnotacion",
+	"Titulo",
+	"Detalle",
+	"FechaIngreso",
+	"FechaCreacion",
+	"FechaModificacion",
+	"IdUsuarioCreador",
+	"IdRelevanciaAnotacion",
+	"IdAmbitoAnotacion",
+	"ValidoDesde",
+	"ValidoHasta"					
+)
+values(	
+	:IdAnotacion,
+	:IdCliente,
+	:FechaAnotacion,
+	:IdMotivoAnotacion,
+	:Titulo,
+	COALESCE(:Detalle, ''),
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	CURRENT_UTCTIMESTAMP,
+	:IdUsuarioCreador,
+	:IdRelevanciaAnotacion,
+	:IdAmbitoAnotacion,
+	:FechaDesde,
+	:FechaHasta
+);

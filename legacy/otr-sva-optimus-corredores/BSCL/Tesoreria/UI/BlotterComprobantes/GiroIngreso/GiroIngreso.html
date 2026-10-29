@@ -1,0 +1,51 @@
+<div class="col-xs-12" ng-controller="GiroIngresosCtrl">
+    
+     <div class="bcs-cuerpo">
+		<form name="frmGiroIngresos" class="col-xs-12 form-horizontal">
+			<!-- INICIO DATOS FORMA DE PAGO -->
+			<div class="row">
+				<bcs-formas-de-pago
+					id-ventana="idVentana"							
+					obj-forma-de-pago="objFormaDePago"
+					saldo-por-asignar="data.saldoPorAsignar"
+					configuracion-forma-pago="data.configuracionFormaPago"
+					show-bloque-datos-operacion="data.showDatosOperacion"
+					show-bloque-datos-socio="data.showDatosSocio"
+				>
+				</bcs-formas-de-pago>
+			</div>		
+			<div class="row">
+				<bcs-grid      id = "grid-comprobantes-tesoreria"
+					configuracion = "confBasicaComprobantes"
+					seleccionado  = "seleccionComprobantes">
+
+					<div bcs-grid-detail ng-non-bindable>
+						<uib-tabset>
+							<uib-tab heading="{{'UI_FORMA_DE_PAGO' | translate}}">
+								<bcs-grid
+									configuracion  = "confBasicaComprobanteFormaDePago(dataItem)"			                            
+									seleccionado   = "seleccionComprobanteFormaPago"
+									fn-doble-click = "editarMedioDePagoSocio(seleccionComprobanteFormaPago)">
+								</bcs-grid>
+							</uib-tab>
+						</uib-tabset>
+					</div>
+
+				</bcs-grid>
+			</div>
+			<!-- FIN DATOS FORMA DE PAGO -->
+		</form>
+	</div>
+	<!--- TERMINO FORMULARIO -->
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2 pull-right"  id='frmGiroIngresos_girarIngresos'  bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_GIRAR' | translate"   bcs-habilitado="frmGiroIngresos.$valid" bcs-clic="girarIngresos()"></bcs-button> 
+		<bcs-button class="col-xs-2 pull-right"  id='frmGiroIngresos_quitar'         bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate"  bcs-habilitado="seleccionComprobantes"  bcs-clic="quitarComprobante()"></bcs-button>
+		<div classxxx="col-xs-8"></div>		
+	</div>
+	
+</div>
+
+
+
+

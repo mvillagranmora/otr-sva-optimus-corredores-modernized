@@ -1,0 +1,181 @@
+<div
+	id="ModalLimiteCuentaPropiaForwardCtrl"
+	class="row"
+	ng-controller="ModalLimiteCuentaPropiaForwardCtrl as self"
+>
+	<div class="row">
+		<div class="col-xs-12">
+			<form name="ModalLimiteCuentaPropiaForward">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						id-actual="self.limite.IdTipoInstrumento"
+						id-defecto="self.limite.IdTipoInstrumentoDef"
+						todos="'N'"
+						bcs-requerido
+						activado="false"
+						filtros="self.cmbbx.TipoInstrumento.filtros"
+						seleccionado="self.limite.TipoInstrumentoObj"
+						cascada1-a="self.cmbbx.Instrumento.filtros.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipoinstrumento-mesa'"
+						id-actual="self.limite.IdInstrumento"
+						id-defecto="self.limite.IdInstrumentoDef"
+						item-post-filtro="'1'"
+						todos="'S'"
+						static-items="self.cmbbx.Instrumento.staticItems"
+						value-field="'IdInstrumento'"
+						bcs-requerido
+						filtros="self.cmbbx.Instrumento.filtros"
+						seleccionado="self.limite.InstrumentoObj"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CANAL</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-canal-ingreso'"
+						id-actual="self.limite.IdCanalIngreso"
+						id-defecto="self.limite.IdCanalIngresoDef"
+						item-post-filtro="'1'"
+						todos="'S'"
+						static-items="self.cmbbx.TipoCanalIngreso.staticItems"
+						bcs-requerido
+						filtros="self.cmbbx.TipoCanalIngreso.filtros"
+						seleccionado="self.limite.TipoCanalIngresoObj"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_OPERADOR</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-codigo-empleado'"
+						id-actual="self.limite.CodigoOperador"
+						id-defecto="self.limite.CodigoOperadorDef"
+						item-post-filtro="'1'"
+						todos="'S'"
+						static-items="self.cmbbx.Operador.staticItems"
+						text-field="'CodigoYNombreEmpleado'"
+						activado="true"
+						bcs-requerido
+						filtros="self.cmbbx.Operador.filtros"
+						seleccionado="self.limite.OperadorObj"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_MONEDA_PRINCIPAL</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-moneda-principal'"
+						id-actual="self.limite.IdMonedaPrincipal"
+						id-defecto="self.limite.IdMonedaPrincipalDef"
+						item-post-filtro="'1'"
+						todos="'N'"
+						bcs-requerido
+						seleccionado="self.limite.MonedaObj"
+						cascada1-a="self.cmbbx.TipoOperacion.Moneda.IdInstrumento"
+						cascada1-valor="'IdInstrumento'"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_MONTO</label>
+					<bcs-input-numero
+						class="col-xs-8"
+						bcs-requerido
+						k-ng-model="self.limite.MontoTotal"
+						decimales="self.win.MontoDecimal"
+					>
+					</bcs-input-numero>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_USA_PLAZO</label>
+						<bcs-input-checkbox
+							class="col-xs-8"
+							ng-model="self.limite.UsaPlazoMaximoDias"
+						></bcs-input-checkbox>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_PLAZO_MAXIMO_DIAS</label>
+						<bcs-input-numero
+							class="col-xs-8"
+							k-ng-model="self.limite.PlazoMaximoDias"
+							decimales="0"
+							bcs-requerido="self.limite.UsaPlazoMaximoDias"
+							k-ng-disabled="!self.limite.UsaPlazoMaximoDias"
+						></bcs-input-numero>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_VALIDACION</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-comportamiento'"
+						id-actual="self.limite.IdTipoComportamiento"
+						id-defecto="self.limite.IdTipoComportamientoDef"
+						todos="'N'"
+						activado="true"
+						bcs-requerido
+						seleccionado="self.limite.TipoComportamientoObj"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-estado-limites'"
+						id-actual="self.limite.IdEstado"
+						id-defecto="self.limite.IdEstadoDef"
+						todos="'N'"
+						bcs-requerido
+						filtros="self.cmbbx.Estado.filtros"
+						seleccionado="self.limite.EstadoObj"
+					>
+					</bcs-combobox-base>
+				</div>
+			</form>
+		</div>
+	</div>
+	<br>
+
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-12">
+			<bcs-button
+				id="ModalLimiteCuentaPropiaForward_aceptar"
+				class="col-xs-3"
+				bcs-tipo="'principal'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_ACEPTAR' | translate"
+				bcs-habilitado="ModalLimiteCuentaPropiaForward.$valid"
+				bcs-clic="self.aceptar();"
+			>
+			</bcs-button>
+			<bcs-button
+				id="ModalLimiteCuentaPropiaForward_cancelar"
+				class="col-xs-3"
+				bcs-tipo="''"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_CANCELAR' | translate"
+				bcs-habilitado="true"
+				bcs-clic="self.cancelar();"
+			>
+			</bcs-button>
+		</div>
+	</div>
+</div>

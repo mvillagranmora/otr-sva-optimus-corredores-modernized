@@ -1,0 +1,139 @@
+<div
+	id="ModalLimiteCuentaPropiaRFIFClasificacionRiesgoCtrl"
+	class="row"
+	ng-controller="ModalLimiteCuentaPropiaRFIFClasificacionRiesgoCtrl as self"
+>
+	<div class="row">
+		<div class="col-xs-12">
+			<form name="ModalLimiteCuentaPropiaRFIFClasificacionRiesgo">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						id-actual="self.limite.IdTipoInstrumento"
+						id-defecto="self.limite.IdTipoInstrumentoDef"
+						todos="'N'"
+						item-post-filtro="'1'"
+						bcs-requerido
+						filtros="self.cmbbx.TipoInstrumento.filtros"
+						seleccionado="self.limite.TipoInstrumentoObj"
+						cascada1-a="self.cmbbx.TipoOperacion.filtros.IdTipoInstrumento"
+						cascada1-valor="'IdTipoInstrumento'"
+						cascada2-a="self.cmbbx.TipoOperacion.filtros.IdClasificacionTipoInstrumento"
+						cascada2-valor="'IdClasificacionTipoInstrumento'"
+						cascada3-a="self.cmbbx.Moneda.filtros.IdTipoInstrumento"
+						cascada3-valor="'IdTipoInstrumento'"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-operacion'"
+						id-actual="self.limite.IdTipoOperacion"
+						id-defecto="self.limite.IdTipoOperacionDef"
+						item-post-filtro="'1'"
+						todos="'S'"
+						bcs-requerido
+						filtros="self.cmbbx.TipoOperacion.filtros"
+						seleccionado="self.limite.TipoOperacionObj"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_CANAL</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-canal-ingreso'"
+						id-actual="self.limite.IdCanalIngreso"
+						id-defecto="self.limite.IdCanalIngresoDef"
+						item-post-filtro="'1'"
+						todos="'S'"
+						bcs-requerido
+						filtros="self.cmbbx.TipoCanalIngreso.filtros"
+						seleccionado="self.limite.TipoCanalIngresoObj"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_MARGEN_TASA_INFERIOR</label>
+					<bcs-input-numero
+						class="col-xs-8"
+						k-ng-model="self.limite.MargenInferior"
+						decimales="2"
+						k-options="{ min: 0, max: 100 }"
+						bcs-requerido
+					>
+					</bcs-input-numero>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_MARGEN_TASA_SUPERIOR</label>
+					<bcs-input-numero
+						class="col-xs-8"
+						k-ng-model="self.limite.MargenSuperior"
+						decimales="2"
+						k-options="{ min: 0, max: 100 }"
+						bcs-requerido
+					>
+					</bcs-input-numero>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_TIPO_VALIDACION</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-tipo-comportamiento'"
+						id-actual="self.limite.IdTipoComportamiento"
+						id-defecto="self.limite.IdTipoComportamientoDef"
+						todos="'N'"
+						activado="true"
+						bcs-requerido
+						seleccionado="self.limite.TipoComportamientoObj"
+					>
+					</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base
+						class="col-xs-8"
+						tipo="'combobox-estado-limites'"
+						id-actual="self.limite.IdEstado"
+						id-defecto="self.limite.IdEstadoDef"
+						todos="'N'"
+						bcs-requerido
+						filtros="self.cmbbx.Estado.filtros"
+						seleccionado="self.limite.EstadoObj"
+					>
+					</bcs-combobox-base>
+				</div>
+			</form>
+		</div>
+	</div>
+	<br>
+
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-12">
+			<bcs-button
+				id="ModalLimiteCuentaPropiaRFIFClasificacionRiesgo_aceptar"
+				class="col-xs-3"
+				bcs-tipo="'principal'"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_ACEPTAR' | translate"
+				bcs-habilitado="ModalLimiteCuentaPropiaRFIFClasificacionRiesgo.$valid"
+				bcs-clic="self.aceptar();"
+			>
+			</bcs-button>
+			<bcs-button
+				id="ModalLimiteCuentaPropiaRFIFClasificacionRiesgo_cancelar"
+				class="col-xs-3"
+				bcs-tipo="''"
+				bcs-auto-desactivar="false"
+				bcs-texto="'UI_CANCELAR' | translate"
+				bcs-habilitado="true"
+				bcs-clic="self.cancelar();"
+			>
+			</bcs-button>
+		</div>
+	</div>
+</div>

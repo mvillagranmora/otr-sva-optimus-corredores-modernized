@@ -1,0 +1,146 @@
+<div id="AdministrarPortafolio" ng-controller="AdministrarPortafolioCtrl as admPort">
+	<div class="col-xs-12 form-horizontal">
+		<div class="row bcs_titulo" translate>
+			UI_ADMINISTRAR_PORTAFOLIO
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_NOMBRE_COMPLETO</label>
+				<bcs-input-texto class="col-xs-7" 
+					k-ng-disabled="'true'" 
+					ng-model="admPort.datos.NombreCompleto">
+				</bcs-input-texto>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_CATEGORIA_INVERSIONISTA</label>
+				<bcs-combobox-base class="col-xs-7"
+					tipo="'combobox-categoria-inversionista'"
+					id-actual="admPort.datos.IdCategoriaInversionista"
+					id-defecto="admPort.datos.IdCategoriaInversionistaDef"
+					todos="'N'"
+					activado="false"
+					seleccionado="admPort.datos.CategoriaInversionistaObj">
+				</bcs-combobox-base>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_DOCUMENTO_IDENTIDAD</label>
+				<bcs-input-texto class="col-xs-7" 
+					k-ng-disabled="'true'" 
+					ng-model="admPort.datos.DocumentoIdentidadFormateado">
+				</bcs-input-texto>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_TIPO_CLIENTE</label>
+				<bcs-combobox-base class="col-xs-7"
+					tipo="'combobox-tipo-cliente'"
+					id-actual="admPort.datos.IdTipoCliente"
+					id-defecto="admPort.datos.IdTipoClienteDef"
+					todos="'N'"
+					activado="false"
+					seleccionado="admPort.datos.TipoClienteObj">
+				</bcs-combobox-base>
+			</div>
+		</div>
+		<hr style="margin:10px 0px;">
+		<div class="col-xs-12">
+	  		<uib-tabset>
+				<uib-tab id="TabDatosGenerales" heading="{{'UI_DATOS_GENERALES'| translate}}" active="admPort.tabs['Portafolio']['PanelPortafolioDatosGenerales'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioDatosGenerales')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioDatosGenerales')"  >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioDatosGenerales'].id}}" style="padding: 10px 0 10px 0;min-height:400px;"></div>
+				</uib-tab>
+				<uib-tab id="TabPerfilComercial" heading="{{'UI_PERFIL_COMERCIAL' | translate}}"  select="admPort.MaintabSelect('PerfilComercial')" >
+					<div class="row">
+						<uib-tabset>
+							<uib-tab id="AdmPortPerfCom_PerfilComercial" heading="{{'UI_MATRIZ_OPERACIONAL'| translate}}" active="admPort.tabs['PerfilComercial']['PanelPortafolioPerfilComercial'].active" select="admPort.fnTabSelect('PerfilComercial','PanelPortafolioPerfilComercial')"  deselect="admPort.fnTabDeselect('PerfilComercial','PanelPortafolioPerfilComercial')"  >
+								<div id="{{admPort.tabs['PerfilComercial']['PanelPortafolioPerfilComercial'].id}}" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+							<uib-tab id="AdmPortPerfCom_PerfilProductos" heading="{{'UI_PERFIL_PRODUCTOS' | translate}}" active="admPort.tabs['PerfilComercial']['PanelPortafolioPerfilProductos'].active" select="admPort.fnTabSelect('PerfilComercial','PanelPortafolioPerfilProductos')"  deselect="admPort.fnTabDeselect('PerfilComercial','PanelPortafolioPerfilProductos')"  >
+								<div id="{{admPort.tabs['PerfilComercial']['PanelPortafolioPerfilProductos'].id}}" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+							<uib-tab ng-if="SesionLocale === 'CL'" id="AdmPortPerfCom_PerfilCobros" heading="{{'UI_PERFIL_COBROS' | translate}}" active="admPort.tabs['PerfilComercial']['PanelPortafolioPerfilCobros'].active" select="admPort.fnTabSelect('PerfilComercial','PanelPortafolioPerfilCobros')"  deselect="admPort.fnTabDeselect('PerfilComercial','PanelPortafolioPerfilCobros')" >
+								<div id="{{admPort.tabs['PerfilComercial']['PanelPortafolioPerfilCobros'].id}}" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+							<uib-tab ng-if="SesionLocale === 'PE'" id="AdmPortPerfCom_PerfilCobrosPeru" heading="{{'UI_PERFIL_COBROS' | translate}}" active="admPort.tabs['PerfilComercial']['PanelPortafolioPerfilCobrosPeru'].active" select="admPort.fnTabSelect('PerfilComercial','PanelPortafolioPerfilCobrosPeru')"  deselect="admPort.fnTabDeselect('PerfilComercial','PanelPortafolioPerfilCobrosPeru')" >
+								<div id="{{admPort.tabs['PerfilComercial']['PanelPortafolioPerfilCobrosPeru'].id}}" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+							<uib-tab id="AdmPortPerfCom_PlantillaLimites" heading="{{'UI_PLANTILLA_LIMITES' | translate}}" active="admPort.tabs['PerfilComercial']['PanelPortafolioPlantillaLimites'].active" select="admPort.fnTabSelect('PerfilComercial','PanelPortafolioPlantillaLimites')"  deselect="admPort.fnTabDeselect('PerfilComercial','PanelPortafolioPlantillaLimites')" >
+								<div id="{{admPort.tabs['PerfilComercial']['PanelPortafolioPlantillaLimites'].id}}" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+						</uib-tabset>
+					</div>
+				</uib-tab>
+				<uib-tab id="TabPreferenciasDeNegocio" heading="{{'UI_PREFERENCIAS_NEGOCIO' | translate}}" active="admPort.tabs['Portafolio']['PanelPortafolioPreferenciasDeNegocio'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioPreferenciasDeNegocio')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioPreferenciasDeNegocio')" >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioPreferenciasDeNegocio'].id}}" style="padding: 0px 0 10px 0;"></div>
+					<!-- <div class="row">
+						<uib-tabset>
+							<uib-tab heading="{{'UI_PREFERENCIAS_NEGOCIO' | translate}}">
+								<div id="PanelPortafolioPreferenciasDeNegocio" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+							<uib-tab id="AdmPortPerfCom_PreferenciasFacturacion" heading="{{'UI_PREFERENCIAS_FACTURACION' | translate}}" select="admPort.fnTabPortafolioPreferenciasFacturacion()">
+								<div id="PanelPortafolioPreferenciasFacturacion" style="padding: 0px 0 10px 0;min-height:400px;"></div>
+							</uib-tab>
+							<uib-tab id="TabPreferenciasCartola" heading="{{'UI_PREFERENCIAS_CARTOLA' | translate}}"  select="admPort.fnTabPortafolioPreferenciasCartola()"  >
+								<div id="PanelPortafolioPreferenciasCartola" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+						</uib-tabset>
+					</div> -->
+				</uib-tab>
+				<uib-tab id="TabIndicadores" heading="{{'UI_INDICADORES' | translate}}" active="admPort.tabs['Portafolio']['PanelPortafolioIndicadores'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioIndicadores')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioIndicadores')" >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioIndicadores'].id}}" style="padding: 0px 0 10px 0;"></div>
+				</uib-tab>
+				<uib-tab id="TabRequisitos" heading="{{'UI_REQUISITOS' | translate}}" active="admPort.tabs['Portafolio']['PanelPortafolioRequisitos'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioRequisitos')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioRequisitos')" disable = "'true'" >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioRequisitos'].id}}" style="padding: 0px 0 10px 0;"></div>
+				</uib-tab>
+				<uib-tab id="TabPreferenciasPago" heading="{{'UI_PREFERENCIAS_PAGO' | translate}}" select="admPort.MaintabSelect('PrefPago')" >
+					<div class="row">
+						<uib-tabset>
+							<uib-tab id="AdmPortPrefPago_Recibe" heading="{{'UI_CLIENTE_RECIBE'| translate}}" active="admPort.tabs['PrefPago']['PanelPortafolioPrefPagoRecibe'].active" select="admPort.fnTabSelect('PrefPago','PanelPortafolioPrefPagoRecibe')"  deselect="admPort.fnTabDeselect('PrefPago','PanelPortafolioPrefPagoRecibe')" >
+								<div id="{{admPort.tabs['PrefPago']['PanelPortafolioPrefPagoRecibe'].id}}" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+							<uib-tab id="AdmPortPrefPago_Paga" heading="{{'UI_CLIENTE_PAGA' | translate}}" active="admPort.tabs['PrefPago']['PanelPortafolioPrefPagoPaga'].active" select="admPort.fnTabSelect('PrefPago','PanelPortafolioPrefPagoPaga')"  deselect="admPort.fnTabDeselect('PrefPago','PanelPortafolioPrefPagoPaga')" >
+								<div id="{{admPort.tabs['PrefPago']['PanelPortafolioPrefPagoPaga'].id}}" style="padding: 0px 0 10px 0;"></div>
+							</uib-tab>
+						</uib-tabset>
+					</div>
+				</uib-tab>
+				<uib-tab id="TabAutorizaciones" heading="{{'UI_AUTORIZACIONES' | translate}}"  active="admPort.tabs['Portafolio']['PanelPortafolioAutorizaciones'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioAutorizaciones')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioAutorizaciones')" >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioAutorizaciones'].id}}" style="padding: 0px 0 10px 0;"></div>
+				</uib-tab>
+				<uib-tab id="TabAnotaciones" heading="{{'UI_ANOTACIONES' | translate}}"  active="admPort.tabs['Portafolio']['PanelPortafolioAnotaciones'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioAnotaciones')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioAnotaciones')" >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioAnotaciones'].id}}" style="padding: 0px 0 10px 0;"></div>
+				</uib-tab>
+				<uib-tab id="TabLineaSobregiro" heading="{{'UI_LIMITE' | translate}}" active="admPort.tabs['Portafolio']['PanelPortafolioLineaSobregiro'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioLineaSobregiro')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioLineaSobregiro')" >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioLineaSobregiro'].id}}" style="padding: 0px 0 10px 0;"></div>
+				</uib-tab>
+				<uib-tab id="TabCuentaCustodio" heading="{{'UI_CUENTA_CUSTODIO' | translate}}" active="admPort.tabs['Portafolio']['PanelPortafolioCuentaCustodio'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioCuentaCustodio')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioCuentaCustodio')" >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioCuentaCustodio'].id}}" style="padding: 0px 0 10px 0;"></div>
+				</uib-tab>
+				<uib-tab id="TabNotificaciones" heading="{{'UI_NOTIFICACIONES' | translate}}"  active="admPort.tabs['Portafolio']['PanelPortafolioNotificaciones'].active" select="admPort.fnTabSelect('Portafolio','PanelPortafolioNotificaciones')"  deselect="admPort.fnTabDeselect('Portafolio','PanelPortafolioNotificaciones')" >
+					<div id="{{admPort.tabs['Portafolio']['PanelPortafolioNotificaciones'].id}}" style="padding: 0px 0 10px 0;"></div>
+				</uib-tab>
+				<!--
+				<uib-tab ng-if="admPort.datos.| === 'APV'" id="TabDatosSAAPV" heading="{{'UI_DATOS_SAAPV' | translate}}" select="admPort.fnTabMainPortafolioDatosGeneralesSAAPV()">
+					<div class="row">
+						<uib-tabset>
+							<uib-tab id="DatosGeneralesSAAPV" heading="{{'UI_DATOS_GENERALES'| translate}}" select="admPort.fnTabPortafolioDatosGeneralesSAAPV()">
+								<div id="PanelPortafolioDatosGeneralesSAAPV" style="padding: 0px 0 10px 0;min-height:400px;"></div>
+							</uib-tab>
+						</uib-tabset>
+					</div>
+				</uib-tab>
+				-->
+			</uib-tabset>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class="col-xs-11"></div>
+			<div class="col-xs-1">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="verFichaCliente()">{{'UI_VER_FICHA_CLIENTE' | translate}}</li>
+	            <li ng-click="verResumenIneversiones()">{{'UI_VER_RESUMEN_INVERSIONES' | translate}}</li>
+	            <li ng-click="verContrato()" ng-show ="admPort.datos.APV === 'APV'" >{{'UI_VER_CONTRATO_APV' | translate}} </li>
+			</bcs-menu>
+			</div>
+		</div>
+	</div>
+</div>

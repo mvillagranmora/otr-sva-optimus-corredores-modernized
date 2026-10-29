@@ -1,0 +1,1 @@
+SELECT "IdTipoCargaMasiva" FROM "BSCL.Custodia.BD::CUS.TipoCargaMasiva" WHERE "Codigo" LIKE :Codigo

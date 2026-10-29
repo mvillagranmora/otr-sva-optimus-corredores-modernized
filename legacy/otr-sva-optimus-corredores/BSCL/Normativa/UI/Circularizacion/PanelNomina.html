@@ -1,0 +1,102 @@
+<div id="PanelNomina" class="row" ng-controller="PanelNominaCtrl as pLCP">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_PERIODO</label>
+			  		<bcs-input-date class="col-xs-8" k-options="pLCP.PeriodoOptions" k-ng-model="pLCP.Periodo" todo-dias="'S'"></bcs-input-date>
+			  		<!-- 
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-limite'"
+						id-actual="pLCP.filtro.IdTipoLimite"
+						id-defecto="pLCP.filtro.IdTipoLimiteDef"
+						filtros="pLCP.cmbbx.TipoLimite.filtros"
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+					 -->
+				</div>
+				<!-- 
+				<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_RESPUESTA</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						id-actual="pLCP.filtro.IdClasificacionTipoInstrumento"
+						id-defecto="pLCP.filtro.IdClasificacionTipoInstrumentoDef"
+						filtros="pLCP.cmbbx.ClasificacionTipoInstrumento.filtros"
+						todos="'S'"
+						seleccionado="pLCP.dataModal.ClasificacionTipoInstrumentoObj"
+						cascada1-a="pLCP.cmbbx.TipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+				 -->
+				<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-socio-negocio'"
+						id-actual="pLCP.filtro.IdSocioDeNegocio"
+						id-defecto="'0'"
+						filtros="pLCP.cmbbx.SocioDeNegocio.filtros"
+						todos="'N'"
+						seleccionado="pLCP.SocioDeNegocioObj">
+					</bcs-combobox-base>
+				</div>	 
+		  	</div>
+		  	<div class="row">
+	  			<br>
+	  			<bcs-input-checkbox class="col-xs-1" ng-disabled="true" ng-model="pLCP.configuracionVerCarta" ></bcs-input-checkbox>
+				<label class="col-xs-10" ng-show="pLCP.configVerCarta['P']" translate>UI_CONFIGCARTA_P</label>
+				<label class="col-xs-10" ng-show="pLCP.configVerCarta['UP']" translate>UI_CONFIGCARTA_UP</label>
+				<label class="col-xs-10" ng-show="pLCP.configVerCarta['CP']" translate>UI_CONFIGCARTA_CP</label>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pLCP.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pLCP.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		
+	<div class="row">
+		<bcs-grid
+			id="gridNomina"
+			configuracion="pLCP.grilla.Nomina"
+			seleccionado="pLCP.grilla.limiteSel"
+			fn-exportar-excel="excelNomina"
+			api="gridApi">
+			
+		</bcs-grid>
+	</div>
+
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-12" style="top:10px">
+			<bcs-button id="Circularizacion_circularizacion" class="col-xs-2  pull-left" style="width: 14%;"  bcs-tipo="'bcs-button-primary'"     bcs-auto-desactivar="false" bcs-texto="'UI_CIRCULARIZACION' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.SolicitarCircularizacion()"></bcs-button>
+			<bcs-button id="Circularizacion_parametros" class="col-xs-2  pull-left" style="width: 12%;"  bcs-tipo="'bcs-button-secondary'"     bcs-auto-desactivar="false" bcs-texto="'UI_PARAMETROS' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.ModificarParametros()"></bcs-button>
+			<bcs-button id="Circularizacion_resumen" class="col-xs-1  pull-left"   bcs-tipo="'bcs-button-secondary'"     bcs-auto-desactivar="false" bcs-texto="'UI_RESUMEN' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.ImprimirResumen()"></bcs-button>
+			<bcs-button id="Circularizacion_verCarta" class="col-xs-1  pull-left"   bcs-tipo="'bcs-button-secondary'"     bcs-auto-desactivar="false" bcs-texto="'UI_VER_CARTA' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.VerCarta(pLCP.grilla.limiteSel)"></bcs-button>
+			<bcs-button id="Circularizacion_notificarCliente" class="col-xs-2  pull-left" style="width: 14%;"  bcs-tipo="'bcs-button-secondary'"     bcs-auto-desactivar="false" bcs-texto="'UI_NOTIFICAR_CLIENTE' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.Notificar(pLCP.grilla.limiteSel)"></bcs-button>
+			<bcs-button id="Circularizacion_respuesta" class="col-xs-1  pull-left"   bcs-tipo="'bcs-button-secondary'"     bcs-auto-desactivar="false" bcs-texto="'UI_RESPUESTA' | translate"  bcs-habilitado="'true'" bcs-clic="pLCP.fn.Respuesta(pLCP.grilla.limiteSel)"></bcs-button>
+			
+			<bcs-menu 
+				class="col-xs-1 pull-right"
+				bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+				bcs-texto="'UI_OPCIONES' | translate">		            
+				<li ng-click="excelNomina('Nomina')">						  	{{'UI_EXPORTAR_EXCEL' 		| translate}}</li>
+				<li id="Circularizacion_edicionMultiple" ng-click="pLCP.fn.EdicionMultiple(pLCP.grilla.limiteSel)">	{{'UI_EDICION_MULTIPLE' 	| translate}}</li>
+				<li id="Circularizacion_actualizarCliente" ng-click="pLCP.fn.ActualizarCliente(pLCP.grilla.limiteSel)">{{'UI_ACTUALIZAR_CLIENTE' 	| translate}}</li>
+				<li id="Circularizacion_notificarNomina" ng-click="pLCP.fn.NotificarNomina()">						{{'UI_NOTIFICAR_NOMINA' 	| translate}}</li>
+				<li id="Circularizacion_generarCartas" ng-click="pLCP.fn.GenerarCartas()">							{{'UI_GENERAR_CARTAS' 		| translate}}</li>
+			</bcs-menu>	
+			
+		</div>
+	</div>
+	
+	
+	
+	
+</div>

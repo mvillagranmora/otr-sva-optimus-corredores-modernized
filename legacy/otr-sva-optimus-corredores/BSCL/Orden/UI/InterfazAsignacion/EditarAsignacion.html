@@ -1,0 +1,173 @@
+<div ng-controller="EditarAsignacionCtrl">
+	<div class="row" style="min-height:250px">
+		<form name="editarAsignacionForm">
+			<div class="row">
+				<label class="col-xs-2" translate>UI_CUENTA_CUSTODIO</label>
+				<bcs-combobox-base
+					class="col-xs-3"
+					activado = "datosOperacion.idTipoCanalIngreso === 'TRA'"
+					bcs-requerido = "SesionLocale === 'PE'"
+					usa-filtros-completos = "'S'"
+					tipo="'combobox-cuenta-custodio-portafolio'"
+					id-defecto = "idCuentaCustodioDefecto"
+					seleccionado="cuentaCustodioSeleccionada"
+					filtros="filtrosCuentaCustodio"
+					cascada-a="filtrosBoveda.IdBoveda"
+				cascada-valor="'IdBoveda'">
+				</bcs-combobox-base>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_FORMA_CUSTODIA</label>
+				<bcs-combobox-base
+					class="col-xs-3"
+					bcs-requerido
+					activado = "datosOperacion.idTipoCanalIngreso === 'TRA' && !esVentaCorta"
+					id-defecto = "idFormaCustodia"
+					tipo="'combobox-forma-custodia-orden'"
+					seleccionado="formaCustodiaSeleccionada">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_BOVEDA</label>
+				<bcs-combobox-base
+					class="col-xs-3"
+					bcs-requerido
+					activado = "datosOperacion.idTipoCanalIngreso === 'TRA'"
+					id-defecto = "idBoveda"
+					tipo="'combobox-boveda'"
+					auto-seleccion  = "'true'"
+					filtros="filtrosBoveda"
+					seleccionado="bovedaSeleccionada">
+				</bcs-combobox-base >	
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_MONEDA_LIQUIDACION</label>
+				<bcs-combobox-base 
+					class="col-xs-3"
+					bcs-requerido
+					activado = "datosOperacion.idTipoCanalIngreso === 'TRA'"
+					id-defecto = "idMonedaLiquidacionOrden"
+				 	tipo="'combobox-tipo-instrumento-moneda-liquidacion'"
+				 	cascada-a="filtrosPreferenciaPago.IdMoneda"
+					cascada-valor="'IdMonedaLiquidacion'"
+				    filtros ="filtrosMonedaLiquidacion"
+				    seleccionado= "idMonedaLiquidacionOrdenSeleccionada">
+				</bcs-combobox-base>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-2" translate>UI_CODIGO_IFRS</label>
+				<bcs-combobox-base
+					class="col-xs-3"
+					activado = "form.editable"
+					bcs-requerido ="EsCuentaPropia"
+					id-defecto="codigoIFRS"
+					seleccionado = "codigoIFRSSeleccionado"
+					tipo="'combobox-codigo-ifrs'">
+				</bcs-combobox-base>
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_CAMBIO</label>
+				<bcs-input-monetario
+					class="col-xs-3"
+					decimales = "'2'"
+					simbolo="SesionIdMonedaSistema" 
+					k-ng-model="tipoCambio">
+				</bcs-input-monetario>
+				
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-2" translate>UI_PAGO_COBRO_CON_CTA_INVERSION</label>
+				<bcs-input-checkbox class="col-xs-3"
+					ng-disabled="datosOperacion.idTipoCanalIngreso !== 'TRA'" 
+					ng-model="pagoCobroCuentaInversion">
+				</bcs-input-checkbox>
+			
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_FORMA_DE_PAGO_COBRO</label>
+				<bcs-combobox-base
+					class="col-xs-3"
+					usa-filtros-completos = "'S'"
+					activado = "datosOperacion.idTipoCanalIngreso === 'TRA' && !pagoCobroCuentaInversion"
+					tipo="'combobox-preferencia-pago-portafolio'"
+					filtros = "filtrosPreferenciaPago"
+					id-actual = "idpreferenciapago"
+					seleccionado="formaDePagoSeleccionada"
+					item-post-filtro = "datosOperacion.idTipoCanalIngreso === 'TRA' && !pagoCobroCuentaInversion ? '1' : '0'">
+				</bcs-combobox-base>	
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-2" translate>UI_PLAZO_VENTA_CORTA</label>
+				<bcs-input-plazo
+					class="col-xs-3"
+					activa-plazo = "esVentaCorta  && datosOperacion.idTipoCanalIngreso === 'TRA'"
+					activa-fecha = "esVentaCorta  && datosOperacion.idTipoCanalIngreso === 'TRA'"
+					bcs-requerido = "esVentaCorta"
+					bcs-mayor-que = "'0'"
+					fecha-inicial = "fechaInicial"
+					fecha-vencimiento = "fechaVencimiento"
+					plazo = "plazoVentaCorta"
+					id-tipo-operacion = "transaccion.IdTipoOperacion"
+					id-condicion-de-liquidacion="'T0'">
+				</bcs-input-plazo>	
+				<label class="col-xs-2 col-xs-offset-1" translate>UI_TASA_VENTA_CORTA</label>
+				<div class="col-xs-3">
+					<bcs-input-numero
+						k-ng-disabled = "!esVentaCorta  || datosOperacion.idTipoCanalIngreso !== 'TRA'"
+						bcs-requerido = "esVentaCorta"
+						k-ng-model="tasaVentaCorta">
+					</bcs-input-numero>
+				</div>
+			</div>
+		
+			<div class="row k-window-subtitle">
+				<label translate>UI_COBROS</label>			
+			</div>
+			
+			<div class="row">
+				<bcs-cobros-orden
+					solo-api = "'S'"
+					api = "datosForm.apiCobros"
+					deferred = "datosForm.deferredCobros"
+					operaciones-salida = "datosForm.operacionSalida"
+					calculando = "datosForm.calculandoAlgo"
+					matriz-cobros-modificados="datosForm.cobrosModificados">
+				</bcs-cobros-orden>
+			</div>
+				
+			<div style="min-height: 100px;" ng-if="SesionLocale === 'XX' && cobros.length > 0">
+				<table class="table">
+				  	<thead>
+					    <tr>
+							<th width="8%"  translate>UI_CODIGO</th>
+				 			<th width="8%"  translate>UI_TIPO</th>
+				 			<th width="8%"  translate>UI_FORMA</th>
+				       		<th width="10%" translate>UI_MINIMO</th>
+				       		<th width="15%" translate>UI_VALOR_COBRO</th>
+				       		<th width="15%" translate>UI_VALOR_FINAL</th>	
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="cobro in cobros">
+					    	<td>{{cobro.CodigoCobroClasificacion}}</td>
+					    	<td>{{cobro.IdCobro}}</td>
+					    	<td>
+					    		<span ng-if="cobro.FormaCobro === 'F'" translate>UI_FIJO</span>
+					    		<span ng-if="cobro.FormaCobro === 'V'" translate>UI_VARIABLE</span>
+					    	</td>
+					    	<td>{{cobro.ValorTopeMinimoOrden | kformat:'c':cobro.IdMoneda:'monto':'ORD'}}</td>
+					    	<td>
+					    		<span ng-if="cobro.FormaCobro === 'F'" >{{cobro.ValorCobro | kformat:'c':cobro.IdMoneda:'monto':'ORD'}}</span>
+					    		<span ng-if="cobro.FormaCobro === 'V'" >{{cobro.ValorCobro | kformat:'x'}}</span>
+					    	</td>
+					    	<td>
+					    		<bcs-input-monetario ng-if="cobro.FormaCobro === 'F'"  k-ng-model="cobro.ValorCobroAplicado" k-ng-disabled="datosOperacion.idTipoCanalIngreso !== 'TRA' || cobro.PermiteCambiarValor === 'N'" decimales="cobro.Decimales" simbolo="cobro.IdMoneda"></bcs-input-monetario>
+					    		<bcs-input-porcentaje ng-if="cobro.FormaCobro === 'V'" k-ng-model="cobro.ValorCobroAplicado" k-ng-disabled="datosOperacion.idTipoCanalIngreso !== 'TRA' || cobro.PermiteCambiarValor === 'N'" ></bcs-input-porcentaje>
+					    	</td>
+					    </tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-1 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_ACEPTAR' | translate"  bcs-habilitado="editarAsignacionForm.$valid" bcs-clic="aceptar()"></bcs-button>
+		<bcs-button class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_CANCELAR' | translate"  bcs-habilitado="'true'" bcs-clic="cancelar()"></bcs-button>
+	</div>
+	
+</div>

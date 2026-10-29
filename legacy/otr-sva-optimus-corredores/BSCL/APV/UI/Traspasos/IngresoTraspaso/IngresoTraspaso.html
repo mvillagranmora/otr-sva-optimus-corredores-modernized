@@ -1,0 +1,432 @@
+<div id="IngresoTraspaso" class="row" ng-controller="IngresoTraspasoCtrl as ingtraAPV">
+	<div class="row">
+		<form name="formIngresoTraspaso" class="col-xs-12 ng-pristine ng-valid ng-valid-bcs-required">
+			<div class="row">
+				<div class="col-xs-8">
+			  		<label class="col-xs-3" translate>UI_SOCIO_NEGOCIO</label>
+					<bcs-combobox-base 
+						id				= "UI_SOCIO_NEGOCIO"
+						class			= "col-xs-9"
+					 	auto-cargar		= "'false'"
+					 	bcs-requerido
+					    tipo			= "'combobox-socio-negocio'"
+					    seleccionado	= "ingtraAPV.datosForm.SocioNegocioSeleccionado"
+					    filtros			= "ingtraAPV.ConfiguracionCmbo.SocioNegocio"
+	                    id-actual		= "ingtraAPV.datosForm.SocioNegocioIdActual"
+	                    id-defecto		= "ingtraAPV.datosForm.SocioNegocioIdActualDefecto"
+	                    activado		= "'false'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+				  	<label class="col-xs-4" translate>UI_FECHA_TRASPASO</label> 
+			  		<bcs-input-date
+						class			= "col-xs-7"
+						k-ng-model		= "ingtraAPV.datosForm.fechaTraspaso" 
+						k-ng-disabled	= "'true'">
+					</bcs-input-date>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-6" translate>UI_CATEGORIA_INVERSIONISTA</label>
+					<bcs-combobox-base
+						class			= "col-xs-6"
+						tipo			= "'combobox-categoria-inversionista'"
+						bcs-requerido	= "ingtraAPV.CategoriaoRequerido"
+						id-actual		= "ingtraAPV.datosForm.IdCategoriaInversionistaIdActual"
+						id-defecto		= "ingtraAPV.datosForm.IdCategoriaInversionistaIdActualDefecto"
+						id-post-filtro	= "ingtraAPV.datosForm.IdCategoriaInversionistaPost"
+						seleccionado    = "ingtraAPV.datosForm.CategoriaInversionistaSeleccionado"
+						activado		= "false"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_PERFIL_COMERCIAL</label>
+					<bcs-combobox-base 
+						class			= "col-xs-8"
+						tipo			= "'combobox-perfil-comercial'"
+						bcs-requerido	= "ingtraAPV.PerfilRequerido"
+						id-actual		= "ingtraAPV.datosForm.IdPerfilComercialBaseOrigenIdActual"
+						id-defecto		= "ingtraAPV.datosForm.IdPerfilComercialBaseOrigenIdActualDefecto"
+						id-post-filtro	= "ingtraAPV.datosForm.IdPerfilComercialBaseOrigenPost"
+						todos			= "'N'"
+						seleccionado	= "ingtraAPV.datosForm.PerfilComercialSeleccionado"
+						activado		= "false"
+					>
+					</bcs-combobox-base>
+					<!--"!ingtraAPV.PerfilDeshabilitado"-->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+				  	<label class="col-xs-6 ng-scope" translate="">UI_TIPO_TRASPASO</label>
+					<bcs-combobox-base 
+						id				= "UI_TIPO_TRASPASO"
+						class			= "col-xs-6"
+						cache			= "true"
+						tipo			= "'combobox-tipo-traspaso'"
+						id-actual		= "ingtraAPV.datosForm.TipoTraspasoIdActual"
+						seleccionado	= "ingtraAPV.datosForm.TipoTraspasoSeleccion"
+						activado		= "'false'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+			  		<label class="col-xs-6" translate>UI_TOTAL_PESOS</label>
+					<bcs-input-numero
+						id				= "UI_TOTAL_PESOS"
+						class			= "col-xs-6"
+						ng-model		= "ingtraAPV.datosForm.MontoTotalPesos"
+						k-ng-model		= "ingtraAPV.datosForm.kngMontoTotalPesos"
+						k-ng-disabled	= "'true'"
+						decimales		= "0">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+			  		<label class="col-xs-4" translate>UI_TOTAL_UF</label>
+					<bcs-input-numero
+						id				= "UI_TOTAL_UF"
+						class			= "col-xs-6"
+						ng-model		= "ingtraAPV.datosForm.MontoTotalUF"
+						k-ng-model		= "ingtraAPV.datosForm.kngMontoTotalUF"
+						k-ng-disabled	= "'true'">
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+			  		<label class="col-xs-4" translate>UI_PORCENTAJE</label>
+					<bcs-input-numero
+						id				= "UI_PORCENTAJE_TOTAL"
+						class			= "col-xs-6"
+						ng-model		= "ingtraAPV.datosForm.TotalPorcentaje"
+						k-ng-model		= "ingtraAPV.datosForm.kngTotalPorcentaje"
+						k-ng-disabled	= "'true'">
+					</bcs-input-numero>
+				</div>
+			</div>
+			
+			<br>
+						
+			<div class="row">
+					<strong> <div class="ng-scope" translate="">UI_FONDOS_ORIGEN</div></strong>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-8">
+					<label class="col-xs-3" translate>UI_SOCIO_NEGOCIO_ORIGEN</label>
+					<bcs-combobox-base 
+							id				= "UI_SOCIO_NEGOCIO_ORIGEN"
+							class			= "col-xs-9"
+						 	auto-cargar		= "'false'"
+						    tipo			= "'combobox-socio-negocio'"
+						    seleccionado	= "ingtraAPV.datosForm.SocioNegocioOrigenSeleccionado"
+						    filtros			= "ingtraAPV.ConfiguracionCmbo.SocioNegocioOrigen"
+		                    id-actual		= "ingtraAPV.datosForm.SocioNegocioOrigenIdActual"
+		                    id-defecto		= "ingtraAPV.datosForm.SocioNegocioOrigenIdActualDefecto"
+		                    activado		= "'false'"
+					>
+					</bcs-combobox-base>
+				</div>		
+			</div>
+			<div class="row" ng-show="false">
+				<div class="col-xs-4">
+					<label class="col-xs-4 ng-scope" translate="">UI_MONTO_PESOS</label>
+						<bcs-input-numero class="col-xs-7"
+							bcs-requerido=""
+							bcs-mayor-que="'0'"
+							k-ng-model="ingtraAPV.datosForm.kngMontoPesoOrigen"
+						>
+						</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 ng-scope" translate="">UI_UF</label>
+						<bcs-input-numero class="col-xs-7"
+							bcs-requerido=""
+							bcs-mayor-que="'0'"
+							k-ng-model="ingtraAPV.datosForm.kngMontoUFOrigen"
+						>
+						</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 ng-scope" translate="">UI_PORCENTAJE</label>
+						<bcs-input-porcentaje class="col-xs-7"
+							bcs-requerido=""
+							bcs-mayor-que="'0'"
+							k-ng-model="ingtraAPV.datosForm.kngPorcentajeOrigen"
+						>
+						</bcs-input-porcentaje>
+				</div>
+			</div>
+			<div class="row" ng-show="false">
+				<div class="col-xs-8">
+				</div>
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_AGREGAR"
+								bcs-tipo			= "'bcs-button-input-form'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_AGREGAR' | translate" 
+								bcs-habilitado		= "ingtraAPV.HabilitoAgregarOrigenAhorro" 							
+								bcs-clic			= "invAPV.fn.AgregoOrigenAhorro()"
+					>
+				</div>
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_ELIMINAR"
+								bcs-tipo			= "'bcs-button-input-form'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_ELIMINAR' | translate" 
+								bcs-habilitado		= "ingtraAPV.datasource.OrigenAhorroSeleccion !== undefined && ingtraAPV.parametrosVentana.ModoVentana !== 'C'" 							
+								bcs-clic			= "invAPV.fn.EliminarOrigenAhorro()"
+					>
+				</div>
+			</div>	
+			<!-- 	GRILLAS 	-->
+			<div class="row">			
+				<div class="col-xs-12">											
+					<div class="col-xs-12">
+						<bcs-grid 
+							id					= "gridFondoOrigen"
+							configuracion 		= "ingtraAPV.datasource.OrigenAhorro"
+							seleccionado 		= "ingtraAPV.datasource.OrigenAhorroSeleccion"
+						>
+						</bcs-grid>
+					</div>
+				</div>
+			</div>
+			
+			<br>
+			
+			<div class="row">
+					<strong> <div class="ng-scope" translate="">UI_DISTRIBUCION_TRASPASO</div></strong>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-4">
+	      			<label class="col-xs-4" translate="">UI_PLAN_AHORRO</label>
+					<bcs-combobox-base 
+						id					= "UI_NOMBRE_PLAN_AHORRO" 
+						class				= "col-xs-7"
+						tipo				= "'combobox-nombre-plan-ahorro'"
+						id-actual			= "ingtraAPV.dataForm.PlanAhorroIdActual"
+						id-defecto			= "ingtraAPV.dataForm.PlanAhorroIdActualDefecto"
+						cascada-a			= "ingtraAPV.ConfiguracionCmbo.ProductoAgrupador.filtros.IdPlanTipoInversion"
+					    cascada-valor		= "'IdPlanTipoInversion'"
+						seleccionado		= "ingtraAPV.dataForm.NombrePlanAhorroSeleccion"
+						activado			= "false"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_PRODUCTO</label>
+					<bcs-combobox-base class="col-xs-7"
+						bcs-requerido
+						todos				= "'N'"
+						tipo				= "'combobox-producto-agrupador'"
+						id-actual			= "ingtraAPV.dataForm.ProductoAgrupadorIdActual"
+						id-defecto			= "ingtraAPV.dataForm.ProductoAgrupadorIdDefecto"
+						auto-cargar			= "'false'"
+						filtros				= "ingtraAPV.ConfiguracionCmbo.ProductoAgrupador.filtros"
+						cascada-a			= "ingtraAPV.ConfiguracionCmbo.RegimenAgrupador.filtros.IdProductoAgrupador"
+					    cascada-valor		= "'IdProductoAgrupador'"
+					    id-post-filtro		= "'1'"
+						seleccionado		= "ingtraAPV.dataForm.ProductoAgrupadorSeleccion"
+						activado			= "!ingtraAPV.datosForm.BloqueoControles"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate="">UI_REGIMEN</label>
+					<bcs-combobox-base 
+						id					= "UI_REGIMEN"
+						class				= "col-xs-7" 
+						tipo				= "'combobox-regimen-tributario'"
+						auto-cargar			= "'false'"
+						id-defecto			= "ingtraAPV.dataForm.RegimenAgrupadorIdDefecto"
+						seleccionado		= "ingtraAPV.dataForm.RegimenAgrupadorSeleccion"
+						id-actual			= "ingtraAPV.dataForm.RegimenAgrupadorIdActual"
+						filtros				= "ingtraAPV.ConfiguracionCmbo.RegimenAgrupador.filtros"
+						activado			= "!ingtraAPV.datosForm.BloqueoControles"
+					>
+					</bcs-combobox-base>
+					<!-- 
+					<label class="col-xs-4 ng-scope" translate="">UI_REGIMEN</label>
+      				<bcs-combobox-base 
+						id="UI_REGIMEN_TRIBUTARIO"
+						class="col-xs-7" 
+						tipo="'combobox-regimen-apv'"
+						auto-cargar="'false'"
+						seleccionado="ingtraAPV.dataForm.RegimenAgrupadorSeleccion"
+						id-actual="ingtraAPV.dataForm.RegimenAgrupadorIdActual"
+						filtros="ingtraAPV.ConfiguracionCmbo.RegimenAgrupador.filtros"
+					>
+					</bcs-combobox-base>
+					-->
+				</div>
+    		</div> 
+			
+    		<div class="row">
+    			<div class="col-xs-4">
+					<label class="col-xs-4 ng-scope" translate="">UI_MONTO_PESOS</label>
+					<bcs-input-numero 
+						id				= "UI_MONTO_PESOS_TRA"
+						class			= "col-xs-7"
+						bcs-requerido	= "ingtraAPV.MontoPesoOrigenRequerido"
+						bcs-mayor-que	= "'0'"
+						ng-model		= "ingtraAPV.dataForm.MontoPesoTraspaso"
+						k-ng-model		= "ingtraAPV.dataForm.kngMontoPesoTraspaso"
+						decimales		= "0"
+						ng-blur			= "ingtraAPV.Requerido('MONTO')"
+						k-ng-disabled	= "!ingtraAPV.MontoPesoOrigenDeshabilitado || ingtraAPV.datosForm.BloqueoControles"
+					>
+					</bcs-input-numero>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 ng-scope" translate="">UI_UF</label>
+					<bcs-input-numero 
+						id				= "UI_UF_TRA"
+						class			= "col-xs-7"
+						bcs-requerido	= "ingtraAPV.MontoUFOrigenRequerido"						
+						bcs-mayor-que	= "'0'"
+						ng-model		= "ingtraAPV.dataForm.MontoUFTraspaso"
+						k-ng-model		= "ingtraAPV.dataForm.kngMontoUFTraspaso"
+						ng-blur			= "ingtraAPV.Requerido('UF')"
+						k-ng-disabled	= "!ingtraAPV.MontoUFOrigenDeshabilitado || ingtraAPV.datosForm.BloqueoControles"
+					>
+					</bcs-input-numero>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+				</div>				
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_GUARDAR_EDITAR_DIS"
+								bcs-tipo			= "'bcs-button-input-form'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_GUARDAR' | translate"  	
+								bcs-habilitado		= "ingtraAPV.HabilitoGuardarEdicion"	
+								bcs-mostrar         = "ingtraAPV.parametrosVentana.ModoVentana !== 'R'"						
+								bcs-clic			= "ingtraAPV.fn.EditoDetalleTraspaso(ingtraAPV.datasource.DetalleTraspasoSeleccion)"
+					>
+					</bcs-button>
+				</div>
+
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_ELIMINAR_DIS"
+								bcs-tipo			= "'bcs-button-input-form'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_ELIMINAR' | translate" 
+								bcs-habilitado		= "ingtraAPV.HabilitoEliminarDis"
+								bcs-mostrar         = "ingtraAPV.parametrosVentana.ModoVentana !== 'R'"	  							
+								bcs-clic			= "ingtraAPV.fn.EliminarDetalleTraspaso(ingtraAPV.datasource.DetalleTraspasoSeleccion)"
+					>
+					</bcs-button>
+				</div>
+
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_AGREGAR_DIS"
+								bcs-tipo			= "'bcs-button-input-form'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_AGREGAR' | translate"  	
+								bcs-habilitado		= "ingtraAPV.HabilitoAgregar"						
+								bcs-clic			= "ingtraAPV.fn.AgregoDetalleTraspaso()"
+					>
+					</bcs-button>
+				</div>
+
+
+
+			</div>
+			<div class="row">
+				<div class="col-xs-12">											
+					<div class="col-xs-12">
+					<!--  
+						<bcs-grid 
+							id					= "gridDetalleTraspasos"
+							configuracion 		= "ingtraAPV.datasource.DetalleTraspaso"
+							seleccionado 		= "ingtraAPV.datasource.DetalleTraspasoSeleccion"
+							fn-doble-click 		= "ingtraAPV.fn.EditarDetalleTraspaso(ingtraAPV.datasource.DetalleTraspasoSeleccion)"
+						>
+						</bcs-grid> 
+					-->
+					<div class="col-xs-12"></div>
+					
+						<bcs-grid 
+							id					= "gridDetalleTraspasos"
+							configuracion 		= "ingtraAPV.datasource.DetalleTraspaso"
+							seleccionado 		= "ingtraAPV.datasource.DetalleTraspasoSeleccion"
+						>
+						</bcs-grid>
+					</div>
+				</div>
+			</div>
+			<br>			
+			<div class="row">
+				<div class="col-xs-8">
+				</div>
+				
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_EDITAR"
+								bcs-tipo			= "'bcs-button-secondary'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_EDITAR' | translate" 
+								bcs-habilitado		= "ingtraAPV.HabilitoEditar" 
+								bcs-mostrar         = "ingtraAPV.parametrosVentana.ModoVentana !== 'R'"		
+								bcs-clic			= "ingtraAPV.fn.EditarDetalleTraspaso(ingtraAPV.datasource.DetalleTraspasoSeleccion)"				
+							
+					>
+					</bcs-button>
+				</div>
+
+				 
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_GUARDAR"
+								bcs-tipo			= "'bcs-button-primary'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_GUARDAR' | translate" 
+								bcs-habilitado		= "ingtraAPV.HabilitoGuardar" 
+								bcs-mostrar         = "ingtraAPV.parametrosVentana.ModoVentana !== 'R'"								
+								bcs-clic			= "ingtraAPV.fn.IngresarTraspaso()"
+					>
+					</bcs-button>
+				</div>
+				
+				<div class="col-xs-10">
+				</div>
+
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_RECAUDACION"
+								bcs-tipo			= "'bcs-button-primary'" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_RECAUDACION' | translate" 
+								bcs-habilitado		= "ingtraAPV.HabilitoRecaudar" 	
+								bcs-mostrar         = "ingtraAPV.parametrosVentana.ModoVentana === 'R'"						
+								bcs-clic			= "ingtraAPV.fn.IngresarTraspaso()"
+					>
+					</bcs-button>
+				</div>
+
+				<!-- 
+				<div class="col-xs-2">
+					<bcs-button class				= "col-xs-12" 
+								id					= "UI_SALIR"
+								bcs-tipo			= "''" 
+								bcs-auto-desactivar	= "false" 
+								bcs-texto			= "'UI_SALIR' | translate" 
+								bcs-habilitado		= "'true'" 							
+								bcs-clic			= "ingtraAPV.fn.Salir()"
+					>
+					</bcs-button>
+				</div>
+				 -->
+			</div>
+		</form>
+	</div>
+</div>

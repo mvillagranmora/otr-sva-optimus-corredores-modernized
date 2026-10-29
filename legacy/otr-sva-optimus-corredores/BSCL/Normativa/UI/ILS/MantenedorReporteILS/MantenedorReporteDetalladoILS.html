@@ -1,0 +1,252 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
+  <div id="MantenedorItem" ng-controller="MantenedorReporteDetalladoILSCtrl" style="padding-right: 0px;">
+  
+  <div class="row">
+	<div class="col-xs-10">
+	</div>
+	  
+	<div class="col-xs-2">
+	  <div class="row bcs-panel-comandos">
+	    <bcs-button class='export-pdf k-button'
+		  bcs-tipo="'principal'"			
+		  bcs-texto="'UI_EXPORTAR_PDF' | translate"
+		  bcs-habilitado="'true'">
+		</bcs-button>
+	  </div>	    
+
+	  </br>
+	</div>
+  </div>	
+	
+  <div id="test-drawing">
+    <!-- Encabezado -->
+	<div class="row">
+	  <div class="col-xs-12">	
+		<table class="table" border="0px">
+		  <tr>		    
+		    <td colspan="3" align="right" style=" border: inset 0pt">INFORMACIÓN AL :  {{resultadoIndices.Fecha | kformat:'d'}}</td>  
+		  </tr>
+		  <tr>
+		    <td colspan="3" align="center" style=" border: inset 0pt"><strong><u><font size="2">ESTADO DE LIQUIDEZ Y SOLVENCIA PATRIMONIAL</font></u></strong></td>		    	        
+		  </tr>    
+		      
+		  <tr>
+		    <td style=" border: inset 0pt"></br></td>
+		  </tr> 
+		 <!--     
+		  <tr>	        
+		    <td style=" border: inset 0pt"><u><strong>IDENTIFICACIÓN:</strong></u></td>
+		  </tr>
+		  --> 
+		     
+		  <tr>
+		    <td colspan="3" style="border:inset 0pt;background-color:#f4f4f4;">R.U.T.       :{{datosCorredora.DocumentoIdentidad}}</td>
+		  </tr>
+		     
+		  <tr>
+		    <td colspan="3" style="border:inset 0pt;background-color:#f4f4f4;">RAZÓN SOCIAL :  {{datosCorredora.RazonSocial}}</td>
+		  </tr>
+		     
+		  <tr>
+		    <td colspan="3" style="border:inset 0pt;background-color:#f4f4f4;">DIRECCION OFICINA PRINCIPAL :  {{datosCorredora.Direccion}}</td>		    
+		  </tr>
+		</table>
+	  </div>
+	</div>
+	
+		
+	<!-- IELSP -->  
+	<div class="row">
+	  </br>
+	  </br>
+	  <!--  <div class="col-xs-12"> -->
+		<table class="table" border="0px">
+		  <tr>
+	        <td style="border:inset 0pt" align="center" colspan="2"><strong><font size=2>IELSP</font></strong></td>	      
+	      </tr>	     
+	      <tr>
+		    <td style="border:inset 0pt"></br></td>
+		  </tr>
+		  
+		  <tr>
+			<td style="width:500px;background-color:#f4f4f4;">Fecha</td>
+			<td align="right" style="background-color:#f4f4f4;">{{resultadoIndices.Fecha | kformat:'d'}}</td>					
+		  </tr>
+			  		
+		  <tr>
+			<td style="width:500px;background-color:#f4f4f4;">Tipo Intermediario</td>
+			<td align="right" style="background-color:#f4f4f4;" >{{resultadoIndices.Intermediario}}</td>					
+		  </tr>
+		  
+		  <tr ng-repeat="resultadoIndices in detalleresultadoIndices">
+			<td style="width:500px;background-color:#f4f4f4;">{{resultadoIndices.NombreIndice}}</td>
+			<td align="right" style="background-color:#f4f4f4;">{{resultadoIndices.MontoIndice}}</td>
+		  </tr>
+			    
+		  <tr ng-repeat="resultadoConceptos in detalleConceptos">				      
+			<td style="width:500px;background-color:#f4f4f4;">{{resultadoConceptos.NombreConcepto}}</td>
+			<td align="right" style="background-color:#f4f4f4;">{{resultadoConceptos.MontoCalculado}}</td>
+		  </tr>
+		</table>			  
+	  
+	  <!-- </div>  -->
+	  
+	</div>
+			
+			
+	<div class="row">  		
+	  <br/>
+	  <br/>	
+	  <div class="col-xs-12">
+	    <table class="table" border="0px" style="background-color:#f4f4f4;">		  
+	      <tr>
+	        <td bgcolor="#f4f4f4"><strong><font size=2>Indicadores de Liquidez y Solvencia Patrimonial</font></strong></td>	        
+	      </tr>
+	      
+	      <tr align="left"; ng-repeat="acumuladoIndices in acumuladoresultadoIndices">
+	        <td style="width:500px;border: inset 0pt;" ng-show="acumuladoIndices.NombreConcepto === undefined" bgcolor="#C0C0C0"><strong>{{acumuladoIndices.NombreIndice}}</strong></td>
+ 			<td align="right" style=" border: inset 0pt" ng-show="acumuladoIndices.NombreConcepto === undefined" bgcolor="#d2d2d2">{{acumuladoIndices.MontoIndice}}</td>
+ 			
+			<td style="width:500px;" ng-show="acumuladoIndices.NombreConcepto.length > 0 && acumuladoIndices.Posicion === 'Denominador'" >&emsp; &emsp; &emsp;{{acumuladoIndices.NombreConcepto}}
+			  <div><br/></div>
+			</td>
+			<td style="width:500px;border: inset 0pt;" ng-show="acumuladoIndices.NombreConcepto.length > 0 && acumuladoIndices.Posicion === 'Numerador'" >&emsp; &emsp; &emsp;{{acumuladoIndices.NombreConcepto}}</td>
+  					
+  			<td align="right" ng-show="acumuladoIndices.NombreConcepto.length > 0 && acumuladoIndices.Posicion === 'Denominador'"><label>{{acumuladoIndices.MontoCalculado}}</label></td>
+  			<td align="right" style=" border: inset 0pt" ng-show="acumuladoIndices.NombreConcepto.length > 0 && acumuladoIndices.Posicion === 'Numerador'"><label>{{acumuladoIndices.MontoCalculado}}</label></td>
+  		  </tr>	
+		</table>			
+	  </div>  		  
+	</div>	  
+	  
+	
+	
+	<div class ="break">
+	<!-- Patrimonio -->
+	<div class="row">
+	  </br>
+	  </br>	  
+	  <table align="center">
+	    <tr>
+	      <td align="center" colspan="6"><strong><font size=2>PATRIMONIO</font></strong></td>	      
+	    </tr>	     
+	    <tr>
+		  <td></br></td>
+		</tr>
+		<tr>
+		  <th style="background-color:#C0C0C0;text-align:center">ÍTEM AUXILIAR</th>
+		  <th style="background-color:#C0C0C0;text-align:center">NRO.PARÁMETRO</th>
+		  <th style="background-color:#C0C0C0;text-align:center">CTA.CONTABLE</th>
+		  <th style="background-color:#C0C0C0;text-align:center">MONTO</th>
+		  <th style="background-color:#C0C0C0;text-align:center">(+/-)</th>
+		  <th style="background-color:#C0C0C0;text-align:center">GLOSA</th>
+		</tr>
+		
+		<tr ng-repeat="resultadoDetallePatrimonio in resultadoDetallePatrimonio">				      
+			<td style="width:120px;text-align:right;background-color:#f4f4f4;">{{resultadoDetallePatrimonio.IdConceptoGrupo}}</td>
+			<td style="width:150px;text-align:right;background-color:#f4f4f4;">{{resultadoDetallePatrimonio.IdItem}}</td>
+			<td style="width:150px;text-align:right;background-color:#f4f4f4;">{{resultadoDetallePatrimonio.CuentaContable}}</td>
+			<td style="width:150px;text-align:right;background-color:#f4f4f4;">{{resultadoDetallePatrimonio.MontoCalculado}}</td>
+			<td style="width:100px;text-align:right;background-color:#f4f4f4;">{{resultadoDetallePatrimonio.OperacionGC}}</td>
+			<td style="width:500px;text-align:right;background-color:#f4f4f4;">{{resultadoDetallePatrimonio.NombreItem}}</td>
+		</tr>
+		
+		<tr>
+	  	  <td colspan="5" align="right" style="background-color:#d2d2d2;"><strong>PATRIMONIO LIQUIDO</strong></td>
+	  	  <td align="right" style="background-color:#d2d2d2;"><strong>{{resultadoDetallePatrimonio.PatrimonioLiquido}}</strong></td>
+	  	  <td></td>
+	  	</tr>
+	  </table>	
+	</div>	 
+	</div>
+	
+	
+	<div class ="break">
+	<!-- Cobertura -->
+	<div class="row">
+	  </br>
+	  </br>	  
+	  <table border="0px" align="center">
+	    <tr>
+	      <td style="border:inset 0pt" align="center" colspan="6"><strong><font size=2>COBERTURA</font></strong></td>
+	    </tr>
+	    <tr>
+		  <td style="border:inset 0pt"></br></td>
+		</tr>
+	    
+	    <tr>
+	      <th style="background-color:#C0C0C0;text-align:center">ÍTEM_A</th>
+	      <th style="background-color:#C0C0C0;text-align:center">% Aplicado</th>
+	      <th style="background-color:#C0C0C0;text-align:center">Nro Parámetro</th>
+	      <th style="background-color:#C0C0C0;text-align:center">CTA CONTAB</th>
+	      <th style="background-color:#C0C0C0;text-align:center">MONTO</th>
+	      <th style="background-color:#C0C0C0;text-align:center">GLOSA</th>
+	    </tr> 
+	    
+	    <tr ng-repeat="resultadoDetalleCobertura in resultadoDetalleCobertura">				      
+			<td style="width:100px;text-align:right;background-color:#f4f4f4;">{{resultadoDetalleCobertura.IdConceptoGrupo}}</td>
+			<td style="width:100px;text-align:right;background-color:#f4f4f4;">{{resultadoDetalleCobertura.Factor * 100}}</td>
+			<td style="width:150px;text-align:right;background-color:#f4f4f4;">{{resultadoDetalleCobertura.IdItem}}</td>
+			<td style="width:150px;text-align:right;background-color:#f4f4f4;">{{resultadoDetalleCobertura.CuentaContable}}</td>
+			<td style="width:150px;text-align:right;background-color:#f4f4f4;">{{resultadoDetalleCobertura.MontoCalculado}}</td>
+			<td style="width:500px;text-align:right;background-color:#f4f4f4;">{{resultadoDetalleCobertura.NombreItem}}</td>
+		</tr>	
+		
+		<tr>
+	  	  <td colspan="5" align="right" style="background-color:#d2d2d2;"><strong>SUBTOTAL(A)&emsp; M$ &emsp; &emsp;</strong></td>	  	  
+	  	  <td align="right" style="background-color:#d2d2d2;"><strong>{{resultadoDetalleCobertura.SaldoTotalA}}</strong></td>
+	  	  <td></td>
+	  	</tr>    
+	  </table>	
+	</div>
+	</div>
+	
+	<div class ="break">
+	<!-- Cartera Obligaciones -->
+	<div class="row">
+	  </br>
+	  </br>	  
+	  <table border="0px" align="center">
+	    <tr>
+	      <td style="border:inset 0pt" align="center" colspan="7"><strong><font size=2>CARTERA OBLIGACIONES</font></strong></td>
+	    </tr>
+	    <tr>
+		  <td style="border:inset 0pt"></br></td>
+		</tr>
+	    
+	  	<tr>
+	  		<td rowspan="2" style="background-color:#C0C0C0;text-align:center"><strong>ÍTEM</strong></td>
+	  		<td rowspan="2" style="background-color:#C0C0C0;text-align:center"><strong>CATEGORÍA</strong></td>
+	  		<td colspan="2" style="background-color:#C0C0C0;text-align:center"><strong>MONTO</strong></td>
+	  		<td colspan="2" style="background-color:#C0C0C0;text-align:center"><strong>% APLICADO</strong></td>
+	  		<td rowspan="2" style="background-color:#C0C0C0;text-align:center"><strong>COBERTURA</strong></td>
+	  	</tr>
+	  	<tr>
+	  		<td style="background-color:#C0C0C0;text-align:center"><strong>con garantía</strong></td>
+	  		<td style="background-color:#C0C0C0;text-align:center"><strong>bcos.y emp.</strong></td>
+	  		<td style="background-color:#C0C0C0;text-align:center"><strong>con garantía</strong></td>
+	  		<td style="background-color:#C0C0C0;text-align:center"><strong>bcos.y emp.</strong></td>
+	  	</tr>
+	  
+	    <tr ng-repeat="detalleCobertura in detalleCobertura">
+	    	<td style="width:350px;background-color:#f4f4f4;"><strong>{{detalleCobertura.Titulo}}</strong></td>
+	        <td style="width:250px;background-color:#f4f4f4;">{{detalleCobertura.Categoria}}</td>	        
+	        <td style="width:150px;text-align:right;background-color:#f4f4f4;">{{detalleCobertura.MontoGarantia}}</td>
+	        <td style="width:150px;text-align:right;background-color:#f4f4f4;">{{detalleCobertura.MontoBancosyEmpresas}}</td>	        
+	        <td style="width:150px;text-align:right;background-color:#f4f4f4;">{{detalleCobertura.FactorA}}</td>
+	        <td style="width:150px;text-align:right;background-color:#f4f4f4;">{{detalleCobertura.FactorB}}</td>
+	        <td style="width:150px;text-align:right;background-color:#f4f4f4;">{{detalleCobertura.MontoCobertura}}</td>
+	    </tr>
+	    
+	    <tr>
+	  	  <td colspan="6" align="right" style="background-color:#d2d2d2;"><strong>SUBTOTAL(B)&emsp; M$ &emsp; &emsp;</strong></td>	  	  
+	  	  <td align="right" style="background-color:#d2d2d2;"><strong>{{detalleCobertura.SaldoTotalB}}</strong></td>
+	  	  <td></td>
+	  	</tr>
+	  </table>	  
+	</div>
+	</div>
+  </div>
+  </div>	
+</html>			

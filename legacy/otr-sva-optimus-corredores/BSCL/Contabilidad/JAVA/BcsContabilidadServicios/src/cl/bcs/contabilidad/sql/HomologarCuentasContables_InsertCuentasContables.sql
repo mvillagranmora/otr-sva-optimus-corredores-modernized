@@ -1,0 +1,23 @@
+INSERT INTO "BSCL.Contabilidad.BD::ITZ.HomologaCuenta"(
+	"CuentaOptimus",
+	"CuentaContabilidad",
+	"CodigoContabilidad",
+	"CuentaProveedor",
+	"CuentaEEFF",
+	"CentroCosto",
+	"NombreCuenta",
+	"DetalleCuenta",
+	"Imputable",
+	"TipoCuenta")
+VALUES(
+	:CuentaOptimus,  
+	:CuentaContabilidad, 
+	:CodigoContabilidad,
+	:CuentaProveedor, 
+	:CuentaEEFF, 
+	:CentroCosto,
+	:NombreCuenta,
+	:DetalleCuenta,
+	:Imputable,
+	:TipoCuenta
+);

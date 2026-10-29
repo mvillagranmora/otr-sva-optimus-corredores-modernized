@@ -1,0 +1,61 @@
+<div id="CuadraturaPagoDividendosAGF" class="col-xs-12" ng-controller="CuadraturaPagoDividendosAGFCtrl">
+	<div class="row bcs-cuerpo">
+   	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+					<bcs-combobox-buscador-fondos class="col-xs-6" 
+						muestra-valor-cuota = "'N'"
+						datos-fondo="filtros.FondoMutuo"
+						buscar-fondo="formData.setFondo"
+						id-ventana="winID">
+					</bcs-combobox-buscador-fondos>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 col-xs-offset-1" translate>UI_FECHA</label>
+					<bcs-input-date class="col-xs-6"
+						id="UI_FECHA"
+						bcs-requerido
+						k-ng-model="filtros.fecha"> 
+					</bcs-input-date>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscar(apiGridCuadratura)"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-cabecera-ffm"
+			 	configuracion="defaultOptions"
+				api = "apiGridCuadratura"
+				seleccionado="seleccionEventoCapital"
+				fn-click = ConsultaEventoCapital(apiGridCuadraturaDetalle,seleccionEventoCapital)>		
+			</bcs-grid>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-detalle-ffm"
+			 	configuracion="defaultDetailsOptions"
+				api = "apiGridCuadraturaDetalle"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class="col-xs-10"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,103 @@
+package cl.bcs.ordenes.pojo;
+
+import java.math.BigDecimal;
+
+import cl.bcs.utils.Utils;
+
+public class TransaccionHistorico {
+	public Long IdTransaccionHistorico;
+	public String TipoRegistro;
+	public String IdEstadoRegistro;
+	public java.sql.Timestamp FechaIngresoRegistroHistorico;
+	public java.sql.Timestamp FechaEjecucionRegistro;
+	public Long IdTransaccion;
+	public String Folio;
+	public java.sql.Date FechaSistemaCreacion;
+	public java.sql.Time HoraSistemaCreacion;
+	public java.sql.Timestamp FechaOperacion;
+	public java.sql.Timestamp FechaModificacionOperacion;
+	public java.sql.Date FechaLiquidacion;
+	public java.sql.Date FechaEmision;
+	public java.sql.Date FechaVencimiento;
+	public java.sql.Timestamp FechaIngresoOferta;
+	public java.sql.Timestamp FechaIngresoRegistro;
+	public String IdSistemaBursatil;
+	public String EsCuentaPropia;
+	public String EsFungible;
+	public String EsAPlazo;
+	public String EsVentaCorta;
+	public String CodigoOperadorContraparte;
+	public String IdEmisor;
+	public BigDecimal Cantidad;
+	public BigDecimal Monto;
+	public BigDecimal Precio;
+	public BigDecimal Tasa;
+	public Long Plazo;
+	public String Nemotecnico;
+	public String NemotecnicoSVS;
+	public BigDecimal ValorRescate;
+	public String IdEstado;
+	public Long IdTransaccionPlazo;
+	public Long IdTransaccionOd;
+	public String IdTipoInstrumento;
+	public String IdClasificacionTipoInstrumento;
+	public String IdTipoReajuste;
+	public Long IdEmpleado;
+	public String IdTipoOperacion;
+	public String IdCondicionDeLiquidacion;
+	public String IdMoneda;
+	public String Reservado;
+	public Long IdUsuarioReserva;
+	public String MotivoReserva;
+	public String Bloqueado;
+	public Long IdUsuarioBloqueo;
+	public String MotivoBloqueo;
+	public Long IdEmpresa;
+	public String IdBolsa;
+	public Long IdLibroOrdenes;
+	public Long IdInstrumento;
+	public String NemotecnicoSubyacente;
+	public Long IdInstrumentoSubyacente;
+	public String IdMonedaSubyacente;
+	public java.sql.Date FechaParidad;
+	public BigDecimal ValorParidad;
+	public java.sql.Date FechaTipoCambio;
+	public BigDecimal ValorTipoCambio;
+	public Long IdCarga;
+	public Long IdComprobanteTesoreria;
+	public String MarcaNegociacion;
+	public String IndicadorDCV;
+	public String EsBilateral;
+	public String IdCamara;
+	public BigDecimal TipoCambioCorresponsal;
+	public Long IdCorredorCorresponsal;
+	public BigDecimal MontoLiquidacionCorresponsal;
+	public String IdMonedaLiquidacionCorresponsal;
+	public BigDecimal MejorPrecioCompra;
+	public BigDecimal MejorPrecioVenta;
+	public Long IdProgramaProcesaAutomatico;
+	public Long IdCorredorLocal;
+	public Long IdCorredorContraparte;
+	public String CodigoOperadorCorredor;
+	public String EsFueraRueda;
+	public Long BaseTasa;
+	public String TipoInteres;
+	public String IndicadorOrdenDirecta;
+	public BigDecimal GastosCorresponsal;
+	public BigDecimal Intereses;
+	public BigDecimal Reajustes;
+	public String IdBoveda;
+	public String IdMonedaEmision;
+	public String AccionTipoOperacion;
+	public BigDecimal MontoPlazo;
+	public BigDecimal PrecioPlazo;
+	public String FolioTransaccionPlazo;
+	public String FlujoOrigen;
+	public String EsModificacionMarketData;
+	public Long IdTransaccionHistoricoAnulacion;
+	
+	public String toString() {
+		return Utils.printJson(this, false);
+	}
+	
+}

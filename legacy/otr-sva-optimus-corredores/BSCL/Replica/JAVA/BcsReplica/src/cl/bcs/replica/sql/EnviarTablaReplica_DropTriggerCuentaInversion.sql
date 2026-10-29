@@ -1,0 +1,1 @@
+DROP TRIGGER  "BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCuentaInversion_SaldoFechaMovimiento";

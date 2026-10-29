@@ -1,0 +1,89 @@
+<div class="row" ng-controller='InformeCarteraPactosValorizadaCuentaPropiaCtrl as conOperacion'>
+    <form name="frmInformeCarteraPropiaMesaRF"  class="col-xs-12 form-horizontal">
+        <div class="row bcs-cuerpo">
+            <div class="col-xs-12">
+				<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<div class="col-xs-9">
+					<bcs-combobox-base class="col-xs-12" id="frmMesa_SOCIO_NEGOCIO"
+						tipo="data.oConfiguracionClientePortafolio.tipo"
+						seleccionado="data.oConfiguracionClientePortafolio.seleccionado"
+						filtros = "data.oConfiguracionClientePortafolio.filtros"
+					    
+						id-defecto="data.oConfiguracionClientePortafolio.idDefecto"
+						configuracion="data.oConfiguracionClientePortafolio.configuracion"
+						activado= "!data.AllPortafolio"				
+						bcs-requerido="!data.AllPortafolio"> > 
+											    <!-- id-actual="data.oConfiguracionClientePortafolio.filtros.IdSocioNegocio" -->
+					</bcs-combobox-base>
+				</div>
+
+            </div>
+            
+            <div class="col-xs-12">
+                <div class="row">
+                	<label class="col-xs-3" translate>UI_TODOS</label>
+                	<div class="col-xs-9">
+                		 <label class="col-xs-3">
+	                        <input type="checkbox" ng-model="data.AllPortafolio">
+		                   </label>
+                	</div>
+		           
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="row">
+	                <label class="col-xs-3" translate>UI_FECHA_CONSULTA</label>
+	                <bcs-input-date class="col-xs-9" 
+                         id="FechaOperacion"
+                         k-ng-model="data.kngFechaOperacion"
+						 ng-blur="data.cambiarFechaMin()"
+                         todo-dias="'true'"
+						 >
+	                </bcs-input-date>
+                </div>
+            </div>
+			<div class="col-xs-12">
+				<div class="row">
+					<label class="col-xs-3" translate>UI_VALORIZADA_AL</label>
+					<bcs-input-date class="col-xs-9"					
+						id="FechaValorizacion"
+						k-ng-model = "data.kngFechaValorizacion"
+						k-options="data.fechaValorizacionMin"
+						todo-dias = true>
+					</bcs-input-date>
+				</div>
+			</div>
+            <div class="col-xs-12">
+                <div class="row">
+                     <label class="col-xs-3" translate>UI_VALORIZACION</label>
+                     <div class="col-xs-9">
+	                       <label class="col-xs-4">
+	                       <input type="checkbox" style="margin-right: 5px;"
+	                              ng-model="data.esTasaPacto">{{'UI_PACTO' | translate}}
+		                   </label>
+		                   <label class="col-xs-4">
+		                       <input type="checkbox" style="margin-right: 5px;"
+		                       		  ng-model="data.esTasaMercado">{{ 'UI_MERCADO' | translate}}
+		                   </label>
+		                   <label class="col-xs-4">
+		                       <input type="checkbox" style="margin-right: 5px;"
+		                       		  ng-model="data.esTasaCompra">{{ 'UI_COMPRA' | translate}}
+		                   </label>
+                     </div>
+			     </div>
+		    </div>
+        </div>
+        <div class=row></div>
+        <hr>
+        <div class="col-xs-12 alignButtonsToRight">
+			<bcs-button id="frmBuscarOperaciones" class="col-xs-4" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_GENERAR' | translate"  
+                bcs-habilitado="frmInformeCarteraPropiaMesaRF.$valid && (data.esTasaMercado || data.esTasaCompra || data.esTasaPacto)" 
+                bcs-clic="data.validarValorizacionAnterior()" 
+			></bcs-button>
+        </div>
+    </form>
+</div>

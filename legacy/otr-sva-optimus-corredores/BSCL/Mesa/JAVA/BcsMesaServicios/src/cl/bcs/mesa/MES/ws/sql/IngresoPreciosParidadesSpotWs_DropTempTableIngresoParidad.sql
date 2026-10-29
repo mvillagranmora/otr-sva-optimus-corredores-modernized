@@ -1,0 +1,1 @@
+DROP TABLE #IngresoPrecioParidadesSpot_p_DatosParidadYTipoCambio

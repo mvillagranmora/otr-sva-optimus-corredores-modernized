@@ -1,0 +1,51 @@
+<div id="CargarEventoCapital" class="col-xs-12" ng-controller="CargarEventoCapitalCtrl">
+	<form name="frmCargarEventoCapital">
+    <div class="row bcs-cuerpo">
+
+		<div class="row">  
+			<label class="col-xs-3" translate>UI_FECHA_LIMITE</label>
+			
+			<bcs-input-date 
+				bcs-requerido
+				class			= "col-xs-3"				
+				k-ng-model		= "data.kngFechaLimite">
+			</bcs-input-date>
+			
+			<div class="col-xs-3"></div>
+			
+			<bcs-button 
+				class			= "col-xs-3" 
+				bcs-tipo		= "'bcs-button-search'" 
+				bcs-auto-desactivar = "false" 
+				bcs-texto		= "'UI_BUSCAR' | translate" 
+				bcs-habilitado	= "frmCargarEventoCapital.$valid" 
+				bcs-clic		= "buscarEventosFaltantes()">
+			</bcs-button>	
+		</div>
+		
+		
+		<div class="row">
+    	
+    		<bcs-grid 
+				id				  = "gridEventosFaltantes"
+	 			configuracion	  = "confBasicaEventosFaltantes"
+				api 			  = "gridApi"
+				seleccionado 	  = "seleccionEventosFaltantes">
+			</bcs-grid>    		
+    	</div>
+    	
+
+    	
+		<div class="row">
+    		<label class="col-xs-12">NOTA: Este proceso carga los eventos de capital faltates, desde Bursatil a Optimus</label>
+    	</div>
+    	
+	</div>
+	</form>
+
+
+	<div class="row bcs-panel-comandos alignButtonsToRight">
+		<bcs-button id="btnCargarEventoCapital" class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"   bcs-texto="'UI_CARGAR' | translate" bcs-habilitado="frmCargarEventoCapital.$valid && !grillaVacia"  bcs-clic="cargarEventosDesdeBursatil()"></bcs-button>
+		<bcs-button bcs-habilitado="'true'"     class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="'false'" bcs-texto="'UI_CERRAR' | translate" bcs-clic="cerrar()"></bcs-button>
+	</div>
+</div>

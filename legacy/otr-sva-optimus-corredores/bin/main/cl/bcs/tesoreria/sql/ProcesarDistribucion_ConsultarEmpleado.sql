@@ -1,0 +1,1 @@
+SELECT COALESCE("IdEntidad",0) AS "IdEmpleado" FROM "BSCL.Plataforma.BD::ACC.Usuario" WHERE "TipoEntidad" = 'EMP' AND "IdUsuario" = :IdUsuario

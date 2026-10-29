@@ -1,0 +1,166 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
+
+def version = "0.0.1"
+def ruta = '../../../../'
+def libs = '../../../../'
+
+compileJava.options.encoding = 'UTF-8' 
+compileTestJava.options.encoding = 'UTF-8'
+javadoc.options.encoding = 'UTF-8'
+archivesBaseName="PLUGIN_OPTIMUS"
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [
+            	'/src/main',
+                //modulos
+                ruta + '/BSCL/APV/JAVA/BcsAPVServicios/src',
+                ruta + '/BSCL/Contabilidad/JAVA/BcsContabilidadServicios/src',
+                ruta + '/BSCL/CuentaInversion/JAVA/BcsCuentaInversionServicios/src',
+                ruta + '/BSCL/Custodia/JAVA/BcsCustodiaServicios/src',
+                ruta + '/BSCL/Facturacion/JAVA/BcsFacturacionServicios/src',
+                ruta + '/BSCL/FondoMutuo/Java/BcsFondoMutuoServicios/src',
+                ruta + '/BSCL/Mesa/JAVA/BcsMesaServicios/src',
+                ruta + '/BSCL/Normativa/Java/BcsNormativaServicios/src',
+                ruta + '/BSCL/Orden/JAVA/BcsOrdenServicios/src',
+                ruta + '/BSCL/Plataforma/JAVA/BcsPlataformaServicios/src',
+                ruta + '/BSCL/SocioNegocio/JAVA/BcsSocioNegocioServicios/src', 
+                ruta + '/BSCL/Tesoreria/JAVA/BcsTesoreriaServicios/src',
+                ruta + '/BSCL/Plataforma/JAVA/BcsValo2/src',
+                ruta + '/BSCL/Portafolio/JAVA/BcsPortafolioServicios/src',
+                //dependencias duras
+                ruta + '/BSCL/Plataforma/JAVA/BcsUtils/src',
+                ruta + '/BSCL/Plataforma/JAVA/BcsPlataformaReporteApi/src'
+                
+            ]
+        }
+        resources {
+            srcDirs = [
+				ruta + '/BSCL/Properties'
+			]
+        }
+    }
+    test {
+        java {
+            srcDirs = [
+                '/src/test'
+            ]
+        
+        }
+    }  
+}
+
+dependencies {
+    //estas en el ant tienen un keyword distinto al de las librerias tomcat
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/kaiser-hana-1.12.02.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/kaiser-odata-1.12.01.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/ngdbc-120_37.jar')
+    
+    //en tomcat
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/antlr-runtime-4.5.3.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/avalon-framework-4.2.0.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/barcode4j.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/com.lowagie.text-2.1.7.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/cqengine-2.9.2-all.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/CrystalCommon2.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/CrystalReportsRuntime.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/cvom.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/DatabaseConnectors.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/freemarker-2.3.23.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/gson-2.6.2.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/guava-18.0.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/icu4j-71_1.jar')     
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/itextpdf-5.0.6.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/jasperreports-6.3.0.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/javaee-api-6.0-6.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/javax.mail-1.5.1.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/jcommon-1.0.23.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/JDBInterface.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/jfreechart-1.0.19.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/jsch-0.1.54.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/keycodeDecoder.jar')
+	//compile files(libs + '/BSCL/Plataforma/JAVA/libs/log4j.jar')
+	//compile files(libs + '/BSCL/Plataforma/JAVA/libs/logging.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/opencsv-3.7.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/pfjgraphics.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/poi-3.14-20160307.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/poi-ooxml-3.14-20160307.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/poi-scratchpad-3.14-20160307.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/servlet-api.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/sql2o-1.5.4.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/webreporting-jsf.jar')  
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/webreporting.jar')  
+
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-dbcp-1.4.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-codec-1.10.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-io-2.4.jar')    
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-lang-2.6.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-lang3-3.1.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-net-3.5.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-logging-1.2.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-collections-3.1.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-beanutils-1.9.2.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-configuration-1.2.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-dbutils-1.6.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-pool-1.4.jar')
+    compile files(libs + '/BSCL/Plataforma/JAVA/libs/commons-csv-1.5.jar')
+    
+	//van en el call
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/jackson-annotations-2.1.2.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/jackson-core-2.2.3.jar')
+	compile files(libs + '/BSCL/Plataforma/JAVA/libs/com.fasterxml.jackson.databind.jar')
+	
+	// nuevo sistema de logs
+	compile files(ruta + '/BSCL/Plataforma/JAVA/libs/log4j-api-2.11.2.jar')
+    compile files(ruta + '/BSCL/Plataforma/JAVA/libs/log4j-core-2.11.2.jar')
+    
+    //opentracing + datadog
+    compile files(ruta + '/BSCL/Plataforma/JAVA/libs/dd-trace-api-0.47.0.jar')
+    compile files(ruta + '/BSCL/Plataforma/JAVA/libs/opentracing-api-0.33.0.jar')
+    compile files(ruta + '/BSCL/Plataforma/JAVA/libs/opentracing-util-0.33.0.jar')
+    compile files(ruta + '/BSCL/Plataforma/JAVA/libs/opentracing-noop-0.33.0.jar')    
+    
+    //fix para junit elipse...
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "5.1.0"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: "1.1.0"
+}
+
+task copyToHomBin(type: Copy){
+	from jar 
+    into System.getProperty("user.home")+"/bin"
+}
+build.finalizedBy(copyToHomBin)
+
+jar {
+  from sourceSets.main.allSource
+}
+
+//permite crear un uber-jar
+shadowJar {
+    from sourceSets.main.allSource
+	baseName = archivesBaseName + '-all'
+	classifier = ''
+	archiveVersion = ''
+}
+
+test {
+    useJUnitPlatform()
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}

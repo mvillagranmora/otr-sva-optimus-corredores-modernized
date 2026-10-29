@@ -1,0 +1,57 @@
+SELECT
+	 CAR."IdCartera" AS "FolioInterno"
+	,CAR."IdOperacion"
+	,CAR."FolioCartera"
+	,CAR."IdTipoOperacion"
+	,CAR."IdTipoInstrumento"
+	,CAR."IdClasificacionTipoInstrumento"
+	,CAR."IdTipoProducto"
+	,CAR."IdInstrumento"
+	,CAR."Nemotecnico"
+	,CAR."IdCliente"
+	,CAR."IdPortafolio"
+	,CAR."IdAgente" AS "IdPersonaEjecutivo"
+	,CAR."IdTipoCanalIngreso"
+	,CAR."IdMonedaPrincipal"
+	,CAR."IdMonedaSecundaria"
+	,CAR."INGCantidad" AS "MontoOperacion"
+	,CAR."INGMontoMonedaPrincipal" AS "MontoInicial"
+	,CAR."INGMontoMonedaSecundaria" AS "MontoFinal"
+	,CAR."PrecioCompra"
+	,CAR."FechaOperacion"
+	,CAR."ValorTipoCambioCierre" AS "TCCierre"
+	,CAR."ValorParidadCierre" AS "ParidadCierre"
+	,CAR."PlazoEnDiasOperacion" AS "Plazo"
+	,CAR."FechaVencimientoOperacion" AS "FechaVencimiento"
+	,TO_DATE(TO_VARCHAR(OPE."FechaLiquidacion",'YYYY-MM-DD'),'YYYY-MM-DD') AS "FechaPago"
+	,CAR."IdModalidadCumplimiento" AS "IdModalidadLiquidacion"
+	,CAR."IdReferenciaMercado"
+	,CAR."IdPlaza"
+	,OPE."TCCosto"
+	,OPE."PuntosTasasForward"
+	,OPE."PuntosForward"
+	,OPE."TCForward"
+	,OPE."TasasMonedaPrincipal"
+	,OPE."TasasMonedaSecundaria"
+	,CAR."INGMontoDiferido" AS "MontoDiferido"
+	,CAR."INGMontoMargen" AS "MontoMargen"
+	,CAR."IdFixing"
+	,CAR."FechaFixing"
+	,TO_VARCHAR(CAR."HoraFixing",'HH24:MI:SS') AS "HoraFixing"
+	,CAR."IdMesa"
+	,CAR."EGRIdSpotAsociado" AS "IdSpotAsociado"
+	,CAR."Glosa" AS "Observaciones"
+	,CAR."IdEstado"
+	,CAR."EGRTasaDescuentoAnticipo" AS "TasaDescuento"
+	,CAR."EGRTipoCambioAnticipo" AS "TipoCambioAnticipo"
+	,CAR."EGRMontoARecibirAnticipo" AS "MontoARecibirAnticipo"
+	,CAR."EGRTipoCambioObservado" AS "TipoCambioObservado"
+FROM "BSCL.Custodia.BD::CUS.Cartera" AS CAR
+INNER JOIN "BSCL.Mesa.BD::MES.Operacion" AS OPE
+	ON (OPE."IdOperacion" = CAR."IdOperacion" AND
+		OPE."IdTipoProducto" = CAR."IdTipoProducto")
+WHERE CAR."IdOperacion" IN (:IdOperacion)
+  AND CAR."FolioCartera" IN (:FolioCartera)
+  AND CAR."IdTipoProducto" = 'MEFW'
+  AND CAR."IdEstado" = 'VIG'
+  AND OPE."IdEmpresa" = :IdEmpresa;

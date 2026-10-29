@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="ComprobanteCobro" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="ComprobanteCobro"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdComprobanteCobro"/>
+        <viewAttribute datatype="CHAR" id="FechaIngresoRegistro" length="27"/>
+        <viewAttribute datatype="BIGINT" id="IdComprobante"/>
+        <viewAttribute datatype="CHAR" id="FechaComprobante" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaSistema" length="10"/>
+        <viewAttribute datatype="BIGINT" id="IdCobroClasificacion"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoCobroClasificacion" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdCobro" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCobro" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="FormaCobro" length="100"/>
+        <viewAttribute datatype="DECIMAL" id="Porcentaje" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaCobroOperacion" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="MontoCobroMonedaOperacion" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaCobroSistema" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreMonedaSistema" length="100"/>
+        <viewAttribute datatype="INTEGER" id="DecimalesMonedaSistema"/>
+        <viewAttribute datatype="DECIMAL" id="MontoCobroMonedaSistema" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMonedaCobroLiquidacion" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="MontoCobroMonedaLiquidacion" length="26" scale="8"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEstado" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition>&#xD;
+&#xD;
+ &#xD;
+ /********* Begin Procedure Script ************/ &#xD;
+ BEGIN &#xD;
+ 	 var_out = SELECT&#xD;
+      CmbteCobro.&quot;IdComprobanteCobro&quot;,&#xD;
+      CASE WHEN IFNULL(CmbteCobro.&quot;FechaIngresoRegistro&quot;,'')= '' THEN '0001-01-01 00:00:00' &#xD;
+					 	                              ELSE  &#xD;
+					 	                                  CASE WHEN  CmbteCobro.&quot;FechaIngresoRegistro&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' &#xD;
+					 	                                  	ELSE LEFT(TO_CHAR(ADD_SECONDS (CmbteCobro.&quot;FechaIngresoRegistro&quot;, CONFIGURACION.&quot;Valor&quot;)),27)&#xD;
+					 	                                  END &#xD;
+	  END AS &quot;FechaIngresoRegistro&quot;,&#xD;
+      CASE WHEN CmbteCobro.&quot;IdComprobante&quot; = 0 THEN NULL ELSE CmbteCobro.&quot;IdComprobante&quot; END AS &quot;IdComprobante&quot;,&#xD;
+&#xD;
+      LEFT(TO_CHAR(IFNULL(comprobante.&quot;FechaComprobante&quot;,'0001-01-01')),10) AS &quot;FechaComprobante&quot;,&#xD;
+      &#xD;
+      LEFT(TO_CHAR(IFNULL(CmbteCobro.&quot;FechaSistema&quot;,'0001-01-01')),10) AS &quot;FechaSistema&quot;,&#xD;
+ &#xD;
+      CASE WHEN &quot;Cobro_$1&quot;.&quot;IdCobroClasificacion&quot; = 0 THEN NULL ELSE &quot;Cobro_$1&quot;.&quot;IdCobroClasificacion&quot; END AS &quot;IdCobroClasificacion&quot; ,&#xD;
+      CAST(&quot;CobroClasificacion_$1&quot;.&quot;CodigoCobroClasificacion&quot; AS NVARCHAR(40)) AS &quot;CodigoCobroClasificacion&quot;,&#xD;
+&#xD;
+      CASE WHEN CmbteCobro.&quot;IdCobro&quot; = '' THEN NULL ELSE CmbteCobro.&quot;IdCobro&quot; END AS &quot;IdCobro&quot;,&#xD;
+      CAST(&quot;Cobro_$1&quot;.&quot;NombreCobro&quot; AS NVARCHAR(100)) AS &quot;NombreCobro&quot;,&#xD;
+      Case &quot;Cobro_$1&quot;.&quot;FormaCobro&quot; When 'V' &#xD;
+            Then CAST('Variable' AS NVARCHAR(100)) &#xD;
+            Else CAST('Fijo' AS NVARCHAR(100)) &#xD;
+      End As &quot;FormaCobro&quot; ,&#xD;
+      CmbteCobro.&quot;Porcentaje&quot;,&#xD;
+&#xD;
+      CASE WHEN CmbteCobro.&quot;IdMonedaCobro&quot; = '' THEN NULL ELSE CmbteCobro.&quot;IdMonedaCobro&quot; END AS &quot;IdMonedaCobroOperacion&quot;,&#xD;
+      CmbteCobro.&quot;MontoCobro&quot; AS &quot;MontoCobroMonedaOperacion&quot;,&#xD;
+      &#xD;
+      CASE WHEN CmbteCobro.&quot;IdMonedaComprobanteCobro&quot; = '' THEN NULL ELSE CmbteCobro.&quot;IdMonedaComprobanteCobro&quot; END AS &quot;IdMonedaCobroSistema&quot;,&#xD;
+      CAST(&quot;Moneda_$4&quot;.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreMonedaSistema&quot;,&#xD;
+      &quot;Moneda_$4&quot;.&quot;Decimales&quot; AS &quot;DecimalesMonedaSistema&quot;,&#xD;
+      CmbteCobro.&quot;MontoComprobanteCobro&quot; AS &quot;MontoCobroMonedaSistema&quot;,&#xD;
+      &#xD;
+      CASE WHEN CmbteCobro.&quot;IdMonedaLiquidacionCobro&quot; = '' THEN NULL ELSE CmbteCobro.&quot;IdMonedaLiquidacionCobro&quot; END AS &quot;IdMonedaCobroLiquidacion&quot;,&#xD;
+      CmbteCobro.&quot;MontoLiquidacionCobro&quot; AS &quot;MontoCobroMonedaLiquidacion&quot;,&#xD;
+&#xD;
+      CASE WHEN CmbteCobro.&quot;IdEstado&quot; = '' THEN NULL ELSE CmbteCobro.&quot;IdEstado&quot; END AS &quot;IdEstado&quot;,&#xD;
+      CAST(&quot;Estado_$3&quot;.&quot;Nombre&quot; AS NVARCHAR(100)) AS &quot;NombreEstado&quot;&#xD;
+      &#xD;
+FROM &quot;BSCL.Facturacion.BD::FAC.ComprobanteCobro&quot; AS CmbteCobro &#xD;
+CROSS JOIN (select top 1 &quot;Valor&quot; from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Configuracion&quot;&#xD;
+			            where &quot;CodigoParametro&quot; = 'PLA.SegundosZonaHoraria') AS CONFIGURACION &#xD;
+LEFT OUTER JOIN &quot;BSCL.Facturacion.BD::FAC.Comprobante&quot; AS comprobante  ON comprobante.&quot;IdComprobante&quot; = CmbteCobro.&quot;IdComprobante&quot;&#xD;
+LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::COM.Cobro&quot; AS &quot;Cobro_$1&quot; ON (&quot;Cobro_$1&quot;.&quot;IdCobro&quot; = CmbteCobro.&quot;IdCobro&quot;) &#xD;
+LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::COM.CobroClasificacion&quot; AS &quot;CobroClasificacion_$1&quot; ON (&quot;CobroClasificacion_$1&quot;.&quot;IdCobroClasificacion&quot; = &quot;Cobro_$1&quot;.&quot;IdCobroClasificacion&quot;) &#xD;
+LEFT OUTER JOIN &quot;BSCL.Facturacion.BD::FAC.EstadoFacturacion&quot; AS &quot;EstadoFacturacion_$2&quot; ON (&quot;EstadoFacturacion_$2&quot;.&quot;IdEstado&quot; = CmbteCobro.&quot;IdEstado&quot;) &#xD;
+LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Estado&quot; AS &quot;Estado_$3&quot; ON (&quot;Estado_$3&quot;.&quot;IdEstado&quot; = &quot;EstadoFacturacion_$2&quot;.&quot;IdEstado&quot;) &#xD;
+LEFT OUTER JOIN &quot;BSCL.Plataforma.BD::PLA.Moneda&quot; AS &quot;Moneda_$4&quot; ON (&quot;Moneda_$4&quot;.&quot;IdMoneda&quot; = CmbteCobro.&quot;IdMonedaComprobanteCobro&quot;)&#xD;
+WHERE Upper(&quot;EstadoFacturacion_$2&quot;.&quot;NombreEntidad&quot;) = Upper('FAC.ComprobanteCobro');&#xD;
+END /********* End Procedure Script ************/&#xD;
+</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdComprobanteCobro" order="1">
+        <descriptions defaultDescription="IdComprobanteCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobanteCobro"/>
+      </attribute>
+      <attribute id="FechaIngresoRegistro" order="2">
+        <descriptions defaultDescription="FechaIngresoRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaIngresoRegistro"/>
+      </attribute>
+      <attribute id="IdComprobante" order="3">
+        <descriptions defaultDescription="IdComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdComprobante"/>
+      </attribute>
+      <attribute id="FechaComprobante" order="4">
+        <descriptions defaultDescription="FechaComprobante"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaComprobante"/>
+      </attribute>
+      <attribute id="FechaSistema" order="5">
+        <descriptions defaultDescription="FechaSistema"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaSistema"/>
+      </attribute>
+      <attribute id="IdCobroClasificacion" order="6">
+        <descriptions defaultDescription="IdCobroClasificacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCobroClasificacion"/>
+      </attribute>
+      <attribute id="CodigoCobroClasificacion" order="7">
+        <descriptions defaultDescription="CodigoCobroClasificacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoCobroClasificacion"/>
+      </attribute>
+      <attribute id="IdCobro" order="8">
+        <descriptions defaultDescription="IdCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCobro"/>
+      </attribute>
+      <attribute id="NombreCobro" order="9">
+        <descriptions defaultDescription="NombreCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCobro"/>
+      </attribute>
+      <attribute id="FormaCobro" order="10">
+        <descriptions defaultDescription="FormaCobro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FormaCobro"/>
+      </attribute>
+      <attribute id="Porcentaje" order="11">
+        <descriptions defaultDescription="Porcentaje"/>
+        <keyMapping columnObjectName="Script_View" columnName="Porcentaje"/>
+      </attribute>
+      <attribute id="IdMonedaCobroOperacion" order="12">
+        <descriptions defaultDescription="IdMonedaCobroOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaCobroOperacion"/>
+      </attribute>
+      <attribute id="MontoCobroMonedaOperacion" order="13">
+        <descriptions defaultDescription="MontoCobroMonedaOperacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoCobroMonedaOperacion"/>
+      </attribute>
+      <attribute id="IdMonedaCobroSistema" order="14">
+        <descriptions defaultDescription="IdMonedaCobroSistema"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaCobroSistema"/>
+      </attribute>
+      <attribute id="NombreMonedaSistema" order="15">
+        <descriptions defaultDescription="NombreMonedaSistema"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreMonedaSistema"/>
+      </attribute>
+      <attribute id="DecimalesMonedaSistema" order="16">
+        <descriptions defaultDescription="DecimalesMonedaSistema"/>
+        <keyMapping columnObjectName="Script_View" columnName="DecimalesMonedaSistema"/>
+      </attribute>
+      <attribute id="MontoCobroMonedaSistema" order="17">
+        <descriptions defaultDescription="MontoCobroMonedaSistema"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoCobroMonedaSistema"/>
+      </attribute>
+      <attribute id="IdMonedaCobroLiquidacion" order="18">
+        <descriptions defaultDescription="IdMonedaCobroLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMonedaCobroLiquidacion"/>
+      </attribute>
+      <attribute id="MontoCobroMonedaLiquidacion" order="19">
+        <descriptions defaultDescription="MontoCobroMonedaLiquidacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoCobroMonedaLiquidacion"/>
+      </attribute>
+      <attribute id="IdEstado" order="20">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="NombreEstado" order="21">
+        <descriptions defaultDescription="NombreEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEstado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

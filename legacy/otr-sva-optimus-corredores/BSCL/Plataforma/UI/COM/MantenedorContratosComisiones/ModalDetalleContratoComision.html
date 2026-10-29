@@ -1,0 +1,131 @@
+<div class = "row" ng-controller = "ModalDetalleContratoComisionCtrl as detalleContratoComision">
+	<div class = "row"> 
+		<form name = "ModalAgregarDetalleContratoComision" class = "col-xs-12">
+			<div class = "row">
+				<div class = "col-xs-12">
+					<label class = "col-xs-4" translate>UI_CLASIFICACION_COBRO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo = "'combobox-cobro-clasificacion'"
+						filtros = "detalleContratoComision.combobox.CobroClasificacion"
+						id-actual = "detalleContratoComision.data.IdCobroClasificacion"
+						id-defecto = "detalleContratoComision.dataOriginal.IdCobroClasificacion"
+						cascada1-a = "detalleContratoComision.combobox.Cobro.filtros.IdCobroClasificacion"
+						cascada1-valor = "'IdCobroClasificacion'"
+						seleccionado = "detalleContratoComision.valorCobro.CobroClasificacionSeleccionado"
+						activado = "detalleContratoComision.totalSubdetalles == 0 && detalleContratoComision.puedeEditarDetalle"">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-xs-12">
+					<label class = "col-xs-4" translate>UI_COBRO</label>
+					<bcs-combobox-base class="col-xs-8"
+						bcs-requerido
+						tipo = "'combobox-cobro'"
+						configuracion = "detalleContratoComision.combobox.Cobro.configuracion"
+						filtros = "detalleContratoComision.combobox.Cobro.filtros"
+						id-actual = "detalleContratoComision.data.IdCobro"
+						id-defecto = "detalleContratoComision.dataOriginal.IdCobro"
+						seleccionado = "detalleContratoComision.valorCobro.CobroSeleccionado"
+						activado = "detalleContratoComision.totalSubdetalles == 0 && detalleContratoComision.puedeEditarDetalle">
+					</bcs-combobox-base>
+				</div>
+			</div>
+		
+			<div class = "row">
+				<div class = "col-xs-12">
+					<label class = "col-xs-4" translate>UI_POR_RANGOS</label>
+					<bcs-input-checkbox class = "col-xs-8" 
+						ng-model = "detalleContratoComision.data.EsPorRangos" 
+						ng-disabled="detalleContratoComision.totalSubdetalles > 0 || !detalleContratoComision.puedeEditarDetalle"></bcs-input-checkbox>
+				</div>
+			</div>
+		  	<div class = "row">
+				<div class = "col-xs-12">
+					<label class = "col-xs-4" translate>UI_CONCEPTO</label>
+					<bcs-combobox-base 
+						id = "UI_CONCEPTO"
+					 	class = "col-xs-8"
+					 	tipo = "'combobox-concepto-facturacion'"
+					 	filtros = "detalleContratoComision.combobox.Concepto.filtros"
+			            bcs-requerido
+						id-actual = "detalleContratoComision.data.IdConcepto"
+						id-defecto = "detalleContratoComision.dataOriginal.IdConcepto">
+					</bcs-combobox-base >
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-xs-12">
+		  			<label class="col-xs-4" translate>UI_MONTO_MINIMO</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			bcs-requerido
+						k-ng-model = "detalleContratoComision.data.MontoMinimo"
+						k-options = " { max : 999999999999999 } "
+						simbolo = "detalleContratoComision.dataOriginal.IdMoneda"
+						decimales = "0"
+						>
+					</bcs-input-monetario>
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-xs-12">
+		  			<label class="col-xs-4" translate>UI_MONTO_MAXIMO</label> 
+			  		<bcs-input-monetario class="col-xs-8"
+			  			bcs-requerido
+						k-ng-model = "detalleContratoComision.data.MontoMaximo"
+						k-options = " { max : 999999999999999 } "
+						decimales = "2"
+						simbolo = "detalleContratoComision.dataOriginal.IdMoneda">
+					</bcs-input-monetario>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+	  			<label class="col-xs-2 titulo" translate>UI_SUBDETALLE</label>
+			</div>
+			<br>		
+			<bcs-grid 
+				id="grid-subdetalle-contrato"
+			 	configuracion="detalleContratoComision.configuracionGrillaSubdetalle"
+				seleccionado="detalleContratoComision.subdetalle.datos.kNgModel">
+			</bcs-grid>
+			<div class="row">	
+				<div class="col-xs-3">
+	    			<bcs-button 
+	    				class 				= "col-xs-8"
+						bcs-habilitado 		= "ModalAgregarDetalleContratoComision.$valid" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto 			= "'UI_AGREGAR' | translate" 
+						bcs-clic 			= "detalleContratoComision.agregarSubdetalle()">
+					</bcs-button>
+				</div>
+				<div class="col-xs-3">
+	    			<bcs-button class		= "col-xs-8"
+						bcs-habilitado		= "detalleContratoComision.subdetalle.datos.kNgModel" 
+						bcs-auto-desactivar	= "false" 
+						bcs-texto			= "'UI_QUITAR' | translate" 
+						bcs-clic			= "detalleContratoComision.quitarSubdetalle()">
+					</bcs-button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<hr>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-6" 
+			bcs-tipo="'principal'"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-habilitado="ModalAgregarDetalleContratoComision.$valid"  
+			bcs-clic="detalleContratoComision.aceptar();">
+		</bcs-button>
+		<bcs-button class="col-xs-6" 
+			bcs-tipo="''"  
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CANCELAR' | translate" 
+			bcs-habilitado="true"  
+			bcs-clic="detalleContratoComision.cancelar();">
+		</bcs-button>
+	</div>
+</div>

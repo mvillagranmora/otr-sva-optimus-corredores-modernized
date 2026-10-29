@@ -1,0 +1,156 @@
+<div class="row" ng-controller="DetalleAsignacionCtrl">
+	<div class="row">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<h5 translate>UI_INFORMACION</h5>
+			</div>
+			<div class="form-group">
+				<table class="table">
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_SECUENCIA_ASIGNACION'}}</strong></td>
+						<td>{{asignacion.IdAsignacion}}</td>
+						
+						<td><strong class="align_right" translate>{{'UI_TIPO_LIQUIDACION_COMISION_FACTURA'}}</strong></td>
+						<td>{{asignacion.TipoLiquidacion}}</td>
+					</tr>
+					<tr>
+						<td>
+							<strong class="align_right" translate>{{'UI_SECUENCIA_ORDEN'}}</strong>
+							<bcs-link class="pull-right" link="'DetalleOrden'" params="{ IdOrden : asignacion.IdOrden }"></bcs-link>
+						</td>
+						<td>{{asignacion.IdOrden}}</td>
+						<td>
+							<strong class="align_right" translate>{{'UI_FOLIO_TRANSACCION'}}</strong>
+							<bcs-link class="pull-right" link="'DetalleTransaccion'" params="{ IdTransaccion : asignacion.IdTransaccion }"></bcs-link>
+						</td>
+						<td>{{asignacion.FolioTransaccion}}</td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_DOCUMENTO_IDENTIDAD'}}</strong></td>
+						<td><label class="">{{asignacion.DocumentoIdentidad}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_NOMBRE_CLIENTE'}}</strong></td>
+						<td><label class="" >{{asignacion.NombreCompleto}}</label></td>
+					</tr>
+					<tr>
+						<td>
+							<strong class="align_right" translate>{{'UI_PORTAFOLIO'}}</strong>
+							<bcs-link class="pull-right" link="'administrarPortafolio'" params="{ IdCliente : asignacion.IdCliente , IdPortafolio: asignacion.IdPortafolio }"></bcs-link>
+						</td>
+						<td><label class="">{{asignacion.CodigoPortafolio}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_FECHA_ASIGNACION'}}</strong></td>
+						<td><label class="" >{{asignacion.FechaAsignacion | kformat:'G'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_CLASIFICACION'}}</strong></td>
+						<td><label class="">{{asignacion.NombreClasificacionTipoInstrumento}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TIPO_INSTRUMENTO'}}</strong></td>
+						<td><label class="">{{asignacion.NombreTipoInstrumento}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TIPO_OPERACION'}}</strong></td>
+						<td><label class="">{{asignacion.NombreTipoOperacion}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_INSTRUMENTO'}}</strong></td>
+						<td><label class="">{{asignacion.InstrumentoUI}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_BOLSA'}}</strong></td>
+						<td><label class="">{{asignacion.NombreBolsa}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_PRECIO'}}</strong></td>						
+						<td><label class="" >{{asignacion.PrecioAsignacion | kformat:'n':asignacion.IdMonedaOperacion:'precio':'GEN':'':asignacion.IdTipoInstrumento}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_CONDICION_LIQUIDACION'}}</strong></td>
+						<td><label class="" >{{asignacion.NombreCondicionDeLiquidacion}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_FECHA_LIQUIDACION'}}</strong></td>
+						<td><label class="" >{{asignacion.FechaLiquidacion | kformat:'d'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_MONTO_ASIGNADO'}}</strong></td>
+						<td><label class="" >{{asignacion.MontoAsignado | kformat:'c':asignacion.IdMonedaOperacion:'monto':'GEN'}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_CANTIDAD_ASIGNADA'}}</strong></td>
+						<td><label class="">{{asignacion.CantidadAsignada | kformat:'n':asignacion.IdMonedaOperacion:'cantidad':'GEN'}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_TASA'}}</label></td>
+						<td><label class="" >{{asignacion.Tasa | kformat:'n':asignacion.IdMonedaOperacion:'tasa':'GEN':'':asignacion.IdTipoInstrumento}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_PLAZO'}}</label></td>
+						<td><label class="" >{{asignacion.Plazo | kformat:'n0'}} {{'UI_DIAS' | translate}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_ESTADO_ASIGNACION'}}</strong></td>
+						<td><label class="" >{{asignacion.EstadoAsignacion}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_TIPO_REAJUSTE'}}</strong></td>
+						<td><label class="" >{{asignacion.IdTipoReajuste}}</label></td>
+					</tr>
+					<tr>
+						<td><strong class="align_right" translate>{{'UI_CANAL_INGRESO'}}</strong></td>
+						<td><label class="" >{{asignacion.NombreTipoCanalIngreso}}</label></td>
+						<td><strong class="align_right" translate>{{'UI_CANAL_DISTRIBUCION'}}</strong></td>
+						<td><label class="" >{{asignacion.NombreTipoCanalDistribucion}}</label></td>
+					</tr>
+					<tr ng-show="asignacion.EsVentaCorta=='S'">
+						<td><strong class="align_right" translate>{{'UI_TASA_VENTA_CORTA'}}</strong></td>
+						<td><label class="" >{{asignacion.TasaVentaCorta}}</label></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="form-group"><br/></div>
+			
+			<uib-tabset class="col-xs-12" style="min-height:150px">
+				<uib-tab heading="{{'UI_CUSTODIA' | translate}}">
+					
+					<div class="row">	
+						<label class="col-xs-2" style="width: 20.5%;" translate>UI_FORMA_CUSTODIA</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.NombreFormaCustodia"></bcs-input-texto>
+					</div>
+					<div class="row">	
+						<label class="col-xs-2" style="width: 20.5%;" translate>UI_BOVEDA</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.NombreBoveda"></bcs-input-texto>
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_CUENTA_BOVEDA</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.CodigoBoveda"></bcs-input-texto>
+					</div>
+					<div class="row" ng-show ="SesionLocale=='PE'">
+						<label class="col-xs-2" style="width: 20.5%;" translate>UI_MODELO_CUSTODIA</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.NombreModeloCustodia"></bcs-input-texto>
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_TIPO_CUSTODIA</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.NombreTipoCustodia"></bcs-input-texto>
+					</div>
+					<div class="row" ng-show ="SesionLocale=='PE'">
+						<label class="col-xs-2" style="width: 20.5%;" translate>UI_CODIGO_BANCO_CUSTODIO</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.CodigoBancoCustodio"></bcs-input-texto>
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_NOMBRE_BANCO_CUSTODIO</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.NombreCompletoBancoCustodio"></bcs-input-texto>
+					</div>
+					<div class="row" ng-show ="SesionLocale=='PE'">
+						<label class="col-xs-2" style="width: 20.5%;" translate>UI_CODIGO_BANCO_LIQUIDADOR</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.CodigoBancoCustodio"></bcs-input-texto>
+						<label class="col-xs-2 col-xs-offset-1" translate>UI_NOMBRE_BANCO_LIQUIDADOR</label>
+						<bcs-input-texto class="col-xs-3" k-ng-disabled="'true'" ng-model="asignacion.NombreCompletoBancoLiquidador"></bcs-input-texto>
+					</div>
+				</uib-tab>
+					
+				<uib-tab heading="{{'UI_COBROS' | translate}}">
+					<div class="row" style="min-height:150px">
+						<bcs-detalle-cobros id-asignacion="parametros.IdAsignacion"></bcs-detalle-cobros>
+					</div>
+				</uib-tab>
+				
+				<uib-tab heading="{{'UI_MOVIMIENTOS_FACTURAR' | translate}}">
+					<div class="row" style="min-height:150px">
+						<bcs-detalle-movimientos-facturar movimientos="movimientos"></bcs-detalle-movimientos-facturar>
+					</div>
+				</uib-tab>
+				
+			</uib-tabset>
+			
+			<br/>
+			<div class="row no-print">
+				<bcs-button id="DetalleAsignacion_verMapaRelaciones" class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'" 
+					bcs-texto="'UI_MAPA_DE_RELACIONES' | translate"  bcs-habilitado="'true'" bcs-clic="verMapaRelaciones()"></bcs-button>
+			</div>
+	
+		</form>
+	</div>
+</div>

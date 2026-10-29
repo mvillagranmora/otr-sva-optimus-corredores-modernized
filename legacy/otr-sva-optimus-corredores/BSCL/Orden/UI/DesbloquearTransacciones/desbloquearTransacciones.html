@@ -1,0 +1,37 @@
+<div class="row" ng-controller='DesbloquearTransaccionesCtrl' bcs-enter="buscarTransaccionesBloqueadas()" tabindex="1">
+	<div class="row">
+		<barra-filtros
+			modo = "CONSULTARTRANSACCIONES"
+			funcion-buscar="buscarTransaccionesBloqueadas"
+			instrumento = "filtrosTransaccionesBloqueadas.instrumento"
+			instrumento-defecto = "filtrosTransaccionesBloqueadas.buscarInstrumento"
+			id-tipo-instrumento = "filtrosTransaccionesBloqueadas.IdTipoInstrumento"
+			accion-operacion = "filtrosTransaccionesBloqueadas.AccionTipoOperacion"
+			id-clasificacion-tipo-instrumento = "filtrosTransaccionesBloqueadas.IdClasificacionTipoInstrumento"
+			id-libro-ordenes = "filtrosTransaccionesBloqueadas.IdLibroOrdenes"
+			id-bolsa = "filtrosTransaccionesBloqueadas.IdBolsa"
+			id-condicion-de-liquidacion = "filtrosTransaccionesBloqueadas.IdCondicionDeLiquidacion"
+			oculta-es-fungible = "'S'"
+			es-venta-corta = "filtrosTransaccionesBloqueadas.EsVentaCorta"
+			fecha-operacion = "filtrosTransaccionesBloqueadas.fechaOperacion"
+		
+		></barra-filtros>
+	</div>
+	<div class="row">
+		<bcs-grid id="grid-transacciones-bloqueadas"
+			fn-doble-click="abrirDetalle(datos.kNgModel)"
+			api = "apiGridTransaccionesBloqueadas"
+			seleccionado="datos.kNgModel"
+			fn-exportar-excel = "exportarExcel"
+			configuracion="defaultOptionsDesbloqueo">
+		</bcs-grid>
+	</div>
+
+	<div class="row">
+		<bcs-button bcs-tipo="'bcs-button-primary'" class="col-xs-3" bcs-auto-desactivar="'false'" bcs-texto="'UI_DESBLOQUEAR_TRANSACCION' | translate" 
+			bcs-habilitado="'true'" bcs-clic="desbloquearTransaccionSistema(datos.kNgModel)"></bcs-button>
+		<bcs-menu class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'"  bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

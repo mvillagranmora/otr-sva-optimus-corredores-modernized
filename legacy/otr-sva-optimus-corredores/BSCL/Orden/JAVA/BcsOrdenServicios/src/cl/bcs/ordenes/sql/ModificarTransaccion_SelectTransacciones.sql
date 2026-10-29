@@ -1,0 +1,1 @@
+SELECT "IdTransaccion","IdEstado","IdTransaccionPlazo", TO_VARCHAR("FechaSistemaCreacion") AS "FechaMovimiento" FROM "BSCL.Orden.BD::ORD.Transaccion" WHERE "IdTransaccion" IN (:IdTransaccion)

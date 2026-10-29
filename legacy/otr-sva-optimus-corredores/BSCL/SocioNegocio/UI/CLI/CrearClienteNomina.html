@@ -1,0 +1,180 @@
+<div id="CrearClienteNomina" class="col-xs-12" ng-controller="CrearClienteNominaCtrl">
+    <div class="bcs-cuerpo">
+    	<div class="row">
+			<form name="formCrearClienteNomina" class="col-xs-12 form-horizontal">
+				<div class="row" >
+					<label class="col-xs-3" translate>UI_CREAR_CLIENTE_BLOQUEADO</label>
+					<div class="col-xs-2">
+							<input class="col-xs-2" name="ClienteBloqueado" type="radio" ng-model="data.ClienteBloqueado"
+							value="S" required> <label for="lblSoloHoy" class="label_01"
+							translate>UI_SI</label>
+					</div>
+					<div class="col-xs-2">
+							<input class="col-xs-2" name="ClienteBloqueado" type="radio" ng-model="data.ClienteBloqueado"
+							value="N" required> <label for="lblSoloHoy" class="label_01"
+							translate>UI_NO</label>
+					</div>
+				</div>
+				<div class="row" >
+					<label class="col-xs-3" translate>UI_USAR_PARAMETROS_DEFECTO</label>
+					<div class="col-xs-2">
+							<input class="col-xs-2" name="ParametrosDefecto" type="radio" ng-model="data.ParametrosDefecto"
+							value="S" required> <label for="lblSoloHoy" class="label_01"
+							translate>UI_SI</label>
+					</div>
+					<div class="col-xs-2">
+							<input class="col-xs-2" name="ParametrosDefecto" type="radio" ng-model="data.ParametrosDefecto"
+							value="N" required> <label for="lblSoloHoy" class="label_01"
+							translate>UI_NO</label>
+					</div>
+				</div>
+				<div class="row">
+					<div ng-show="SesionLocale!=='PE'">
+					<label class="col-xs-3" translate>UI_EJECUTIVO</label>
+					<bcs-combobox-base class="col-xs-3"
+						tipo="'combobox-ejecutivo'"  bcs-requerido="data.ParametrosDefectoRequeridos"
+						filtros="data.filtroEjecutivo" 
+						id-actual="data.IdEmpleadoEjecutivo"
+						id-defecto="data.IdEmpleadoEjecutivoDefecto"
+						seleccionado="recordData.EjecutivoObj" 
+						activado="data.ParametrosDefectoRequeridos">
+					</bcs-combobox-base>
+					</div>
+					
+					<div ng-show="SesionLocale=='PE'">
+					<label class="col-xs-3" translate>UI_EJECUTIVO</label>
+					<bcs-combobox-base class="col-xs-3"
+						tipo="'combobox-ejecutivo'" 
+						filtros="data.filtroEjecutivo" 
+						id-actual="data.IdEmpleadoEjecutivo"
+						id-defecto="data.IdEmpleadoEjecutivoDefecto"
+						seleccionado="recordData.EjecutivoObj" 
+						activado="data.ParametrosDefectoRequeridos">
+					</bcs-combobox-base>
+					</div>
+					
+					<div ng-show="SesionLocale=='PE'">
+						<div class="col-xs-1"></div>
+						<label class="col-xs-1" translate>UI_BROKER</label>
+						<bcs-combobox-base class="col-xs-2"
+							tipo="'combobox-broker-extranjero'"
+							filtros="data.filtroBroker"
+							id-actual="data.IdBroker"
+							activado="data.ParametrosDefectoRequeridos"
+							id-defecto="data.IdBrokerDefecto"
+							seleccionado="recordData.BrokerObj">
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+						<div ng-show="SesionLocale!=='PE'">
+					<label class="col-xs-3" translate>UI_CATEGORIA_INVERSIONISTA</label>
+					<bcs-combobox-base id="formCrearCrearCliente_categoria" 
+						class="col-xs-3" bcs-requerido="data.ParametrosDefectoRequeridos"
+						id-actual = "data.idCategoriaInversionista"
+						cascada1-a="data.filtroPerfilComercial.IdCategoriaInversionista"
+						cascada1-valor="'IdCategoriaInversionista'"
+						tipo="'combobox-categoria-inversionista'"
+						activado="data.ParametrosDefectoRequeridos">
+					</bcs-combobox-base>
+					</div>
+				</div>
+				
+				<div class="row">
+						<div ng-show="SesionLocale=='PE'">
+					<label class="col-xs-3" translate>UI_CATEGORIA_INVERSIONISTA</label>
+					<bcs-combobox-base id="formCrearCrearCliente_categoria" 
+						class="col-xs-3" 
+						id-actual = "data.idCategoriaInversionista"
+						cascada1-a="data.filtroPerfilComercial.IdCategoriaInversionista"
+						cascada1-valor="'IdCategoriaInversionista'"
+						tipo="'combobox-categoria-inversionista'"
+						activado="data.ParametrosDefectoRequeridos">
+					</bcs-combobox-base>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div ng-show="SesionLocale!=='PE'">
+					<label class="col-xs-3" translate>UI_PERFIL_COMERCIAL</label>
+					<bcs-combobox-base id="formCrearCrearCliente_perfil" 
+						class="col-xs-3" bcs-requerido="data.ParametrosDefectoRequeridos"
+						filtros = "data.filtroPerfilComercial"
+						id-post-filtro = "recordData.idPerfilComercial"
+						id-actual = "data.idPerfilComercialActual"
+						tipo="'combobox-perfil-comercial'"
+						activado="data.ParametrosDefectoRequeridos">
+					</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div ng-show="SesionLocale=='PE'">
+					<label class="col-xs-3" translate>UI_PERFIL_COMERCIAL</label>
+					<bcs-combobox-base id="formCrearCrearCliente_perfil" 
+						class="col-xs-3"
+						filtros = "data.filtroPerfilComercial"
+						id-post-filtro = "recordData.idPerfilComercial"
+						id-actual = "data.idPerfilComercialActual"
+						tipo="'combobox-perfil-comercial'"
+						activado="data.ParametrosDefectoRequeridos">
+					</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div ng-show="SesionLocale!=='PE'">
+					<label class="col-xs-3" translate>UI_TIPO_CLIENTE</label>
+					<bcs-combobox-base id="formCrearCrearCliente_tipoCliente" 
+						class="col-xs-3" bcs-requerido="data.ParametrosDefectoRequeridos"
+						id-defecto = "recordData.idTipoCliente"
+						id-actual = "data.idTipoCliente"
+						tipo="'combobox-tipo-cliente'"
+						filtros="data.filtroTipoCliente.filtros"
+						activado="data.ParametrosDefectoRequeridos">
+					</bcs-combobox-base>
+					</div>
+					<div ng-show="SesionLocale=='PE'">
+					<label class="col-xs-3" translate>UI_TIPO_CLIENTE</label>
+					<bcs-combobox-base id="formCrearCrearCliente_tipoCliente" 
+						class="col-xs-3" 
+						id-defecto = "recordData.idTipoCliente"
+						id-actual = "data.idTipoCliente"
+						tipo="'combobox-tipo-cliente'"
+						filtros="data.filtroTipoCliente.filtros"
+						activado="data.ParametrosDefectoRequeridos">
+					</bcs-combobox-base>
+					</div>
+					
+					
+					<bcs-button 
+						id="formCrearClienteNominab"  
+						class="col-xs-2 col-xs-offset-4" 
+						bcs-habilitado="formCrearClienteNomina"  
+						bcs-tipo="'bcs-button-input-form'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'Cargar archivo'" 
+						bcs-clic="cargarArchivo()">
+					</bcs-button>				
+				</div>			
+			</form>
+		</div>
+		
+		
+		<div class="row">
+		<!-- grilla con los resultados de la carga... -->
+		<!-- <bcs-grid-base-v2 
+				id="grid-resultados"
+		 		configuracion = "configResultados"
+				seleccionado = "seleccionResultados"
+				elemento = "gridApiResultados">
+		</bcs-grid-base-v2> -->
+		<bcs-grid
+				id="grid-resultados"
+		 		configuracion = "configResultados"
+				seleccionado = "seleccionResultados"
+				api="gridApiResultados">
+		</bcs-grid>
+			
+		</div>
+	</div>
+	
+</div>

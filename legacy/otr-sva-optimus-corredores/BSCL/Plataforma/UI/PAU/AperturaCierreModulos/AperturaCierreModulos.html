@@ -1,0 +1,127 @@
+<div id="AperturaCierreModulos" class="col-xs-12" ng-controller="AperturaCierreModulosCtrl">
+	<div class="row bcs-cuerpo">
+	   	<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_SISTEMA</label>
+						<label class="col-xs-4" translate>{{datosModulo.EstadoSistema}}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-xs-10">
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_REFRESCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarModulos(apiGridModulo,filtrosModulo);buscarEstadoSistema()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-apertura-cierre-modulos"
+			 	configuracion="defaultOptionsModulo"
+				api = "apiGridModulo"
+				seleccionado="datosModulo.kNgModel"
+				fn-exportar-excel = "exportarExcel"
+				fn-doble-click="actualizarGrillaProcesos(datosModulo.kNgModel)">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-4>
+			<bcs-button class="col-xs-6" id="AperturaCierreModulos_pauta" 
+				bcs-tipo="'bcs-button-input-form'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_PAUTA' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="abrirVentanaPauta()">
+			</bcs-button>
+		</div>
+		<div class=col-xs-2></div>
+		<div class=col-xs-6>
+			<bcs-button class="col-xs-4" id="AperturaCierreModulos_entregarSistema" 
+				bcs-tipo="'bcs-button-input-form'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ENTREGAR_SISTEMA' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="entregarSistema()">
+			</bcs-button>
+			<bcs-button class="col-xs-4" id="AperturaCierreModulos_abrir" 
+				bcs-tipo="'bcs-button-input-form'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_REAPERTURA' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="abrirModulo(datosModulo.kNgModel)">
+			</bcs-button>
+			<bcs-button class="col-xs-4" id="AperturaCierreModulos_cerrar" 
+				bcs-tipo="'bcs-button-input-form'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CERRAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="cerrarModulo(datosModulo.kNgModel)">
+			</bcs-button>
+		</div>
+	</div>
+	<hr>
+	<div class="row bcs-cuerpo">
+	   	<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+			  		<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_PROCESOS</label>
+					</div>
+			  	</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_MODULOS</label>
+						<bcs-combobox-base class="col-xs-6"
+				  				tipo="'combobox-modulos-pauta'"
+					  			id-actual="filtrosProceso.CodigoModulo"
+					  			id-defecto="'0'"
+					  			seleccionado="datos.modulo"
+					  			todos="'S'"
+					  			item-post-filtro="'1'">
+				  		</bcs-combobox-base>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_SISTEMA</label>
+						<bcs-input-date class="col-xs-6"
+							id="UI_FECHA"
+							bcs-requerido
+							k-ng-model="datosProceso.FechaSistema"> 
+						</bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_TIPO_PROCESO</label>
+						<bcs-combobox-base class="col-xs-6"
+				  				tipo="'combobox-tipo-proceso-apertura-cierre-modulo'"
+					  			id-actual="filtrosProceso.TipoProceso"
+					  			id-defecto="'0'"
+					  			seleccionado="datos.tipoProceso"
+					  			todos="'S'"
+					  			item-post-filtro="'1'">
+				  		</bcs-combobox-base>
+					</div>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row"></div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarProcesos()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-consulta-procesos"
+			 	configuracion="defaultOptionsProcesos"
+				api = "apiGridProcesos"
+				seleccionado="datosProcesos.kNgModel">		
+			</bcs-grid>
+		</div>
+	</div>
+</div>

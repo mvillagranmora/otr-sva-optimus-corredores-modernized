@@ -1,0 +1,53 @@
+<div id="consultaUsoParametroFinanciero" ng-controller='ConsultaUsoParametroFinancieroCtrl as consultaUsoParametroFinanciero'>
+	<div class="row">
+		<!-- INICIO FILTROS -->
+		<div class="col-xs-11">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-2" translate>UI_USO</label>
+					<bcs-combobox-base class="col-xs-5"
+			  			tipo="'combobox-uso-parametro-financiero'"
+			  			id-actual="consultaUsoParametroFinanciero.filtros.uso"
+			  			item-post-filtro="'1'"
+			  			todos="'N'">
+			  		</bcs-combobox-base>
+				</div>
+			</div>
+		</div>
+		<!-- FIN FILTROS -->
+	</div>
+	<!-- INICIO GRILLA -->
+	<div class="row">
+		<div class="row">
+			<div class="col-xs-5">
+				<bcs-grid 
+				id="grid-usos-all"
+				api = "consultaUsoParametroFinanciero.apiGridAll"
+			 	configuracion = "consultaUsoParametroFinanciero.defaultOptionsAll"
+				seleccionado = "consultaUsoParametroFinanciero.registroSeleccionadoAll"> 
+				</bcs-grid>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button id="ConsultaUsoParametroFinanciero_asignar" class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="consultaUsoParametroFinanciero.filtros.uso && consultaUsoParametroFinanciero.registroSeleccionadoAll && consultaUsoParametroFinanciero.registroSeleccionadoAll.length > 0"  bcs-clic="consultaUsoParametroFinanciero.agregar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button id="ConsultaUsoParametroFinanciero_quitar" class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_QUITAR' | translate" bcs-habilitado="consultaUsoParametroFinanciero.filtros.uso && consultaUsoParametroFinanciero.registroSeleccionadoAct"  bcs-clic="consultaUsoParametroFinanciero.quitar()"></bcs-button>
+				</div>
+			</div>
+			<div class="col-xs-5">
+				<bcs-grid 
+				id="grid-usos-act"
+				api = "consultaUsoParametroFinanciero.apiGridAct"
+			 	configuracion = "consultaUsoParametroFinanciero.defaultOptionsAct"
+				seleccionado = "consultaUsoParametroFinanciero.registroSeleccionadoAct">
+				</bcs-grid>
+			</div>
+		</div>
+	</div>
+	<!-- FIN GRILLA -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="consultaUsoParametroFinanciero_eliminar" class="col-xs-1 pull-right" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-habilitado="consultaUsoParametroFinanciero.HabilitaBaja" bcs-texto="'UI_BAJAR' | translate" bcs-clic="consultaUsoParametroFinanciero.cambiar('BAJA')"></bcs-button>
+		<bcs-button id="consultaUsoParametroFinanciero_guardar" class="col-xs-1 pull-right" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-habilitado="consultaUsoParametroFinanciero.HabilitaSube" bcs-texto="'UI_SUBIR' | translate" bcs-clic="consultaUsoParametroFinanciero.cambiar('SUBE')"></bcs-button>
+	</div>
+</div>

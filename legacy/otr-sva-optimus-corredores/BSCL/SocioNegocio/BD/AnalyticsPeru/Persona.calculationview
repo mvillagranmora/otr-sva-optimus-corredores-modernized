@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Persona" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Persona"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstadoPersona" length="3"/>
+        <viewAttribute datatype="BIGINT" id="IdDocumentoIdentidad"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoPersona" length="2"/>
+        <viewAttribute datatype="NVARCHAR" id="Nombres" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="ApellidoPaterno" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="ApellidoMaterno" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="RazonSocial" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdGiroPrincipal"/>
+        <viewAttribute datatype="NVARCHAR" id="GiroPrincipal" length="500"/>
+        <viewAttribute datatype="BIGINT" id="IdPaisNacimiento"/>
+        <viewAttribute datatype="NVARCHAR" id="PaisNacimiento" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdPaisResidencia"/>
+        <viewAttribute datatype="NVARCHAR" id="PaisResidencia" length="100"/>
+        <viewAttribute datatype="CHAR" id="FechaNacimiento" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaDefuncion" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="Sexo" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EsExtranjero" length="1"/>
+        <viewAttribute datatype="NVARCHAR" id="EstadoCivil" length="2"/>
+        <viewAttribute datatype="NVARCHAR" id="RegimenConyugal" length="2"/>
+        <viewAttribute datatype="NVARCHAR" id="Cargo" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Empleador" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IdDireccionFisicaPrincipal"/>
+        <viewAttribute datatype="BIGINT" id="IdDireccionElectronicaPrincipal"/>
+        <viewAttribute datatype="BIGINT" id="IdTelefonoPrincipal"/>
+        <viewAttribute datatype="BIGINT" id="IdProfesion"/>
+        <viewAttribute datatype="NVARCHAR" id="Profesion" length="100"/>
+        <viewAttribute datatype="CHAR" id="FechaInicioActividad" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="AliasPersona" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoDocumentoIdentidad" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidad" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroSerie" length="40"/>
+        <viewAttribute datatype="CHAR" id="FechaEmisionDocumentoIdentidad" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaVencimientoDocumentoIdentidad" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstadoDocumentoIdentidad" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="DescripcionTipoPersona" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="EsContraparte" length="5"/>
+        <viewAttribute datatype="NVARCHAR" id="EsProveedor" length="5"/>
+        <viewAttribute datatype="NVARCHAR" id="EsEmpleado" length="5"/>
+        <viewAttribute datatype="NVARCHAR" id="EsCliente" length="5"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoDocumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NumeroDocumento" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="CasaMatriz" length="100"/>
+        <viewAttribute datatype="BIGINT" id="IngresoPromedioMensual"/>
+        <viewAttribute datatype="NVARCHAR" id="RangoPatrimonio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="ResidenciaSecundaria" length="100"/>
+        <viewAttribute datatype="BIGINT" id="AgnosServicio"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaCreacion" length="20"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaModificacion" length="20"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+     var_out = select 
+                     PER.&quot;IdPersona&quot;
+                    ,CASE WHEN PER.&quot;IdEstado&quot; = '' THEN NULL ELSE PER.&quot;IdEstado&quot; END AS &quot;IdEstadoPersona&quot;
+                    ,CASE WHEN PER.&quot;IdDocumentoIdentidad&quot; = 0 THEN NULL ELSE PER.&quot;IdDocumentoIdentidad&quot; END AS &quot;IdDocumentoIdentidad&quot; 
+                    ,PER.&quot;Tipo&quot; as &quot;TipoPersona&quot;
+                    ,CAST(PER.&quot;Nombres&quot; AS NVARCHAR(100)) AS &quot;Nombres&quot;
+                    ,CAST(PER.&quot;ApellidoPaterno&quot; AS NVARCHAR(100)) AS &quot;ApellidoPaterno&quot;
+                    ,CAST(PER.&quot;ApellidoMaterno&quot; AS NVARCHAR(100)) AS &quot;ApellidoMaterno&quot;
+                    ,CAST(PER.&quot;RazonSocial&quot; AS NVARCHAR(100)) AS &quot;RazonSocial&quot;
+                    ,CASE WHEN PER.&quot;IdGiroPrincipal&quot; = 0 THEN NULL ELSE PER.&quot;IdGiroPrincipal&quot; END AS &quot;IdGiroPrincipal&quot;
+                    ,CASE WHEN PER.&quot;IdGiroPrincipal&quot; = 0 THEN '' ELSE GR.&quot;Nombre&quot; END AS &quot;GiroPrincipal&quot; 
+                    ,CASE WHEN PER.&quot;IdPaisNacimiento&quot; = 0 THEN NULL ELSE PER.&quot;IdPaisNacimiento&quot; END AS &quot;IdPaisNacimiento&quot;
+                    ,CASE WHEN PER.&quot;IdPaisNacimiento&quot; = 0 THEN '' ELSE P3.&quot;NombrePais&quot; END AS &quot;PaisNacimiento&quot;
+                    ,CASE WHEN PER.&quot;IdPaisResidencia&quot; = 0 THEN NULL ELSE PER.&quot;IdPaisResidencia&quot; END AS &quot;IdPaisResidencia&quot;
+                    ,CASE WHEN PER.&quot;IdPaisResidencia&quot; = 0 THEN '' ELSE P1.&quot;NombrePais&quot; END AS &quot;PaisResidencia&quot;
+                    ,IFNULL(TO_CHAR(PER.&quot;FechaNacimiento&quot;),'0001-01-01') AS &quot;FechaNacimiento&quot;
+                    ,IFNULL(TO_CHAR(PER.&quot;FechaDefuncion&quot;),'0001-01-01') AS &quot;FechaDefuncion&quot;
+                    ,PER.&quot;Sexo&quot;
+                    ,PER.&quot;EsExtranjero&quot;
+                    ,PER.&quot;EstadoCivil&quot;
+                    ,PER.&quot;RegimenConyugal&quot;
+                    ,CAST(PER.&quot;Cargo&quot; AS NVARCHAR(100)) AS &quot;Cargo&quot;
+                    ,CAST(PER.&quot;Empleador&quot; AS NVARCHAR(100)) AS &quot;Empleador&quot;
+                    ,CASE WHEN PER.&quot;IdDireccionFisicaPrincipal&quot; = 0 THEN NULL ELSE PER.&quot;IdDireccionFisicaPrincipal&quot; END AS &quot;IdDireccionFisicaPrincipal&quot; 
+                    ,CASE WHEN PER.&quot;IdDireccionElectronicaPrincipal&quot; = 0 THEN NULL ELSE PER.&quot;IdDireccionElectronicaPrincipal&quot; END AS &quot;IdDireccionElectronicaPrincipal&quot;
+                    ,CASE WHEN PER.&quot;IdTelefonoPrincipal&quot; = 0 THEN NULL ELSE PER.&quot;IdTelefonoPrincipal&quot; END AS &quot;IdTelefonoPrincipal&quot; 
+                    ,CASE WHEN PER.&quot;IdProfesion&quot; = 0 THEN NULL ELSE PER.&quot;IdProfesion&quot; END  AS &quot;IdProfesion&quot; 
+                    ,CASE WHEN PER.&quot;IdProfesion&quot; = 0 THEN '' ELSE PR.&quot;Nombre&quot; END AS &quot;Profesion&quot;
+                    ,CASE WHEN IFNULL(PER.&quot;FechaInicioActividad&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+                      ELSE  
+                          CASE WHEN  PER.&quot;FechaInicioActividad&quot; = '0001-01-01 00:00:00' THEN '0001-01-01 00:00:00' 
+                                    ELSE LEFT(TO_CHAR(ADD_SECONDS (PER.&quot;FechaInicioActividad&quot;, CONFIGURACION.&quot;Valor&quot;)),19)
+                                  END 
+                     END AS &quot;FechaInicioActividad&quot;
+                    ,CAST(PER.&quot;Alias&quot; AS NVARCHAR(100)) AS &quot;AliasPersona&quot;
+                    ,CASE WHEN DOC.&quot;IdTipoDocumentoIdentidad&quot; = '' THEN NULL ELSE DOC.&quot;IdTipoDocumentoIdentidad&quot; END AS &quot;IdTipoDocumentoIdentidad&quot;
+                    ,CAST(DOC.&quot;DocumentoIdentidad&quot; AS NVARCHAR(40)) AS &quot;DocumentoIdentidad&quot;
+                    ,DOC.&quot;NumeroSerie&quot; AS &quot;NumeroSerie&quot;
+                    ,IFNULL(TO_CHAR(DOC.&quot;FechaEmision&quot;),'0001-01-01') AS &quot;FechaEmisionDocumentoIdentidad&quot;
+                    ,IFNULL(TO_CHAR(DOC.&quot;FechaVencimiento&quot;),'0001-01-01') AS &quot;FechaVencimientoDocumentoIdentidad&quot;
+                    ,CASE WHEN DOC.&quot;IdEstado&quot; = '' THEN NULL ELSE DOC.&quot;IdEstado&quot; END AS &quot;IdEstadoDocumentoIdentidad&quot;
+                    ,CAST(TPER.&quot;Descripcion&quot; AS NVARCHAR(100))  AS &quot;DescripcionTipoPersona&quot;
+                    ,CASE WHEN ( SOC.&quot;IdContraparte&quot; > 0 ) THEN 'SI' ELSE 'NO' END  AS &quot;EsContraparte&quot;
+                    ,CASE WHEN ( SOC.&quot;IdProveedor&quot; > 0 ) THEN 'SI' ELSE 'NO' END  AS &quot;EsProveedor&quot;
+                    ,CASE WHEN ( SOC.&quot;IdEmpleado&quot; > 0 ) THEN 'SI' ELSE 'NO' END AS &quot;EsEmpleado&quot;
+                    ,CASE WHEN ( SOC.&quot;IdCliente&quot; > 0 ) THEN 'SI' ELSE 'NO' END AS &quot;EsCliente&quot;
+                    
+                    ,DOC.&quot;IdTipoDocumentoIdentidadAsociado&quot; AS &quot;TipoDocumento&quot;
+                    ,DOC.&quot;DocumentoIdentidadAsociado&quot; AS &quot;NumeroDocumento&quot;
+                    ,CASE WHEN PER.&quot;Tipo&quot; &lt;> 'N' THEN COALESCE(P1.&quot;NombrePais&quot;,'') ELSE '' END AS &quot;CasaMatriz&quot;
+                    ,PER.&quot;IngresoPromedioMensual&quot;
+                    ,COALESCE(RP.&quot;DescripcionRango&quot;,'') AS &quot;RangoPatrimonio&quot;
+                    ,COALESCE(P2.&quot;NombrePais&quot;,'') AS &quot;ResidenciaSecundaria&quot;
+                    ,PER.&quot;AgnosServicio&quot;
+                    ,PER.&quot;FechaCreacion&quot;
+                    ,PER.&quot;FechaModificacion&quot;
+                from &quot;BSCL.SocioNegocio.BD::PER.Persona&quot; as PER
+                inner join &quot;BSCL.SocioNegocio.BD::PER.DocumentoIdentidad&quot; as DOC
+                    ON PER.&quot;IdDocumentoIdentidad&quot; = DOC.&quot;IdDocumentoIdentidad&quot;
+                inner join &quot;BSCL.SocioNegocio.BD.Vistas::SOC.UIBlotterConsultarSocioDeNegocio&quot; as SOC
+                    ON PER.&quot;IdPersona&quot; = SOC.&quot;IdPersona&quot;
+                inner join &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::REG.TipoDocumentoIdentidad&quot; as TDOC
+                    ON TDOC.&quot;IdTipoDocumentoIdentidad&quot; = DOC.&quot;IdTipoDocumentoIdentidad&quot; 
+                inner join &quot;BSCL.SocioNegocio.BD::PER.TipoPersona&quot; as TPER
+                    ON TPER.&quot;IdTipoPersona&quot; = PER.&quot;Tipo&quot;
+                LEFT JOIN &quot;BSCL.SocioNegocio.BD::PER.RangoPatrimonio&quot; RP
+                ON PER.&quot;IdRangoPatrimonio&quot; = RP.&quot;IdRangoPatrimonio&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Pais&quot; P1
+                ON PER.&quot;IdPaisResidencia&quot; = P1.&quot;IdPais&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Pais&quot; P2
+                ON PER.&quot;IdPaisResidenciaSecundaria&quot; = P2.&quot;IdPais&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Pais&quot; P3
+                ON PER.&quot;IdPaisNacimiento&quot; = P3.&quot;IdPais&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Giro&quot; GR
+                ON PER.&quot;IdGiroPrincipal&quot; = GR.&quot;IdGiro&quot;
+                LEFT JOIN &quot;BSCL.Plataforma.BD::REG.Profesion&quot; PR
+                ON PER.&quot;IdProfesion&quot; = PR.&quot;IdProfesion&quot;
+                CROSS JOIN (select top 1 &quot;Valor&quot; from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Configuracion&quot;
+                where &quot;CodigoParametro&quot; = 'PLA.SegundosZonaHoraria') AS CONFIGURACION;
+                
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdPersona" hidden="true" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="IdEstadoPersona" hidden="true" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstadoPersona"/>
+      </attribute>
+      <attribute id="IdDocumentoIdentidad" hidden="true" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdDocumentoIdentidad"/>
+      </attribute>
+      <attribute id="TipoPersona" hidden="true" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoPersona"/>
+      </attribute>
+      <attribute id="Nombres" hidden="true" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Nombres"/>
+      </attribute>
+      <attribute id="ApellidoPaterno" hidden="true" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="ApellidoPaterno"/>
+      </attribute>
+      <attribute id="ApellidoMaterno" hidden="true" order="7">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="ApellidoMaterno"/>
+      </attribute>
+      <attribute id="RazonSocial" hidden="true" order="8">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="RazonSocial"/>
+      </attribute>
+      <attribute id="IdGiroPrincipal" hidden="true" order="9">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdGiroPrincipal"/>
+      </attribute>
+      <attribute id="GiroPrincipal" hidden="true" order="10">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="GiroPrincipal"/>
+      </attribute>
+      <attribute id="IdPaisNacimiento" hidden="true" order="11">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPaisNacimiento"/>
+      </attribute>
+      <attribute id="PaisNacimiento" hidden="true" order="12">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="PaisNacimiento"/>
+      </attribute>
+      <attribute id="IdPaisResidencia" hidden="true" order="13">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPaisResidencia"/>
+      </attribute>
+      <attribute id="PaisResidencia" hidden="true" order="14">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="PaisResidencia"/>
+      </attribute>
+      <attribute id="FechaNacimiento" hidden="true" order="15">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaNacimiento"/>
+      </attribute>
+      <attribute id="FechaDefuncion" hidden="true" order="16">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaDefuncion"/>
+      </attribute>
+      <attribute id="Sexo" hidden="true" order="17">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Sexo"/>
+      </attribute>
+      <attribute id="EsExtranjero" hidden="true" order="18">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EsExtranjero"/>
+      </attribute>
+      <attribute id="EstadoCivil" hidden="true" order="19">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EstadoCivil"/>
+      </attribute>
+      <attribute id="RegimenConyugal" hidden="true" order="20">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="RegimenConyugal"/>
+      </attribute>
+      <attribute id="Cargo" hidden="true" order="21">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Cargo"/>
+      </attribute>
+      <attribute id="Empleador" hidden="true" order="22">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Empleador"/>
+      </attribute>
+      <attribute id="IdDireccionFisicaPrincipal" hidden="true" order="23">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdDireccionFisicaPrincipal"/>
+      </attribute>
+      <attribute id="IdDireccionElectronicaPrincipal" hidden="true" order="24">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdDireccionElectronicaPrincipal"/>
+      </attribute>
+      <attribute id="IdTelefonoPrincipal" hidden="true" order="25">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTelefonoPrincipal"/>
+      </attribute>
+      <attribute id="IdProfesion" hidden="true" order="26">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdProfesion"/>
+      </attribute>
+      <attribute id="Profesion" hidden="true" order="27">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Profesion"/>
+      </attribute>
+      <attribute id="FechaInicioActividad" hidden="true" order="28">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaInicioActividad"/>
+      </attribute>
+      <attribute id="AliasPersona" hidden="true" order="29">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="AliasPersona"/>
+      </attribute>
+      <attribute id="IdTipoDocumentoIdentidad" hidden="true" order="30">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoDocumentoIdentidad"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" hidden="true" order="31">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="NumeroSerie" hidden="true" order="32">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroSerie"/>
+      </attribute>
+      <attribute id="FechaEmisionDocumentoIdentidad" hidden="true" order="33">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaEmisionDocumentoIdentidad"/>
+      </attribute>
+      <attribute id="FechaVencimientoDocumentoIdentidad" hidden="true" order="34">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaVencimientoDocumentoIdentidad"/>
+      </attribute>
+      <attribute id="IdEstadoDocumentoIdentidad" hidden="true" order="35">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstadoDocumentoIdentidad"/>
+      </attribute>
+      <attribute id="DescripcionTipoPersona" hidden="true" order="36">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DescripcionTipoPersona"/>
+      </attribute>
+      <attribute id="EsContraparte" hidden="true" order="37">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EsContraparte"/>
+      </attribute>
+      <attribute id="EsProveedor" hidden="true" order="38">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EsProveedor"/>
+      </attribute>
+      <attribute id="EsEmpleado" hidden="true" order="39">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EsEmpleado"/>
+      </attribute>
+      <attribute id="EsCliente" hidden="true" order="40">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="EsCliente"/>
+      </attribute>
+      <attribute id="TipoDocumento" hidden="true" order="41">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoDocumento"/>
+      </attribute>
+      <attribute id="NumeroDocumento" hidden="true" order="42">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroDocumento"/>
+      </attribute>
+      <attribute id="CasaMatriz" hidden="true" order="43">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="CasaMatriz"/>
+      </attribute>
+      <attribute id="IngresoPromedioMensual" hidden="true" order="44">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IngresoPromedioMensual"/>
+      </attribute>
+      <attribute id="RangoPatrimonio" hidden="true" order="45">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="RangoPatrimonio"/>
+      </attribute>
+      <attribute id="ResidenciaSecundaria" hidden="true" order="46">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="ResidenciaSecundaria"/>
+      </attribute>
+      <attribute id="AgnosServicio" hidden="true" order="47">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="AgnosServicio"/>
+      </attribute>
+      <attribute id="FechaCreacion" hidden="true" order="48">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="FechaModificacion" hidden="true" order="49">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaModificacion"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

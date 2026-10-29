@@ -1,0 +1,1 @@
+INSERT INTO #TEMP_FOLIOS VALUES (:FolioFecha);

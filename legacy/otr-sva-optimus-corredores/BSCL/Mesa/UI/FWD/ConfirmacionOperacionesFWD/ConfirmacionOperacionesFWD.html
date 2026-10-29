@@ -1,0 +1,187 @@
+<div ng-controller="ConfirmacionOperacionesFWDCtrl as ConfOpFWD">
+	<form name="formConfirmacionOperacionesFWD" class="filters-formulario">
+		<div class="col-xs-12 bcs-cuerpo">
+			<!-- MONEDAS POR PRODUCTOS -->
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="col-xs-5">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>				
+						<bcs-combobox-base 
+							class="col-xs-7"					
+							id="UI_TIPO_OPERACION"
+							auto-cargar="'true'"
+							tipo = "'combobox-TipoOperacionForward'"							
+							item-post-filtro="'1'"
+							todos="'S'"
+							seleccionado="data.oConfiguracionTipoInstrumento.seleccionado"
+							filtros="data.oConfiguracionTipoInstrumento.filtros"
+			    	        id-actual="data.oConfiguracionTipoInstrumento.idActual"
+						>
+						</bcs-combobox-base >	
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_CLIENTE</label>
+						<bcs-combobox-base 
+							class="col-xs-8"						
+							id="UI_SOCIO_NEGOCIO"
+							bcs-requerido = "'true'"
+							auto-cargar="'false'"
+							id-actual="data.oSocioNegocioIdActual"						
+							tipo="'combobox-socio-negocio'"
+							seleccionado="data.oSocioNegocio.seleccionado"
+							filtros="data.oSocioNegocio.filtros"
+							configuracion= "data.oSocioNegocio.configuracion"  
+						>
+						</bcs-combobox-base >						
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="col-xs-5">
+						<label class="col-xs-4" translate>UI_MONEDA_PRINCIPAL</label>
+						<!--  tipo="'combobox-moneda'" -->
+						<bcs-combobox-base 
+							class="col-xs-7"
+							id="UI_MONEDA_PRINCIPAL"
+							auto-cargar="'true'"
+							tipo = "'combobox-parmonedas-base'"							
+							item-post-filtro="'1'"
+							todos="'S'"
+							seleccionado="data.oConfiguracionMonedaPrincipal.seleccionado"
+							filtros="data.oConfiguracionMonedaPrincipal.filtros"
+			    	        id-actual="data.oConfiguracionMonedaPrincipal.idActual"
+						>
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-3" translate>UI_ESTADO</label>
+						<bcs-combobox-base 
+							class="col-xs-4"						
+							id="UI_ESTADO"
+							auto-cargar="'true'"
+							tipo = "'combobox-estadoConfirmacion'"							
+							item-post-filtro="'1'"
+							todos="'S'"
+							seleccionado="data.oConfiguracionEstado.seleccionado"
+							filtros="data.oConfiguracionEstado.filtros"
+			    	        id-actual="data.oConfiguracionEstado.idActual"
+						>
+						</bcs-combobox-base >						
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="col-xs-5">
+						</bcs-combobox-base>
+						<label class="col-xs-4" translate>UI_MONEDA_SECUNDARIA</label>
+						<bcs-combobox-base 
+							class="col-xs-7"
+							id="UI_MONEDA_SECUNDARIA"
+							auto-cargar="'true'"
+							item-post-filtro="'1'"
+							todos="'S'"
+							tipo = "'combobox-parmonedas-base'"
+							seleccionado="data.oConfiguracionMonedaSecundaria.seleccionado"
+							filtros="data.oConfiguracionMonedaSecundaria.filtros"
+			            	id-actual="data.oConfiguracionMonedaSecundaria.idActual"
+						>
+						</bcs-combobox-base>
+					</div>
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_FECHA</label>
+							<bcs-input-date
+								class="col-xs-4"
+								id="UI_FECHA_OPERACION"
+								bcs-requerido
+								k-ng-model="data.kngFechaOperacion"
+								k-ng-enabled = "'true'"
+								k-options="data.fechaOperacionOptions"
+							>
+							</bcs-input-date>
+						</div>
+				</div>
+				<!-- BOTONES -->
+			</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="col-xs-12">
+					<bcs-button class="row col-xs-12" 
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.BuscarOperaciones()" >
+					</bcs-button>
+				</div>
+			</div>
+			<br>
+			<hr>
+			
+			<!-- DATOS OPERACIÓN -->
+			<!-- GRILLA -->
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-grid	
+						id="grid-mov" 
+						fn-exportar-excel="exportarExcel"
+						configuracion="confGrillaForward"
+					    seleccionado = "data.seleccionMovimiento">
+
+						<div bcs-grid-detail ng-non-bindable>
+						   <div style="width: 900px;" >
+					         <uib-tabset>
+					            <uib-tab heading="{{'UI_FORMA_DE_PAGO' | translate}}">
+					               <bcs-grid 
+					                  configuracion="confGrillaFormasDePago(dataItem)"	                                        
+					                  seleccionado = "dataItem.seleccionMovimientoFormasDePago">
+								   </bcs-grid>							                  		
+					            </uib-tab> 
+							 </uib-tabset>
+						   </div>	
+						 </div>					    
+					</bcs-grid>
+				</div>
+			</div>
+			<div class="row bcs-panel-comandos">
+					<div class="col-xs-2">
+						<bcs-button class="row col-xs-12" 
+								bcs-tipo="'bcs-button-primary'"
+								bcs-auto-desactivar="false" 
+								bcs-texto="'UI_CONFIRMAR' | translate"
+								bcs-habilitado="(HabilitoBotones)"
+								bcs-clic="data.ConfirmarOperacion()" >
+							</bcs-button>	
+					</div>
+					<div class="col-xs-2">
+						<bcs-button class="row col-xs-12" 
+								bcs-auto-desactivar="false"  bcs-tipo="'bcs-button-secondary'"
+								bcs-texto="'UI_RECHAZAR' | translate"
+								bcs-habilitado="(HabilitoBotones)"
+								bcs-clic="data.RechazarOperacion()" >
+							</bcs-button>	
+					</div>
+					<!-- <div class="col-xs-2">
+						<bcs-button class="row col-xs-12" 
+								bcs-auto-desactivar="false" bcs-tipo="'bcs-button-secondary'"
+								bcs-texto="'UI_EXPORTAR' | translate"
+								bcs-habilitado="true"
+								bcs-clic="exportarExcel()" >
+							</bcs-button>	
+					</div> -->
+					<div class="col-xs-2">
+						<bcs-button class="row col-xs-12" 
+								bcs-auto-desactivar="false" bcs-tipo="'bcs-button-secondary'"
+								bcs-texto="'UI_MODIFICAR_FORMA_PAGO' | translate"
+								bcs-habilitado="(HabilitoBotones)"
+								bcs-clic="data.ModificarFormaPago()" >
+							</bcs-button>	
+					</div>
+					<bcs-menu class="col-xs-2 row pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+						<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+					</bcs-menu>							
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,1 @@
+DROP TABLE #CierreAperturaMesa_p_DatosMesas;

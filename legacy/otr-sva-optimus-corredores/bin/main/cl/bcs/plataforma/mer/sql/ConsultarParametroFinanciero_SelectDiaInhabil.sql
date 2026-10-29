@@ -1,0 +1,1 @@
+SELECT DISTINCT "Dia" FROM "BSCL.Plataforma.BD::REG.DiaFeriado" WHERE "Tipo" = 'INHABIL' AND "AgnoCarga" = :Agno AND "IdEstado" = 'ACT'

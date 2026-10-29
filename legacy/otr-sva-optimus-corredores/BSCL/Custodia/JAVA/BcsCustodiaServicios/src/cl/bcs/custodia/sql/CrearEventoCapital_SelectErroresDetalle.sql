@@ -1,0 +1,1 @@
+SELECT * FROM "BSCL.Custodia.BD::GBL.CrearEventoCapital_OUT_ErroresDetalle" WHERE "IdInterno" =:IdInterno

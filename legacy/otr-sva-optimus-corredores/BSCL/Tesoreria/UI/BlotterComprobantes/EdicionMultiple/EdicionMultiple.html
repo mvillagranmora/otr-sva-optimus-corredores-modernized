@@ -1,0 +1,380 @@
+<div class="row" ng-controller='EdicionMultipleCtrl'>
+<form name="frmEdicionMultiple" class="col-xs-12 form-horizontal">
+	
+	<div class="row">
+		<div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_TIPO_MOVIMIENTO</label>				
+			<bcs-input-texto class="col-xs-8"
+				id				="frmEdicionMultiple_TipoMovimiento"
+				name			="uTTipoMovimiento" 
+				ng-model		="ngTipoMovimiento" 
+				k-ng-disabled	="'true'">
+			</bcs-input-texto>
+		</div>
+		<div class="col-xs-6" style="padding-left: 15px">
+			<label class="col-xs-4" translate>UI_MONTO</label>
+			<bcs-input-monetario class="col-xs-8" 
+				id				="frmEdicionMultiple_Monto"
+				k-ng-model		="kngMonto"
+				k-ng-disabled 	="'true'"
+				simbolo			="kngMontoSimbolo" 
+				decimales		="kngMontoDecimales">
+			</bcs-input-monetario>	
+		</div>
+	</div>
+	<div class="row" ng-show="showMedioDePago">
+		<div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_MEDIO_DE_PAGO</label>					
+			<bcs-input-texto class="col-xs-8"
+				id				="frmEdicionMultiple_MedioPago"
+				name			="uTipoCuentaCorredora" 
+				ng-model		="ngMedioDePago" 
+				k-ng-disabled	="'true'">
+			</bcs-input-texto>
+		</div>
+		<div class="col-xs-6" style="padding-left: 15px">
+			<label class="col-xs-4" translate>UI_MODALIDAD</label>
+			<bcs-input-texto class="col-xs-5"
+				id				="frmEdicionMultiple_ModalidadPago"
+				name			="uTipoCuentaCorredora" 
+				ng-model		="ngModalidadDePago" 
+				k-ng-disabled	="'true'"></bcs-input-texto>
+
+			<label class="col-xs-2" style="padding-left: 5px" translate>UI_EDITAR</label>
+			<bcs-input-checkbox type="checkbox" id="frmEdicionMultiple_EditarFP" 
+				ng-model		="ngEditarFP"
+				ng-disabled		="!showMedioDePago"></bcs-input-checkbox>
+		</div>
+	</div>
+	<div class="row" ng-show="showMedioDePagoSeleccion">
+		<div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_MEDIOS_DE_PAGO</label>					
+			<bcs-combobox-base class="col-xs-8" id ="frmEdicionMultiple_MedioPago"
+				bcs-requerido	="showMedioDePagoSeleccion"
+				tipo			="oConfiguracionMedioDePago.tipo" 
+				configuracion	="oConfiguracionMedioDePago.configuracion" 				
+				seleccionado	="oConfiguracionMedioDePago.seleccionado"
+				id-actual		="oConfiguracionMedioDePago.idActual"
+				filtros			="oConfiguracionMedioDePago.filtros" 								
+				cascada1-a		="oConfiguracionModalidadPago.filtros.IdMedioDePago"
+				cascada1-valor	="'IdMedioDePago'">
+			</bcs-combobox-base>
+		</div>
+		<div class="col-xs-6" style="padding-left: 15px">
+			<label class="col-xs-4" translate>UI_MODALIDAD</label>
+			<bcs-combobox-base class="col-xs-8" id ="frmEdicionMultiple_ModalidadPago"				
+				bcs-requerido	="showMedioDePagoSeleccion"
+				auto-cargar		="'false'"
+				tipo			="oConfiguracionModalidadPago.tipo" 
+				configuracion	="oConfiguracionModalidadPago.configuracion" 				
+				seleccionado	="oConfiguracionModalidadPago.seleccionado"
+				id-actual		="oConfiguracionModalidadPago.idActual"
+				filtros			="oConfiguracionModalidadPago.filtros"
+				memoria			="oConfiguracionMedioDePago.idActual"
+				item-post-filtro="'1'">
+			</bcs-combobox-base>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_REGISTROS_A_PROCESAR</label>					
+			<bcs-input-texto class="col-xs-8"
+				id				="frmEdicionMultiple_RegistrosProcesar"
+				ng-model		="ngRegistrosProcesar" 
+				k-ng-disabled	="'true'">
+			</bcs-input-texto>
+		</div>
+		<div class="col-xs-6" style="padding-left: 15px">
+			<label class="col-xs-4" translate>UI_CAJA</label>
+			<bcs-input-texto class="col-xs-5"
+				id				="frmEdicionMultiple_CodigoCaja"
+				ng-model		="ngNombreCaja" 
+				k-ng-disabled	="'true'">
+			</bcs-input-texto>
+			<bcs-input-texto class="col-xs-3"
+				id				="frmEdicionMultiple_CodigoCaja"
+				ng-model		="ngMonedaCaja" 
+				k-ng-disabled	="'true'">
+			</bcs-input-texto>
+		</div>
+	</div>
+
+	<!-------------------- INFO CORREDORA ------------------------>
+	<div class="row" style="margin-top: 10px;">
+		<label class="k-window-subtitle" translate>UI_CORREDORA</label>
+	</div>
+	<div class="row">
+		<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" translate>UI_CUENTAS_BANCARIAS</label>
+				<bcs-combobox-base class="col-xs-10"
+					id				="frmEdicionMultiple_CuentasBancarias"
+					bcs-requerido	="oConfiguracionCuentaBancoCorredora.requerido"
+					tipo			="oConfiguracionCuentaBancoCorredora.tipo"
+					activado		="oConfiguracionCuentaBancoCorredora.activado"
+					configuracion	="oConfiguracionCuentaBancoCorredora.configuracion" 				
+					seleccionado	="oConfiguracionCuentaBancoCorredora.seleccionado"
+					filtros			="oConfiguracionCuentaBancoCorredora.filtros" 
+					id-actual		="oConfiguracionCuentaBancoCorredora.idActual"
+					id-post-filtro  ="oConfiguracionCuentaBancoCorredora.idPostFiltro"
+					cascada1-a		="oConfiguracionChequerasSeries.filtros.IdCuentaBanco"
+					cascada1-valor	="'IdCuentaBanco'"
+					auto-cargar     ="'true'"
+					cascada1-defecto="-1">
+				</bcs-combobox-base>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_TIPO_CUENTA_BANCARIA</label>									
+				<bcs-input-texto class="col-xs-8"
+					id				="frmEdicionMultiple_TipoCuentasBancaria"
+					name			="uTipoCuentaCorredora" 
+					ng-model		="ngTipoCuentaCorredora" 
+					k-ng-disabled	="'true'">
+				</bcs-input-texto>
+			</div>
+			<div class="col-xs-6" style="padding-left: 15px">
+				<label class="col-xs-4" translate>UI_BANCO</label>									
+				<bcs-input-texto class="col-xs-8"
+					id				="frmEdicionMultiple_Banco"
+					name			="uBancoCuentaCorredora" 
+					ng-model		="ngBancoCuentaCorredora" 
+					k-ng-disabled	="'true'">
+				</bcs-input-texto>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_NUMERO_CUENTA</label>									
+				<bcs-input-texto class="col-xs-8"
+					id				="frmEdicionMultiple_NumeroCuenta"
+					name			="uNumeroCuentaCorredora" 
+					ng-model		="ngNumeroCuentaCorredora" 
+					k-ng-disabled	="'true'">
+				</bcs-input-texto>
+			</div>
+			<div class="col-xs-6" style="padding-left: 15px">
+				<label class="col-xs-4" translate>UI_MONEDA</label>									
+				<bcs-input-texto class="col-xs-8"
+					id				="frmEdicionMultiple_Moneda"
+					name			="uMonedaCuentaCorredora" 
+					ng-model		="ngMonedaCuentaCorredora" 
+					k-ng-disabled	="'true'">
+				</bcs-input-texto>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_SERIE_CHEQUERA</label>
+				<bcs-combobox-base class="col-xs-8"	id ="frmEdicionMultiple_SerieDocumento"			    
+					auto-cargar		="'false'"
+					tipo			="oConfiguracionChequerasSeries.tipo"
+					activado		="oConfiguracionChequerasSeries.activado"
+					configuracion	="oConfiguracionChequerasSeries.configuracion"
+					seleccionado	="oConfiguracionChequerasSeries.seleccionado"
+					id-actual		="oConfiguracionChequerasSeries.idActual"
+					filtros			="oConfiguracionChequerasSeries.filtros"
+					id-post-filtro  ="oConfiguracionChequerasSeries.idPostFiltro"
+					bcs-requerido 	="exigeChequera"								
+					item-post-filtro="'-1'">
+				</bcs-combobox-base>
+			</div>
+			<div class="col-xs-6" style="padding-left: 15px">
+				<label class="col-xs-4" translate>UI_FOLIO_DOCUMENTO</label>
+				<bcs-input-texto class="col-xs-4" id="frmEdicionMultiple_FolioDocumentoCorredoraDesde" 																									
+					ng-model		="FolioDocumentoCorredoraDesde"
+					k-ng-disabled 	="DisabledFolioDocumentoCorredoraDesde">
+				</bcs-input-texto>
+				<bcs-input-texto class="col-xs-4" id="frmEdicionMultiple_FolioDocumentoCorredoraHasta" 																									
+					ng-model		="FolioDocumentoCorredoraHasta"
+					k-ng-disabled 	="'false'">
+				</bcs-input-texto>
+			</div>
+		</div>
+	</div>
+
+	<!-------------------- INFO SOCIO NEGOCIO ------------------------>
+	<div class="row" ng-show="showDatosSocioNegocio">
+		<div class="row" style="margin-top: 10px;">
+			<label class="k-window-subtitle" translate>UI_SOCIO_DE_NEGOCIO</label>
+		</div>
+			<div class="row" ng-hide="showListaCuentasSocioNegocio">
+			<div class="row">
+				<div class="col-xs-12">
+					<label class="col-xs-2" translate>UI_BANCO</label>
+					<bcs-combobox-base  class="col-xs-8" id="frmEdicionMultiple_BancoSocio"
+						auto-cargar   = "true"									
+						tipo          = "oConfiguracionBancoCuentaSocio.tipo"
+						activado	  = "oConfiguracionBancoCuentaSocio.activado"
+						id-actual     = "oConfiguracionBancoCuentaSocio.idActual"													
+						configuracion = "oConfiguracionBancoCuentaSocio.configuracion"
+						seleccionado  = "oConfiguracionBancoCuentaSocio.seleccionado"	
+						id-post-filtro= "oConfiguracionBancoCuentaSocio.idPostFiltro"						
+						filtros       = "oConfiguracionBancoCuentaSocio.filtros"
+						id-post-filtro= "oConfiguracionBancoCuentaSocio.idPostFiltro">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_NUMERO_CUENTA</label>
+						<bcs-input-numero class="col-xs-8" decimales = "0"
+							k-ng-model		="NumeroCuentaSocio"
+							k-ng-disabled	="DisabledNumeroCuentaSocio"></bcs-input-texto>																	
+					</div>
+				</div>
+				<div class="col-xs-6" style="padding-left: 15px">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_FECHA_DOCUMENTO</label>
+						<bcs-input-date class="col-xs-4" k-ng-model	="kngFechaDocumentoSocio"></bcs-input-date>																	
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_SERIE_DOCUMENTO</label>
+						<bcs-input-texto class="col-xs-8" 
+							ng-model		="SerieDocumentoSocio" 
+							k-ng-disabled	="DisabledSerieDocumentoSocio"></bcs-input-texto>																	
+					</div>
+				</div>
+				<div class="col-xs-6" style="padding-left: 15px">
+					<div class="col-xs-12">
+						<label class="col-xs-4" translate>UI_FOLIO_DOCUMENTO</label>
+						<bcs-input-numero class="col-xs-8" decimales = "0" 
+							k-ng-model		="FolioDocumentoSocio"
+							k-ng-disabled	="DisabledFolioDocumentoSocio"></bcs-input-numero>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div class="row" ng-if="showListaCuentasSocioNegocio">
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-2" translate>UI_CUENTAS_BANCARIAS</label>
+						<bcs-combobox-base class="col-xs-8"
+							id				="frmEdicionMultiple_CuentasBancariasSocioNegocio"
+							bcs-requerido	="oConfiguracionListaCuentaBancoSocioNegocio.requerido"
+							tipo			="oConfiguracionListaCuentaBancoSocioNegocio.tipo"
+							activado		="oConfiguracionListaCuentaBancoSocioNegocio.activado"
+							configuracion	="oConfiguracionListaCuentaBancoSocioNegocio.configuracion" 				
+							seleccionado	="oConfiguracionListaCuentaBancoSocioNegocio.seleccionado"
+							filtros			="oConfiguracionListaCuentaBancoSocioNegocio.filtros" 
+							id-actual		="oConfiguracionListaCuentaBancoSocioNegocio.idActual"
+							id-post-filtro  ="oConfiguracionListaCuentaBancoSocioNegocio.idPostFiltro"
+							>
+						</bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_CUENTA_BANCARIA</label>									
+						<bcs-input-texto class="col-xs-8"
+							id				="frmEdicionMultiple_TipoCuentasBancariasSocioNegocio"
+							name			="uTipoCuentaSocioNegocio" 
+							ng-model		="ngTipoCuentaSocioNegocio" 
+							k-ng-disabled	="'true'">
+						</bcs-input-texto>
+					</div>
+					<div class="col-xs-6" style="padding-left: 15px">
+						<label class="col-xs-4" translate>UI_BANCO</label>									
+						<bcs-input-texto class="col-xs-8"
+							id				="frmEdicionMultiple_SocioNegocio"
+							name			="uBancoCuentaSocioNegocio" 
+							ng-model		="ngBancoCuentaSocioNegocio" 
+							k-ng-disabled	="'true'">
+						</bcs-input-texto>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_NUMERO_CUENTA</label>									
+						<bcs-input-texto class="col-xs-8"
+							id				="frmEdicionMultiple_NumeroCuentaSocioNegocio"
+							name			="uNumeroCuentaSocioNegocio" 
+							ng-model		="ngNumeroCuentaSocioNegocio" 
+							k-ng-disabled	="'true'">
+						</bcs-input-texto>
+					</div>
+					<div class="col-xs-6" style="padding-left: 15px">
+						<label class="col-xs-4" translate>UI_MONEDA</label>									
+						<bcs-input-texto class="col-xs-8"
+							id				="frmEdicionMultiple_MonedaSocioNegocio"
+							name			="uMonedaCuentaSocioNegocio" 
+							ng-model		="ngMonedaCuentaSocioNegocio" 
+							k-ng-disabled	="'true'">
+						</bcs-input-texto>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="col-xs-12">
+							<label class="col-xs-4" translate>UI_SERIE_DOCUMENTO</label>
+							<bcs-input-texto class="col-xs-8" 
+								ng-model		="SerieDocumentoSocio" 
+								k-ng-disabled	="DisabledSerieDocumentoSocio"></bcs-input-texto>																	
+						</div>
+					</div>
+					<div class="col-xs-6" style="padding-left: 15px">
+						<div class="col-xs-12">
+							<label class="col-xs-4" translate>UI_FECHA_DOCUMENTO</label>
+							<bcs-input-date class="col-xs-4" k-ng-model	="kngFechaDocumentoSocio"></bcs-input-date>																	
+						</div>
+					</div>				
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="col-xs-12">
+							<label class="col-xs-4" translate>UI_FOLIO_DOCUMENTO</label>
+							<bcs-input-numero class="col-xs-8" decimales = "0" 
+								k-ng-model		="FolioDocumentoSocio"
+								k-ng-disabled	="DisabledFolioDocumentoSocio"></bcs-input-numero>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+	<!-------------------------- INDICADORES ---------------------------->	
+	<div class="row" style="padding-top: 15px">
+		<div class="col-xs-6">
+			<label class="col-xs-4" translate>UI_AGRUPA_COMPROBANTE</label>
+			<bcs-input-checkbox type="checkbox" id="frmEdicionMultiple_AGRUPA" 
+				ng-model	="ngAgrupa"
+				ng-disabled	="disabledIndicadores"></bcs-input-checkbox>
+		</div>
+		<div class="col-xs-6" style="padding-left: 15px">
+			<label class="col-xs-4" translate>UI_NETEA_COMPROBANTE</label>
+			<bcs-input-checkbox type="checkbox" id="frmEdicionMultiple_NETEA" 
+				ng-model	="ngNetea"
+				ng-disabled	="disabledIndicadores"></bcs-input-checkbox>
+		</div>
+	</div>
+
+	<div class="row" ng-show="showLiquidacionComprobante">
+		<label class="col-xs-2" translate>UI_LIQUIDA_COMPROBANTE</label>
+		<bcs-input-checkbox type="checkbox" id="frmEdicionMultiple_LiquidaComprobante" 
+			ng-model	="ngLiquidaComprobante"></bcs-input-checkbox>
+	</div>
+
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-2 pull-right" id="frmEdicionMultiple_btnConfirmar"
+			bcs-auto-desactivar	= "false"
+			bcs-habilitado		= "frmEdicionMultiple.$valid"
+			bcs-texto			= "'UI_CONFIRMAR' | translate"
+			bcs-tipo            ="'bcs-button-primary'"
+			bcs-clic			= "confirmar()">
+		</bcs-button>
+		<bcs-button  class="col-xs-2 pull-right" id="frmEdicionMultiple_btnCancelar" 
+			bcs-auto-desactivar = "false"
+			bcs-habilitado		= 'true' 
+			bcs-texto			= "'UI_CANCELAR' | translate"
+			bcs-tipo            ="'bcs-button-secondary'"
+			bcs-clic			= "cancelar('false')">
+		</bcs-button>			
+	</div>
+
+</form>	
+</div>

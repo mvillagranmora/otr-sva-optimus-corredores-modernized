@@ -1,0 +1,23 @@
+INSERT INTO "BSCL.Plataforma.BD::AUT.AutorizadoEtapa"(		
+"IdAutorizadoEtapa"  
+,"IdEtapa"
+,"IdUsuario"
+,"IdRol"
+,"IdUsuarioReemplaza"
+,"ReemplazaDesde"
+,"ReemplazaHasta"
+,"IdEstado"
+,"EsAutorizacionPorRol"
+)
+VALUES 
+(		
+:IdAutorizadoEtapa
+,:IdEtapa
+,:IdUsuario 
+,:IdRol      
+,:IdUsuarioReemplaza
+,:ReemplazaDesde
+,:ReemplazaHasta       
+,:IdEstado
+,:EsAutorizacionPorRol
+);

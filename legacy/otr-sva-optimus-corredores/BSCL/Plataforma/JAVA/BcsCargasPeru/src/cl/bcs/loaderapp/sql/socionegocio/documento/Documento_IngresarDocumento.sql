@@ -1,0 +1,22 @@
+INSERT INTO "BSCL.Plataforma.BD::DOC.TipoDocumento"(
+	"IdTipoDocumento",
+	"IdEmpresa",
+	"NombreDocumento",
+	"NumeroFirmantesEmpresa",
+	"NumeroFirmantesCliente",
+	"Clasificacion",
+	"ValidaFechaVigencia",
+	"CodigoTipoIndicador",
+	"IdTipoPersona"											
+)
+VALUES(
+	:IdTipoDocumento,
+	:IdEmpresa,
+	:NombreDocumento,
+	:NumeroFirmantesEmpresa,
+	:NumeroFirmantesCliente,
+	:Clasificacion,
+	:ValidaFechaVigencia,
+	:CodigoTipoIndicador,
+	:IdTipoPersona
+);

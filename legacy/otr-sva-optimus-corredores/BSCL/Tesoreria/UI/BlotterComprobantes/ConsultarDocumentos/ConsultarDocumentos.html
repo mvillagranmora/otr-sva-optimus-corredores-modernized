@@ -1,0 +1,248 @@
+<div id="ConsultarDocumentos" class="row" ng-controller='ConsultarDocumentosCtrl'>	
+	<div class="row bcs-cuerpo" ng-form="frmConsultarDocumentos">
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				<div class="row">
+	                <div class="col-xs-7">
+						<label class="col-xs-3 bcs-label" translate>UI_MEDIOS_DE_PAGO</label>					
+						<bcs-combobox-base class="col-xs-9" id="frmConsultarDocumentos_MEDIOS_DE_PAGO"
+							tipo			="oConfiguracionMedioDePago.tipo" 
+							configuracion	="oConfiguracionMedioDePago.configuracion" 				
+							seleccionado	="oConfiguracionMedioDePago.seleccionado"
+							id-actual		="oConfiguracionMedioDePago.idActual"
+							filtros			="oConfiguracionMedioDePago.filtros"					
+							todos="'S'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4 bcs-label" style="padding-left: 10px" translate>UI_FECHA_LIQUIDACION</label>
+						<bcs-input-date class="col-xs-4" id="frmConsultarDocumentos_fechaLiquidacionDesde" k-ng-model="kngFechaLiquidacionDesde"></bcs-input-date>
+						<bcs-input-date class="col-xs-4" id="frmConsultarDocumentos_fechaLiquidacionHasta" k-ng-model="kngFechaLiquidacionHasta"></bcs-input-date>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-5 bcs-label" translate>UI_CUENTAS_CORREDORA</label>
+						<bcs-combobox-base class="col-xs-7" id="frmConsultarDocumentos_CUENTAS_BANCARIAS_CORREDORA" style="padding-left: 7px" 
+							tipo			="oConfiguracionCuentaBancoCorredora.tipo" 
+							configuracion	="oConfiguracionCuentaBancoCorredora.configuracion" 				
+							seleccionado	="oConfiguracionCuentaBancoCorredora.seleccionado"
+							id-actual		="oConfiguracionCuentaBancoCorredora.idActual"
+							filtros			="oConfiguracionCuentaBancoCorredora.filtros"
+							activado		="oConfiguracionCuentaBancoCorredora.activado"
+							todos			="oConfiguracionCuentaBancoCorredora.todos"
+							id-defecto		="oConfiguracionCuentaBancoCorredora.idDefecto"
+							cascada1-a      = "oConfiguracionChequerasSeries.filtros.IdCuentaBanco"  
+							cascada1-valor  = "'IdCuentaBanco'"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-3">
+						<label class="col-xs-3 bcs-label" translate>UI_CHEQUERA</label>						
+						<bcs-combobox-base  class="col-xs-9"				    
+							auto-cargar		= "'false'"
+							tipo			= "oConfiguracionChequerasSeries.tipo"
+							configuracion	= "oConfiguracionChequerasSeries.configuracion"
+							seleccionado	= "oConfiguracionChequerasSeries.seleccionado"
+							id-actual		= "oConfiguracionChequerasSeries.idActual"
+							filtros			= "oConfiguracionChequerasSeries.filtros"
+							todos			="'S'"
+							item-post-filtro="'1'">
+						</bcs-combobox-base>		
+					</div>
+					
+					<div class="col-xs-5">
+						<label class="col-xs-4 bcs-label" style="padding-left: 10px" translate>UI_TIPO_SOCIO_NEGOCIO</label>								
+						<bcs-combobox-base class="col-xs-8" id="frmConsultarDocumentos_TipoSocioNegocio"
+							auto-cargar		="'true'"
+							tipo			="oConfiguracionTipoSocioNegocio.tipo"
+							configuracion	="oConfiguracionTipoSocioNegocio.configuracion" 				
+							seleccionado	="oConfiguracionTipoSocioNegocio.seleccionado"
+							filtros			="oConfiguracionTipoSocioNegocio.filtros"
+							activado        ="oConfiguracionTipoSocioNegocio.activado"
+							id-actual		="oConfiguracionTipoSocioNegocio.idActual"
+							id-post-filtro	="oConfiguracionTipoSocioNegocio.idPostFiltro"
+							todos="'S'" id-defecto="'0'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					
+					<!--<div class="col-xs-5">
+						<label class="col-xs-4" style="padding-left: 10px" translate>UI_SEC_COMPROBANTE</label>
+						<bcs-input-numero class="col-xs-5" id="frmConsultarDocumentos_COMPROBANTE"							
+							k-ng-model="ngComprobante"								
+							formato = "'#'"							
+							decimales=0>
+						</bcs-input-numero>
+					</div>-->
+				</div>
+								
+				<div class="row">
+					<div class="col-xs-7">
+	                    <label class="col-xs-3 bcs-label" translate>UI_SOCIO_NEGOCIO</label>
+						<bcs-combobox-base class="col-xs-9" id="frmConsultarDocumentos_SOCIO_NEGOCIO"
+						 	auto-cargar		="'false'"
+						    tipo			="'combobox-socio-negocio'"
+						    id-Actual		="oConfiguracionSocioNegocio.idActual"
+						    seleccionado	="oConfiguracionSocioNegocio.seleccionado"
+						    filtros			="oConfiguracionSocioNegocio.filtros"
+						    carga-cliente-automatico = "'true'"
+							cascada1-a		="oConfiguracionPortafolio.filtros.IdCliente"
+							cascada1-valor	="'IdCliente'"
+							cascada1-defecto="-1"
+						    configuracion= "oConfiguracionSocioNegocio.configuracion"  >
+						</bcs-combobox-base >
+	                </div>
+	                <div class="col-xs-5">
+						<label class="col-xs-4 bcs-label" style="padding-left: 10px" translate>UI_PORTAFOLIO</label>
+						 <bcs-combobox-base class="col-xs-8" id="frmConsultarDocumentos_PORTAFOLIO"
+							auto-cargar				="'false'"
+							tipo					="'combobox-portafolio'"
+							usa-filtros-completos 	= "'S'"
+							configuracion			= "oConfiguracionPortafolio.configuracion"
+							seleccionado			="oConfiguracionPortafolio.seleccionado"
+							filtros					="oConfiguracionPortafolio.filtros"
+							activado 				="activadoPortafolio"
+							ng-model="Portafolio"
+							item-post-filtro="'1'" >
+						</bcs-combobox-base>
+					</div>                            
+				</div>
+				<div class="row">				
+					<div class="col-xs-7">
+						<label class="col-xs-3 bcs-label" translate>UI_CUENTAS_SOCIO_NEGOCIO</label>
+						<bcs-combobox-base class="col-xs-9" id="frmConsultarDocumentos_CUENTAS_BANCARIAS_SOCIO_NEGOCIO"
+							auto-cargar		="'false'"
+							tipo			="'combobox-persona-cuentas-bancarias'" 
+							configuracion	="oConfiguracionCuentaBancoSocioNegocio.configuracion" 				
+							seleccionado	="oConfiguracionCuentaBancoSocioNegocio.seleccionado"						
+							filtros			="oConfiguracionCuentaBancoSocioNegocio.filtros"						
+							item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-5">
+						<label class="col-xs-4 bcs-label" style="padding-left: 10px" translate>UI_MONEDA</label>					
+						<bcs-combobox-base  class="col-xs-8" id="frmConsultarDocumentos_MONEDA"
+							tipo			="oConfiguracionCajaMoneda.tipo"						
+							configuracion	="oConfiguracionCajaMoneda.configuracion"
+							seleccionado	="oConfiguracionCajaMoneda.seleccionado"
+							id-actual		="oConfiguracionCajaMoneda.idActual"
+							filtros			="oConfiguracionCajaMoneda.filtros"
+							todos="'S'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>					
+				</div>	
+							
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-5 bcs-label" translate>UI_CAJA</label>
+						<bcs-combobox-base  class="col-xs-7" style="padding-left: 7px" id="frmConsultarDocumentos_CAJA"
+							tipo			="oConfiguracionCaja.tipo"						
+							configuracion	="oConfiguracionCaja.configuracion"
+							seleccionado	="oConfiguracionCaja.seleccionado"
+							id-actual		="oConfiguracionCaja.idActual"
+							filtros			="oConfiguracionCaja.filtros"
+							cascada1-a		="oConfiguracionCajaMoneda.filtros.IdCaja"
+							cascada1-valor	="'IdCaja'"
+							todos="'S'" item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-3">
+						<label class="col-xs-3 bcs-label" style="padding-left: 10px" translate>UI_ESTADO</label>
+						<bcs-combobox-base  class="col-xs-9" id="frmConsultarDocumentos_ESTADO"
+							auto-cargar		="'true'"					
+							tipo			="oConfiguracionEstadoDocumentoTesoreria.tipo"
+							configuracion	="oConfiguracionEstadoDocumentoTesoreria.configuracion"
+							seleccionado	="oConfiguracionEstadoDocumentoTesoreria.seleccionado"
+							id-defecto		="oConfiguracionEstadoDocumentoTesoreria.idDefecto"
+							id-actual		="oConfiguracionEstadoDocumentoTesoreria.idActual"
+							filtros			="oConfiguracionEstadoDocumentoTesoreria.filtros"
+							memoria			= "Documentos"			
+							todos="'S'" id-defecto="0" item-post-filtro="'1'">
+						</bcs-combobox-base>			
+					</div>
+					<div class="col-xs-4" id="tesoreriaConsultarDocumentosLiquidados" style="display: flex; align-items: center;">
+						<bcs-input-checkbox style="padding-left: 10px" id="frmConsultarDocumentos_ExcluyeDocumentosLiquidados" 
+							ng-model="ExcluyeDocumentosLiquidados">
+						</bcs-input-checkbox>
+						<label style="padding-left: 10px" translate>{{'UI_EXCLUYE_DOCUMENTOS_LIQUIDADOS' | translate}}</label>
+					</div>
+				</div>
+				
+			</div>
+			<!-- FIN FILTROS -->
+			
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12"  id="frmConsultarDocumentos_btnBuscar"
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado='true' 
+						bcs-clic="buscarDocumentos()"
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" id="frmConsultarDocumentos_btnLimpiar"  
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado='true'
+						bcs-clic="limpiarFiltros()"
+					></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->		
+		</div>
+		<div class="row">
+			<bcs-grid id="grid-documentos-tesoreria"
+			 	configuracion = "confBasicaDocumentos"
+				seleccionado = "seleccionDocumentos"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>		
+	</div>
+
+
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-2" id="frmConsultarDocumentos_btnCertificar" 
+			bcs-auto-desactivar="false"
+			bcs-tipo= "'bcs-button-secondary'"  
+			bcs-texto="'UI_CERTIFICAR_DOCUMENTO' | translate" 
+			bcs-habilitado="btnActivo && seleccionDocumentos.length > 0"  
+			bcs-Mostrar="mostrarBoton"
+			bcs-clic="certificarDocumentos()"
+		></bcs-button>
+		<bcs-button  class="col-xs-2" id="frmConsultarDocumentos_btnLiquidar" 
+			bcs-auto-desactivar="false"
+			bcs-tipo= "'bcs-button-secondary'"   
+			bcs-texto="'UI_LIQUIDAR_DOCUMENTO' | translate" 
+			bcs-habilitado="btnActivo && seleccionDocumentos.length > 0"
+			bcs-Mostrar="mostrarBoton"
+			bcs-clic="liquidarDocumentos()"
+		></bcs-button>
+		<bcs-button  class="col-xs-2" id="frmConsultarDocumentos_btn_EditarFormaDePago"
+			bcs-tipo			= "'bcs-button-edit'"  
+			bcs-auto-desactivar	= "false"  
+			bcs-texto			= "'UI_EDITAR_FORMA_DE_PAGO' | translate" 
+			bcs-habilitado		= "mostrarBoton"
+			bcs-clic			= "edicionFormaDePago(seleccionDocumentos)">
+		</bcs-button>
+		<bcs-button  class="col-xs-2" id="frmConsultarDocumentos_btnDepositar" 
+			bcs-auto-desactivar="false"
+			bcs-tipo= "'bcs-button-secondary'"   
+			bcs-texto="'UI_DEPOSITAR' | translate" 
+			bcs-habilitado="btnActivo"
+			bcs-Mostrar="mostrarBoton"
+			bcs-clic="ingresarDepositos()"
+		></bcs-button>
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>            
+        </bcs-menu>
+	</div> 	
+</div>

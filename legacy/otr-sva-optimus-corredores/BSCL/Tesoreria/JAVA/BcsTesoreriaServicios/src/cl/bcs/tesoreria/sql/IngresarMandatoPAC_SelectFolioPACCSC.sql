@@ -1,0 +1,1 @@
+SELECT top 1 "FolioCSC" FROM "BSCL.Tesoreria.BD::PAC.MandatoPAC" WHERE "FolioCSC" IN (:FolioCSC) AND "FolioCSC" <> '0' AND "Estado" <> 'ANU';

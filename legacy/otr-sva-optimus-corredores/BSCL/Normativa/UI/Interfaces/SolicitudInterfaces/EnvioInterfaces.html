@@ -1,0 +1,88 @@
+<div id="EnvioArchivoInterfaces" class="col-xs-12" ng-controller="EnvioArchivoInterfacesCtrl">
+	<div class="row bcs-cuerpo">
+   	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+			  	<div class="col-xs-4">
+			  		<label class="col-xs-4" translate>UI_INTERFAZ</label>
+			  		<bcs-combobox-base 
+				  		class="col-xs-6"
+						tipo="'combobox-interfaces'"
+						bcs-requerido 				
+						seleccionado="filtros.Interfazseleccionado"
+						id-actual="filtros.idInterfaz"
+						todos="'S'"
+						item-post-filtro="'1'"
+						filtros="oConfiguracionInterfaz.filtros">
+					</bcs-combobox-base>
+			  	</div>
+			  	<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+					<bcs-input-date
+						class="col-xs-6"
+						id="UI_FECHA"
+						bcs-requerido
+						k-ng-model="filtros.fechaDesde">
+					</bcs-input-date>
+				</div>
+				<div class="col-xs-4">
+					<label class="col-xs-4 col-xs-offset-1" translate>UI_FECHA_HASTA</label>
+					<bcs-input-date class="col-xs-6"
+						id="UI_FECHA2"
+						bcs-requerido
+						k-ng-model="filtros.fechaHasta"> 
+					</bcs-input-date>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscar(apiGridArchivoInterfaces,filtros)"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-archivo-interfaces"
+			 	configuracion="defaultOptions"
+				api = "apiGridArchivoInterfaces"
+				seleccionado="datos.kNgModel"
+				fn-exportar-excel = "exportarExcel">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-9>
+			<bcs-button class="col-xs-2" id="MantenedorRegimenesFFMM_IngresarRegimenes" 
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ENVIAR' | translate" 
+				bcs-habilitado="datos.kNgModel.length > 0" 
+				bcs-clic="enviar(datos.kNgModel)">
+			</bcs-button>
+			<bcs-button class="col-xs-2" id="MantenedorRegimenesFFMM_IngresarRegimenes" 
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_VER_SALIDA' | translate" 
+				bcs-habilitado="datos.kNgModel.length > 0" 
+				bcs-clic="verSalida(datos.kNgModel)">
+			</bcs-button>
+			<bcs-button class="col-xs-2" id="MantenedorRegimenesFFMM_IngresarRegimenes" 
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_VER_LOG' | translate" 
+				bcs-habilitado="datos.kNgModel.length > 0" 
+				bcs-clic="verLog(datos.kNgModel)">
+			</bcs-button>		
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

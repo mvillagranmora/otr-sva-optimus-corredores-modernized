@@ -1,0 +1,63 @@
+<div id="ModificarPerfil" ng-controller="ModificarPerfilCtrl">
+	<div class="row">
+			<form name="formModPerfil" class="col-xs-12 form-horizontal">
+				<div class="row">
+					<label class="col-xs-4" translate>UI_EMPRESA</label>	
+					<bcs-input-texto class="col-xs-8"
+					k-ng-disabled='true'
+					ng-model="SesionEmpresa">
+					</bcs-input-texto>	
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_NOMBRE_PERFIL</label>
+					<bcs-input-texto class="col-xs-8" bcs-requerido="data.nombrePerfil.trim()!=''"
+						ng-model="data.nombrePerfil">
+					</bcs-input-texto>	
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base  class="col-xs-8"
+							auto-cargar="'true'"
+							tipo="data.oConfiguracionEstadoPerfiles.tipo"
+							configuracion= "data.oConfiguracionEstadoPerfiles.configuracion"
+							id-defecto = "data.idEstado"
+							id-actual="data.oConfiguracionEstadoPerfiles.idActual"
+							seleccionado="data.oConfiguracionEstadoPerfiles.seleccionado"
+							filtros="data.oConfiguracionEstadoPerfiles.filtros"
+							memoria= "" 
+							todos="'N'"
+							item-post-filtro="data.idEstado">	
+						</bcs-combobox-base>
+				</div>
+				<div class="row">
+					<label class="col-xs-4" translate="">UI_CANAL_INGRESO</label>
+					<bcs-combobox-base
+							class="col-xs-8"
+							tipo="'combobox-tipo-canal-ingreso'"
+							id-defecto = "'OPT'"
+							filtros="filtrosFormulario.consultaCanalesIngreso"
+							id-actual="data.IdCanalActual"
+							seleccionado="data.CanalSeleccionado">
+					</bcs-combobox-base>
+				</div>
+
+				<hr>
+				 <div class="box-col">
+		            <div kendo-tree-view="tree" k-options="options">
+		            </div>
+		        </div>
+		        <div class="row">
+					<bcs-button id="ModificarPerfil_actualizarPerfil" class="col-xs-3" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_GUARDAR' | translate" bcs-habilitado="true"  bcs-clic="actualizarPerfil()"></bcs-button>
+					<bcs-button class="col-xs-3" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="true"  bcs-clic="cancelar()"></bcs-button>
+					<div class="col-xs-4"></div>
+					<bcs-menu class="col-xs-2" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+			            <li ng-click="comprimirArbol()">{{'UI_COMPRIMIR_ARBOL' | translate}}</li>
+			            <li ng-click="expandirArbol()">{{'UI_EXPANDIR_ARBOL' | translate}}</li>
+			            <li id="ModificarPerfil_sinAutorizacion" ng-click="sinAutorizacion()">{{'UI_SIN_AUTORIZACION' | translate}}</li>
+			            <li id="ModificarPerfil_autorizacionTotal" ng-click="autorizacionTotal()">{{'UI_AUTORIZACION_TOTAL' | translate}}</li>
+					</bcs-menu>
+					
+				</div>
+			</form>
+		</div>
+</div>

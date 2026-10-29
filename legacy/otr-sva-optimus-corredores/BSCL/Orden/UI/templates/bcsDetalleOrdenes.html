@@ -1,0 +1,30 @@
+<table class="table">
+  <thead>
+    <tr>
+      <tr>
+      	<th>
+        <th translate>{{'UI_SECUENCIA_ORDEN'}}</th>
+        <th translate ng-show="informacionCliente === 'S'">{{'UI_DOCUMENTO_IDENTIDAD'}}</th>
+        <th translate ng-show="informacionCliente === 'S'">{{'UI_CLIENTE'}}</th>
+        <th translate ng-show="informacionCliente === 'S'">{{'UI_PORTAFOLIO'}}</th>
+        <th translate>{{'UI_INSTRUMENTO'}}</th>
+        <th translate>{{'UI_CANTIDAD'}}</th>
+        <th translate>{{'UI_PRECIO'}}</th>
+        <th translate>{{'UI_MONTO'}}</th>
+      </tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="orden in ordenes">
+      <td><bcs-link class="pull-right" link="'DetalleOrden'" params="{ IdOrden : orden.IdOrden}"></bcs-link></td>
+      <td><label>{{orden.IdOrden}}</label></td>
+      <td ng-show="informacionCliente === 'S'"><label>{{orden.DocumentoIdentidad}}</label></td>
+      <td ng-show="informacionCliente === 'S'"><label>{{orden.NombreCompleto}}</label></td>
+      <td ng-show="informacionCliente === 'S'"><label>{{orden.CodigoPortafolio}}</label></td>
+      <td><label>{{orden.Instrumento}}</label></td>
+      <td><label>{{orden.CantidadOrden | kformat:'n':orden.IdMonedaOrden:'cantidad':'ORD'}}</label></td>
+      <td><label>{{orden.PrecioOrden | kformat:'c':orden.IdMonedaOrden:'precio':'ORD'}}</label></td>
+      <td><label>{{orden.MontoOrden | kformat:'c':orden.IdMonedaOrden:'monto':'ORD'}}</label></td>
+    </tr>
+  </tbody>
+</table>

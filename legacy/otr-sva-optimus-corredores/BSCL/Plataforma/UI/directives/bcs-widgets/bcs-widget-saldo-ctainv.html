@@ -1,0 +1,40 @@
+<div class="col-xs-12">
+	<h5 translate>UI_SALDO_CUENTA_INVERSION</h5>
+	<div class="row">
+		<bcs-combobox-base
+			auto-cargar="'false'" 
+			class="col-xs-10" 
+			tipo="'combobox-socio-negocio'"
+			cascada-a="filtrosPortafolio.IdCliente"
+			seleccionado = 'clienteSeleccionado'
+			cascada-valor="'IdCliente'"
+		>
+		</bcs-combobox-base>
+		<bcs-combobox-base 
+			auto-cargar="'false'" 
+			class="col-xs-10" 
+			seleccionado="portafolioSeleccionado"
+			filtros="filtrosPortafolio" 
+			item-post-filtro="'1'"
+			tipo="'combobox-portafolio'">
+		</bcs-combobox-base>
+		<a href="#" ng-click="buscar(clienteSeleccionado,portafolioSeleccionado)" class="k-select k-icon k-i-search">&nbsp;</a>
+		<img style="width:5%" class="pull-right" ng-show="loading" src="images/ajax-loader.gif">
+	</div>
+	<div class="row">
+		<table class="table">
+			<thead>
+				<tr>
+					<th translate>UI_MONEDA</th>
+					<th translate>UI_SALDO_DISPONIBLE</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="cuenta in cuentas">
+					<td>{{cuenta.IdMoneda}}</td>
+					<td>{{cuenta.Saldo | kformat:'c':cuenta.IdMoneda:'monto'}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+</div>

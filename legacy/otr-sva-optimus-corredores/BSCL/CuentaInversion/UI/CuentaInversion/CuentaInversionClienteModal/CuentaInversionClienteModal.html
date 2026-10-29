@@ -1,0 +1,67 @@
+<div class="row" ng-controller='CuentaInversionClienteModalCtrl as bSaldo'>
+	<div class="row no-margin" ng-form="frmCtaInvClienteModal">		
+		<div class="col-xs-12">
+
+		
+			<table class="table">
+				<tr>
+				  <td width="25%"><strong class="align_right" translate>UI_CLIENTE</strong></td>
+				  <td colspan="3"><label class="">{{bSaldo.InfoCliente[0].NombreCliente}}</label></td>
+				</tr>
+				<tr>
+				  <td width="25%"><strong class="align_right" translate>UI_DOCUMENTO_IDENTIDAD</strong></td>
+				  <td width="25%"><label class="" >{{bSaldo.InfoCliente[0].DocumentoIdentidad}}</label></td>
+				  <td width="25%"><strong class="align_right" translate>UI_PORTAFOLIO</strong></td>
+				  <td width="25%"><label class="" >{{bSaldo.InfoCliente[0].NombrePortafolio}}</label></td>
+				</tr>
+				<tr>
+				  <td><strong class="align_right" translate>UI_EJECUTIVO</strong></td>
+				  <td><label class="">{{bSaldo.InfoCliente[0].NombreEjecutivo}}</label></td>
+				  <td><strong class="align_right" translate>UI_SUCURSAL</strong></td>
+				  <td><label class="" >{{bSaldo.InfoCliente[0].NombreSucursal}}</label></td>
+				</tr>
+				<tr>
+				  <td><strong class="align_right" translate>UI_FECHA_EFECTIVA</strong></td>
+				  <td colspan="3"><label class="">{{bSaldo.InfoCliente[0].FechaEfectivaMovimiento | kformat:'d'}}</label></td>
+				</tr>
+			</table>
+
+			<div class="row" style="margin-top:15px">
+				<div class="row k-window-subtitle">
+				   <label class="col-xs-4" translate>UI_SALDOS</label>																							
+				</div>
+			</div>
+
+			<div class="col-xs-12" style="margin-top:3px; height:150px">
+				<table class="table">
+					<tr>
+					  <td><strong class="align_right" translate>UI_CUENTA_INVERSION</strong></td>
+					  <td><strong class="align_right" translate>UI_DISPONIBLE</strong></td>
+					  <td><strong class="align_right" translate>UI_RETIRO</strong></td>
+					  <td><strong class="align_right" translate>UI_GARANTIA</strong></td>
+					  <td><strong class="align_right" translate>UI_A_PLAZO</strong></td>
+					</tr>
+					<tr ng-repeat="detalle in bSaldo.InfoSaldos">
+					  <td><label class="">{{detalle.NombreMoneda}}</label></td>
+					  <td><label class="">{{detalle.SaldoDisponible | kformat:'c':detalle.IdMoneda:'monto':'GEN'}}</label></td>
+					  <td><label class="">{{detalle.SaldoRetiro | kformat:'c':detalle.IdMoneda:'monto':'GEN'}}</label></td>
+					  <td><label class="">{{detalle.SaldoEnGarantia | kformat:'c':detalle.IdMoneda:'monto':'GEN'}}</label></td>
+					  <td><label class="">{{detalle.SaldoAPlazo | kformat:'c':detalle.IdMoneda:'monto':'GEN'}}</label></td>
+					</tr>
+				</table>
+			</div>
+
+
+
+			<div class="row bcs-panel-comandos alignButtonsToRight">
+				<div class="col-xs-2">				
+					<bcs-button  bcs-tipo="'bcs-button-primary'"  id="frmCtaInvClienteModal_CARTOLA" bcs-auto-desactivar="false"  bcs-texto="'UI_CARTOLA' | translate"      bcs-habilitado="true"  bcs-clic="cartolaDeMovimiento()"></bcs-button>
+				</div>
+				<div class="col-xs-2">				
+					<bcs-button  bcs-tipo="'bcs-button-secondary'"           id="frmCtaInvClienteModal_FLUJO_CAJA" bcs-auto-desactivar="false"  bcs-texto="'UI_FLUJO_CAJA' | translate"      bcs-habilitado="true"  bcs-clic="flujoCaja()"></bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

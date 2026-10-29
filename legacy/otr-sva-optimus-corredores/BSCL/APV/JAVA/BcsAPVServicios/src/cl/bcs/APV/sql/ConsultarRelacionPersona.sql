@@ -1,0 +1,1 @@
+SELECT "IdRelacionPersona" FROM "BSCL.SocioNegocio.BD.Vistas::REL.ConsultarRelacion" WHERE "IdPersonaOrigen" = :IdPersona AND "IdPersonaDestino" = :IdEmpleador

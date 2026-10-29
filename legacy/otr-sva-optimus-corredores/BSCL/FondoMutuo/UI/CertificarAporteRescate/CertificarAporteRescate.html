@@ -1,0 +1,142 @@
+<div class="col-xs-12" ng-controller="CertificarAporteRescateCtrl">
+	<div class="row bcs-cuerpo">
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-4">
+					<label class="col-xs-4" translate>UI_EMISOR</label> 
+			  		<bcs-combobox-base class="col-xs-6"
+			  			tipo="'combobox-emisor'"
+			  			id-actual="filtros.IdEmisor"
+			  			filtros="formData.filtrosEmisor"
+			  			todos="'S'" 
+			  			id-defecto="'0'">
+			  		</bcs-combobox-base>
+			  	</div>
+			  	<div class="col-xs-4">
+			  		<label class="col-xs-4 col-xs-offset-1" translate>UI_MONEDA</label>
+					<bcs-combobox-base 
+						class="col-xs-6"
+						id="UI_MONEDA"
+						bcs-requerido
+					 	auto-cargar="'true'"
+					 	id-actual="filtros.IdMoneda"
+					 	id-defecto="'0'"
+					 	todos="'S'"
+					 	tipo="'combobox-moneda'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-4">
+			  		<label class="col-xs-4 col-xs-offset-1" translate>UI_INSTRUMENTO</label> 
+			  		<bcs-combobox-buscador-fondos class="col-xs-6" 
+						muestra-valor-cuota = "'N'"
+						datos-fondo="filtros.FondoMutuo"
+						buscar-fondo="formData.setFondo"
+						id-ventana="winID">
+					</bcs-combobox-buscador-fondos>
+				</div>
+		  	</div>
+		  	<div class="row"> 
+			  	<div class="col-xs-4">
+			  		<label class="col-xs-4" translate>UI_NACIONAL</label> 
+			  		<bcs-input-checkbox 
+		         		class="col-xs-6"
+						ng-model="filtros.EsNacional"> 
+					</bcs-input-checkbox>
+				</div>
+				<div class="col-xs-4">
+		  			<label class="col-xs-4 col-xs-offset-1" translate>UI_TIPO_SOLICITUD</label>
+			  		<bcs-combobox-base class="col-xs-6"
+			  			tipo="'combobox-operacion-ffmm'"
+			  			id-actual="filtros.tipoSolicitud"
+			  			seleccionado="tipoSolicitud.seleccionado"
+			  			cascada-a="formData.filtrosTipoOperacion.IndicadorAporteRescate"
+						cascada-valor="'CodigoConcepto'"
+						id-defecto="'0'"
+			  			todos="'S'"
+			  			bcs-requerido>
+			  		</bcs-combobox-base>
+			  	</div>
+				<div class="col-xs-4">
+			    	<label class="col-xs-4 col-xs-offset-1" translate>UI_OPERACION</label>
+			  		<bcs-combobox-base class="col-xs-6"
+			  			tipo="'combobox-tipo-operacion-ffmm'"
+			  			id-actual="filtros.tipoOperacion"
+			  			seleccionado="tipoOperacion.seleccionado"
+			  			filtros="formData.filtrosTipoOperacion"
+			  			todos="'S'" 
+			  			id-defecto="'0'"
+			  			bcs-requerido
+			  			item-post-filtro="'1'">
+			  		</bcs-combobox-base>
+			  	</div>
+		  	</div>	
+		  	<div class="row">
+		  		<div class="col-xs-4">
+		  			<label class="col-xs-4" translate>UI_MONEYMARKET</label> 
+	  				<bcs-input-checkbox  
+	  					class="col-xs-6"
+	  					ng-model="filtros.certificaMoneyMarket">
+	  				</bcs-input-checkbox>
+	  			</div>
+	  			<div class="col-xs-4">
+		  			<label class="col-xs-4 col-xs-offset-1" translate>UI_FECHA_CERTIFICACION</label> 
+	  				<bcs-input-date
+						class="col-xs-6"
+						bcs-requerido
+						k-ng-model="filtros.fechaCertificacion">
+					</bcs-input-date>
+	  			</div>
+	  		</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarAportesRescates(apiGridCertificar,filtros)"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+			</div>
+	  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-certificar-ffm"
+			 	configuracion="defaultOptions"
+				api = "apiGridCertificar"
+				seleccionado="datos.kNgModel">		
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-12>	
+			<bcs-button class="col-xs-2 pull-right" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CERTIFICAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.certificarAportesRescates()">
+			</bcs-button>
+			<bcs-button class="col-xs-2 pull-right" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_LOG_CERTIFICACION_FFM' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.consultarLogCertificacionAportesRescates()">
+			</bcs-button>
+			<!--<bcs-button class="col-xs-3" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_PAGO_AGF' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.pagarAGF()">
+			</bcs-button>-->
+			<!--  bcs-button class="col-xs-3" id="BlotterFFM_ingresarFFM" 
+				bcs-tipo="''" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_TEST' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="formData.test()">
+			</bcs-button-->
+		</div>
+	</div>
+</div>

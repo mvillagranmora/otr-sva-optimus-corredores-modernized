@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Normativa.BD::NOR.EnviarTransaccion_BloqueoReporteBCCH" WHERE "IdBloqueoReporteBCCH" = :IdBloqueoReporteBCCH;

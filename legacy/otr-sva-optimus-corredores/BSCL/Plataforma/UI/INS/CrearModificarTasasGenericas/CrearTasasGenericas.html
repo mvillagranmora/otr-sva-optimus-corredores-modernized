@@ -1,0 +1,112 @@
+<div class="row" ng-controller='CrearTasasGenericasCtrl'>
+<form name="frmCrearTasasGenericasCtrl" class="col-xs-12 form-horizontal">	
+	<div class="row">		
+		<div class="row">
+			<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+			<bcs-combobox-base
+				tipo="'combobox-clasificacion-tipo-instrumento'"
+				bcs-requerido
+				class="col-xs-8"
+				item-post-filtro = "'1'"
+				bcs-habilitado= "formData.EsIngreso"
+				configuracion= "formData.oConfiguracionClasificacion.configuracion"
+				filtros      = "formData.oConfiguracionClasificacion.filtros"
+				seleccionado = "formData.oConfiguracionClasificacion.seleccionado"
+				id-actual    = "formData.oConfiguracionClasificacion.idActual"
+				id-defecto   = "formData.oConfiguracionClasificacion.idDefecto"
+				cascada-a	 = "formData.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+				cascada-valor= "'IdClasificacionTipoInstrumento'">
+			</bcs-combobox-base>
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+			<bcs-combobox-base
+				class="col-xs-8"
+				tipo="'combobox-tipo-instrumento'"
+				item-post-filtro = "'1'"
+				bcs-habilitado= "formData.EsIngreso"
+				filtros		= "formData.oConfiguracionTipoInstrumento.filtros"
+				id-actual	= "formData.IdTipoInstrumento"
+				id-defecto	= "formData.oConfiguracionTipoInstrumento.idDefecto"
+				seleccionado= "formData.tipoInstrumento"
+				cascada-a 	= "formData.oConfiguracionInstrumentoTipoReajuste.filtros.IdTipoInstrumento"
+				cascada-valor= "'IdTipoInstrumento'">
+			</bcs-combobox-base>
+
+			
+		</div>
+		
+		<div class="row">
+			<label class="col-xs-3" translate>UI_TIPO_REAJUSTE</label>
+			<bcs-combobox-base 
+				tipo="'combobox-instrumento-tipo-reajuste'"
+				bcs-requerido
+				class="col-xs-4"
+				auto-cargar="false"
+				bcs-habilitado= "formData.EsIngreso"				
+                configuracion= "formData.oConfiguracionInstrumentoTipoReajuste.configuracion"
+                seleccionado= "formData.oConfiguracionInstrumentoTipoReajuste.seleccionado"
+                filtros		= "formData.oConfiguracionInstrumentoTipoReajuste.filtros"
+                id-actual	= "formData.oConfiguracionInstrumentoTipoReajuste.idActual"
+				id-defecto	= "formData.oConfiguracionInstrumentoTipoReajuste.idDefecto"                
+                item-post-filtro="'1'"
+				id-defecto="'CLP'">
+			</bcs-combobox-base>
+		</div>
+		
+		<br>
+		<div class="row">
+			<label class="col-xs-3" translate>UI_PLAZO_DESDE</label>
+			<bcs-input-numero class="col-xs-2" 
+				name="uPlazoInicial" 
+				ng-model="formData.PlazoDesde"
+				bcs-requerido
+				decimales="0">
+			</bcs-input-numero>
+		</div>
+
+		<div class="row">
+			<label class="col-xs-3" translate>UI_PLAZO_HASTA</label>
+			<bcs-input-numero class="col-xs-2" 
+				name="uPlazoFinal" 
+				ng-model="formData.PlazoHasta"
+				bcs-requerido
+				decimales="0">
+			</bcs-input-numero>
+		</div>
+
+				
+		<div class="row">
+			<label class="col-xs-3" translate>UI_TASA</label>
+			<bcs-input-numero class="col-xs-2"
+				name="uTasa"
+				ng-model="formData.Tasa" 
+				decimales="2"
+				bcs-requerido>
+			</bcs-input-numero>
+		</div>
+		<div class="row">
+			<label class="col-xs-3" translate>UI_PRECIO</label>
+			<bcs-input-numero class="col-xs-2"
+				name="uPrecio"
+				ng-model="formData.Precio" 
+				decimales="2">
+			</bcs-input-numero>
+		</div>
+			
+		<!-- FIN FILTROS -->
+
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2 pull-right"
+			bcs-tipo="'bcs-button-primary'"
+			bcs-habilitado="frmCrearTasasGenericasCtrl.$valid" 
+			bcs-auto-desactivar="false" 
+			bcs-texto="'UI_CREAR' | translate" 
+			bcs-clic="formData.CrearTasa()">
+		</bcs-button>
+	</div>
+
+</form>
+</div>

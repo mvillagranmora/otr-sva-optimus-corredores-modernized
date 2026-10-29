@@ -1,0 +1,91 @@
+<div id="PanelMetodoEventoPosicion" class="row" ng-controller="PanelMetodoEventoPosicionCtrl as pMEP">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+		  	<div class="row">
+		  		<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_POSICION_MRF_TIPO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pMEP_PosicionMRFTipo"
+						tipo="'combobox-metodo-posicion-mrf'"
+						id-actual="pMEP.filtro.IdMetodo"
+						id-defecto="'0'"
+						filtros="pMEP.cmbbx.PosicionMRF.filtros"
+						todos="'S'"
+						seleccionado="pMEP.dataFiltros.PosicionMRFObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" style="text-align:center" translate>UI_EVENTO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pMEP_Evento"
+						tipo="'combobox-evento-posicion'"
+						id-actual="pMEP.filtro.IdEvento"
+						id-defecto="'0'"
+						filtros="pMEP.cmbbx.Evento.filtros"
+						todos="'S'"
+						seleccionado="pMEP.dataFiltros.EventoObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_AGRUPACION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pMEP_Agrupacion"
+						tipo="'combobox-parametro-mesa'"
+						id-actual="pMEP.filtro.IdAgrupacion"
+						id-defecto="'0'"
+						filtros="pMEP.cmbbx.Agrupacion.filtros"
+						todos="'S'"
+						configuracion="pMEP.cmbbx.Agrupacion.configuracion"
+						seleccionado="pMEP.dataFiltros.AgrupacionObj">
+					</bcs-combobox-base>
+				</div>
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" style="text-align:center" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pMEP_Estado"
+						tipo="'combobox-estado-mesas'"
+						id-actual="pMEP.filtro.IdEstado"
+						id-defecto="'0'"
+						filtros="pMEP.cmbbx.Estado.filtros"
+						todos="'S'"
+						seleccionado="pMEP.dataFiltros.EstadoObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pMEP.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pMEP.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<br>
+	
+	<div class="row">
+		<bcs-grid
+			configuracion="pMEP.grilla.MetodosEventosPosicion"
+			seleccionado="pMEP.grilla.metodoEventoPosicionSel"
+			fn-doble-click="pMEP.fn.modificar(pMEP.grilla.metodoEventoPosicionSel)"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	
+	<div class="row bcs-panel-buttons">
+		<bcs-button id="PanelMetodoEventoPosicion_agregar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'" bcs-clic="pMEP.fn.agregar()">
+		</bcs-button>
+		<bcs-button id="PanelMetodoEventoPosicion_modificar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="'true'" bcs-clic="pMEP.fn.modificar(pMEP.grilla.metodoEventoPosicionSel)">
+		</bcs-button>
+		
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel('MetodoEventoPosicion')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

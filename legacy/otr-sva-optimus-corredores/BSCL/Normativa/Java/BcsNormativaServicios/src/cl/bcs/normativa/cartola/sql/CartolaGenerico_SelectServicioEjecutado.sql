@@ -1,0 +1,1 @@
+SELECT "IdNomina","IdTrabajo","Entrada","Recurso" FROM "BSCL.Normativa.BD::CAR.ProcesosEjecutadosPaso" WHERE "IdNomina" = :IdNomina AND "Recurso" = :Recurso;

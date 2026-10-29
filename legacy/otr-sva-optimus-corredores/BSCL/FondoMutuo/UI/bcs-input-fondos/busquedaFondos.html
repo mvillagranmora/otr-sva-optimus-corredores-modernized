@@ -1,0 +1,118 @@
+<div id="BusquedaFondos" ng-controller="BusquedaFondosCtrl">	
+	<div class="row bcs-cuerpo">
+   		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+			  		<label class="col-xs-2" translate>UI_PERFIL</label>
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-categoria-perfil-ffmm'"
+			  			id-actual="formData.Perfil"
+			  			filtros="formData.filtroPerfil"
+			  			item-post-filtro="'1'"' 
+			  			todos="formData.Todos"
+			  			seleccionado="formData.PerfilSeleccionado">
+			  		</bcs-combobox-base>
+			  		<label class="col-xs-2" col-xs-offset-1 translate>UI_EMISOR</label> 
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-emisor'"
+			  			id-actual="formData.IdEmisor"
+			  			filtros="formData.filtrosEmisor"
+			  			todos="'S'" 
+			  			id-defecto="formData.IdEmisorDefecto">
+			  		</bcs-combobox-base>  
+			  		<label class="col-xs-2" col-xs-offset-1 translate>UI_TIPO_FONDO</label>
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-tipo-fondo'"
+			  			id-actual="formData.IdTipoFondo"
+			  			id-defecto="'0'" 
+			  			todos="'S'">
+			  		</bcs-combobox-base>
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-2" translate>UI_MONEDA</label>
+					<bcs-combobox-base 
+						class="col-xs-2"
+						id="UI_MONEDA"
+						todos="'S'"
+					 	auto-cargar="'true'"
+					 	id-actual="formData.IdMoneda"
+					 	id-defecto="'0'"
+					 	tipo="'combobox-moneda'">
+					</bcs-combobox-base>
+			  		<label class="col-xs-2" col-xs-offset-1 translate>UI_MONEY_MARKET</label> 
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-si-no'"
+			  			id-actual="formData.MoneyMarket"
+			  			id-defecto="'0'" 
+			  			todos="'S'">
+			  		</bcs-combobox-base> 
+			  		<label class="col-xs-2" col-xs-offset-1 translate>UI_DIFERIDO</label> 
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-si-no'"
+			  			id-actual="formData.Diferido"
+			  			id-defecto="'0'"
+			  			todos="'S'">
+			  		</bcs-combobox-base> 
+			  	</div>
+			  	<div class="row">
+			  		<label class="col-xs-2" translate>UI_FAMILIA</label>
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-familia-ffmm'"
+			  			id-actual="formData.IdFamiliaFondo"
+			  			todos="'S'"
+			  			id-defecto="'0'">
+			  		</bcs-combobox-base>
+			  		<label class="col-xs-2" col-xs-offset-1 translate>UI_COMISION_SALIDA</label> 
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-si-no'"
+			  			id-actual="formData.ComisionSalida"
+			  			id-defecto="'0'" 
+			  			todos="'S'">
+			  		</bcs-combobox-base>
+			  		<label class="col-xs-2" col-xs-offset-1 translate>UI_NACIONAL</label> 
+			  		<bcs-input-checkbox 
+		         		class="col-xs-2"
+						ng-model="formData.EsFondoNacional"
+						ng-disabled="formData.UsaEsFondoNacional"> 
+					</bcs-input-checkbox>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscarFondo()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-busqueda-fondos"
+				fn-doble-click="seleccionarFondo()"
+			 	configuracion = "gridConfigBusquedaFondos"
+				seleccionado = "seleccionadoFondo"
+				api = "gridApi"
+				ng-show = "!formData.EnCustodia">
+			</bcs-grid>
+			<bcs-grid 
+				id="grid-busqueda-fondos-custodia"
+				fn-doble-click="seleccionarFondo()"
+			 	configuracion = "gridConfigBusquedaFondosCustodia"
+				seleccionado = "seleccionadoFondoCustodia"
+				api = "gridApiFondosCustodia"
+				ng-show = "formData.EnCustodia">
+			</bcs-grid>
+		</div>
+	</div>
+
+ 	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="BusquedaFondos_seleccionarFondo"  class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"  bcs-auto-desactivar="false" bcs-texto="'UI_SELECCIONAR' | translate" 
+			bcs-habilitado="'true'"  bcs-clic="seleccionarFondo()"></bcs-button>
+	</div>
+		
+			
+	
+	
+</div>

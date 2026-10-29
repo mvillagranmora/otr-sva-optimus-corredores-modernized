@@ -1,0 +1,91 @@
+<div id="PanelEvaluacionLimites" class="row" ng-controller="PanelEvaluacionLimitesCtrl as pEL">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+				<div class="col-xs-6">
+                       <label translate class="col-xs-3">UI_CLIENTE_PORTAFOLIO</label>
+                       <bcs-combobox-base class="col-xs-8"
+                         tipo="'combobox-cliente-portafolio'"
+                         filtros="filtrosPortafolio"
+                         muestra-enlace = "'N'"       
+                         id-actual = "pEL.filtro.IdPortafolio"
+                         seleccionado = "pEL.dataModal.ClientePortafolioObj">
+                    </bcs-combobox-base >
+                 </div>
+				<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_TIPO_LIMITE</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-limite'"
+						id-actual="pEL.filtro.IdTipoLimite"
+						id-defecto="pEL.filtro.IdTipoLimiteDef"
+						filtros="pEL.cmbbx.TipoLimite.filtros"
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_CLASIFICACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-clasificacion-tipo-instrumento'"
+						id-actual="pEL.filtro.IdClasificacionTipoInstrumento"
+						id-defecto="pEL.filtro.IdClasificacionTipoInstrumentoDef"
+						filtros="pEL.cmbbx.ClasificacionTipoInstrumento.filtros"
+						todos="'S'"
+						seleccionado="pEL.dataModal.ClasificacionTipoInstrumentoObj"
+						cascada1-a="pEL.cmbbx.TipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+						cascada1-valor="'IdClasificacionTipoInstrumento'">
+					</bcs-combobox-base>
+				</div>
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-3" translate>UI_TIPO_INSTRUMENTO</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-tipo-instrumento'"
+						id-actual="pEL.filtro.IdTipoInstrumento"
+						id-defecto="pEL.filtro.IdTipoInstrumentoDef"
+						filtros="pEL.cmbbx.TipoInstrumento.filtros"
+						todos="'S'"
+						seleccionado="pEL.dataModal.TipoInstrumentoObj"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+					<label class="col-xs-3" translate>UI_ESTADO_EVALUACION</label>
+					<bcs-combobox-base class="col-xs-8"
+						tipo="'combobox-estado-limites'"
+						id-actual="pEL.filtro.IdEstado"
+						id-defecto="pEL.filtro.IdEstadoDef"
+						filtros="pEL.cmbbx.Estado.filtros"
+						todos="'S'"
+						item-post-filtro="'1'">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pEL.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'default'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pEL.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+		
+	<div class="row">
+		<bcs-grid
+			configuracion="pEL.grilla.EvaluacionLimites"
+			seleccionado="pEL.grilla.evaluacionLimitesSel"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-1" bcs-tipo="''" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_EXPORTAR' | translate" bcs-habilitado="true" bcs-clic="exportarExcel('EvaluacionLimites')">
+		</bcs-button>
+	</div>
+</div>

@@ -1,0 +1,119 @@
+<div class="row" ng-controller="PanelSolicitudInterfacesCtrl">
+	<div class="col-xs-12 bcs-cuerpo">
+		<form name="PanelSolicitudInterfaces" class="filters-formulario">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA_SOLICITUD</label>
+				<bcs-input-date
+					class="col-xs-3"
+					k-ng-model="formInfo.fechaSolicitud"
+					k-ng-disabled="true" 
+					bcs-requerido>
+				</bcs-input-date>
+				<label class="col-xs-3" translate>UI_USUARIO</label>
+				<bcs-input-texto class="col-xs-3"
+					k-ng-disabled="true" 
+					ng-model="formInfo.usuario">
+		  		</bcs-input-texto>
+			</div>
+			<div class="row">
+		  		<label class="col-xs-2 titulo" translate>UI_DIARIO</label>
+		  	</div>
+			<div class="row">
+				<div ng-repeat="(keyItem, valItem) in data.matrizDiario">
+					<label class="col-xs-3" translate>{{valItem.Nombre}}</label>
+		  			<bcs-input-checkbox 
+	         			class="col-xs-1"
+	         			ng-disabled="data.mensual"
+						ng-model="data.checkInterfaz[valItem.IdInterfaz]"> 
+					</bcs-input-checkbox>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+		  		<label class="col-xs-2 titulo" translate>UI_MENSUAL</label>
+		  	</div>
+			<div class="row">
+				<div ng-repeat="(keyItem, valItem) in data.matrizMensual">
+					<label class="col-xs-3" translate>{{valItem.Nombre}}</label>
+		  			<bcs-input-checkbox 
+	         			class="col-xs-1"
+	         			ng-disabled="data.diario"
+						ng-model="data.checkInterfaz[valItem.IdInterfaz]"> 
+					</bcs-input-checkbox>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA</label>
+				<bcs-input-date
+					class="col-xs-3"
+					k-ng-model="formData.fecha"
+					ng-disabled="data.mensual"
+					bcs-requerido>
+				</bcs-input-date>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MES</label>
+				<bcs-input-date
+					class="col-xs-3"
+					k-ng-model="formData.mes"
+					k-options="data.PeriodoOptions"
+					ng-disabled="data.diario"
+					bcs-requerido>
+				</bcs-input-date>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CLIENTE</label>
+				<bcs-combobox-base class="col-xs-3"
+					id="UI_CLIENTE"
+				 	auto-cargar="false"
+				    tipo="'combobox-socio-negocio'"
+				    seleccionado="formData.idClienteseleccionado"
+				    filtros="oSocioNegocio.filtros"
+				    activado="!formData.esTodosCliente"
+                    id-actual="formData.idClienteActual">
+				</bcs-combobox-base>
+				<label class="col-xs-3" translate>UI_TODOS</label>
+				<bcs-input-checkbox 
+					class="col-xs-3"
+	  				ng-model="formData.esTodosCliente">
+		  		</bcs-input-checkbox>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+				<bcs-input-instrumentos
+					id 						="UI_INSTRUMENTO"  
+					class					="col-xs-3" 
+					buscar-instrumento		="formData.setInstrumento" 
+					datos-instrumento		="formData.instrumento" 
+					muestra-precio 			= "'N'"
+					k-ng-disabled			="formData.esTodosInstrumento"
+					filtro-estado 			="'ACT'">
+				</bcs-input-instrumentos>
+				<label class="col-xs-3" translate>UI_TODOS</label>
+				<bcs-input-checkbox 
+					class="col-xs-3"
+	  				ng-model="formData.esTodosInstrumento">
+		  		</bcs-input-checkbox>
+			</div>
+			<div class="row bcs-panel-comandos">
+				<div class=col-xs-8>
+					<bcs-button class="col-xs-4" id="SolicitarInterfaz" 
+						bcs-texto="'UI_SOLICITAR' | translate" 
+						bcs-habilitado="PanelSolicitudInterfaces.$valid"
+						bcs-tipo="'principal'" 
+						bcs-auto-desactivar="false"
+						bcs-clic="formInfo.ingresarSolicitarInterfaz()">
+					</bcs-button>	
+					<bcs-button class="col-xs-4" id="LimpiarSolicitudInterfaz"
+						bcs-tipo="''" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="'true'" 
+						bcs-clic="formInfo.limpiarFiltros()">
+					</bcs-button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

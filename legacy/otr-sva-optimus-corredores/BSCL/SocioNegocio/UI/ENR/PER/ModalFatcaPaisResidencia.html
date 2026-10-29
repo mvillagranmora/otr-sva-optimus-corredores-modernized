@@ -1,0 +1,58 @@
+<div id="ModalFatcaPaisResidencia" ng-controller="ModalEnrolamientoFatcaPaisResidenciaEnrolCtrl as mfpr">
+	<div class="row bcs-cuerpo">
+		<form name="formFatcaPaisResidencia" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_PAIS_RESIDENCIA</label>
+				<bcs-combobox-base
+					id="formFatcaPaisResidencia_IdPaisResidencia"
+ 					class="col-xs-4"
+ 					tipo="'combobox-pais'"
+ 					filtros="mfpr.oConfiguracionPaisResidencia.filtros"
+ 					bcs-requerido="mfpr.camposRequeridos['formFatcaPaisResidencia_IdPaisResidencia'].Requerido === 'S'"
+					id-actual="mfpr.dataFatcaPaisResidencia.IdPaisResidencia"
+					id-post-filtro="mfpr.dataFatcaPaisResidenciaOriginal.IdPaisResidencia"
+					activado = "mfpr.TipoProceso === 'C'"  
+					auto-cargar="true">
+				</bcs-combobox-base> 
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIN</label>
+				<bcs-input-texto 
+					id="formFatcaPaisResidencia_TIN"
+					class="col-xs-4" 
+					ng-model="mfpr.dataFatcaPaisResidencia.TIN"
+					bcs-requerido="!mfpr.dataFatcaPaisResidencia.IdCausaNoTin && mfpr.camposRequeridos['formFatcaPaisResidencia_TIN'].Requerido === 'S'"
+					>
+				</bcs-input-texto>
+			</div>	
+			<div class="row">
+				<label class="col-xs-3"  translate>UI_CAUSA_NO_TIN</label>
+				<bcs-combobox-base
+					id="formFatcaPaisResidencia_IdCausaNoTin"
+ 					class="col-xs-4"
+ 					bcs-requerido="mfpr.IdCausaNoTinRequerido && mfpr.camposRequeridos['formFatcaPaisResidencia_IdCausaNoTin'].Requerido === 'S'"
+ 					tipo="'combobox-causa-no-tin'"
+					id-actual="mfpr.dataFatcaPaisResidencia.IdCausaNoTin"
+					id-post-filtro="mfpr.dataFatcaPaisResidenciaOriginal.IdCausaNoTin"
+					activado = "mfpr.IdCausaNoTinActivado"  
+					auto-cargar="true">
+				</bcs-combobox-base> 
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_OTRA_CAUSA</label>
+				<bcs-input-texto 
+					id="formFatcaPaisResidencia_CausaNoTin"
+					class="col-xs-4" 
+					bcs-requerido="mfpr.dataFatcaPaisResidencia.IdCausaNoTin !== 'OTRA' && mfpr.CausaNoTinRequerido && mfpr.camposRequeridos['formFatcaPaisResidencia_CausaNoTin'].Requerido === 'S'"
+					ng-model="mfpr.dataFatcaPaisResidencia.CausaNoTin"
+					k-ng-disabled = "mfpr.dataFatcaPaisResidencia.IdCausaNoTin !== 'OTRA'">
+				</bcs-input-texto>
+			</div>	
+		</form>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="btnAceptar" class="col-xs-2 pull-right" bcs-habilitado="formFatcaPaisResidencia.$valid" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="mfpr.aceptar()"></bcs-button>
+		<bcs-button id="btnCancelar" class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mfpr.cancelar()"></bcs-button>
+	</div>
+</div>

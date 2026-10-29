@@ -1,0 +1,332 @@
+<div ng-controller="MantenedorSpotCtrl">
+	<bcs-websocket bcs-msg='msgWebsocket(message)'></bcs-websocket>
+	<form name="formMantenedorSpot" class="filters-formulario">
+		<div class="row bcs_titulo">
+			<div class="col-xs-12">
+				<span>{{'MantenedorPunta Spot'|translate}}</span>
+			</div>
+		</div>
+		<div class="col-xs-12 bcs-cuerpo">
+			<!-- PARAMETROS INICIALES -->
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-2" translate>UI_FECHA</label>
+							<bcs-input-date 
+								class="col-xs-7" 
+								id="UI_FECHA" 
+								bcs-requerido
+								k-ng-model ="data.kngFecha" 
+								k-ng-disabled="'true'"
+								k-options ="data.fechaOptions">
+							</bcs-input-date>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-2" translate>UI_MONEDA</label>
+							<bcs-combobox-base class="col-xs-7"
+								id="UI_MONEDA_PRINCIPAL"
+								auto-cargar="'true'" 
+								tipo="'combobox-moneda-puntas'"
+								seleccionado="data.oConfiguracionMoneda.seleccionado"
+								filtros="data.oConfiguracionMoneda.filtros"
+								id-defecto = "'USD'"
+								id-actual="data.oConfiguracionMoneda.idActual">
+							</bcs-combobox-base>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- PUNTAS -->
+			<hr>
+			<br>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_APERTURA_PRECIO</label>
+				<bcs-input-numero class="col-xs-2" 
+					id="UI_APERTURA_PRECIO"
+					bcs-mayor-que="'0'" 
+					ng-model="data.AperturaPrecio"
+					k-ng-disabled="!data.Editable"
+					k-ng-model="data.kngAperturaPrecio"
+					decimales="0"> 
+				</bcs-input-numero>
+				<label class="col-xs-2" translate>UI_CENTAVOS_CLP</label>
+			</div>
+			<div class="row">					  
+				<label class="col-xs-2" translate>UI_PUNTAS_DEFAULT_COMPRA</label>
+				<bcs-input-numero class="col-xs-2" 
+					id="UI_PUNTA_DEFAULT_COMPRA"
+					bcs-mayor-que="'0'" 
+					ng-model="data.PuntaCompra"
+					k-ng-model="data.kngPuntaCompra"
+					k-ng-disabled="!data.Editable"
+					decimales="data.decimalesPunta"> 
+				</bcs-input-numero>
+			</div>
+
+			<div class="row">
+				<label class="col-xs-2" translate>UI_PUNTAS_DEFAULT_VENTA</label>
+				<bcs-input-numero class="col-xs-2" 
+					id="UI_PUNTA_DEFAULT_VENTA"
+					bcs-mayor-que="'0'" 
+					ng-model="data.PuntaVenta"
+					k-ng-model="data.kngPuntaVenta"
+					k-ng-disabled="!data.Editable"
+					decimales="data.decimalesPunta">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<b>
+						{{ 'ACTUALIZACION_PUNTA' | translate }} {{ data.SistemaMod | translate }} {{ data.Fecha | date:'dd-MM-yyyy HH:mm:ss'}}
+					</b>
+				</div>
+			</div>
+			<div class="row">
+			<!-- BOTON -->
+			<div class="row">
+				<div class="row">
+					<bcs-button class="col-xs-2" bcs-tipo="'bcs-button-input-form'"
+						id="MantenedorPunta_grabarPuntas"
+						bcs-auto-desactivar="false"
+						bcs-texto="'UI_GRABAR_PUNTAS' | translate" 
+						bcs-habilitado="data.bloqueoGrabarPuntas"
+						bcs-clic="data.grabarPuntas()"	
+					></bcs-button>
+				</div>
+			</div>
+			</div>
+			
+			<!-- PESTAÑA PUNTAS -->
+			<hr>
+			<!-- DATOS GRILLAS -->
+			<uib-tabset> <uib-tab id="idDatosOperacionales"
+				heading="{{'UI_PUNTAS' | translate}}">
+			<div class="row">
+				<div class="row">
+					<div class="col-xs-6">
+						<bcs-input-checkbox 
+							class="col-xs-1" 
+							id="UI_PRECIO_POR_TRAMOS"
+							ng-model="data.PrecioTramos" 
+							k-ng-model="data.kngTramos"
+							>
+						</bcs-input-checkbox>
+						<label class="col-xs-6" translate>UI_PRECIO_POR_TRAMOS</label>
+					</div>
+				</div>
+				<!-- GRILLA PUNTAS-->
+				<div class="row">
+					<div class="col-xs-12">
+						<bcs-grid 	
+							id="grid-puntas" 
+							fn-exportar-excel = "formData.exportarExcel"
+							configuracion = "confBasicaPunta"
+							seleccionado = "seleccionGrillaPunta">
+						</bcs-grid>
+					</div>
+				</div>
+
+				<!-- BOTONES PUNTAS-->
+				<div class="row bcs-panel-comandos">
+					<div class="col-xs-2">
+					<bcs-button 
+						id="MantenedorPunta_AgregarPuntasPorTramoPunta"
+						class="col-xs-12" 
+						bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_GRABAR' | translate"
+						bcs-habilitado="data.bloqueoGrabarPuntasTramo"
+						bcs-clic="data.AgregarPuntasPorTramo('Punta')"
+					></bcs-button>
+					</div>
+					<div class="col-xs-2">
+					<bcs-button 
+						id="MantenedorPunta_IngresoNuevoTramoPunta"					
+						class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_NUEVO' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.IngresoNuevoTramo('Punta')"
+					 ></bcs-button>
+					 </div>
+					<div class="col-xs-2">
+					<bcs-button 
+						id="MantenedorPunta_EliminaTramoPunta"
+						class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_ELIMINAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.EliminaTramo(seleccionGrillaPunta)"
+					></bcs-button>
+					</div>
+					<div class="col-xs-2"></div>
+					<div class="col-xs-2"></div>
+					<div class="col-xs-2 alignButtonsToRight">
+						<bcs-menu class="col-xs-8" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">
+							<li ng-click="formData.exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+						</bcs-menu>
+					</div>
+				</div>
+			</div>
+			</uib-tab> 
+	<!-- PESTAÑA AGENTE -->
+			<uib-tab heading="{{'UI_AGENTE' | translate}}"> 
+			<div class="row">
+				<div class="col-xs-5">
+					<div class="row">
+						<div class="row">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_LIMITE_SUPERIOR</label>
+				<bcs-input-numero class="col-xs-2" 
+					id="UI_LIMITE_SUPERIOR"
+					bcs-mayor-que="'0'" 
+					ng-model="data.LimiteSuperior"
+					k-options="{ min:0, spinners: false }"
+					k-ng-model="data.kngLimiteSuperior"
+					ng-blur="data.habilitado()"
+					k-ng-disabled="false"
+					decimales="0"> 
+				</bcs-input-numero>
+				<label class="col-xs-2" translate>UI_CENTAVOS_CLP</label>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_LIMITE_INFERIOR</label>
+				<bcs-input-numero class="col-xs-2" 
+					id="UI_LIMITE_INFERIOR"
+					bcs-mayor-que="'0'" 
+					k-options="{ min:0, spinners: false }"
+					ng-model="data.LimiteInferior"
+					k-ng-model="data.kngLimiteInferior"
+					ng-blur="data.habilitado()"
+					k-ng-disabled="false"
+					decimales="0"> 
+					
+				</bcs-input-numero>
+				<label class="col-xs-2" translate>UI_CENTAVOS_CLP</label>
+			</div>
+			<br>
+			<!-- GRILLA AGENTE-->
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-grid 
+						id="grid-agente"
+						fn-exportar-excel = "formData.exportarExcel1"
+						configuracion = "confBasicaAgente"
+						seleccionado = "seleccionGrillaAgente">
+					</bcs-grid>
+				</div>
+			</div>
+
+			<!-- BOTONES AGENTE-->
+			<div class="row bcs-panel-comandos">
+				<bcs-button 
+					id="MantenedorPunta_AgregarPuntasPorTramoAgente"
+					class="col-xs-2" 
+					bcs-tipo="'bcs-button-primary'"
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_GRABAR' | translate"
+					bcs-habilitado="data.bloqueoGrabarPuntasAgente"
+					bcs-clic="data.AgregarPuntasPorTramo('Agente')"
+				></bcs-button>
+				<bcs-button 
+					id="MantenedorPunta_IngresoNuevoTramoAgente"
+					class="col-xs-2" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="false" bcs-texto="'UI_NUEVO' | translate"
+					bcs-habilitado="true"
+					bcs-clic="data.IngresoNuevoTramo('Agente')"
+				></bcs-button>
+				<bcs-button 
+					id="MantenedorPunta_EliminaTramoAgente"
+					class="col-xs-2" 
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-auto-desactivar="'true'" bcs-texto="'UI_ELIMINAR' | translate"
+					bcs-habilitado="true"
+					bcs-clic="data.EliminaTramo(seleccionGrillaAgente)"
+				></bcs-button>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-2 alignButtonsToRight">
+					<bcs-menu class="col-xs-8" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">
+						<li ng-click="formData.exportarExcel1()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+					</bcs-menu>
+				</div>	
+			</div>
+			</uib-tab>
+			
+			<!-- PESTAÑA CLIENTE -->
+			<uib-tab heading="{{'UI_CLIENTE' | translate}}">
+			<div class="row">
+				<div class="col-xs-6">
+					<bcs-input-checkbox 
+						class="col-xs-1" 
+						id="UI_IGUALAR_MARGENES"
+						ng-model="data.IgualarMargenes" 
+						k-ng-model="data.kngIgualarMargenes"
+						>
+					</bcs-input-checkbox>
+					<label class="col-xs-6" translate>UI_IGUALAR_MARGENES</label>
+				</div>
+			</div>
+			<!-- GRILLA CLIENTE-->
+			<div class="row">
+				<div class="col-xs-12">
+					<bcs-grid 	
+					id="grid-cliente"
+					fn-exportar-excel = "formData.exportarExcel2"
+					configuracion="confBasicaCliente"
+					seleccionado="seleccionGrillaCliente"
+					> 
+					</bcs-grid>
+				</div>
+			</div>
+			<!-- BOTONES CLIENTE-->
+			<div class="row bcs-panel-comandos">
+				<bcs-button 
+						id="MantenedorPunta_AgregarPuntasPorTramoCliente"
+						class="col-xs-2" 
+						bcs-tipo="'bcs-button-primary'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_GRABAR' | translate"
+						bcs-habilitado="data.bloqueoGrabarPuntasCliente"
+						bcs-clic="data.AgregarPuntasPorTramo('Cliente')"
+				></bcs-button>
+				<bcs-button 
+						id="MantenedorPunta_IngresoNuevoTramoCliente"
+						class="col-xs-2" 
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_NUEVO' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.IngresoNuevoTramo('Cliente')"
+				 ></bcs-button>
+				<bcs-button
+						id="MantenedorPunta_EliminaTramoCliente"
+						class="col-xs-2" 
+						bcs-tipo="'bcs-button-secondary'"
+						bcs-auto-desactivar="'true'" 
+						bcs-texto="'UI_ELIMINAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="data.EliminaTramo(seleccionGrillaCliente)"
+				></bcs-button>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-2 alignButtonsToRight">
+					<bcs-menu class="col-xs-8" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" bcs-tipo="'bcs-button-secondary'">
+						<li ng-click="formData.exportarExcel2()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+					</bcs-menu>
+				</div>
+			</div>
+		</uib-tab> 
+		</uib-tabset>
+		</div>
+</div>
+</form>
+</div>

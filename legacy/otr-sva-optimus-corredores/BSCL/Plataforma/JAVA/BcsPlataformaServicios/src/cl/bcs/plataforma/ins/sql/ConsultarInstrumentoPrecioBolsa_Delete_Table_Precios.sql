@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Custodia.BD::GBL.ConsultarInstrumentoPrecioBolsa_Insert_Tabla_Paso";

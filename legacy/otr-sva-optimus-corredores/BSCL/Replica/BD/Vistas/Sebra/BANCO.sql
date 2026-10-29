@@ -1,0 +1,31 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::Sebra.BANCO"; 
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::Sebra.BANCO" AS
+
+SELECT
+	CASE BAN."CodigoBanco" WHEN '' THEN LEFT(CAST("IdBanco" AS VARCHAR),4)
+	ELSE LEFT(BAN."CodigoBanco",4) END  AS "BAN_ID",
+	LEFT(BAN."CodigoBanco",10)  AS "BAN_CODIGO",
+	CAST(BAN."NombreBanco" AS VARCHAR(30))  AS "BAN_NOMBRE",
+	COALESCE(CAST(
+		CASE 
+			WHEN BAN."NombreBanco" LIKE '%BANCO DE %' THEN REPLACE(BAN."NombreBanco", 'BANCO DE ', '')
+			WHEN BAN."NombreBanco" LIKE '%BANCO %' THEN REPLACE(BAN."NombreBanco",'BANCO ', '')
+			ELSE BAN."NombreBanco" END AS VARCHAR(10)),'')  AS "BAN_EMISOR",
+	CAST('' AS VARCHAR(10))  AS "BAN_EQUIVALE",
+	CAST('N' AS VARCHAR(1)) AS "BAN_PAG_RESCATE",
+	CAST(CASE WHEN BAN."IdPaisOperacion" = 44 THEN 'N' ELSE 'S' END AS VARCHAR(1)) AS "BAN_IND_INT",
+	CAST('B' AS VARCHAR(1)) AS "BAN_IND_TIPO",
+	CAST('' AS VARCHAR(11))  AS "BAN_COD_SWIFT",
+	CAST('' AS VARCHAR(11))  AS "BAN_COD_SWIFTH",
+	CAST('' AS VARCHAR(9))  AS "BAN_COD_ABA",
+	CAST('' AS VARCHAR(34))  AS "BAN_COD_IBAN",
+	COALESCE(CAST(DOC."DocumentoIdentidad" AS VARCHAR(11)),'')  AS "BAN_RUT_BANCO"
+FROM "BSCL.Plataforma.BD::BAN.Banco" BAN
+INNER JOIN "BSCL.SocioNegocio.BD::PER.Persona" PER ON PER."IdPersona" = BAN."IdPersona"
+LEFT JOIN "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" DOC ON DOC."IdDocumentoIdentidad" = PER."IdDocumentoIdentidad"
+WHERE LENGTH(BAN."NombreBanco") > 0 and BAN."IdPersona" > 0 --and PER."IdEstado" != 'BLO'
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::Sebra.BANCO" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

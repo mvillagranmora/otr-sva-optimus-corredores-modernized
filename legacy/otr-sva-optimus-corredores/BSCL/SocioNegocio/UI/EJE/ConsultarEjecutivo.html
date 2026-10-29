@@ -1,0 +1,135 @@
+<div id="ConsultarEjecutivo" class="col-xs-12" ng-controller="ConsultarEjecutivoCtrl">
+	<div class="row bcs-cuerpo">
+		<!-- INICIO FILTROS -->
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_SUPERVISOR</label>
+				  		<bcs-combobox-base 
+							tipo="'combobox-supervisor'" 
+							class="col-xs-9"
+							id-actual="data.IdEmpleadoSupervisor"
+							id-defecto= "data.IdEmpleadoSupervisorDefecto"
+							todos="'N'">
+						</bcs-combobox-base>
+					</div>
+			  	</div>
+				<div class="row">
+					<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_NOMBRE_EJECUTIVO</label>
+						<bcs-input-texto class="col-xs-9" ng-model="data.NombreEjecutivoFiltro"></bcs-input-texto>
+					</div>
+			  	</div>
+				<div class="row">
+				  	<div class="col-xs-12">
+				  		<label class="col-xs-3" translate>UI_CODIGO_EMPLEADO_EJECUTIVO</label>
+				  		<bcs-input-texto class="col-xs-9" ng-model="data.CodigoEmpleadoEjecutivoFiltro"></bcs-input-texto>
+					</div>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"  bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true"  bcs-clic="buscar()"></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"  bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true"  bcs-clic="limpiarFiltros()"></bcs-button>
+				</div>
+		  	</div>
+		</div>
+		<div class="row">
+			<bcs-grid 
+				id="grid-ejecutivo"
+			 	configuracion = "gridEjecutivo"
+				seleccionado = "seleccionGrilla"
+				fn-exportar-excel = "exportarExcel" 
+				fn-doble-click="Clientes()">				
+			</bcs-grid>
+		</div>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-11>
+			<bcs-button class="col-xs-1" 
+				id="ConsultarEjecutivo_Ingresar"
+				style="width: 9%;"
+				bcs-tipo="'bcs-button-primary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR' | translate" 
+				bcs-habilitado="'true'" 
+				bcs-clic="Ingresar()">
+			</bcs-button>	
+			<bcs-button class="col-xs-1" 
+				id="ConsultarEjecutivo_Bloquear"
+				style="width: 9%;"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_BLOQUEAR' | translate" 
+				bcs-habilitado="seleccionGrilla" 
+				
+				bcs-clic="Bloquear()">
+			</bcs-button>	
+			<bcs-button class="col-xs-2"
+				id="ConsultarEjecutivo_DesBloquear"
+				style="width: 11%;"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_DESBLOQUEAR' | translate" 
+				bcs-habilitado="seleccionGrilla" 
+				
+				bcs-clic="Desbloquear()">
+			</bcs-button>	
+			<bcs-button class="col-xs-1" 
+				id="ConsultarEjecutivo_Clientes"
+				style="width: 9%;"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_CLIENTES' | translate" 
+				bcs-habilitado="seleccionGrilla" 
+				bcs-clic="Clientes()">
+			</bcs-button>	
+			<bcs-button class="col-xs-1" 
+				id="ConsultarEjecutivo_Reemplazos"
+				style="width: 10%;"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_REEMPLAZOS' | translate" 
+				bcs-habilitado="seleccionGrilla" 
+				bcs-clic="Reemplazo()">
+			</bcs-button>
+			<bcs-button class="col-xs-1"
+				id="ConsultarEjecutivo_Trasnferir"
+				style="width: 9%;"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_TRANSFERIR' | translate" 
+				bcs-habilitado="seleccionGrilla" 
+				bcs-clic="TransferirClientes()">
+			</bcs-button>	
+			<bcs-button class="col-xs-2"
+				id="ConsultarEjecutivo_Clientes"
+				style="width: 27%;"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_ACTUALIZAR_SUPERVISOR_A_EJECUTIVO' | translate" 
+				bcs-habilitado="seleccionGrilla" 
+				bcs-clic="ventanaModificarSupervisor()">
+			</bcs-button>
+			
+			<bcs-button class="col-xs-2" 
+				id="ConsultarEjecutivo_QuitarReemplazo"
+				style="width: 14%;"
+				bcs-tipo="'bcs-button-secondary'" 
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_QUITAR_REEMPLAZO' | translate" 
+				bcs-habilitado="seleccionGrilla[0].NombreCompletoReemplaza" 
+				bcs-clic="EliminarReemplazo()">
+			</bcs-button>
+		</div>
+		<div class="col-xs-1 alignButtonsToRight">
+			<bcs-menu bcs-habilitado="'true'" class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+	            <li id="ConsultarEjecutivo_Recarterizacion" ng-click="recarterizacionMasivaClientes()">{{'UI_RECARTERIZACION_MASIVA_CLIENTES' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

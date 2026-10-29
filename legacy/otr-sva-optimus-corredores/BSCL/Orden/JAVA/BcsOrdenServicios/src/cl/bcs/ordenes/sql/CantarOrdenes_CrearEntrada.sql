@@ -1,0 +1,1 @@
+create local temporary table #entrada_cantar_ordenes ("IdOrden" BIGINT ,"IdInterno" BIGINT)

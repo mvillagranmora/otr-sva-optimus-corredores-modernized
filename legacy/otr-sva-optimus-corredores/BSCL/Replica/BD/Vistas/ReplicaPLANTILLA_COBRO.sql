@@ -1,0 +1,49 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaPLANTILLA_COBRO";
+
+-- SELECT  *  FROM "BSCL.Replica.BD.Vistas::ReplicaPLANTILLA_COBRO"  order by  PAR_TPC_ID, pro_id , ope_id, COB_ID
+--SELECT  *  FROM "BSCL.Replica.BD.Vistas::ReplicaPLANTILLA_COBRO"  WHERE "PAR_TPC_ID" = 'MBI0'
+
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaPLANTILLA_COBRO" AS
+
+		SELECT 
+			WST."IdStack" AS "IDSTACK", "Action" AS ACTION,
+			PC."PAR_TPC_ID" || ':' || PC."MERCADO" || ':' || PC."PRO_ID" || ':' || PC."OPE_ID"|| ':' || PC."COB_ID"  AS TABLE_KEY, -- 
+			PC."PAR_TPC_ID",
+			PC."MERCADO",
+			PC."PRO_ID",
+			PC."OPE_ID",
+			PC."COB_ID",
+			PC."PCO_IND_AMB",
+			PC."PCO_IND_DEFINIDO",
+			PC."PCO_PERIODO",
+			PC."PCO_VAL_CARGO",
+			PC."PCO_UNI_CARGO",
+			PC."PCO_TIP_VAR",
+			PC."PCO_VAL_VAR",
+			PC."PCO_MIN_MONEDA",
+			PC."PCO_ESP_SIMPLAZO",
+			PC."PCO_ESP_VALPLAZO",
+			PC."PCO_ESP_EMISOR",
+			PC."PAR_BEN_TIPO",
+			PC."PCO_BEN_META",
+			PC."PCO_BEN_UNIDAD",
+			PC."PCO_BEN_MONEDA",
+			PC."PCO_PORCENTAJE_AGRESOR",
+			PC."PCO_PORCENTAJE_AGREDIDO",
+			PC."PCO_PORCENTAJE_OD",
+			PC."IDROW"
+
+		FROM  "BSCL.Replica.BD.Vistas::Sebra.PLANTILLA_COBRO" PC
+		LEFT  JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'PLANTILLA_COBRO' AND WST."Key" = PC."PAR_TPC_ID" || ':' || PC."MERCADO" || ':' || PC."PRO_ID" || ':' || PC."OPE_ID"|| ':' || PC."COB_ID"
+
+		
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaPLANTILLA_COBRO" TO  BCS_DESARROLLADOR WITH GRANT OPTION;
+
+
+
+
+

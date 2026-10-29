@@ -1,0 +1,793 @@
+<div ng-controller="IngresarOrdenRFCtrl as ordenRF">	
+	<form ng-show="ordenRF.win.modo === 'INGRESO'" name="IngresarOrdenRFForm">
+		<div class="row">
+			<div class="row" style="min-height: 430px;">
+				<!-- INICIO BLOQUE DATOS INGRESO -->
+				<div class="row">
+					<!-- FILA -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label translate class="col-xs-4">UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base 
+								id 						= "IngresarOrdenRFForm_comboPortafolio"
+							 	class					= "col-xs-8"
+							 	tipo					= "'combobox-cliente-portafolio'"
+							    filtros					= "ordenRF.filtros.portafolio"
+					            bcs-requerido			= "true"
+							    muestra-enlace			= "'S'"
+							    cascada-a				= "ordenRF.filtros.preferenciaPagoPortafolio.IdPortafolio"
+								cascada-valor			= "'IdPortafolio'"
+								cascada1-a				= "ordenRF.filtros.autorizadoDarOrdenes.IdPortafolio"
+								cascada1-valor			= "'IdPortafolio'"
+								cascada2-a				= "ordenRF.filtros.cuentaCustodio.IdPortafolio"
+								cascada2-valor			= "'IdPortafolio'"
+								cascada3-a              = "ordenRF.filtros.mecanismoDeCaptacion.filtros.IdEntidad"
+                                cascada3-valor          = "'IdPortafolio'"
+								id-actual				= "ordenRF.datos.idPortafolio"
+								id-defecto				= "ordenRF.datosDef.idPortafolio"
+								seleccionado 			= "ordenRF.seleccionado.portafolio">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-5">
+							<label class="col-xs-4" ng-show = "SesionLocale === 'PE'"   translate>UI_LIBRO_ORDENES</label>
+							<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "SesionLocale === 'PE'"
+								ng-show 				= "SesionLocale === 'PE'"  
+								tipo					= "'combobox-libro-orden'"
+								id-actual				= "ordenRF.datos.idLibroOrdenes"
+								id-defecto				= "ordenRF.datosDef.idLibroOrdenes"
+								seleccionado			= "ordenRF.seleccionado.libroOrdenes"
+								filtros					= "ordenRF.filtros.libroOrdenes">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<!-- FILA -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_AUTORIZADOR</label>
+							<bcs-combobox-base
+								class					= "col-xs-8"
+								bcs-requerido 			= "ordenRF.seleccionado.portafolio.TipoPersona === 'J'"
+								tipo					= "'combobox-autorizado-dar-ordenes'"
+								id-actual				= "ordenRF.datos.idAutorizadoDarOrdenes"
+								id-defecto				= "ordenRF.datosDef.idAutorizadoDarOrdenes"
+								seleccionado			= "ordenRF.seleccionado.autorizadoDarOrdenes"
+								filtros					= "ordenRF.filtros.autorizadoDarOrdenes">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-5">
+							<label class="col-xs-4" translate>UI_MECANISMO_DE_CAPTACION</label>
+							<bcs-combobox-base 
+							    class                   = "col-xs-8"
+                                auto-seleccion          = "'true'"
+								bcs-requerido           = "true"
+								filtros                 = "ordenRF.filtros.mecanismoDeCaptacion.filtros"
+								tipo	                = "'combobox-detalle-tipo-atributo-entidad-json'"
+								auto-cargar             = "'false'"
+								seleccionado		    = "ordenRF.seleccionado.mecanismoDeCaptacion">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<hr>
+					<!-- FILA -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_OPERACION</label>
+							<bcs-combobox-base 
+								id 						= "IngresarOrdenRFForm_comboOperacion"
+								class					= "col-xs-5"
+								bcs-requerido 			= "true"
+								tipo					= "'combobox-compra-venta'"
+								id-actual				= "ordenRF.datos.idOperacion"
+								id-defecto				= "ordenRF.datosDef.idOperacion"
+								seleccionado			= "ordenRF.seleccionado.operacion"
+								filtros					= "ordenRF.filtros.operacion"
+								cascada-a				= "ordenRF.filtros.condicionLiquidacion.IdTipoOperacion"
+								cascada-valor			= "'IdTipoOperacion'"
+								cascada1-a				= "ordenRF.filtros.preferenciaPagoPortafolio.IdTipoOperacion"
+								cascada1-valor			= "'IdTipoOperacion'">
+							</bcs-combobox-base>
+							<div class="col-xs-3" style="font-weight: bold;">
+								<bcs-input-checkbox
+									style="padding-left: 7px;"
+									id = "IngresarOrdenRFForm_checkVentaCorta" 
+									ng-disabled="ordenRF.datos.showVentaCorta" 
+									ng-model="ordenRF.datos.esVentaCorta">
+								</bcs-input-checkbox>&nbsp;{{'UI_VENTA_CORTA' | translate}}
+							</div>
+						</div>
+						<div class="col-xs-5"></div>
+					</div>
+					<!-- FILA -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+							<bcs-input-instrumentos
+								id 						= "IngresarOrdenRFForm_inputInstrumentos"  
+								class					= "col-xs-8" 
+								bcs-requerido
+								buscar-instrumento		= "ordenRF.datos.instrumentoBuscar" 
+								datos-instrumento		= "ordenRF.datos.instrumento" 
+								muestra-precio 			= "'N'" 
+								consulta-precio 		= "'S'" 
+								filtro-estado 			= "'ACT'"
+								filtro-solo-vigentes	= "'S'"
+								modo					= "FLJORD"
+								filtro-flujo-custodia	= "FLUJO_ORDEN"
+								filtro-clasificacion	= "ordenRF.filtros.instrumento.clasificacion" 
+								filtro-tipo-instrumento = "ordenRF.filtros.instrumento.tipoInstrumento"
+								valida-flujo-custodia 	= "ordenRF.datosDef.validaFlujoCustodia"
+								id-portafolio			= "ordenRF.seleccionado.portafolio.IdPortafolio"
+								id-boveda				= "ordenRF.seleccionado.boveda.IdBoveda">
+							</bcs-input-instrumentos>
+						</div>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-5">
+							<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+							<bcs-input-texto 
+								bcs-requerido			= "false"
+				 				k-ng-disabled			= "true" 
+				 				class					= "col-xs-8" 
+				 				ng-model				= "ordenRF.datos.instrumento.NombreTipoInstrumento">
+				 			</bcs-input-texto>
+						</div>
+					</div>
+					<!-- FILA -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_BOLSA_DESTINO</label>
+							<bcs-combobox-base
+								id 						= "IngresarOrdenRFForm_comboBolsa" 
+								class					= "col-xs-8"
+								bcs-requerido			= "true"
+								tipo					= "'combobox-bolsa-instrumento'"
+								item-post-filtro		= "'1'"
+								todos 					= "'N'"
+								seleccionado			= "ordenRF.seleccionado.bolsaDestino" 
+								id-actual				= "ordenRF.datos.idBolsaDestino" 
+								id-defecto				= "ordenRF.datosDef.idBolsaDestino"
+								id-post-filtro			= "ordenRF.datosDef.idBolsaDestino"
+								filtros					= "ordenRF.filtros.bolsaDestino"
+								cascada-a				= "ordenRF.filtros.corredorCorresponsal.IdPais"
+								cascada-valor			= "'IdPais'">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-5">
+							<label class="col-xs-4" translate>UI_FORMA_NEGOCIACION</label>
+							<bcs-combobox-base
+								id 						= "IngresarOrdenRFForm_comboSistemaBursatil" 
+								class					= "col-xs-8"
+								bcs-requerido			= "ordenRF.activado.idSistemaBursatil"
+								tipo					= "'combobox-sistema-bursatil'"
+								item-post-filtro		= "'1'"
+								todos 					= "'N'"
+								id-actual				= "ordenRF.datos.idSistemaBursatil" 
+								id-defecto				= "ordenRF.datosDef.idSistemaBursatil"
+								seleccionado			= "ordenRF.seleccionado.sistemaBursatil" 
+								filtros					= "ordenRF.filtros.sistemaBursatil"
+								activado				= "ordenRF.activado.idSistemaBursatil">
+							</bcs-combobox-base>
+						</div>
+					</div>
+					<!-- FIN BLOQUE INGRESO INFORMACION -->
+					<hr>
+					<!-- INICIO BLOQUE INGRESO VALORES -->
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="row">
+								<label class="col-xs-4" translate>UI_CANTIDAD</label>
+								<bcs-input-numero 
+									id 					= "IngresarOrdenRFForm_Cantidad" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "false" 
+									simbolo				= "ordenRF.datosConfig.cantidadSimbolo" 
+									decimales			= "ordenRF.datosConfig.cantidadDecimales"
+									k-ng-model			= "ordenRF.datos.cantidad">
+								</bcs-input-numero>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_CORTE_MINIMO</label>
+								<bcs-input-monetario
+									id 					= "IngresarOrdenRFForm_inputCorteMinimo" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "true"
+									simbolo				= "ordenRF.datosConfig.corteMinimoSimbolo" 
+									decimales 			= "ordenRF.datosConfig.corteMinimoDecimales"
+									k-ng-model			= "ordenRF.datos.corteMinimo">
+								</bcs-input-monetario>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_VALOR_NOMINAL</label>
+								<bcs-input-monetario 
+									id 					= "IngresarOrdenRFForm_inputValorNominal" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "false"
+									simbolo				= "ordenRF.datosConfig.valorNominalSimbolo" 
+									decimales 			= "ordenRF.datosConfig.valorNominalDecimales"
+									k-ng-model			= "ordenRF.datos.valorNominal">
+					 			</bcs-input-monetario>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_PRECIO</label>
+								<bcs-input-monetario
+									id 					= "IngresarOrdenRFForm_inputPrecio" 
+									class				= "col-xs-5" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "false"
+									simbolo				= "ordenRF.datosConfig.precioSimbolo" 
+									decimales 			= "ordenRF.datosConfig.precioDecimales"
+									k-ng-model			= "ordenRF.datos.precio">
+					 			</bcs-input-monetario>					
+								 <bcs-button 
+								 class= "col-xs-3"  
+								 bcs-tipo= "'bcs-button-input-form'"
+								 bcs-auto-desactivar="false"
+								 bcs-texto="'UI_VALORIZAR' | translate" 
+								 bcs-habilitado="'true'"
+								 bcs-clic="ordenRF.win.valorizar('')">
+								</bcs-button>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_TASA</label>
+								<bcs-input-porcentaje
+									id 					= "IngresarOrdenRFForm_inputTIR" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "false"
+									simbolo				= "ordenRF.datosConfig.tirSimbolo" 
+									decimales 			= "ordenRF.datosConfig.tirDecimales"
+									k-ng-model			= "ordenRF.datos.tir"
+									permite-negativo	= "true">
+					 			</bcs-input-porcentaje>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+								<bcs-input-condicion-liquidacion
+									id							= "IngresarOrdenRFForm_inputCondicionLiquidacion"
+									class 						= "col-xs-8"
+									bcs-requerido				= "true"
+									set-id-condicion-liquidacion = "'T0'"
+									fecha-inicial				= "ordenRF.datosConfig.fechaInicial"
+									id-tipo-operacion 			= "ordenRF.datos.idTipoOperacion"
+									activado					= "true"
+									filtros						= "ordenRF.datosConfig.filtrosCondicionDeLiquidacion"
+									id-condicion-de-liquidacion	= "ordenRF.datos.idCondicionLiquidacion"
+									condicion-de-liquidacion 	= "ordenRF.seleccionado.condicionLiquidacion"
+									fecha-liquidacion			= "ordenRF.datos.fechaLiquidacion">
+								</bcs-input-condicion-liquidacion>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_TIPO_PRECIO</label>
+								<bcs-combobox-base
+									id 					= "IngresarOrdenRFForm_comboTipoPrecio" 
+									class				= "col-xs-8"
+									bcs-requerido 		= "true"
+									activado			= "false"
+									tipo				= "'combobox-tipo-precio'"
+									seleccionado		= "ordenRF.seleccionado.tipoPrecioSeleccionado"
+									id-actual			= "ordenRF.datos.idTipoPrecio"
+									id-defecto 			= "ordenRF.datosDef.idTipoPrecio"
+									filtros				= "ordenRF.filtros.tipoPrecio">
+								</bcs-combobox-base >
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_VIGENCIA</label>
+								<bcs-combobox-base
+									id 					= "IngresarOrdenRFForm_comboTipoVigencia" 
+									class				= "col-xs-4"
+									bcs-requerido		= "true"
+									tipo				= "'combobox-tipo-fecha-vigencia-orden'"
+									id-actual 			= "ordenRF.datos.idTipoVigencia"
+									id-defecto 			= "ordenRF.datosDef.idTipoVigencia"
+									seleccionado		= "ordenRF.seleccionado.tipoVigencia"
+									filtros				= "ordenRF.filtros.tipoVigencia">
+								</bcs-combobox-base >	
+								<bcs-input-date
+									id 					= "IngresarOrdenRFForm_inputFechaVigencia" 
+									class				= "col-xs-4"
+									k-ng-model			= "ordenRF.datos.fechaVigencia" 
+									k-ng-disabled 		= "ordenRF.seleccionado.tipoVigencia.IdTipoVigenciaOrden!=='FF'">
+								</bcs-input-date>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_MONEDA_LIQUIDACION</label>
+								<bcs-combobox-base 
+								 	id 					= "IngresarOrdenRFForm_comboMonedaLiquidacion" 
+								 	class				= "col-xs-8"
+								 	auto-cargar			= "false"
+								 	activado			= "false"
+								 	bcs-requerido		= "true"
+								    tipo				= "'combobox-tipo-instrumento-moneda-liquidacion'"
+								    id-actual 			= "ordenRF.datos.idMonedaLiquidacion"
+								    id-defecto			= "ordenRF.datosDef.idMonedaLiquidacion"
+								    seleccionado		= "ordenRF.seleccionado.monedaLiquidacion"
+								    filtros 			= "ordenRF.filtros.monedaLiquidacion"
+								    cascada1-a			= "ordenRF.filtros.preferenciaPagoPortafolio.IdMoneda"
+									cascada1-valor		= "'IdMonedaLiquidacion'">
+								</bcs-combobox-base >
+							</div>
+						</div>
+						<div class="col-xs-1"></div>
+						<!-- INICIO BLOQUE VALORIZACION -->
+						<div class="col-xs-5">
+							<div class="row" style="border-bottom:1px solid rgb(201, 201, 201);">
+								<div class="col-xs-8">
+									<label class="col-xs-3" style="color:green" translate>UI_TIR_MEDIA</label>
+									<label class="col-xs-3" style="color:green" translate>{{ordenRF.datos.tirMedia | kformat:'n':ordenRF.datos.idMonedaLiquidacion:'tasa': 'GEN'}}</label>
+									<label class="col-xs-4" style="color:red; width: 27%;" translate>UI_PRECIO_MEDIO</label>
+									<label class="col-xs-2 textOverflow" style="color:red; width: 23%;" translate>{{ordenRF.datos.precioMedio | kformat:'n':ordenRF.datos.idMonedaLiquidacion:'precio': 'GEN'}}</label>
+								</div>
+								<div class="col-xs-4">
+									<label class="col-xs-5" translate>UI_DURATION</label>
+									<label class="col-xs-2" translate>{{ordenRF.datos.duration}}</label>
+									<label class="col-xs-5 textOverflow" style="color:red" translate>{{ordenRF.datos.valorTieneCall?'UI_VALOR_TIENE_CALL':''}}</label>
+								</div>
+							</div>
+							<div class="row" style="border-bottom:1px solid rgb(201, 201, 201);">
+								<div class="col-xs-7">
+									<label class="col-xs-4" style="width: 29%;" translate>UI_TIR_EMISION</label>
+									<label class="col-xs-3 textOverflow" style="width: 28%;" translate>{{ordenRF.datos.tirEmision | kformat:'n':ordenRF.datos.idMonedaLiquidacion:'tasa': 'GEN'}}</label>
+									<label class="col-xs-4" style="width: 31%;" translate>UI_CLASIF_RIESGO</label>
+									<label class="col-xs-1 textOverflow" style="width: 11%;" translate>{{ordenRF.datos.clasifRiesgo}}</label>
+								</div>
+								<div class="col-xs-5">
+									<label class="col-xs-4" translate>UI_DURACION</label>
+									<label class="col-xs-2 textOverflow" translate>{{ordenRF.datos.duracion}}</label>
+									<label class="col-xs-4" translate>UI_CONVEXIDAD</label>
+									<label class="col-xs-2 textOverflow" translate>{{ordenRF.datos.convexidad}}</label>
+								</div>
+							</div>
+							<div class="row">&nbsp</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_MONTO_CAPITAL</label>
+								<bcs-input-monetario 
+									id 					= "IngresarOrdenRFForm_valorValorizado" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "true"
+									simbolo				= "ordenRF.datosConfig.valorValorizadoSimbolo" 
+									decimales 			= "ordenRF.datosConfig.valorValorizadoDecimales"
+									k-ng-model			= "ordenRF.datos.valorValorizado">
+					 			</bcs-input-monetario>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_INTERESES_CORRIDOS</label>
+								<bcs-input-monetario
+									id 					= "IngresarOrdenRFForm_interesesCorridos" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "true"
+									simbolo				= "ordenRF.datosConfig.interesesCorridosSimbolo" 
+									decimales 			= "ordenRF.datosConfig.interesesCorridosDecimales"
+									k-ng-model			= "ordenRF.datos.interesesCorridos">
+					 			</bcs-input-monetario>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_REAJUSTES_VAC_CORRIDO</label>
+								<bcs-input-monetario 
+									id 					= "IngresarOrdenRFForm_reajustesVacCorrido" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "true"
+									simbolo				= "ordenRF.datosConfig.reajustesVacCorridoSimbolo" 
+									decimales 			= "ordenRF.datosConfig.reajustesVacCorridoDecimales"
+									k-ng-model			= "ordenRF.datos.reajustesVacCorrido">
+					 			</bcs-input-monetario>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_MONTO_TOTAL</label>
+								<bcs-input-monetario 
+									id 					= "IngresarOrdenRFForm_valorActualizado" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "true"
+									simbolo				= "ordenRF.datosConfig.valorActualizadoSimbolo" 
+									decimales 			= "ordenRF.datosConfig.valorActualizadoDecimales"
+									k-ng-model			= "ordenRF.datos.valorActualizado">
+							</div> 
+							<div class="row">&nbsp</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_PRECIO_SUCIO</label>
+								<bcs-input-monetario 
+									id 					= "IngresarOrdenRFForm_precioSucio" 
+									class				= "col-xs-5" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "true"
+									simbolo				= "ordenRF.datosConfig.precioSucioSimbolo" 
+									decimales 			= "ordenRF.datosConfig.precioSucioDecimales"
+									k-ng-model			= "ordenRF.datos.precioSucio">
+					 			</bcs-input-monetario>
+					 			<bcs-button 
+					 				id					= "IngresarOrdenRFForm_btnValorizar"
+									ng-show 			= "SesionLocale === 'PE'"  
+					 				bcs-clic			= "ordenRF.win.calcularSucio()"  
+					 				class				= "col-xs-3" 
+					 				bcs-tipo			= "'bcs-button-input-form'" 
+					 				bcs-auto-desactivar	= "false" 
+					 				bcs-texto			= "'UI_CALCULAR' | translate" 
+					 				bcs-habilitado		= "'true'">
+					 			</bcs-button>
+							</div>
+							<div class="row">
+								<label class="col-xs-4" translate>UI_TIR_NETA</label>
+								<bcs-input-monetario 
+									id 					= "IngresarOrdenRFForm_tirNeta" 
+									class				= "col-xs-8" 
+									bcs-requerido 		= "false"
+									k-ng-disabled		= "true"
+									simbolo				= "ordenRF.datosConfig.tirNetaSimbolo" 
+									decimales 			= "ordenRF.datosConfig.tirNetaDecimales"
+									k-ng-model			= "ordenRF.datos.tirNeta">
+					 			</bcs-input-monetario>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<!-- SALDOS -->
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-4" translate>UI_SALDO_CAJA</label>
+							<bcs-saldo-cta-inversion
+								id 					= "IngresarOrdenRFForm_saldoCaja"
+								class				= "col-xs-8"
+								uso 				= "'ORDENES_DE_COMPRA'"
+								id-moneda 			= "ordenRF.seleccionado.monedaLiquidacion.IdMonedaLiquidacion"
+								id-portafolio 		= "ordenRF.seleccionado.portafolio.IdPortafolio"
+								fecha-saldo 		= "ordenRF.datos.fechaLiquidacion">
+							</bcs-saldo-cta-inversion>
+						</div>
+						<div class="col-xs-1"></div>
+						<div class="col-xs-5">
+							<label class="col-xs-4" translate>UI_SALDO_CUSTODIA</label>
+							<bcs-saldo-custodia
+								id 						= "IngresarOrdenRFForm_saldoCustodia"
+								class					= "col-xs-8"
+								uso-flujo-custodia 		= "'FLJORD'"
+								filtro-flujo-custodia 	= "'FLUJO_ORDEN'"
+								id-boveda 			= "ordenRF.seleccionado.boveda.IdBoveda"
+								id-instrumento 			= "ordenRF.datos.instrumento.IdInstrumento"
+								id-portafolio 			= "ordenRF.seleccionado.portafolio.IdPortafolio"				
+								fecha-saldo 			= "ordenRF.datos.fechaLiquidacion">
+							</bcs-saldo-custodia>
+						</div>
+					</div>
+				</div>
+				<!-- FIN BLOQUE DATOS INGRESO -->
+				<hr>
+				<!-- BLOQUE TABS -->
+				<uib-tabset>
+					<uib-tab ng-click='tabClick()' active="ordenRF.datosForm.tabResumenActive" heading="{{'UI_RESUMEN' | translate}}">
+						<div class="row" style="min-height: 140px;">
+							<bcs-resumen-orden
+								class 						= "col-xs-12"
+								style						= "font-size: 11px;"
+								valor-allin 				= "ordenRF.datos.valorAllin"
+								usa-allin 					= "ordenRF.datos.usaAllin"
+								porcentaje-cobros 			= "ordenRF.datos.operacionSalida[0].porcentajeCobros"
+								cantidad 					= "ordenRF.datos.operacionesSalida[0].cantidadCalculada"
+								monto-operacion 			= "ordenRF.datos.operacionesSalida[0].montoOperacionCalculado"
+								monto-operacion-liquidacion	= "ordenRF.datos.operacionesSalida[0].montoLiquidacionCalculado"
+								total-cobros 				= "ordenRF.datos.operacionesSalida[0].totalCobros"
+								total-orden 				= "ordenRF.datos.operacionesSalida[0].totalOrden"
+								id-moneda-liquidacion 		= "ordenRF.seleccionado.monedaLiquidacion.IdMonedaLiquidacion"
+								id-moneda-operacion 		= "ordenRF.datos.instrumento.IdMoneda">
+							</bcs-resumen-orden>
+						</div>
+					</uib-tab>
+					<uib-tab ng-click='tabClick()' active="ordenRF.datosForm.tabMasDatosActive" heading="{{'UI_MAS_DATOS' | translate}}">
+						<div class="row" style="min-height: 140px;">
+							<div class="row">
+								<label class="col-xs-2" translate>UI_PAGO_COBRO_CON_CTA_INVERSION</label>
+								<bcs-input-checkbox 
+									id = "IngresarOrdenRFForm_pagoCobroCuentaInversion" 
+									class="col-xs-3"
+									ng-disabled="ordenRF.datos.pagoCobroCuentaInversionDisabled" 
+									ng-model="ordenRF.datos.pagoCobroCuentaInversion">
+								</bcs-input-checkbox>
+								<label class="col-xs-2 col-xs-offset-2" translate>UI_FORMA_DE_PAGO_COBRO</label>
+								<bcs-combobox-base
+									id = "IngresarOrdenRFForm_comboFormaDePago" 
+									class="col-xs-3"
+									usa-filtros-completos = "'S'"
+									activado = "!ordenRF.datos.pagoCobroCuentaInversion"
+									filtros = "ordenRF.filtros.preferenciaPagoPortafolio"
+									tipo="'combobox-preferencia-pago-portafolio'"
+									id-actual = "ordenRF.datos.idPreferenciaPagoPortafolio"
+									seleccionado="ordenRF.seleccionado.preferenciaPagoPortafolio">
+								</bcs-combobox-base>
+							</div>	
+							<div class="row">
+								<label class="col-xs-2" translate>UI_CANAL_DISTRIBUCION</label>
+								<bcs-combobox-base 
+									class				= "col-xs-3"
+									tipo				= "'combobox-canal-distribucion'"
+									id-actual			= "ordenRF.datos.idTipoCanalDistribucion"
+									id-defecto 			= "'MAN'"
+									bcs-requerido		= "true"
+									envia-todos 		= "'S'"
+									seleccionado 		= "ordenRF.seleccionado.canalDistribucion"
+									filtros				= "ordenRF.filtros.canalDistribucion">
+								</bcs-combobox-base>
+								<label class="col-xs-2 col-xs-offset-2" translate>UI_VISIBILIDAD</label>
+								<bcs-combobox-base
+									id 					= "IngresarOrdenRFForm_comboVisibilidad" 
+									class				= "col-xs-3"
+									bcs-requerido		= "true" 
+									tipo				= "'combobox-porcentaje-visibilidad-orden'"
+									id-actual 			= "ordenRF.datos.idPorcentajeVisibilidad"
+									id-defecto 			= "'1'"
+									item-post-filtro 	= "'1'"
+									seleccionado		= "ordenRF.seleccionado.porcentajeVisibilidad"
+									filtros				= "ordenRF.filtros.porcentajeVisibilidad">
+								</bcs-combobox-base >
+					 		</div>
+							<div class="row">
+								<label class="col-xs-2" translate>UI_FECHA_RECEPCION</label>
+								<bcs-input-datetime
+									id 					= "IngresarOrdenRFForm_inputFechaRecepcion"
+									class				= "col-xs-3" 
+									k-ng-model			= "ordenRF.datos.fechaRecepcion">
+								</bcs-input-datetime>
+								<label class="col-xs-2 col-xs-offset-2" translate>UI_COMENTARIO</label>
+								<bcs-input-texto 
+									class				= "col-xs-3" 
+									ng-model			= "ordenRF.datos.comentario"  
+									maxlength			= "50">
+								</bcs-input-texto>	
+							</div>
+							<div class="row">
+								<label class="col-xs-2" translate>UI_TIPO_CAMBIO_USD_CLP</label>
+								<bcs-input-monetario
+									id 					= "IngresarOrdenRFForm_inputTipoCambio"  
+									class				= "col-xs-3"
+									k-ng-disabled		= "!(ordenRF.datos.instrumento.IdMoneda&&(ordenRF.datos.instrumento.IdMoneda!=ordenRF.seleccionado.monedaLiquidacion.IdMonedaLiquidacion))"
+									simbolo				= "ordenRF.datosConfig.tipoCambioSimbolo" 
+									decimales 			= "ordenRF.datosConfig.tipoCambioDecimales"
+									k-ng-model			= "ordenRF.datos.tipoCambio">
+								</bcs-input-monetario>
+								<label class="col-xs-2 col-xs-offset-2" translate>UI_PARIDAD_REFERENCIA</label>
+								<bcs-input-texto
+									class				= "col-xs-3"
+									k-ng-disabled		= "'true'"
+									ng-model			= "ordenRF.datos.paridadReferencia">
+								</bcs-input-texto>					
+							</div>
+							<div class="row">
+					 			<label class="col-xs-2" translate>UI_CUENTA_CUSTODIO</label>
+								<bcs-combobox-base
+									id = "IngresarOrdenRFForm_comboCuentaCustodio" 
+									class="col-xs-3"
+									bcs-requerido = "SesionLocale === 'PE'"
+									tipo="'combobox-cuenta-custodio-portafolio'"
+									usa-filtros-completos = "'S'"
+									auto-seleccion = "'true'"
+									seleccionado="ordenRF.datos.cuentaCustodioSeleccionada"
+									filtros="ordenRF.filtros.cuentaCustodio"
+									cascada-a="ordenRF.filtros.boveda.IdBoveda"
+									cascada-valor="'IdBoveda'">
+								</bcs-combobox-base>
+					 			<label class="col-xs-2 col-xs-offset-2" translate>UI_CORREDOR_CORRESPONSAL</label>
+								<bcs-combobox-base 
+									class					= "col-xs-3"
+									usa-filtros-completos 	= "'S'"
+									tipo					= "'combobox-corredor-corresponsal'"
+									id-actual				= "ordenRF.datos.idCorredorCorresponsal"
+									auto-seleccion  		= "'true'"
+									bcs-requerido 			= "ordenRF.seleccionado.bolsaDestino.EsExtranjera === 'S'"
+									activado 				= "ordenRF.seleccionado.bolsaDestino.EsExtranjera === 'S'"
+									seleccionado 			= "ordenRF.seleccionado.corredorCorresponsal"
+									filtros 				= "ordenRF.filtros.corredorCorresponsal">
+								</bcs-combobox-base>
+					 		</div>
+					 		<div class="row">
+								<label class="col-xs-2" translate>UI_BOVEDA</label>
+								<bcs-combobox-base
+									id 					= "IngresarOrdenRFForm_comboBoveda" 
+									class				= "col-xs-3"
+									activado 			= "SesionLocale === 'CL'"
+									bcs-requerido		= "true"
+									id-actual 			= "ordenRF.datos.idBoveda"
+									auto-seleccion  	= "'true'"
+									tipo				= "'combobox-boveda'"
+									seleccionado		= "ordenRF.seleccionado.boveda"
+									filtros				= "ordenRF.filtros.boveda">
+								</bcs-combobox-base >
+								<label class="col-xs-2 col-xs-offset-2" translate>UI_FORMA_CUSTODIA</label>
+								<bcs-combobox-base
+									id 					= "IngresarOrdenRFForm_comboFormaCustodia" 
+									class				= "col-xs-3"
+									bcs-requerido		= "true"
+									id-actual 			= "ordenRF.datos.idFormaCustodia"
+									id-defecto 			= "'CUS'"
+									tipo				= "'combobox-forma-custodia-orden'"
+									seleccionado		= "ordenRF.seleccionado.formaCustodia"
+									filtros				= "ordenRF.filtros.formaCustodia">
+								</bcs-combobox-base>	
+							</div>
+							<div class="row">
+								<label class="col-xs-2" translate>UI_ES_ORDEN_ESPECIAL</label>
+								<bcs-input-checkbox 
+									class				= "col-xs-3"
+									ng-disabled			= "false" 
+									ng-model			= "ordenRF.datos.esOrdenEspecial">
+								</bcs-input-checkbox>
+								<label class="col-xs-2 col-xs-offset-2" translate>UI_PARA_CLIENTE_FINAL</label>
+								<bcs-input-checkbox 
+									class				= "col-xs-3"
+									ng-disabled			="ordenRF.datos.paraClienteFinalDisabled" 
+									ng-model			="ordenRF.datos.esParaClienteFinal">
+								</bcs-input-checkbox>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab ng-click='tabClick()' disable="!ordenRF.datos.operaciones[0]" heading="{{'UI_COBROS' | translate}}">
+						<div class="row" style="min-height: 140px;">
+							<bcs-cobros-orden
+								class						= "col-xs-12 bcs-cobros-ordenes"
+								id-ventana					= "ordenRF.idVentana"
+								api 						= "ordenRF.datos.apiCobros"
+								valor-allin 				= "ordenRF.datos.valorAllin"
+								usa-allin 					= "ordenRF.datos.usaAllin"
+								operaciones 				= "ordenRF.datos.operaciones"
+								operaciones-salida 			= "ordenRF.datos.operacionesSalida"
+								calculando 					= "ordenRF.win.calculandoAlgo"
+								matriz-cobros-modificados	= "ordenRF.datos.cobrosModificados">
+							</bcs-cobros-orden>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+		 		<br/>
+		 	</div>
+		 	<div class="row bcs-panel-comandos alignButtonsToRight">
+				<bcs-button 
+					id						= "UI_ACEPTAR" 
+					class					= "col-xs-2" 
+					bcs-tipo				= "'bcs-button-primary'" 
+					bcs-auto-desactivar		= "false" 
+					bcs-texto				= "'UI_ACEPTAR' | translate" 
+					bcs-habilitado			= "IngresarOrdenRFForm.$valid&&ordenRF.win.calculandoAlgo==false&&ordenRF.datos.operacionesSalida[0].totalOrden>0 && ordenRF.habilitarBoton == true;" 
+					bcs-clic				= "ordenRF.win.ingresarOrden('a')">
+				</bcs-button>
+				<!-- &&ordenRF.datos.valorActualizado>=0 -->
+				<bcs-button 
+					id						= "UI_LIMPIAR" 
+					bcs-clic				= "ordenRF.win.cleanData()" 
+					bcs-blur				= "ordenRF.win.resetFoco()"  
+					class					= "col-xs-2" 
+					bcs-tipo				= "'bcs-button-secondary'" 
+					bcs-auto-desactivar		= "false" 
+					bcs-texto				= "'UI_LIMPIAR'|translate" 
+					bcs-habilitado			= "'true'">
+				</bcs-button>
+			</div>
+	 	</div>
+	</form>
+	<form ng-show="ordenRF.win.modo === 'RESUMEN'" name="ResumenIngresarOrdenRFForm">
+		<div class="row" style="min-height: 300px;">
+			<div class="row">
+				<label class="col-xs-2" translate>UI_FECHA_ORDEN</label>
+		 		<bcs-input-datetime 
+		 			k-ng-disabled		= "'true'" 
+		 			class				= "col-xs-3" 
+		 			k-ng-model			= "ordenRF.datosResumen.fechaOperacionOrden">
+		 		</bcs-input-datetime>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_SECUENCIA_ORDEN</label>
+		 		<bcs-input-texto 
+		 			k-ng-disabled		="'true'" 
+		 			class				="col-xs-3" 
+		 			ng-model			="ordenRF.datosResumen.secuenciaOrden">
+		 		</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_OPERACION</label>
+		 		<bcs-input-texto 
+		 			ng-show				= "true" 
+		 			k-ng-disabled		= "'true'" 
+		 			class				= "col-xs-3" 
+		 			ng-model			= "ordenRF.datosResumen.operacion">
+		 		</bcs-input-texto>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_INSTRUMENTO</label>
+		 		<bcs-input-texto 
+		 			k-ng-disabled		= "'true'" 
+		 			class				= "col-xs-3" 
+		 			ng-model			= "ordenRF.datosResumen.instrumento">
+		 		</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-2" translate>UI_PRECIO</label>
+				<div class="col-xs-3">
+		 			<bcs-input-monetario 
+		 				simbolo			= "ordenRF.datosResumen.idMonedaOrden" 
+		 				decimales		= "ordenRF.datosResumen.decimalesPrecio" 
+		 				k-ng-disabled	= "'true'" 
+		 				class			= "col-xs-6" 
+		 				k-ng-model		= "ordenRF.datosResumen.precio">
+		 			</bcs-input-monetario>
+		 			<bcs-input-texto 
+		 				k-ng-disabled	= "'true'" 
+		 				class			= "col-xs-6" 
+		 				ng-model		= "ordenRF.datosResumen.tipoPrecio">
+		 			</bcs-input-texto>
+		 		</div>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_CANTIDAD</label>
+				<bcs-input-numero 
+					class="col-xs-3" 
+					decimales			= "ordenRF.datosResumen.decimalesCantidad" 
+					k-ng-disabled		= "'true'" 
+					k-ng-model			= "ordenRF.datosResumen.cantidad">
+				</bcs-input-monetario>
+		 	</div>
+		 	<div class="row">
+		 		<label class="col-xs-2" translate>UI_MONTO_OPERACION</label>
+		 		<bcs-input-monetario 
+		 			class				= "col-xs-3" 
+		 			simbolo				= "ordenRF.datosResumen.idMoneda" 
+		 			decimales			= "ordenRF.datosResumen.decimales" 
+		 			k-ng-disabled		= "'true'"  
+		 			k-ng-model			= "ordenRF.datosResumen.montoOperacion">
+		 		</bcs-input-monetario>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_TOTAL_COBROS</label>
+		 		<bcs-input-monetario 
+		 			class				= "col-xs-3" 
+		 			simbolo				= "ordenRF.datosResumen.idMoneda" 
+		 			decimales			= "ordenRF.datosResumen.decimales" 
+		 			k-ng-disabled		= "'true'" 
+		 			k-ng-model			= "ordenRF.datosResumen.totalCobros">
+		 		</bcs-input-monetario>
+		 	</div>
+		 	<div class="row">
+		 		<label class="col-xs-2" translate>UI_MONTO_TOTAL</label>
+		 		<bcs-input-monetario 
+		 			class				= "col-xs-3" 
+		 			simbolo				= "ordenRF.datosResumen.idMoneda" 
+		 			decimales			= "ordenRF.datosResumen.decimales" 
+		 			k-ng-disabled		= "'true'" 
+		 			k-ng-model			= "ordenRF.datosResumen.montoTotal">
+		 		</bcs-input-monetario>
+		 		<label class="col-xs-2 col-xs-offset-1" translate>UI_EJECUTIVO_PORTAFOLIO</label>
+		 		<bcs-input-texto 
+		 			k-ng-disabled		= "'true'" 
+		 			class				= "col-xs-3" 
+		 			ng-model			= "ordenRF.datosResumen.nombreEjecutivoPortafolio">
+		 		</bcs-input-texto>
+		 	</div>
+		 	<hr>
+		</div>
+		<div class="row bcs-panel-comandos alignButtonsToRight">
+			<bcs-button 
+				id						= "UI_VER_COMPROBANTE" 
+				class					= "col-xs-3" 
+				bcs-tipo				= "'bcs-button-primary'" 
+				bcs-auto-desactivar		= "'false'" 
+				bcs-texto				= "'UI_VER_COMPROBANTE' | translate"  
+				bcs-habilitado			= "'true'" 
+				bcs-clic				= "ordenRF.win.verComprobante()">
+			</bcs-button>
+			<bcs-button 
+				id						= "UI_VER_DETALLE"  
+				bcs-clic				= "ordenRF.win.verDetalle()" 
+				class					= "col-xs-3" 
+				bcs-tipo				= "'bcs-button-secondary'" 
+				bcs-auto-desactivar		= "false" 
+				bcs-texto				= "'UI_VER_DETALLE' | translate" 
+				bcs-habilitado			= "'true'">
+			</bcs-button>			
+			<bcs-button 
+				id						= "UI_VOLVER" 
+				bcs-clic				= "ordenRF.win.volver()" 
+				class					= "col-xs-2" 
+				bcs-tipo				= "'bcs-button-secondary'" 
+				bcs-auto-desactivar		= "false" 
+				bcs-texto				= "'UI_VOLVER' | translate" 
+				bcs-habilitado			= "'true'">
+			</bcs-button>			
+		</div>
+	</form>
+</div>

@@ -1,0 +1,26 @@
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.Comision"
+(
+	"IdComision", 
+	"IdSerieFondo", 
+	"Descripcion", 
+	"TipoComision", 
+	"FechaVigenciaDesde", 
+	"FechaVigenciaHasta", 
+	"FechaSistema", 
+	"FechaIngresoRegistro", 
+	"PorcentajeLiberado", 
+	"Estado", 
+	"IdEmpresa")
+VALUES(
+	:IdComision, 
+	:IdSerieFondo, 
+	:Descripcion, 
+	:TipoComision, 
+	:FechaVigenciaDesde, 
+	:FechaVigenciaHasta, 
+	:FechaSistema, 
+	:FechaSistema, 
+	:PorcentajeLiberado, 
+	:Estado, 
+	:IdEmpresa
+);

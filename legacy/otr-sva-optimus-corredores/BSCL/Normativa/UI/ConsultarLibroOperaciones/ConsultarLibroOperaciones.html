@@ -1,0 +1,220 @@
+<div class="row" ng-controller='ConsultarLibroOperacionesCtrl'>
+
+	<div class="row bcs-cuerpo">
+		
+		<div class="row">
+			<!-- INICIO FILTROS -->
+			<div class="col-xs-10">
+				
+			<div class="row">
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="filtros.FecInicio"
+				></bcs-input-date>
+			</div>
+			<div class="col-xs-6">
+				<label class="col-xs-4" translate>UI_HASTA</label>
+				<bcs-input-date class="col-xs-8" k-ng-model="filtros.FecTermino"></bcs-input-date>
+			</div>
+		  	</div>
+		  			<!-- 	
+				<div class="row">
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_DESDE</label>
+						<bcs-input-date class="col-xs-8" ng-model="filtros.fecIniciong" k-ng-model="filtros.FecInicio"></bcs-input-date>
+					</div>
+					<div class="col-xs-4">
+						<label class="col-xs-4" translate>UI_FECHA_HASTA</label>
+						<bcs-input-date class="col-xs-8" ng-model="filtros.fecTerminong" k-ng-model="filtros.FecTermino"></bcs-input-date>
+					</div>
+					
+				</div>
+					 -->	  				
+		  					
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							tipo="data.oConfiguracionClasificacionTipoInstrumento.tipo"
+							id-actual="filtros.clasificacionTipoInstrumento"
+							seleccionado="filtros.clasificacionTipoInstrumentoObj"
+							configuracion= "data.oConfiguracionClasificacionTipoInstrumento.configuracion"  
+							cascada1-a="data.oConfiguracionTipoInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada1-valor="'IdClasificacionTipoInstrumento'"
+							cascada2-a="data.oConfiguracionInstrumento.filtros.IdClasificacionTipoInstrumento"
+							cascada2-valor="'IdClasificacionTipoInstrumento'"
+							cascada3-a="data.oConfiguracionTipoOperacion.filtros.IdClasificacionTipoInstrumento"
+							cascada3-valor="'IdClasificacionTipoInstrumento'"
+							item-post-filtro="'1'" 
+							todos="'S'"
+							>
+						</bcs-combobox-base>
+						
+						
+					</div>
+
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO_ABR</label>
+						<bcs-combobox-base
+							class="col-xs-8"
+							auto-cargar="'false'"
+							tipo="data.oConfiguracionTipoInstrumento.tipo"  
+							filtros="data.oConfiguracionTipoInstrumento.filtros"
+							configuracion= "data.oConfiguracionTipoInstrumento.configuracion" 
+							id-actual = "filtros.TipoInstrumento"
+							id-post-filtro = "data.oConfiguracionTipoInstrumento.idPostFiltro" 
+							cascada1-a="data.oConfiguracionTipoOperacion.filtros.IdTipoInstrumento"
+							cascada1-valor="'IdTipoInstrumento'"
+							cascada2-a="data.oConfiguracionInstrumento.filtros.IdTipoInstrumento"
+							cascada2-valor="'IdTipoInstrumento'"
+							item-post-filtro="'1'"
+							seleccionado="filtros.TipoInstrumentoObj"
+							todos="'S'"	
+								>
+							</bcs-combobox-base>					
+					</div>
+					
+				</div>
+
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>					
+							<bcs-combobox-base  class="col-xs-8"
+							   tipo="data.oConfiguracionTipoOperacion.tipo"
+							   configuracion= "data.oConfiguracionTipoOperacion.configuracion"
+							   id-actual="filtros.TipoOperacion"
+							   seleccionado="filtros.TipoOperacionObj"
+							   filtros="data.oConfiguracionTipoOperacion.filtros"
+							   auto-cargar="'false'" 
+							   item-post-filtro="'1'"
+							   todos="'S'"	>
+						</bcs-combobox-base>
+					</div>
+					
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_MONEDA</label>					
+						<bcs-combobox-base
+							 class="col-xs-8"
+							 tipo="data.oConfiguracionMoneda.tipo"
+							 id-actual="filtros.moneda"
+							 seleccionado="filtros.monedaObj"
+							 todos="'S'"
+							 item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+				</div>
+
+							
+				
+				
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_BOLSA</label>					
+						<bcs-combobox-base
+							 class="col-xs-8"
+							 tipo="data.oConfiguracionBolsa.tipo"
+							 id-actual="filtros.bolsa"
+							 seleccionado="filtros.bolsaObj"
+							 todos="'S'"
+							 item-post-filtro="'1'">
+						</bcs-combobox-base>
+					</div>
+					<div class="col-xs-6">
+						<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos
+								class="col-xs-8"
+								id="UI_INSTRUMENTO" 
+								name="uInstrumento"
+								datos-instrumento="filtros.instrumento"
+								buscar-instrumento="oConfiguracionInstrumento.buscar"
+								filtro-tipo-instrumento = "filtros.TipoInstrumento"
+								filtro-clasificacion="filtros.clasificacionTipoInstrumento" 
+								filtro-estado = "'ACT'"
+								filtro-solo-vigentes = 'S'
+								filtro-bolsa = "filtros.bolsa"
+								muestra-precio = "'N'">
+						</bcs-input-instrumentos>
+					</div>
+				</div>
+					
+
+				
+				
+				  	<div class="row">
+		  	
+				  	<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_CLIENTE</label>
+					<bcs-combobox-base class="col-xs-8"
+							    id="UI_SOCIO_NEGOCIO"
+							    auto-cargar="'false'"
+							    bcs-requerido
+								tipo="data.oConfiguracionCliente.tipo"
+								filtros="data.oConfiguracionCliente.filtros"									
+								configuracion= "data.oConfiguracionCliente.configuracion"									 				
+								seleccionado="data.oConfiguracionCliente.seleccionado"									
+								id-actual="data.oConfiguracionCliente.idActual"	>
+						</bcs-combobox-base>
+					
+							</div>	 
+								<div class="col-xs-6">
+											  		
+								</div>
+			
+			
+		  			</div>
+				
+				
+			</div>
+			<!-- FIN FILTROS -->
+			
+			<!-- INICIO BOTONES -->
+			<div class="col-xs-2">
+				<div class="row">
+					<bcs-button class="col-xs-12"
+						bcs-tipo="'bcs-button-search'"
+						bcs-auto-desactivar="''"
+						bcs-texto="'UI_BUSCAR' | translate"
+						bcs-habilitado="true"
+						bcs-clic="buscarLibroOperaciones()" 
+					></bcs-button>
+				</div>
+				<div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-secondary'"  
+						bcs-auto-desactivar="'false'" 
+						bcs-texto="'UI_LIMPIAR' | translate" 
+						bcs-habilitado="btnActivo" 
+						bcs-clic="limpiarFiltros()"
+					></bcs-button>
+				</div>
+			</div>
+			<!-- FIN BOTONES -->
+		</div>
+		
+		<!-- GRILLA -->
+		<div class="row">
+			<div class="col-xs-12">
+				<bcs-grid id= "gridLibroOperaciones"
+					configuracion = "data.confBasicaLibroOperaciones"
+					seleccionado = "LibroOperacionesSeleccionado"
+					fn-click = ""
+					fn-doble-click = ""
+					fn-exportar-excel = "excelLibroOperaciones">
+				</bcs-grid>
+			</div>
+		</div>
+		<!-- FIN GRILLA -->
+	</div>
+	
+	<!-- INICIO PANEL COMANDOS -->
+	<div class="row bcs-panel-comandos" style="padding-top: 10px !important;">
+		<bcs-menu 
+			class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'"
+			bcs-habilitado="'true'" 
+			bcs-texto="'UI_OPCIONES' | translate">		            
+			<li ng-click="excelLibroOperaciones('LibroOperaciones')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+	
+</div>

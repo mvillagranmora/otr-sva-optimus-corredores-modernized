@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="ConsultaCustodiaPortafolio" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" outputViewType="Projection" hierarchiesSQLEnabled="false" translationRelevant="true">
+  <descriptions defaultDescription="ConsultaCustodiaPortafolio"/>
+  <localVariables/>
+  <variableMappings/>
+  <dataSources>
+    <DataSource id="BSCL.Custodia.BD.Vistas::CUS.CustodiaPortafolioAnaliticos" type="DATA_BASE_VIEW">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="BSCL" columnObjectName="BSCL.Custodia.BD.Vistas::CUS.CustodiaPortafolioAnaliticos"/>
+    </DataSource>
+    <DataSource id="CuentaPropiaAnaliticos" type="CALCULATION_VIEW">
+      <viewAttributes allViewAttributes="true"/>
+      <resourceUri>/BSCL.Custodia.BD.Analytics/calculationviews/CuentaPropiaAnaliticos</resourceUri>
+    </DataSource>
+    <DataSource id="Portafolio" type="CALCULATION_VIEW">
+      <viewAttributes allViewAttributes="true"/>
+      <resourceUri>/BSCL.Portafolio.BD.Analytics/calculationviews/Portafolio</resourceUri>
+    </DataSource>
+    <DataSource id="BSCL.SocioNegocio.BD.Vistas::REL.ConsultarRelacionPersona" type="DATA_BASE_VIEW">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="BSCL" columnObjectName="BSCL.SocioNegocio.BD.Vistas::REL.ConsultarRelacionPersona"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="CantidadSimulCom"/>
+        <viewAttribute id="CantidadSimulVen"/>
+        <viewAttribute id="CantidadCustodia"/>
+        <viewAttribute id="IdInstrumento"/>
+        <viewAttribute id="CantidadPrestamo"/>
+        <viewAttribute id="CantidadEmpresti"/>
+        <viewAttribute id="CantidadGarantia"/>
+        <viewAttribute id="IdBoveda"/>
+        <viewAttribute id="CantidadTransIng"/>
+        <viewAttribute id="IdClasificacionTipoInstrumento"/>
+        <viewAttribute id="CantidadTransEgr"/>
+        <viewAttribute id="NemoSVS"/>
+        <viewAttribute id="Nemotecnico"/>
+        <viewAttribute id="IdTipoInstrumento"/>
+        <viewAttribute id="IdCliente"/>
+        <viewAttribute id="IdPortafolio"/>
+        <viewAttribute id="IdEmpresa"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#BSCL.Custodia.BD.Vistas::CUS.CustodiaPortafolioAnaliticos">
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadSimulCom" source="CantidadSimulCom"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadSimulVen" source="CantidadSimulVen"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadCustodia" source="CantidadCustodia"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdInstrumento" source="IdInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadPrestamo" source="CantidadPrestamo"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadEmpresti" source="CantidadEmpresti"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadGarantia" source="CantidadGarantia"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdBoveda" source="IdBoveda"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadTransIng" source="CantidadTransIng"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdClasificacionTipoInstrumento" source="IdClasificacionTipoInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadTransEgr" source="CantidadTransEgr"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NemoSVS" source="NemoSVS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Nemotecnico" source="Nemotecnico"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTipoInstrumento" source="IdTipoInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdCliente" source="IdCliente"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPortafolio" source="IdPortafolio"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEmpresa" source="IdEmpresa"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_2">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="DocumentoIdentidad"/>
+        <viewAttribute id="IdPersona"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#CuentaPropiaAnaliticos">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DocumentoIdentidad" source="DocumentoIdentidad"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_3">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="IdPortafolio"/>
+        <viewAttribute id="IdCliente"/>
+        <viewAttribute id="DocumentoIdentidad"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#Portafolio">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPortafolio" source="IdPortafolio"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdCliente" source="IdCliente"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DocumentoIdentidad" source="DocumentoIdentidad"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_1" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="DocumentoIdentidad"/>
+        <viewAttribute id="CantidadSimulCom"/>
+        <viewAttribute id="CantidadSimulVen"/>
+        <viewAttribute id="CantidadCustodia"/>
+        <viewAttribute id="IdInstrumento"/>
+        <viewAttribute id="CantidadPrestamo"/>
+        <viewAttribute id="CantidadEmpresti"/>
+        <viewAttribute id="CantidadGarantia"/>
+        <viewAttribute id="IdBoveda"/>
+        <viewAttribute id="CantidadTransIng"/>
+        <viewAttribute id="IdClasificacionTipoInstrumento"/>
+        <viewAttribute id="CantidadTransEgr"/>
+        <viewAttribute id="NemoSVS"/>
+        <viewAttribute id="Nemotecnico"/>
+        <viewAttribute id="IdTipoInstrumento"/>
+        <viewAttribute id="IdCliente"/>
+        <viewAttribute id="IdPortafolio"/>
+        <viewAttribute id="IdEmpresa"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#Projection_1">
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadSimulCom" source="CantidadSimulCom"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadSimulVen" source="CantidadSimulVen"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadCustodia" source="CantidadCustodia"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdInstrumento" source="IdInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadPrestamo" source="CantidadPrestamo"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadEmpresti" source="CantidadEmpresti"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadGarantia" source="CantidadGarantia"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdBoveda" source="IdBoveda"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadTransIng" source="CantidadTransIng"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdClasificacionTipoInstrumento" source="IdClasificacionTipoInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadTransEgr" source="CantidadTransEgr"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NemoSVS" source="NemoSVS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Nemotecnico" source="Nemotecnico"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTipoInstrumento" source="IdTipoInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdCliente" source="IdCliente"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPortafolio" source="IdPortafolio"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEmpresa" source="IdEmpresa"/>
+      </input>
+      <input node="#Projection_3">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DocumentoIdentidad" source="DocumentoIdentidad"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPortafolio" source="IdPortafolio"/>
+      </input>
+      <joinAttribute name="IdPortafolio"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_2" joinType="leftOuter">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="DocumentoIdentidad"/>
+        <viewAttribute id="IdPersona"/>
+        <viewAttribute id="DocumentoIdentidad_1"/>
+        <viewAttribute id="IdEmpresa"/>
+        <viewAttribute id="IdPortafolio"/>
+        <viewAttribute id="IdCliente"/>
+        <viewAttribute id="IdTipoInstrumento"/>
+        <viewAttribute id="Nemotecnico"/>
+        <viewAttribute id="NemoSVS"/>
+        <viewAttribute id="IdClasificacionTipoInstrumento"/>
+        <viewAttribute id="CantidadTransIng"/>
+        <viewAttribute id="CantidadTransEgr"/>
+        <viewAttribute id="IdBoveda"/>
+        <viewAttribute id="CantidadGarantia"/>
+        <viewAttribute id="CantidadEmpresti"/>
+        <viewAttribute id="CantidadPrestamo"/>
+        <viewAttribute id="IdInstrumento"/>
+        <viewAttribute id="CantidadCustodia"/>
+        <viewAttribute id="CantidadSimulVen"/>
+        <viewAttribute id="CantidadSimulCom"/>
+      </viewAttributes>
+      <calculatedViewAttributes>
+        <calculatedViewAttribute datatype="VARCHAR" id="CuentaPropiaoTercero" length="3" expressionLanguage="COLUMN_ENGINE">
+          <formula>if(isnull(&quot;DocumentoIdentidad_1&quot;),'TER','PRO')</formula>
+        </calculatedViewAttribute>
+      </calculatedViewAttributes>
+      <input node="#Join_1">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DocumentoIdentidad" source="DocumentoIdentidad"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEmpresa" source="IdEmpresa"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPortafolio" source="IdPortafolio"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdCliente" source="IdCliente"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTipoInstrumento" source="IdTipoInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Nemotecnico" source="Nemotecnico"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NemoSVS" source="NemoSVS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdClasificacionTipoInstrumento" source="IdClasificacionTipoInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadTransIng" source="CantidadTransIng"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadTransEgr" source="CantidadTransEgr"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdBoveda" source="IdBoveda"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadGarantia" source="CantidadGarantia"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadEmpresti" source="CantidadEmpresti"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadPrestamo" source="CantidadPrestamo"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdInstrumento" source="IdInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadCustodia" source="CantidadCustodia"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadSimulVen" source="CantidadSimulVen"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadSimulCom" source="CantidadSimulCom"/>
+      </input>
+      <input node="#Projection_2">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DocumentoIdentidad_1" source="DocumentoIdentidad"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DocumentoIdentidad" source="DocumentoIdentidad"/>
+      </input>
+      <joinAttribute name="DocumentoIdentidad"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_3" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="IdPersonaOrigen"/>
+        <viewAttribute id="IdPersona"/>
+        <viewAttribute id="IdPersonaDestino"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#Projection_2">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+      </input>
+      <input node="#BSCL.SocioNegocio.BD.Vistas::REL.ConsultarRelacionPersona">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersonaOrigen" source="IdPersonaOrigen"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersonaDestino" source="IdPersonaDestino"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersonaOrigen"/>
+      </input>
+      <joinAttribute name="IdPersona"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_4" joinType="leftOuter">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="IdPersonaDestino"/>
+        <viewAttribute id="IdPersona"/>
+        <viewAttribute id="IdPersonaOrigen"/>
+        <viewAttribute id="DocumentoIdentidad"/>
+        <viewAttribute id="IdPersona_1"/>
+        <viewAttribute id="CuentaPropiaoTercero"/>
+        <viewAttribute id="IdEmpresa"/>
+        <viewAttribute id="IdPortafolio"/>
+        <viewAttribute id="IdCliente"/>
+        <viewAttribute id="IdTipoInstrumento"/>
+        <viewAttribute id="Nemotecnico"/>
+        <viewAttribute id="NemoSVS"/>
+        <viewAttribute id="IdClasificacionTipoInstrumento"/>
+        <viewAttribute id="CantidadTransIng"/>
+        <viewAttribute id="CantidadTransEgr"/>
+        <viewAttribute id="IdBoveda"/>
+        <viewAttribute id="CantidadGarantia"/>
+        <viewAttribute id="CantidadEmpresti"/>
+        <viewAttribute id="CantidadPrestamo"/>
+        <viewAttribute id="IdInstrumento"/>
+        <viewAttribute id="CantidadCustodia"/>
+        <viewAttribute id="CantidadSimulVen"/>
+        <viewAttribute id="CantidadSimulCom"/>
+      </viewAttributes>
+      <calculatedViewAttributes>
+        <calculatedViewAttribute datatype="VARCHAR" id="CuentaPropiaRelacionadoTercero" length="3" expressionLanguage="COLUMN_ENGINE">
+          <formula>if(isnull(&quot;IdPersonaDestino&quot;),&quot;CuentaPropiaoTercero&quot;,'REL')</formula>
+        </calculatedViewAttribute>
+      </calculatedViewAttributes>
+      <input node="#Join_2">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DocumentoIdentidad" source="DocumentoIdentidad"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona_1" source="IdPersona"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CuentaPropiaoTercero" source="CuentaPropiaoTercero"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEmpresa" source="IdEmpresa"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPortafolio" source="IdPortafolio"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdCliente" source="IdCliente"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdTipoInstrumento" source="IdTipoInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Nemotecnico" source="Nemotecnico"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NemoSVS" source="NemoSVS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdClasificacionTipoInstrumento" source="IdClasificacionTipoInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadTransIng" source="CantidadTransIng"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadTransEgr" source="CantidadTransEgr"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdBoveda" source="IdBoveda"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadGarantia" source="CantidadGarantia"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadEmpresti" source="CantidadEmpresti"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadPrestamo" source="CantidadPrestamo"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdInstrumento" source="IdInstrumento"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadCustodia" source="CantidadCustodia"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadSimulVen" source="CantidadSimulVen"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CantidadSimulCom" source="CantidadSimulCom"/>
+      </input>
+      <input node="#Join_3">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersonaDestino" source="IdPersonaDestino"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersonaOrigen" source="IdPersonaOrigen"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona_1" source="IdPersonaDestino"/>
+      </input>
+      <joinAttribute name="IdPersona_1"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Join_4">
+    <attributes>
+      <attribute id="CantidadTransIng" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CantidadTransIng"/>
+        <keyMapping columnObjectName="Join_4" columnName="CantidadTransIng"/>
+      </attribute>
+      <attribute id="CantidadGarantia" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CantidadGarantia"/>
+        <keyMapping columnObjectName="Join_4" columnName="CantidadGarantia"/>
+      </attribute>
+      <attribute id="CantidadTransEgr" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CantidadTransEgr"/>
+        <keyMapping columnObjectName="Join_4" columnName="CantidadTransEgr"/>
+      </attribute>
+      <attribute id="CantidadEmpresti" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CantidadEmpresti"/>
+        <keyMapping columnObjectName="Join_4" columnName="CantidadEmpresti"/>
+      </attribute>
+      <attribute id="CantidadPrestamo" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CantidadPrestamo"/>
+        <keyMapping columnObjectName="Join_4" columnName="CantidadPrestamo"/>
+      </attribute>
+      <attribute id="IdClasificacionTipoInstrumento" order="6" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdClasificacionTipoInstrumento"/>
+        <keyMapping columnObjectName="Join_4" columnName="IdClasificacionTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdTipoInstrumento" order="7" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdTipoInstrumento"/>
+        <keyMapping columnObjectName="Join_4" columnName="IdTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdInstrumento" order="8" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdInstrumento"/>
+        <keyMapping columnObjectName="Join_4" columnName="IdInstrumento"/>
+      </attribute>
+      <attribute id="Nemotecnico" order="9" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Nemotecnico"/>
+        <keyMapping columnObjectName="Join_4" columnName="Nemotecnico"/>
+      </attribute>
+      <attribute id="IdCliente" order="10" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Join_4" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="IdBoveda" order="11" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdBoveda"/>
+        <keyMapping columnObjectName="Join_4" columnName="IdBoveda"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="12" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Join_4" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" order="13" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="DocumentoIdentidad"/>
+        <keyMapping columnObjectName="Join_4" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="CuentaPropiaoTercero" order="14" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CuentaPropiaoTercero"/>
+        <keyMapping columnObjectName="Join_4" columnName="CuentaPropiaoTercero"/>
+      </attribute>
+      <attribute id="CantidadCustodia" order="15" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CantidadCustodia"/>
+        <keyMapping columnObjectName="Join_4" columnName="CantidadCustodia"/>
+      </attribute>
+      <attribute id="CantidadSimulCom" order="16" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CantidadSimulCom"/>
+        <keyMapping columnObjectName="Join_4" columnName="CantidadSimulCom"/>
+      </attribute>
+      <attribute id="CantidadSimulVen" order="17" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CantidadSimulVen"/>
+        <keyMapping columnObjectName="Join_4" columnName="CantidadSimulVen"/>
+      </attribute>
+      <attribute id="NemoSVS" order="18" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="NemoSVS"/>
+        <keyMapping columnObjectName="Join_4" columnName="NemoSVS"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="176" y="87"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="453"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Projection_2" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="357"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Projection_3" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="453"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="357"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_2" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_3" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_4" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="165"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

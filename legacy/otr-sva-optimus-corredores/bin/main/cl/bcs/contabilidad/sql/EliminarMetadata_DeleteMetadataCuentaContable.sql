@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Contabilidad.BD::ITZ.MetadataCuentaContable" WHERE "IdMetadataCuentaContable" = :IdMetadataCuentaContable

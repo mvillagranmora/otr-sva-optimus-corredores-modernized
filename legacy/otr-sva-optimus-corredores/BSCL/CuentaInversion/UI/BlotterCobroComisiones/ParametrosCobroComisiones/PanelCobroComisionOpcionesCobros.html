@@ -1,0 +1,78 @@
+<div id="PanelCobroComisionOpcionesCobros" class="row" ng-controller='PanelCobroComisionOpcionesCobrosCtrl as pccoc'>
+	<div class="row" >
+		<div class="row">
+			<div class="col-xs-10">
+			    <div class="row">
+			    	<div class="col-xs-3">
+			    		<div class="row">
+							<label class="col-xs-4" translate>UI_ESTADO</label>
+							<bcs-combobox-base 
+								id="pccoc.Estado"
+								class="col-xs-8"
+								bcs-requerido
+								auto-cargar   	= "true"									
+								tipo          	= "pccoc.Estado.tipo"
+								id-actual     	= "pccoc.Estado.idActual"													
+								configuracion	= "pccoc.Estado.configuracion"
+								seleccionado  	= "pccoc.Estado.seleccionado"							
+								filtros       	= "pccoc.Estado.filtros"
+								id-post-filtro	= "pccoc.Estado.idPostFiltro"
+								todos = "'S'"
+								id-defecto = "'0'"
+							>
+							</bcs-combobox-base>
+						</div>
+					</div>
+			    </div>
+			</div>
+			<div class="col-xs-2">
+			    <div class="row">
+					<bcs-button class="col-xs-12" 
+						bcs-tipo="'bcs-button-search'"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_BUSCAR' | translate" 
+						bcs-habilitado="true" 
+						bcs-clic="pccoc.buscar()" >
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<bcs-grid
+		 	configuracion="pccoc.opcionesCobroComisionOptions"
+			seleccionado="pccoc.opcionesSeleccionadas"
+			fn-exportar-excel = "exportarExcel">		
+		</bcs-grid>
+	</div>
+	
+	<div class="row bcs-panel-comandos">
+		<div class=col-xs-7>
+			<bcs-button class="col-xs-2" id="PanelCobroComisionOpcionesCobros_IngresarOpcionCobro"
+				bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_INGRESAR' | translate" 
+				bcs-habilitado="'true'"
+				bcs-clic="pccoc.ingresarOpcionCobro()"> 
+			</bcs-button>
+			<bcs-button class="col-xs-2" id="PanelCobroComisionOpcionesCobros_EditarOpcionCobro"
+				bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_EDITAR' | translate" 
+				bcs-habilitado="'true'"
+				bcs-clic="pccoc.editarOpcionCobro(pccoc.opcionesSeleccionadas)"> 
+			</bcs-button>
+			<bcs-button class="col-xs-2" id="PanelCobroComisionOpcionesCobros_EliminarOpcionCobro"
+				bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false"
+				bcs-texto="'UI_ELIMINAR' | translate"
+				bcs-habilitado="'true'" 
+				bcs-clic="pccoc.eliminarOpcionCobro(pccoc.opcionesSeleccionadas)">
+			</bcs-button>
+		</div>
+		<div class="col-xs-3"></div>
+		<div class="col-xs-2">
+			<bcs-menu bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate" >
+	            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+			</bcs-menu>
+		</div>
+	</div>
+</div>

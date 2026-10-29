@@ -1,0 +1,729 @@
+<div class="row" ng-controller="IngresarMovimientoFacturarCtrl"
+	bcs-enter="">
+	<form name="frmIngMvtoFac">
+		<div class="row bcs-cuerpo">
+			<div class="row">
+
+				<!-- INICIO MANTENEDOR -->
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-2" style="width: 20.7%;" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base class="col-xs-10" bcs-requerido
+								auto-cargar="'false'" id="frmIngMvtoFac_UI_SOCIO_NEGOCIO"
+								ng-style="{'width' : data.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && data.oClientePortafolio.seleccionado  ? '76%' : '78.6%'}"
+								carga-cliente-automatico="'S'"
+								tipo="'combobox-cliente-portafolio'"
+								seleccionado="data.oClientePortafolio.seleccionado"
+								filtros="filtrosPortafolio" id-actual="filtros.IdPortafolio"
+								configuracion="data.oClientePortafolio.configuracion">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-3">
+							<label class="col-xs-5" translate>UI_CARTERA</label>
+							<bcs-input-carteras 
+								class="col-xs-6"
+								id="frmIngMvtoFac_UI_CARTERA" 
+								k-ng-model="data.oCartera">
+							</bcs-input-carteras>
+						</div>
+						<div class="col-xs-3">
+							<label class="col-xs-5" translate>UI_FECHA_MOVIMIENTO</label>
+							<bcs-input-date class="col-xs-7" bcs_requerido
+								id="frmIngMvtoFac_UI_FECHA_MOVIMIENTO"
+								name="uFechaMovimientoComprobante"
+								k-ng-model="data.oFechaMovimientoComprobante"
+								k-ng-disabled="data.activaroFechaMovimientoComprobante">
+							</bcs-input-date>
+						</div>
+						
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="col-xs-2" style="width: 20.8%;" translate>UI_TIPO_INSTRUMENTO</label>
+						<bcs-combobox-base class="col-xs-9"
+							id="frmIngMvtoFac_UI_TIPO_INSTRUMENTO"
+							tipo="data.oTipoInstrumento.tipo"
+							configuracion="data.oTipoInstrumento.configuracion"
+							id-actual="data.oTipoInstrumento.idActual"
+							seleccionado="data.oTipoInstrumento.seleccionado"
+							filtros="data.oTipoInstrumento.filtros"
+							cascada1-a="data.oTipoOperacion.filtros.IdTipoInstrumento"
+							cascada1-valor="'IdTipoInstrumento'"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_TIPO_OPERACION</label>
+						<bcs-combobox-base class="col-xs-6"
+							bcs-requerido="data.oTipoInstrumento.seleccionado"
+							id="frmIngMvtoFac_UI_OPERACION" tipo="data.oTipoOperacion.tipo"
+							configuracion="data.oTipoOperacion.configuracion"
+							id-actual="data.oTipoOperacion.idActual"
+							seleccionado="data.oTipoOperacion.seleccionado"
+							filtros="data.oTipoOperacion.filtros" auto-cargar="'false'"
+							cascada1-a="data.oConcepto.filtros.IdTipoOperacion"
+							cascada1-valor="'IdTipoOperacion'"> </bcs-combobox-base>
+					</div>
+
+
+				</div>
+				<hr />
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_SUCURSAL_DIGITADOR_ABR</label>
+						<bcs-combobox-base class="col-xs-6" id="frmIngMvtoFac_UI_SUCURSAL"
+							tipo="data.oSucursal.tipo"
+							configuracion="data.oSucursal.configuracion"
+							id-actual="data.oSucursal.idActual"
+							seleccionado="data.oSucursal.seleccionado"
+							filtros="data.oSucursal.filtros"
+							cascada1-a="data.oEjecutivo.filtros.IdSucursal"
+							cascada1-valor="'IdSucursal'" cascada1-defecto="-1"
+							id-defecto="'0'" item-post-filtro="'1'"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_EJECUTIVO_DIGITADOR</label>
+						<bcs-combobox-base class="col-xs-6"
+							id="frmIngMvtoFac_UI_EJECUTIVO" tipo="data.oEjecutivo.tipo"
+							configuracion="data.oEjecutivo.configuracion"
+							id-actual="data.oEjecutivo.idActual"
+							seleccionado="data.oEjecutivo.seleccionado"
+							filtros="data.oEjecutivo.filtros" auto-cargar="'false'">
+						</bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_CONCEPTO</label>
+						<bcs-combobox-base class="col-xs-6" bcs-requerido
+							id="frmIngMvtoFac_UI_CONCEPTO" tipo="data.oConcepto.tipo"
+							configuracion="data.oConcepto.configuracion"
+							id-actual="data.oConcepto.idActual"
+							seleccionado="data.oConcepto.seleccionado"
+							filtros="data.oConcepto.filtros"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_PREFERENCIA_FACTURACION_ABR</label>
+						<bcs-combobox-base class="col-xs-7"
+							id="frmIngMvtoFac_UI_PREFERENCIA_FACTURACION"
+							tipo="data.oPreferenciaFacturacion.tipo"
+							configuracion="data.oPreferenciaFacturacion.configuracion"
+							id-actual="data.oPreferenciaFacturacion.idActual"
+							seleccionado="data.oPreferenciaFacturacion.seleccionado"
+							filtros="data.oPreferenciaFacturacion.filtros">
+						</bcs-combobox-base>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_INSTRUMENTO</label>
+						<bcs-input-instrumentos
+							bcs-requerido="data.oTipoInstrumento.seleccionado"
+							class="col-xs-6" name="uInstrumento"
+							datos-instrumento="data.oInstrumento"
+							buscar-instrumento="data.buscaroInstrumento"
+							filtro-tipo-instrumento="data.oTipoInstrumento.idActual"
+							filtro-estado="'ACT'"> </bcs-input-instrumentos>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_EMISOR</label>
+						<bcs-combobox-base class="col-xs-6" id="frmIngMvtoFac_UI_EMISOR"
+							tipo="data.oEmisor.tipo" id-actual="data.oEmisor.idActual"
+							configuracion="data.oEmisor.configuracion"
+							seleccionado="data.oEmisor.seleccionado"
+							filtros="data.oEmisor.filtros" activado="data.activaroEmisor">
+						</bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_INSTRUMENTO_SUBYACENTE</label>
+						<bcs-input-instrumentos class="col-xs-6"
+							id="frmIngMvtoFac_UI_INSTRUMENTO_SUBYACENTE"
+							name="uInstrumentoSubyacente"
+							configuracion="data.InstrumentoSubyacente"
+							datos-instrumento="data.instrumentoSubyacente"
+							buscar-instrumento="data.buscaroInstrumentoSubyacente"
+							ng-model="data.oInstrumentoSubyacente" filtro-estado="'ACT'"
+							filtro-tipo-instrumento="data.oTipoInstrumento.seleccionado.IdTipoInstrumento"
+							activado="data.activaroInstrumentoSubyacente">
+						</bcs-input-instrumentos>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_INSTRUMENTO_RELACIONADO</label>
+						<bcs-input-instrumentos class="col-xs-7"
+							id="frmIngMvtoFac_UI_INSTRUMENTO_RELACIONADO"
+							name="uInstrumentoRelacionado"
+							configuracion="data.InstrumentoRelacionado"
+							datos-instrumento="data.instrumentoRelacionado"
+							buscar-instrumento="data.buscaroInstrumentoRelacionado"
+							ng-model="data.oInstrumentoRelacionado" filtro-estado="'ACT'"
+							filtro-tipo-instrumento="data.oTipoInstrumento.seleccionado.IdTipoInstrumento"
+							activado="data.activaroInstrumentoRelacionado">
+						</bcs-input-instrumentos>
+					</div>
+				</div>
+				<hr />
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_MONEDA_SUBYACENTE</label>
+						<bcs-combobox-base class="col-xs-6"
+							id="frmIngMvtoFac_UI_MONEDA_SUBYACENTE"
+							tipo="data.oMonedaSubyacente.tipo"
+							id-actual="data.oMonedaSubyacente.idActual"
+							configuracion="data.oMonedaSubyacente.configuracion"
+							seleccionado="data.oMonedaSubyacente.seleccionado"
+							filtros="data.oMonedaSubyacente.filtros"
+							activado="data.activaroMonedaSubyacente"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_TIPO_REAJUSTE</label>
+						<bcs-combobox-base class="col-xs-6"
+							id="frmIngMvtoFac_UI_TIPO_REAJUSTE"
+							tipo="data.oTipoReajuste.tipo"
+							configuracion="data.oTipoReajuste.configuracion"
+							seleccionado="data.oTipoReajuste.seleccionado"
+							filtros="data.oTipoReajuste.filtros"
+							id-actual="data.oTipoReajuste.idActual"
+							activado="data.activaroTipoReajuste"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_FORMA_CUSTODIA</label>
+						<bcs-combobox-base class="col-xs-6" bcs-requerido
+							id="frmIngMvtoFac_UI_FORMA_CUSTODIA"
+							tipo="data.oFormaCustodia.tipo"
+							configuracion="data.oFormaCustodia.configuracion"
+							id-actual="data.oFormaCustodia.idActual"
+							seleccionado="data.oFormaCustodia.seleccionado"
+							filtros="data.oFormaCustodia.filtros"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_FUNGIBLE</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_FUNGIBLE"
+							ng-model="data.oIndFungible"> </bcs-input-checkbox>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_BOLSA</label>
+						<bcs-combobox-base class="col-xs-6" bcs-requerido
+							id="frmIngMvtoFac_UI_BOLSA" tipo="data.oBolsa.tipo"
+							id-actual="data.oBolsa.idActual"
+							configuracion="data.oBolsa.configuracion"
+							seleccionado="data.oBolsa.seleccionado"
+							filtros="data.oBolsa.filtros"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_BOVEDA</label>
+						<bcs-combobox-base class="col-xs-6" bcs-requerido
+							id="frmIngMvtoFac_UI_BOVEDA" tipo="data.oBoveda.tipo"
+							id-actual="data.oBoveda.idActual"
+							configuracion="data.oBoveda.configuracion"
+							seleccionado="data.oBoveda.seleccionado"
+							filtros="data.oBoveda.filtros"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_CONDICION_LIQUIDACION_ABR</label>
+						<bcs-input-condicion-liquidacion class="col-xs-6" bcs-requerido
+							id="frmIngMvtoFac_UI_CONDICION_LIQUIDACION"
+							fecha-inicial="data.oFechaMovimientoComprobante"
+							id-tipo-operacion="data.oTipoOperacion.seleccionado.IdTipoOperacion"
+							condicion-de-liquidacion="data.oCondicionLiquidacion"
+							fecha-liquidacion="data.oFechaLiquidacion" activado="'true'">
+						</bcs-input-condicion-liquidacion>
+					</div>
+				</div>
+
+				<hr />
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_FOLIO_TRANSACCION</label>
+						<bcs-input-texto class="col-xs-6"
+							id="frmIngMvtoFac_UI_FOLIO_TRANSACCION"
+							ng-model="data.oFolioTransaccion"> </bcs-input-texto>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_FECHA_TRANSACCION</label>
+						<bcs-input-date class="col-xs-6"
+							id="frmIngMvtoFac_UI_FECHA_TRANSACCION" name="uFechaTransaccion"
+							k-ng-model="data.oFechaTransaccion"> </bcs-input-date>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_ORDEN</label>
+						<bcs-input-numero class="col-xs-6" id="frmIngMvtoFac_UI_ORDEN"
+							k-ng-model="data.oOrden"> </bcs-input-numero>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_FECHA_ORDEN</label>
+						<bcs-input-date class="col-xs-7" id="frmIngMvtoFac_UI_FECHA_ORDEN"
+							name="uFechaOrden" k-ng-model="data.oFechaOrden">
+						</bcs-input-date>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_CONTRAPARTE</label>
+						<bcs-combobox-base class="col-xs-6"
+							id="frmIngMvtoFac_UI_CONTRAPARTE" tipo="data.oCorredor.tipo"
+							id-actual="data.oCorredor.idActual"
+							configuracion="data.oCorredor.configuracion"
+							seleccionado="data.oCorredor.seleccionado"
+							filtros="data.oCorredor.filtros"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_TIPO_CAMBIO</label>
+						<bcs-input-monetario class="col-xs-6"
+							id="frmIngMvtoFac_UI_TIPO_CAMBIO"
+							simbolo="data.SesionIdMonedaSistema"
+							decimales="data.IdDecimalMontoDisplay"
+							k-ng-model="data.oTipoCambio"
+							k-ng-disabled="data.activaroTipoCambio"> </bcs-input-monetario>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_DIAS_PLAZO</label>
+						<bcs-input-plazo class="col-xs-6" bcs-requerido="'false'"
+							id="frmIngMvtoFac_UI_DIAS_PLAZO" bcs-mayor-igual-que="'0'"
+							fecha-inicial="data.oFechaMovimientoComprobante"
+							fecha-vencimiento="data.oFechaVencimiento"
+							plazo="data.oDiasPlazo"
+							id-tipo-operacion="data.oTipoOperacion.seleccionado.IdTipoOperacion"
+							id-condicion-de-liquidacion="data.oCondicionLiquidacion.IdCondicionDeLiquidacion"
+							activa-Plazo="data.activaroDiasPlazo"
+							activa-Fecha="data.activaroFechaVencimiento"> <!-- bcs-requerido = "data.oTipoInstrumento.seleccionado.IdTipoInstrumento==='SIM' || data.oIndVentaCorta" -->
+						</bcs-input-plazo>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_FECHA_CAMBIO</label>
+						<bcs-input-date class="col-xs-7"
+							id="frmIngMvtoFac_UI_FECHA_TIPO_CAMBIO" name="uFechaTipoCambio"
+							k-ng-model="data.oFechaTipoCambio"
+							k-ng-disabled="data.activaroFechaTipoCambio"> </bcs-input-date>
+					</div>
+				</div>
+				<hr />
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_MONEDA_LIQUIDACION</label>
+						<bcs-combobox-base class="col-xs-6" bcs_requerido
+							id="frmIngMvtoFac_UI_MONEDA_LIQUIDACION"
+							tipo="data.oMonedaLiquidacion.tipo"
+							id-actual="data.oMonedaLiquidacion.idActual"
+							configuracion="data.oMonedaLiquidacion.configuracion"
+							seleccionado="data.oMonedaLiquidacion.seleccionado"
+							filtros="data.oMonedaLiquidacion.filtros"
+							activado="data.activaroMonedaOperacion"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_MONTO_LIQUIDACION</label>
+						<bcs-input-monetario class="col-xs-6"
+							id="frmIngMvtoFac_UI_MONTO_LIQUIDACION"
+							simbolo="data.oMonedaLiquidacion.seleccionado.IdMoneda"
+							bcs-mayor-que="'0'" k-ng-model="data.oMontoLiquidacion">
+						<!-- decimales="data.oDecimales.monto.decimales" --> </bcs-input-monetario>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_MONEDA_OPERACION</label>
+						<bcs-combobox-base class="col-xs-6" bcs_requerido
+							id="frmIngMvtoFac_UI_MONEDA_OPERACION"
+							tipo="data.oMonedaOperacion.tipo"
+							id-actual="data.oMonedaOperacion.idActual"
+							configuracion="data.oMonedaOperacion.configuracion"
+							seleccionado="data.oMonedaOperacion.seleccionado"
+							filtros="data.oMonedaOperacion.filtros"
+							activado="data.activaroMonedaOperacion"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_MONTO_OPERACION</label>
+						<bcs-input-monetario class="col-xs-7"
+							id="frmIngMvtoFac_UI_MONTO_OPERACION"
+							simbolo="data.oMonedaOperacion.seleccionado.IdMoneda"
+							bcs-mayor-que="'0'" k-ng-model="data.oMontoOperacion">
+						<!-- decimales="data.oDecimales.monto.decimales" --> </bcs-input-monetario>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_PRECIO</label>
+						<bcs-input-monetario class="col-xs-6" id="frmIngMvtoFac_UI_PRECIO"
+							simbolo="data.oMonedaOperacion.seleccionado.IdMoneda"
+							decimales="data.datosResumen.decimalesPrecio"
+							k-ng-model="data.oPrecio"> </bcs-input-monetario>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_CANTIDAD</label>
+						<bcs-input-numero class="col-xs-6" id="frmIngMvtoFac_UI_CANTIDAD"
+							bcs-mayor-igual-que="'0'" k-ng-model="data.oCantidad">
+						</bcs-input-numero>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_MONTO_LOCAL</label>
+						<bcs-input-monetario class="col-xs-6" id="frmIngMvtoFac_UI_MONTO"
+							simbolo="data.SesionIdMonedaSistema"
+							decimales="data.oDecimales.monto.decimales" bcs-mayor-que="'0'"
+							k-ng-model="data.oMontoLocal"> </bcs-input-monetario>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_MONTO_PLAZO</label>
+						<bcs-input-monetario class="col-xs-7"
+							bcs-requerido="data.oTipoInstrumento.seleccionado.IdTipoInstrumento==='SIM'"
+							id="frmIngMvtoFac_UI_MONTO_PLAZO"
+							simbolo="data.oMonedaOperacion.seleccionado.IdMoneda"
+							decimales="data.oDecimales.monto.decimales" bcs-mayor-que="'0'"
+							k-ng-model="data.oMontoAPlazo"
+							k-ng-disabled="data.activaroMontoAPlazo"> </bcs-input-monetario>
+					</div>
+				</div>
+
+				<hr />
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_FOLIO_PLAZO</label>
+						<bcs-input-texto class="col-xs-6"
+							id="frmIngMvtoFac_UI_FOLIO_PLAZO" ng-model="data.oFolioPlazo"
+							k-ng-disabled="data.activaroFolioPlazo"> </bcs-input-texto>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_TASA</label>
+						<bcs-input-monetario class="col-xs-6" id="frmIngMvtoFac_UI_TASA"
+							simbolo="data.oMonedaOperacion.seleccionado.IdMoneda"
+							decimales="data.datosResumen.decimalesTasa"
+							k-ng-model="data.oTasa"> </bcs-input-monetario>
+					
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_VALOR_CAPTACION</label>
+						<bcs-input-monetario class="col-xs-6"
+							bcs-requerido="data.oTipoInstrumento.seleccionado.IdClasificacionTipoInstrumento==='IF'"
+							id="frmIngMvtoFac_UI_VALOR_CAPTACION"
+							simbolo="data.oTipoReajuste.seleccionado.IdMoneda"
+							decimales="data.oDecimales.monto.decimales" bcs-mayor-que="'0'"
+							k-ng-model="data.oValorCaptacion"
+							k-ng-disabled="data.activaroValorCaptacion">
+						</bcs-input-monetario>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_FECHA_EMISION</label>
+						<bcs-input-date class="col-xs-6"
+							id="frmIngMvtoFac_UI_FECHA_EMISION" name="uFechaEmision"
+							k-ng-model="data.oFechaEmision"
+							k-ng-disabled="data.activaroFechaEmision"> </bcs-input-date>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_TASA_EMISION</label>
+						<bcs-input-numero class="col-xs-6" id="frmIngMvtoFac_UI_TASA"
+							k-ng-model="data.oTasaEmision"
+							k-ng-disabled="data.activaroTasaEmision"> </bcs-input-numero>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_VALOR_RESCATE</label>
+						<bcs-input-monetario class="col-xs-6"
+							bcs-requerido="data.oTipoInstrumento.seleccionado.IdClasificacionTipoInstrumento==='IF'"
+							id="frmIngMvtoFac_UI_VALOR_RESCATE"
+							simbolo="data.oTipoReajuste.seleccionado.IdMoneda"
+							decimales="data.oDecimales.monto.decimales" bcs-mayor-que="'0'"
+							k-ng-model="data.oValorRescate"
+							k-ng-disabled="data.activaroValorRescate">
+						</bcs-input-monetario>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_CORTE</label>
+						<bcs-input-numero class="col-xs-7" id="frmIngMvtoFac_UI_CORTE"
+							k-ng-model="data.oCorteMinimo"
+							k-ng-disabled="data.activaroCorteMinimo"> </bcs-input-numero>
+					</div>
+				</div>
+
+			
+				<div class="row">
+					<div class="col-xs-12">
+						<label class="col-xs-1" style="width: 10.4%;" translate>UI_COMENTARIO</label>
+						<bcs-input-texto style="width: 89.6%;" class="col-xs-11"
+							id="frmIngMvtoFac_UI_COMENTARIO" maxlength="260"
+							ng-model="data.oComentario" tipo-campo="'textarea'"
+							atributos="margin: 0px; height:40px;resize:none;width: 100%">
+						</bcs-input-texto>
+					</div>
+				</div>
+				<hr />
+			</div>
+			<!-- FIN MANTENEDOR -->
+		</div>
+
+		<!-- INICIO TABS -->
+		<div class="row">
+			<div class="col-xs-12" style="margin-top: 10px">
+				<uib-tabset> <!-- Inicio Comprobante --> <uib-tab
+					select="select('gridIngresarComprobante')"
+					ng-click="tabClick('gridIngresarComprobante')"
+					heading="{{'UI_COMPROBANTE' | translate}}"> <br />
+				<div class="row" style="padding-bottom: 5px;">
+					<div class="col-xs-6">
+						<label class="col-xs-4" style="width: 20.3%;" translate>UI_TIPO_COMPROBANTE</label>
+						<bcs-combobox-base class="col-xs-8" bcs-requerido
+							id="frmIngMvtoFac_comprobante_UI_TIPO_COMPROBANTE"
+							tipo="data.oTipoComprobante.tipo"
+							style="width: 75.9%;"
+							configuracion="data.oTipoComprobante.configuracion"
+							id-actual="data.oTipoComprobante.idActual"
+							seleccionado="data.oTipoComprobante.seleccionado"
+							filtros="data.oTipoComprobante.filtros"> </bcs-combobox-base>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" translate>UI_SECUENCIA_AGRUPACION</label>
+						<bcs-input-texto class="col-xs-6"
+							id="frmIngMvtoFac_UI_SECUENCIA_AGRUPACION"
+							ng-model="data.oSecuenciaAgrupacion"> </bcs-input-texto>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="col-xs-5" style="width: 42%;" translate>UI_COMPROBANTE_INDIVIDUAL</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_COMPROBANTE_INDIVIDUAL"
+							ng-model="data.oIndCmbteIndiv"> </bcs-input-checkbox>
+					</div>
+				</div>
+				</uib-tab> <!-- Fin Comprobante --> <!-- Inicio Indicadores --> <uib-tab
+					select="select('gridIngresarIndicadores')"
+					ng-click="tabClick('gridIngresarIndicadores')"
+					heading="{{'UI_INDICADORES' | translate}}"> <br />
+				<div class="row">
+					<div class="col-xs-2">
+						<label class="col-xs-6" translate>UI_FUERA_RUEDA</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_FUERA_RUEDA"
+							ng-model="data.oIndFueraRueda"> </bcs-input-checkbox>
+					</div>
+
+					<div class="col-xs-2">
+						<label class="col-xs-6" translate>UI_ORDEN_DIRECTA</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_ORDEN_DIRECTA"
+							ng-model="data.oIndOrdenDirecta"> </bcs-input-checkbox>
+					</div>
+
+					<div class="col-xs-2">
+						<label class="col-xs-6" translate>UI_CUENTA_PROPIA</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_CUENTA_PROPIA"
+							ng-model="data.oIndCuentaPropia"> </bcs-input-checkbox>
+					</div>
+
+					<div class="col-xs-2">
+						<label class="col-xs-6" translate>UI_VENTA_CORTA</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_VENTA_CORTA"
+							ng-model="data.oIndVentaCorta"
+							ng-disabled="data.activaroIndVentaCorta"> </bcs-input-checkbox>
+					</div>
+
+					<div class="col-xs-2">
+						<label class="col-xs-6" translate>UI_PRIMA</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_PRIMA"
+							ng-model="data.oIndPrima" ng-disabled="data.activaroIndPrima">
+						</bcs-input-checkbox>
+					</div>
+
+					<div class="col-xs-2">
+						<label class="col-xs-6" translate>UI_A_PLAZO</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_A_PLAZO"
+							ng-model="data.oIndAPlazo" ng-disabled="data.activaroIndAPlazo">
+						</bcs-input-checkbox>
+					</div>
+				</div>
+
+				<hr />
+				Actualiza
+				<div class="row">
+					<div class="col-xs-2">
+						<label class="col-xs-6" translate>UI_CUSTODIA</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_ACTUALIZA_CUSTODIA"
+							ng-model="data.oIndActCus"> </bcs-input-checkbox>
+					</div>
+
+					<div class="col-xs-2">
+						<label class="col-xs-8" translate>UI_CUSTODIA_RELACIONADO</label>
+						<bcs-input-checkbox
+							id="frmIngMvtoFac_UI_ACTUALIZA_CUSTODIA_RELACIONADO"
+							ng-model="data.oIndActCusRel"> </bcs-input-checkbox>
+					</div>
+
+					<div class="col-xs-2">
+						<label class="col-xs-8" translate>UI_CUENTA_INVERSION</label>
+						<bcs-input-checkbox
+							id="frmIngMvtoFac_UI_ACTUALIZA_CUENTA_INVERSION"
+							ng-model="data.oIndActCtaInv"> </bcs-input-checkbox>
+					</div>
+
+					<div class="col-xs-2">
+						<label class="col-xs-6" translate>UI_TESORERIA</label>
+						<bcs-input-checkbox id="frmIngMvtoFac_UI_ACTUALIZA_TESORERIA"
+							ng-model="data.oIndActTes"> </bcs-input-checkbox>
+					</div>
+				</div>
+				</uib-tab> <!-- Fin Indicadores --> <!-- Inicio Cobros --> <uib-tab
+					select="select('gridIngresarMovimientoComprobanteCobro')"
+					ng-click="tabClick('gridIngresarMovimientoComprobanteCobro')"
+					heading="{{'UI_COBROS' | translate}}">
+				<div class="row">
+					<!-- Cobro - Columnas -->
+					<div class="col-xs-10">
+						<div class="row">
+							<div class="col-xs-6">
+								<label class="col-xs-2" translate>UI_TIPO_COBRO</label>
+								<bcs-combobox-base class="col-xs-9"
+									id="frmIngMvtoFac_cobro_UI_TIPO_COBRO"
+									style="width: 79.1%;"
+									tipo="data.oTipoCobro.tipo"
+									id-actual="data.oTipoCobro.idActual"
+									configuracion="data.oTipoCobro.configuracion"
+									seleccionado="data.oTipoCobro.seleccionado"
+									filtros="data.oTipoCobro.filtros"> </bcs-combobox-base>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-3">
+								<label class="col-xs-4" translate>UI_MONTO_COBRO</label>
+								<bcs-input-monetario class="col-xs-6"
+									id="frmIngMvtoFac_cobro_UI_MONTO_COBRO"
+									decimales="data.decimalesoMontoCobro" simbolo="'CLP'"
+									k-ng-model="data.oMontoCobro" k-ng-disabled="'false'">
+								</bcs-input-monetario>
+							</div>
+
+							<div class="col-xs-3">
+								<label class="col-xs-5" translate>UI_MONTO_LOCAL</label>
+								<bcs-input-monetario class="col-xs-6"
+									id="frmIngMvtoFac_cobro_UI_MONTO_LOCAL"
+									decimales="data.decimalesoMontoLocalCobro"
+									simbolo="data.SesionIdMonedaSistema"
+									k-ng-model="data.oMontoLocalCobro" k-ng-disabled="'false'">
+								</bcs-input-monetario>
+							</div>
+
+							<div class="col-xs-3">
+								<label class="col-xs-5" translate>UI_MONTO_LIQUIDACION</label>
+								<bcs-input-monetario class="col-xs-6"
+									id="frmIngMvtoFac_cobro_UI_MONTO_LIQUIDACION"
+									decimales="data.decimalesoMontoLiquidacionCobro"
+									simbolo="data.oMonedaLiquidacion.seleccionado.IdMoneda"
+									k-ng-model="data.oMontoLiquidacionCobro"
+									k-ng-disabled="'false'"> </bcs-input-monetario>
+							</div>
+
+							<div class="col-xs-3">
+								<label class="col-xs-4" translate>UI_PORCENTAJE</label>
+								<bcs-input-porcentaje class="col-xs-6"
+									id="frmIngMvtoFac_cobro_UI_PORCENTAJE" name="data.tasa"
+									k-ng-disabled="'false'" k-ng-model="data.oPorcentajeCobro">
+								</bcs-input-porcentaje>
+							</div>
+						</div>
+					</div>
+
+					<!-- Cobro - Opciones -->
+					<div class="col-xs-2">
+						<div class="row">
+							<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'" bcs-texto="'AGREGAR' | translate"
+								bcs-habilitado="true" bcs-clic="agregarCobros()"> </bcs-button>
+						</div>
+
+						<div class="row">
+							<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-input-form'"
+								bcs-auto-desactivar="'false'" bcs-texto="'QUITAR' | translate"
+								bcs-habilitado="data.activaroQuitarCobros"
+								bcs-clic="quitarCobros()"> </bcs-button>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- Cobro - Grilla -->
+				<div class="row">
+					<div class="col-xs-12">
+						<bcs-grid id="frmIngMvtoFac_grid_cobros"
+							configuracion="confBasicaIngresarMovimientoComprobanteCobros"
+							seleccionado="dataTab.seleccionIngrMvtoCmbteCob"
+							api="dataTab.gridApiIngrMvtoCmbteCob"> </bcs-grid>
+					</div>
+				</div>
+				</uib-tab> <!-- Fin Cobros --> <!-- Inicio Forma de Pago --> <uib-tab
+					select="select('gridIngresarMovimientoComprobanteFormaDePago')"
+					heading="{{'UI_FORMA_DE_PAGO' | translate}}" disable="'true'">
+				<div class="row">
+					<!-- Forma de Pago - Columnas -->
+					<div class="col-xs-11"></div>
+
+					<!-- Forma de Pago - Opciones -->
+					<div class="col-xs-1">
+						<div class="row">
+							<bcs-button class="col-xs-12" bcs-tipo="'default'"
+								bcs-auto-desactivar="'false'" bcs-texto="'AGREGAR' | translate"
+								bcs-habilitado="true" bcs-clic="agregar()"> </bcs-button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Forma de Pago - Grilla -->
+				<div class="row">
+					<div class="col-xs-12">
+						<bcs-grid id="frmIngMvtoFac_grilla_forma_de_pago"> <!-- configuracion = "confBasicaIngresarMovimientoComprobanteFormaDePago"  
+	              seleccionado = "seleccionIngresarMovimientoComprobanteFormaDePago" 
+	              api = "gridApiIngresarMovimientoComprobanteFormaDePago">-->
+						</bcs-grid>
+					</div>
+				</div>
+				</uib-tab> <!-- Fin Forma de Pago --> </uib-tabset>
+			</div>
+		</div>
+		<!-- FIN TABS -->
+
+
+		<!-- INICIO PANEL COMANDOS -->
+		<div class="row bcs-panel-comandos" style="margin-top: 15px">
+			<bcs-button id="IngresarMovimientoFacturar" class="col-xs-1 pull-right"
+				bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="'false'"
+				bcs-texto="'UI_INGRESAR' | translate"
+				bcs-habilitado="frmIngMvtoFac.$valid"
+				bcs-clic="data.ingresarMovimientoComprobante()"></bcs-button>
+			<bcs-button class="col-xs-1 pull-right" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="'true'" bcs-texto="'UI_LIMPIAR' | translate"
+				bcs-habilitado="true" bcs-clic="data.limpiar()"></bcs-button>
+		</div>
+		<!-- FIN PANEL COMANDOS -->
+	</form>
+</div>

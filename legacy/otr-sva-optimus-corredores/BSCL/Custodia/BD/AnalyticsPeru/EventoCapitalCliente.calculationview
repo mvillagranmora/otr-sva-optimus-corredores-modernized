@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="EventoCapitalCliente" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="EventoCapitalCliente_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdEventoCapitalCliente"/>
+        <viewAttribute datatype="CHAR" id="FechaHoraIngresoRegistro" length="27"/>
+        <viewAttribute datatype="CHAR" id="FechaHoraUltimaActualizacion" length="27"/>
+        <viewAttribute datatype="BIGINT" id="IdEventoCapital"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoEventoCapital" length="2"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEventoCapital" length="100"/>
+        <viewAttribute datatype="BIGINT" id="Secuencia"/>
+        <viewAttribute datatype="CHAR" id="FechaCierre" length="10"/>
+        <viewAttribute datatype="CHAR" id="FechaPago" length="10"/>
+        <viewAttribute datatype="NVARCHAR" id="IdMoneda" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoOperacionGarantia" length="6"/>
+        <viewAttribute datatype="NVARCHAR" id="Origen" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="Descripcion" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="Proposito" length="520"/>
+        <viewAttribute datatype="BIGINT" id="IdSocioNegocio"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoSocioNegocio" length="3"/>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreCliente" length="302"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoDocumentoIdentidad" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="DocumentoIdentidad" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoPortafolio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="DescripcionPortafolio" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="IdClasificacionTipoInstrumento" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoInstrumento" length="3"/>
+        <viewAttribute datatype="BIGINT" id="IdInstrumento"/>
+        <viewAttribute datatype="NVARCHAR" id="Nemo" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdInstrumentoNuevo"/>
+        <viewAttribute datatype="NVARCHAR" id="NemoNuevo" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="TipoCartera" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdBoveda" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="IdBolsa" length="3"/>
+        <viewAttribute datatype="DECIMAL" id="MontoReajuste" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="Precio" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="PrecioNuevo" length="26" scale="8"/>
+        <viewAttribute datatype="BIGINT" id="NumeroDividendo"/>
+        <viewAttribute datatype="DECIMAL" id="Paridad" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="Factor" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="Valor" length="26" scale="8"/>
+        <viewAttribute datatype="BIGINT" id="CantidadDerecho"/>
+        <viewAttribute datatype="BIGINT" id="CantidadNueva"/>
+        <viewAttribute datatype="DECIMAL" id="MontoCapital" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="MontoInteres" length="26" scale="8"/>
+        <viewAttribute datatype="DECIMAL" id="Total" length="26" scale="8"/>
+        <viewAttribute datatype="BIGINT" id="SecuenciaCupon"/>
+        <viewAttribute datatype="NVARCHAR" id="IdConceptoGarantia" length="6"/>
+        <viewAttribute datatype="BIGINT" id="IdUsuario"/>
+        <viewAttribute datatype="NVARCHAR" id="MonedaEvento" length="100"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoUsuarioAgente" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreAgente" length="302"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoSucursal" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdEstado" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreEstado" length="100"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN  
+ 	 var_out = select 
+						  EVTCLI.&quot;IdEventoCapitalCliente&quot;
+						 ,CASE WHEN IFNULL(EVTCLI.&quot;FechaHoraIngresoRegistro&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+					 	                              ELSE  
+					 	                                  CASE WHEN  EVTCLI.&quot;FechaHoraIngresoRegistro&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' 
+					 	                                  	ELSE LEFT(TO_CHAR(ADD_SECONDS (EVTCLI.&quot;FechaHoraIngresoRegistro&quot;, CONFIGURACION.&quot;Valor&quot;)),27)
+					 	                                  END 
+	  				      END AS &quot;FechaHoraIngresoRegistro&quot;
+	  				    ,CASE WHEN IFNULL(EVTCLI.&quot;FechaHoraUltimaActualizacion&quot;,'')= '' THEN '0001-01-01 00:00:00' 
+					 	                              ELSE  
+					 	                                  CASE WHEN  EVTCLI.&quot;FechaHoraUltimaActualizacion&quot; IN ('0001-01-01 00:00:00','1900-01-01 00:00:00.0') THEN '0001-01-01 00:00:00' 
+					 	                                  	ELSE LEFT(TO_CHAR(ADD_SECONDS (EVTCLI.&quot;FechaHoraUltimaActualizacion&quot;, CONFIGURACION.&quot;Valor&quot;)),27)
+					 	                                  END 
+	  				      END  AS &quot;FechaHoraUltimaActualizacion&quot;
+						,CASE WHEN EVTCLI.&quot;IdEventoCapital&quot; = 0 THEN NULL ELSE EVTCLI.&quot;IdEventoCapital&quot; END AS &quot;IdEventoCapital&quot; 
+						,CASE WHEN EVTCLI.&quot;IdTipoEventoCapital&quot; = '' THEN NULL ELSE EVTCLI.&quot;IdTipoEventoCapital&quot; END AS &quot;IdTipoEventoCapital&quot; 
+						,CAST(TEVTCAPITAL.&quot;Nombre&quot; AS NVARCHAR(100)) as &quot;NombreEventoCapital&quot;
+						,EVTCLI.&quot;Secuencia&quot;
+						,LEFT(TO_CHAR(IFNULL(EVTCLI.&quot;FechaCierre&quot;,'0001-01-01')),10) AS &quot;FechaCierre&quot;
+						,LEFT(TO_CHAR(IFNULL(EVTCLI.&quot;FechaPago&quot;,'0001-01-01')),10) AS &quot;FechaPago&quot;
+						,CASE WHEN EVTCLI.&quot;IdMoneda&quot; = '' THEN NULL ELSE EVTCLI.&quot;IdMoneda&quot; END AS &quot;IdMoneda&quot; 
+						,CASE WHEN EVTCLI.&quot;IdTipoOperacionGarantia&quot; = '' THEN NULL ELSE EVTCLI.&quot;IdTipoOperacionGarantia&quot; END AS &quot;IdTipoOperacionGarantia&quot; 
+						,EVTCLI.&quot;Origen&quot;
+						,CAST(EVT.&quot;Descripcion&quot; AS NVARCHAR(100)) AS &quot;Descripcion&quot;
+						,CAST(coalesce(POR.&quot;Proposito&quot;,'') AS NVARCHAR(100)) as &quot;Proposito&quot;
+						,CASE WHEN EVTCLI.&quot;IdSocioNegocio&quot; = 0 THEN NULL ELSE EVTCLI.&quot;IdSocioNegocio&quot; END AS &quot;IdSocioNegocio&quot; 
+						,CAST(EVTCLI.&quot;TipoSocioNegocio&quot; AS NVARCHAR(3)) AS &quot;TipoSocioNegocio&quot;
+						,CASE WHEN POR.&quot;IdCliente&quot; = 0 THEN NULL ELSE  POR.&quot;IdCliente&quot; END as &quot;IdCliente&quot;
+						,CAST(EVTCLI.&quot;NombreCliente&quot; AS NVARCHAR(302)) AS &quot;NombreCliente&quot;
+						,EVTCLI.&quot;IdTipoDocumentoIdentidad&quot;
+						,CAST(EVTCLI.&quot;DocumentoIdentidad&quot; AS NVARCHAR(40)) AS &quot;DocumentoIdentidad&quot;
+						,CASE WHEN EVTCLI.&quot;IdPortafolio&quot; = 0 THEN NULL ELSE EVTCLI.&quot;IdPortafolio&quot; END  as &quot;IdPortafolio&quot;
+						,CAST(coalesce(POR.&quot;CodigoPortafolio&quot;,'') AS NVARCHAR(100)) as &quot;CodigoPortafolio&quot;
+						,CAST(coalesce(POR.&quot;DescripcionPortafolio&quot;,'') AS NVARCHAR(100)) as &quot;DescripcionPortafolio&quot;
+						,CASE WHEN EVTCLI.&quot;IdClasificacionTipoInstrumento&quot; = '' THEN NULL ELSE EVTCLI.&quot;IdClasificacionTipoInstrumento&quot; END AS &quot;IdClasificacionTipoInstrumento&quot; 
+						,CASE WHEN EVTCLI.&quot;IdTipoInstrumento&quot; = '' THEN NULL ELSE EVTCLI.&quot;IdTipoInstrumento&quot; END AS &quot;IdTipoInstrumento&quot; 
+						,CASE WHEN EVTCLI.&quot;IdInstrumento&quot; = 0 THEN NULL ELSE EVTCLI.&quot;IdInstrumento&quot; END AS &quot;IdInstrumento&quot; 
+						,CAST(EVTCLI.&quot;Nemo&quot; AS NVARCHAR(40)) AS &quot;Nemo&quot; 
+						,CASE WHEN EVTCLI.&quot;IdInstrumentoNuevo&quot; = 0 THEN NULL ELSE EVTCLI.&quot;IdInstrumentoNuevo&quot; END AS &quot;IdInstrumentoNuevo&quot; 
+						,CAST(EVTCLI.&quot;NemoNuevo&quot; AS NVARCHAR(40)) AS &quot;NemoNuevo&quot;
+						,EVTCLI.&quot;TipoCartera&quot;
+						,CASE WHEN EVTCLI.&quot;IdBoveda&quot; = '' THEN NULL ELSE EVTCLI.&quot;IdBoveda&quot; END AS &quot;IdBoveda&quot; 
+						,CASE WHEN EVTCLI.&quot;IdBolsa&quot; = '' THEN NULL ELSE EVTCLI.&quot;IdBolsa&quot; END AS &quot;IdBolsa&quot; 
+						,EVTCLI.&quot;MontoReajuste&quot;
+						,EVTCLI.&quot;Precio&quot;
+						,EVTCLI.&quot;PrecioNuevo&quot;
+						,EVTCLI.&quot;NumeroDividendo&quot;
+						,EVTCLI.&quot;Paridad&quot;
+						,EVT.&quot;Factor&quot;
+						,EVT.&quot;Valor&quot;
+						,EVTCLI.&quot;CantidadDerecho&quot;
+						,EVTCLI.&quot;CantidadNueva&quot;
+						,EVTCLI.&quot;MontoCapital&quot;
+						,EVTCLI.&quot;MontoInteres&quot;
+						,EVTCLI.&quot;Total&quot;
+						,EVTCLI.&quot;SecuenciaCupon&quot;
+						,EVTCLI.&quot;IdConceptoGarantia&quot;
+						,CASE WHEN EVTCLI.&quot;IdUsuario&quot; = 0 THEN NULL ELSE EVTCLI.&quot;IdUsuario&quot; END AS &quot;IdUsuario&quot; 
+						,CAST(coalesce(MON.&quot;Nombre&quot;,'') AS NVARCHAR(100)) AS &quot;MonedaEvento&quot;
+						,CAST(EVTCLI.&quot;CodigoUsuarioAgente&quot; AS NVARCHAR(40)) AS &quot;CodigoUsuarioAgente&quot;
+						,CAST(coalesce(EMP.&quot;NombreCompleto&quot;,'') AS NVARCHAR(302)) as &quot;NombreAgente&quot;
+						,CAST(coalesce(SUC.&quot;CodigoSucursal&quot;,'') AS NVARCHAR(40)) as &quot;CodigoSucursal&quot;
+						,CASE WHEN EVTCLI.&quot;IdEstado&quot; = '' THEN NULL ELSE EVTCLI.&quot;IdEstado&quot; END AS &quot;IdEstado&quot; 
+						,CAST(ESTADO.&quot;Descripcion&quot; AS NVARCHAR(100)) as &quot;NombreEstado&quot;
+						from &quot;BSCL.Custodia.BD::CUS.EventoCapitalCliente&quot; AS EVTCLI
+						inner join &quot;BSCL.Custodia.BD::CUS.EventoCapital&quot; AS  EVT
+						on EVT.&quot;IdEventoCapital&quot; = EVTCLI.&quot;IdEventoCapital&quot;
+						CROSS JOIN (select top 1 &quot;Valor&quot; from &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD::PLA.Configuracion&quot;
+			            where &quot;CodigoParametro&quot; = 'PLA.SegundosZonaHoraria') AS CONFIGURACION 
+						left outer join &quot;BSCL.Portafolio.BD.Vistas::ConsultarPortafolio&quot; AS POR
+						on POR.&quot;IdPortafolio&quot; = EVTCLI.&quot;IdPortafolio&quot;
+						left outer join &quot;BSCL.Plataforma.BD.Vistas::PLA.ConsultarMoneda&quot; AS MON
+						on EVTCLI.&quot;IdMoneda&quot; = MON.&quot;IdMoneda&quot;
+						inner join &quot;BSCL.Custodia.BD.Vistas::CUS.ConsultarTipoEventoCapital&quot;  AS TEVTCAPITAL
+						on TEVTCAPITAL.&quot;IdTipoEventoCapital&quot; = EVTCLI.&quot;IdTipoEventoCapital&quot;
+						inner join &quot;BSCL.Plataforma.BD.Vistas::INS.ConsultarClasificacionTipoInstrumento&quot; AS TIPOINST
+						on TIPOINST.&quot;IdClasificacionTipoInstrumento&quot; = EVTCLI.&quot;IdClasificacionTipoInstrumento&quot;
+						and TIPOINST.&quot;IdTipoInstrumento&quot; = EVTCLI.&quot;IdTipoInstrumento&quot;
+						inner join &quot;BSCL&quot;.&quot;BSCL.Custodia.BD::CUS.EstadoCustodia&quot; AS ESTADO
+						on EVTCLI.&quot;IdEstado&quot; = ESTADO.&quot;IdEstado&quot;
+						and ESTADO.&quot;NombreEntidad&quot; = 'CUSTODIA.EVENTO'
+						left outer join &quot;BSCL.Plataforma.BD.Vistas::PLA.ConsultarMoneda&quot; AS MONLIQ
+						on MONLIQ.&quot;IdMoneda&quot; = EVT.&quot;IdMoneda&quot; 
+						left outer join &quot;BSCL.Plataforma.BD.Vistas::PLA.ConsultarMoneda&quot; AS MONSRT
+						on MONSRT.&quot;IdMoneda&quot; = EVT.&quot;GlosaMonedaSorteoLetras&quot;
+						left join  &quot;BSCL.SocioNegocio.BD.Vistas::EMP.ConsultarEmpleado&quot; AS EMP
+						on EMP.&quot;IdEmpleado&quot; = POR.&quot;IdEmpleadoEjecutivo&quot; 
+						left join &quot;BSCL&quot;.&quot;BSCL.Plataforma.BD.Vistas::PLA.ConsultarSucursal&quot; AS SUC
+						on SUC.&quot;IdSucursal&quot; = EMP.&quot;IdSucursal&quot;; 
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdEventoCapitalCliente" order="1">
+        <descriptions defaultDescription="IdEventoCapitalCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEventoCapitalCliente"/>
+      </attribute>
+      <attribute id="FechaHoraIngresoRegistro" order="2">
+        <descriptions defaultDescription="FechaHoraIngresoRegistro"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaHoraIngresoRegistro"/>
+      </attribute>
+      <attribute id="FechaHoraUltimaActualizacion" order="3">
+        <descriptions defaultDescription="FechaHoraUltimaActualizacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaHoraUltimaActualizacion"/>
+      </attribute>
+      <attribute id="IdEventoCapital" order="4">
+        <descriptions defaultDescription="IdEventoCapital"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEventoCapital"/>
+      </attribute>
+      <attribute id="IdTipoEventoCapital" order="5">
+        <descriptions defaultDescription="IdTipoEventoCapital"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoEventoCapital"/>
+      </attribute>
+      <attribute id="NombreEventoCapital" order="6">
+        <descriptions defaultDescription="NombreEventoCapital"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEventoCapital"/>
+      </attribute>
+      <attribute id="Secuencia" order="7">
+        <descriptions defaultDescription="Secuencia"/>
+        <keyMapping columnObjectName="Script_View" columnName="Secuencia"/>
+      </attribute>
+      <attribute id="FechaCierre" order="8">
+        <descriptions defaultDescription="FechaCierre"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCierre"/>
+      </attribute>
+      <attribute id="FechaPago" order="9">
+        <descriptions defaultDescription="FechaPago"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaPago"/>
+      </attribute>
+      <attribute id="IdMoneda" order="10">
+        <descriptions defaultDescription="IdMoneda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdMoneda"/>
+      </attribute>
+      <attribute id="IdTipoOperacionGarantia" order="11">
+        <descriptions defaultDescription="IdTipoOperacionGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoOperacionGarantia"/>
+      </attribute>
+      <attribute id="Origen" order="12">
+        <descriptions defaultDescription="Origen"/>
+        <keyMapping columnObjectName="Script_View" columnName="Origen"/>
+      </attribute>
+      <attribute id="Descripcion" order="13">
+        <descriptions defaultDescription="Descripcion"/>
+        <keyMapping columnObjectName="Script_View" columnName="Descripcion"/>
+      </attribute>
+      <attribute id="Proposito" order="14">
+        <descriptions defaultDescription="Proposito"/>
+        <keyMapping columnObjectName="Script_View" columnName="Proposito"/>
+      </attribute>
+      <attribute id="IdSocioNegocio" order="15">
+        <descriptions defaultDescription="IdSocioNegocio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdSocioNegocio"/>
+      </attribute>
+      <attribute id="TipoSocioNegocio" order="16">
+        <descriptions defaultDescription="TipoSocioNegocio"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoSocioNegocio"/>
+      </attribute>
+      <attribute id="IdCliente" order="17">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="NombreCliente" order="18">
+        <descriptions defaultDescription="NombreCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreCliente"/>
+      </attribute>
+      <attribute id="IdTipoDocumentoIdentidad" order="19">
+        <descriptions defaultDescription="IdTipoDocumentoIdentidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoDocumentoIdentidad"/>
+      </attribute>
+      <attribute id="DocumentoIdentidad" order="20">
+        <descriptions defaultDescription="DocumentoIdentidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="DocumentoIdentidad"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="21">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="CodigoPortafolio" order="22">
+        <descriptions defaultDescription="CodigoPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoPortafolio"/>
+      </attribute>
+      <attribute id="DescripcionPortafolio" order="23">
+        <descriptions defaultDescription="DescripcionPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="DescripcionPortafolio"/>
+      </attribute>
+      <attribute id="IdClasificacionTipoInstrumento" order="24">
+        <descriptions defaultDescription="IdClasificacionTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdClasificacionTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdTipoInstrumento" order="25">
+        <descriptions defaultDescription="IdTipoInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoInstrumento"/>
+      </attribute>
+      <attribute id="IdInstrumento" order="26">
+        <descriptions defaultDescription="IdInstrumento"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumento"/>
+      </attribute>
+      <attribute id="Nemo" order="27">
+        <descriptions defaultDescription="Nemo"/>
+        <keyMapping columnObjectName="Script_View" columnName="Nemo"/>
+      </attribute>
+      <attribute id="IdInstrumentoNuevo" order="28">
+        <descriptions defaultDescription="IdInstrumentoNuevo"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdInstrumentoNuevo"/>
+      </attribute>
+      <attribute id="NemoNuevo" order="29">
+        <descriptions defaultDescription="NemoNuevo"/>
+        <keyMapping columnObjectName="Script_View" columnName="NemoNuevo"/>
+      </attribute>
+      <attribute id="TipoCartera" order="30">
+        <descriptions defaultDescription="TipoCartera"/>
+        <keyMapping columnObjectName="Script_View" columnName="TipoCartera"/>
+      </attribute>
+      <attribute id="IdBoveda" order="31">
+        <descriptions defaultDescription="IdBoveda"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdBoveda"/>
+      </attribute>
+      <attribute id="IdBolsa" order="32">
+        <descriptions defaultDescription="IdBolsa"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdBolsa"/>
+      </attribute>
+      <attribute id="MontoReajuste" order="33">
+        <descriptions defaultDescription="MontoReajuste"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoReajuste"/>
+      </attribute>
+      <attribute id="Precio" order="34">
+        <descriptions defaultDescription="Precio"/>
+        <keyMapping columnObjectName="Script_View" columnName="Precio"/>
+      </attribute>
+      <attribute id="PrecioNuevo" order="35">
+        <descriptions defaultDescription="PrecioNuevo"/>
+        <keyMapping columnObjectName="Script_View" columnName="PrecioNuevo"/>
+      </attribute>
+      <attribute id="NumeroDividendo" order="36">
+        <descriptions defaultDescription="NumeroDividendo"/>
+        <keyMapping columnObjectName="Script_View" columnName="NumeroDividendo"/>
+      </attribute>
+      <attribute id="Paridad" order="37">
+        <descriptions defaultDescription="Paridad"/>
+        <keyMapping columnObjectName="Script_View" columnName="Paridad"/>
+      </attribute>
+      <attribute id="Factor" order="38">
+        <descriptions defaultDescription="Factor"/>
+        <keyMapping columnObjectName="Script_View" columnName="Factor"/>
+      </attribute>
+      <attribute id="Valor" order="39">
+        <descriptions defaultDescription="Valor"/>
+        <keyMapping columnObjectName="Script_View" columnName="Valor"/>
+      </attribute>
+      <attribute id="CantidadDerecho" order="40">
+        <descriptions defaultDescription="CantidadDerecho"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadDerecho"/>
+      </attribute>
+      <attribute id="CantidadNueva" order="41">
+        <descriptions defaultDescription="CantidadNueva"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadNueva"/>
+      </attribute>
+      <attribute id="MontoCapital" order="42">
+        <descriptions defaultDescription="MontoCapital"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoCapital"/>
+      </attribute>
+      <attribute id="MontoInteres" order="43">
+        <descriptions defaultDescription="MontoInteres"/>
+        <keyMapping columnObjectName="Script_View" columnName="MontoInteres"/>
+      </attribute>
+      <attribute id="Total" order="44">
+        <descriptions defaultDescription="Total"/>
+        <keyMapping columnObjectName="Script_View" columnName="Total"/>
+      </attribute>
+      <attribute id="SecuenciaCupon" order="45">
+        <descriptions defaultDescription="SecuenciaCupon"/>
+        <keyMapping columnObjectName="Script_View" columnName="SecuenciaCupon"/>
+      </attribute>
+      <attribute id="IdConceptoGarantia" order="46">
+        <descriptions defaultDescription="IdConceptoGarantia"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdConceptoGarantia"/>
+      </attribute>
+      <attribute id="IdUsuario" order="47">
+        <descriptions defaultDescription="IdUsuario"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUsuario"/>
+      </attribute>
+      <attribute id="MonedaEvento" order="48">
+        <descriptions defaultDescription="MonedaEvento"/>
+        <keyMapping columnObjectName="Script_View" columnName="MonedaEvento"/>
+      </attribute>
+      <attribute id="CodigoUsuarioAgente" order="49">
+        <descriptions defaultDescription="CodigoUsuarioAgente"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoUsuarioAgente"/>
+      </attribute>
+      <attribute id="NombreAgente" order="50">
+        <descriptions defaultDescription="NombreAgente"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreAgente"/>
+      </attribute>
+      <attribute id="CodigoSucursal" order="51">
+        <descriptions defaultDescription="CodigoSucursal"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoSucursal"/>
+      </attribute>
+      <attribute id="IdEstado" order="52">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="NombreEstado" order="53">
+        <descriptions defaultDescription="NombreEstado"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreEstado"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

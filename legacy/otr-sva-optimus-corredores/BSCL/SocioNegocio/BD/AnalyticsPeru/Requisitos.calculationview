@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="Documentos" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="Persona_"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="GrupoRequisitos" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="DescripcionRequisito" length="255"/>
+        <viewAttribute datatype="NVARCHAR" id="Valor" length="255"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaCreacion" length="19"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaModificacion" length="19"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+ 	  	 var_out = SELECT 
+						SOC."IdPersona",
+						TI."GrupoIndicador" AS "GrupoRequisitos",
+						TI."NombreTipoIndicador" AS "DescripcionRequisito",
+						I."ValorIndicador" AS "Valor",
+						TO_NVARCHAR(I."FechaCreacion") AS "FechaCreacion",
+						TO_NVARCHAR(I."FechaModificacion") AS "FechaModificacion"
+					FROM "BSCL.Plataforma.BD::IND.Indicador" I
+					INNER JOIN "BSCL.Plataforma.BD::IND.TipoIndicador" TI ON TI."IdTipoIndicador" = I."IdTipoIndicador"
+					INNER JOIN "BSCL.SocioNegocio.BD::SOC.SocioDeNegocio" SOC ON SOC."IdCliente" = I."IdEntidad"
+					WHERE "IdUso" = 'REQ';
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdPersona" hidden="true" order="1">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="GrupoRequisitos" hidden="true" order="2">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="GrupoRequisitos"/>
+      </attribute>
+      <attribute id="DescripcionRequisito" hidden="true" order="3">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="DescripcionRequisito"/>
+      </attribute>
+      <attribute id="Valor" hidden="true" order="4">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="Valor"/>
+      </attribute>
+      <attribute id="FechaCreacion" hidden="true" order="5">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+      <attribute id="FechaModificacion" hidden="true" order="6">
+        <descriptions/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaModificacion"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

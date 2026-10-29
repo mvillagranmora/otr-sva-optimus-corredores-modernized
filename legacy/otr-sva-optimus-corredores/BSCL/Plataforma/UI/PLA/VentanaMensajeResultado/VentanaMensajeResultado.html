@@ -1,0 +1,68 @@
+<div ng-controller='VentanaMensajeResultadoCtrl'>
+	<div class="bcs-modal">
+
+		<div ng-if="mensaje" class="bcs-description-modal"> <!-- <div ng-if="mensaje" class="bcs-description-modal" ng-class="{'bcs-description-modal-error': icono === 'ERROR'}"></div> -->
+			
+			<div class="row" style="display: flex; justify-content: center;"><!-- ng-class="{'bcs-info-modal-msg': icono === 'INFORMACION'}" -->
+				<span style="padding-right: 10px;">
+					<i ng-show="icono === 'ERROR'" class="fa fa-lg fa-times-circle error-msg"></i>
+					<i ng-show="icono === 'AUTORIZACION'" class="fa fa-lg fa-hand-paper-o warn-msg" ></i>
+					<i ng-show="icono === 'ADVERTENCIA'" class="fa fa-lg fa-exclamation-triangle warn-msg" ></i>
+					<i ng-show="icono === 'INFORMACION'" class="fa fa-lg fa-check-circle success-msg" ></i>
+				</span>
+			<label class="bcs-modal-text" ng-style="mensaje && mensaje.startsWith('SOLICITUD PUNTAS') ? {'white-space':'pre-line','word-break':'break-word','max-height':'none'} : {}" >{{mensaje}}</label> <!-- ng-class="{'hidden-description': icono === 'ERROR'}" -->
+			
+			</div>
+		</div>
+
+		<div class="bcs-description-label">
+			<label ng-click="toggleDiv()" class="bcs-modal-text descriptionAction" ng-show="conflictos.errores.length">Descripción</label>
+		</div>
+		<div class="row bcs-modal-info">
+			<div class="row bcs-modal-label" ng-show="conflictos.erroresFatales.length">
+				<div style="font-size: 12px;">
+					<i ng-show="iconomensaje" class="fa fa-times-circle col-xs-1 error-msg" style="padding-right:7px;"></i>
+					<label class="bcs-modal-text-desc col-xs-11" translate>{{conflictos.erroresFatales[0].Descripcion}}</label>
+				</div>
+			</div>
+			<div class="row bcs-modal-label" ng-show="conflictos.informaciones.length">
+				<div ng-repeat="inf in conflictos.informaciones">
+					<i ng-show="iconomensaje" class="fa fa-check-circle col-xs-1 success-msg" style="padding-right:7px;"></i>
+					<label class="bcs-modal-text-desc col-xs-11">{{inf.Descripcion}}</label>
+				</div>
+			</div>
+			<div class="row bcs-modal-label" ng-show="conflictos.advertencias.length" style="display: flex; flex-direction: column;">
+				<div ng-repeat="adv in conflictos.advertencias">
+					
+					<i ng-show="iconomensaje" class="fa fa-exclamation-circle col-xs-1 warn-msg" style="font-size: 15px;"></i>
+					
+					<label class="bcs-modal-text-desc col-xs-11">{{adv.Descripcion}}</label>
+				</div>
+			</div>
+			
+			<div class="row bcs-modal-label" ng-show="conflictos.autorizaciones.length">
+				<div ng-repeat="aut in conflictos.autorizaciones">
+					<i ng-show="iconomensaje" class="fa fa-hand-paper-o col-xs-1 warn-msg" style="padding-right:7px"></i>
+					<label class="bcs-modal-text-desc col-xs-11">{{aut.Descripcion}}</label>
+				</div>		
+			</div>
+		
+			<div class="row bcs-modal-label" ng-show="conflictos.errores.length" ng-class="{'hidden-description': icono === 'ERROR'}">
+				<div ng-repeat="error in conflictos.errores">
+					
+					<i ng-show="iconomensaje" class="fa fa-times-circle col-xs-1 error-msg" style="padding-right:7px"></i>
+					<label class="bcs-modal-text-desc col-xs-11">{{error.Descripcion}}</label></div>
+			</div>
+		</div>
+		
+		
+
+		
+			
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-2 bcs-options-footer pull-right" bcs-auto-desactivar="'false'" bcs-texto="'UI_ACEPTAR' | translate" 
+			bcs-habilitado="'true'" bcs-tipo="'bcs-button-primary'" bcs-clic="salir()"></bcs-button>
+			
+	</div>
+</div>

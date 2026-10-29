@@ -1,0 +1,114 @@
+<div ng-controller='ValorizadorPagareCtrl'>
+    <form name="ValorizarForm">
+        <div class="row">
+            <label class="col-xs-6" translate>UI_NEMOTECNICO</label>
+		    <bcs-input-instrumentos class="col-xs-6"
+			    bcs-requerido
+			    name="uInstrumento"
+			    datos-instrumento="params.instrumento"
+			    muestra-precio="'N'"
+			    filtro-clasificacion="'IF'"
+			    filtro-estado="'ACT'"
+			    filtro-bolsa = "'BCS'">
+		    </bcs-input-instrumentos>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_FECHA_CAPTACION</label>
+            <bcs-input-date class="col-xs-6"
+                ng-disabled="'false'"
+                bcs-requerido
+                k-ng-model="params.FechaCaptacion">
+            </bcs-input-date>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_FECHA_VENCIMIENTO</label>
+            <bcs-input-date class="col-xs-6"
+                ng-disabled="'false'"
+                k-ng-model="params.FechaVencimiento">
+            </bcs-input-date>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_DIAS_VENCIMIENTO</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="'0'"
+                k-ng-model="params.DiasVencimiento">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_DIAS_ANO</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"            	
+                decimales="'0'"
+                k-ng-model="params.DiasAno">
+            </bcs-input-numero>
+        </div>
+
+        <label class="col-xs-6" translate>UI_TIPO_INTERES</label>
+        <bcs-combobox-base
+            class="col-xs-6"
+            tipo="'combobox-tipo-calculo-intereses'"
+            bcs-requerido="true"
+            id-defecto="params.TipoInteres"
+            id-actual="params.TipoInteres">
+        </bcs-combobox-base>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_TASA</label>
+            <bcs-input-numero
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaTasas"
+                k-ng-model="params.Tasa">
+            </bcs-input-numero>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_VALOR_CAPTACION</label>
+            <bcs-input-monetario
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaMontos"
+                k-ng-model="params.ValorCaptacion"
+                simbolo = "params.instrumento.IdTipoReajuste">
+            </bcs-input-monetario>
+        </div>
+
+        <div class="row">
+            <label class="col-xs-6" translate>UI_VALOR_RESCATE</label>
+            <bcs-input-monetario
+                class="col-xs-6"
+                atributos="width:100%"
+                decimales="config.escalaMontos"
+                k-ng-model="params.ValorRescate"
+                simbolo = "params.instrumento.IdTipoReajuste">
+            </bcs-input-monetario>
+        </div>
+
+        <div class="row bcs-panel-comandos">
+            <bcs-button
+                id="UI_VALORIZAR"
+                class="col-xs-6"
+                bcs-tipo="'principal'"
+                bcs-auto-desactivar="'false'"
+                bcs-texto="'UI_VALORIZAR' | translate"
+                bcs-habilitado="ValorizarForm.$valid"
+                bcs-clic="valorizar()">
+            </bcs-button>
+            <bcs-button
+                id="UI_LIMPIAR"
+                class="col-xs-6"
+                bcs-auto-desactivar="'false'"
+                bcs-texto="'UI_LIMPIAR' | translate"
+                bcs-habilitado="'true'"
+                bcs-clic="limpiar()">
+            </bcs-button>
+       </div>
+    </form>
+</div>

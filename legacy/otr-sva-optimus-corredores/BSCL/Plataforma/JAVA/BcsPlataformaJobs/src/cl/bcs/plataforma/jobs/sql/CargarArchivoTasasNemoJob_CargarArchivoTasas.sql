@@ -1,0 +1,21 @@
+CALL "BSCL.Plataforma.BD.Servicios::TAS.CargarArchivoTasas" (
+	p_IdEmpresa	=> :IdEmpresa,
+	p_IdUsuario => :IdUsuario,
+	p_IdModulo => :IdModulo,
+	p_UsaReglasNegocio => :UsaReglasNegocio,
+	p_Archivo => :NombreArchivo,
+	p_IdClasificacionTipoInstrumento => :Mercado,
+	p_FechaCreSol => :Fecha,
+	p_IdTipoTasa => :TipoRegistro,
+	p_Fuente => :Fuente,
+	p_Rut => '',
+	p_Fecha	=> '',
+	p_Hora	=> '',
+	p_TipoArchivo => 'CSV',
+	p_DataTasas	=> #CargarArchivoTasasNemo_p_DataTasas,
+	p_out_ResultadoProceso => $p_out_ResultadoProceso,
+	p_out_AdvertenciasContador	=> @p_out_AdvertenciasContador,
+	p_out_AdvertenciasDetalle => $p_out_AdvertenciasDetalle,	
+	p_out_ErroresContador => @p_out_ErroresContador,
+	p_out_ErroresDetalle => $p_out_ErroresDetalle
+)

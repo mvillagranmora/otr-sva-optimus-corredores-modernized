@@ -1,0 +1,1 @@
+SELECT top 1 "P_OUT_VERSION" FROM "BSCL.Normativa.BD.Utilitarios::NOR.ObtenerVersionEsquema" (:IdTipoDocumento,TO_VARCHAR (:v_FechaVersion, 'DD-MM-YYYY'));

@@ -1,0 +1,106 @@
+<div id="PanelPersonaCrs" class="row" ng-controller="PanelPersonaCrsCtrl as ppc" style="overflow:auto; height:250px ; padding:10px;">
+	<ng-form class="col-xs-12 form-horizontal" name="formPanelPersonaCrs" >
+		<div class="row" >
+			<div class="row" >
+				<label class="col-xs-9" translate>UI_RESIDENCIA_FISCAL_INFORMACION</label>
+			</div>
+			<hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-xs-4" translate>UI_RESIDENCIA_TRIBUTARIA_EXTRANJERA</label>
+                    <bcs-input-checkbox
+                        id="formPanelPersonaCrs_residenciaTributariaExtranjera"
+                        ng-disabled="!ppc.Habilitado"
+                        class="col-xs-7"
+                        name="ResidenciaTributariaExtranjera"
+                        ng-model="ppc.dataPersona.ResidenciaTributariaExtranjera">
+                    </bcs-input-checkbox>
+                </div>	
+                <div class="col-xs-6">
+                    <label class="col-xs-4" translate>UI_DECLARACION_CRS</label>
+                    <bcs-input-checkbox 
+                        ng-disabled="!ppc.Habilitado"
+                        class="col-xs-7"
+                        ng-model="ppc.dataPersona.DeclaracionCRS">
+                    </bcs-input-checkbox>
+                </div>
+            </div>
+	    </div>
+    </ng-form>
+    <!-- INICIO PRIMER PANEL COMANDOS -->
+    <div class="row bcs-panel-comandos">
+		<bcs-button
+			id="PanelPersonaCrs_editar"
+			class="col-xs-2 pull-right"
+			bcs-tipo="'bcs-button-primary'"
+			ng-show="!ppc.Habilitado"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_EDITAR' | translate"
+			bcs-habilitado="true"
+			bcs-clic="ppc.editarPPC()"></bcs-button>
+		<bcs-button
+			id="PanelPersonaCrs_guardar"
+			class="col-xs-2 pull-right"
+			bcs-tipo="'bcs-button-primary'"
+			ng-show="ppc.Habilitado"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_GUARDAR' | translate"
+			bcs-habilitado="formPanelPersonaCrs.$valid"
+			bcs-clic="ppc.guardarPPC()"></bcs-button>
+		<bcs-button
+			id="PanelPersonaCrs_cancelar"
+			class="col-xs-2 pull-right"
+			bcs-tipo="'bcs-button-secondary'"
+			ng-show="ppc.Habilitado"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_CANCELAR' | translate"
+			bcs-habilitado="true"
+			bcs-clic="ppc.cancelarPPC()">
+        </bcs-button>
+    </div>
+
+    <div>
+        <div class="row">
+            <label class="col-xs-10" translate>UI_PAIS_RESIDENCIA_FISCAL_CRS</label>
+        </div>
+        <div class="row">
+            <!-- Grilla -->
+            <bcs-grid
+                fn-exportar-excel = "exportarExcel"
+                configuracion="ppc.paisResidenciaFiscalOptions" 
+                seleccionado="ppc.paisResidenciaFiscalSeleccionada" 
+                fn-doble-click="ppc.modificarPaisResidenciaFiscal('MODIFICAR')">
+            </bcs-grid>
+        </div>
+        <!-- INICIO SEGUNDO PANEL COMANDOS -->
+        <div class="row">
+            <bcs-button class="col-xs-2 pull-right"
+            id="PanelPersonaCrs_Agregar" 
+            bcs-tipo="'bcs-button-primary'" 
+            bcs-auto-desactivar="false" 
+            bcs-texto="'UI_AGREGAR' | translate"
+            bcs-habilitado="ppc.HabilitadoExtranjero"
+            bcs-clic="ppc.modificarPaisResidenciaFiscal('CREAR')">
+            </bcs-button>
+            <bcs-button id="PanelPersonaCrs_Modificar" 
+            class="col-xs-2 pull-right"
+            bcs-tipo="'bcs-button-secondary'" 
+            bcs-auto-desactivar="false" 
+            bcs-texto="'UI_MODIFICAR' | translate"
+            bcs-habilitado="ppc.paisResidenciaFiscalSeleccionada !== undefined && ppc.paisResidenciaFiscalSeleccionada && !ppc.Habilitado"
+            bcs-clic="ppc.modificarPaisResidenciaFiscal('MODIFICAR')">
+            </bcs-button>
+            <bcs-button id="PanelPersonaCrs_eliminar" 
+            class="col-xs-2 pull-right" 
+            bcs-tipo="'bcs-button-secondary'" 
+            bcs-auto-desactivar="false" 
+            bcs-texto="'UI_ELIMINAR' | translate" 
+            bcs-habilitado="ppc.paisResidenciaFiscalSeleccionada"  
+            bcs-clic="ppc.eliminar(ppc.paisResidenciaFiscalSeleccionada)">
+            </bcs-button>
+            <bcs-menu class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate">
+                <li ng-click="exportarExcel(NombreArchivo)">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+            </bcs-menu>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+<div id="PanelTipoOperacionPosicion" class="row" ng-controller="PanelTipoOperacionPosicionCtrl as pTOP">
+	<!-- INICIO FILTROS -->
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_TIPO_PRODUCTO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pTOP_TipoProducto"
+						tipo="'combobox-tipo-producto'"
+						id-actual="pTOP.filtro.IdTipoProducto"
+						id-defecto="'0'"
+						filtros="pTOP.cmbbx.TipoProducto.filtros"
+						todos="'S'"
+						seleccionado="pTOP.dataFiltros.TipoProductoObj"
+						cascada1-a="pTOP.cmbbx.TipoOperacion.filtros.IdTipoProducto"
+						cascada1-valor="'IdTipoProducto'">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_TIPO_OPERACION</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pTOP_TipoOperacion"
+						tipo="'combobox-tipo-operacion'"
+						id-actual="pTOP.filtro.IdTipoOperacion"
+						item-post-filtro = "'1'"
+						filtros="pTOP.cmbbx.TipoOperacion.filtros"
+						todos="'S'"
+						seleccionado="pTOP.dataFiltros.TipoOperacionObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+			  		<label class="col-xs-4" translate>UI_TIPO_COMPROBANTE</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pTOP_TipoComprobante"
+						tipo="'combobox-tipo-comprobante-posicion-mrf'"
+						id-actual="pTOP.filtro.IdTipoComprobante"
+						id-defecto="'0'"
+						filtros="pTOP.cmbbx.TipoComprobante.filtros"
+						todos="'S'"
+						seleccionado="pTOP.dataFiltros.TipoComprobanteObj">
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-6">
+					<label class="col-xs-4" translate>UI_TIPO_ESTADO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pTOP_TipoEstado"
+						tipo="'combobox-tipo-estado-posicion-mrf'"
+						id-actual="pTOP.filtro.IdTipoEstado"
+						id-defecto="'0'"
+						filtros="pTOP.cmbbx.TipoEstado.filtros"
+						todos="'S'"
+						seleccionado="pTOP.dataFiltros.TipoEstadoObj">
+					</bcs-combobox-base>
+				</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-xs-6">
+		  			<label class="col-xs-4" translate>UI_ESTADO</label>
+					<bcs-combobox-base class="col-xs-7"
+						id="pTOP_Estado"
+						tipo="'combobox-estado-mesas'"
+						id-actual="pTOP.filtro.IdEstado"
+						id-defecto="'0'"
+						filtros="pTOP.cmbbx.Estado.filtros"
+						todos="'S'"
+						seleccionado="pTOP.dataFiltros.EstadoObj">
+					</bcs-combobox-base>
+					</div>
+		  	</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'" bcs-auto-desactivar="false" bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="true" bcs-clic="pTOP.fn.buscar()"></bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="true" bcs-clic="pTOP.fn.limpiar()"></bcs-button>
+			</div>
+	  	</div>
+	</div>
+	<br>
+	
+	<div class="row">
+		<bcs-grid
+			configuracion="pTOP.grilla.TipoOperacionPosicion"
+			seleccionado="pTOP.grilla.tipoOperacionPosicionSel"
+			fn-doble-click="pTOP.fn.modificar(pTOP.grilla.tipoOperacionPosicionSel)"
+			fn-exportar-excel="exportarExcel">
+		</bcs-grid>
+	</div>
+	
+	<div class="row bcs-panel-buttons">
+		<bcs-button id="PanelTipoOperacionPosicion_agregar" class="col-xs-2" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_AGREGAR' | translate" bcs-habilitado="'true'" bcs-clic="pTOP.fn.agregar()">
+		</bcs-button>
+		<bcs-button id="PanelTipoOperacionPosicion_modificar" class="col-xs-2" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" 
+			bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="'true'" bcs-clic="pTOP.fn.modificar(pTOP.grilla.tipoOperacionPosicionSel)">
+		</bcs-button>
+		
+		<bcs-menu class="col-xs-2 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel('TipoOperacionPosicion')">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

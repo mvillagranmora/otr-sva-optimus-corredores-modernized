@@ -1,0 +1,191 @@
+<div id="PanelEgreso" class="row" ng-controller="PanelEgresoCtrl as pc1">
+<form class="col-xs-12 form-horizontal" name="formTraspasoEgreso">
+
+	<div class="row">
+			<div class="col-xs-12">
+				<label class="col-xs-2" style="width: 11%;" translate>UI_CLIENTE_PORTAFOLIO</label>
+				<bcs-combobox-base class="col-xs-6" id="formTraspasoEgreso_cliente"
+					auto-cargar="'true'"
+					muestra-enlace 	 = "'N'"
+					ng-style="{'width' : pc1.cmbbx.oClientePortafolio.seleccionado.IdEstadoCliente !== 'ACT' && pc1.cmbbx.oClientePortafolio.seleccionado  ? '78%' : '83.6%'}"
+					carga-cliente-automatico="'S'"
+					bcs-requerido
+					id-actual="pc1.cmbbx.oClientePortafolio.idActual"
+					id-defecto="pc1.cmbbx.oClientePortafolio.idDefecto"
+					tipo="pc1.cmbbx.oClientePortafolio.tipo"
+					seleccionado="pc1.cmbbx.oClientePortafolio.seleccionado"
+					filtros="pc1.cmbbx.oClientePortafolio.filtros"
+					configuracion="pc1.cmbbx.oClientePortafolio.configuracion">
+				</bcs-combobox-base>	
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-6">
+				<span ><label class="col-xs-6 titulo" translate>UI_DETALLE_DEL_TRASPASO&nbsp;</label></span>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-8" >
+				<label class="col-xs-3" translate>UI_ADMINISTRADORA_DESTINO</label>
+				<bcs-combobox-base class="col-xs-9"
+							tipo = "'combobox-fondos-industria'"
+							id-actual = "pc1.cmbbx.IdEntidadDestino"
+							filtros="pc1.cmbbx.EntidadDestino.filtros"
+							auto-cargar="true"
+							id-defecto="pc1.params.PrevDocumento.EntidadDestino"
+							idPostFiltro="0"
+							todos="'N'"
+							seleccionado="pc1.cmbbx.EntidadDestinoObj">
+			 	</bcs-combobox-base >		
+			</div>
+			<div class="col-xs-4" >
+				<label class="col-xs-4" translate>UI_DOCUMENTO_IDENTIDAD_DESTINO</label> 
+		  		<bcs-input-texto class="col-xs-6"
+				 		ng-model="pc1.cmbbx.EntidadDestinoObj.RutSociedadAdmFFMM"
+				 		k-ng-disabled="'true'">
+				 </bcs-input-texto>
+			</div>
+			
+		</div>	
+		
+		<div class="row">
+			<div class="col-xs-4" >
+				<label class="col-xs-6" translate>UI_MOTIVO_TRASPASO</label>
+				<bcs-combobox-base class="col-xs-6"
+							id="formTraspasoEgreso_cliente"
+							tipo = "'combobox-motivo-traspaso-ffmm'"
+							bcs-requerido
+							id-actual = "pc1.cmbbx.IdMotivo"
+							filtros="pc1.cmbbx.Motivo.filtros"
+							auto-cargar="true"
+							item-post-filtro="'1'"
+							id-defecto="pc1.params.PrevDocumento.IdMotivo"
+							todos="'N'"
+							seleccionado="pc1.cmbbx.IdMotivoObj">
+			 	</bcs-combobox-base >		
+			</div>
+			<div class="col-xs-4" >	
+				<label class="col-xs-6" translate>UI_TIPO_TRASPASO</label>
+				<bcs-combobox-base class="col-xs-6"
+							tipo = "'combobox-tipo-traspaso-ffmm'"
+							id-actual = "pc1.cmbbx.IdTipoTraspaso"
+							filtros="pc1.cmbbx.TipoTraspaso.filtros"
+							auto-cargar="true"
+							item-post-filtro="'1'"
+							id-defecto="pc1.params.PrevDocumento.IdTipoTraspaso"
+							todos="'N'"
+							seleccionado="pc1.cmbbx.IdTipoTraspasoObj">
+			 	</bcs-combobox-base >		
+			</div>
+				<div class="col-xs-4" >	
+					<label class="col-xs-4" translate>UI_GLOSA</label> 
+			  		<bcs-input-texto class="col-xs-6"
+				  		id="UI_GLOSA"
+					  	maxlength="100"
+						tipo-campo="'textarea'"
+						ng-model="pc1.formData.comentario"
+						atributos="margin: 0px; height:30px;resize:none;width: 100%">
+			  		</bcs-input-texto>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4" >
+				<label class="col-xs-6" translate>UI_MONEDA</label>
+				<bcs-combobox-base class="col-xs-6"
+					tipo = "'combobox-moneda'"
+					id-actual = "pc1.cmbbx.IdMonedaTraspaso"
+					filtros="pc1.cmbbx.MonedaTraspaso.filtros"
+					auto-cargar="true"
+					item-post-filtro="'2'"
+					id-defecto="pc1.params.PrevDocumento.IdMonedaTraspaso"
+					todos="'N'"
+					bcs-requerido
+					seleccionado="pc1.cmbbx.IdMonedaTraspasoObj">
+			 	</bcs-combobox-base >
+			</div>
+		</div>
+		<div class="row">
+			<uib-tabset class="col-xs-12">
+				<uib-tab heading="{{ 'UI_CUSTODIA' | translate}}" select="select('gridCustodia')">
+					<div class="row">
+						<bcs-grid 
+							id="grid-custodia-ffm"
+						 	configuracion="pc1.SaldoCustodia"
+							api = "apiGridCustodiaFondosMutuos"
+							seleccionado="pc1.SaldoCustodia.seleccion"
+							fn-exportar-excel = "exportarExcel">		
+						</bcs-grid>
+					</div>
+					<div class="row">
+						<div class="col-xs-6" ></div>
+						<div class="col-xs-3" >
+							<label class="col-xs-4" translate>UI_CANTIDAD_TOTAL</label> 
+					  		<bcs-input-numero class="col-xs-6"
+							 		k-ng-model="pc1.CantidadTotalTraspaso"
+							 		decimales = "'4'"
+							 		k-ng-disabled="'true'">
+							 </bcs-input-numero>
+						</div>
+						<div class="col-xs-3" >
+							<label class="col-xs-4" translate>UI_MONTO_TOTAL</label> 
+					  		<bcs-input-monetario class="col-xs-6"
+							 		k-ng-model="pc1.MontoTotalTraspaso"
+							 		decimales = "pc1.cantidadDecimalesMontoTotal"
+									simbolo="pc1.idMonedaMontoTotal"
+							 		k-ng-disabled="'true'">
+							 </bcs-input-monetario>
+						</div>
+						 						
+						 
+						 
+					</div>
+				</uib-tab>
+			</uib-tabset>
+			
+		</div>
+		<div class="row">
+			<uib-tabset class="col-xs-12">
+				<uib-tab heading="{{ 'UI_INVERSION_TRASPASO_EGRESO' | translate}}" select="select('gridDestino')">
+					<div class="row">
+						<div class="col-xs-12" >
+							<bcs-grid 
+								id="grid-destino-ffm"
+							 	configuracion="pc1.Solicitudes"
+								api = "apiGridDestinoFondosMutuos"
+								seleccionado="pc1.Solicitudes.seleccion"
+								fn-exportar-excel = "exportarExcel">		
+							</bcs-grid>
+						</div>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+			
+		</div>		
+</form>		
+	<div class="row bcs-panel-comandos">
+	
+					
+		<div class="col-xs-12" style="top: 10px">
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-primary'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_INGRESAR' | translate"
+				bcs-habilitado="'true'" 
+			    bcs-clic="pc1.ingresar()"
+			    ng-show="pc1.modoPantalla=='INGRESO'">
+			 </bcs-button>
+			
+			<bcs-button class="col-xs-2 pull-right" bcs-tipo="'bcs-button-secondary'"
+				bcs-auto-desactivar="false" 
+				bcs-texto="'UI_GUARDAR' | translate"
+				bcs-habilitado="'true'" 
+			    bcs-clic="pc1.ingresar()"
+			    ng-show="pc1.modoPantalla=='EDICION'">
+			 </bcs-button>
+			 
+		</div>
+	
+	</div>
+	
+</div>

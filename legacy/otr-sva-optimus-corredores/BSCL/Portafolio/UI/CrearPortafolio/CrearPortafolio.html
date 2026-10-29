@@ -1,0 +1,145 @@
+<div id="CrearPortafolio" class="col-xs-12" ng-controller="CrearPortafolioCtrl as cPort">
+	<div class="bcs-cuerpo">
+		<form name="formCrearPortafolio" class="col-xs-12 form-horizontal">
+			<div ng-if="cPort.parametros.TipoPortafolio !== 'APV'" class="row">
+				<label class="col-xs-4" translate>UI_CODIGO_PORTAFOLIO</label>
+				<bcs-input-texto
+					class="col-xs-8"
+					foco="true"
+					k-ng-disabled="SesionValoresDefectoSistema.UsaCodigoPortafolioDefault=='S'"
+					bcs-requerido
+					ng-model="cPort.datos.CodigoPortafolio">
+				</bcs-input-texto>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PROPOSITO</label>
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					tipo="'combobox-proposito-portafolio'"
+					id-actual="cPort.datos.idProposito"
+					id-defecto="cPort.datos.idPropositoDef"
+					todos="'N'"
+					filtros="cPort.datos.FiltroIdPropositoPortafolio.filtros"
+					cascada-a="cPort.datos.FiltroIdMatrizAgrupador.filtros.IdPropositoPortafolio"
+					cascada-valor="'IdPropositoPortafolio'"
+					seleccionado="cPort.PropositoPortafolioObj">
+				</bcs-combobox-base>
+			</div>	
+			
+			<div ng-if="cPort.parametros.TipoPortafolio === 'APV'" class="row">
+      			<label class="col-xs-4" translate="">UI_NOMBRE_PLAN_AHORRO</label>
+				<bcs-combobox-base 
+					id="UI_NOMBRE_PLAN_AHORRO" 
+					class="col-xs-8"
+					tipo="'combobox-nombre-plan-ahorro'"
+					id-actual="cPort.PlanAhorroIdActual"
+					cascada-a="cPort.FiltroProductoAgrupador.filtros.IdPlanTipoInversion"
+				    cascada-valor="'IdPlanTipoInversion'"
+					seleccionado="cPort.NombrePlanAhorroSeleccionado"
+				>
+				</bcs-combobox-base>
+			</div>
+			
+			<div ng-if="cPort.parametros.TipoPortafolio === 'APV'" class="row">
+				<label class="col-xs-4" translate>UI_PRODUCTO</label>
+				<bcs-combobox-base class="col-xs-8"
+					bcs-requerido
+					todos="'N'"
+					tipo="'combobox-producto-agrupador'"
+					auto-cargar="'false'"
+					filtros="cPort.FiltroProductoAgrupador.filtros"
+					cascada-a="cPort.FiltroRegimenAgrupador.filtros.IdProductoAgrupador"
+				    cascada-valor="'IdProductoAgrupador'"
+					seleccionado="cPort.ProductoAgrupadorSeleccionado">
+				</bcs-combobox-base>
+			</div>
+			
+			<div ng-if="cPort.parametros.TipoPortafolio === 'APV'" class="row">
+				<label class="col-xs-4 ng-scope" translate="">UI_REGIMEN</label>
+    			<bcs-combobox-base 
+					id="UI_REGIMEN_TRIBUTARIO"
+					class="col-xs-8" 
+					tipo="'combobox-regimen-apv'"
+					auto-cargar="'false'"
+					seleccionado="cPort.RegimenAgrupadorSeleccionado"
+					id-actual="cPort.RegimenAgrupadorIdActual"
+					filtros="cPort.FiltroRegimenAgrupador.filtros"
+				>
+				</bcs-combobox-base>
+    		</div> 
+
+			
+			<div class="row">
+				<label class="col-xs-4" translate>UI_DESCRIPCION</label>
+				<bcs-input-texto
+					class="col-xs-8"
+					ng-model="cPort.datos.Descripcion">
+				</bcs-input-texto>
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PERFIL_COMERCIAL_ORIGEN</label>
+				<bcs-combobox-base class="col-xs-5"
+					tipo="'combobox-perfil-comercial'"
+					bcs-requerido
+					id-actual="cPort.datos.IdPerfilComercialBaseOrigen"
+					id-defecto="cPort.datos.IdPerfilComercialBaseOrigenDef"
+					todos="'N'"
+					filtros="cPort.cmbbx.oConfPerfilComercial.filtros"
+					seleccionado="cPort.PerfilComercialObj">
+				</bcs-combobox-base>
+				<bcs-button id="CrearPortafolio_verMatrizPerfil" 
+						class="col-xs-2 col-xs-offset-1"  
+						bcs-tipo="'bcs-button-input-form'" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_MATRIZ' | translate" 
+						bcs-habilitado="'true'"  
+						bcs-clic="cPort.win.verMatriz()">
+					</bcs-button>
+			</div>
+			<hr>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PERFIL_PRODUCTOS</label>
+				<label class="col-xs-8" translate>{{cPort.PerfilComercialObj.IdPerfilProductos || '-'}}</label>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PERFIL_COBROS</label>
+				<label class="col-xs-8" translate>{{cPort.PerfilComercialObj.IdPerfilCobros || '-'}}</label>
+			</div>
+			<!-- <div class="row">
+				<label class="col-xs-4" translate>UI_PERFIL_FACTURACION</label>
+				<label class="col-xs-8" translate>{{cPort.PerfilComercialObj.IdPerfilFacturacion || '-'}}</label>
+			</div> -->
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PERFIL_CONDICIONES_OPERATIVAS</label>
+				<label class="col-xs-8" translate>{{cPort.PerfilComercialObj.IdPerfilCondicionesOperativas || '-'}}</label>
+			</div>
+			<div class="row">
+				<label class="col-xs-4" translate>UI_PLANTILLA_LIMITES</label>
+				<label class="col-xs-8" translate>{{cPort.PerfilComercialObj.IdPerfilLimites || '-'}}</label>
+			</div>
+			<hr>
+		</form>
+		<div class="row bcs-panel-comandos">
+			<div class="row">
+				<bcs-button id="CrearPortafolio_guardar" 
+					class="col-xs-3 pull-right" 
+					bcs-tipo="'bcs-button-primary'"   
+					bcs-auto-desactivar="true" 
+					bcs-texto="'UI_GUARDAR' | translate" 
+					bcs-habilitado="formCrearPortafolio.$valid"
+					bcs-clic="cPort.win.guardar()">
+				</bcs-button>
+				<bcs-button id="CrearPortafolio_cancelar" 
+					class="col-xs-3 pull-right" 
+					bcs-tipo="'bcs-button-secondary'" 
+					bcs-mostrar="cPort.win.muestraCancelar" 
+					bcs-auto-desactivar="false" 
+					bcs-texto="'UI_CANCELAR' | translate" 
+					bcs-habilitado="'true'"  
+					bcs-clic="cPort.win.cancelar()">
+				</bcs-button>
+			</div>
+		</div>
+	</div>
+</div>

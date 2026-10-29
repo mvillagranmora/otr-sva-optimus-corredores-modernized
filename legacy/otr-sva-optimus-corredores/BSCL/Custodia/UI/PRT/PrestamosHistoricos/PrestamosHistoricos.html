@@ -1,0 +1,204 @@
+<div class="row" ng-controller="PrestamosHistoricosCtrl">
+
+	<div class="col-xs-12 bcs-cuerpo">
+		<!--- INICIO FORMULARIO -->
+		<div class="row">
+			<form name="formPrestamosHis">
+				<!-- FILTROS -->
+				<div class="col-xs-10">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_CLIENTE_PORTAFOLIO</label>
+							<bcs-combobox-base class="col-xs-9" id="UI_SOCIO_NEGOCIO"
+								auto-cargar="'false'" carga-cliente-automatico="'S'"
+								id-actual="filtros.IdPortafolio" tipo="oClientePortafolio2.tipo"
+								seleccionado="oClientePortafolio2.seleccionado"
+								filtros="filtrosPortafolio"
+								configuracion="oClientePortafolio2.configuracion">
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-4" style="padding-left: 15px" translate>UI_FOLIO_PRESTAMO</label>
+							<bcs-input-numero class="col-xs-6" ng-model="folioPrestamo2"
+								k-ng-model="folioPrestamo2Obj"
+								k-options="{ format : 'n0', min:0, spinners: false }">
+							</bcs-input-numero>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_ESTADO</label>
+							<bcs-combobox-base class="col-xs-9" auto-cargar="'true'"
+								bcs-requerido tipo="oConfiguracionEstado2.tipo"
+								filtros="oConfiguracionEstado2.filtros"
+								configuracion="oConfiguracionEstado2.configuracion"
+								id-actual="oConfiguracionEstado2.idActual"
+								seleccionado="oConfiguracionEstado2.seleccionado" todos="'S'"
+								item-post-filtro="'1'"> </bcs-combobox-base>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-4 txt-left" style="padding-left: 15px"
+								translate>UI_TIPO_PRESTAMO</label>
+							<bcs-combobox-base class="col-xs-6" auto-cargar="'true'"
+								bcs-requerido tipo="oConfiguracionTipoPrestamo2.tipo"
+								filtros="oConfiguracionTipoPrestamo2.filtros"
+								configuracion="oConfiguracionTipoPrestamo2.configuracion"
+								id-actual="oConfiguracionTipoPrestamo2.idActual"
+								seleccionado="oConfiguracionTipoPrestamo2.seleccionado"
+								todos="'S'" item-post-filtro="'1'"> </bcs-combobox-base>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_FECHA_INGRESO_DESDE</label>
+							<bcs-input-date bcs-fecha-menor-igual-que="kngFechaIngresoHasta2"
+								class="col-xs-6" k-ng-model="kngFechaIngresoDesde2"
+								k-options="FechaIngresoDesdeOptions2"> </bcs-input-date>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-4 txt-left" style="padding-left: 15px" translate>UI_FECHA_INGRESO_HASTA</label>
+							<bcs-input-date bcs-fecha-mayor-igual-que="kngFechaIngresoDesde2"
+								class="col-xs-6" k-ng-model="kngFechaIngresoHasta2"
+								k-options="FechaIngresoHastaOptions2"> </bcs-input-date>
+						</div>
+					</div>
+					
+					
+					<div class="row" ng-show="false">
+						<div class="col-xs-6">
+							<label class="col-xs-3" translate>UI_MERCADO</label>
+							<bcs-combobox-base 
+								class="col-xs-9" 
+								auto-cargar="'true'"
+								bcs-requerido
+								 
+								tipo="oConfiguracionClasificacionTipoInstrumento2.tipo"
+								filtros="oConfiguracionClasificacionTipoInstrumento2.filtros"
+								configuracion="oConfiguracionClasificacionTipoInstrumento2.configuracion"
+								id-actual="oConfiguracionClasificacionTipoInstrumento2.idActual"
+								seleccionado="oConfiguracionClasificacionTipoInstrumento2.seleccionado"
+								todos="'S'" item-post-filtro="'1'"> 
+							</bcs-combobox-base>
+						</div>
+						<div class="col-xs-6">
+							<label class="col-xs-7 txt-left" style="padding-left: 15px" translate></label>
+						</div>
+					</div>
+					
+
+				</div>
+				<!-- INICIO BOTONES -->
+				<div class="col-xs-2">
+					<div class="row">
+						<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-search'"
+							bcs-auto-desactivar="'false'" bcs-texto="'UI_BUSCAR' | translate"
+							bcs-habilitado="'true' && formPrestamosHis.$valid"
+							bcs-clic="btnBuscarHis()"></bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+							bcs-auto-desactivar="'false'"
+							bcs-texto="'UI_LIMPIAR' | translate" bcs-habilitado="'true'"
+							bcs-clic="btnLimpiarHis()"></bcs-button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+
+		<div class="row">
+			<uib-tabset> <uib-tab index="1" active="tab.t01" id="tab-grid-prestamos2" select="select2('grid-prestamos2')" heading="{{'UI_PRESTATARIOS' | translate}}"> 
+				
+				<bcs-grid id="grid-prestamos2" configuracion="prestamos2.confBasicaPrestamos" fn-exportar-excel="prestamos2.exportarExcel" seleccionado="prestamos2.selPrestamos">
+					<div bcs-grid-detail ng-non-bindable>
+						<div class="row">
+							<uib-tabset> 
+								<uib-tab heading="{{'UI_EMPRESTITOS' | translate}}"> <!-- api 			= "grid.prestamos.emprestitos.apiPrestamoEmprestitos" -->
+									<bcs-grid id="grid-prestamo-emprestitos2"
+										configuracion="prestamos_emprestitos_confGridPrestamoEmprestitos2(dataItem)"
+										seleccionado="grid.prestamos2.emprestitos.selPrestamoEmprestitos">
+									</bcs-grid>
+									<div class="row bcs-panel-comandos">
+										<bcs-button 
+											class="col-xs-1" 
+											ng-show="'true'" 
+											bcs-tipo="'bcs-button-secondary'"
+											id="rtre"
+											bcs-auto-desactivar="false"
+											bcs-texto="'UI_ANEXO_2'  | translate"
+											bcs-habilitado="grid.prestamos2.emprestitos.selPrestamoEmprestitos"
+											bcs-clic="grid.prestamos2.emprestitos.anexo2()">
+										</bcs-button>
+									</div>
+								</uib-tab> 
+								<uib-tab heading="{{'UI_ANTICIPOS' | translate}}"> <!-- api 			= "grid.prestamos.anticipos.apiPrestamoAnticipos" -->
+									<bcs-grid id="grid-prestamo-anticipos2"
+										configuracion="prestamos_anticipos_confGridPrestamoAnticipos2(dataItem)"
+										seleccionado="grid.prestamos.anticipos.selPrestamoAnticipos2">
+									</bcs-grid> 
+								</uib-tab> 
+							</uib-tabset>
+						</div>
+					</div>
+				</bcs-grid> </uib-tab> 
+				
+				<uib-tab index="2" active="tab.t02" id="tab-grid-emprestito2" select="select2('grid-emprestitos2')" heading="{{'UI_PRESTAMISTAS'| translate}}"> <!-- api = "emprestitos.apiEmprestitos" -->
+				<bcs-grid id="grid-emprestitos2" configuracion="emprestitos2.confBasicaEmprestitos" fn-exportar-excel="emprestitos2.exportarExcel" seleccionado="emprestitos2.selEmprestitos">
+					<div bcs-grid-detail ng-non-bindable>
+						<div class="row">
+							<uib-tabset> <uib-tab
+								heading="{{'UI_PRESTAMO' | translate}}"> <!-- api = "grid.emprestitos.prestamo.apiEmprestitoPrestamo" -->
+							<bcs-grid id="grid-emprestito-prestamo2"
+								configuracion="emprestitos_prestamo_confGridEmprestitoPrestamo2(dataItem)"
+								seleccionado="grid.emprestitos2.prestamo.selEmprestitoPrestamo">
+							</bcs-grid> </uib-tab> </uib-tabset>
+						</div>
+					</div>
+				</bcs-grid> </uib-tab>
+			</uib-tabset>
+		</div>
+		<!--- TERMINO FORMULARIO -->
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button
+			id="PrestamosHistoricos_BotonRenovar"
+			class="col-xs-1"
+			ng-show="gridSelecionada === 'grid-prestamos2'"
+			bcs-tipo="'bcs-button-primary'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_RENOVAR' | translate"
+			bcs-habilitado="prestamos2.esPrestamoRenovable(prestamos2.selPrestamos)"
+			bcs-clic="prestamos2.btnRenovar()"
+		></bcs-button>
+		
+		<bcs-button
+			class="col-xs-1"
+			ng-show="'true'"
+			bcs-tipo="'bcs-button-secondary'"
+			bcs-auto-desactivar="false"
+			bcs-texto="'UI_ANEXO_2'  | translate"
+			bcs-habilitado="prestamos2.selPrestamos"
+			bcs-clic="generarAnexo2('PRT')">
+		</bcs-button>
+
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'"
+			bcs-texto="'UI_OPCIONES' | translate">
+		<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' |
+			translate}}</li>
+		</bcs-menu>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+<div id="top-nav" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">                   
+        </div>           
+        <div class="navbar-collapse collapse" ng-class="{'margin-collapse': isMenuVisible, 'margin-open': !isMenuVisible}">
+             <ul id="carrouselNavbar" class="nav navbar-nav" ng-class="{'carrousel-collapse': isMenuVisible, 'carrousel-open': !isMenuVisible}">
+                <button id="carrousel-left" class="	glyphicon glyphicon-triangle-left" ng-click="scrollLeft()" ng-show="mostrarBotones"></button>
+                <li> 
+                    <span id="spanElement" class="VentanaManager" ng-style="{'scrollLeft': spanScrollLeft + 'px'}" ng-class="{'ventana-collapse': isMenuVisible, 'ventana-open': !isMenuVisible}">  
+                         <ng-repeat class="ventanaTitleCarr" ng-repeat="(index,ventana) in VentanaManager ">
+                            <a  href="#" ng-click="RestauraVentanaIdC(ventana.id)">{{ventana.titulo}}</a> <i class="k-icon k-i-close closeVentanaC" ng-click="cerrarVentanaC(ventana.id)"></i>  <!-- <ng ng-show="index>0">&nbsp;-&nbsp;</ng> -->
+                         </ng-repeat>                
+                    </span>                 
+                </li>  
+                <button id="carrousel-right" class="glyphicon glyphicon-triangle-right" ng-click="scrollRight()" ng-show="mostrarBotones"></button>          
+             </ul>
+            
+            <ul class="nav navbar-nav navbar-right" id="rightsidebarPanel">
+                <!-- <li>
+                    <span id="buscarVentana">
+                        <input placeholder="'Busqueda de Menús'" kendo-auto-complete="d.buscarVentanaWidget" k-ng-model="d.buscarVentana" k-options="d.buscarVentanaOptions"></input>
+                    </span>
+                </li> -->  
+                
+                <li class="closeAllLi" ng-show="VentanaManager.length > 0"> 
+                    <div id="closeAllWindows" title="Cerrar todo" ng-click="closeAllWindows(VentanaManager)"></div>           
+                </li>
+                <li style="padding-left: 8px;">
+                    <div id="fecha-horaSistemaMain" ng-click="AbrirVentana('AjusteFechaSistema',{})">{{InfoFecha}} - {{InfoHora}}</div>
+                </li>
+                  
+            </ul>      
+        </div>
+    </div>
+</div>
+
+<ul id="botoneraOptimus">
+    <span id="sidebarNoti" class="dropdown">
+        <button title="Mensajes" class="dropdown-toggle glyphicon glyphicon-envelope button-right-bar icon-bell" role="button" data-toggle="dropdown" href="#" ng-click="loadHTMLContent()"> 
+        </button>    
+    </span>
+    <span id="sidebarNoti2">
+        <button title="Notificaciones" class="dropdown-toggle glyphicon glyphicon-bell button-right-bar icon-bell" ng-click="verMisNotificaciones()"> 
+        </button>  
+     </span>   
+     <span id="sidebarIntrumentos">
+        <button title="Instrumentos" ng-click="loadHTMLContentInstrumentos()" class="sapUiIcon menu button-right-bar"></button>
+     </span>                  
+    <span class="dropdown" id="sidebarPersona">
+        <button title="Usuario" class="dropdown-toggle sapUiIcon person-placeholder button-right-bar" role="button" data-toggle="dropdown" href="#" id="btn-ddm-personas" ng-click="zPersonas()">
+            <!--<i class="glyphicon glyphicon-user"></i>-->
+            
+        </button>
+        <ul class="dropdown-menu" style="border-radius: 10px;" role="menu" id="dm-persona">
+            <li><a id="topnavbarNombreUsuario">{{SesionUsuario}}</a></li>
+            <!-- <li class="divider"></li>                    -->
+           <!-- <li><a href="#">Ver mis datos</a></li> -->
+           <li><a id="topnavbarCambiarPassword" ng-click="cambiarPassword()" href="#">Cambiar contraseña</a></li>
+           <li><a id="topnavbarAsuntosPendientes" ng-click="asuntosPendientes()" href="#">Asuntos Pendientes</a></li>      
+           <li><a id="topnavbarSalir" class="" ng-click="cerrarSesion()" href="#">Salir</a></li>                     
+       </ul>
+    </span> 
+    <span id="sidebarProgreso">
+        <button title="Programas encolados" id="btn-consultar-progresos" ng-click="loadHTMLContentProgreso()" class="dropdown-toggle glyphicon glyphicon-tasks button-right-bar"></button>
+     </span>   
+
+    <!-- Prueba -->
+    <!-- <span class="dropdown" id="sidebarTest">
+        <button  class="dropdown-toggle sapUiIcon person-placeholder button-right-bar" role="button" data-toggle="dropdown" href="#" ng-click="loadHTMLContent()">
+            
+        </button>
+    </span> -->
+    
+    <div ng-show="showHTMLContent" ng-include="'views/message-noti.html'"></div>
+
+
+    <div id="notification-push" class="col-xs-2 boxMessageLog boxNotif" ng-class="{'animation': Msg, 'zNotification': Msg}">
+        <div class="row" ng-class="[{'msgErrorPush' : MsgTipo == 'ERROR'} ,{'msgWarnPush' : MsgTipo == 'WARN'},{'msgInfoPush' : MsgTipo == 'INFO' }]" style="padding:10px">
+            <div class="col-xs-1 icon-msg">
+                <i ng-show="MsgTipo == 'INFO'" class="fa fa-lg fa-check-circle icons-info"></i>
+                <i ng-show="MsgTipo == 'ERROR'" class="fa fa-lg fa-times-circle error-msg"></i>
+                <i ng-show="MsgTipo === 'WARN'"  class="fa fa-lg fa-exclamation-circle icons-warning"></i>
+            </div>
+            <div class="col-xs-10 notipush-text">{{Msg}}
+        </div>
+        </div>
+            
+    </div>
+</ul>

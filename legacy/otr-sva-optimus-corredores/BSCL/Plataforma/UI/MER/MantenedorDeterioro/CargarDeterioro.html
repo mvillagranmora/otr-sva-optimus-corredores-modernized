@@ -1,0 +1,64 @@
+<div ng-controller='CargarDeterioroCtrl'>
+	<div class="col-xs-12 bcs-cuerpo">
+		<div class="row"></div>
+		<div class="row">
+			<uib-tabset>			
+				<uib-tab heading="{{ ((config.conDetalle) ?  'UI_CABECERA' : 'UI_ARCHIVO') | translate}}">
+					<bcs-grid 
+						id="grid-carga-archivo"
+						configuracion = "confBasicaCargaArchivo"
+						seleccionado = "seleccionCargaArchivo">
+					</bcs-grid>
+				</uib-tab>
+				<uib-tab ng-show="config.conDetalle" heading="{{'UI_DETALLE' | translate}}">
+					<bcs-grid
+						configuracion = "confBasicaDetalle"
+						seleccionado = "selecccionDetalle">
+					</bcs-grid>
+				</uib-tab>
+				<uib-tab ng-show="config.conPie" heading="{{'UI_PIE' | translate}}">
+					<bcs-grid
+						configuracion = "confBasicaPie"
+						seleccionado = "selecccionPie"> 
+					</bcs-grid>
+				</uib-tab>
+
+			</uib-tabset>
+
+			<div bcs-grid-detail ng-non-bindable >
+						<div style="width:70%;">
+						</div>
+					</div>
+
+		</div>
+		<div class="row" style="
+		padding-top: 5px;
+	">
+			<div class="col-xs-7">
+				<div class="col-xs-8">
+					<input type="file" class="col-xs-5 custom-file-input" file-reader callback="guardarArchivo" id-ventana="idVentanaCargaArchivo" ng-accept="configArchivo.formatoArchivoDefecto" style="display:inline" accept="text/plain"/>
+					<div class="col-xs-7" style="height: 100%;
+					position: relative;
+					height: 30px;">
+						<span id="nombreArchivo" style="
+						font-weight: bold;
+						font-size: 12px;
+						position: absolute;
+						top: 50%; 
+						left: 50%; 
+						width: 100%;
+						transform: translate(-50%, -50%); 
+						padding-left: 14px;
+					">{{nombreArchivo}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-5 alignButtonsToRight">
+				<bcs-button style="width: 43%;" bcs-tipo="'bcs-button-primary'" bcs-auto-desactivar="false" bcs-texto="'UI_GRABAR' | translate" bcs-habilitado="file.fileData.length > 0" bcs-clic="grabar()"></bcs-button>	
+				<bcs-button class="col-xs-3" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-habilitado="'true'" bcs-clic="cancelar()"></bcs-button>
+				<bcs-button class="col-xs-3" bcs-tipo="'bcs-button-secondary'" bcs-auto-desactivar="false" bcs-texto="'UI_VER_FORMATO' | translate" bcs-habilitado="'true'" bcs-clic="verFormato()"></bcs-button>
+			</div>
+		</div>
+	</div>
+
+</div>

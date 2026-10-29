@@ -1,0 +1,62 @@
+<div id="MantenedorIndicadores" ng-controller='MantenedorIndicadoresCtrl'>
+	
+	<div style="height: auto; overflow: hidden;">
+
+		<div style="width: 360px; float: right;">
+			<!-- derecha -->
+			<div class="row" ng-show="showDetalle">
+				<div class="col-xs-12">
+				    <label class="col-xs-12 titulo" style="padding-bottom: 2.8px;" translate>UI_VALORES_COMBOBOX</label>
+				</div>
+			</div>
+			<div>
+				<bcs-grid id="grid-detalle-tipo-atributo"
+					fn-exportar-excel = "exportarExcel" 
+					configuracion="DetalleTiposAtributos"
+					seleccionado="data.seleccionDetalleTiposAtributos"
+					api="gridApiDetalleTiposAtributos" ng-show="showDetalle">
+				</bcs-grid>
+				<div class="row bcs-panel-comandos" ng-show="showDetalle">
+					<bcs-button id="MantenedorAtributos_crearDetalle" class="col-xs-4" bcs-tipo="'principal'"
+						bcs-auto-desactivar="false" bcs-habilitado="'true'"
+						bcs-texto="'UI_CREAR' | translate" bcs-clic="AgregarDetalle()"></bcs-button>
+					<bcs-button id="MantenedorAtributos_modificarDetalle" class="col-xs-4" bcs-tipo="''"
+						bcs-texto="'UI_MODIFICAR' | translate" bcs-habilitado="'true'"
+						bcs-auto-desactivar="false" bcs-clic="ModificarDetalle()"></bcs-button>
+					<bcs-button bcs-auto-desactivar="false" bcs-texto="'UI_EXPORTAR_EXCEL' | translate" bcs-habilitado="'true'" class="col-xs-2 pull-right" bcs-clic="exportarExcel()"></bcs-button>
+				</div>
+			</div>
+		</div>
+
+
+		<div style="width:500px; float: none; overflow: hidden; padding-right: 5px">
+			<form name="mantenedorIndicadores">
+			<div class="row">
+				<label class="col-xs-2" translate>UI_ENTIDAD</label>
+				<bcs-combobox-base class="col-xs-4"
+					tipo="data.oConfiguracionEntidad.tipo"
+					filtros="data.oConfiguracionEntidad.filtros" id-actual="usuario"
+					seleccionado="data.oConfiguracionEntidad.seleccionado" todos="'N'"
+					bcs-requerido>
+				</bcs-combobox-base>
+			</div>
+			<bcs-grid id="grid-tipo-atributo"
+				fn-exportar-excel = "exportarExcel2" 
+				configuracion="TiposAtributos"
+				seleccionado="data.seleccionTiposAtributos" api="gridApiAtributos">
+			</bcs-grid>
+
+			<div class="row bcs-panel-comandos">
+				<bcs-button id="MantenedorIndicadores_crearTipoAtr" class="col-xs-3" bcs-tipo="'principal'"
+					bcs-auto-desactivar="false" bcs-habilitado="mantenedorIndicadores.$valid"
+					bcs-texto="'UI_CREAR' | translate" bcs-clic="CrearTipoAtributo()"></bcs-button>
+				<bcs-button id="MantenedorIndicadores_modificarTipoAtr" class="col-xs-3" bcs-tipo="''"
+					bcs-texto="'UI_MODIFICAR' | translate"
+					bcs-auto-desactivar="false" bcs-clic="ModificarTipoAtributo()"
+					bcs-habilitado="mantenedorIndicadores.$valid"></bcs-button>
+				<bcs-button bcs-auto-desactivar="false" bcs-texto="'UI_EXPORTAR_EXCEL' | translate" bcs-habilitado="'true'" class="col-xs-3 pull-right" bcs-clic="exportarExcel2()"></bcs-button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,132 @@
+<div class="row" ng-controller="DetailController">
+    <div id="container" class="bcs-cuerpo">
+        <form id="CrearOrdenRV" name="formOrden" class="form-horizontal">
+            <div class="row">
+                <span class="k-window-subtitle" ng-bind="titulos[paginaActual]"></span>
+            </div>
+            <div class="row" ng-hide="!cliente.mostrarSelector">
+                <label class="col-xs-2" translate>UI_CLIENTE</label>
+                 <bcs-combobox-base class="col-xs-4"
+                    id="UI_CLIENTE"
+                    auto-cargar="'false'"
+                    tipo="'combobox-socio-negocio'"
+                    filtros="configSocioNegocio.filtros"
+                    cascada-a="configPortafolio.filtros.IdCliente"
+                    cascada-valor="'IdCliente'"
+                    cascada-defecto="'1'"
+                    buscar="cliente.rutInicial"
+                    seleccionado="cliente.seleccionado"
+                    carga-cliente-automatico="false">
+                </bcs-combobox-base>
+                
+            </div>
+            <div class="row" ng-hide="!portafolio.mostrarSelector">
+                <label class="col-xs-2" translate>UI_PORTAFOLIO</label>
+                <bcs-combobox-base class="col-xs-4"
+                    id="UI_PORTAFOLIO"
+                    auto-cargar="'false'"
+                    tipo="'combobox-portafolio'"
+                    filtros="configPortafolio.filtros"
+                    seleccionado="portafolio.seleccionado"
+                    id-post-filtro="portafolio.id"
+                    >
+                </bcs-combobox-base>
+            </div>
+            <div class="row" ng-hide="!instrumento.mostrarSelector">
+                <label class="col-xs-2" translate>UI_NEMOTECNICO</label>
+				<bcs-input-instrumentos class="col-xs-3"
+					name="uInstrumento"
+					buscar-instrumento="instrumento.nemoInicial"
+					datos-instrumento="instrumento.seleccionado"
+					muestra-precio="'N'"
+					filtro-estado="'ACT'"
+					filtro-bolsa = "'BCS'">
+				</bcs-input-instrumentos>
+            </div>
+            <div class="row" id="formContainer1" ng-hide="hide1"></div>
+            <div class="row" id="formContainer2" ng-hide="hide2"></div>
+            <div class="row" id="formContainer3" ng-hide="hide3"></div>
+            <div class="row" id="formContainer4" ng-hide="hide4"></div>
+            <div class="row" id="formContainer5" ng-hide="hide5"></div>
+            <div class="row" id="formContainer6" ng-hide="hide6"></div>
+            <div class="row" id="formContainer7" ng-hide="hide7"></div>
+            <div class="row" id="formContainer8" ng-hide="hide8"></div>
+            <div class="row" id="formContainer9" ng-hide="hide9"></div>
+            <hr>
+            <div class="row alignButtonsToRight">
+                <bcs-button class="col-xs-2"
+                    bcs-tipo="'bcs-button-secondary'"
+                    bcs-auto-desactivar="false"
+                    bcs-texto="'UI_ANTERIOR' | translate"
+                    bcs-habilitado="botonAnteriorHabilitado"
+                    bcs-clic="paginaAnterior()">
+                </bcs-button>
+                <bcs-button class="col-xs-2"
+                    bcs-tipo="'bcs-button-secondary'"
+                    bcs-auto-desactivar="false"
+                    bcs-texto="'UI_SIGUIENTE' | translate"
+                    bcs-habilitado="botonSiguienteHabilitado"
+                    bcs-clic="paginaSiguiente()">
+                </bcs-button>
+                <bcs-button class="col-xs-2"
+                    bcs-tipo="'bcs-button-primary'"
+                    bcs-auto-desactivar="false"
+                    bcs-texto="'UI_GRABAR' | translate"
+                    bcs-habilitado="botonGrabarHabilitado"
+                    bcs-clic="grabarDetalle()">
+                </bcs-button>
+            </div>
+        </form>
+    </div>
+
+    <style type="text/css">
+.invalid {
+    background-color: #FFEFBE;
+}
+
+.valid {
+    background-color: #FFFFFF;
+}
+
+.disabled {
+    background-color: #E7E7E7;
+    opacity: 1;
+}
+
+.obligatorio {
+    color: rgb(131, 36, 36);
+}
+
+</style>
+
+    <script id="fieldsTemplate" type="text/x-kendo-template">
+            #var cols = 2;#
+            #var rows = Math.trunc((fields.length + cols - 1) / cols);#
+            #var x = 0;#
+            #for (var i = 0; i < rows; i++) {#
+<div class="row col-xs-12">
+                #for (var j = 0; j < cols; j++) {#
+                    #if (x < fields.length) {#
+                    #    var ml = fields[x].htmlMaxlength();#
+                    #    var ro = fields[x].htmlReadonly(masivo);#
+                    #    var rq = fields[x].htmlRequired();#
+                    #    var cl = fields[x].isEditable() ? '' : 'class="disabled"';#
+                    #    var as = '';#
+                    #    if (fields[x].isRequired()) {#
+                    #        as = ' (*)';#
+                    #    }#
+                    #    var lm = j > 0 ? '' : '';#
+  <label class="col-xs-2 #= fields[x].isRequired() ? 'obligatorio' : '' #">#=lm##=fields[x].Titulo##=as#</label>
+    <div class="col-xs-4">
+        <input #=cl# style="width:100%;" id="#=fields[x].Nombre#" #=ml# #=rq# #=ro# />
+    </div>
+                    #    x++;#
+                    #} else {#
+    <label class="col-xs-2">&nbsp;</label>
+    <label class="col-xs-4">&nbsp;</label>
+                    #}#
+                #}#
+</div>
+            #}#
+    </script>
+</div>

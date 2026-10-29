@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Portafolio.BD::POR.MatrizAgrupadorNOAPV" WHERE "IdMatrizAgrupadorNOAPV" = :IdMatrizAgrupadorNOAPV;

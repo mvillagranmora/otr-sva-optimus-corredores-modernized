@@ -1,0 +1,97 @@
+<div>
+	<form class="bcs-cuerpo">
+		<ng-form name="leFormPreferenciasCliente" class="col-xs-12 form-horizontal">
+			<div style="overflow:auto; height:300px; border:1px solid #ddd; padding:10px;">
+				<div class="row" style="border-bottom:1px solid #eee; margin-bottom:10px;">
+					<div class="col-xs-12 titulo" translate>UI_PREFERENCIAS_GENERALES</div>
+				</div>
+				<div class="row">  
+					<div class="col-xs-12">
+						<label class="col-xs-3" translate>UI_CLI_PREFERENCIAS_CUENTA_BLOCKCHAIN</label>
+						<bcs-combobox-base
+								id="leFormPreferenciasCliente_GENERALES//BLOCKCHAIN_PORTAFOLIO_PRESTAMOS"
+								class="col-xs-3"
+								tipo="'combobox-portafolio'"
+								id-actual="datosDespues['GENERALES//BLOCKCHAIN_PORTAFOLIO_PRESTAMOS']"
+								id-defecto="datosAntes['GENERALES//BLOCKCHAIN_PORTAFOLIO_PRESTAMOS']"
+								todos="'N'"
+								activado="!win.modoLectura"
+								filtros="cmbbx.oConfiguracionPortafolio.filtros"
+								bcs-requerido="camposRequeridos['BLOCKCHAIN_PORTAFOLIO_PRESTAMOS'].Requerido === 'S'"
+						></bcs-combobox-base>
+					</div>
+				</div>
+				<div class="row">  
+					<div class="col-xs-12">
+						<label class="col-xs-3" translate>UI_CLI_PREFERENCIAS_PORTAFOLIO_DERIVADOS</label>
+						<bcs-combobox-base
+								id="leFormPreferenciasCliente_GENERALES//PORTAFOLIO_DERIVADOS"
+								class="col-xs-3"
+								tipo="'combobox-portafolio'"
+								id-actual="datosDespues['GENERALES//PORTAFOLIO_DERIVADOS']"
+								id-defecto="datosAntes['GENERALES//PORTAFOLIO_DERIVADOS']"
+								todos="'N'"
+								activado="!win.modoLectura"
+								filtros="cmbbx.oConfiguracionPortafolio.filtros"
+								bcs-requerido="camposRequeridos['PORTAFOLIO_DERIVADOS'].Requerido === 'S'"
+						></bcs-combobox-base>
+					</div>
+				</div>
+				
+				
+				<div class="row">
+					<div class="col-xs-12" ng-repeat="indicador in definicionIndicadores">
+						<div class="row" ng-if="indicador.ClaseDato == 'CHECKBOX'">
+							<label class="col-xs-3">{{indicador.NombreTipoIndicador|translate}}</label>								
+							<bcs-input-checkbox 
+								id="{{indicador.CodigoTipoIndicador}}" 
+								ng-model="indicador.ValorIndicador"
+								ng-disabled="win.modoLectura"
+								class="col-xs-3">
+							</bcs-input-checkbox>							
+						</div>
+					</div>
+				</div>
+				
+				
+				<br>
+		</div>
+		<div class="row bcs-panel-comandos" style="padding-top:20px">
+			<div class="col-xs-12">
+				<div class="row">
+					<bcs-button class="col-xs-2 pull-right" 
+						id="ClientePreferenciasNegocio_editar" 
+						bcs-tipo="'bcs-button-primary'"  
+						ng-if="win.modoLectura" 
+						bcs-mostrar="win.modoLectura"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_EDITAR' | translate" 
+						bcs-habilitado="'true'"  
+						bcs-clic="win.editar();">
+					</bcs-button>
+					<bcs-button class="col-xs-2 pull-right" 
+						id="ClientePreferenciasNegocio_guardar" 
+						bcs-tipo="'bcs-button-primary'"  
+						ng-if="!win.modoLectura" 
+						bcs-mostrar="!win.modoLectura"  
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_GUARDAR' | translate"
+						bcs-habilitado="leFormPreferenciasCliente.$valid"
+						bcs-clic="win.guardar();">
+					</bcs-button>
+					<bcs-button class="col-xs-2 pull-right" 
+						id="ClientePreferenciasNegocio_cancelar" 
+						bcs-tipo="'bcs-button-secondary'" 
+						ng-if="!win.modoLectura" 
+						bcs-mostrar="!win.modoLectura" 
+						bcs-auto-desactivar="false" 
+						bcs-texto="'UI_CANCELAR' | translate" 
+						bcs-habilitado="'true'"  
+						bcs-clic="win.cancelar();">
+					</bcs-button>
+				</div>
+			</div>
+		</div>
+		</ng-form>
+	</form>
+</div>

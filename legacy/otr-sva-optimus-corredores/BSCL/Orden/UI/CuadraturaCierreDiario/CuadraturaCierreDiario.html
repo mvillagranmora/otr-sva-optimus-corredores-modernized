@@ -1,0 +1,82 @@
+<div id="CuadraturaCierreDiario" ng-controller="CuadraturaCierreDiarioCtrl">
+	<div class="row">
+		<div class="col-xs-5" style="font-size:12px;" translate>
+			UI_RESUMEN
+		</div>
+	</div>
+	<div class="row">
+		<bcs-grid id="grid-cuadraturas"
+	 	configuracion = "confBasicaCuadraturas"
+		seleccionado = "seleccionCuadraturas">
+		</bcs-grid>
+	</div>
+	<div class="row">
+		<div class="col-xs-5" style="font-size:12px;" translate>
+			UI_DETALLE_CUADRATURA
+		</div>
+	</div>
+	<div class="row">
+		<uib-tabset active="tab.active">
+			<uib-tab index="1" active="tab.t1" id="TRX_ASIG" heading="{{'UI_TRANSACCIONES' | translate}}" select="select('grid-resultado-TRX-ASIG')">
+				<div class="row">
+					<bcs-grid id="grid-resultado-TRX-ASIG"
+					fn-exportar-excel = "tab.exportarExcel1"
+				 	configuracion = "confBasicaTrxAsig"
+					seleccionado = "tab.seleccionTrxAsig">
+					</bcs-grid>
+				</div>
+			</uib-tab>
+			
+			<uib-tab index="2" active="tab.t2" id="ORDEN" heading="{{'UI_ORDENES' | translate}}" select="select('grid-resultado-ORDEN')">
+				<div class="row">
+
+						<bcs-grid id="grid-resultado-ORDEN"
+						fn-exportar-excel = "tab.exportarExcel2"
+					 	configuracion = "confBasicaOrdenes"
+						seleccionado = "tab.seleccionOrdenes">
+						</bcs-grid>
+
+				</div>
+			</uib-tab>
+			
+			<uib-tab index="3" active="tab.t3" id="FACTURA" heading="{{'UI_MOVIMIENTOS_FACTURAR' | translate}}" select="select('grid-resultado-FACTURA')">
+				<div class="row">
+
+						<bcs-grid id="grid-resultado-FACTURA"
+						fn-exportar-excel = "tab.exportarExcel3"
+					 	configuracion = "confBasicaFacturacion"
+						seleccionado = "tab.seleccionFacturacion">
+						</bcs-grid>
+
+				</div>
+			</uib-tab>	
+			
+			<uib-tab index="4" active="tab.t4" id="CAVALI" heading="{{'UI_CUADRATURA_CAVALI' | translate}}" select="select('grid-resultado-CAVALI')">
+				<div class="row">
+
+						<bcs-grid id="grid-resultado-CAVALI"
+						fn-exportar-excel = "tab.exportarExcel4"
+					 	configuracion = "confBasicaCavali"
+						seleccionado = "tab.seleccionCavali">
+						</bcs-grid>
+
+				</div>
+			</uib-tab>	 
+		</uib-tabset>
+	</div>
+
+ 	
+	<div class="row bcs-panel-comandos">
+		<bcs-button id="CuadraturaCierreDiario_CuadrarOrdenes"  class="col-xs-3" bcs-tipo="''"  bcs-auto-desactivar="false" bcs-texto="'UI_CUADRAR_ORDENES' | translate" bcs-habilitado="'true'"  bcs-clic="cuadrarSistema()"></bcs-button>
+		<bcs-button id="CuadraturaCierreDiario_VencerOrdenes" class="col-xs-3" bcs-tipo="''"  bcs-auto-desactivar="false" bcs-texto="'UI_VENCER_ORDENES' | translate" bcs-habilitado="data.cuadratura==true"  bcs-clic="vencerOrdenes()"></bcs-button>
+		<bcs-button id="CuadraturaCierreDiario_OficializarOrdenes" class="col-xs-3" bcs-tipo="''"  bcs-auto-desactivar="false" bcs-texto="'UI_OFICIALIZAR_ORDENES' | translate" bcs-habilitado="data.cierre==true"  bcs-clic="oficializarOrdenes()"></bcs-button>
+		<div class="col-xs-2"></div>
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="cargarArchivo()">{{'UI_CARGAR_ARCHIVO_CAVALI' | translate}}</li>
+            <li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+		
+</div>
+	
+	

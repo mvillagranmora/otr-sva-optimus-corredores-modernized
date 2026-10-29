@@ -1,0 +1,26 @@
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.LogAdministracionLiquidez"
+("IdLogAdministracionLiquidez"
+,"IdCliente"
+,"IdPortafolio"
+,"IdSerieFondo"
+,"IdMoneda"
+,"Saldo"
+,"MontoMinimo"
+,"IdSolicitudAporteRescate"
+,"FechaIngreso"
+,"FechaIngresoRegistro"
+,"Codigo"
+,"IdEmpresa")
+VALUES
+("BSCL.FondoMutuo.BD.Secuencias::LogAdministracionLiquidez".NEXTVAL
+,:IdCliente
+,:IdPortafolio
+,:IdSerieFondo
+,:IdMoneda
+,:Saldo
+,:MontoMinimo
+,:IdSolicitudAporteRescate
+,:FechaIngreso
+,CURRENT_UTCTIMESTAMP
+,:Codigo
+,:IdEmpresa)

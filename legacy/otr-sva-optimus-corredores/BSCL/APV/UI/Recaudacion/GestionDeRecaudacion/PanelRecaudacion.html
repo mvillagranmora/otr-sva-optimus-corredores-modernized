@@ -1,0 +1,223 @@
+<div id="PanelRecaudacion" ng-controller="PanelRecaudacionCtrl as pRec" >
+	<form name="formPanelRecaudacion" class="filters-formulario">
+			<div class="row">
+				<div class="col-xs-3">
+	      			<label class="col-xs-4" translate="">UI_FOLIO_RECAUDACION</label>
+					<bcs-combobox-base 
+						id="UI_FOLIO_RECAUDACION" 
+						auto-cargar="false"
+						class="col-xs-7"
+						tipo="'combobox-folio-recaudacion'"
+						id-actual="pRec.folioContrato"
+						seleccionado="pRec.tipoDepositoSeleccionado"
+						>
+					</bcs-combobox-base>
+				</div>
+				<div class="col-xs-3">
+		      			<label class="col-xs-4" translate="">UI_BANCO_DEPOSITO</label>
+					<bcs-combobox-base 
+						id="UI_BANCO_DEPOSITO"
+						class="col-xs-7"
+						tipo="'combobox-banco-por-pais'"
+						id-actual="pRec.bancoDeposito"
+						filtros="pRec.filtroBanco" 
+						seleccionado="pRec.bancoDepositoSeleccionado"
+						>
+					</bcs-combobox-base>
+				</div>
+	    		<div class="col-xs-3"> 
+					<label class="col-xs-4 ng-scope" translate="">UI_FECHA_MOVIMIENTO</label>
+					<bcs-input-date 
+						id="UI_FECHA_MOVIMIENTO" 
+						class="col-xs-7" 
+						k-ng-model = "pRec.kngFechaMovimiento"
+						k-options="kOptFechaMovimiento"
+					>
+					</bcs-input-date>
+	    		</div>
+				<bcs-button 
+					class				="col-xs-2 col-xs-offset-1"
+					bcs-tipo			="'bcs-button-search'"
+					bcs-habilitado		="'true'" 
+					bcs-auto-desactivar	="false"
+					bcs-texto			="'UI_BUSCAR' | translate" 
+					bcs-clic			="pRec.filtroDepositos()">
+				</bcs-button>
+			</div>
+			<div class="row">
+				<bcs-button class="col-xs-offset-10 col-xs-2 "
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-habilitado="'true'" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_LIMPIAR' | translate" 
+					bcs-clic="pRec.limpiarDepositos()">
+				</bcs-button>
+			</div>
+			<div class="row">
+    			<strong>
+    				<div class="col-xs-7 ng-scope" translate="">UI_DEPOSITOS</div>
+    				<div class="col-xs-5 ng-scope" translate="">UI_EMPLEADOR</div>
+    			</strong>
+    			<hr>
+    		</div>
+			<div class="row">
+				<div class="col-xs-7">
+					<bcs-grid 
+						id					="gridDeposito"
+						configuracion 		= "pRec.confGridDeposito"
+						seleccionado		= "pRec.seleccionDeposito"
+						ng-click			= "pRec.filtroEmpleadorPorDeposito(pRec.seleccionDeposito)"
+						fn-exportar-excel	= "excelGridDepositos">
+					</bcs-grid>
+				</div>
+				<div class="col-xs-5">
+					<bcs-grid 
+						id				= "gridEmpleador"
+						configuracion 	= "pRec.confGridEmpleador"
+						seleccionado 	= "pRec.seleccionEmpleador"
+						ng-click		= "pRec.filtroClientePorEmpleador(pRec.seleccionEmpleador)">
+					</bcs-grid>
+				</div>
+			</div>
+			<div class="row">
+					<bcs-button class="col-xs-2"
+					bcs-tipo="'bcs-button-input-form'"
+					bcs-habilitado="true" 
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_ASIGNAR_DEPOSITOS' | translate" 
+					bcs-clic="pRec.VentanaConciliarDeposito('C')">
+				</bcs-button>
+				<bcs-button class="col-xs-2"
+					bcs-tipo="'bcs-button-input-form'"
+					bcs-habilitado="true"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_INGRESAR_DEPOSITO' | translate" 
+					bcs-clic="pRec.VentanaDeposito('I')">
+				</bcs-button>
+				<bcs-button class		= "col-xs-2"
+					bcs-tipo="'bcs-button-input-form'"
+					bcs-habilitado		= "'true'" 
+					bcs-auto-desactivar	= "false"
+					bcs-texto			= "'UI_VER_DOCTOS' | translate" 
+					bcs-clic			= "pRec.verDoctos()">
+				</bcs-button>
+				<bcs-menu 
+					class			= "col-xs-1"
+					bcs-tipo="'bcs-button-input-form'"
+					bcs-habilitado	= "true" 
+					bcs-texto		= "'UI_OPCIONES' | translate" >
+					<li ng-click = "excelGridDepositos('DetalleDepositos')">{{'UI_EXPORTAR_ACTUAL_EXCEL' | translate}}</li>
+				</bcs-menu>
+			</div>
+			<br>
+			<div class="row">				
+				<div class="row">
+    				<strong>
+    					<div class="col-xs-7 ng-scope" translate="">UI_CLIENTES</div>
+    					<div class="col-xs-5 ng-scope" translate="">UI_ORIGEN</div>
+    				</strong>
+    				<hr>
+    			</div>
+				<div class="col-xs-7">
+					<bcs-grid id="gridCliente"
+						configuracion = "pRec.confGridCliente"
+						seleccionado = "pRec.seleccionCliente">
+					</bcs-grid>
+				</div>
+				<div class="col-xs-5">
+					<bcs-grid id="gridTotalesOrigen"
+						configuracion = "pRec.confGridTotalesOrigen"
+						seleccionado = "pRec.seleccionTotalesOrigen"
+					>
+					</bcs-grid>
+				</div>
+			</div>
+			<br>
+			<div class="row"> 
+				<strong class="col-xs-2 ng-scope" translate="">UI_TOTALES</strong>
+			</div>
+			<hr>
+			<div class="row"> 
+				<div class="col-xs-2">
+					<label class="col-xs-5 ng-scope" translate="">UI_MONTO_DEPOSITO</label>
+					<div class="col-xs-6">
+						<bcs-input-numero class="col-xs-11"
+							ng-model="pRec.resumen"
+							k-ng-disabled="true"
+							decimales="0"
+							>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-5 ng-scope" translate="">UI_CALCULADO</label>
+					<div class="col-xs-6">
+						<bcs-input-numero class="col-xs-11"
+							ng-model="pRec.montoCalculado"
+							k-ng-disabled="true"
+							decimales="0"
+							>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="col-xs-2">
+					<label class="col-xs-5 ng-scope" translate="">UI_DIGITADO</label>
+					<div class="col-xs-6">
+						<bcs-input-numero class="col-xs-11"
+							ng-model="pRec.montoDigitado"
+							k-ng-disabled="true"
+							decimales="0"
+						>
+						</bcs-input-numero>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5 ng-scope" translate="">UI_DIFERENCIA_EMPLEADOR</label>
+					<div class="col-xs-6">
+						<bcs-input-texto class="col-xs-11"
+							ng-model="pRec.diferenciaEmpleador"
+							k-ng-disabled="true"
+							>
+						</bcs-input-texto>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<label class="col-xs-5 ng-scope" translate="">UI_DIFERENCIA_CLIENTE</label>
+					<div class="col-xs-6">
+						<bcs-input-texto class="col-xs-11"
+							ng-model="pRec.diferenciaCliente"
+							k-ng-disabled="true"
+							>
+						</bcs-input-texto>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<bcs-button 
+					class				="col-xs-2"
+					bcs-tipo			="'bcs-button-primary'"
+					bcs-habilitado		="true" 
+					bcs-auto-desactivar	="false"
+					bcs-texto			="'UI_CONCILIAR' | translate" 
+					bcs-clic			="pRec.fnConciliar()">
+				</bcs-button>
+				<bcs-button 
+					id					="PanelRecaudacion_ConciliarMasivo"
+					class				="col-xs-2"
+					bcs-tipo			="'bcs-button-primary'"
+					bcs-habilitado		="true" 
+					bcs-auto-desactivar	="false"
+					bcs-texto			="'UI_CONCILIACION_MASIVA' | translate" 
+					bcs-clic			="pRec.fnConciliarMasivo()">
+				</bcs-button>
+				<bcs-button class="col-xs-2"
+					bcs-tipo="'bcs-button-secondary'"
+					bcs-habilitado="true"
+					bcs-auto-desactivar="false"
+					bcs-texto="'UI_MODIFICAR_DETALLE' | translate" 
+					bcs-clic="pRec.VentanaDetalle()">
+				</bcs-button>
+			</div>
+	</form>
+</div>

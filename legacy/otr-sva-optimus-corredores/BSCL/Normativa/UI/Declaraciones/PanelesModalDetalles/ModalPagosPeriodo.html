@@ -1,0 +1,76 @@
+<div id="ModalPagosPeriodo" ng-controller="ModalPagosPeriodoCtrl as mpp">
+	<div class="row bcs-cuerpo">
+		<form name="formPagosPeriodo" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_CORRELATIVO_PAGO</label>
+				<bcs-input-numero class="col-xs-9" 
+					bcs-requerido ="mpp.CorrelativoPagoRequerido"
+					ng-model="mpp.PagoPeriodo.KS5_CorrPago"
+					decimales="'0'"
+					ng-blur= "mpp.blurRequerido('KS5_CorrPago')"
+					k-ng-disabled = "mpp.CorrelativoPagoDisabled">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_ID_PAGO</label>
+				<bcs-combobox-base
+					class="col-xs-9"
+					auto-cargar="true"
+					bcs-requerido
+					filtros = "mpp.cmbbxIdPago.filtros"
+					tipo="'combobox-normativa-homologacion'"
+					id-actual="mpp.PagoPeriodo.KS5_IdPago"
+					id-post-filtro="mpp.PagoPeriodoOriginal.KS5_IdPago"
+					activado = "mpp.IdPagoActivado">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_FECHA_PAGO</label>
+				<bcs-input-date class="col-xs-9"
+					bcs-requerido = "mpp.FechaPagoRequerido"
+					k-options="mpp.OptFechaPago" 
+					k-ng-model="mpp.PagoPeriodo.S5_FecPago"
+					ng-blur= "mpp.blurRequerido('S5_FecPago')">
+				</bcs-input-date>	
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONTO_PAGO</label>
+				<bcs-input-numero class="col-xs-9" 
+					bcs-requerido = "mpp.MontoPagoRequerido"
+					ng-model="mpp.PagoPeriodo.S5_MontoPago"
+					ng-blur= "mpp.blurRequerido('S5_MontoPago')">
+				</bcs-input-numero>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_PAGO</label>
+				<bcs-combobox-base
+					class="col-xs-9"
+					auto-cargar="true"
+					bcs-requerido
+					filtros = "mpp.cmbbxTipoPago.filtros"
+					tipo="'combobox-normativa-homologacion'"
+					id-actual="mpp.PagoPeriodo.S5_TipoPago"
+					id-post-filtro="mpp.PagoPeriodoOriginal.S5_TipoPago">
+				</bcs-combobox-base>
+			</div>
+			<div class="row">
+				<label class="col-xs-3" translate>UI_MONEDA_PAGO</label>
+				<bcs-combobox-base
+					class="col-xs-9"
+					auto-cargar="true"
+					bcs-requerido
+					filtros = "mpp.cmbbxCodMoneda.filtros"
+					tipo="'combobox-normativa-homologacion'"
+					id-actual="mpp.PagoPeriodo.S5_CodMoneda"
+					id-post-filtro="mpp.PagoPeriodoOriginal.S5_CodMoneda">
+				</bcs-combobox-base>
+			</div>
+		</form>
+	</div>
+	<div class=row></div>
+	<hr>
+	<div class="row alignButtonsToRight">
+		<bcs-button id="btnAceptar" class="col-xs-2" bcs-habilitado="formPagosPeriodo.$valid" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="mpp.aceptar()"></bcs-button>
+		<bcs-button id="btnCancelar" class="col-xs-2" bcs-habilitado="'true'" bcs-tipo="'bcs-button-input-form'" bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mpp.cancelar()"></bcs-button>
+	</div>
+</div>

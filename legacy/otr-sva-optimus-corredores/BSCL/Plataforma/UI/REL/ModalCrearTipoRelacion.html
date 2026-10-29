@@ -1,0 +1,78 @@
+<div ng-controller="ModalRelacionCtrl as mr">
+	<div class="row bcs-cuerpo">  
+		<form name="formRelacion" class="col-xs-12 form-horizontal">
+			<div class="row">
+				<label class="col-xs-3" translate>UI_TIPO_RELACION</label>
+				<div class="col-xs-6" ng-show="!mr.Relacion.modoCrear">
+					<label translate>{{mr.Relacion.TipoRelacion}}</label>
+				</div>
+				<div class="col-xs-6" ng-show="mr.Relacion.modoCrear">
+					<bcs-combobox-base 
+						tipo="'combobox-tipo-relacion'" 
+						id-actual="mr.Relacion.IdTipoRelacion"
+						id-defecto="mr.RelacionOriginal.IdTipoRelacion"
+						todos="'N'" 
+						bcs-requerido 
+						filtros="mr.conf.oConfiguracionTipoRelacion.filtros" 
+						seleccionado="mr.TipoRelacionObj" 
+						cascada-a="mr.conf.oConfiguracionRelacionado.filtros.IdTipoRelacion" 
+						cascada-valor="'IdTipoRelacion'">
+					</bcs-combobox-base>
+				</div>
+			</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate>UI_RELACIONADO</label>
+				<div class="col-xs-6" ng-show="!mr.Relacion.modoCrear">
+					<label>{{mr.Relacion.DocIdeRelacionado}}&nbsp;&nbsp;&nbsp;</label>
+					<label>{{mr.Relacion.NomComRelacionado}}</label>
+				</div>
+				<div ng-show="mr.Relacion.modoCrear">
+					<bcs-combobox-base class="col-xs-6"   
+					 	id="UI_SOCIO_NEGOCIO"
+					 	auto-cargar="'false'"
+					    tipo="'combobox-socio-negocio'" 
+					    id-actual="mr.Relacion.IdRelacionado"
+						id-defecto="mr.RelacionOriginal.IdRelacionado" 
+						todos="'N'" 
+					    bcs-requerido
+					    filtros="mr.conf.oConfiguracionSocioNegocio.filtros"
+					    seleccionado="mr.RelacionadoObj">
+					</bcs-combobox-base>
+					
+					<label class="col-xs-1"></label>
+					<bcs-button class="col-xs-2" bcs-tipo="'principal'" bcs-habilitado="mr.crearNuevaPersona" 
+						bcs-auto-desactivar="false" bcs-texto="'UI_CREAR_PERSONA' | translate" bcs-clic="mr.crearPersona()">
+					</bcs-button>
+				</div>
+			</div>
+			<div class="row">&nbsp;</div>
+			
+			<div class="row">
+				<label class="col-xs-3" translate ng-show="mr.TipoRelacionObj.EsIndefinida || mr.Relacion.EsIndefinida">UI_RELACION_INDEFINIDA : </label>
+				<label class="col-xs-3" translate ng-show="mr.TipoRelacionObj.EsIndefinida === 'S' || mr.Relacion.EsIndefinida === 'S'">UI_SI</label>
+				<label class="col-xs-3" translate ng-show="mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N'">UI_NO</label>
+			</div>
+			
+			<div ng-show="mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N'">
+				<div class="row">
+					<label class="col-xs-3" translate>UI_FECHA_INICIO</label>
+					<bcs-input-date class="col-xs-6" k-ng-model="mr.Relacion.FechaInicioRelacion" bcs-requerido="mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N'"></bcs-input-date>
+				</div>
+				
+				<div class="row">
+					<label class="col-xs-3" translate>UI_FECHA_TERMINO</label>
+					<bcs-input-date class="col-xs-6" k-ng-model="mr.Relacion.FechaFinRelacion" bcs-requerido="mr.TipoRelacionObj.EsIndefinida === 'N' || mr.Relacion.EsIndefinida === 'N'"></bcs-input-date>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" bcs-tipo="'principal'" bcs-habilitado="formRelacion.$valid || !mr.Relacion.modoCrear" 
+			bcs-auto-desactivar="false" bcs-texto="'UI_ACEPTAR' | translate" bcs-clic="mr.aceptar()">
+		</bcs-button>
+		<bcs-button class="col-xs-2" bcs-tipo="'principal'" bcs-habilitado="'true'" 
+			bcs-auto-desactivar="false" bcs-texto="'UI_CANCELAR' | translate" bcs-clic="mr.cancelar()">
+		</bcs-button>
+	</div>
+</div>

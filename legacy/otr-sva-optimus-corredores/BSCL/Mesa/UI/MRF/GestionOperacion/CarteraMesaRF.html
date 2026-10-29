@@ -1,0 +1,121 @@
+<div class="col-xs-12"
+	ng-controller="ConsultaCarteraRFCtrl as ConsultaCartera">
+	<div class="row bcs_titulo"> {{'UI_CARTERA' |translate}} </div>
+	<div class="row bcs-cuerpo">	
+		<form class="col-xs-12 form-horizontal">
+			<div ng-form="frmConsultaCarteraRF" class="col-xs-12">
+				<div class="row">
+					<!--  <div class="col-xs-12"> -->
+					<div style="height: 400px">
+						<div class="col-xs-10">
+							<!-- GRID -->
+							
+							<div class="row">
+								<div class="col-xs-4">
+									<label class="col-xs-3" translate>UI_MONTO</label>
+									<bcs-input-monetario id='MONTO_CABECERA'
+										simbolo="data.IdMonedaMontoDisplay"
+										decimales="data.IdDecimalMontoDisplay" class="col-xs-7"
+										k-ng-model="data.kngMontoOperacion"> <!--ng-model="data.kngMontoOperacion"  k-ng-model="data.MontoCLP_Org"  -->
+									</bcs-input-monetario>
+								</div>
+								<div class="col-xs-4">
+							
+										<label class="col-xs-3" translate>UI_INSTRUMENTO</label>
+										<bcs-input-instrumentos class="col-xs-6" id="UI_INSTRUMENTO"
+											name="uInstrumento" datos-instrumento="data.instrumentoDatos"
+											buscar-instrumento="data.oConfiguracionInstrumento.buscar"
+											filtro-tipo-instrumento="data.oConfiguracionTipoInstrumento.idActual"
+											filtro-estado="'ACT'"> </bcs-input-instrumentos>
+								</div>
+								<div class="col-xs-4">
+									<label class="col-xs-3" translate>UI_EMISOR</label>
+									<bcs-combobox-base class="col-xs-7"
+										auto-cargar="'true'"
+										id="emisor_cartera"
+										tipo="'combobox-emisor'" 
+										id-actual="data.oConfiguracionEmisor.idActual" 
+										id-post-filtro="data.oConfiguracionEmisor.idPostFiltro" 
+										configuracion= "data.oConfiguracionEmisor.configuracion"
+										seleccionado="data.oConfiguracionEmisor.seleccionado" 
+										filtros="data.oConfiguracionEmisor.filtros"
+										activado="'true'"
+										>
+									 </bcs-combobox-base >
+								</div>
+								
+							</div>
+							<div class="row">
+								<div class="col-xs-4">
+									<label class="col-xs-3" translate>UI_MERCADO</label>
+									<bcs-combobox-base class="col-xs-7" id="UI_MERCADO"
+										auto-cargar="'true'"
+										tipo="'combobox-clasificacion-tipo-instrumento'" todos="'S'"
+										filtros="configuracionMercado.filtros"
+										id-actual="configuracionMercado.idActual"
+										seleccionado="configuracionMercado.seleccionado"
+										item-post-filtro="'1'"> </bcs-combobox-base>
+								</div>
+
+								<div class="col-xs-4">
+									<label class="col-xs-3" translate>UI_TIPO_REAJUSTE</label>
+									<bcs-combobox-base class="col-xs-6"
+										id="consultarCartera_TipoReajusteOperacion" auto-cargar="true"
+										tipo="oConfiguracionTipoReajusteOperacion.tipo"
+										configuracion="oConfiguracionTipoReajusteOperacion.configuracion"
+										filtros="oConfiguracionTipoReajusteOperacion.filtros"
+										seleccionado="oConfiguracionTipoReajusteOperacion.seleccionado"
+										id-actual="oConfiguracionTipoReajusteOperacion.idActual"
+										id-defecto="oConfiguracionTipoReajusteOperacion.idDefecto">
+									</bcs-combobox-base>
+								</div>
+
+								<div class="col-xs-4" ng-if="data.IdTipoOperacionCartera === 'VENPAC'">
+									<label class="col-xs-3" translate>UI_TIPO_CARTERA</label>
+									<bcs-combobox-base class="col-xs-7"
+										id="UI_TIPO_CARTERA"
+										auto-cargar="'true'"
+										tipo="'combobox-tipo-cartera-mesa'"
+										id-actual="configuracionTipoCarteraMesa.idActual"
+										seleccionado="configuracionTipoCarteraMesa.seleccionado">
+									</bcs-combobox-base>
+								</div>
+							</div>
+
+								<div class="row">
+    								<div class="col-xs-12">
+       								<i id="toolConsultarCarteraMesa" class="glosa-icono"></i>
+        							<label translate>UI_GLOSA</label>
+    							</div>
+							</div>
+
+							
+						</div>
+						<div class="col-xs-2" style="padding-bottom: 5px;">
+							<bcs-button id="frmBuscarCarteras" class="col-xs-12 row"
+											bcs-auto-desactivar="false" bcs-tipo="'bcs-button-search'"
+											bcs-texto="'UI_BUSCAR' | translate" bcs-habilitado="'true'"
+											bcs-clic="data.buscarCartera()"> 
+							</bcs-button>
+							<bcs-button class="col-xs-12" bcs-tipo="'bcs-button-secondary'"
+											bcs-auto-desactivar="false"
+											bcs-texto="'UI_SELECCIONAR' | translate"
+											bcs-habilitado="'true'" bcs-clic="data.cargarPapel()">
+							</bcs-button>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<bcs-grid id="grid-carteraPapeles"
+									configuracion="data.confBasicaCarteraPapeles"
+									seleccionado="data.seleccionCarteraPapeles"
+									api="data.gridApiCarteraPapeles"
+									fn-doble-click="data.cargarPapel()"> </bcs-grid>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</form>
+</div>
+

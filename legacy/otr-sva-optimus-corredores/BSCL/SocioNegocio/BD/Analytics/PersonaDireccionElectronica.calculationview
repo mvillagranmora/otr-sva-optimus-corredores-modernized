@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="PersonaDireccionElectronica" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <descriptions defaultDescription="PersonaDireccionElectronica"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources>
+    <DataSource id="BSCL.SocioNegocio.BD::PER.DireccionElectronica" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="BSCL" columnObjectName="BSCL.SocioNegocio.BD::PER.DireccionElectronica"/>
+    </DataSource>
+    <DataSource id="BSCL.SocioNegocio.BD::PER.PropositoMedioContacto" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="BSCL" columnObjectName="BSCL.SocioNegocio.BD::PER.PropositoMedioContacto"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="PersonaDireccionElectronica" filterExpressionLanguage="COLUMN_ENGINE">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="IdDireccionElectronica"/>
+        <viewAttribute id="Direccion"/>
+        <viewAttribute id="CodigoProposito"/>
+        <viewAttribute id="Comentario"/>
+        <viewAttribute id="IdEstado"/>
+        <viewAttribute id="IdPersona"/>
+        <viewAttribute id="IdUsuarioCreador"/>
+        <viewAttribute id="Borrado"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#BSCL.SocioNegocio.BD::PER.DireccionElectronica">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdDireccionElectronica" source="IdDireccionElectronica"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Direccion" source="Direccion"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CodigoProposito" source="CodigoProposito"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Comentario" source="Comentario"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEstado" source="IdEstado"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdUsuarioCreador" source="IdUsuarioCreador"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Borrado" source="Borrado"/>
+      </input>
+      <filter>&quot;Borrado&quot; = 'N'</filter>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="JoinProposito" joinOrder="OUTSIDE_IN" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="IdDireccionElectronica"/>
+        <viewAttribute id="Direccion"/>
+        <viewAttribute id="CodigoProposito"/>
+        <viewAttribute id="Comentario"/>
+        <viewAttribute id="IdEstado"/>
+        <viewAttribute id="IdPersona"/>
+        <viewAttribute id="IdUsuarioCreador"/>
+        <viewAttribute id="DescripcionProposito"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#PersonaDireccionElectronica">
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdDireccionElectronica" source="IdDireccionElectronica"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Direccion" source="Direccion"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CodigoProposito" source="CodigoProposito"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="Comentario" source="Comentario"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdEstado" source="IdEstado"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdPersona" source="IdPersona"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IdUsuarioCreador" source="IdUsuarioCreador"/>
+      </input>
+      <input node="#BSCL.SocioNegocio.BD::PER.PropositoMedioContacto">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DescripcionProposito" source="Descripcion"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CodigoProposito" source="IdPropositoMedioContacto"/>
+      </input>
+      <joinAttribute name="CodigoProposito"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="JoinProposito">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdDireccionElectronica" key="true" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdDireccionElectronica"/>
+        <keyMapping columnObjectName="JoinProposito" columnName="IdDireccionElectronica"/>
+      </attribute>
+      <attribute id="Direccion" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Direccion"/>
+        <keyMapping columnObjectName="JoinProposito" columnName="Direccion"/>
+      </attribute>
+      <attribute id="CodigoProposito" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CodigoProposito"/>
+        <keyMapping columnObjectName="JoinProposito" columnName="CodigoProposito"/>
+      </attribute>
+      <attribute id="Comentario" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Comentario"/>
+        <keyMapping columnObjectName="JoinProposito" columnName="Comentario"/>
+      </attribute>
+      <attribute id="IdEstado" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdEstado"/>
+        <keyMapping columnObjectName="JoinProposito" columnName="IdEstado"/>
+      </attribute>
+      <attribute id="IdPersona" order="6" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="JoinProposito" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="IdUsuarioCreador" order="7" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IdUsuarioCreador"/>
+        <keyMapping columnObjectName="JoinProposito" columnName="IdUsuarioCreador"/>
+      </attribute>
+      <attribute id="DescripcionProposito" order="8" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="Descripcion"/>
+        <keyMapping columnObjectName="JoinProposito" columnName="DescripcionProposito"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="80" y="140"/>
+        <rectangleSize height="90" width="171"/>
+      </shape>
+      <shape expanded="true" modelObjectName="PersonaDireccionElectronica" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="90" y="360"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="JoinProposito" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="90" y="260"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

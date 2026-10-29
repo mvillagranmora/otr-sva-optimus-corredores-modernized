@@ -1,0 +1,34 @@
+UPDATE Portafolio
+  SET "CodigoPortafolio" = :CodigoPortafolio
+	, "IdEstado" = :IdEstado
+	, "FechaModificacion" = :FechaModificacion
+	, "IdCarga" = :IdCarga
+	, "IdPerfilComercialBaseOrigen" = :IdPerfilComercialBaseOrigen 
+	, "IdPerfilProductos" = :IdPerfilProductos
+	, "IdPerfilCobros" = :IdPerfilCobros
+	, "IdEstadoAutorizacion" = :IdEstadoAutorizacion 
+	, "DescripcionPortafolio" = :DescripcionPortafolio
+	, "IdPerfilLimites" = :IdPerfilLimites 
+	, "IdPerfilCondicionesOperativas" = :IdPerfilCondicionesOperativas
+	, "IdPerfilProductosExtra" = :IdPerfilProductosExtra
+	, "IdPerfilCobrosExtra" = :IdPerfilCobrosExtra
+	, "IdPerfilLimitesExtra" = :IdPerfilLimitesExtra
+	, "IdPerfilCondicionesOperativasExtra" = :IdPerfilCondicionesOperativasExtra
+	, "IdDireccionEnvioCorrespondencia" = :IdDireccionEnvioCorrespondencia
+	, "IdTelefonoContacto" = :IdTelefonoContacto
+	, "IdEmpleadoEjecutivo" = :IdEmpleadoEjecutivo
+	, "EsEjecutivoExclusivo" = EsEjecutivoExclusivo
+	, "NumeroFicha" = :NumeroFicha
+	, "IdNombreFantasia" = :IdNombreFantasia
+	, "Alias" = :Alias
+	, "IdPersonaBrokerExtranjero" = :IdPersonaBrokerExtranjero
+	, "IdPerfilCobrosPeru" = :IdPerfilCobrosPeru
+	, "IdPerfilCobrosPeruExtra" = :IdPerfilCobrosPeruExtra
+FROM "BSCL.Portafolio.BD::POR.Portafolio" AS Portafolio	
+INNER JOIN "BSCL.Portafolio.BD.Vistas::ConsultarMatrizAgrupador" AS Matriz
+		ON Matriz."IdMatrizAgrupadorAPV" = Portafolio."IdMatrizAgrupadorAPV"
+	   AND Portafolio."Proposito" = Matriz."IdPropositoPortafolio"
+WHERE Portafolio."IdCliente" = :IdCliente
+AND Portafolio."Proposito" = :PropositoPortafolio
+AND Matriz."NombrePlan" = :NombrePlan
+AND Matriz."CodigoAgrupador" = :CodigoAgrupador;	

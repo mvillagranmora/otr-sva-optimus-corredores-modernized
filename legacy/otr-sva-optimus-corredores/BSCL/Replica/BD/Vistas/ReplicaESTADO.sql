@@ -1,0 +1,18 @@
+SET SCHEMA "BSCL"; 
+DROP VIEW "BSCL.Replica.BD.Vistas::ReplicaESTADO"; 
+
+CREATE VIEW "BSCL.Replica.BD.Vistas::ReplicaESTADO" AS
+
+SELECT
+	WST."IdStack"  AS "IDSTACK" ,
+	"Action" AS ACTION,
+	EST_ID as TABLE_KEY,
+	EST_ID,			--VARCHAR(3)
+	EST_TIPO,		--VARCHAR(20)
+	EST_NOMBRE		--VARCHAR(30)
+
+FROM "BSCL.Replica.BD.Vistas::Sebra.ESTADO" ME
+LEFT JOIN "BSCL.Replica.BD.Vistas::RegistrosPendientesReplicaActualizacion" WST ON  WST."Table" = 'ESTADO' AND WST."Key" = EST_ID
+WITH READ ONLY;
+
+GRANT SELECT ON "BSCL.Replica.BD.Vistas::ReplicaESTADO" TO  BCS_DESARROLLADOR WITH GRANT OPTION;

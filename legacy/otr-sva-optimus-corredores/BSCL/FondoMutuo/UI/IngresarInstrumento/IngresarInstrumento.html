@@ -1,0 +1,1114 @@
+<div class="col-xs-12" ng-controller="IngresarInstrumentoFFMCtrl as ingresarInstrumentoFFM">
+	<form name="FormIngresoInstrumentoFFM" class="filters-formulario">
+	   	<div class="row" ng-show="ingresarInstrumentoFFM.Edicion === 'S'">
+			<div class="col-xs-12">
+				<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_DATOS_FONDO</label>
+		  		</div>
+		  		<hr>
+			  	<div class="row">
+					<label class="col-xs-2" translate>UI_FONDO</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		maxlength="40"
+						ng-model="ingresarInstrumentoFFM.datosDespues.IdFondo"
+						foco="ingresarInstrumentoFFM.formData.focoNemotecnico"
+						k-ng-disabled="parametros.IdSerieFondo">
+			  		</bcs-input-texto>
+			  		
+					<label class="col-xs-1 col-xs-offset-1" translate>UI_EMISOR</label> 
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-emisor'"
+			  			id-actual="ingresarInstrumentoFFM.datosDespues.IdEmisor"
+			  			id-defecto="ingresarInstrumentoFFM.datosAntes.IdEmisor"
+			  			filtros="ingresarInstrumentoFFM.formData.filtrosEmisor"
+			  			bcs-requerido
+			  			todos="'N'">
+			  		</bcs-combobox-base> 
+			  		
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_PAIS_EMISOR</label>
+			  		<bcs-combobox-base class="col-xs-2"
+                        tipo="'combobox-pais'"
+                        bcs-requerido
+                        auto-cargar="'true'"
+                        id-actual="ingresarInstrumentoFFM.datosDespues.IdPaisEmisor"
+                        id-defecto="ingresarInstrumentoFFM.datosAntes.IdPaisEmisor">
+                    </bcs-combobox-base>
+                    
+				</div>
+			  	<div class="row">
+			  	    <label class="col-xs-2" translate>UI_NOMBRE_FONDO</label> 
+			  		<bcs-input-texto class="col-xs-6"
+				  		maxlength="100"
+				  		bcs-requerido
+						ng-model="ingresarInstrumentoFFM.datosDespues.NombreFondo">
+			  		</bcs-input-texto>
+			  		
+			  		<label class="col-xs-1 col-xs-offset-1"  translate>UI_MONEDA</label>
+					<bcs-combobox-base 
+						class="col-xs-2"
+						id="UI_MONEDA"
+						bcs-requerido
+					 	auto-cargar="'true'"
+					 	id-actual="ingresarInstrumentoFFM.datosDespues.IdMoneda"
+					 	id-defecto="ingresarInstrumentoFFM.datosAntes.IdMoneda"
+					 	tipo="'combobox-moneda'">
+					</bcs-combobox-base>
+		  		</div>
+		  		
+		  		<div class="row">
+			  		<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-tipo-instrumento'"
+			  			id-actual="ingresarInstrumentoFFM.datosDespues.IdTipoInstrumento"
+			  			id-defecto="ingresarInstrumentoFFM.datosAntes.IdTipoInstrumento"
+			  			filtros="ingresarInstrumentoFFM.formData.filtrosTipoInstrumento"
+			  			todos="'N'".
+			  			bcs-requerido>
+			  		</bcs-combobox-base>
+			  		
+			  		
+			  	    <label class="col-xs-1 col-xs-offset-1" translate>UI_TIPO_FONDO</label>
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-tipo-fondo'"
+			  			id-actual="ingresarInstrumentoFFM.datosDespues.IdTipoFondo"
+			  			id-defecto="ingresarInstrumentoFFM.datosAntes.IdTipoFondo"
+			  			working-net="ingresarInstrumentoFFM.workingNet.TipoFondo"
+			  			seleccionado="ingresarInstrumentoFFM.TipoFondo"
+			  			todos="'N'">
+			  		</bcs-combobox-base>
+			  		
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_CODIGO_SVS</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		maxlength="40"
+				  		bcs-requerido
+						ng-model="ingresarInstrumentoFFM.datosDespues.CodigoSVS">
+			  		</bcs-input-texto>
+		  		</div>
+		  		
+		  		<div class="row">			  		
+			  		<label class="col-xs-2" translate>UI_PERFIL</label>
+			  		<bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-categoria-perfil-ffmm'"
+			  			id-actual="ingresarInstrumentoFFM.datosDespues.IdCategoriaPerfilFondoMutuo"
+			  			id-defecto="ingresarInstrumentoFFM.datosAntes.IdCategoriaPerfilFondoMutuo">
+			  		</bcs-combobox-base>
+			  		<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_APERTURA_AUTOMATICA' | translate}}
+					</label>
+					<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.AperturaAutomaticaFondo"></bcs-input-checkbox>
+					</div>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_FONDO_NORMATIVO' | translate}}
+					</label>
+					<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.FondoNormativo"></bcs-input-checkbox>
+					</div>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						{{'UI_FONDO_EXTRANJERO' | translate}}
+					</label>
+					<div class="col-xs-2">
+		  				<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.FondoExtranjero" ng-disabled="'true'"></bcs-input-checkbox>
+		  			</div>
+		  			<label class="col-xs-1 col-xs-offset-1">{{'UI_PAIS' | translate}}</label>
+		  			<bcs-combobox-base class="col-xs-2"
+			  				tipo="'combobox-pais'"
+			  				id-actual="ingresarInstrumentoFFM.datosDespues.IdPaisOrigen"
+			  				id-defecto="ingresarInstrumentoFFM.datosAntes.IdPaisOrigen"
+			  				activado="'true'"
+			  				bcs-requerido>
+			  		</bcs-combobox-base>
+			  		<label class="col-xs-1 col-xs-offset-1">
+                        {{'UI_MONEY_MARKET' | translate}}
+                    </label>
+                    <div class="col-xs-2">
+                        <bcs-input-checkbox 
+                        ng-disabled="ingresarInstrumentoFFM.TipoFondo.IndicadorMoneyMarket != 'S'" 
+                        ng-model="ingresarInstrumentoFFM.datosDespues.MoneyMarket">
+                        </bcs-input-checkbox>
+                    </div>
+		  		</div>
+		  		
+		  		<div class="row">
+                    <label class="col-xs-2" translate>UI_TIPO_DOCUMENTO_FONDO</label>
+                    <bcs-input-documento-identidad
+                        class="col-xs-3"
+                        ng-model="ingresarInstrumentoFFM.documentoIdentidadFondo.DocumentoIdentidad"
+                        documento-asociado="ingresarInstrumentoFFM.documentoIdentidadFondo.DocumentoIdentidadAsociado"
+                        cambiar-documento-identidad="ingresarInstrumentoFFM.documentoIdentidadFondoOriginal.DocumentoIdentidad"
+                        id-tipo-persona="'J'"
+                        id-tipo-documento="ingresarInstrumentoFFM.documentoIdentidadFondo.IdTipoDocumentoIdentidad"
+                        id-tipo-documento-asociado="ingresarInstrumentoFFM.documentoIdentidadFondo.IdTipoDocumentoIdentidadAsociado"
+                        id-defecto="ingresarInstrumentoFFM.documentoIdentidadFondo.IdTipoDocumentoIdentidadDefecto"
+                        cambiar-tipo-documento-identidad="ingresarInstrumentoFFM.documentoIdentidadFondo.CambiarIdTipoDocumentoIdentidad"
+                        tipo="'combobox-tipo-documento-identidad'"
+                        tipo-documento-identidad-activado="false"
+                        usa-filtro-externo="true"
+                        filtro-tipo-documento="ingresarInstrumentoFFM.formData.filtrosTipoDocumentoFondo"
+                        documento-identidad-activado="true"
+                        placeholder="placeholder.documentoIdentidad"
+                        blur="ingresarInstrumentoFFM.blurDocumentoIdentidad(ingresarInstrumentoFFM.documentoIdentidadFondo.IdTipoDocumentoIdentidadAsociado,ingresarInstrumentoFFM.documentoIdentidadFondo.DocumentoIdentidadAsociado,'true')"
+                        >
+                    </bcs-input-documento-identidad>
+                    <label class="col-xs-1" translate>UI_MERCADO</label>
+                    <bcs-combobox-base class="col-xs-2"
+			  			tipo="'combobox-mercado-ffmm'"
+			  			id-actual="ingresarInstrumentoFFM.datosDespues.IdMercadoFondoMutuo"
+			  			id-defecto="ingresarInstrumentoFFM.datosAntes.IdMercadoFondoMutuo"
+			  			filtros="ingresarInstrumentoFFM.formData.filtrosMercado"
+			  			working-net="ingresarInstrumentoFFM.workingNet.IdMercadoFondoMutuo"
+			  			seleccionado="ingresarInstrumentoFFM.IdMercadoFondoMutuo"
+			  			todos="'N'">
+			  		</bcs-combobox-base>                    
+		  		</div>
+		  		<br>
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_DATOS_SERIE</label>
+		  		</div>	
+		  		<hr>	  		
+		  		
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_NOMBRE_SERIE</label> 
+			  		<bcs-input-texto class="col-xs-6"
+				  		maxlength="100"
+				  		bcs-requerido
+						ng-model="ingresarInstrumentoFFM.datosDespues.NombreSerieFondo">
+			  		</bcs-input-texto>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_ESTADO</label>
+                    <bcs-combobox-base class="col-xs-2"
+                        tipo="'combobox-estado-instrumento-ffmm'"
+                        id-actual="ingresarInstrumentoFFM.datosDespues.IdEstado"
+                        id-defecto="ingresarInstrumentoFFM.datosAntes.IdEstado"
+                        bcs-requerido>
+                    </bcs-combobox-base>
+		  		</div>
+		  		
+		  		<div class="row">
+		  			<label class="col-xs-2"> {{'UI_INSTRUMENTO' | translate}} ({{'UI_IDENTIFICADOR_SERIE_FONDO' | translate}})</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		maxlength="40"
+				  		k-ng-disabled="ingresarInstrumentoFFM.parametros.IdSerieFondo"
+				  		bcs-requerido
+						ng-model="ingresarInstrumentoFFM.datosDespues.IdSerieFondo">
+			  		</bcs-input-texto>
+		  			<label class="col-xs-1 col-xs-offset-1" translate>UI_SERIE</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		maxlength="10"
+						ng-model="ingresarInstrumentoFFM.datosDespues.CodigoSerie">
+			  		</bcs-input-texto>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_FAMILIA</label>
+                    <bcs-combobox-base class="col-xs-2"
+                        tipo="'combobox-familia-ffmm'"
+                        id-actual="ingresarInstrumentoFFM.datosDespues.IdFamiliaFondo"
+                        id-defecto="ingresarInstrumentoFFM.datosAntes.IdFamiliaFondo">
+                    </bcs-combobox-base>
+		  		</div>
+		  		
+		  		<div class="row">
+		  		    <label class="col-xs-2" translate>UI_INSTRUMENTO_DCV_RELACIONADO</label> 
+                    <bcs-input-texto class="col-xs-2"
+                        maxlength="100"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.InstrumentoDCV">
+                    </bcs-input-texto>
+		  			<label class="col-xs-1 col-xs-offset-1" translate>UI_DECIMALES_VALOR_CUOTAS</label> 
+			  		<bcs-input-numero class="col-xs-2"
+				  		maxlength ="28"
+				  		decimales = "ingresarInstrumentoFFM.decimalesCantidad"
+				  		bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DecimalesValorCuota">
+			  		</bcs-input-numero>
+		  			<label class="col-xs-1 col-xs-offset-1" translate>UI_DECIMALES_NUMERO_CUOTAS</label> 
+			  		<bcs-input-numero class="col-xs-2"
+				  		maxlength="28"
+				  		decimales = "ingresarInstrumentoFFM.decimalesCantidad"
+				  		bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DecimalesCuota">
+			  		</bcs-input-numero>
+		  		</div>
+		  		
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_MONTO_MINIMO</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+						decimales = "ingresarInstrumentoFFM.decimalesMonto"
+						bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.MontoMinimo"
+						simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+					</bcs-input-monetario>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_MONTO_MAXIMO</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+						decimales = "ingresarInstrumentoFFM.decimalesMonto"
+						bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.MontoMaximo"
+						simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+					</bcs-input-monetario>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_MONTO_MINIMO_PATRIMONIO</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+				  		decimales = "ingresarInstrumentoFFM.decimalesMonto"
+						bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.PatrimonioMinimo"
+						simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		 
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_PARA_EXCLUIR_GARANTIAS' | translate}}
+					</label>
+					<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.ExcluyeGarantia"></bcs-input-checkbox>
+					</div>
+		  			<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_COBRA_COMISION' | translate}}
+					</label>
+					<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.CobraComision"></bcs-input-checkbox>
+					</div>
+					<label class="col-xs-1 col-xs-offset-1">
+                         {{'UI_JUMBO' | translate}}
+                    </label>
+                    <div class="col-xs-2">
+                        <bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.Omnibus"></bcs-input-checkbox>
+                    </div>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_DIFERIDO' | translate}}
+					</label>
+					<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.Diferido"></bcs-input-checkbox>
+					</div>
+					<label class="col-xs-3 col-xs-offset-1" translate>UI_VINCULAR_REGLAMENTO_FONDO</label>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_PERMITIR_CAMBIO_SERIE' | translate}}
+					</label>
+					<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.CambioFondo"></bcs-input-checkbox>
+					</div>
+					
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_SOLO_APORTES_ALTOS' | translate}}
+					</label>
+		  			<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.AportesAltos"></bcs-input-checkbox>
+					</div>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_PATRIMONIOS_ALTOS' | translate}}
+					</label>
+		  			<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.PatrimonioAltos"></bcs-input-checkbox>
+					</div>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_PATRIMONIO_MINIMO_EMISOR' | translate}}
+					</label>
+					<bcs-input-monetario class="col-xs-2"
+					decimales = "ingresarInstrumentoFFM.decimalesMonto"
+					bcs-requerido="ingresarInstrumentoFFM.datosDespues.PatrimonioAltos"
+					k-ng-disabled="!ingresarInstrumentoFFM.datosDespues.PatrimonioAltos"
+					k-ng-model="ingresarInstrumentoFFM.datosDespues.MontoPatrimonioEmisor"
+					simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+					</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_INSTRUMENTO_OWP' | translate}}
+					</label>
+		  			<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.InstrumentoOWP"></bcs-input-checkbox>
+					</div>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_APV' | translate}}
+					</label>
+		  			<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.EsAPV"></bcs-input-checkbox>
+					</div>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_RESTRINGEAPORTE' | translate}}
+					</label>
+		  			<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.RestringeAporte"></bcs-input-checkbox>
+					</div>
+		  		</div>
+		  		<div class="row">
+		  			<label  class="col-xs-2">
+						 {{'UI_RESTRINGERESCATE' | translate}}
+					</label>
+		  			<div class="col-xs-2">
+						<bcs-input-checkbox  ng-model="ingresarInstrumentoFFM.datosDespues.RestringeRescate"></bcs-input-checkbox>
+					</div>
+					<label class="col-xs-1 col-xs-offset-1" translate>UI_NEMO_CMF</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		maxlength="40"
+						ng-model="ingresarInstrumentoFFM.datosDespues.NemoCMF">
+			  		</bcs-input-texto>
+		  		</div>		  		
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_INDICADORES</label>
+		  		</div>
+		  			
+		  		<hr>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_VALOR_CUOTA</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+				  		maxlength="28"
+				  		decimales = "ingresarInstrumentoFFM.datosDespues.DecimalesValorCuota"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.ValorCuota"
+						simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda"
+						k-ng-disabled="!ingresarInstrumentoFFM.agregarValorCuota">
+			  		</bcs-input-monetario>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_TC_USD_CLP_APORTE</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+				  		maxlength="28"
+				  		decimales = "ingresarInstrumentoFFM.datosDespues.DecimalesValorCuota"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.ValorDolarAporte"
+						simbolo="'USD'">
+			  		</bcs-input-monetario>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_TC_USD_CLP_RESCATE</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+				  		maxlength="28"
+				  		decimales = "ingresarInstrumentoFFM.datosDespues.DecimalesValorCuota"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.ValorDolarRescate"
+						simbolo="'USD'">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_FECHA_VALOR_CUOTA</label> 
+			  		<bcs-input-date
+				        class="col-xs-2"
+				        k-ng-model="ingresarInstrumentoFFM.datosDespues.FechaValorCuota"
+				        k-ng-disabled="'true'">
+				    </bcs-input-date>
+		  		</div>
+		  		
+		  		<br>
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_DIAS_VALUTAS_APORTE_RESCATE</label>
+		  		</div>
+		  		<hr>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate></label>
+		  			<label class="col-xs-2 " translate>UI_VALUTA_FECHA_CURSE</label>
+		  			<label class="col-xs-2 marginDiasValutasFM" translate>UI_VALUTA_FECHA_VALOR_CUOTA</label>
+		  			<label class="col-xs-2 marginDiasValutasFM" translate>UI_VALUTA_FECHA_CERTIFICACION</label>
+		  			<label class="col-xs-2 marginDiasValutasFM" translate>UI_DIAS_RETENCION_PAGO</label>
+		  		 </div>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_APORTE</label> 
+			  		<bcs-input-numero class="col-xs-2"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaCurseAporte"
+						k-ng-disabled="ingresarInstrumentoFFM.configuracionFechas.Aporte.FechaCurse.bloqueo">
+			  		</bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaValorCuotaAporte"
+						k-ng-disabled="ingresarInstrumentoFFM.configuracionFechas.Aporte.FechaValorCuota.bloqueo"
+						k-options="ingresarInstrumentoFFM.configuracionFechas.Aporte.FechaValorCuota.configuracion">
+			  		</bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+                        maxlength="28"
+                        decimales = "'0'"
+                        bcs-requerido
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaCertificacionAporte"
+                        k-ng-disabled="ingresarInstrumentoFFM.configuracionFechas.Aporte.FechaCertificacion.bloqueo">
+                    </bcs-input-numero>
+                    <bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+                        maxlength="28"
+                        decimales = "'0'"
+                        bcs-requerido
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasRetencionesAporte"
+                        k-ng-disabled="ingresarInstrumentoFFM.configuracionFechas.Aporte.FechaRetencion.bloqueo">
+                    </bcs-input-numero>
+		  		 </div> 
+		  		 
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_RESCATE</label> 
+			  		<bcs-input-numero class="col-xs-2"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaCurseRescate"
+						k-ng-disabled="ingresarInstrumentoFFM.configuracionFechas.Rescate.FechaCurse.bloqueo">
+			  		</bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaValorCuotaRescate"
+						k-ng-disabled="ingresarInstrumentoFFM.configuracionFechas.Rescate.FechaValorCuota.bloqueo">
+			  		</bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+                        maxlength="28"
+                        decimales = "'0'"
+                        bcs-requerido
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaCertificacionRescate"
+                        k-ng-disabled="ingresarInstrumentoFFM.configuracionFechas.Rescate.FechaCertificacion.bloqueo">
+                    </bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		bcs-requerido
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasRetencionesRescate"
+						k-ng-disabled="ingresarInstrumentoFFM.configuracionFechas.Rescate.FechaRetencion.bloqueo">
+			  		</bcs-input-numero>
+		  		 </div>
+		  		<br>
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo prueba" translate>UI_REGIMEN</label>
+		  		</div>
+		  		<hr>
+		  		<div class="row">
+		  			<div ng-repeat="(keyItem, valItem) in ingresarInstrumentoFFM.matrizRegimen">
+		  				<div class="col-xs-4">
+							<label class="col-xs-9" translate>{{valItem.Descripcion}}</label>
+							<bcs-input-checkbox 
+							   class="col-xs-3" style="display: flex; justify-content: center;"
+							  ng-model="ingresarInstrumentoFFM.checkRegimen[valItem.IdRegimenFondoMutuo]"> 
+						  </bcs-input-checkbox>
+						  </div>
+		  			</div>
+		  		</div>
+		  		<br>
+		  		<!-- 
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_DATOS_AGF</label>
+		  		</div>
+		  		 -->
+  				<div class="row">
+					<span class="col-xs-3">
+						<label class="col-xs-4 titulo" translate>UI_DATOS_AGF&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresarInstrumentoFFM.muestraDatosAGF" ng-click="ingresarInstrumentoFFM.muestraDatosAGF = !ingresarInstrumentoFFM.muestraDatosAGF">({{'UI_MOSTRAR' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresarInstrumentoFFM.muestraDatosAGF" ng-click="ingresarInstrumentoFFM.muestraDatosAGF = !ingresarInstrumentoFFM.muestraDatosAGF">({{'UI_OCULTAR' | translate}})</em>
+					</span>
+				</div>	
+		  		<hr>
+		  		<div class="row" ng-show="ingresarInstrumentoFFM.muestraDatosAGF">
+		  			<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-combobox-base class="col-xs-6" 
+						id="UI_SOCIO_NEGOCIO"
+						auto-cargar="'false'" 
+						bcs-requerido 
+						tipo="ingresarInstrumentoFFM.oClientePortafolio.tipo"
+						seleccionado="ingresarInstrumentoFFM.oClientePortafolio.seleccionado"
+						id-actual="ingresarInstrumentoFFM.datosDespues.IdPortafolio"
+						id-defecto="ingresarInstrumentoFFM.datosAntes.IdPortafolio"
+						filtros="ingresarInstrumentoFFM.oClientePortafolio.filtros"
+						configuracion="ingresarInstrumentoFFM.oClientePortafolio.configuracion">
+					</bcs-combobox-base>
+					<label class="col-xs-1 col-xs-offset-1" translate>UI_PROPOSITO</label>
+					<bcs-input-texto class="col-xs-2"
+				  		maxlength="40"
+				  		k-ng-disabled="'true'"
+				  		bcs-requerido
+						ng-model="ingresarInstrumentoFFM.oClientePortafolio.seleccionado.Proposito">
+			  		</bcs-input-texto>	
+				 </div>
+				 <div class="row" ng-show="ingresarInstrumentoFFM.muestraDatosAGF">
+				 	<label class="col-xs-2" translate>UI_MEDIOS_DE_PAGO_CARGO</label>					
+					<bcs-combobox-base class="col-xs-2"
+						bcs-requerido
+						tipo="ingresarInstrumentoFFM.oConfiguracionMedioDePagoCargo.tipo" 
+						configuracion= "ingresarInstrumentoFFM.oConfiguracionMedioDePagoCargo.configuracion" 				
+						seleccionado="ingresarInstrumentoFFM.oConfiguracionMedioDePagoCargo.seleccionado"
+						id-actual="ingresarInstrumentoFFM.datosDespues.IdMedioDePagoCargo"
+						id-defecto="ingresarInstrumentoFFM.datosAntes.IdMedioDePagoCargo"
+						filtros="ingresarInstrumentoFFM.oConfiguracionMedioDePagoCargo.filtros">
+					</bcs-combobox-base>
+				 	<label class="col-xs-1 col-xs-offset-1" translate>UI_MEDIOS_DE_PAGO_ABONO</label>					
+					<bcs-combobox-base class="col-xs-2"
+						bcs-requerido
+						tipo="ingresarInstrumentoFFM.oConfiguracionMedioDePagoAbono.tipo" 
+						configuracion= "ingresarInstrumentoFFM.oConfiguracionMedioDePagoAbono.configuracion" 				
+						seleccionado="ingresarInstrumentoFFM.oConfiguracionMedioDePagoAbono.seleccionado"
+						id-actual="ingresarInstrumentoFFM.datosDespues.IdMedioDePagoAbono"
+						id-defecto="ingresarInstrumentoFFM.datosAntes.IdMedioDePagoAbono"
+						filtros="ingresarInstrumentoFFM.oConfiguracionMedioDePagoAbono.filtros">
+					</bcs-combobox-base>
+				 </div>
+				 <!-- REMUNERACIONES -->
+				<div class="row">
+					<span class="col-xs-3">
+						<label class="col-xs-8 titulo" translate>UI_REMUNERACION_GASTO_Y_COMISION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresarInstrumentoFFM.muestraDatosAGF"  ng-click="ingresarInstrumentoFFM.muestraDatosAGF = !ingresarInstrumentoFFM.muestraDatosAGF">({{'UI_MOSTRAR' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresarInstrumentoFFM.muestraDatosAGF" ng-click="ingresarInstrumentoFFM.muestraDatosAGF = !ingresarInstrumentoFFM.muestraDatosAGF">({{'UI_OCULTAR' | translate}})</em>
+					</span>
+				</div>	
+		  		<hr>
+		  		<div class="row" ng-show="!ingresarInstrumentoFFM.muestraDatosAGF">
+					<label class="col-xs-2" translate>UI_DIAS_COMISION</label>
+					<bcs-input-numero class="col-xs-2"
+				  		maxlength="8"
+				  		decimales = "0"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasComision">
+			  		</bcs-input-numero>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_%_COMISION</label>
+					  <bcs-input-numero class="col-xs-1"
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.PorcentajeComision"
+                        decimales="3",
+                        k-options="ingresarInstrumentoFFM.porcentajeOptions">
+                    </bcs-input-numero>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_%_REMUNERACION_ANUAL&nbsp;&nbsp;</label>
+					  <bcs-input-numero class="col-xs-1"
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.PorcentajeRemuneracion"
+                        decimales="3",
+                        k-options="ingresarInstrumentoFFM.porcentajeOptions">
+                    </bcs-input-numero>
+				 </div>
+				 <div class="row" ng-show="!ingresarInstrumentoFFM.muestraDatosAGF">
+				 	<label class="col-xs-2" translate>UI_%_GTOS_OPER_ANUAL</label>					
+					<bcs-input-numero class="col-xs-2"
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.PorcentajeGastoOpera"
+                        decimales="3",
+                       k-options="ingresarInstrumentoFFM.porcentajeOptions">
+                    </bcs-input-numero>
+				 	<label class="col-xs-2 col-xs-offset-1" translate>UI_%_COSTO_ADM_ANUAL</label>					
+					<bcs-input-numero class="col-xs-1"
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.PorcentajeCostoAdm"
+                        decimales="3"
+                        k-options="ingresarInstrumentoFFM.porcentajeOptions">
+                    </bcs-input-numero>
+                 </div>
+            </div>
+		</div>
+		<div class="row" ng-show="ingresarInstrumentoFFM.Edicion === 'N'">
+			<div class="col-xs-12">
+				<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_DATOS_FONDO</label>
+		  		</div>
+		  		<hr>
+			  	<div class="row">
+					<label class="col-xs-2" translate>UI_FONDO</label> 
+			  		<bcs-input-texto class="col-xs-2"
+						ng-model="ingresarInstrumentoFFM.datosDespues.IdFondo"
+						k-ng-disabled="'true'">
+			  		</bcs-input-texto>
+			  		
+					<label class="col-xs-1 col-xs-offset-1" translate>UI_EMISOR</label> 
+			  		<bcs-input-texto class="col-xs-2"
+			  			ng-model="ingresarInstrumentoFFM.datosDespues.IdEmisor"
+						k-ng-disabled="'true'">
+			  		</bcs-input-texto> 
+			  		
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_PAIS_EMISOR</label> 
+                    <bcs-input-texto class="col-xs-2"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.NombrePaisEmisor"
+                        k-ng-disabled="'true'">
+                    </bcs-input-texto> 
+				</div>
+			  	<div class="row">
+			  	    <label class="col-xs-2" translate>UI_NOMBRE_FONDO</label> 
+			  		<bcs-input-texto class="col-xs-6"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.NombreFondo">
+			  		</bcs-input-texto>
+			  		
+			  		<label class="col-xs-1 col-xs-offset-1"  translate>UI_MONEDA</label>
+					<bcs-input-texto class="col-xs-2"
+						ng-model="ingresarInstrumentoFFM.datosDespues.IdMoneda"
+						k-ng-disabled="'true'">
+					</bcs-input-texto>
+		  		</div>
+		  		
+		  		<div class="row">
+			  		<label class="col-xs-2" translate>UI_TIPO_INSTRUMENTO</label>
+			  		<bcs-input-texto class="col-xs-2"
+			  			ng-model="ingresarInstrumentoFFM.datosDespues.NombreTipoInstrumento"
+						k-ng-disabled="'true'">
+			  		</bcs-input-texto>
+			  		
+			  		
+			  	    <label class="col-xs-1 col-xs-offset-1" translate>UI_TIPO_FONDO</label>
+			  		<bcs-input-texto class="col-xs-2"
+			  			ng-model="ingresarInstrumentoFFM.datosDespues.Descripcion"
+						k-ng-disabled="'true'">
+			  		</bcs-input-texto>
+			  		
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_CODIGO_SVS</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.CodigoSVS">
+			  		</bcs-input-texto>
+		  		</div>
+		  		
+		  		<div class="row">		  		
+			  		<label class="col-xs-2" translate>UI_PERFIL</label>
+			  		<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.NombreCategoriaPerfilFondoMutuo">
+			  		</bcs-input-texto>
+			  		<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_APERTURA_AUTOMATICA' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.AperturaAutomaticaFondoUI">
+			  		</bcs-input-texto>
+			  		<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_FONDO_NORMATIVO' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.FondoNormativoUI">
+			  		</bcs-input-texto>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						{{'UI_FONDO_EXTRANJERO' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.EsFondoExtranjeroUI">
+			  		</bcs-input-texto>
+		  			<label class="col-xs-1 col-xs-offset-1">
+						{{'UI_PAIS' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.NombrePais">
+			  		</bcs-input-texto>
+					<label class="col-xs-1 col-xs-offset-1">
+						{{'UI_MONEY_MARKET' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.EsMoneyMarketUI">
+			  		</bcs-input-texto>
+		  		</div>
+		  		<div class="row">
+                    <label class="col-xs-2" translate>UI_TIPO_DOCUMENTO_FONDO</label>
+                    <bcs-input-texto class="col-xs-1"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.documentoIdentidadFondo.NombreTipoDocumentoIdentidadAsociado">
+                    </bcs-input-texto>
+                    <bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.documentoIdentidadFondo.DocumentoIdentidadAsociado">
+                    </bcs-input-texto>
+                    <label class="col-xs-1" translate>UI_MERCADO</label>
+                    <bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.NombreMercadoFondoMutuo">
+                    </bcs-input-texto>
+		  		</div>
+		  		<br>
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_DATOS_SERIE</label>
+		  		</div>	
+		  		<hr>	  		
+		  		
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_NOMBRE_SERIE</label> 
+			  		<bcs-input-texto class="col-xs-6"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.NombreSerieFondo">
+			  		</bcs-input-texto>
+			  		<label class="col-xs-1  col-xs-offset-1" translate>UI_ESTADO</label>
+                    <bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.NombreEstado">
+                    </bcs-input-texto>
+		  		</div>
+		  		
+		  		<div class="row">
+		  			<label class="col-xs-2">{{'UI_INSTRUMENTO' | translate}} ({{'UI_IDENTIFICADOR_SERIE_FONDO' | translate}})</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.IdSerieFondo">
+			  		</bcs-input-texto>
+		  			<label class="col-xs-1 col-xs-offset-1" translate>UI_SERIE</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.CodigoSerie">
+			  		</bcs-input-texto>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_FAMILIA</label>
+                    <bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.NombreFamilia">
+                    </bcs-input-texto>
+		  		</div>
+		  		
+		  		<div class="row">
+		  		    <label class="col-xs-2" translate>UI_INSTRUMENTO_DCV_RELACIONADO</label>
+                    <bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.InstrumentoDCV">
+                    </bcs-input-texto> 
+		  			<label class="col-xs-1 col-xs-offset-1" translate>UI_DECIMALES_VALOR_CUOTAS</label> 
+			  		<bcs-input-numero class="col-xs-2"
+				  		k-ng-disabled="'true'"
+				  		decimales = "ingresarInstrumentoFFM.decimalesCantidad"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DecimalesValorCuota">
+			  		</bcs-input-numero>
+		  			<label class="col-xs-1 col-xs-offset-1" translate>UI_DECIMALES_NUMERO_CUOTAS</label> 
+			  		<bcs-input-numero class="col-xs-2"
+				  		k-ng-disabled="'true'"
+				  		decimales = "ingresarInstrumentoFFM.decimalesCantidad"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DecimalesCuota">
+			  		</bcs-input-numero>
+		  		</div>
+		  		
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_MONTO_MINIMO</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+						decimales = "ingresarInstrumentoFFM.decimalesMonto"
+						k-ng-disabled="'true'"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.MontoMinimo"
+						simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+					</bcs-input-monetario>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_MONTO_MAXIMO</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+						decimales = "ingresarInstrumentoFFM.decimalesMonto"
+						k-ng-disabled="'true'"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.MontoMaximo"
+						simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+					</bcs-input-monetario>
+			  		<label class="col-xs-1 col-xs-offset-1" translate>UI_MONTO_MINIMO_PATRIMONIO</label> 
+			  		<bcs-input-monetario class="col-xs-2"
+				  		decimales = "ingresarInstrumentoFFM.decimalesMonto"
+						k-ng-disabled="'true'"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.PatrimonioMinimo"
+						simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+			  		</bcs-input-monetario>
+		  		</div>
+		  		 
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_PARA_EXCLUIR_GARANTIAS' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.ExcluyeGarantiaUI">
+			  		</bcs-input-texto>
+		  			<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_COBRA_COMISION' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.CobraComisionUI">
+			  		</bcs-input-texto>
+			  		<label class="col-xs-1 col-xs-offset-1">
+                         {{'UI_JUMBO' | translate}}
+                    </label>
+                    <bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.OmnibusUI">
+                    </bcs-input-texto>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_DIFERIDO' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.EsDiferidoUI">
+			  		</bcs-input-texto>
+			  		
+			  		<label class="col-xs-3 col-xs-offset-1" translate>UI_VINCULAR_REGLAMENTO_FONDO</label>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_PERMITIR_CAMBIO_FONDO' | translate}}
+					</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.CambioFondoUI">
+			  		</bcs-input-texto>
+		  		
+		  		</div>
+		  		
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_SOLO_APORTES_ALTOS' | translate}}
+					</label>
+		  			<bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.AportesAltosUI">
+                    </bcs-input-texto>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_PATRIMONIOS_ALTOS' | translate}}
+					</label>
+		  			<bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.PatrimonioAltosUI">
+                    </bcs-input-texto>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_PATRIMONIO_MINIMO_EMISOR' | translate}}
+					</label>
+					<bcs-input-monetario class="col-xs-2"
+					decimales = "ingresarInstrumentoFFM.decimalesMonto"
+					k-ng-disabled="'true'"
+					k-ng-model="ingresarInstrumentoFFM.datosDespues.MontoPatrimonioEmisor"
+					simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+					</bcs-input-monetario>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_INSTRUMENTO_OWP' | translate}}
+					</label>
+		  			<bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.InstrumentoOWPUI">
+                    </bcs-input-texto>
+					<label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_APV' | translate}}
+					</label>
+		  			<bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.EsAPVUI">
+                    </bcs-input-texto>
+                    <label class="col-xs-1 col-xs-offset-1">
+						 {{'UI_RESTRINGEAPORTE' | translate}}
+					</label>
+		  			<bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.RestringeAporteUI">
+                    </bcs-input-texto>
+		  		</div>
+		  		<div class="row">
+		  			<label class="col-xs-2">
+						 {{'UI_RESTRINGERESCATE' | translate}}
+					</label>
+		  			<bcs-input-texto class="col-xs-2"
+                        k-ng-disabled="'true'"
+                        ng-model="ingresarInstrumentoFFM.datosDespues.RestringeRescateUI">
+					</bcs-input-texto>
+					<label class="col-xs-1 col-xs-offset-1" translate>UI_NEMO_CMF</label> 
+			  		<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.NemoCMF">
+			  		</bcs-input-texto>
+                </div>
+		  		<div ng-if="ingresarInstrumentoFFM.parametros.IdSerieFondo">
+			  		<div class="row">
+			  			<label class="col-xs-2 titulo" translate>UI_INDICADORES</label>
+			  		</div>	
+			  		<hr>
+			  		<div class="row">
+			  			<label class="col-xs-2" translate>UI_VALOR_CUOTA</label> 
+				  		<bcs-input-monetario class="col-xs-2"
+					  		maxlength="28"
+					  		decimales = "ingresarInstrumentoFFM.datosDespues.DecimalesValorCuota"
+					  		k-ng-disabled="'true'"
+							k-ng-model="ingresarInstrumentoFFM.datosDespues.ValorCuota"
+							simbolo="ingresarInstrumentoFFM.datosDespues.IdMoneda">
+				  		</bcs-input-monetario>
+				  		<label class="col-xs-1 col-xs-offset-1" translate>UI_TC_USD_CLP_APORTE</label> 
+				  		<bcs-input-monetario class="col-xs-2"
+					  		maxlength="28"
+					  		decimales = "ingresarInstrumentoFFM.datosDespues.DecimalesValorCuota"
+					  		k-ng-disabled="'true'"
+							k-ng-model="ingresarInstrumentoFFM.datosDespues.ValorDolarAporte"
+							simbolo="'USD'">
+				  		</bcs-input-monetario>
+				  		<label class="col-xs-1 col-xs-offset-1" translate>UI_TC_USD_CLP_RESCATE</label> 
+				  		<bcs-input-monetario class="col-xs-2"
+					  		maxlength="28"
+					  		decimales = "ingresarInstrumentoFFM.datosDespues.DecimalesValorCuota"
+					  		k-ng-disabled="'true'"
+							k-ng-model="ingresarInstrumentoFFM.datosDespues.ValorDolarRescate"
+							simbolo="'USD'">
+				  		</bcs-input-monetario>
+			  		 </div>
+			  		 <div class="row">
+			  			<label class="col-xs-2" translate>UI_FECHA_VALOR_CUOTA</label> 
+				  		<bcs-input-date
+					        class="col-xs-2"
+					        k-ng-disabled="'true'"
+					        k-ng-model="ingresarInstrumentoFFM.datosDespues.FechaValorCuota"
+					        bcs-requerido>
+					    </bcs-input-date>
+			  		 </div>
+		  		</div> 
+		  		<br>
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_DIAS_VALUTAS_APORTE_RESCATE</label>
+		  		</div>
+		  		<hr>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate></label>
+		  			<label class="col-xs-2" translate>UI_VALUTA_FECHA_CURSE</label>
+		  			<label class="col-xs-2 marginDiasValutasFM" translate>UI_VALUTA_FECHA_VALOR_CUOTA</label>
+		  			<label class="col-xs-2 marginDiasValutasFM" translate>UI_VALUTA_FECHA_CERTIFICACION</label>
+		  			<label class="col-xs-2 marginDiasValutasFM" translate>UI_DIAS_RETENCION_PAGO</label>
+		  		 </div>
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_APORTE</label> 
+			  		<bcs-input-numero class="col-xs-2"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		k-ng-disabled="'true'"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaCurseAporte">
+			  		</bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+                        maxlength="28"
+                        decimales = "'0'"
+                        k-ng-disabled="'true'"
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaValorCuotaAporte"
+                        k-options="ingresarInstrumentoFFM.configuracionFechas.Aporte.FechaValorCuota.configuracion">
+                    </bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		k-ng-disabled="'true'"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaCertificacionAporte">
+			  		</bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+                        maxlength="28"
+                        decimales = "'0'"
+                        k-ng-disabled="'true'"
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasRetencionesAporte">
+                    </bcs-input-numero>
+		  		 </div> 
+		  		 
+		  		<div class="row">
+		  			<label class="col-xs-2" translate>UI_RESCATE</label> 
+			  		<bcs-input-numero class="col-xs-2"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		k-ng-disabled="'true'"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaCurseRescate">
+			  		</bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+                        maxlength="28"
+                        decimales = "'0'"
+                        k-ng-disabled="'true'"
+                        k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaValorCuotaRescate">
+                    </bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		k-ng-disabled="'true'"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasValutaCertificacionRescate">
+			  		</bcs-input-numero>
+			  		<bcs-input-numero class="col-xs-2 marginDiasValutasFM"
+				  		maxlength="28"
+				  		decimales = "'0'"
+				  		k-ng-disabled="'true'"
+						k-ng-model="ingresarInstrumentoFFM.datosDespues.DiasRetencionesRescate">
+			  		</bcs-input-numero>
+		  		 </div>
+		  		<br>
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_REGIMEN</label>
+		  		</div>
+		  		<hr>
+		  		<div class="row">
+		  			<div ng-repeat="(keyItem, valItem) in ingresarInstrumentoFFM.matrizRegimen" class="col-xs-3 marginFM">
+		  				<label class="col-xs-2 testttt" style="width: 90%;" translate>{{valItem.Descripcion}}</label>
+		  				<bcs-input-texto class="col-xs-1"  style="width: 6%;"
+					  		k-ng-disabled="'true'"
+							ng-model="ingresarInstrumentoFFM.regimenFondoMutuoUI[valItem.IdRegimenFondoMutuo]">
+			  			</bcs-input-texto>
+		  			</div>
+		  		</div>
+		  		<br>
+		  		<!--
+		  		<div class="row">
+		  			<label class="col-xs-2 titulo" translate>UI_DATOS_AGF</label>
+		  		</div>	
+		  		 -->
+		  		<div class="row">
+					<span class="col-xs-3">
+						<label class="col-xs-4 titulo" translate>UI_DATOS_AGF&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresarInstrumentoFFM.muestraDatosAGF" ng-click="ingresarInstrumentoFFM.muestraDatosAGF = !ingresarInstrumentoFFM.muestraDatosAGF">({{'UI_MOSTRAR' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresarInstrumentoFFM.muestraDatosAGF" ng-click="ingresarInstrumentoFFM.muestraDatosAGF = !ingresarInstrumentoFFM.muestraDatosAGF">({{'UI_OCULTAR' | translate}})</em>
+					</span>
+				</div>	
+		  		<hr>
+		  		<div class="row" ng-show="ingresarInstrumentoFFM.muestraDatosAGF">
+					<label class="col-xs-2" translate>UI_CLIENTE_PORTAFOLIO</label>
+					<bcs-input-texto class="col-xs-6"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.oClientePortafolio.seleccionado.NombreCompletoPortafolio">
+			  		</bcs-input-texto>
+					<label class="col-xs-1 col-xs-offset-1" translate>UI_PROPOSITO</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.oClientePortafolio.seleccionado.Proposito">
+			  		</bcs-input-texto>	
+				 </div>
+				 <div class="row" ng-show="ingresarInstrumentoFFM.muestraDatosAGF">
+				 	<label class="col-xs-2" translate>UI_MEDIOS_DE_PAGO_CARGO</label>
+				 	<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.NombreMedioPagoCargo">
+			  		</bcs-input-texto>					
+				 	<label class="col-xs-1 col-xs-offset-1" translate>UI_MEDIOS_DE_PAGO_ABONO</label>
+				 	<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.NombreMedioPagoAbono">
+			  		</bcs-input-texto>
+				 </div>
+				 
+			 <!-- REMUNERACIONES -->
+				<div class="row">
+					<span class="col-xs-3">
+						<label class="col-xs-8 titulo" translate>UI_REMUNERACION_GASTO_Y_COMISION&nbsp;&nbsp;</label>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="ingresarInstrumentoFFM.muestraDatosAGF"  ng-click="ingresarInstrumentoFFM.muestraDatosAGF = !ingresarInstrumentoFFM.muestraDatosAGF">({{'UI_MOSTRAR' | translate}})</em>
+						<em class="col-xs-4" style="text-decoration: underline;" ng-show="!ingresarInstrumentoFFM.muestraDatosAGF" ng-click="ingresarInstrumentoFFM.muestraDatosAGF = !ingresarInstrumentoFFM.muestraDatosAGF">({{'UI_OCULTAR' | translate}})</em>
+					</span>
+				</div>	
+		  		<hr>
+		  		 
+		  		<div class="row" ng-show="!ingresarInstrumentoFFM.muestraDatosAGF">
+					<label class="col-xs-2" translate>UI_DIAS_COMISION</label>
+					<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.DiasComision">
+			  		</bcs-input-texto>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_%_COMISION</label>
+					<bcs-input-texto class="col-xs-1"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.PorcentajeComision">
+			  		</bcs-input-texto>
+					<label class="col-xs-2 col-xs-offset-1" translate>UI_%_REMUNERACION_ANUAL</label>
+					<bcs-input-texto class="col-xs-1"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.PorcentajeRemuneracion">
+			  		</bcs-input-texto>	
+				 </div>
+				 <div class="row" ng-show="!ingresarInstrumentoFFM.muestraDatosAGF">
+				 	<label class="col-xs-2" translate>UI_%_GTOS_OPER_ANUAL</label>
+				 	<bcs-input-texto class="col-xs-2"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.PorcentajeGastoOpera">
+			  		</bcs-input-texto>					
+				 	<label class="col-xs-2 col-xs-offset-1" translate>UI_%_COSTO_ADM_ANUAL</label>
+				 	<bcs-input-texto class="col-xs-1"
+				  		k-ng-disabled="'true'"
+						ng-model="ingresarInstrumentoFFM.datosDespues.PorcentajeCostoAdm">
+			  		</bcs-input-texto>
+				 </div>
+				 
+			</div>
+		</div>
+		<div class="row bcs-panel-comandos">
+			<div class="col-xs-12">
+				<bcs-button class="col-xs-2 pull-right" id="MODIFICAR_INSTRUMENTO" 
+					ng-show="ingresarInstrumentoFFM.Edicion === 'N'" bcs-tipo="'bcs-button-primary'"
+					bcs-texto="'UI_EDITAR' | translate" 
+					bcs-habilitado="'true'"
+					bcs-clic="ingresarInstrumentoFFM.formData.editarInstrumento()"
+					bcs-blur="formData.resetFoco()">
+				</bcs-button>
+				<bcs-button class="col-xs-2 pull-right" id="GUARDAR_INSTRUMENTO" 
+					ng-show="ingresarInstrumentoFFM.Edicion === 'S'"
+					bcs-texto="'UI_GUARDAR' | translate" 
+					bcs-habilitado="(ingresarInstrumentoFFM.FormValido && ingresarInstrumentoFFM.documentoIdentidadFondo.Valido)"
+					bcs-tipo="'bcs-button-primary'" 
+					bcs-auto-desactivar="false"
+					bcs-clic="ingresarInstrumentoFFM.formData.ingresarInstrumentoFondoMutuo()"
+					bcs-blur="formData.resetFoco()">
+				</bcs-button>	
+			</div>
+			
+		</div>
+		</form>
+
+		
+</div>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="IndicadorPortafolio" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="SCRIPT_BASED" dataCategory="DEFAULT" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="IndicadorPortafolio"/>
+  <defaultSchema schemaName="BSCL"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="BIGINT" id="IdCliente"/>
+        <viewAttribute datatype="BIGINT" id="IdPersona"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoCliente" length="40"/>
+        <viewAttribute datatype="BIGINT" id="IdPortafolio"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoEntidad" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreTipoIndicador" length="255"/>
+        <viewAttribute datatype="NVARCHAR" id="GrupoIndicador" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="IdUso" length="3"/>
+        <viewAttribute datatype="BIGINT" id="IdTipoIndicador"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoTipoIndicador" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="ClaseDato" length="40"/>
+        <viewAttribute datatype="BIGINT" id="CantidadDecimales"/>
+        <viewAttribute datatype="BIGINT" id="LongitudMinima"/>
+        <viewAttribute datatype="BIGINT" id="LongitudMaxima"/>
+        <viewAttribute datatype="NVARCHAR" id="IdTipoPersona" length="3"/>
+        <viewAttribute datatype="NVARCHAR" id="ModeloCliente" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="ValorIndicador" length="255"/>
+        <viewAttribute datatype="NVARCHAR" id="CodigoValorIndicador" length="40"/>
+        <viewAttribute datatype="NVARCHAR" id="NombreValorIndicador" length="255"/>
+        <viewAttribute datatype="BIGINT" id="IdIndicador"/>
+        <viewAttribute datatype="NVARCHAR" id="FechaCreacion" length="20"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition> 
+ /********* Begin Procedure Script ************/ 
+ BEGIN 
+     var_out =
+      
+      
+        SELECT 
+        CIP.&quot;IdCliente&quot;,
+        CIP.&quot;IdPersona&quot;,
+        CAST(CIP.&quot;IdTipoCliente&quot; AS NVARCHAR(40)) AS &quot;IdTipoCliente&quot;,
+        CIP.&quot;IdPortafolio&quot;,
+        CAST(CIP.&quot;IdTipoEntidad&quot; AS NVARCHAR(40)) AS &quot;IdTipoEntidad&quot;,
+        CAST(CIP.&quot;NombreTipoIndicador&quot; AS NVARCHAR(255)) AS &quot;NombreTipoIndicador&quot;,
+        CAST(CIP.&quot;GrupoIndicador&quot; AS NVARCHAR(40)) AS &quot;GrupoIndicador&quot;,
+        CAST(CIP.&quot;IdUso&quot; AS NVARCHAR(3)) AS &quot;IdUso&quot;,
+        CIP.&quot;IdTipoIndicador&quot;, -- nuevo
+        CAST(CIP.&quot;CodigoTipoIndicador&quot; AS NVARCHAR(40)) AS &quot;CodigoTipoIndicador&quot;,
+        CAST(&quot;ClaseDato&quot; AS NVARCHAR(40)) AS &quot;ClaseDato&quot;, -- nuevo
+        CIP.&quot;CantidadDecimales&quot;,
+        CIP.&quot;LongitudMinima&quot;,
+        CIP.&quot;LongitudMaxima&quot;,
+        CAST(CIP.&quot;IdTipoPersona&quot; AS NVARCHAR(3)) AS &quot;IdTipoPersona&quot;,
+        CAST(CIP.&quot;ModeloCliente&quot; AS NVARCHAR(40)) AS &quot;ModeloCliente&quot;,
+        CAST(IFNULL(CIP.&quot;ValorIndicador&quot;,'') AS NVARCHAR(255)) as &quot;ValorIndicador&quot;,
+        CAST(IFNULL(CIP.&quot;CodigoValorIndicador&quot;,'') AS NVARCHAR(40)) as &quot;CodigoValorIndicador&quot;, -- nuevo
+        CAST(IFNULL(CIP.&quot;NombreValorIndicador&quot;,'') AS NVARCHAR(255)) as &quot;NombreValorIndicador&quot;, -- nuevo
+        IFNULL(CIP.&quot;IdIndicador&quot;,0) as &quot;IdIndicador&quot;,
+        IND.&quot;FechaCreacion&quot;     
+        FROM &quot;BSCL.Plataforma.BD.Vistas::IND.ConsultarIndicadoresPortafolio&quot; CIP
+        INNER JOIN &quot;BSCL.Plataforma.BD::IND.Indicador&quot; IND ON CIP.&quot;IdIndicador&quot; = IND.&quot;IdIndicador&quot;;
+        
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="IdCliente" order="1">
+        <descriptions defaultDescription="IdCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdCliente"/>
+      </attribute>
+      <attribute id="IdPersona" order="2">
+        <descriptions defaultDescription="IdPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPersona"/>
+      </attribute>
+      <attribute id="IdTipoCliente" order="3">
+        <descriptions defaultDescription="IdTipoCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoCliente"/>
+      </attribute>
+      <attribute id="IdPortafolio" order="4">
+        <descriptions defaultDescription="IdPortafolio"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdPortafolio"/>
+      </attribute>
+      <attribute id="IdTipoEntidad" order="5">
+        <descriptions defaultDescription="IdTipoEntidad"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoEntidad"/>
+      </attribute>
+      <attribute id="NombreTipoIndicador" order="6">
+        <descriptions defaultDescription="NombreTipoIndicador"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreTipoIndicador"/>
+      </attribute>
+      <attribute id="GrupoIndicador" order="7">
+        <descriptions defaultDescription="GrupoIndicador"/>
+        <keyMapping columnObjectName="Script_View" columnName="GrupoIndicador"/>
+      </attribute>
+      <attribute id="IdUso" order="8">
+        <descriptions defaultDescription="IdUso"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdUso"/>
+      </attribute>
+      <attribute id="IdTipoIndicador" order="9">
+        <descriptions defaultDescription="IdTipoIndicador"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoIndicador"/>
+      </attribute>
+      <attribute id="CodigoTipoIndicador" order="10">
+        <descriptions defaultDescription="CodigoTipoIndicador"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoTipoIndicador"/>
+      </attribute>
+      <attribute id="ClaseDato" order="11">
+        <descriptions defaultDescription="ClaseDato"/>
+        <keyMapping columnObjectName="Script_View" columnName="ClaseDato"/>
+      </attribute>
+      <attribute id="CantidadDecimales" order="12">
+        <descriptions defaultDescription="CantidadDecimales"/>
+        <keyMapping columnObjectName="Script_View" columnName="CantidadDecimales"/>
+      </attribute>
+      <attribute id="LongitudMinima" order="13">
+        <descriptions defaultDescription="LongitudMinima"/>
+        <keyMapping columnObjectName="Script_View" columnName="LongitudMinima"/>
+      </attribute>
+      <attribute id="LongitudMaxima" order="14">
+        <descriptions defaultDescription="LongitudMaxima"/>
+        <keyMapping columnObjectName="Script_View" columnName="LongitudMaxima"/>
+      </attribute>
+      <attribute id="IdTipoPersona" order="15">
+        <descriptions defaultDescription="IdTipoPersona"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdTipoPersona"/>
+      </attribute>
+      <attribute id="ModeloCliente" order="16">
+        <descriptions defaultDescription="ModeloCliente"/>
+        <keyMapping columnObjectName="Script_View" columnName="ModeloCliente"/>
+      </attribute>
+      <attribute id="ValorIndicador" order="17">
+        <descriptions defaultDescription="ValorIndicador"/>
+        <keyMapping columnObjectName="Script_View" columnName="ValorIndicador"/>
+      </attribute>
+      <attribute id="CodigoValorIndicador" order="18">
+        <descriptions defaultDescription="CodigoValorIndicador"/>
+        <keyMapping columnObjectName="Script_View" columnName="CodigoValorIndicador"/>
+      </attribute>
+      <attribute id="NombreValorIndicador" order="19">
+        <descriptions defaultDescription="NombreValorIndicador"/>
+        <keyMapping columnObjectName="Script_View" columnName="NombreValorIndicador"/>
+      </attribute>
+      <attribute id="IdIndicador" order="20">
+        <descriptions defaultDescription="IdIndicador"/>
+        <keyMapping columnObjectName="Script_View" columnName="IdIndicador"/>
+      </attribute>
+      <attribute id="FechaCreacion" hidden="false" order="21">
+        <descriptions defaultDescription="FechaCreacion"/>
+        <keyMapping columnObjectName="Script_View" columnName="FechaCreacion"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

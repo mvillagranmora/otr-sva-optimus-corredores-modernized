@@ -1,0 +1,164 @@
+<div class="row" ng-controller='ConsultarTransaccionesSimpleCtrl' bcs-enter="datosForm.buscarTransacciones()" tabindex="1">
+	<div class="row" >
+		<div class="row">
+			<form name="barraFiltrosForm">
+				<div class="col-xs-11">
+					<div class="row">
+						<div class="col-xs-3">
+							<label class="col-xs-4" translate>UI_CLASIFICACION</label>
+							<bcs-combobox-base
+								class="col-xs-8"
+								tipo="'combobox-clasificacion-tipo-instrumento'"
+								id-actual="datosBusqueda.IdClasificacionTipoInstrumento"
+								cascada-a="datosForm.filtrosTipoInstrumento.IdClasificacionTipoInstrumento"
+								cascada-valor="'IdClasificacionTipoInstrumento'"
+								todos = "'S'"
+								item-post-filtro = "'1'">
+							</bcs-combobox-base>
+						</div>
+						
+						<div class="col-xs-3">
+							<label class="col-xs-4" translate>UI_TIPO_INSTRUMENTO</label>
+							<bcs-combobox-base
+								class="col-xs-8"
+								tipo="'combobox-tipo-instrumento'"
+								id-actual="datosBusqueda.IdTipoInstrumento"
+								filtros = "datosForm.filtrosTipoInstrumento"
+								cascada-a="datosForm.filtrosOperacion.IdTipoInstrumento"
+								cascada-valor="'IdTipoInstrumento'"
+								todos = "'S'"
+								item-post-filtro = "'1'">
+							</bcs-combobox-base>
+						</div>
+						
+						<div class="col-xs-3">
+							<label class="col-xs-4" translate>UI_OPERACION</label>
+							<bcs-combobox-base
+								class="col-xs-8"
+								tipo="'combobox-operacion'"
+								id-actual="datosBusqueda.AccionOrden"
+								filtros = "datosForm.filtrosOperacion"
+								todos = "'S'"
+								item-post-filtro = "'1'"
+								cascada-a="datosForm.filtrosCondicionDeLiquidacion.AccionTipoOperacion"
+								cascada-valor="'AccionOrden'">
+							</bcs-combobox-base>
+						</div>
+						
+						<div class="col-xs-3">
+							<label class="col-xs-4" translate>UI_INSTRUMENTO</label>
+							<bcs-input-instrumentos class="col-xs-8" 
+								datos-instrumento="datosBusqueda.instrumento"
+								buscar-instrumento="datosBusqueda.setInstrumento" 
+								bcs-requerido
+								filtro-clasificacion="datosBusqueda.IdClasificacionTipoInstrumento"
+								filtro-tipo-instrumento="datosBusqueda.IdTipoInstrumento">
+							</bcs-input-instrumentos>
+						</div>
+				    </div>
+				    
+				    <div class="row">
+					    <div class="col-xs-3">
+							<label class="col-xs-4" translate>UI_FECHA_TRANSACCION</label>
+							<bcs-input-date class="col-xs-4" k-ng-model="datosBusqueda.fechaDesde"></bcs-input-date>
+							<bcs-input-date class="col-xs-4" k-ng-model="datosBusqueda.fechaHasta"></bcs-input-date>
+						</div>
+						
+						<div class="col-xs-3">
+							<label class="col-xs-4" translate>UI_CONDICION_LIQUIDACION</label>
+							<bcs-combobox-base 
+								class="col-xs-8"
+								filtros = "datosForm.filtrosCondicionDeLiquidacion"
+								tipo="'combobox-condicion-liquidacion'"
+								id-actual="datosBusqueda.IdCondicionDeLiquidacion"
+								todos = "'S'"
+								item-post-filtro = "'1'">
+							</bcs-combobox-base >
+						</div>
+						
+					    <div class="col-xs-3">
+							<label class="col-xs-4" translate>UI_LIBRO_ORDENES</label>
+							<bcs-combobox-base 
+						     	class="col-xs-8"
+								tipo="'combobox-libro-orden'"
+								id-actual="datosBusqueda.IdLibroOrdenes"
+								todos="'S'"
+								item-post-filtro = "'1'">
+							</bcs-combobox-base>
+						</div>
+						
+						<div class="col-xs-3">
+							<label class="col-xs-4" translate>UI_BOLSA</label>
+							<bcs-combobox-base 
+						     	class="col-xs-8"
+								tipo="'combobox-bolsa'"
+								id-actual="datosBusqueda.IdBolsa"
+								todos="'S'"
+								item-post-filtro = "'1'">
+							</bcs-combobox-base>
+				    	</div>
+				    </div>
+				    <div class="row">
+				    	<div class="col-xs-3">
+					    	<label class="col-xs-4" translate>UI_VENTA_CORTA</label>
+							<bcs-input-checkbox 
+						     	class="col-xs-1"
+						     	ng-model="datosBusqueda.EsVentaCorta">
+							</bcs-input-checkbox>
+				    	</div>
+				    </div>				    
+				</div>
+				<div class="col-xs-1">
+				    <div class="row">
+						<bcs-button class="col-xs-12" 
+							bcs-tipo="'default'"  
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_BUSCAR' | translate" 
+							bcs-habilitado="true" 
+							bcs-clic="datosForm.buscarTransacciones()" >
+						</bcs-button>
+					</div>
+					<div class="row">
+						<bcs-button class="col-xs-12" 
+							bcs-tipo="'default'" 
+							bcs-auto-desactivar="false" 
+							bcs-texto="'UI_LIMPIAR' | translate" 
+							bcs-habilitado="true"  
+							bcs-clic="datosForm.limpiarFiltros()">
+						</bcs-button>
+					</div>
+				</div>
+			</form>
+			
+		</div>
+	</div>
+	<div class="row">
+		<bcs-grid-simple id="grid-transacciones"
+			fn-doble-click="datosForm.abrirDetalle(datosForm.kNgModel)"
+			kendo-widget = "datosForm.apiGridTransacciones"
+			fn-exportar-excel = "datosForm.exportarExcel"
+			seleccionado="datosForm.kNgModel"
+			configuracion="datosForm.defaultOptionsNew">
+		</bcs-grid-simple>
+	</div>
+
+	<div class="row bcs-panel-comandos">
+		<bcs-button  class="col-xs-1" bcs-auto-desactivar="'false'" bcs-texto="'UI_INGRESAR' | translate" 
+			bcs-habilitado="'true'" bcs-clic="datosForm.crearTransaccion()"></bcs-button>
+		<bcs-button  class="col-xs-1" bcs-auto-desactivar="'false'" bcs-texto="'UI_MODIFICAR' | translate" 
+			bcs-habilitado="'true'" bcs-clic="datosForm.modificarTransaccion(datosForm.kNgModel)"></bcs-button>
+		<bcs-button  class="col-xs-1" bcs-auto-desactivar="'false'" bcs-texto="'UI_ANULAR' | translate" 
+			bcs-habilitado="'true'" bcs-clic="datosForm.anularTransacciones(datosForm.kNgModel)"></bcs-button>
+		<bcs-button  class="col-xs-1" bcs-auto-desactivar="'false'" bcs-texto="'UI_RESERVAR' | translate" 
+			bcs-habilitado="'true'" bcs-clic="datosForm.reservar(datosForm.kNgModel)"></bcs-button>
+		<bcs-button  class="col-xs-1" bcs-auto-desactivar="'false'" bcs-texto="'UI_LIBERAR' | translate" 
+			bcs-habilitado="'true'" bcs-clic="datosForm.liberar(datosForm.kNgModel)"></bcs-button>
+		<bcs-button  class="col-xs-1" bcs-auto-desactivar="'false'" bcs-texto="'UI_ASIGNAR' | translate" 
+			bcs-habilitado="'true'" bcs-clic="datosForm.asignar(datosForm.kNgModel)"></bcs-button>
+		<bcs-button  class="col-xs-1" bcs-auto-desactivar="'false'" bcs-texto="'UI_REASIGNAR' | translate" 
+			bcs-habilitado="'true'" bcs-clic="datosForm.reAsignar(datosForm.kNgModel,'REASIGNACION')"></bcs-button>
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-texto="'UI_OPCIONES' | translate" >
+            <li ng-click="datosForm.exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>
+</div>

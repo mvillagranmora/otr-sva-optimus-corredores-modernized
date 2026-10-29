@@ -1,0 +1,21 @@
+INSERT INTO "BSCL.SocioNegocio.BD::ENR.Indicador"
+(
+"IdIndicador"
+,"IdEnrolamiento"
+,"IdTipoEntidad"
+,"IdTipoIndicador"
+,"ModeloCliente"
+,"IdEmpresa"
+,"ValorIndicador"
+,"IdIndicadorPersona"
+)
+VALUES(
+:IdIndicador
+,:IdEnrolamiento
+,:IdTipoEntidad
+,:IdTipoIndicador
+,:ModeloCliente
+,:IdEmpresa
+,:ValorIndicador
+,:IdIndicadorPersona
+);

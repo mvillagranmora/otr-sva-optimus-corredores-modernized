@@ -1,0 +1,84 @@
+<div class="col-xs-12" ng-controller="DetalleNominasTransferenciasCtrl">
+    
+     						
+    <div class="bcs-cuerpo">
+		<!--- INICIO FORMULARIO -->
+		<form name="frmDetalleNominasTransferencias" class="col-xs-12 form-horizontal">
+			
+			<div class="row">
+				
+				    <div class="row">		    
+					  	<table class="table">
+					  		<tr>
+								<td width="15%"><strong class="align_right" translate>UI_ID</strong></td>
+							  	<td width="35%"><label class="">{{oNominaTransferencia.IdNominaTransferencia}}</label></td>					
+							  	<td width="15%"><strong class="align_right" translate>UI_PARTIDA_EGRESO</strong></td>
+							  	<td width="35%"><label class="" >{{oNominaTransferencia.IdComprobantePartidaEgreso}}</label></td>
+							</tr>
+							
+							<tr>
+								<td><strong class="align_right" translate>UI_BANCO</strong></td>
+							  	<td><label class="">{{oNominaTransferencia.NombreBanco}}</label></td>					
+							  	<td><strong class="align_right" translate>UI_MONTO</strong></td>
+							  	<td><label class="" >{{oNominaTransferencia.Monto  | kformat:'c'}}</label></td>
+							</tr>
+							 
+							<tr>				
+							  	<td><strong class="align_right" translate>UI_CUENTA_BANCO</strong></td>
+							  	<td><label class="" >{{oNominaTransferencia.NombreCuentaBancariaFull}}</label></td>
+							  	<td><strong class="align_right" translate>UI_MONEDA</strong></td>
+							  	<td><label class="">{{oNominaTransferencia.NombreMoneda }}</label></td>
+							</tr>
+					  	</table>
+				    </div>
+						
+					<div class="row"><br></div>
+														
+					<div class="row">
+						<bcs-grid id = "grid-nomina-transferencia-detalle"
+						 	configuracion 		= "confBasicaNominaTransferenciaDetalle"						 	
+							seleccionado  		= "seleccionNominaTransferenciaDetalle"
+							fn-doble-click      = "editarCuentaSocio(seleccionNominaTransferenciaDetalle)"
+							fn-exportar-excel 	= "exportarExcel">
+						</bcs-grid>
+					</div>
+					
+			</div>
+			
+		</form>
+	</div>
+	
+	
+	<div class="row bcs-panel-comandos">
+		<bcs-button class="col-xs-2" id="frmConsultarNominas_btn_editarCuentaSocio"
+			bcs-tipo			= "'bcs-button-primary'"  
+			bcs-auto-desactivar	= "'false'" 
+			bcs-texto			= "'UI_EDITAR_CUENTA_SOCIO' | translate" 
+			bcs-habilitado		= "'true'"  
+			bcs-clic			= "editarCuentaSocio(seleccionNominaTransferenciaDetalle)">
+		</bcs-button>
+		
+		<bcs-button class="col-xs-2" id="frmConsultarNominas_btn_reprocesar"
+			bcs-tipo			= "'bcs-button-secondary'"  
+			bcs-auto-desactivar	= "'false'" 
+			bcs-texto			= "'UI_REPROCESAR' | translate" 
+			bcs-habilitado		= "'true'"  
+			bcs-clic			= "reprocesar()">
+		</bcs-button>
+		
+		<bcs-button class="col-xs-2" id="frmConsultarNominas_btn_anular"
+			bcs-tipo			= "'bcs-button-anular'"  
+			bcs-auto-desactivar	= "'false'" 
+			bcs-texto			= "'UI_ANULAR' | translate" 
+			bcs-habilitado		= "'true'"  
+			bcs-clic			= "anular(seleccionNominaTransferenciaDetalle)">
+		</bcs-button>
+				
+		
+		<bcs-menu class="col-xs-1 pull-right" bcs-habilitado="'true'" bcs-tipo="'bcs-button-secondary'" bcs-texto="'UI_OPCIONES' | translate">
+			<li ng-click="exportarExcel()">{{'UI_EXPORTAR_EXCEL' | translate}}</li>
+		</bcs-menu>
+	</div>	
+	
+</div>
+
