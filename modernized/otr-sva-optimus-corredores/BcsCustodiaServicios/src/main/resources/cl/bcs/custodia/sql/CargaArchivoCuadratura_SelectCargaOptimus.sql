@@ -1,0 +1,28 @@
+SELECT 
+ CUADRATURA."IdCuadraturaCustodia" 			
+,TO_CHAR(CUADRATURA."FechaCuadraturaCustodia",'YYYY-MM-DD') AS 	"FechaCuadraturaCustodia"		
+,CUADRATURA."IdInstrumento" 
+,CUADRATURA."IdBoveda"
+,CUADRATURA."CuentaBoveda"					
+,CUADRATURA."CantidadCustodia"				
+,CUADRATURA."CantidadSimultaneaCompra"		
+,CUADRATURA."CantidadSimultaneaVenta"		
+,CUADRATURA."CantidadPrestamo"				
+,CUADRATURA."CantidadEmprestito"			
+,CUADRATURA."CantidadGarantia"				
+,CUADRATURA."CantidadTransitoIngreso"		
+,CUADRATURA."CantidadTransitoEgreso"		
+,CUADRATURA."CantidadTotal"					
+,CUADRATURA."MontoATasaMercadoActual"		
+,CUADRATURA."PosicionBoveda"
+,CUADRATURA."PosicionBovedaValorizadaParaAFP"				
+,CUADRATURA."PosicionBloqueada"	
+,CUADRATURA."PosicionBloqueadaValorizadaParaAFP"			
+,CUADRATURA."PosicionReventa"				
+,CUADRATURA."PosicionRecompra"
+,CUADRATURA."PosicionSimultanea"
+,CUADRATURA."PosicionTotal"
+,CUADRATURA."Diferencia"
+FROM "BSCL.Custodia.BD::CUS.CuadraturaCustodia" CUADRATURA
+WHERE CUADRATURA."FechaCuadraturaCustodia" = :Fecha
+AND CUADRATURA."IdBoveda" IN (:IdBoveda)

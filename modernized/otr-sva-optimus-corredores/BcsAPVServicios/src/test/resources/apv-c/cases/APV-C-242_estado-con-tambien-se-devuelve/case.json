@@ -1,0 +1,95 @@
+{
+  "id": "APV-C-242",
+  "titulo": "state CON is accepted by the query as well as REZ",
+  "pina": "DevolucionPagoRezagos.java:53",
+  "servicio": "DevolucionPagoRezagos",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 51,
+    "p_IdModulo": "APV",
+    "p_DevolucionTipoPersona": "OTROS",
+    "p_DevolucionIdPersona": 900,
+    "p_DevolucionIdPortafolio": 100027,
+    "p_DevolucionIdMedioPago": "TRA",
+    "p_DevolucionIdBanco": 300,
+    "p_DevolucionIdCuentaCorriente": 0,
+    "p_Parametros": [
+      {
+        "IdRecaudacionCliente": 11
+      }
+    ]
+  },
+  "colaboradores": {
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [
+          {
+            "NumeroReferencia": 1,
+            "IdIngresoEgreso": 7001,
+            "IdTipoMovimiento": "MOVEGR"
+          },
+          {
+            "NumeroReferencia": 2,
+            "IdIngresoEgreso": 7002,
+            "IdTipoMovimiento": "MOVING"
+          }
+        ],
+        "P_OUT_RESULTADOPROCESO": []
+      }
+    },
+    "CrearComprobante": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          },
+          {
+            "Campo": "IdComprobante",
+            "Id": 8002,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 2
+          }
+        ]
+      }
+    }
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Empleador",
+      "orden": "\"IdRecaudacionEmpleador\"",
+      "columnas": [
+        "IdRecaudacionEmpleador",
+        "IdRecaudacion",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdRecaudacionEmpleador",
+        "IdEstado"
+      ]
+    }
+  ]
+}

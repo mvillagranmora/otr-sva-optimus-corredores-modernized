@@ -1,0 +1,109 @@
+{
+  "servicio": "ManejadorSolicitudAporteRescate",
+  "ref": "FM-MAN-01/02: Normal (escribe) y despues Transferencia (doble); resultados en ese orden; contador solo de las pasadas N",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_IdTipoCanalIngreso": "OPT",
+    "p_FormaPagoSpot": [],
+    "p_SolicitudesAporteRescateNormal": [
+      {
+        "IdInterno": 1,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "TipoSolicitud": "RES",
+        "IdSerieFondo": "FM001A",
+        "CalculoPorMontoCuota": "C",
+        "EsPorMontoLiquido": "N",
+        "Monto": 0,
+        "NumeroCuotas": 10,
+        "IdMoneda": "CLP",
+        "IdMedioDePago": "CIN",
+        "IdPreferenciaPagoPortafolio": 0,
+        "Visado": "N",
+        "SolicitudBatch": "N",
+        "OrigenOperacion": "M",
+        "FechaOperacion": "0001-01-01",
+        "IdRegimenTributario": "GEN",
+        "Glosa": "",
+        "IndicadorMLT": "N",
+        "IdSerieFondoDestino": "",
+        "IdEmisorDestino": "",
+        "IdAutorizadoOrigen": 0,
+        "Porcentaje": 0,
+        "FolioContrato": 0,
+        "IdMonedaPago": "CLP"
+      }
+    ],
+    "p_SolicitudRescateTransferencia": [
+      {
+        "IdInterno": 41
+      },
+      {
+        "IdInterno": 42
+      }
+    ]
+  },
+  "colaboradores": {
+    "CrearSolicitudRescateTransferencia": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [
+              {
+                "id": 1,
+                "tipo": "ERROR",
+                "codigo": "X_42",
+                "descripcion": "42 rechazada"
+              }
+            ],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 41,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "N"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 41,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate",
+      "orden": "\"IdBloqueoSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.InterfazAgf",
+      "orden": "\"IdInterfazAgf\""
+    }
+  ]
+}

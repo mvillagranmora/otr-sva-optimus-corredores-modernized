@@ -1,0 +1,39 @@
+{
+  "id": "APV-C-491",
+  "titulo": "EstadoRendicion absent keeps the constructor default \"\" (Glosa \"\"), explicit null gives a NULL Glosa",
+  "pina": "ValidarMandatosPAC.java:96",
+  "servicio": "ValidarMandatosPAC",
+  "metodo": "logica",
+  "entrada": {
+    "entrada": {
+      "P_OUT_SOLICITUDES_NO_PROCESADAS": [
+        {
+          "IdMandatoPAC": 1
+        },
+        {
+          "IdMandatoPAC": 2,
+          "EstadoRendicion": null
+        }
+      ]
+    },
+    "idEmpresa": 1,
+    "idUsuario": 21
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::PAC.LogMandatoPAC",
+      "orden": "\"IdMandatoPAC\", \"FechaSistema\", \"Usuario\", \"Glosa\", \"EstadoProcesamiento\", \"PreRendicion\"",
+      "columnas": [
+        "IdMandatoPAC",
+        "FechaSistema",
+        "Usuario",
+        "EstadoProcesamiento",
+        "PreRendicion",
+        "Glosa"
+      ],
+      "expresiones": {
+        "FechaProceso": "CASE WHEN \"FechaProceso\" IS NULL THEN 'NULA' WHEN \"FechaProceso\" = DATE '2024-01-01' THEN 'SIN_CAMBIO' ELSE 'ACTUALIZADA' END"
+      }
+    }
+  ]
+}

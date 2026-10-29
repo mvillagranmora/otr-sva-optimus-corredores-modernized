@@ -1,0 +1,90 @@
+{
+  "id": "APV-C-173",
+  "titulo": "no totals and no file: the client rows are created (and committed inside), then in.p_Archivo.get(0) throws IndexOutOfBoundsException; the rows stay because con.commit() ran inside the loop (partial commit)",
+  "pina": "CargaMasivaPAC.java:486",
+  "servicio": "CargaMasivaPAC",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 17,
+    "p_IdModulo": "APV",
+    "p_NombreCarga": "ARCHIVO_CARGO_10_4_2018_133504.txt",
+    "p_Origen": "PAC",
+    "p_IdEmpleado": 7312,
+    "p_Archivo": [],
+    "p_ParametrosArchivo": [
+      {
+        "CodigoBanco": "016",
+        "CodigoEmpresa": "006",
+        "CodigoConvenio": "023",
+        "TipoRegistro": "D",
+        "IdServicioEmpresa": "000022222233400160    ",
+        "InformacionAdicional": "          ",
+        "MontoCargo": 600000,
+        "FechaFacturacion": "20180508",
+        "FechaVencimiento": "20180508"
+      }
+    ],
+    "p_ParametrosTotalArchivo": []
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::APV.IdCargaMasiva": 100,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 960,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionCliente": 520,
+    "BSCL.FondoMutuo.BD.Secuencias::FolioContrato": 5000
+  },
+  "colaboradores": {
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          }
+        ]
+      }
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "CodigoArchivo",
+        "FolioCartola",
+        "Sucursal",
+        "CuentaCorriente",
+        "MontoDeposito",
+        "Origen",
+        "IdBanco",
+        "IdCarga",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdRecaudacionEmpleador",
+        "IdCliente",
+        "TipoAfiliado",
+        "IdRegimenTriburario",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::APV.CargaMasiva",
+      "orden": "\"IdCargaMasiva\""
+    }
+  ]
+}

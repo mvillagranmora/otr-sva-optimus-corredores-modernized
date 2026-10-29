@@ -1,0 +1,192 @@
+{
+  "servicio": "CrearSolicitudRescateReinversion",
+  "ref": "FM-REI-03: IdInterno 0 -> ID_INTERNO_NO_CERO",
+  "rescateReinversionReal": true,
+  "esquemasExtra": [
+    "schema-rre.sql",
+    "seed/base-rre.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_IdTipoCanalIngreso": "AGE",
+    "p_SolicitudesRescate": [
+      {
+        "IdInterno": 0,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "IdSerieFondo": "FM001A",
+        "CalculoPorMontoCuota": "C",
+        "Monto": 0,
+        "NumeroCuotas": 10,
+        "IdMoneda": "CLP",
+        "IdMedioDePago": "CIN",
+        "SolicitudBatch": "N",
+        "OrigenOperacion": "M",
+        "Glosa": "",
+        "IdAutorizadoOrigen": 0,
+        "FolioContrato": 0,
+        "IdRegimenTributario": "GEN"
+      }
+    ],
+    "p_SolicitudesAporte": [
+      {
+        "IdInterno": 0,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "IdSerieFondo": "FM002A",
+        "IdEmisor": "AGF2",
+        "Monto": 0,
+        "NumeroCuotas": 0,
+        "IndicadorMLT": "N",
+        "IdMoneda": "CLP",
+        "IdMedioDePago": "CIN",
+        "IdRegimenTributario": "GEN",
+        "Glosa": "",
+        "FolioContrato": 0
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino",
+      "orden": "\"IdReinversionSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion",
+      "orden": "\"IdBloqueaReinversion\", \"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.InterfazAgf",
+      "orden": "\"IdInterfazAgf\""
+    }
+  ],
+  "colaboradores": {
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 1,
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FM",
+            "IdInstrumento": 900,
+            "Nemotecnico": "FM001A",
+            "Precio": 1500.1234,
+            "CodigoFuente": "OTR",
+            "FechaFuente": "2026-03-02 00:00:00.000",
+            "IdMoneda": "CLP"
+          },
+          {
+            "IdRegistro": -1,
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FM",
+            "IdInstrumento": 901,
+            "Nemotecnico": "FM002A",
+            "Precio": 1200.5,
+            "CodigoFuente": "OTR",
+            "FechaFuente": "2026-03-02 00:00:00.000",
+            "IdMoneda": "CLP"
+          }
+        ]
+      }
+    },
+    "ConsultarFlujoCustodia": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "p_out_FlujoTotalizado": [
+          {
+            "IdCliente": 100,
+            "IdPortafolio": 500,
+            "IdInstrumento": 900,
+            "IdRegimenFondoMutuo": "GEN",
+            "Cantidad": 1000,
+            "MontoAMercadoMonedaInstrumento": 1000000
+          }
+        ]
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 1,
+                "FactorCambioLocal": 900,
+                "FactorOrigenDestino": 900,
+                "MontoDestino": 7000.25
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": -1,
+                "FactorCambioLocal": 900,
+                "FactorOrigenDestino": 900,
+                "MontoDestino": 7000.25
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 5,
+                "FactorCambioLocal": 900,
+                "FactorOrigenDestino": 900,
+                "MontoDestino": 10000.5
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 6,
+                "MontoDestino": 38.5
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 7,
+                "FactorOrigenDestino": 39000,
+                "MontoDestino": 39000
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": -5,
+                "FactorCambioLocal": 900,
+                "FactorOrigenDestino": 900,
+                "MontoDestino": 10000.5
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": -6,
+                "MontoDestino": 38.5
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": -7,
+                "FactorOrigenDestino": 39000,
+                "MontoDestino": 39000
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

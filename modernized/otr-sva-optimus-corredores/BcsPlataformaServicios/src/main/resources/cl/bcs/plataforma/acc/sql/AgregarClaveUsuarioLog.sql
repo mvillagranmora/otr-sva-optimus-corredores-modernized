@@ -1,0 +1,14 @@
+
+/**/
+INSERT INTO "BSCL.Plataforma.BD::ACC.LogUsuarioClave"(
+	"IdLogUsuario",
+	"IdUsuario", 
+	"Clave", 
+	"UltimoCambioDeClave"
+) 
+VALUES(
+	"BSCL.Plataforma.BD.Secuencias::ACC.IdLogUsuario".NEXTVAL,
+	:IdUsuario, 
+	:Clave,
+	CURRENT_UTCTIMESTAMP
+);

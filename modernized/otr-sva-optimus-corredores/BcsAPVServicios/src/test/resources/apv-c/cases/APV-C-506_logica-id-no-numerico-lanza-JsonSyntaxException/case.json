@@ -1,0 +1,35 @@
+{
+  "id": "APV-C-506",
+  "titulo": "the typed input is read with Gson: a non numeric IdMandatoPAC fails to decode (JsonSyntaxException) before logica runs",
+  "pina": "ValidarMandatosPAC.java:67",
+  "servicio": "ValidarMandatosPAC",
+  "metodo": "logica",
+  "entrada": {
+    "entrada": {
+      "P_OUT_SOLICITUDES_A_PROCESAR": [
+        {
+          "IdMandatoPAC": "abc"
+        }
+      ]
+    },
+    "idEmpresa": 1,
+    "idUsuario": 21
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::PAC.LogMandatoPAC",
+      "orden": "\"IdMandatoPAC\", \"FechaSistema\", \"Usuario\", \"Glosa\", \"EstadoProcesamiento\", \"PreRendicion\"",
+      "columnas": [
+        "IdMandatoPAC",
+        "FechaSistema",
+        "Usuario",
+        "EstadoProcesamiento",
+        "PreRendicion",
+        "Glosa"
+      ],
+      "expresiones": {
+        "FechaProceso": "CASE WHEN \"FechaProceso\" IS NULL THEN 'NULA' WHEN \"FechaProceso\" = DATE '2024-01-01' THEN 'SIN_CAMBIO' ELSE 'ACTUALIZADA' END"
+      }
+    }
+  ]
+}

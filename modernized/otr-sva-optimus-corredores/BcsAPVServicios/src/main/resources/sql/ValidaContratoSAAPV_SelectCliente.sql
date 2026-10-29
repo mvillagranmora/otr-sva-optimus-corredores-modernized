@@ -1,0 +1,1 @@
+SELECT "IdCliente","IdPersona" FROM "BSCL.SocioNegocio.BD::CLI.Cliente" WHERE "IdPersona" = :IdPersona

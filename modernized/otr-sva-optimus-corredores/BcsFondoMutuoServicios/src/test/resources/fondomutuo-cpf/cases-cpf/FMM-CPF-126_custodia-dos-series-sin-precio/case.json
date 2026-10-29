@@ -1,0 +1,143 @@
+{
+  "servicio": "ConsultarCustodiaPortafolioFondoMutuo",
+  "ref": "FM-CPF-11 D-NOR-9: sin precio y dos series en custodia: dos resultados con IdInterno nulo => IllegalStateException",
+  "esquemasExtra": [
+    "schema-cpf.sql",
+    "seed/base-cpf.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM"
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::PLA.Configuracion",
+      "orden": "\"IdEmpresa\", \"CodigoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "ConsultarCustodiaPortafolioFFMM": {
+      "defecto": {
+        "p_out_tbl": [
+          {
+            "IdClasificacionTipoInstrumento": "FM",
+            "NombreClasificacionTipoInstrumento": "Fondos Mutuos",
+            "IdTipoInstrumento": "FM",
+            "NombreTipoInstrumento": "Fondo Mutuo",
+            "IdInstrumento": 900,
+            "Nemotecnico": "FM001A",
+            "IdEmisor": "AGF1",
+            "IdSocioDeNegocio": 1100,
+            "IdCliente": 100,
+            "IdPortafolio": 500,
+            "DocumentoIdentidad": "11111111-1",
+            "RazonSocial": "Cliente Ficticio Uno",
+            "CodigoPortafolio": "PF500",
+            "IdBoveda": "COR",
+            "Relacion": "",
+            "IdRegimenFondoMutuo": "GEN",
+            "RegimenTributario": "Regimen General",
+            "Producto": "",
+            "CantidadCustodia": 100,
+            "CantidadGarantia": 0,
+            "CantidadPrecioPromedio": 0,
+            "MontoPrecioPromedio": 0,
+            "INGPrecioPromedioCompra": 1111.1111,
+            "INGMontoPrecioPromedioCompra": 2222.2222,
+            "INGMontoPrecioPromedioMonedaInstrumento": 3333.3333,
+            "TotalPosicion": 0,
+            "IdMatrizAgrupador": 8,
+            "EsADC": "N",
+            "PPPCustodia": 1234.5678
+          },
+          {
+            "IdClasificacionTipoInstrumento": "FM",
+            "NombreClasificacionTipoInstrumento": "Fondos Mutuos",
+            "IdTipoInstrumento": "FM",
+            "NombreTipoInstrumento": "Fondo Mutuo",
+            "IdInstrumento": 901,
+            "Nemotecnico": "FM002B",
+            "IdEmisor": "AGF2",
+            "IdSocioDeNegocio": 1100,
+            "IdCliente": 100,
+            "IdPortafolio": 500,
+            "DocumentoIdentidad": "11111111-1",
+            "RazonSocial": "Cliente Ficticio Uno",
+            "CodigoPortafolio": "PF500",
+            "IdBoveda": "COR",
+            "Relacion": "",
+            "IdRegimenFondoMutuo": "GEN",
+            "RegimenTributario": "Regimen General",
+            "Producto": "",
+            "CantidadCustodia": 100,
+            "CantidadGarantia": 0,
+            "CantidadPrecioPromedio": 0,
+            "MontoPrecioPromedio": 0,
+            "INGPrecioPromedioCompra": 1111.1111,
+            "INGMontoPrecioPromedioCompra": 2222.2222,
+            "INGMontoPrecioPromedioMonedaInstrumento": 3333.3333,
+            "TotalPosicion": 0,
+            "IdMatrizAgrupador": 8,
+            "EsADC": "N",
+            "PPPCustodia": 1234.5678
+          }
+        ]
+      }
+    },
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": []
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 1,
+                "MontoDestino": 1
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 2,
+                "MontoDestino": 1
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 3,
+                "MontoDestino": 1
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 4,
+                "MontoDestino": 1
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+CALL "BSCL.FondoMutuo.BD.Servicios::ConsultarRegistroParticipes"(?,?,?,?,?)

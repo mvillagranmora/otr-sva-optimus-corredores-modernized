@@ -1,0 +1,13 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.Empresa" ("IdEmpresa", "IdSocioDeNegocio") VALUES (1, 50);
+INSERT INTO "BSCL.SocioNegocio.BD::SOC.SocioDeNegocio" ("IdSocioDeNegocio", "IdPersona") VALUES (50, 900);
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" ("IdPersona", "IdPortafolioDefecto", "IdCliente", "IdSocioDeNegocio") VALUES (900, 777, 9000, 50);
+INSERT INTO "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa" ("IdEmpresa", "IdPersona", "IdSocioDeNegocio") VALUES (1, 900, 50);
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdSocioDeNegocio", "IdPortafolioDefecto", "IdCliente", "DocumentoIdentidad") VALUES (50, 777, 9000, '76000000-0');
+INSERT INTO "BSCL.Tesoreria.BD::TES.Caja" ("IdCaja", "Codigo", "Nombre", "IdEstado", "IdEmpresa") VALUES (5, 'PAC', 'CAJA PAC', 'ABT', 1);
+INSERT INTO "BSCL.Plataforma.BD::BAN.Banco" ("IdBanco", "IdPersona") VALUES (12, 3012);
+INSERT INTO "BSCL.Tesoreria.BD::TES.CuentaBanco" ("IdCuentaBanco", "IdBanco", "NumeroCuentaBancaria") VALUES (122, 12, '4360602');
+INSERT INTO "BSCL.Tesoreria.BD::TES.SucursalesBancarias" ("IdSucursal", "NombreSucursal", "IdBanco", "IdEstado") VALUES (7, 'BANCA EN LINEA', 12, 'ACT');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarBancoPrevired" ("IdBanco", "CodigoBancoPrevired") VALUES (12, 'Banco Security');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarPersonaJuridica" ("IdPersona", "PersonaBusqueda", "DocumentoIdentidad", "IdEstado") VALUES (4400, '76309097-3 EMPRESA', '76309097-3', 'ACT');
+INSERT INTO "BSCL.APV.BD::APV.CargaMasiva" ("IdEmpresa", "IdCargaMasiva", "NombreCargaArchivo", "CantidadRegistros", "IdUsuario", "IdTipoCarga", "Descripcion", "FechaCarga", "IdEstado") VALUES (1, 70, 'Banco-AC07BAA_20191212_1648Z.TXT', 1, 1, 3, 'Carga Banco', '2019-12-01', 'VIG');
+INSERT INTO "BSCL.APV.BD::REC.Recaudacion" ("IdRecaudacion", "IdEmpresa", "CodigoArchivo", "FolioCartola", "LineaCartola", "Sucursal", "FechaDeposito", "CuentaCorriente", "MontoDeposito", "ConceptoRecaudacion", "Origen", "Observacion", "NumeroDocumento", "IdTipoDeposito", "IdBanco", "IdRegimenTributario", "IdCarga", "IdEstado") VALUES (5, 1, 'A1', 1, 1, 'SUCUR', '2025-03-31', '13602227', 1900, '', 'CARGA', '', 1, 'TRA', 12, 0, 70, 'ING');

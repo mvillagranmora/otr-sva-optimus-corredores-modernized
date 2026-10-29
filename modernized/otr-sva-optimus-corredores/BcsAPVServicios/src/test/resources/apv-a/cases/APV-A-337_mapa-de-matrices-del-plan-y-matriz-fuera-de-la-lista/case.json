@@ -1,0 +1,66 @@
+{
+  "id": "APV-A-337",
+  "titulo": "portfolio matrices 1,2,3,19,4,5,6 map to 7,8,9,20,10,11,12 (other values stay); here matrix 3 maps to 9 and matrix 7 (not in the list) stays; the contract has two portfolios",
+  "pina": "CambiarAPlanActivoContratoSAAPV.java:520",
+  "servicio": "CambiarAPlanActivoContratoSAAPV",
+  "metodo": "call",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 21,
+    "p_IdModulo": "APV",
+    "p_ContratoCambioPlanIn": [
+      {
+        "IdPersona": 501,
+        "IdCliente": 701,
+        "IdPortafolio": 903,
+        "IdContratoSAAPV": 9001,
+        "FolioContratoSAAPV": "F-P1"
+      },
+      {
+        "IdPersona": 501,
+        "IdCliente": 701,
+        "IdPortafolio": 904,
+        "IdContratoSAAPV": 9001,
+        "FolioContratoSAAPV": "F-P1"
+      }
+    ]
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencias::TRA.IdTraspaso": 6000,
+    "BSCL.APV.BD.Secuencias::TRA.IdDetalleOrigenTraspaso": 6500
+  },
+  "colaboradores": {
+    "ModificarPortafolio": {
+      "P_OUT_ERRORESCONTADOR": 0
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Portafolio.BD::POR.Portafolio",
+      "orden": "\"IdPortafolio\"",
+      "columnas": [
+        "IdPortafolio",
+        "IdMatrizAgrupadorAPV",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::GBL.PortafoliosCambioPlanActivo",
+      "orden": "\"IdPortafolio\""
+    },
+    {
+      "nombre": "BSCL.APV.BD::SCS.ContratoSAAPV",
+      "orden": "\"IdContratoSAAPV\"",
+      "columnas": [
+        "IdContratoSAAPV",
+        "FolioContratoSAAPV",
+        "IdPlan",
+        "IdEstado",
+        "IdEstadoSolicitud",
+        "IdEstadoEnvioNotificacion",
+        "IdPerfilComercial",
+        "NombrePlan"
+      ]
+    }
+  ]
+}

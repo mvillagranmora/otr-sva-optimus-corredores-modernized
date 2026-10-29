@@ -1,0 +1,15 @@
+INSERT INTO "BSCL.APV.BD::APV.OrigenDestinoTransicion" ("IdOrigenDestinoTransicion","IdEmpresa","Operacion","OrigenCtaBco","SocioNegocioCtaBco","DestinoCtaBco","IdEstado") VALUES (9,1,'DIS',0,0,122,'ACT');
+INSERT INTO "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa" ("IdEmpresa","IdSocioDeNegocio","IdPersona") VALUES (1,777,900);
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdCliente","IdPersona","IdSocioDeNegocio","IdPortafolioDefecto") VALUES (1,900,777,4500);
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdCliente","IdPersona","IdSocioDeNegocio","IdPortafolioDefecto") VALUES (7000,1774553,778,0);
+INSERT INTO "BSCL.SocioNegocio.BD::SOC.SocioDeNegocio" ("IdSocioDeNegocio","IdCliente","IdPersona") VALUES (778,7000,1774553);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio","IdCliente","CodigoPortafolio","IdMatrizAgrupadorAPV","IdEstado","Proposito") VALUES (5001,7000,'APV-A',10,'ACT','PROPOSITOAPV');
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio","IdCliente","CodigoPortafolio","IdMatrizAgrupadorAPV","IdEstado","Proposito") VALUES (5002,7000,'DC-R',20,'ACT','PROPOSITOAPV');
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV","IdRegimenTributario") VALUES (10,10);
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV","IdRegimenTributario") VALUES (20,200);
+INSERT INTO "BSCL.APV.BD::TRA.Traspaso" ("IdTraspaso","IdContratoSAAPV","IdEmpresa","TipoMovimiento","RazonRetiro","IdEstado") VALUES (151,500,1,'EGRESO','TRA','VIG');
+INSERT INTO "BSCL.APV.BD::TRA.Traspaso" ("IdTraspaso","IdContratoSAAPV","IdEmpresa","TipoMovimiento","RazonRetiro","IdEstado") VALUES (152,501,1,'EGRESO','TRA','VIG');
+INSERT INTO "BSCL.APV.BD::TRA.OrdenTraspaso" ("IdOrdenTraspaso","IdTraspaso","IdOrden","IdSolicitudAporteRescate") VALUES (1,151,8001,8001);
+INSERT INTO "BSCL.Orden.BD.Vistas::ConsultarOrden" ("IdOrden","MontoLiquidacion","IdPortafolio") VALUES (8001,1000000,5001);
+INSERT INTO "BSCL.Orden.BD::ORD.Asignacion" ("IdAsignacion","IdOrden") VALUES (80010,8001);
+INSERT INTO "BSCL.Facturacion.BD::FAC.MovimientoComprobante" ("IdAsignacion","IdEstadoFacturacion") VALUES (80010,'FAC');

@@ -1,0 +1,1 @@
+SELECT "Valor" FROM "BSCL.Orden.BD::ORD.ConfiguracionOrdenes" WHERE "CodigoParametro" = 'VigenciaCargaOrdenes' AND "IdEmpresa" = :IdEmpresa;

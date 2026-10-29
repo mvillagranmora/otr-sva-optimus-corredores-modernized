@@ -1,0 +1,24 @@
+INSERT INTO "BSCL.FondoMutuo.BD::TRA.TraspasoDetalleDestino"(
+     "IdDetalleTraspaso"
+	,"IdTraspaso"
+	,"IdSerieFondo"
+	,"Porcentaje"
+	,"IdEstado"
+    ,"FechaIngreso"
+    ,"FechaIngresoRegistro"
+    ,"IdRegimenFondoMutuo"
+    ,"RunFFMM"
+    ,"NombreFFMM"
+)
+VALUES(
+	"BSCL.FondoMutuo.BD.Secuencias::TraspasoDetalleDestino".NEXTVAL
+	,:IdTraspaso
+	,:IdSerieFondo
+	,:Porcentaje
+	,:IdEstado
+	,:FechaIngreso
+	,CURRENT_UTCTIMESTAMP
+	,:IdRegimenFondoMutuo
+	,:RunFFMM
+    ,:NombreFFMM
+);  

@@ -1,0 +1,54 @@
+{
+  "servicio": "ProcesarDistribucion",
+  "metodo": "logica",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 5,
+    "p_IdModulo": "TES",
+    "p_simular": "N",
+    "p_Recaudacion": []
+  },
+  "colaboradores": {
+    "crearIngresoEgreso": {
+      "sinMascara": true,
+      "resultados": [
+        {
+          "Campo": "IdComprobante",
+          "Id": 9501,
+          "Resultado": "OK"
+        }
+      ]
+    },
+    "liquidarComprobante": {
+      "resultados": [
+        {
+          "Campo": "IdComprobante",
+          "Id": 9501,
+          "Resultado": "LIQ"
+        }
+      ]
+    },
+    "crearCargoAbono": {
+      "mensajes": [
+        {
+          "id": 3,
+          "tipo": "ERROR",
+          "codigo": "CAB_ERR",
+          "descripcion": "saldo insuficiente"
+        }
+      ]
+    }
+  },
+  "secuencias": {
+    "BSCL.Tesoreria.BD.Secuencias::PAC.IdLog": 100
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::PAC.LogMandatoPAC",
+      "orden": "\"IdLog\"",
+      "enmascarar": [
+        "FechaProceso"
+      ]
+    }
+  ]
+}

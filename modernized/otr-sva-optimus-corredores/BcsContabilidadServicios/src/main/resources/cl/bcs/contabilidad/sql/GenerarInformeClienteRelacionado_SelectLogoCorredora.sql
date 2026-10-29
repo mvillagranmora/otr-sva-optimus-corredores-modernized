@@ -1,0 +1,1 @@
+SELECT TOP 1 Imagen."Binario" AS "Contenido" FROM "BSCL.Plataforma.BD::PLA.Imagenes" Imagen WHERE Imagen."NombreImagen" = 'LOGO_CORREDOR' AND Imagen."IdEmpresa" = :IdEmpresa ORDER BY Imagen."Version" DESC;

@@ -1,0 +1,17 @@
+# Used instead of the context-root .dockerignore when building BcsCrystalReports/Dockerfile (Docker/BuildKit and
+# podman/buildah pick "<Dockerfile>.dockerignore" first). The context is the parent directory
+# (modernized/otr-sva-optimus-corredores, or modernized/ via ./otr-sva-optimus-corredores in the root compose):
+# the Dockerfile only COPYs BcsCrystalReports/libs, pom.xml and src, so everything else (the other modules, their
+# target/ directories, .git, .env files with secrets, test goldens, local tmp/) stays out of the build context.
+*
+!BcsCrystalReports/libs
+!BcsCrystalReports/pom.xml
+!BcsCrystalReports/src
+BcsCrystalReports/src/test/resources
+BcsCrystalReports/src/test/legacy-recorder
+**/.env
+**/.env.*
+**/target
+**/tmp
+**/.git
+**/__pycache__

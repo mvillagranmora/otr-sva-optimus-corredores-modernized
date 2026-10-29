@@ -1,0 +1,1 @@
+SELECT "IdMoneda" FROM "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarFondo" WHERE "IdSerieFondo" = :IdSerieFondo

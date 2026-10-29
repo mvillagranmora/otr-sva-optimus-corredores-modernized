@@ -1,0 +1,1 @@
+INSERT INTO ${TABLA} ("${ID}","Campo","Valor") VALUES (:Id,:Campo,:Valor)

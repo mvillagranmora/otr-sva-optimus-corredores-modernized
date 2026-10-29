@@ -1,0 +1,56 @@
+{
+  "servicio": "ConsultarValorDolarFondoMutuo",
+  "ref": "FM-VDO-02: la Fecha no se valida ('' y 'manana' son claves distintas) => dos entradas, dos salidas de id 0, excepcion",
+  "esquemasExtra": [
+    "seed/base-vdo.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_Series": [
+      {
+        "IdSerieFondo": "V001",
+        "IdTipoSolicitud": "APO",
+        "Fecha": ""
+      },
+      {
+        "IdSerieFondo": "V002",
+        "IdTipoSolicitud": "APO",
+        "Fecha": "manana"
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorTipoCambio",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.Parametro",
+      "orden": "\"IdEmpresa\", \"NombreTipoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "CalcularParidad": {
+      "defecto": {
+        "p_out_CalculosSalida": [
+          {
+            "IdTrabajo": 1,
+            "IdInterno": 0,
+            "FactorOrigenDestino": 1.0,
+            "MontoDestino": 1.0,
+            "FactorCambioLocal": 1
+          },
+          {
+            "IdTrabajo": 1,
+            "IdInterno": 0,
+            "FactorOrigenDestino": 2.0,
+            "MontoDestino": 2.0,
+            "FactorCambioLocal": 1
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "CTA-B-98",
+  "clase": "ConsultaAntiguedadDeudasCuentaInversion",
+  "nota": "\"TODAS\": one ConsultarSaldo call per currency (recorded in llamadasColaboradores); with more than one currency and Consolidar=N the USD balances and aging rows are converted to CLP with CalcularParidad (USD>CLP = 950.5 in the fake) and every amount is truncated to 0 decimals (-10 USD = 9505 CLP). Tramos without rows net the older debt into tramo A (same quirk as CTA-B-103). Row order follows the unordered currency query, so it is not compared.",
+  "seeds": [
+    "clientes-reportes.sql"
+  ],
+  "sinOrden": [
+    "P_OUT_TABLA",
+    "llamadasColaboradores"
+  ],
+  "colaboradores": {
+    "empresa": {
+      "IdEmpresa": 1,
+      "Codigo": "BCS",
+      "Nombre": "Corredora de Prueba",
+      "IdPais": 44
+    },
+    "consultarSaldo": [
+      {
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdCuentaInversion": 4001,
+            "IdCliente": 1001,
+            "IdPortafolio": 2001,
+            "IdMoneda": "CLP",
+            "SaldoDisponible": -150,
+            "SaldoRetenido": 0
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 0
+      },
+      {
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdCuentaInversion": 4002,
+            "IdCliente": 1001,
+            "IdPortafolio": 2001,
+            "IdMoneda": "USD",
+            "SaldoDisponible": -10,
+            "SaldoRetenido": 0
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    ],
+    "paridad": {
+      "USD>CLP": "950.5"
+    }
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 33,
+    "p_IdModulo": "CTA",
+    "p_UsaReglasNegocio": "N",
+    "p_FechaConsulta": "2025-03-14",
+    "p_IdMoneda": "TODAS",
+    "p_IdEjecutivo": 0,
+    "p_SeparaIntermediacion": "N",
+    "p_AgrupaPortafolios": "N",
+    "p_Consolidar": "N"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "_provenance": "Recorded by legacy-oracle/runner/OracleRunner.java executing the unmodified legacy cl.bcs.APV.EjecutarBonificacion.call on H2 MODE=LEGACY. Do not edit by hand; re-record.",
+  "salida": {
+    "P_OUT_MENSAJES": [
+      {
+        "id": 0,
+        "tipo": "ERROR",
+        "codigo": "UI_BANCO_CORREDORA_Y_CUENTA_NO_VALIDOS",
+        "descripcion": "[UI_BANCO_CORREDORA_Y_CUENTA_NO_VALIDOS]{a=n}"
+      }
+    ],
+    "P_OUT_ERRORESCONTADOR": 1
+  },
+  "tablas": {
+    "BSCL.APV.BD::INV.Bonificacion": [
+      {
+        "IdBonificacion": 1,
+        "IdCliente": 701,
+        "IdEstado": "PRO",
+        "MontoCalculado": 50000
+      }
+    ],
+    "BSCL.APV.BD::REC.Recaudacion": [
+      {
+        "IdRecaudacion": 960,
+        "IdEmpresa": 1,
+        "MontoDeposito": 15000,
+        "Origen": "BONIF",
+        "IdBanco": 0,
+        "IdEstado": "ING"
+      }
+    ],
+    "BSCL.APV.BD::REC.Cliente": [
+      {
+        "IdRecaudacionCliente": 520,
+        "IdRecaudacion": 0,
+        "IdCliente": 701,
+        "IdRegimenTriburario": "BF",
+        "MontoDepositoAPV": 15000,
+        "Origen": "BONIF",
+        "IdEstado": "ING"
+      }
+    ],
+    "BSCL.Portafolio.BD::POR.Portafolio": [
+      {
+        "IdPortafolio": 901,
+        "CodigoPortafolio": "APV-A",
+        "IdCliente": 701
+      },
+      {
+        "IdPortafolio": 950,
+        "CodigoPortafolio": "BF",
+        "IdCliente": 701
+      }
+    ]
+  },
+  "colaboradores": [
+    {
+      "servicio": "ConsultarCustodiaPortafolio",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 51,
+        "p_IdModulo": "APV",
+        "p_IdCliente": 701,
+        "p_IdPortafolio": 901,
+        "p_IdClasificacionTipoInstrumento": "",
+        "p_IdTipoInstrumento": "",
+        "p_IdInstrumento": 0,
+        "p_Nemotecnico": "",
+        "p_IdBoveda": "",
+        "p_AgrupaPorBoveda": "N",
+        "p_AgrupaPorRelacion": "N",
+        "p_SaldosNegativos": "N",
+        "p_SaldosNegativosPresuntos": "N",
+        "p_FechaConsulta": "2025-04-01",
+        "p_TipoFechaConsulta": "LIQ",
+        "p_IdProductoAgrupador": null,
+        "p_LlamadaDesdeAnalitica": "N",
+        "p_LlamadaDesdePatrimonio": "N",
+        "p_SolicitaDividendo": "N"
+      }
+    },
+    {
+      "servicio": "ConsultarCustodiaPortafolioFondoMutuo",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 51,
+        "p_IdModulo": "APV",
+        "p_IdCliente": 701,
+        "p_IdPortafolio": 901,
+        "p_IdInstrumento": 0,
+        "p_FechaConsulta": "2025-04-01",
+        "p_IdProductoAgrupador": null,
+        "p_IdEmisor": null,
+        "p_IdFamiliaFondo": "",
+        "p_BuscaMLT": "N"
+      }
+    },
+    {
+      "servicio": "ConsultarSaldoCuentaInversion",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 51,
+        "p_IdModulo": "APV",
+        "p_UsaReglasNegocio": "S",
+        "p_CuentaInversionAConsultar": [
+          {
+            "IdEjecutivo": null,
+            "IdPortafolio": 901,
+            "IdMoneda": null
+          }
+        ],
+        "p_FechaDesde": "2025-04-01",
+        "p_FechaHasta": "2025-04-01",
+        "p_SoloSaldoNegativo": "N",
+        "p_SoloSaldoDisponible": "N",
+        "p_SoloSaldoDisponibleNegativo": "N",
+        "p_IncluyeCargosPendientes": "N",
+        "p_IncluyeAbonosPendientes": "N",
+        "p_IncluyeOtrosSaldos": "N",
+        "p_IdPortafolio": null,
+        "p_IncluyeProductoApv": "N",
+        "p_IdEjecutivo": null,
+        "p_IdCliente": null,
+        "p_IdProductoAgrupador": 9999,
+        "p_IdMoneda": null,
+        "p_TipoSaldoConsultar": [
+          "TODO"
+        ]
+      }
+    },
+    {
+      "servicio": "CrearCargoAbono",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 51,
+        "p_IdModulo": "APV",
+        "p_simularOperacion": "N",
+        "p_UsaReglasNegocio": "S",
+        "p_FechaSistema": "2025-04-01",
+        "p_EsIngresoManual": "N",
+        "p_CargoAbonoAGenerar": []
+      }
+    },
+    {
+      "servicio": "CrearSolicitudAporteRescateNormal",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 51,
+        "p_IdModulo": "APV",
+        "p_SimularOperacion": "N",
+        "p_UsaReglasNegocio": "S",
+        "p_IdTipoCanalIngreso": "OPT",
+        "p_NumeroDividendo": 0,
+        "p_SolicitudesAporteRescate": [
+          {
+            "IdInterno": 1,
+            "IdCliente": 701,
+            "IdPortafolio": 950,
+            "TipoSolicitud": "APO",
+            "IdSerieFondo": "FFMM-A",
+            "CalculoPorMontoCuota": "M",
+            "EsPorMontoLiquido": "N",
+            "Monto": 50000.00000000,
+            "NumeroCuotas": 0,
+            "IdMoneda": "CLP",
+            "IdMedioDePago": "CIN",
+            "IdPreferenciaPagoPortafolio": 950,
+            "Visado": "N",
+            "SolicitudBatch": "N",
+            "OrigenOperacion": "M",
+            "FechaOperacion": "2025-04-01",
+            "IdRegimenTributario": "BF",
+            "Glosa": "1",
+            "IndicadorMLT": "N",
+            "IdSerieFondoDestino": "",
+            "IdEmisorDestino": "",
+            "IdAutorizadoOrigen": 0,
+            "Porcentaje": 0,
+            "FolioContrato": 0,
+            "IdMonedaPago": "",
+            "MontoPatrimonio": 0,
+            "IngresoAutomatico": "S",
+            "ForzarSpot": "N",
+            "TipoContratoOperacion": "",
+            "FolioContratoOperacion": "",
+            "EsTraspaso": "N",
+            "Canal": "",
+            "IdSolicitudAporteRescateRelacionado": 0,
+            "FechaValorCuota": null,
+            "IgnorarMontoMinimo": "N",
+            "SimulaCambioPortafolioEjecutadoOk": "N",
+            "IngresoDesde": "",
+            "IdOrigenRecaCliente": 0
+          }
+        ],
+        "p_FormaPagoSpot": [],
+        "p_IdOrigenProceso": "BONIF",
+        "p_PermiteOperarProspectos": "N"
+      }
+    }
+  ],
+  "secuenciasSolicitadas": [
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion#1",
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionCliente#1"
+  ]
+}

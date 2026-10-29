@@ -1,0 +1,73 @@
+#!/bin/bash
+# Re-records the golden expected.json files of the family B reporting cases by EXECUTING the unmodified legacy classes
+# (copied, re-encoded to UTF-8, into a scratch directory) on H2. Nothing is written under legacy/ or src/main.
+#
+# Usage:  record.sh build            compile legacy copies + shims + runner into $ORACLE_WORK
+#         record.sh run [prefix]     run every case (or the cases whose directory starts with prefix, e.g. CTA-B-93) and
+#                                    rewrite its expected.json
+# Environment (all optional):
+#   JAVA_HOME     JDK 25
+#   M2_REPO       local maven repository (default ~/.m2/repository); needs h2, gson, log4j-api, commons-io, commons-lang3,
+#                 commons-text, commons-codec, commons-collections4, commons-beanutils, commons-logging, opencsv, guava,
+#                 curvesapi, dom4j, xmlbeans and Apache POI 3.17 (poi, poi-ooxml, poi-ooxml-schemas)
+#   ORACLE_WORK   scratch directory (default $TMPDIR/cta-b-oracle)
+#   ORACLE_PYTHON python executable (default python)
+set -e
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+R="$(dirname "$HERE")"                                   # .../src/test/resources/reportes
+ROOT="$HERE"
+while [ ! -d "$ROOT/legacy" ] && [ "$ROOT" != "/" ]; do ROOT="$(dirname "$ROOT")"; done
+[ -d "$ROOT/legacy" ] || { echo "cannot locate the repository root (directory with legacy/)"; exit 1; }
+M="$ROOT/modernized/otr-sva-optimus-corredores/BcsCuentaInversionServicios"
+LEG="$ROOT/legacy/otr-sva-optimus-corredores/BSCL"
+CTA="$LEG/CuentaInversion/JAVA/BcsCuentaInversionServicios/src"
+PLA="$LEG/Plataforma/JAVA/BcsPlataformaServicios/src"
+UTL="$LEG/Plataforma/JAVA/BcsUtils/src"
+W="${ORACLE_WORK:-${TMPDIR:-/tmp}/cta-b-oracle}"
+H="${M2_REPO:-$HOME/.m2/repository}"
+PY="${ORACLE_PYTHON:-python}"
+if [ -n "$JAVA_HOME" ]; then export PATH="$JAVA_HOME/bin:$PATH"; fi
+win() { if command -v cygpath >/dev/null 2>&1; then cygpath -m "$1"; else echo "$1"; fi; }
+SEP=":"; if command -v cygpath >/dev/null 2>&1; then SEP=";"; fi
+
+J=""
+for j in com/h2database/h2/2.4.240/h2-2.4.240.jar com/google/code/gson/gson/2.11.0/gson-2.11.0.jar \
+  org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar commons-io/commons-io/2.17.0/commons-io-2.17.0.jar \
+  org/apache/poi/poi/3.17/poi-3.17.jar org/apache/poi/poi-ooxml/3.17/poi-ooxml-3.17.jar \
+  org/apache/poi/poi-ooxml-schemas/3.17/poi-ooxml-schemas-3.17.jar org/apache/xmlbeans/xmlbeans/2.3.0/xmlbeans-2.3.0.jar \
+  org/apache/commons/commons-collections4/4.1/commons-collections4-4.1.jar com/github/virtuald/curvesapi/1.04/curvesapi-1.04.jar \
+  dom4j/dom4j/1.1/dom4j-1.1.jar commons-codec/commons-codec/1.10/commons-codec-1.10.jar com/opencsv/opencsv/5.9/opencsv-5.9.jar \
+  org/apache/commons/commons-lang3/3.16.0/commons-lang3-3.16.0.jar org/apache/commons/commons-text/1.12.0/commons-text-1.12.0.jar \
+  commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar commons-logging/commons-logging/1.3.5/commons-logging-1.3.5.jar \
+  com/google/guava/guava/23.6-jre/guava-23.6-jre.jar com/ibm/icu/icu4j/4.6/icu4j-4.6.jar; do
+  [ -f "$H/$j" ] || { echo "missing jar $H/$j (a missing oracle dependency is a FAILURE)"; exit 1; }
+  J="$J${J:+$SEP}$(win "$H/$j")"
+done
+
+# legacy classes compiled as they are (re-encoded to UTF-8 only; see reencode.py for the 4 POI styling constants)
+REAL_UTILS="Fecha BcsPojo StringUtils GsonDateDeserializer GsonTimestampDeserializer"
+REAL_PLA="pla/utils/ConfiguracionSistema pla/utils/Diccionario pla/utils/FileLoader pla/ObtenerDiaAnterior pla/ObtenerDiaSiguiente pla/ObtenerDiasHabilesAnteriores pla/utils/MonedaFormato"
+MINE="$(cat "$HERE/classes.txt")"
+EXTRA="$LEG/FondoMutuo/JAVA/BcsFondoMutuoServicios/src/cl/bcs/fondomutuo/pojo/ConstantesFondoMutuo.java|cl/bcs/fondomutuo/pojo/ConstantesFondoMutuo.java"
+
+if [ "$1" = "build" ]; then
+  rm -rf "$W/src-legacy" "$W/classes"; mkdir -p "$W/src-legacy" "$W/classes"
+  $PY "$HERE/reencode.py" "$(win "$W/src-legacy")" "$(win "$UTL/cl/bcs/utils")" "$(win "$PLA/cl/bcs/plataforma")" "$(win "$CTA/cl/bcs/cuentaInversion")" $REAL_UTILS -- $REAL_PLA -- $MINE -- "$(win "$LEG")/FondoMutuo/JAVA/BcsFondoMutuoServicios/src/cl/bcs/fondomutuo/pojo/ConstantesFondoMutuo.java|cl/bcs/fondomutuo/pojo/ConstantesFondoMutuo.java"
+  : > "$W/files.txt"
+  find "$W/src-legacy" -name '*.java' >> "$W/files.txt"
+  find "$HERE/shims" -name '*.java' >> "$W/files.txt"
+  echo "$HERE/runner/OracleRunner.java" >> "$W/files.txt"
+  for f in H2Dialect H2Functions Dump Mask; do echo "$M/src/test/java/cl/bcs/cuentainversion/reportes/support/$f.java" >> "$W/files.txt"; done
+  echo "$M/src/test-pending/reportes/support/ArchivoDump.java" >> "$W/files.txt"
+  while IFS= read -r l; do win "$l"; done < "$W/files.txt" > "$W/files.win.txt"
+  javac -encoding UTF-8 -proc:none -nowarn -d "$(win "$W/classes")" -cp "$J" @"$W/files.win.txt" 2>&1 | grep -v "^Note:" || true
+  exit 0
+fi
+if [ "$1" = "run" ]; then
+  mkdir -p "$W/work"; cd "$W/work"; rm -rf out*
+  java -Doracle.work="$(win "$W/work")" -Dlog4j2.StatusLogger.level=OFF \
+    -cp "$(win "$W/classes")$SEP$(win "$CTA")$SEP$(win "$PLA")$SEP$(win "$LEG")/FondoMutuo/JAVA/BcsFondoMutuoServicios/src$SEP$J" \
+    OracleRunner "$(win "$R")" "$2"
+  exit $?
+fi
+echo "usage: record.sh build | run [casePrefix]"; exit 2

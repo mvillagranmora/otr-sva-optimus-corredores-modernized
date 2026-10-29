@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Tesoreria.BD::TES.SaldoPendienteDeLiquidar_Persona_Proceso"("IdPersona") VALUES(:IdPersona)

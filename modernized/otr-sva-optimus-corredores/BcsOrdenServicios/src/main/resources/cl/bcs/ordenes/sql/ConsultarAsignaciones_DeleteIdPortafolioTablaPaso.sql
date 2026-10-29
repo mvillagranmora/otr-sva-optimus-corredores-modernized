@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Orden.BD::GBL.ConsultarAsignaciones_Proceso_Paso";

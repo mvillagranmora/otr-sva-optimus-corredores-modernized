@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento" VALUES (8210, 4001, 1, 'MOVABN', 'CRT', 'CTA', NULL, 'CNCEXC', 50000, DATE '2025-03-14', DATE '2025-03-14', TIMESTAMP '2025-03-14 10:00:00');
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.CobroComisionExclusionConcepto" VALUES (6001, 'CNCEXC', DATE '2025-03-01');

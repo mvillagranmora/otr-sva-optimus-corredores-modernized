@@ -1,0 +1,1 @@
+SELECT "DestinoCtaBco" FROM "BSCL.APV.BD::APV.OrigenDestinoTransicion" WHERE "Operacion" = 'DEV' AND "IdEmpresa" = :IdEmpresa

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Orden.BD::GBL.ValidaPatrimonioEmisor_Proceso_Paso";

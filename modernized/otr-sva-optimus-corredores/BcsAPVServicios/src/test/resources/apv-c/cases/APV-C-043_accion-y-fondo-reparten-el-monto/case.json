@@ -1,0 +1,178 @@
+{
+  "id": "APV-C-043",
+  "titulo": "the contract distributes 50% to a share and 50% to a fund: one order and one FFMM request in the same run",
+  "pina": "ProcesarDistribucion.java:881",
+  "servicio": "ProcesarDistribucion",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 51,
+    "p_IdModulo": "APV",
+    "p_Opcion": "DIS",
+    "p_Parametros": [
+      {
+        "IdRecaudacion": 10
+      }
+    ],
+    "p_DistribucionOrigen": "S"
+  },
+  "secuencias": {
+    "BSCL.FondoMutuo.BD.Secuencias::FolioContrato": 5000,
+    "BSCL.APV.BD.Secuencia::APV.IdEstadoTransicion": 7000
+  },
+  "colaboradores": {
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [
+          {
+            "NumeroReferencia": 1,
+            "IdIngresoEgreso": 7001,
+            "IdTipoMovimiento": "MOVEGR"
+          },
+          {
+            "NumeroReferencia": 2,
+            "IdIngresoEgreso": 7002,
+            "IdTipoMovimiento": "MOVING"
+          }
+        ],
+        "P_OUT_RESULTADOPROCESO": []
+      }
+    },
+    "CrearComprobante": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          },
+          {
+            "Campo": "IdComprobante",
+            "Id": 8002,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 2
+          }
+        ]
+      }
+    },
+    "CrearCargoAbono": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_CARGOABONOGENERADO": []
+      }
+    },
+    "ConsultarInstrumentoPrecioBolsa": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_INSTRUMENTO": [
+          {
+            "IdInstrumento": 5001,
+            "PrecioCierre": 2500,
+            "IdBolsa": "BCS"
+          }
+        ]
+      }
+    },
+    "CalcularMontoYCobrosOrden": {
+      "salida": {
+        "p_out_Ordenes": [
+          {
+            "IdInterno": 1,
+            "CantidadOperacion": 42.5
+          }
+        ]
+      }
+    },
+    "CrearOrdenes": {
+      "salida": {
+        "P_OUT_MENSAJES": [
+          {
+            "id": 1,
+            "tipo": "INFORMACION",
+            "codigo": "ORDEN_CREADA",
+            "descripcion": "orden creada"
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_RESULTADO": []
+      }
+    },
+    "CalcularMontoNumeroCuota": {
+      "salida": {
+        "P_OUT_RESULTADO": [
+          {
+            "IdInterno": 1,
+            "Monto": 50000,
+            "NumeroCuotas": 49.2
+          }
+        ]
+      }
+    },
+    "CrearSolicitudAporteRescateNormal": {
+      "salida": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADO": [
+          {
+            "IdInterno": 1,
+            "IdSolicitudAporteRescate": 3001,
+            "FolioContrato": 5000
+          }
+        ]
+      }
+    }
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Empleador",
+      "orden": "\"IdRecaudacionEmpleador\"",
+      "columnas": [
+        "IdRecaudacionEmpleador",
+        "IdRecaudacion",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdRecaudacionEmpleador",
+        "IdContratoDistribucion",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::SCS.ContratoSAAPV",
+      "orden": "\"IdContratoSAAPV\"",
+      "columnas": [
+        "IdContratoSAAPV",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::APV.EstadoTransicion",
+      "orden": "\"IdEstadoTransicion\"",
+      "enmascarar": [
+        "FechaTransicion"
+      ]
+    }
+  ]
+}

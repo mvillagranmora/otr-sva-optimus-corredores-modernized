@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.CuentaInversion" ("IdCuentaInversion","IdEmpresa","IdCliente","IdPortafolio","IdMoneda","IdEstado","Codigo","CuentaInversionPrincipal") VALUES (7005, 1, 9001, 8001, 'EUR', 'ACT', 'CI-7005', 'N');

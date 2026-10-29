@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::MER.UsoParidadParametroFinanciero" WHERE "IdUso" = :IdUso AND "IdParametroFinanciero" = :IdParametroFinanciero

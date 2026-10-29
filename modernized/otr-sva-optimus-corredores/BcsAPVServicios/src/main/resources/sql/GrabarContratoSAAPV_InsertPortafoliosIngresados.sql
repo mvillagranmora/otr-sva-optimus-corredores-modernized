@@ -1,0 +1,1 @@
+insert into #PortafoliosIngresados values(:IdPortafolio,:Producto);

@@ -1,0 +1,93 @@
+{
+  "id": "APV-C-065",
+  "titulo": "defect: the key is FolioCartola+FolioLineaCartola as text, so (1,23) and (12,3) both give \"123\": two deposits become one with the summed amount",
+  "pina": "ProcesarCargaMasivaRecaudacion.java:221",
+  "servicio": "ProcesarCargaMasivaRecaudacion",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 70830,
+    "p_IdModulo": "APV",
+    "p_accion": "PRO",
+    "p_IdCargaMasiva": 77
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 900,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionEmpleador": 600,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionCliente": 500
+  },
+  "colaboradores": {
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          }
+        ]
+      }
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEmpresa",
+        "FolioCartola",
+        "LineaCartola",
+        "CuentaCorriente",
+        "MontoDeposito",
+        "IdTipoDeposito",
+        "IdBanco",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Empleador",
+      "orden": "\"IdRecaudacionEmpleador\"",
+      "columnas": [
+        "IdRecaudacionEmpleador",
+        "IdRecaudacion",
+        "IdPersona",
+        "PeriodoPago",
+        "TipoAfiliado",
+        "TipoPago",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdRecaudacionEmpleador",
+        "IdCliente",
+        "TipoAfiliado",
+        "IdRegimenTriburario",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::APV.CargaMasiva",
+      "orden": "\"IdCargaMasiva\"",
+      "columnas": [
+        "IdCargaMasiva",
+        "IdEstado"
+      ]
+    }
+  ]
+}

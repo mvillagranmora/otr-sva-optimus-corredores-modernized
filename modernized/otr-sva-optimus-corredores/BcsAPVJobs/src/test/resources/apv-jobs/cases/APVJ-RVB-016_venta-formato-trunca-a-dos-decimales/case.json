@@ -1,0 +1,59 @@
+{
+  "id": "APVJ-RVB-016",
+  "slug": "venta-formato-trunca-a-dos-decimales",
+  "titulo": "VENTA 0.07 * 15 / 100 = 0.0105 truncated to 0.01 by the currency format",
+  "pina": "IngresarOrdenRVBonificacionFiscal.java:339",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "1000"
+          }
+        ]
+      }
+    },
+    "ConsultarCustodiaPortafolio": {
+      "P_OUT_TBL": [
+        {
+          "CantidadTotal": "1000"
+        }
+      ]
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "15"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": []
+    }
+  }
+}

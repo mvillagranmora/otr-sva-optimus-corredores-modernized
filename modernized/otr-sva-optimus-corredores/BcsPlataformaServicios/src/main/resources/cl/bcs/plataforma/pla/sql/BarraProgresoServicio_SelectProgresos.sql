@@ -1,0 +1,2 @@
+SELECT "IdTrabajo","Servicio", "Progreso" as "PorcentajeProgreso", "JsonData", "Estado","IdUsuario"
+FROM "BSCL.Plataforma.BD::PLA.BarraProgreso" WHERE "IdUsuario" = :p_IdUsuario  AND "Estado" <> 'FINALIZADO' ORDER BY "IdTrabajo" DESC;

@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Re-records tesoreria-a/cases/*/expected.json by EXECUTING the unmodified legacy classes (family A of BcsTesoreriaServicios).
+#
+#   ./record.sh [caseNamePrefix]            e.g.  ./record.sh TES-A-031     (default: every case)
+#
+# Needs JDK 25 (JAVA_HOME or the Eclipse Adoptium path below) and the jars in ~/.m2 (h2, gson, commons-collections).
+# Never writes into legacy/ or into modernized/ except cases/<case>/expected.json: all compiled output goes to $ORACLE_WORK
+# (default: a fresh temporary directory). Nothing here contacts HANA, a service or a real credential.
+#
+# Knobs:  ORACLE_WORK    scratch directory (compiled classes)
+#         LEGACY_OVERLAY directory with MUTATED copies of legacy sources (same file name) used instead of the real ones: mutation check of
+#                        the goldens; together with ORACLE_OUT (directory for <case>.expected.json) so cases/ is left untouched
+#         ORACLE_OUT     write <case>.expected.json there instead of into cases/
+#         JAVA_OPTS      extra JVM options
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TRANS="$(cd "$HERE/.." && pwd)"                                  # .../src/test/resources/tesoreria-a
+MODULE="$(cd "$TRANS/../../../.." && pwd)"                       # .../BcsTesoreriaServicios
+WS="$(cd "$MODULE/../../.." && pwd)"                             # workspace root
+LEG="$WS/legacy/otr-sva-optimus-corredores/BSCL"
+JH="${JAVA_HOME:-/c/Program Files/Eclipse Adoptium/jdk-25.0.4.101-hotspot}"
+M2="${M2_REPO:-$HOME/.m2/repository}"
+WORK="${ORACLE_WORK:-$(mktemp -d)}"
+OVERLAY="${LEGACY_OVERLAY:-}"
+mkdir -p "$WORK/classes" "$WORK/run"
+
+H2="$M2/com/h2database/h2/2.4.240/h2-2.4.240.jar"
+GSON="$M2/com/google/code/gson/gson/2.13.2/gson-2.13.2.jar"
+COLL="$M2/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar"
+SEP=";"; case "$(uname -s)" in MINGW*|MSYS*|CYGWIN*) ;; *) SEP=":";; esac
+mx() { if command -v cygpath >/dev/null 2>&1; then cygpath -m "$1"; else echo "$1"; fi; }
+CP="$(mx "$H2")$SEP$(mx "$GSON")$SEP$(mx "$COLL")"
+
+TES="$LEG/Tesoreria/JAVA/BcsTesoreriaServicios/src"
+UTL="$LEG/Plataforma/JAVA/BcsUtils/src"
+PLA="$LEG/Plataforma/JAVA/BcsPlataformaServicios/src"
+ORD="$LEG/Orden/JAVA/BcsOrdenServicios/src"
+SOC="$LEG/SocioNegocio/JAVA/BcsSocioNegocioServicios/src"
+SUP="$MODULE/src/test/java/cl/bcs/tesoreria/familia_a/support"
+
+pick() { # use the mutated copy when LEGACY_OVERLAY has one with the same file name
+  local f="$1"
+  if [ -n "$OVERLAY" ] && [ -f "$OVERLAY/$(basename "$f")" ]; then echo "$OVERLAY/$(basename "$f")"; else echo "$f"; fi
+}
+
+# --- legacy classes under test (family A)
+T="$TES/cl/bcs/tesoreria"
+CLASSES="CrearIngresoEgreso LiquidarComprobante CrearComprobanteJava CrearComprobante CrearComprobantePartidaInEg LiquidacionMasivaComprobante
+ PreLiquidarComprobante LiquidarMovimientoAutomatico LiquidarComprobanteTodos ModificarComprobanteTesoreria GirarComprobanteIngreso GirarComprobantesEgreso
+ RequisitosGirarComprobanteIngreso RequisitosGirarComprobanteEgreso ConsultarIngresoEgreso ConsultarComprobantes ConsultarComprobantesWS AnularRegistros
+ EjecutarAnulacionIngresoEgreso EjecutarAnulacionComprobantes AutorizacionLiquidacion AutorizacionAnularMovimientosTesoreria
+ ConfirmarRechazarAnularMovimientosTesoreria ConfirmarAutorizarAnularMovimientosTesoreria EdicionMultiple SaldoPendienteDeLiquidar CrearTraspaso
+ ValidarTransferenciaDVP CuadraturaCierreDiario"
+SRC_FILES=()
+for c in ${TES_CLASSES:-$CLASSES}; do SRC_FILES+=("$(pick "$T/$c.java")"); done
+SRC_FILES+=("$(pick "$T/cloper/ActualizarTransaccion.java")")
+for p in IngresoEgreso IngresoEgresoFormaDePago ConstantesTesoreria Traspaso; do SRC_FILES+=("$(pick "$T/pojo/$p.java")"); done
+
+# --- legacy utility/pojo classes used AS IS (real source, no shim)
+REAL_FILES=(
+  "$UTL/cl/bcs/utils/Fecha.java" "$UTL/cl/bcs/utils/StringUtils.java" "$UTL/cl/bcs/utils/BcsPojo.java"
+  "$UTL/cl/bcs/utils/GsonDateDeserializer.java" "$UTL/cl/bcs/utils/GsonTimestampDeserializer.java"
+  "$ORD/cl/bcs/ordenes/pojo/ConstantesOrdenes.java" "$ORD/cl/bcs/ordenes/pojo/IndicadoresPortafolio.java"
+  "$PLA/cl/bcs/plataforma/aut/BcsAutorizaciones.java" "$PLA/cl/bcs/plataforma/aut/pojo/Evento.java"
+  "$PLA/cl/bcs/plataforma/aut/pojo/EtapaEvento.java" "$PLA/cl/bcs/plataforma/aut/pojo/AutorizadoEtapaEvento.java"
+  "$PLA/cl/bcs/plataforma/pla/utils/SalidaServicios.java"
+)
+
+SHIMS=()
+while IFS= read -r f; do SHIMS+=("$f"); done < <(find "$HERE/shims" -name '*.java')
+
+: > "$WORK/sources.txt"
+for f in "$SUP/H2Hana.java" "$SUP/Dump.java" "$HERE/runner/OracleRunner.java" "${SHIMS[@]}" "${REAL_FILES[@]}" "${SRC_FILES[@]}" ${EXTRA_SOURCES:-}; do
+  echo "\"$(mx "$f")\"" >> "$WORK/sources.txt"
+done
+
+echo "== compiling oracle into $WORK/classes"
+rm -rf "$WORK/classes"; mkdir -p "$WORK/classes"
+"$JH/bin/javac" -encoding UTF-8 -proc:none -nowarn -Xlint:none -d "$(mx "$WORK/classes")" -cp "$CP" @"$(mx "$WORK/sources.txt")"
+
+echo "== recording"
+cd "$WORK/run"
+RUNCP="$(mx "$WORK/classes")$SEP$(mx "$TES")$SEP$(mx "$PLA")$SEP$(mx "$ORD")$SEP$(mx "$SOC")$SEP$(mx "$TRANS/..")$SEP$CP"
+OUTOPT=""
+[ -n "${ORACLE_OUT:-}" ] && OUTOPT="-Doracle.out=$(mx "$ORACLE_OUT")"
+"$JH/bin/java" -Duser.timezone=UTC $OUTOPT ${JAVA_OPTS:-} -cp "$RUNCP" OracleRunner "$(mx "$TRANS")" "${1:-}"

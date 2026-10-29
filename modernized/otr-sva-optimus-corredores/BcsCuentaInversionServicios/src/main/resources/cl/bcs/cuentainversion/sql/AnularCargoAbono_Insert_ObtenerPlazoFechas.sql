@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.ObtenerPlazo_Fechas" VALUES(:IdInterno, :FechaDesde, :FechaHasta, :SoloDiasHabiles, :Plazo);

@@ -1,0 +1,65 @@
+{
+  "id": "APVJ-RVB-022",
+  "slug": "venta-sin-custodia-descarta-una-compra-previa",
+  "titulo": "orders go by IdOrden DESC: the COMPRA (id 2) is dropped when the VENTA (id 1) has no custody",
+  "pina": "IngresarOrdenRVBonificacionFiscal.java:334-348",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "1000"
+          }
+        ]
+      }
+    },
+    "ConsultarCustodiaPortafolio": {
+      "P_OUT_TBL": []
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "15"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": []
+    },
+    "ConsultarFlujoCaja": {
+      "P_OUT_FLUJOCAJA": [
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2001,
+          "IdMoneda": "CLP",
+          "Saldo": "1000000"
+        }
+      ]
+    }
+  }
+}

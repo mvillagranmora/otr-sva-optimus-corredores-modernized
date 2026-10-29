@@ -1,0 +1,5 @@
+INSERT INTO "BSCL.Mesa.BD::MES.ComprobantePagoOperacion"
+("IdComprobantePagoOperacion", "IdEmpresa", "IdOperacion", "IdIngresoEgreso", "IdTipoProducto", "IdFormaDePago", "RecibePaga", "IdModalidadPago", "IdMoneda", "Monto", "FechaIngresoComprobantePagoOperacion", "FechaLiquidacionComprobantePagoOperacion", "IdEstado", "IdAbono", "IdCargo", "AfectarTesoreria", "IdIngresoEgresoAnticipo", "IdAbonoAnticipo", "IdCargoAnticipo", "IdCuentaBanco")
+SELECT "BSCL.Mesa.BD.Secuencias::IdComprobantePagoOperacion".NEXTVAL as "IdComprobantePagoOperacion", "IdEmpresa", :IdOperacionNueva as "IdOperacion", "IdIngresoEgreso", "IdTipoProducto", "IdFormaDePago", "RecibePaga", "IdModalidadPago", "IdMoneda", "Monto", "FechaIngresoComprobantePagoOperacion", "FechaLiquidacionComprobantePagoOperacion", :Estado as "IdEstado", "IdAbono", "IdCargo", "AfectarTesoreria", "IdIngresoEgresoAnticipo", "IdAbonoAnticipo", "IdCargoAnticipo", "IdCuentaBanco"
+FROM "BSCL.Mesa.BD::MES.ComprobantePagoOperacion"
+WHERE "IdOperacion" = :IdOperacionOriginal;

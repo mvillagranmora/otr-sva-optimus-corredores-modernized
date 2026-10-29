@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Tesoreria.BD::TES.CuadraturaDiariaOperaciones" ("IdCuadraturaDiariaOperaciones","IdEmpresa","OperacionCuadraturaDiariaOperaciones","FechaEjecucion","TotalOperaciones","OperacionesConProblemas","TipoOperacion","Resultado","Orden","DetalleCuadraturaJSON","IdUsuario") VALUES ('CUAMOVCERT',2,'Operacion CUAMOVCERT','2025-03-31',9,9,'CIERRE','CUADRADO',1,'[1]',1);

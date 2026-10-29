@@ -1,0 +1,62 @@
+{
+  "id": "APVJ-RVB-001",
+  "slug": "compra-por-monto-con-saldo-suficiente",
+  "titulo": "COMPRA: MontoTotal = MontoNeto*15/100 UP, saldo ok, CalcularMonto and CrearOrdenes receive the order, no log",
+  "pina": "IngresarOrdenRVBonificacionFiscal.java:425-431",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "1000"
+          }
+        ]
+      }
+    },
+    "ConsultarFlujoCaja": {
+      "P_OUT_FLUJOCAJA": [
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2000,
+          "IdMoneda": "CLP",
+          "Saldo": "1000000"
+        }
+      ]
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "15"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": []
+    }
+  }
+}

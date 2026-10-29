@@ -1,0 +1,10 @@
+{
+  "nota": "Differences between the new Normal and the recorded legacy that the plan approves (DEV-F4: a closed gate answers 503 BEFORE any write; the legacy has no gates). The equivalence test asserts the 503 of the named gate and that nothing was written, instead of comparing with the golden.",
+  "FMM-NOR-07_aporte-usd-genera-spot": {"compuerta": "G2", "dev": "DEV-F4", "motivo": "ProcesarIngresoOperacionSpot (Mesa) is ported in F2; legacy golden: the oracle H2 schema has no Mesa tables (SQLException)"},
+  "excepcionInestable": {
+    "FMM-NOR-91_tesoreria-modalidad-repetida-toMap": {"comparar": "clase", "motivo": "the legacy builds the modality map with parallelStream().collect(toMap): the duplicate-key IllegalStateException is sometimes thrown on a fork-join worker and rethrown wrapped, so the exception TEXT of the legacy is not stable (23 recordings with the unmodified legacy: 22 'IllegalStateException: Duplicate key TRA ...', 1 'IllegalStateException: java.lang.IllegalStateException: Duplicate key TRA ...'; nothing else differed; evidence analysis/.../tools-w1a/estabilidad-91/). Only the exception CLASS is compared; the golden is kept as recorded."}
+  },
+  "tablaLocalSoltadaEnFallo": {
+    "FMM-NOR-37_bloqueo-lote-parcial": {"dev": "DEV-6-H1", "motivo": "architecture review H1: the legacy leaves the session-local table #p_BloqueoSolicitudAporteRescate on the pooled connection when the INSERT or the CALL of the lock fails (the golden records tablasLocalesSinDrop with it); the new code drops it on that failure path. Only the session field tablasLocalesSinDrop differs; everything else is compared with the golden."}
+  }
+}

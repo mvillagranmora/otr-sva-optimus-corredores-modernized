@@ -1,0 +1,39 @@
+{
+  "servicio": "InterfazContable",
+  "descripcion": "Login, partner missing (404) -> created (201), voucher 204 -> state procedure + commit.",
+  "entrada": {
+    "idEmpresa": 1,
+    "idUsuario": 21,
+    "destino": "B",
+    "secuencias": "100"
+  },
+  "sap": {
+    "POST /b1s/v1/Login": [
+      {
+        "status": 200,
+        "body": "{\"SessionId\":\"fake-session-0001\",\"Version\":\"1000000\",\"SessionTimeout\":30}",
+        "setCookies": [
+          "B1SESSION=fake-session-0001; HttpOnly",
+          "ROUTEID=.node1; path=/b1s"
+        ]
+      }
+    ],
+    "GET /b1s/v1/BusinessPartners('CL76123456-7')": [
+      {
+        "status": 404,
+        "body": "{\"error\": {\"code\": -2028, \"message\": {\"lang\": \"en-us\", \"value\": \"No matching records found (ODBC -2028)\"}}}"
+      }
+    ],
+    "POST /b1s/v1/BusinessPartners": [
+      {
+        "status": 201,
+        "body": "{\"CardCode\":\"CL76123456-7\"}"
+      }
+    ],
+    "POST /b1s/v1/JournalVouchersService_Add": [
+      {
+        "status": 204
+      }
+    ]
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "id": "APV-C-304",
+  "titulo": "the client has no custody: ADVERTENCIA CLIENTE_NO_TIENE_CUSTODIA (id = IdInterno); no order and no FFMM request, but the deposit, the client detail, the cargo/abono and state EJE are still done",
+  "pina": "EjecutarBonificacion.java:391",
+  "servicio": "EjecutarBonificacion",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 51,
+    "p_IdModulo": "APV",
+    "p_Parametros": [
+      {
+        "IdBonificacion": 1
+      }
+    ]
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 960,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionCliente": 520
+  },
+  "colaboradores": {
+    "ConsultarCustodiaPortafolio": {
+      "salida": {
+        "P_OUT_TBL": [],
+        "P_OUT_MENSAJES": [],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    },
+    "ConsultarCustodiaPortafolioFondoMutuo": {
+      "salida": {
+        "P_OUT_TBL": []
+      }
+    },
+    "ConsultarSaldoCuentaInversion": {
+      "salida": {
+        "P_OUT_SALDOINICIALFINAL": [],
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdPortafolio": 901,
+            "IdMoneda": "CLP",
+            "Saldo": 5000
+          }
+        ],
+        "P_OUT_SALDOPORFECHAMOVIMIENTO": [],
+        "P_OUT_INFORMACIONCONTADOR": 0,
+        "P_OUT_INFORMACIONDETALLE": [],
+        "P_OUT_ADVERTENCIASCONTADOR": 0,
+        "P_OUT_ADVERTENCIASDETALLE": [],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_ERRORESDETALLE": []
+      }
+    },
+    "CrearCargoAbono": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_CARGOABONOGENERADO": [],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    },
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [
+          {
+            "NumeroReferencia": 1,
+            "IdIngresoEgreso": 7001,
+            "IdTipoMovimiento": "MOVING"
+          }
+        ],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          }
+        ]
+      }
+    },
+    "CrearSolicitudAporteRescateNormal": {
+      "salida": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADO": [
+          {
+            "IdInterno": 1,
+            "IdSolicitudAporteRescate": 3001,
+            "FolioContrato": 0
+          }
+        ]
+      }
+    }
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::INV.Bonificacion",
+      "orden": "\"IdBonificacion\"",
+      "columnas": [
+        "IdBonificacion",
+        "IdCliente",
+        "IdEstado",
+        "MontoCalculado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEmpresa",
+        "MontoDeposito",
+        "Origen",
+        "IdBanco",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdCliente",
+        "IdRegimenTriburario",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.Portafolio.BD::POR.Portafolio",
+      "orden": "\"IdPortafolio\"",
+      "columnas": [
+        "IdPortafolio",
+        "CodigoPortafolio",
+        "IdCliente"
+      ]
+    }
+  ]
+}

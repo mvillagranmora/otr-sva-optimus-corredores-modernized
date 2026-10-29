@@ -1,0 +1,1 @@
+UPDATE "BSCL.Portafolio.BD::POR.Portafolio" SET "CodigoPortafolio" = 'BF' WHERE "IdPortafolio" =:IdPortafolio

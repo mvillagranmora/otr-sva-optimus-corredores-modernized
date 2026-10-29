@@ -1,0 +1,52 @@
+{
+  "id": "CTA-B-71",
+  "clase": "ConsultaReporteAntiguedadBolsa",
+  "nota": "\"TODAS\" (or empty) currency = every currency of CTA.CuentaInversion; ConsultarSaldo is called ONCE with IdMoneda null and its answer is split by currency. With more than one currency every amount is truncated to 0 decimals (setScale(0, DOWN)). Row order across currencies follows the unordered DISTINCT query, so it is not compared.",
+  "seeds": [
+    "clientes-reportes.sql"
+  ],
+  "sinOrden": [
+    "P_OUT_TABLA"
+  ],
+  "colaboradores": {
+    "empresa": {
+      "IdEmpresa": 1,
+      "Codigo": "BCS",
+      "Nombre": "Corredora de Prueba",
+      "IdPais": 44
+    },
+    "consultarSaldo": {
+      "P_OUT_SALDOPORFECHAEFECTIVA": [
+        {
+          "IdCuentaInversion": 4001,
+          "IdCliente": 1001,
+          "IdPortafolio": 2001,
+          "IdMoneda": "CLP",
+          "SaldoDisponible": -150,
+          "SaldoRetenido": 0
+        },
+        {
+          "IdCuentaInversion": 4002,
+          "IdCliente": 1001,
+          "IdPortafolio": 2001,
+          "IdMoneda": "USD",
+          "SaldoDisponible": -12.345,
+          "SaldoRetenido": 0
+        }
+      ],
+      "P_OUT_ERRORESCONTADOR": 0
+    }
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 33,
+    "p_IdModulo": "CTA",
+    "p_UsaReglasNegocio": "N",
+    "p_FechaConsulta": "2025-03-14",
+    "p_IdMoneda": "TODAS",
+    "p_IdEjecutivo": 0,
+    "p_SeparaIntermediacion": "S",
+    "p_AgrupaPortafolios": "N",
+    "p_Consolidar": "N"
+  }
+}

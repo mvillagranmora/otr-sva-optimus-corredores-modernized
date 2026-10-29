@@ -1,0 +1,239 @@
+package cl.bcs.apv.jobs.job.contrato;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import cl.bcs.apv.jobs.job.JsonLegacy;
+
+/**
+ * JSON contract of the legacy collaborator {@code cl.bcs.ordenes.CalcularMontoYCobrosOrden} (the Colaboradores port carries its input/output as the legacy JSON). The nested data
+ * classes are VERBATIM copies of the legacy source (field names ARE the contract, constructor defaults included); only {@code toString} uses
+ * {@link JsonLegacy}. Generated from the oracle shims by the Step 2 scratch script; nothing is retyped.
+ */
+@SuppressWarnings({"unused", "rawtypes"})
+public final class CalcularMontoYCobrosOrden {
+
+    private CalcularMontoYCobrosOrden() {
+    }
+
+	// legacy cl/bcs/ordenes/CalcularMontoYCobrosOrden.java:110-129 (verbatim)
+	public static class Cobro_Fijo {
+		public Long IdInterno; 
+		public Long IdInternoCobro;
+		public Long IdPortafolio; 
+		public String IdBolsa;
+		public String IdTipoProducto;
+		public String IdTipoOperacion;
+		public String IdTipoCanalIngreso;
+		public String IdCobro;
+		public BigDecimal ValorCobro; 
+		public String FormaCobro; 
+		public BigDecimal ValorTopeMinimoOrden; 
+		public String IdMoneda; 
+		public String CodigoCobroClasificacion;
+		public String PermiteCambiarValor; 
+		
+		public String toString() {
+			return JsonLegacy.texto(this);
+		}
+	}
+
+	// legacy cl/bcs/ordenes/CalcularMontoYCobrosOrden.java:1289-1305 (verbatim)
+	public static class CalcularMontoYCobrosOrden_Entrada {
+		public long 				p_IdEmpresa;
+		public long 				p_IdUsuario;
+		public String 				p_IdModulo;
+		public List<Orden_Entrada>	p_Ordenes;
+		public List<Cobro_Entrada>	p_CobrosModificados;
+		public List<Cobro_Fijo>		p_CobrosFijos;
+		
+		public CalcularMontoYCobrosOrden_Entrada() {
+			p_Ordenes = new ArrayList<>();
+			p_CobrosModificados = new ArrayList<>();
+			p_CobrosFijos = new ArrayList<>();
+		}
+		public String toString() {
+			return JsonLegacy.texto(this);
+		}
+	}
+
+	// legacy cl/bcs/ordenes/CalcularMontoYCobrosOrden.java:1307-1322 (verbatim)
+	public static class CalcularMontoYCobrosOrden_Salida {
+		public List<MensajeSalida> P_OUT_MENSAJES;
+		public long P_OUT_ERRORESCONTADOR;
+		public List<Orden_Salida> p_out_Ordenes;
+		public List<Cobro_Salida> p_out_Cobros;
+		
+		public String toString() {
+			return JsonLegacy.texto(this);
+		}
+		
+		public CalcularMontoYCobrosOrden_Salida() {
+			p_out_Ordenes = new ArrayList<>();
+			p_out_Cobros = new ArrayList<>();
+			P_OUT_MENSAJES = new ArrayList<>();
+		}
+	}
+
+	// legacy cl/bcs/ordenes/CalcularMontoYCobrosOrden.java:1500-1531 (verbatim)
+	public static class Orden_Salida {
+		public Long			IdInterno;
+		public BigDecimal	PorcentajeCobrosUltimaOrden;
+		public BigDecimal	PrecioPlazo;
+		public String		IdMonedaLiquidacionOrden;
+		public BigDecimal 	CantidadOperacion;
+		public BigDecimal	MontoTotalLiquidacion; 
+		public BigDecimal	MontoOperacion; 
+		public BigDecimal	MontoOperacionLocal; 
+		public BigDecimal	MontoOperacionLiquidacion;
+		public BigDecimal	MontoOperacionPlazo;
+		public BigDecimal	MontoTotalLocal;
+		public BigDecimal	TotalCobrosLocal; 
+		public BigDecimal	TotalCobrosLiquidacion;
+		public BigDecimal	MontoOperacionLiquidacionPlazo;
+		public BigDecimal	MontoOperacionLocalPlazo;
+		public BigDecimal	MontoTotalLiquidacionPlazo;
+		public BigDecimal	TotalCobrosLiquidacionPlazo;
+		public String 		IdMonedaOrden;
+		public BigDecimal	TasaReporte;
+		public BigDecimal	ValorRescateOrden;
+		public BigDecimal	MontoInteresContado;
+		public BigDecimal	MontoInteresPlazo;
+		
+		//DATOS DE COBROS
+		public BigDecimal	MontoAllIn;
+		public BigDecimal	PorcentajeAllIn;
+		
+		public String toString() {
+			return JsonLegacy.texto(this);
+		}
+	}
+
+	// legacy cl/bcs/ordenes/CalcularMontoYCobrosOrden.java:1533-1592 (verbatim)
+	public static class Cobro_Salida {
+		public String 		NombreFormaCobro;
+		public Long			IdInterno;
+		public Long			IdInternoCobro;
+		public String		IdCobro;
+		public String		NombreCobro;
+		public String 		CodigoCobroClasificacion;
+		public String 		CodigoCobroClasificacionBase;
+		public String		IdMonedaCobro;
+		public BigDecimal	ValorCobroPerfil;
+		public String		PermiteCambiarValor;
+		public String 		FormaCobro;
+		public String		IdMonedaLiquidacionOrden;
+		public BigDecimal	ValorCobroAplicado;
+		public BigDecimal	ValorCobroFinal; 
+		public BigDecimal	MontoCobroCalculado; 
+		public BigDecimal	MontoCobroCalculadoLocal; 
+		public BigDecimal	MontoCobroCalculadoLiquidacion;
+		public String		IdOrigenCobro;
+		public BigDecimal	MontoMinimo;
+		
+		//CAMPOS PERU
+		public String			CheckCobroMonedaOperacion;
+		public String 			Otros_CheckAllIn;
+		public String			IdMonedaCobroOtraMoneda;
+		public BigDecimal		MontoFijo_MontoCobro;
+		public String			MontoFijo_CheckMontoOperacionMenor;
+		public BigDecimal		MontoFijo_ValorMontoOperacionMenor;
+		public String			MontoFijo_CheckSiNo;
+		public BigDecimal		MontoFijo_ValorMontoSiNo;
+		public BigDecimal		MontoFijoPorUnidad_MontoCobro;
+		public String			MontoFijoPorUnidad_AllInCheckValor;
+		public BigDecimal		PorcentualFijo_ValorCobro;
+		public String			PorcentualFijo_CheckSobreMonto;
+		public String			PorcentualFijo_CheckSobreCantidad;
+		public String			PorcentualFijo_CheckMayorEntreDos;
+		public String			PorcentualFijo_CheckMenorEntreDos;
+		public String			PorcentualFijo_CheckMontoMinimo;
+		public BigDecimal		PorcentualFijo_ValorMontoMinimo;
+		public String			PorcentualFijo_CheckMontoMaximo;
+		public BigDecimal		PorcentualFijo_ValorMontoMaximo;
+		public String			PorcentualFijo_IdMonedaMinimoMaximo;
+		public BigDecimal		PorcentualTasaPlazo_ValorCobro;
+		public String			Otros_CheckAfectoImpuesto;
+		public String			Otros_CheckPermiteAumentarValor;
+		public String			Otros_CheckPermiteDisminuirValor;
+		public String			Otros_CheckOperacionContado;
+		public String			Otros_CheckOperacionPlazo;
+		public String 			Otros_CheckInteresCompuesto;
+		public String 			Otros_CheckInteresSimple;
+		public List<DefinicionRangoCobro> RangoCobros = new ArrayList<>();
+		public String 			PorcentualRango_IdMonedaRangoMonto;
+		public String 			PorcentualRango_IdTipoRangoCobro;
+		
+		
+		
+		public String toString() {
+			return JsonLegacy.texto(this);
+		}
+	}
+
+	// legacy cl/bcs/ordenes/CalcularMontoYCobrosOrden.java:1594-1644 (verbatim)
+	public static class Orden_Entrada {
+		public Long			IdInterno; 
+		public Long			IdPortafolio; 
+		public String		IdTipoOperacion;
+		public String		IdTipoProducto;
+		public String		IdTipoCanalIngreso; 
+		public String		IdBolsa; 
+		public Long			IdCorredorCorresponsal; 
+		public Long			IdInstrumento;
+		public Long			IdInstrumentoSubyacente;
+		public BigDecimal	CantidadOrden; 
+		public BigDecimal	MontoOrden;	//PARA COMPRA SIMULTANEA
+		public BigDecimal	ValorRescateOrden;
+		public String 		EsFungible;
+		public BigDecimal	TasaSimultanea; 
+		public BigDecimal	TasaRFIF; 
+		public BigDecimal	TasaVentaCorta;
+		public Long 		PlazoSimultanea;
+		public Long			PlazoVentaCorta;
+		public Long			PlazoIF;
+		public String		IdMonedaLiquidacionOrden; 
+		public String 		IdMonedaOrden; // solo para IF
+		public BigDecimal	PrecioOrden; 
+		public BigDecimal	TipoCambio;
+		public String 		IdEmisor;
+		public String 		EsAPlazo;
+		public String		FechaOperacion;
+		
+		public String GlosaRefactura = "";
+		public String FechaOperacionOriginal = "";
+		
+		//ORDEN POR MONTO
+		public BigDecimal	MontoTotal;
+		public String		EsPorMonto;
+		
+		//REPORTES
+		public BigDecimal	TasaReporte;
+		public BigDecimal	TasaReportado;
+		public Long			PlazoReporte;
+		public Long 		BaseTasa;
+		public String		TipoInteres;
+		
+		public BigDecimal	PorcentajeAllIn;	//SI VIENEN LOS DOS, LE CREEMOS AL MONTO, ES MAS EXACTO
+		public BigDecimal	MontoAllIn;
+		public BigDecimal 	ValorAllIn;
+		public String IdClasificacionTipoInstrumento;			
+		
+		public String toString() {
+			return JsonLegacy.texto(this);
+		}
+	}
+
+	// legacy cl/bcs/ordenes/CalcularMontoYCobrosOrden.java:1646-1654 (verbatim)
+	public static class Cobro_Entrada {
+		public Long 		IdInterno;
+		public String		IdCobro;
+		public BigDecimal	ValorCobroAplicado; 
+		
+		public String toString() {
+			return JsonLegacy.texto(this);
+		}
+	}
+}

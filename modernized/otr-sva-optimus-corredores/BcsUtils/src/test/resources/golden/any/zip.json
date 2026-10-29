@@ -1,0 +1,759 @@
+{
+  "area": "zip",
+  "timeZone": "ANY",
+  "note": "ZipUtil + Utils.fileToZipFile. Zips compared by entries; entry times are not compared.",
+  "cases": [
+    {
+      "id": "ZIP-001",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "sub/entrada.txt(hola)",
+        "output": "salida.zip"
+      },
+      "out": {
+        "value": {
+          "entries": [
+            {
+              "name": "entrada.txt",
+              "dir": false,
+              "size": 4,
+              "sha256": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+              "method": 8
+            }
+          ],
+          "comment": null
+        }
+      }
+    },
+    {
+      "id": "ZIP-002",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "sub/entrada.txt(vacio)",
+        "output": "salida.zip"
+      },
+      "out": {
+        "value": {
+          "entries": [
+            {
+              "name": "entrada.txt",
+              "dir": false,
+              "size": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "method": 8
+            }
+          ],
+          "comment": null
+        }
+      }
+    },
+    {
+      "id": "ZIP-003",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "sub/entrada.txt(1MiB)",
+        "output": "salida.zip"
+      },
+      "out": {
+        "value": {
+          "entries": [
+            {
+              "name": "entrada.txt",
+              "dir": false,
+              "size": 1048576,
+              "sha256": "f6a34d4c79c3d12c297589206bf216b084347471a53ea5e7fe9a46bd1230f098",
+              "method": 8
+            }
+          ],
+          "comment": null
+        }
+      }
+    },
+    {
+      "id": "ZIP-004",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "sub/entrada.txt(1025)",
+        "output": "salida.zip"
+      },
+      "out": {
+        "value": {
+          "entries": [
+            {
+              "name": "entrada.txt",
+              "dir": false,
+              "size": 1025,
+              "sha256": "a298beeac1ecbd6fb456f4b3e6264f7bc6736b606ae83e586693a7bd3220f7d7",
+              "method": 8
+            }
+          ],
+          "comment": null
+        }
+      }
+    },
+    {
+      "id": "ZIP-005",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "sub/entrada.txt(utf8)",
+        "output": "salida.zip"
+      },
+      "out": {
+        "value": {
+          "entries": [
+            {
+              "name": "entrada.txt",
+              "dir": false,
+              "size": 17,
+              "sha256": "1a3699a4e24b6fd3a407141f2c86bb8fbd438570857d76c649426b021b3c38ba",
+              "method": 8
+            }
+          ],
+          "comment": null
+        }
+      }
+    },
+    {
+      "id": "ZIP-006",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "ñandú.txt(hola)",
+        "output": "s.zip"
+      },
+      "out": {
+        "value": {
+          "entries": [
+            {
+              "name": "ñandú.txt",
+              "dir": false,
+              "size": 4,
+              "sha256": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+              "method": 8
+            }
+          ],
+          "comment": null
+        }
+      }
+    },
+    {
+      "id": "ZIP-007",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "a.txt",
+        "output": "a.txt (same)"
+      },
+      "out": {
+        "throws": "cl.bcs.utils.BadFilePathException"
+      }
+    },
+    {
+      "id": "ZIP-008",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "a.txt",
+        "output": "A.TXT path upper-cased (same ignoring case)"
+      },
+      "out": {
+        "value": {
+          "throws": "cl.bcs.utils.BadFilePathException",
+          "inputStillHola": "hola"
+        }
+      }
+    },
+    {
+      "id": "ZIP-009",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "missing",
+        "output": "s.zip"
+      },
+      "out": {
+        "value": {
+          "throws": "java.io.FileNotFoundException",
+          "output": "NO_EXISTE"
+        }
+      }
+    },
+    {
+      "id": "ZIP-010",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": "a.txt",
+        "output": "dir/inexistente/s.zip"
+      },
+      "out": {
+        "throws": "java.io.FileNotFoundException"
+      }
+    },
+    {
+      "id": "ZIP-011",
+      "rule": "UTIL-53",
+      "input": {
+        "fn": "generateZip",
+        "input": null,
+        "output": "x.zip"
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "ZIP-012",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": [
+          "a.txt",
+          "b.txt"
+        ],
+        "output": "multi.zip"
+      },
+      "out": {
+        "value": {
+          "returned": true,
+          "output": {
+            "entries": [
+              {
+                "name": "a.txt",
+                "dir": false,
+                "size": 4,
+                "sha256": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+                "method": 8
+              },
+              {
+                "name": "b.txt",
+                "dir": false,
+                "size": 4,
+                "sha256": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+                "method": 8
+              }
+            ],
+            "comment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ZIP-013",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": [],
+        "output": "multi.zip"
+      },
+      "out": {
+        "value": {
+          "returned": true,
+          "output": {
+            "entries": [],
+            "comment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ZIP-014",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": [
+          "a.txt",
+          "missing.txt",
+          "b.txt"
+        ],
+        "output": "multi.zip"
+      },
+      "out": {
+        "value": {
+          "returned": false,
+          "output": {
+            "entries": [
+              {
+                "name": "a.txt",
+                "dir": false,
+                "size": 4,
+                "sha256": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+                "method": 8
+              }
+            ],
+            "comment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ZIP-015",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": [
+          "a.txt",
+          "OUT"
+        ],
+        "output": "multi.zip"
+      },
+      "out": {
+        "value": {
+          "returned": false,
+          "output": {
+            "entries": [
+              {
+                "name": "a.txt",
+                "dir": false,
+                "size": 4,
+                "sha256": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+                "method": 8
+              }
+            ],
+            "comment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ZIP-016",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": [
+          "a.txt",
+          "a.txt"
+        ],
+        "output": "multi.zip"
+      },
+      "out": {
+        "value": {
+          "returned": false,
+          "output": {
+            "entries": [
+              {
+                "name": "a.txt",
+                "dir": false,
+                "size": 4,
+                "sha256": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+                "method": 8
+              }
+            ],
+            "comment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ZIP-017",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": [
+          "d1/a.txt",
+          "d2/a.txt"
+        ],
+        "output": "multi.zip"
+      },
+      "out": {
+        "value": {
+          "returned": false,
+          "output": {
+            "entries": [
+              {
+                "name": "a.txt",
+                "dir": false,
+                "size": 4,
+                "sha256": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+                "method": 8
+              }
+            ],
+            "comment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ZIP-018",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": [
+          "vacio.txt"
+        ],
+        "output": "multi.zip"
+      },
+      "out": {
+        "value": {
+          "returned": true,
+          "output": {
+            "entries": [
+              {
+                "name": "vacio.txt",
+                "dir": false,
+                "size": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "method": 8
+              }
+            ],
+            "comment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ZIP-019",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": null,
+        "output": "m.zip"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-020",
+      "rule": "UTIL-54",
+      "input": {
+        "fn": "generateMultipleZip",
+        "inputs": [
+          "a.txt"
+        ],
+        "output": "no/hay/m.zip"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-021",
+      "rule": "UTIL-55",
+      "input": {
+        "fn": "fileToZipFile",
+        "input": "sub/f.txt(1MiB)",
+        "deleteSrc": false
+      },
+      "out": {
+        "value": {
+          "output": {
+            "entries": [
+              {
+                "name": "f.txt",
+                "dir": false,
+                "size": 1048576,
+                "sha256": "f6a34d4c79c3d12c297589206bf216b084347471a53ea5e7fe9a46bd1230f098",
+                "method": 8
+              }
+            ],
+            "comment": null
+          },
+          "sourceExists": true
+        }
+      }
+    },
+    {
+      "id": "ZIP-022",
+      "rule": "UTIL-55",
+      "input": {
+        "fn": "fileToZipFile",
+        "input": "sub/f.txt(1MiB)",
+        "deleteSrc": true
+      },
+      "out": {
+        "value": {
+          "output": {
+            "entries": [
+              {
+                "name": "f.txt",
+                "dir": false,
+                "size": 1048576,
+                "sha256": "f6a34d4c79c3d12c297589206bf216b084347471a53ea5e7fe9a46bd1230f098",
+                "method": 8
+              }
+            ],
+            "comment": null
+          },
+          "sourceExists": false
+        }
+      }
+    },
+    {
+      "id": "ZIP-023",
+      "rule": "UTIL-55",
+      "input": {
+        "fn": "fileToZipFile",
+        "input": "missing",
+        "deleteSrc": true
+      },
+      "out": {
+        "value": {
+          "throws": "java.io.FileNotFoundException",
+          "output": {
+            "entries": [],
+            "comment": null
+          },
+          "outputBytes": 22
+        }
+      }
+    },
+    {
+      "id": "ZIP-024",
+      "rule": "UTIL-55",
+      "input": {
+        "fn": "fileToZipFile",
+        "input": "f.txt",
+        "output": "f.txt (same)",
+        "deleteSrc": false
+      },
+      "out": {
+        "value": {
+          "throws": null,
+          "fileNow": {
+            "entries": [
+              {
+                "name": "f.txt",
+                "dir": false,
+                "size": 35,
+                "sha256": "35d569ae16c158dbae513fb893bc0a123a21f4639f67c29cc4d7d1138e4c12ee",
+                "method": 8
+              }
+            ],
+            "comment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ZIP-025",
+      "rule": "UTIL-56",
+      "input": {
+        "fn": "getFirstFileEntry",
+        "entries": [
+          "f:uno.txt",
+          "f:dos.txt"
+        ],
+        "note": "TIMEOUT = did not return within 3 s"
+      },
+      "out": {
+        "value": "uno.txt"
+      }
+    },
+    {
+      "id": "ZIP-026",
+      "rule": "UTIL-56",
+      "input": {
+        "fn": "getFirstFileEntry",
+        "entries": [],
+        "note": "TIMEOUT = did not return within 3 s"
+      },
+      "out": {
+        "value": "null"
+      }
+    },
+    {
+      "id": "ZIP-027",
+      "rule": "UTIL-56",
+      "input": {
+        "fn": "getFirstFileEntry",
+        "entries": [
+          "d:carpeta/",
+          "f:carpeta/x.txt"
+        ],
+        "note": "TIMEOUT = did not return within 3 s"
+      },
+      "out": {
+        "value": "TIMEOUT"
+      }
+    },
+    {
+      "id": "ZIP-028",
+      "rule": "UTIL-56",
+      "input": {
+        "fn": "getFirstFileEntry",
+        "entries": [
+          "f:solo.txt"
+        ],
+        "note": "TIMEOUT = did not return within 3 s"
+      },
+      "out": {
+        "value": "solo.txt"
+      }
+    },
+    {
+      "id": "ZIP-029",
+      "rule": "UTIL-56",
+      "input": {
+        "fn": "getFirstFileEntry",
+        "entries": [
+          "f:a/b.txt",
+          "d:a/"
+        ],
+        "note": "TIMEOUT = did not return within 3 s"
+      },
+      "out": {
+        "value": "a/b.txt"
+      }
+    },
+    {
+      "id": "ZIP-030",
+      "rule": "UTIL-56",
+      "input": {
+        "fn": "getFirstFileEntry",
+        "entries": null
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "ZIP-031",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "rar5"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "ZIP-032",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "rar4"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "ZIP-033",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "rarTexto"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "ZIP-034",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "rarMinuscula"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-035",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "rarCorto"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-036",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "rarSegundaLinea"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-037",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "rarConEspacio"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-038",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "zip"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-039",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "vacio"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-040",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "bomRar"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-041",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "hola"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "ZIP-042",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "missing"
+      },
+      "out": {
+        "throws": "java.io.FileNotFoundException"
+      }
+    },
+    {
+      "id": "ZIP-043",
+      "rule": "UTIL-57",
+      "input": {
+        "fn": "isRar",
+        "content": "directory"
+      },
+      "out": {
+        "throws": "java.io.FileNotFoundException"
+      }
+    }
+  ]
+}

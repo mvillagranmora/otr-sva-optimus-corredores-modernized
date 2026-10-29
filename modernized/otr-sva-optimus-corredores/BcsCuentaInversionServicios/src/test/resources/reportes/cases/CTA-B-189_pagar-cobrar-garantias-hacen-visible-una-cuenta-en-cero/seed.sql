@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Custodia.BD::GTA.Garantia" VALUES (1, 1003, 2003, 'USD', 1000, 'VIG', 'CTA', DATE '2025-03-01');

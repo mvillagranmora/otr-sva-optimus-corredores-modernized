@@ -1,0 +1,10 @@
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (1, 'ING', 'INGRESADO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (2, 'CON', 'CONCILIADO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (3, 'DIS', 'DISTRIBUIDO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (4, 'REZ', 'REZAGO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (5, 'REC', 'RECUPERADO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (9, 'ACT', 'ACTIVO', 'CLIENTE');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (1, 'CON', 'CON', '2025-03-04', 111, 0, 'APV', 111, 0, 0);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (2, 'CON', 'CON', '2025-03-05', 222, 0, 'APV', 222, 0, 0);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (3, 'CON', 'CON', '2025-03-06', 333, 0, 'APV', 333, 0, 0);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (4, 'CON', 'CON', '2025-03-07', 444, 0, 'APV', 444, 0, 0);

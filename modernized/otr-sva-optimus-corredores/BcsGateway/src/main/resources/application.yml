@@ -1,0 +1,373 @@
+server:
+  port: ${GATEWAY_PORT:9090}
+
+spring:
+  application:
+    name: bcs-gateway
+  webflux:
+    base-path: /
+
+bcs:
+  gateway:
+    legacy-fallback-uri: ${TOMEE_URL:http://tomee-legacy:8080}
+    # Opt-in routing: a route receives traffic only if `enabled: true` OR its id is listed here
+    # (comma list, e.g. BCS_GATEWAY_ENABLED_ROUTES=bcs-tesoreria-servicios). Default: none -> 100% TomEE.
+    # RULE: enable only PROVEN and signed modules (analysis/otr-sva-optimus-corredores/VERIFICATION.md).
+    enabled-routes: ${BCS_GATEWAY_ENABLED_ROUTES:}
+    # Request bodies up to this size are buffered once so a 503 / connection failure can be replayed to TomEE.
+    max-buffered-body-bytes: ${BCS_GATEWAY_MAX_BUFFERED_BODY_BYTES:10485760}
+    # Upstream response (read) timeout. Expiry -> 504 to the client, NEVER a fallback to TomEE.
+    response-timeout-seconds: ${BCS_GATEWAY_RESPONSE_TIMEOUT_SECONDS:30}
+    # CORS: comma list of exact origins (https://host). Empty = no CORS headers, which is right when the UI is served from the same origin as the gateway.
+    cors-allowed-origins: ${BCS_GATEWAY_CORS_ALLOWED_ORIGINS:}
+    # false: the X-Forwarded-For sent by the client is discarded. true ONLY behind a trusted load balancer (EKS ALB): the received chain is kept and the
+    # address of the connection (the balancer) is appended; the services must then read the client from the right end of the chain.
+    trust-forwarded-for: ${BCS_GATEWAY_TRUST_FORWARDED_FOR:false}
+    routes:
+
+      # ── Autenticación y sesión ─────────────────────────────────────────────
+      # Module BcsFilters - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-filters
+        uri: http://bcs-filters:8116
+        paths: [/login, /sso/**, /ping, /status/**]
+        enabled: false
+
+      # ── Plataforma Web ────────────────────────────────────────────────────
+      # Module BcsPlataformaWeb - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      # Login MVP (T-02). Public paths /BSCL/Plataforma/GWJAVA/PLA/** are rewritten to /PLA/** before matching.
+      # enabled=false until G-01 (verify PROVEN, signed). no-legacy-fallback: login must never replay in TomEE
+      # (it would create a second session / count a second attempt): without the service the client gets 503.
+      - id: bcs-plataforma-login
+        uri: http://bcs-plataforma-web:8117
+        paths: [/PLA/CrearSesion, /PLA/bootstrap/**, /PLA/ValidaClaveProvisoria, /PLA/ActualizarClave,
+                /PLA/SolicitudRecuperacionClave, /PLA/RecuperacionClave, /PLA/ConfirmarCambioClave, /PLA/SSO*]
+        enabled: false
+        no-legacy-fallback: true
+
+      - id: bcs-plataforma-web
+        uri: http://bcs-plataforma-web:8117
+        # Only /PLA/** (the legacy path /BSCL/Plataforma/GWJAVA/PLA/** after the rewrite): behind the prefix the session filter of the service
+        # applies. Unprefixed /call, /CallBatch and /bootstrap/** were removed: the filter does not cover them (review 2026-10-26).
+        paths: [/plataforma/**, /PLA/call, /PLA/CallBatch]
+        enabled: false
+
+      # ── Plataforma Servicios ──────────────────────────────────────────────
+      # Module BcsPlataformaServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-plataforma-servicios
+        uri: http://bcs-plataforma-servicios:8114
+        paths: [/plataforma-servicios/**]
+        enabled: false
+
+      # ── Plataforma Jobs ───────────────────────────────────────────────────
+      # Module BcsPlataformaJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-plataforma-jobs
+        uri: http://bcs-plataforma-jobs:8110
+        paths: [/plataforma-jobs/**]
+        enabled: false
+
+      # ── Plataforma Reporte API ────────────────────────────────────────────
+      # Module BcsPlataformaReporteApi - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-plataforma-reporte-api
+        uri: http://bcs-plataforma-reporte-api:8115
+        paths: [/plataforma-reporte/**]
+        enabled: false
+
+      # ── Cuenta Inversión ──────────────────────────────────────────────────
+      # Module BcsCuentaInversionServicios - verification: PROVEN (signature pending) (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-cuenta-inversion-servicios
+        uri: http://bcs-cuenta-inversion-servicios:8080
+        paths: [/api/v1/cargo-abono, /api/v1/movimientos/**]
+        enabled: false
+
+      # Module BcsCuentaInversionJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-cuenta-inversion-jobs
+        uri: http://bcs-cuenta-inversion-jobs:8075
+        paths: [/cuenta-inversion-jobs/**]
+        enabled: false
+
+      # ── Contabilidad ──────────────────────────────────────────────────────
+      # Module BcsContabilidadServicios - verification: PROVEN (signature pending) (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-contabilidad-servicios
+        uri: http://bcs-contabilidad-servicios:8081
+        paths: [/api/v1/centralizacion/**, /api/v1/interfaz-**, /api/v1/informe-**, /api/v1/configuracion/**]
+        enabled: false
+
+      # Module BcsContabilidadJobs - verification: PROVEN (signature pending) (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-contabilidad-jobs
+        uri: http://bcs-contabilidad-jobs:8082
+        paths: [/contabilidad-jobs/**]
+        enabled: false
+
+      # ── Tesorería ─────────────────────────────────────────────────────────
+      # Module BcsTesoreriaServicios - verification: PROVEN (signature pending) (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-tesoreria-servicios
+        uri: http://bcs-tesoreria-servicios:8073
+        paths: [/ws/tesoreria/**, /svc-recauda/**]
+        enabled: false
+
+      # Module BcsTesoreriaJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-tesoreria-jobs
+        uri: http://bcs-tesoreria-jobs:8074
+        paths: [/tesoreria-jobs/**]
+        enabled: false
+
+      # ── APV ───────────────────────────────────────────────────────────────
+      # Module BcsAPVServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-apv-servicios
+        uri: http://bcs-apv-servicios:8083
+        paths: [/apv/**]
+        enabled: false
+
+      # Module BcsAPVJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-apv-jobs
+        uri: http://bcs-apv-jobs:8084
+        paths: [/apv-jobs/**]
+        enabled: false
+
+      # ── Mesa de dinero ────────────────────────────────────────────────────
+      # Module BcsMesaServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-mesa-servicios
+        uri: http://bcs-mesa-servicios:8085
+        paths: [/mesa/**]
+        enabled: false
+
+      # Module BcsMesaJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-mesa-jobs
+        uri: http://bcs-mesa-jobs:8089
+        paths: [/mesa-jobs/**]
+        enabled: false
+
+      # ── Órdenes ───────────────────────────────────────────────────────────
+      # Module BcsOrdenServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-orden-servicios
+        uri: http://bcs-orden-servicios:8086
+        paths: [/ordenes/**]
+        enabled: false
+
+      # Module BcsOrdenJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-orden-jobs
+        uri: http://bcs-orden-jobs:8090
+        paths: [/orden-jobs/**]
+        enabled: false
+
+      # Module BcsJobOrders - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-job-orders
+        uri: http://bcs-job-orders:8088
+        paths: [/job-orders/**]
+        enabled: false
+
+      # ── Portafolio y Valorización ─────────────────────────────────────────
+      # Module BcsPortafolioServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-portafolio-servicios
+        uri: http://bcs-portafolio-servicios:8086
+        paths: [/portafolio/**]
+        enabled: false
+
+      # Module BcsValo2 - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-valo2
+        uri: http://bcs-valo2:8087
+        paths: [/valo/**]
+        enabled: false
+
+      # ── Conectores externos ───────────────────────────────────────────────
+      # Module BcsBECB - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-becb
+        uri: http://bcs-becb:8091
+        paths: [/becb/**]
+        enabled: false
+
+      # Module BcsSURA - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-sura
+        uri: http://bcs-sura:8092
+        paths: [/sura/**]
+        enabled: false
+
+      # ── Réplica ───────────────────────────────────────────────────────────
+      # Module BcsReplica - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-replica
+        uri: http://bcs-replica:8093
+        paths: [/replica/**]
+        enabled: false
+
+      # ── Socio Negocio ─────────────────────────────────────────────────────
+      # Module BcsSocioNegocioServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-socio-negocio-servicios
+        uri: http://bcs-socio-negocio-servicios:8098
+        paths: [/socio-negocio/**]
+        enabled: false
+
+      # Module BcsSocioNegocioJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-socio-negocio-jobs
+        uri: http://bcs-socio-negocio-jobs:8094
+        paths: [/socio-negocio-jobs/**]
+        enabled: false
+
+      # ── Facturación ───────────────────────────────────────────────────────
+      # Module BcsFacturacionServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-facturacion-servicios
+        uri: http://bcs-facturacion-servicios:8099
+        paths: [/facturacion/**]
+        enabled: false
+
+      # Module BcsFacturacionJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-facturacion-jobs
+        uri: http://bcs-facturacion-jobs:8095
+        paths: [/facturacion-jobs/**]
+        enabled: false
+
+      # ── Custodia ──────────────────────────────────────────────────────────
+      # Module BcsCustodiaServicios - verification: NOT PROVEN (mostly stubs) (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-custodia-servicios
+        uri: http://bcs-custodia-servicios:8097
+        paths: [/custodia/**]
+        enabled: false
+
+      # Module BcsCustodiaJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-custodia-jobs
+        uri: http://bcs-custodia-jobs:8096
+        paths: [/custodia-jobs/**]
+        enabled: false
+
+      # ── Tributario ────────────────────────────────────────────────────────
+      # Module BcsTributarioJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-tributario-jobs
+        uri: http://bcs-tributario-jobs:8101
+        paths: [/api/tributario/**]
+        enabled: false
+
+      # ── Canal Agente ──────────────────────────────────────────────────────
+      # Module BcsCanalAgenteServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-canal-agente-servicios
+        uri: http://bcs-canal-agente-servicios:8102
+        paths: [/canal-agente/**]
+        enabled: false
+
+      # ── Portal Confirmación ───────────────────────────────────────────────
+      # Module BcsPortalConfirmacionWeb - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-portal-confirmacion-web
+        uri: http://bcs-portal-confirmacion-web:8103
+        paths: [/portal-confirmacion/**, /validate]
+        enabled: false
+
+      # ── Cartolas ──────────────────────────────────────────────────────────
+      # Module BcsCartolas - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-cartolas
+        uri: http://bcs-cartolas:8108
+        paths: [/cartolas/**]
+        enabled: false
+
+      # Module BcsCartolasMaster - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-cartolas-master
+        uri: http://bcs-cartolas-master:8105
+        paths: [/cartolas-master/**]
+        enabled: false
+
+      # Module BcsCartolasJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-cartolas-jobs
+        uri: http://bcs-cartolas-jobs:8104
+        paths: [/cartolas-jobs/**]
+        enabled: false
+
+      # ── Job Manager ───────────────────────────────────────────────────────
+      # Module BcsJobManager - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-job-manager
+        uri: http://bcs-job-manager:8106
+        paths: [/job-manager/**]
+        enabled: false
+
+      # ── Fondo Mutuo ───────────────────────────────────────────────────────
+      # Module BcsFondoMutuoServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-fondo-mutuo-servicios
+        uri: http://bcs-fondo-mutuo-servicios:8111
+        paths: [/fondo-mutuo/**]
+        enabled: false
+
+      # Module BcsJobsFondoMutuo - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-jobs-fondo-mutuo
+        uri: http://bcs-jobs-fondo-mutuo:8107
+        paths: [/ffmm-jobs/**]
+        enabled: false
+
+      # ── Normativa ─────────────────────────────────────────────────────────
+      # Module BcsNormativaCore - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-normativa-core
+        uri: http://bcs-normativa-core:8109
+        paths: [/normativa-core/**]
+        enabled: false
+
+      # Module BcsNormativaJobs - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-normativa-jobs
+        uri: http://bcs-normativa-jobs:8112
+        paths: [/normativa-jobs/**]
+        enabled: false
+
+      # Module BcsNormativaServicios - verification: PARTLY PROVEN (VERIFICATION.md 2026-10-20).
+      # enabled=false: no traffic until the module is PROVEN and signed.
+      - id: bcs-normativa-servicios
+        uri: http://bcs-normativa-servicios:8113
+        paths: [/normativa/**]
+        enabled: false
+
+# ── Actuator ────────────────────────────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: BcsGateway
+    description: WebFlux reverse proxy — opt-in routes to modernized services (all disabled by default) with safe TomEE fallback and Resilience4j circuit breakers
+    version: "1.0.0"
+
+logging:
+  level:
+    cl.bcs.gateway: INFO
+    reactor.netty: WARN

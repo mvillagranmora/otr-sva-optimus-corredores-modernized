@@ -1,0 +1,1 @@
+SELECT "Codigo" FROM "BSCL.APV.BD::REC.RegimenTributario" WHERE "IdRegimenTributario" = :IdRegimen

@@ -1,0 +1,1 @@
+SELECT RA."IdConcepto", RA."RequiereAutorizacion" FROM BSCL."BSCL.Plataforma.BD::PLA.RequiereAutorizacion" AS RA 

@@ -1,0 +1,4 @@
+-- inputs of case CUS-FLU-30_considerar-origen-S-sin-registros (fictitious)
+INSERT INTO "BSCL.Custodia.BD::CUS.UsoFlujoCustodia" ("IdUsoFlujoCustodia", "IdUsuario", "UsoTipoOperacion", "IdClasificacionTipoInstrumento", "IdTipoInstrumento", "IdInstrumento", "IdCliente", "IdPortafolio", "BusquedaEspecifica", "FechaIngresoRegistro", "UsoValorizacion", "IdEstado", "IdEmpresa") VALUES (10, 1, 'CUSTOD', NULL, NULL, NULL, NULL, NULL, NULL, TIMESTAMP '2026-01-01 00:00:00', 'VALCUS', 'ACT', 1);
+INSERT INTO "BSCL.Custodia.BD::CUS.ItemsFlujoCustodia" ("IdUsoFlujoCustodia", "ItemCalculo", "ItemOrigen", "Descripcion", "FuncionOperador", "IdEstado") VALUES (10, 'INFORMACION_CARTERA', 'CARTERA', 'Item ficticio', '+', 'ACT');
+INSERT INTO "BSCL.Custodia.BD::CUS.ItemsFlujoCustodia" ("IdUsoFlujoCustodia", "ItemCalculo", "ItemOrigen", "Descripcion", "FuncionOperador", "IdEstado") VALUES (10, 'CARTERA_TRANSITO_COMPRA', 'CARTERA', 'Item ficticio', '+', 'ACT');

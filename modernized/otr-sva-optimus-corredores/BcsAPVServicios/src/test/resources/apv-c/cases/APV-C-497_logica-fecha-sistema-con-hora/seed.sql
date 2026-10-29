@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Tesoreria.BD::PAC.LogMandatoPAC" ("IdMandatoPAC", "FechaSistema", "FechaProceso", "Usuario", "EstadoProcesamiento", "PreRendicion", "Glosa") VALUES (1, '2025-04-01', '2024-01-01', '9', 'ORI', 'N', 'previo');

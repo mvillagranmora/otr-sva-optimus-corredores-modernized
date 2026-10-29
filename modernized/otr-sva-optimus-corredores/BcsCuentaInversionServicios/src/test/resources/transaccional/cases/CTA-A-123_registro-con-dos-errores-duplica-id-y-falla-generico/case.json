@@ -1,0 +1,46 @@
+{
+  "servicio": "ProcesaCargaSeleccionada",
+  "metodo": "call",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 97,
+    "p_IdModulo": "CTA",
+    "p_UsaReglasNegocio": "S",
+    "p_FechaCarga": "2025-04-01",
+    "p_IdCargaMasiva": "730"
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.CuentaInversion.BD::CAR.CargaMasiva",
+      "orden": "\"IdCargaMasiva\"",
+      "excluir": [
+        "FechaIngresoRegistro"
+      ]
+    },
+    {
+      "nombre": "BSCL.CuentaInversion.BD::CAR.CargaMasivaDetalle",
+      "orden": "\"IdCargaMasivaDetalle\""
+    },
+    {
+      "nombre": "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento",
+      "orden": "\"IdCargoAbonoMovimiento\"",
+      "expresiones": {
+        "FechaCertificacionEsPlaceholder": "\"FechaCertificacion\" < TIMESTAMP '1900-01-01 00:00:00'"
+      },
+      "columnas": [
+        "IdCargoAbonoMovimiento",
+        "IdCuentaInversion",
+        "IdTipoMovimiento",
+        "EsIngresoManual",
+        "IdConcepto",
+        "Monto",
+        "Saldo",
+        "SaldoLibroInventario",
+        "EsCertificadoAutomatico",
+        "IdEstado",
+        "FechaSistema",
+        "FechaEfectivaMovimiento"
+      ]
+    }
+  ]
+}

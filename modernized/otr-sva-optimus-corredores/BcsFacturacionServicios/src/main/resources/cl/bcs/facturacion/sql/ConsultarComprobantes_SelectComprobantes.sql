@@ -1,0 +1,7 @@
+SELECT "Comprobante"."IdComprobante" AS "SecuenciaComprobante"
+FROM  "BSCL.Facturacion.BD::FAC.ComprobanteDetalle" AS "ComprobanteDetalle"
+LEFT JOIN "BSCL.Facturacion.BD::FAC.Comprobante" AS "Comprobante"
+ON "Comprobante"."IdComprobante" = "ComprobanteDetalle"."IdComprobante"
+LEFT JOIN "BSCL.Orden.BD::ORD.Transaccion" AS "Transaccion"
+ON "ComprobanteDetalle"."IdTransaccion" = "Transaccion"."IdTransaccion"
+WHERE "Transaccion"."Folio" IN (:FolioTransaccion) GROUP BY "Comprobante"."IdComprobante"

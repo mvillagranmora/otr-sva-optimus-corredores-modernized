@@ -1,0 +1,70 @@
+package cl.bcs.mesa.javacall.mrf;
+
+import cl.bcs.mesa.javacall.JavaCallInfra;
+import cl.bcs.mesa.javacall.JavaCallService;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.sql.DataSource;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class ConsultarValorizacionPatrimonioMRFService implements JavaCallService {
+
+    private static final Logger log = LoggerFactory.getLogger(ConsultarValorizacionPatrimonioMRFService.class);
+    private static final String SQL_COMPRA_PACTOS = JavaCallInfra.loadSql("cl/bcs/mesa/sql/ConsultarValorizacionPatrimonioMRF_SelectCarteraCompraPactos.sql");
+    private static final String SQL_VENTA_PACTOS = JavaCallInfra.loadSql("cl/bcs/mesa/sql/ConsultarValorizacionPatrimonioMRF_SelectCarteraVentaPactos.sql");
+    private static final String SQL_GARANTIA = JavaCallInfra.loadSql("cl/bcs/mesa/sql/ConsultarValorizacionPatrimonioMRF_SelectCarteraGarantia.sql");
+    private static final String SQL_CARTERA_LIBRE = JavaCallInfra.loadSql("cl/bcs/mesa/sql/ConsultarValorizacionPatrimonioMRF_SelectCarteraLibre.sql");
+    private static final Gson GSON = new Gson();
+
+    private final DataSource dataSource;
+    public ConsultarValorizacionPatrimonioMRFService(DataSource dataSource) { this.dataSource = dataSource; }
+
+    @Override public String fqn() { return "cl.bcs.mesa.MRF.ConsultarValorizacionPatrimonioMRF"; }
+
+    @Override
+    public JsonObject execute(JsonObject params) {
+        try (Connection conn = dataSource.getConnection()) {
+            Entrada in = GSON.fromJson(params, Entrada.class);
+            Map<String, Object> p = new HashMap<>();
+            p.put("IdEmpresa", in.p_IdEmpresa);
+            p.put("IdCliente", in.p_IdCliente);
+            p.put("FechaPosicion", in.p_FechaPosicion);
+
+            Salida out = new Salida();
+            out.P_OUT_COMPRA_PACTOS = JavaCallInfra.query(conn, SQL_COMPRA_PACTOS, p, JavaCallInfra.fieldMapper(Cartera.class));
+            out.P_OUT_VENTA_PACTOS = JavaCallInfra.query(conn, SQL_VENTA_PACTOS, p, JavaCallInfra.fieldMapper(Cartera.class));
+            out.P_OUT_GARANTIA = JavaCallInfra.query(conn, SQL_GARANTIA, p, JavaCallInfra.fieldMapper(Cartera.class));
+            out.P_OUT_CARTERA_LIBRE = JavaCallInfra.query(conn, SQL_CARTERA_LIBRE, p, JavaCallInfra.fieldMapper(Cartera.class));
+            return GSON.fromJson(GSON.toJson(out), JsonObject.class);
+        } catch (Exception e) {
+            log.error("ConsultarValorizacionPatrimonioMRF failed", e);
+            JsonObject err = new JsonObject(); err.addProperty("P_OUT_ERRORESCONTADOR", 1L); err.addProperty("error", e.getMessage()); return err;
+        }
+    }
+
+    public static class Entrada {
+        public Long p_IdEmpresa; public Long p_IdUsuario; public String p_IdModulo;
+        public Long p_IdCliente; public String p_FechaPosicion;
+    }
+    public static class Cartera {
+        public Long IdCartera; public String IdInstrumento; public BigDecimal Cantidad;
+        public BigDecimal PrecioCompra; public BigDecimal PrecioMercado; public String IdMoneda;
+    }
+    public static class Salida {
+        public Long P_OUT_ERRORESCONTADOR = 0L;
+        public List<Cartera> P_OUT_COMPRA_PACTOS = new ArrayList<>();
+        public List<Cartera> P_OUT_VENTA_PACTOS = new ArrayList<>();
+        public List<Cartera> P_OUT_GARANTIA = new ArrayList<>();
+        public List<Cartera> P_OUT_CARTERA_LIBRE = new ArrayList<>();
+    }
+}

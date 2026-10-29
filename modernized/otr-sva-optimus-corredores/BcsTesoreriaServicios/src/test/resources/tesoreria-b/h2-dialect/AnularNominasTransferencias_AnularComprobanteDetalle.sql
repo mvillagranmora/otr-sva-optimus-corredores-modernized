@@ -1,0 +1,3 @@
+-- HANA-SOURCE: cl/bcs/tesoreria/sql/AnularNominasTransferencias_AnularComprobanteDetalle.sql
+-- H2 rewrite of UPDATE CD .. FROM CD JOIN CFP JOIN NT JOIN RP: the joins only select the rows (EXISTS); the SET is a constant.
+UPDATE "BSCL.Tesoreria.BD::TES.ComprobanteDetalle" AS CD SET "IdEstado" = 'ANU' WHERE EXISTS (SELECT 1 FROM "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago" AS CFP INNER JOIN "BSCL.Tesoreria.BD::TES.NominaTransferencia" AS NT ON CFP."IdComprobantePartida" = NT."IdComprobantePartidaEgreso" INNER JOIN TT_AnularNominasTransferencias_p_RegistrosAProcesar AS RP ON RP."Id" = NT."IdNominaTransferencia" WHERE CFP."IdComprobante" = CD."IdComprobante")

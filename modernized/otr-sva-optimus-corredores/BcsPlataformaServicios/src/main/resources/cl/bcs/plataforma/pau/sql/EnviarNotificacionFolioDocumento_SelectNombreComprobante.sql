@@ -1,0 +1,1 @@
+SELECT * FROM "BSCL.Facturacion.BD::FAC.NombreComprobante";

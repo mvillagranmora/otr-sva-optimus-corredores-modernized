@@ -1,0 +1,67 @@
+{
+  "id": "APV-A-338",
+  "titulo": "a TRA contract with its traspaso and origin details: Modificar replaces the traspaso (PDI) with new ids",
+  "pina": "CambiarAPlanActivoContratoSAAPV.java:378",
+  "servicio": "CambiarAPlanActivoContratoSAAPV",
+  "metodo": "call",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 21,
+    "p_IdModulo": "APV",
+    "p_ContratoCambioPlanIn": [
+      {
+        "IdPersona": 501,
+        "IdCliente": 701,
+        "IdPortafolio": 901,
+        "IdContratoSAAPV": 9001,
+        "FolioContratoSAAPV": "F-P1"
+      }
+    ]
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencias::TRA.IdTraspaso": 6000,
+    "BSCL.APV.BD.Secuencias::TRA.IdDetalleOrigenTraspaso": 6500
+  },
+  "colaboradores": {
+    "ModificarPortafolio": {
+      "P_OUT_ERRORESCONTADOR": 0
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Portafolio.BD::POR.Portafolio",
+      "orden": "\"IdPortafolio\"",
+      "columnas": [
+        "IdPortafolio",
+        "IdMatrizAgrupadorAPV",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::GBL.PortafoliosCambioPlanActivo",
+      "orden": "\"IdPortafolio\""
+    },
+    {
+      "nombre": "BSCL.APV.BD::SCS.ContratoSAAPV",
+      "orden": "\"IdContratoSAAPV\"",
+      "columnas": [
+        "IdContratoSAAPV",
+        "FolioContratoSAAPV",
+        "IdPlan",
+        "IdEstado",
+        "IdEstadoSolicitud",
+        "IdEstadoEnvioNotificacion",
+        "IdPerfilComercial",
+        "NombrePlan"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::TRA.Traspaso",
+      "orden": "\"IdTraspaso\""
+    },
+    {
+      "nombre": "BSCL.APV.BD::TRA.DetalleOrigenTraspaso",
+      "orden": "\"IdDetalleOrigenTraspaso\""
+    }
+  ]
+}

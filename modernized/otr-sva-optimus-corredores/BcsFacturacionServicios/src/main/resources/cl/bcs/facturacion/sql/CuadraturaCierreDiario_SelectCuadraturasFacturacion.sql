@@ -1,0 +1,1 @@
+SELECT "IdCuadraturaDiariaOperaciones" FROM "BSCL.Plataforma.BD::PLA.TipoCuadraturaOperaciones" WHERE "IdEmpresa" = :IdEmpresa AND "IdModuloCuadratura" = 'FACTURACION'

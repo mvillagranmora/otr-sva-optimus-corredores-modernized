@@ -1,0 +1,8 @@
+CREATE LOCAL TEMPORARY TABLE #PRECIOSING (
+
+	"Nemotecnico" VARCHAR(100),
+	"Entidad" VARCHAR(100),
+	"Fecha" DATE,
+	"Valor" DECIMAL (26,8)
+
+)

@@ -1,0 +1,27 @@
+INSERT INTO "BSCL.Contabilidad.BD::ITZ.ContabilidadTipo"(
+"IdTipoContabilidad",
+"Nombre",
+"Nemo",
+"Tipo",
+"Reversa",
+"Agrupa",
+"Condicionado",
+"TipoGeneracion",
+"IdEmpresa",
+"Ejercicio",
+"Formato",
+"Estado"
+)
+VALUES( 
+:IdTipoContabilidad,
+:Nombre,
+:Nemo,
+:Tipo,
+:Reversa,
+:Agrupa,
+:Condicionado,
+:TipoGeneracion,
+:IdEmpresa,
+:Ejercicio,
+:Formato,
+:Estado)

@@ -1,0 +1,122 @@
+{
+  "_provenance": "Recorded by legacy-oracle/runner/OracleRunner.java executing the unmodified legacy AnularRegistros.call on H2 MODE=LEGACY (JVM zone UTC). Do not edit by hand; re-record.",
+  "salida": {
+    "P_OUT_MENSAJES": [
+      {
+        "id": 771,
+        "tipo": "ERROR",
+        "codigo": "CARGO_ABONO_NO_ANULABLE",
+        "descripcion": "no anulable"
+      },
+      {
+        "id": 0,
+        "tipo": "OK",
+        "codigo": "COMPROBANTE_ANULADO",
+        "descripcion": "Comprobante 1414 anulado"
+      }
+    ],
+    "P_OUT_RESULTADOPROCESO": [
+      {
+        "Campo": "IdComprobante",
+        "Id": 1414,
+        "Servicio": "BSCL.Tesoreria.BD.Servicios::AnularRegistros",
+        "Resultado": "ANU"
+      }
+    ],
+    "P_OUT_ERRORESCONTADOR": 1
+  },
+  "tablas": {
+    "BSCL.Tesoreria.BD::TES.IngresoEgreso": [
+      {
+        "IdIngresoEgreso": 5414,
+        "IdEstado": "ING",
+        "IdUsuarioAnulacion": null,
+        "FechaHoraAnulacion": null,
+        "IdEvento": 0,
+        "IdUsuarioEmision": 0,
+        "FechaHoraEmision": "0001-01-01 00:00:00"
+      }
+    ],
+    "BSCL.Tesoreria.BD::TES.IngresoEgresoFormaDePago": [
+      {
+        "IdIngresoEgresoFormaDePago": 6414,
+        "IdEstado": "ING"
+      }
+    ],
+    "BSCL.Tesoreria.BD::TES.Comprobante": [
+      {
+        "IdComprobante": 1414,
+        "IdEstado": "ANU",
+        "IdUsuarioAnulacion": 97,
+        "FechaHoraAnulacion": "2025-04-01 10:15:30",
+        "IdEvento": 0
+      }
+    ],
+    "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago": [
+      {
+        "IdComprobanteFormaDePago": 14141,
+        "IdEstado": "ANU",
+        "IdUsuarioLiquidacion": null,
+        "FechaHoraLiquidacion": null
+      }
+    ],
+    "BSCL.Tesoreria.BD::TES.ComprobanteDetalle": [
+      {
+        "IdComprobanteDetalle": 14140,
+        "IdEstado": "ANU"
+      }
+    ],
+    "BSCL.Tesoreria.BD::TES.DepositoDetalle": []
+  },
+  "colaboradores": [
+    {
+      "servicio": "RevisarRequisitosBasicos",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 97,
+        "p_IdModulo": "TES"
+      }
+    },
+    {
+      "servicio": "ModificarEstadoEventoAutorizacionMasivo",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 97,
+        "p_IdModulo": "AUT",
+        "p_SimularOperacion": "N",
+        "p_UsaReglasNegocio": "S",
+        "p_Eventos": [
+          {
+            "IdEvento": 0
+          }
+        ],
+        "p_Etapas": [],
+        "p_EventoEtapa": "ETAPA",
+        "p_IdEstado": "RZD",
+        "p_Observaciones": " ",
+        "p_Comentario": ""
+      }
+    },
+    {
+      "servicio": "AnularCargoAbono",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 97,
+        "p_IdModulo": "TES",
+        "p_simularOperacion": "N",
+        "p_UsaReglasNegocio": "S",
+        "p_EjecutaAutorizacion": "N",
+        "p_OmiteRegistroSinAutorizar": "N",
+        "p_FechaMovimiento": "2025-04-01",
+        "p_EsAnulacionManual": "N",
+        "p_CargoAbonoAAnular": [
+          {
+            "IdCargoAbonoMovimiento": 771,
+            "GlosaAnulacion": "ANULACION POR COMPROBANTE TESORERIA ANULADO(1414)"
+          }
+        ]
+      }
+    }
+  ],
+  "secuenciasSolicitadas": []
+}

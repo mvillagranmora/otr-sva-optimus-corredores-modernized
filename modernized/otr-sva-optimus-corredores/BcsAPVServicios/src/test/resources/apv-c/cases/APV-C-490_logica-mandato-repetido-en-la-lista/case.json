@@ -1,0 +1,51 @@
+{
+  "id": "APV-C-490",
+  "titulo": "a mandate twice in A_PROCESAR and twice in NO_PROCESADAS: each element is a batch row, the last write of the same row wins",
+  "pina": "ValidarMandatosPAC.java:88",
+  "servicio": "ValidarMandatosPAC",
+  "metodo": "logica",
+  "entrada": {
+    "entrada": {
+      "P_OUT_SOLICITUDES_A_PROCESAR": [
+        {
+          "IdMandatoPAC": 1
+        },
+        {
+          "IdMandatoPAC": 1
+        },
+        {
+          "IdMandatoPAC": 3
+        }
+      ],
+      "P_OUT_SOLICITUDES_NO_PROCESADAS": [
+        {
+          "IdMandatoPAC": 2,
+          "EstadoRendicion": "A"
+        },
+        {
+          "IdMandatoPAC": 2,
+          "EstadoRendicion": "B"
+        }
+      ]
+    },
+    "idEmpresa": 1,
+    "idUsuario": 21
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::PAC.LogMandatoPAC",
+      "orden": "\"IdMandatoPAC\", \"FechaSistema\", \"Usuario\", \"Glosa\", \"EstadoProcesamiento\", \"PreRendicion\"",
+      "columnas": [
+        "IdMandatoPAC",
+        "FechaSistema",
+        "Usuario",
+        "EstadoProcesamiento",
+        "PreRendicion",
+        "Glosa"
+      ],
+      "expresiones": {
+        "FechaProceso": "CASE WHEN \"FechaProceso\" IS NULL THEN 'NULA' WHEN \"FechaProceso\" = DATE '2024-01-01' THEN 'SIN_CAMBIO' ELSE 'ACTUALIZADA' END"
+      }
+    }
+  ]
+}

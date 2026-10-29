@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.APV.BD::APV.CargaMasiva" ("IdEmpresa", "IdCargaMasiva", "NombreCargaArchivo", "CantidadRegistros", "IdUsuario", "IdTipoCarga", "Descripcion", "FechaCarga", "IdEstado") VALUES (1, 77, 'Carga_4.txt', 3, 21, 2, 'Carga', '2021-12-07', 'VIG');

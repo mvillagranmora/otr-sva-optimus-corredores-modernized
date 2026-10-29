@@ -1,0 +1,1 @@
+UPDATE "BSCL.APV.BD::SCS.PortafolioContratoSAAPV" SET "IdContratoSAAPV" = :IdContratoSAAPVNuevo WHERE "IdContratoSAAPV" = :IdContratoSAAPV

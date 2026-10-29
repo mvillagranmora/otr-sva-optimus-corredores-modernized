@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Tesoreria.BD::TES.SaldoPendienteDeLiquidar_Persona_Proceso" WHERE 1=1

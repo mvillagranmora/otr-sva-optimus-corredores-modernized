@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Tesoreria.BD.Vistas::ConsultarComprobanteFormaDePago" ("IdComprobanteFormaDePago","IdComprobante","FechaLiquidacion","NombreConcepto","NombreMedioDePago","NombreTipoMovimiento","IdMoneda","Monto","IdEstado") VALUES (7,7,'2025-04-01','Aporte de cliente','Transferencia','Ingreso','CLP',10000,'ING');

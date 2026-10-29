@@ -1,0 +1,14 @@
+INSERT INTO "BSCL.SocioNegocio.BD::PER.Persona" ("IdPersona", "Nombres", "ApellidoPaterno", "ApellidoMaterno", "FechaNacimiento", "EstadoCivil", "Sexo", "RazonSocial", "IdPaisResidencia", "IdDocumentoIdentidad", "IdDireccionFisicaPrincipal", "IdPersonaEmpleador", "IdTelefonoPrincipal", "Tipo") VALUES (501, 'ANA', 'PEREZ', 'SOTO', '1980-05-10', 'SO', 'F', '', 44, 5501, 6501, NULL, 7501, 'N');
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" ("DocumentoIdentidad", "IdDocumentoIdentidad", "IdPersona", "Predeterminado") VALUES ('11111111-1', 5501, 501, 'S');
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" ("IdCategoriaInversionista", "IdPersona", "IdCliente", "IdEstado", "Borrado", "IdPersonaEjecutivo") VALUES ('MODERADO', 501, 701, 'ACT', 'N', 335);
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DireccionFisica" ("Calle", "Numero", "IdDireccionFisica", "IdDivisionPais", "IdCiudad", "IdPersona", "CodigoProposito", "IdEstado", "Predeterminado") VALUES ('CALLE UNO', '123', 6501, 20, 10, 501, 'PART', 'ACT', 'S');
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::PER.ConsultarPersonaDireccionFisica" ("IdDireccionFisica", "IdPersona", "IdEstado", "IdCiudad", "IdPais", "IdDivisionPais", "NombreCiudad", "NombrePais", "PaisNombreDivisionPais") VALUES (6501, 501, 'ACT', 10, 44, 20, 'SANTIAGO', 'CHILE', 'PROVIDENCIA');
+INSERT INTO "BSCL.Plataforma.BD::REG.DivisionPais" ("IdDivisionPais", "NombreDivisionPais", "IdClasificacion1") VALUES (20, 'PROVIDENCIA', 30);
+INSERT INTO "BSCL.Plataforma.BD::REG.ClasificacionDivisionPais" ("IdClasificacionDivisionPais", "NombreClasificacionDivisionPais", "IdPais") VALUES (30, 'METROPOLITANA', 44);
+INSERT INTO "BSCL.Plataforma.BD::REG.Pais" ("IdPais", "NombrePais") VALUES (44, 'CHILE');
+INSERT INTO "BSCL.Plataforma.BD::REG.Ciudad" ("IdCiudad", "NombreCiudad") VALUES (10, 'SANTIAGO');
+INSERT INTO "BSCL.SocioNegocio.BD::PER.Telefono" ("IdTelefono", "IdPersona", "IdTipoTelefono", "CodigoProposito", "Borrado", "Numero") VALUES (7501, 501, 'MOVIL', 'PART', 'N', '+56911112222');
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DireccionElectronica" ("IdPersona", "CodigoProposito", "Direccion") VALUES (501, 'PART', 'ana@example.invalid');
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("CodigoPortafolio", "IdMatrizAgrupadorAPV", "IdPortafolio", "IdEstado", "IdEmpleadoEjecutivo", "IdPerfilComercialBaseOrigen", "IdCliente", "Proposito", "IdContratoSAAPV") VALUES ('APV-A', 1, 901, 'ACT', 335, 'PERFIL BASE', 701, 'PROPOSITOAPV', NULL);
+INSERT INTO "BSCL.Plataforma.BD::INS.Instrumento" ("IdInstrumento", "Nemotecnico", "IdTipoInstrumento") VALUES (1021327, '00391CCLP', 'FFM');
+INSERT INTO "BSCL.Plataforma.BD::INS.TipoInstrumento" ("IdTipoInstrumento", "IdClasificacionTipoInstrumento") VALUES ('FFM', 'FM');

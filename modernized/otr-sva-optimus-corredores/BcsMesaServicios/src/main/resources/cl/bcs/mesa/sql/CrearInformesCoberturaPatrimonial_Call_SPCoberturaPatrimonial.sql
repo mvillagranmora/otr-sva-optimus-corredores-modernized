@@ -1,0 +1,1 @@
+CALL "BSCL.Mesa.CrystalReports.Servicios::MRF.CoberturaPatrimonial_ContratoPersona_Detalle"(?,?,?,?,?,?,?,?,?,?);

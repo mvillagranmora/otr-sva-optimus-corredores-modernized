@@ -1,0 +1,12 @@
+SELECT "IdAutorizadoEtapa" 
+,"IdEtapa" 
+,"IdUsuario" 
+,"IdRol" 
+,"IdUsuarioReemplaza" 
+,"ReemplazaDesde" 
+,"ReemplazaHasta" 
+,"IdEstado" 
+,"EsAutorizacionPorRol"		
+,("IdEtapa" || "IdUsuario" || "IdRol") AS "KeyAutorizadoEtapa"
+FROM "BSCL.Plataforma.BD::AUT.AutorizadoEtapa"
+WHERE "IdEtapa" IN (:IdsEtapas);

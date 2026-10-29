@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.CuentaInversion.BD::CAR.CargaMasiva" ("IdCargaMasiva","CodigoTipoCargaMasiva","IdEmpresa","IdUsuario","CantidadRegistros","MontoTotal","NombreArchivo","FechaCarga","FechaProceso","IdEstado","IdMoneda","IdConcepto") VALUES (700, 'CARGA_ABONO', 1, 97, 2, 0, 'archivo.txt', '2025-04-01 00:00:00', '2025-04-01 00:00:00', 'ING', '', 'AACFIR');

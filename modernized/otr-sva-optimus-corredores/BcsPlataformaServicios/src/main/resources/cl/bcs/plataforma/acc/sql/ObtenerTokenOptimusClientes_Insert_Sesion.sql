@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.Plataforma.BD::ACC.Sesion"("IdTokenSesion", "IdUsuario", "TokenValido", "FechaUltimoUso", "FechaIngreso","IdCanal")
+VALUES(:Token, :IdUsuario, 'S', CURRENT_UTCTIMESTAMP, CURRENT_UTCTIMESTAMP,'CLI');

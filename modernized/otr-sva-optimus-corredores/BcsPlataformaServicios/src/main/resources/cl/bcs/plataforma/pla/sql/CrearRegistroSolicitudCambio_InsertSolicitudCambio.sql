@@ -1,0 +1,27 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.SolicitudCambio"
+(
+"IdSolicitudCambio"
+,"IdSecuenciaCambio"
+,"IdTipoEntidad"
+,"IdEntidadOrigen"
+,"CampoModificado"
+,"TipoDato"
+,"ValorAntiguo"
+,"ValorNuevo"
+,"FechaSolicitud"
+,"FechaRevision"
+,"IdEstadoAutorizacion"
+)
+VALUES(
+:IdSolicitudCambio
+,"BSCL.Plataforma.BD.Secuencias::PLA.IdSecuenciaCambio".NEXTVAL
+,:IdTipoEntidad
+,:IdEntidadOrigen
+,:CampoModificado
+,:TipoDato
+,:ValorAntiguo
+,:ValorNuevo
+,CURRENT_UTCTIMESTAMP
+,'0001-01-01'
+,:IdEstadoAutorizacion
+);

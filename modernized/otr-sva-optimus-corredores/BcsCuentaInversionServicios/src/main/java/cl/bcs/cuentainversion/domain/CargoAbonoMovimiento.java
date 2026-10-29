@@ -1,0 +1,58 @@
+package cl.bcs.cuentainversion.domain;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+// Persisted investment account movement with state and running saldo
+public record CargoAbonoMovimiento(
+        Long idCargoAbonoMovimiento,
+        Long idCuentaInversion,
+        Long idPortafolio,
+        String idMoneda,
+        String idEstado,
+        String idTipoMovimiento,
+        String idConcepto,
+        String descripcion,
+        String idCondicionDeLiquidacion,
+        LocalDate fechaCondicionDeLiquidacion,
+        BigDecimal monto,
+        BigDecimal saldo,
+        BigDecimal saldoPorFechaMovimiento,
+        BigDecimal saldoLibroInventario,
+        String esCertificadoAutomatico,
+        LocalDateTime fechaCertificacion,
+        Long idEjecutivo,
+        Long idSucursal,
+        String idTipoComprobante,
+        Long idComprobante,
+        String folioComprobante,
+        Long idComprobanteDetalle,
+        Long idComprobanteFormaDePago,
+        String idTipoMovimientoAsociado,
+        Long idMovimientoAsociado,
+        LocalDate fechaComprobante,
+        String idTipoProducto,
+        String idTipoOperacion,
+        Long idOperacion,
+        LocalDate fechaOperacion,
+        LocalDate fechaLiquidacionOperacion,
+        LocalDate fechaVencimientoOperacion,
+        String idMonedaOperacion,
+        BigDecimal montoOperacion,
+        BigDecimal tipoCambioOperacion,
+        Long idInstrumento,
+        String idTipoInstrumento,
+        String nemo,
+        BigDecimal cantidad,
+        String esCargoAbonoPorTraspaso,
+        String esIndicadorBilateral,
+        String generoContraparteEnTesoreria,
+        Long idContraparte,
+        Long idPersonaPagoCobro,
+        Long idUsuario,
+        Long idEmpresa,
+        String idModulo,
+        String esIngresoManual,
+        LocalDate fechaSistema
+) {}

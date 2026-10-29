@@ -1,0 +1,3 @@
+-- HANA-SOURCE: cl/bcs/tesoreria/sql/QuitarDetalleNominasTransferencias_UpdateQuitarDetalleComprobanteFormaPago.sql
+-- H2 rewrite (joins -> EXISTS); the SET list does not read the joined tables.
+UPDATE "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago" AS CFP SET "IdEstado" = 'ING', "IdComprobantePartida" = NULL WHERE EXISTS (SELECT 1 FROM TT_QuitarDetalle_p_RegistrosAProcesar AS RP INNER JOIN "BSCL.Tesoreria.BD::TES.NominaTransferencia" AS NT ON NT."IdComprobantePartidaEgreso" = CFP."IdComprobantePartida" WHERE CFP."IdComprobante" = RP."IdComprobante" AND NT."IdNominaTransferencia" = RP."IdNominaTransferencia")

@@ -1,0 +1,12 @@
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV", "IdProductoAgrupador") VALUES (1, 1);
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV", "IdProductoAgrupador") VALUES (2, 2);
+INSERT INTO "BSCL.Portafolio.BD.Vistas::ConsultarMatrizAgrupador" ("IdMatrizAgrupadorAPV", "IdProductoAgrupador") VALUES (1, 1);
+INSERT INTO "BSCL.Portafolio.BD.Vistas::ConsultarMatrizAgrupador" ("IdMatrizAgrupadorAPV", "IdProductoAgrupador") VALUES (2, 2);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdCliente", "IdMatrizAgrupadorAPV", "IdEstado", "Proposito", "FechaIngreso", "IdPerfilLimitesExtra") VALUES (901, 701, 1, 'ACT', 'PROPOSITOAPV', '2024-05-06', 901);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdCliente", "IdMatrizAgrupadorAPV", "IdEstado", "Proposito", "FechaIngreso", "IdPerfilLimitesExtra") VALUES (902, 701, 1, 'ACT', 'PROPOSITOAPV', '2024-05-06', 902);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdCliente", "IdMatrizAgrupadorAPV", "IdEstado", "Proposito", "FechaIngreso", "IdPerfilLimitesExtra") VALUES (903, 701, 1, 'ACT', 'PROPOSITOAPV', '2024-05-06', 903);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdCliente", "IdMatrizAgrupadorAPV", "IdEstado", "Proposito", "FechaIngreso", "IdPerfilLimitesExtra") VALUES (904, 702, 1, 'ACT', 'PROPOSITOAPV', '2024-05-06', 904);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdCliente", "IdMatrizAgrupadorAPV", "IdEstado", "Proposito", "FechaIngreso", "IdPerfilLimitesExtra") VALUES (905, 701, 2, 'ACT', 'PROPOSITOAPV', '2024-05-06', 905);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdCliente", "IdMatrizAgrupadorAPV", "IdEstado", "Proposito", "FechaIngreso", "IdPerfilLimitesExtra") VALUES (906, 701, 1, 'INA', 'PROPOSITOAPV', '2024-05-06', 906);
+INSERT INTO "BSCL.Plataforma.BD::PAG.PreferenciaPago" ("IdPreferenciaPago", "IdEmpresa", "IdTipoOperacion", "IdMoneda") VALUES (5, 1, 'REC', 'CLP');
+INSERT INTO "BSCL.Portafolio.BD::POR.PreferenciaPagoPortafolio" ("IdPreferenciaPagoPortafolio", "IdPortafolio", "IdPreferenciaPago", "IdCuentaBancaria", "IdEstado", "IdEmpresa", "PorDefecto") VALUES (70, 901, 5, 100, 'ACT', 1, 'S');

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::GBL.ModificarIndicador" WHERE "IdTrabajo" = :IdTrabajo;

@@ -1,0 +1,65 @@
+{
+  "id": "APV-A-302",
+  "titulo": "REV with a PAC mandate: RevocacionMandatoPAC is called with the mandate id and state, its messages precede the OK message",
+  "pina": "CambiarEstadoContratosSAAPV.java:514-550",
+  "servicio": "CambiarEstadoContratosSAAPV",
+  "metodo": "call",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 21,
+    "p_IdModulo": "APV",
+    "p_Opcion": "REV",
+    "p_ContratosSAAPV": [
+      {
+        "IdPersona": 501,
+        "IdCliente": 701,
+        "IdEmpleador": 0,
+        "IdFolioContratoSAAPV": "F-K1",
+        "FechaRevocacion": "2025-04-01",
+        "IdEstadoEnvioNotificacion": "",
+        "IdEstadoSolicitud": "PDS",
+        "IdEstado": "REV",
+        "IdGlosa": 3,
+        "DescripcionGlosa": "MOTIVO"
+      }
+    ]
+  },
+  "colaboradores": {
+    "RevocacionMandatoPAC": {
+      "P_OUT_ERRORESCONTADOR": 0,
+      "P_OUT_MENSAJES": [
+        {
+          "id": 0,
+          "tipo": "OK",
+          "codigo": "REVOCACION_MANDATO_OK",
+          "descripcion": "mandato revocado"
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::SCS.ContratoSAAPV",
+      "orden": "\"IdContratoSAAPV\"",
+      "columnas": [
+        "IdContratoSAAPV",
+        "FolioContratoSAAPV",
+        "IdEstado",
+        "IdEstadoSolicitud",
+        "IdEstadoEnvioNotificacion",
+        "IdGlosa",
+        "DescripcionGlosa"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::TRA.Traspaso",
+      "orden": "\"IdTraspaso\"",
+      "columnas": [
+        "IdTraspaso",
+        "IdContratoSAAPV",
+        "IdEstado",
+        "CierreSolicitud"
+      ]
+    }
+  ]
+}

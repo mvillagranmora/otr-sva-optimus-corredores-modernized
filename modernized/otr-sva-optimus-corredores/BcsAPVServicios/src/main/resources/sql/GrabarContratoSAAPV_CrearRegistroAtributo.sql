@@ -1,0 +1,1 @@
+CREATE LOCAL TEMPORARY TABLE #RegistroAtributo("IdIndicador"	 BIGINT,"IdTipoIndicador" BIGINT,"ValorIndicador" NVARCHAR(255),"FechaVencimiento" SECONDDATE)

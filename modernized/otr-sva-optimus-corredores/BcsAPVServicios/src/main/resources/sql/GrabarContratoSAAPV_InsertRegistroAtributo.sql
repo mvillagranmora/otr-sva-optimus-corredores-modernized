@@ -1,0 +1,1 @@
+INSERT INTO #RegistroAtributo ("IdIndicador"	,"IdTipoIndicador" ,"ValorIndicador" ,"FechaVencimiento" ) VALUES(:IdIndicador, :IdTipoIndicador, :ValorIndicador, :FechaVencimiento)

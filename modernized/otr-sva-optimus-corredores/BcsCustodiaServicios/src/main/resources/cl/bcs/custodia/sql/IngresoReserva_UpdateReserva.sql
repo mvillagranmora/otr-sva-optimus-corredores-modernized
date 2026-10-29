@@ -1,0 +1,23 @@
+UPDATE  "BSCL.Custodia.BD::CUS.Reserva"
+SET  "IngCantidad"              = :IngCantidad
+    ,"Tasa"                     = :Tasa
+    ,"TasaMercado"              = :TasaMercado
+    ,"Precio"                   = :Precio
+    ,"PrecioMercado"            = :PrecioMercado
+    ,"MontoValorizado"          = :MontoValorizado
+    ,"MontoLiquidacion"         = :MontoLiquidacion
+    ,"MontoLiquidacionOperacion"= :MontoLiquidacionOperacion
+    ,"CantidadInicial"          = :CantidadInicial
+    ,"ValorRescateInicial"      = :ValorRescateInicial
+    ,"MontoValorizadoReserva"   = :MontoValorizadoReserva
+    ,"IngValorRescate"          = :IngValorRescate
+    ,"IngMontoValorizado"       = :IngMontoValorizado
+    ,"IdEstado"                 = :IdEstado
+    ,"EgrIdUsuario"             = :EgrIdUsuario
+    ,"EgrCantidad"              = :EgrCantidad
+    ,"EgrMontoValorizado"       = :EgrMontoValorizado
+    ,"EgrFecha"                 = :EgrFecha
+    ,"INGMontoAPlazo"			= :INGMontoAPlazo
+    ,"INGMontoAPlazoMonedaInstrumento" = :INGMontoAPlazoMonedaInstrumento
+WHERE   "IdReserva" = :IdReserva 
+    AND "IdConcepto" = :IdConcepto;

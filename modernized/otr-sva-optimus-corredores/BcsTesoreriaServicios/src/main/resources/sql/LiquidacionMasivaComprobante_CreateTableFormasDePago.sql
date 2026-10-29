@@ -1,0 +1,26 @@
+-- Session table with the formas de pago handed to the EdicionMultiple procedure
+CREATE LOCAL TEMPORARY TABLE #p_FormasDePago(
+    "NumeroReferencia" BIGINT CS_FIXED,
+    "IdMedioDePago" NVARCHAR(3) CS_STRING,
+    "IdModalidadDePago" NVARCHAR(6) CS_STRING,
+    "IdMoneda" NVARCHAR(3) CS_STRING,
+    "Monto" DECIMAL(26,8) CS_FIXED,
+    "IdCuentaBancariaCorredora" BIGINT CS_FIXED,
+    "IdTarjetaBancariaCorredora" BIGINT CS_FIXED,
+    "IdChequera" BIGINT CS_FIXED,
+    "NumeroDocumentoCorredora" BIGINT CS_FIXED,
+    "FechaDocumentoPagoCorredora" NVARCHAR(40) CS_STRING,
+    "IdCuentaBancariaSocio" BIGINT CS_FIXED,
+    "IdBancoSocio" BIGINT CS_FIXED,
+    "NombreCuentaBancariaSocio" NVARCHAR(100) CS_STRING,
+    "NumeroCuentaBancariaSocio" NVARCHAR(100) CS_STRING,
+    "IdTipoCuentaBancariaSocio" NVARCHAR(4) CS_STRING,
+    "NombreTipoCuentaBancariaSocio" NVARCHAR(100) CS_STRING,
+    "IdTarjetaBancariaSocio" BIGINT CS_FIXED,
+    "IdTipoTarjetaBancariaSocio" NVARCHAR(40) CS_STRING,
+    "NombreTipoTarjetaBancariaSocio" NVARCHAR(100) CS_STRING,
+    "NumeroTarjetaBancariaSocio" NVARCHAR(100) CS_STRING,
+    "NumeroSerieSocio" NVARCHAR(40) CS_STRING,
+    "NumeroDocumentoSocio" BIGINT CS_FIXED,
+    "FechaDocumentoPagoSocio" NVARCHAR(40) CS_STRING
+)

@@ -1,0 +1,1 @@
+insert into #entrada_cantar_ordenes values(:IdOrden,:IdInterno);

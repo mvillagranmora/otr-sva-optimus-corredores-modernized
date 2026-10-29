@@ -1,0 +1,46 @@
+package cl.bcs.cuentainversion.domain;
+
+import java.math.BigDecimal;
+
+// Core debit/credit movement input (CrearCargoAbono input entry)
+public record CargoAbono(
+        Long numeroCargoAbono,
+        Long idPortafolio,
+        String idMoneda,
+        String idTipoMovimiento,
+        String idConcepto,
+        String descripcion,
+        String idCondicionDeLiquidacion,
+        String fechaCondicionDeLiquidacion,
+        BigDecimal monto,
+        Long idEjecutivo,
+        Long idSucursal,
+        String idTipoProducto,
+        String idTipoOperacion,
+        Long idOperacion,
+        String fechaOperacion,
+        String fechaLiquidacionOperacion,
+        String fechaVencimientoOperacion,
+        String idMonedaOperacion,
+        BigDecimal montoOperacion,
+        BigDecimal tipoCambioOperacion,
+        Long idContraparte,
+        String idTipoComprobante,
+        Long idComprobante,
+        String folioComprobante,
+        Long idComprobanteDetalle,
+        Long idComprobanteFormaDePago,
+        String idTipoMovimientoAsociado,
+        Long idMovimientoAsociado,
+        String fechaComprobante,
+        Long idPersonaPagoCobro,
+        Long idInstrumento,
+        String idTipoInstrumento,
+        BigDecimal cantidad,
+        String nemo,
+        String esIndicadorBilateral,
+        String esCargoAbonoPorTraspaso,
+        Long idPortafolioTraspaso,
+        String generoContraparteEnTesoreria,
+        String certificadoAutomatico
+) {}

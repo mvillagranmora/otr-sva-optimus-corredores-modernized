@@ -1,0 +1,1 @@
+SELECT "IdTraspaso" FROM "BSCL.APV.BD::TRA.Traspaso" WHERE "IdContratoSAAPV" = :IdContratoSAAPV

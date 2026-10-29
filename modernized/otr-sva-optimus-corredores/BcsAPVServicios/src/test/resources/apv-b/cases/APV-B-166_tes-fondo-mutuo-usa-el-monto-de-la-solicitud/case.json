@@ -1,0 +1,104 @@
+{
+  "servicio": "CrearTraspasoTesoreria",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 25,
+    "p_IdModulo": "APV",
+    "p_Parametros": [
+      {
+        "IdTraspaso": 151,
+        "IdPersona": 25807,
+        "IdPersonaEntidad": 25807,
+        "IdPersonaCliente": 1774553,
+        "IdPortafolio": 0,
+        "Fecha": "2025-04-01",
+        "IdBanco": 12,
+        "IdCuentaCorriente": "566667",
+        "IdMedioPago": "TRA",
+        "MontoTotal": 1000000
+      }
+    ]
+  },
+  "colaboradores": {
+    "StoredProcedure": {
+      "BSCL.CuentaInversion.BD.Servicios::ConsultarSaldoCuentaInversionCliente": {
+        "salida": {
+          "p_out_SaldoPorFechaMovimiento": [
+            {
+              "CodigoCuentaInversion": "CI-5001",
+              "IdCliente": 7000,
+              "NombreCliente": "CLIENTE DEMO",
+              "DocumentoIdentidad": "11111111-1",
+              "IdPortafolio": 5001,
+              "NombrePortafolio": "PORT 5001",
+              "FechaSaldo": "2025-04-01",
+              "IdMoneda": "CLP",
+              "SaldoDisponible": 2000000,
+              "SaldoEnGarantia": 0,
+              "SaldoAPlazo": 0,
+              "SaldoRetiro": 0,
+              "IdEstado": "ACT"
+            }
+          ],
+          "p_out_InformacionContador": 0,
+          "p_out_AdvertenciasContador": 0,
+          "p_out_ErroresContador": 0
+        }
+      }
+    },
+    "CrearCargoAbono": {
+      "salida": {
+        "P_OUT_MENSAJES": [
+          {
+            "id": 31,
+            "tipo": "OK",
+            "codigo": "CARGO_ABONO_OK",
+            "descripcion": "cargo y abono creados"
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_CARGOABONOGENERADO": []
+      }
+    },
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_INGRESOEGRESOGENERADO": [
+          {
+            "NumeroReferencia": 1,
+            "IdIngresoEgreso": 9001,
+            "IdTipoMovimiento": "MOVEGR"
+          }
+        ],
+        "P_OUT_RESULTADOPROCESO": []
+      }
+    },
+    "CrearComprobante": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 7001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "OK",
+            "NumeroReferencia": 0
+          }
+        ]
+      }
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::TRA.Traspaso",
+      "orden": "\"IdTraspaso\"",
+      "columnas": [
+        "IdTraspaso",
+        "IdContratoSAAPV",
+        "IdEstado"
+      ]
+    }
+  ]
+}

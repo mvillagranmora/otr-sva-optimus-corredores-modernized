@@ -1,0 +1,91 @@
+{
+  "id": "APV-A-361",
+  "titulo": "a file but an empty contract table: the load row is inserted and CARGA_CONTRATO_ERROR \"La tabla de contrato viene vacia.\" is reported",
+  "pina": "CargaMasivaArchivo.java:156",
+  "servicio": "CargaMasivaArchivo",
+  "metodo": "call",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 21,
+    "p_IdModulo": "APV",
+    "p_Archivo": [
+      {
+        "IdEmpresa": 1,
+        "NombreCargaMasiva": "carga-ficticia.csv",
+        "CantidadRegistros": 1,
+        "IdUsuario": 21,
+        "IdTipoCarga": 1,
+        "Descripcion": "carga de prueba",
+        "IdEstado": "ING"
+      }
+    ],
+    "p_ParametrosContratos": [],
+    "p_DistribucionInversion": [
+      {
+        "IdContratoSAAPV": 0,
+        "FolioContratoSAAPV": "F-G1",
+        "IdInstrumento": 1021327,
+        "Nemotecnico": "00391CCLP",
+        "MontoPesos": 100000,
+        "Porcentaje": 100,
+        "IdEstado": "VIG",
+        "IdInterno": 0
+      }
+    ],
+    "p_PortafoliosModificados": [
+      {
+        "CodigoAgrupador": "GRUPO 1",
+        "IdMatrizAgrupador": 1,
+        "OrigenAhorro": "APV",
+        "IdPortafolio": 0,
+        "IdPropositoPortafolio": "PROPOSITOAPV",
+        "MesInicio": "2025-03",
+        "MesTermino": "9999-01",
+        "MontoPesos": 100000,
+        "MontoUF": 0,
+        "Pago": "IND",
+        "PagoNombre": "INDEFINIDO",
+        "PorcentajeRegimenImponible": 0,
+        "Producto": "APV FONDOS MUTUOS",
+        "Regimen": "APV-A",
+        "IdInterno": 0
+      }
+    ],
+    "p_DetalleOrigenTraspaso": []
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencias::SCS.IdContratoSAAPV": 9500,
+    "BSCL.APV.BD.Secuencias::TRA.IdTraspaso": 6000,
+    "BSCL.APV.BD.Secuencias::TRA.IdDetalleOrigenTraspaso": 6500,
+    "BSCL.APV.BD.Secuencia::APV.IdCargaMasiva": 300
+  },
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Portafolio.BD.Servicios::CrearPortafolio": {
+        "p_out_RefId": 901,
+        "p_out_AdvertenciasContador": 0,
+        "p_out_ErroresContador": 0,
+        "p_out_ErroresDetalle": [],
+        "p_out_AdvertenciasDetalle": []
+      }
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::APV.CargaMasiva",
+      "orden": "\"IdCargaMasiva\""
+    },
+    {
+      "nombre": "BSCL.APV.BD::SCS.ContratoSAAPV",
+      "orden": "\"IdContratoSAAPV\"",
+      "columnas": [
+        "IdContratoSAAPV",
+        "FolioContratoSAAPV",
+        "IdCargaMasiva",
+        "IdEstado",
+        "IdPersona",
+        "IdCliente"
+      ]
+    }
+  ]
+}

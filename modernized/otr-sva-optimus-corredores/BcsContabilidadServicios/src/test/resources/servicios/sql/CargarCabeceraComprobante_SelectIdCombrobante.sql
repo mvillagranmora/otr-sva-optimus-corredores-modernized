@@ -1,0 +1,1 @@
+SELECT "BSCL.Contabilidad.BD.Secuencias::IdTipoContabilidad".NEXTVAL AS "Id" FROM DUMMY

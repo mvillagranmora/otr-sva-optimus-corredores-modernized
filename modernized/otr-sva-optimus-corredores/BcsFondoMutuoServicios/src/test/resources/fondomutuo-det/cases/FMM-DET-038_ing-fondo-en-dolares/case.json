@@ -1,0 +1,81 @@
+{
+  "servicio": "ConsultarDetalleSolicitud",
+  "ref": "FM-DET-02: fondo en USD (FM002U, 2 decimales de cuota) y solicitud en CLP: usa el tipo de cambio observado de aporte 950 de la serie (UsaDolarObservado N)",
+  "esquemasExtra": [
+    "schema-det.sql",
+    "seed/base-det.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SolicitudesAporteRescate": 1
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorCuota",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::PLA.Configuracion",
+      "orden": "\"IdEmpresa\", \"CodigoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 1,
+            "IdClasificacionTipoInstrumento": "FM",
+            "Precio": 31.5,
+            "IdInstrumento": 901,
+            "FechaFuente": "2026-03-02 00:00:00.000"
+          }
+        ]
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdInterno": 6,
+                "MontoDestino": 40
+              },
+              {
+                "IdInterno": 7,
+                "FactorOrigenDestino": 39000,
+                "MontoDestino": 39000
+              },
+              {
+                "IdInterno": 5,
+                "MontoDestino": 1500000
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

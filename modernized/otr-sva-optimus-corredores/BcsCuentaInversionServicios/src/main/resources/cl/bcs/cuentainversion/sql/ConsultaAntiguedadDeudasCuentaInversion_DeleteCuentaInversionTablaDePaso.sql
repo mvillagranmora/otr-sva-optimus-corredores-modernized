@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.CuentaInversion.BD::GBL.ConsultarAntiguedadDeudasCuentaInversion_Cuenta_Paso";

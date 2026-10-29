@@ -1,0 +1,48 @@
+# bcs-contabilidad-jobs: the legacy BcsContabilidadJobs jobs, run in-process on POST /internal/job-call.
+# Every credential comes from the environment; nothing secret is stored here.
+#
+# Read directly from the environment by the BcsContabilidadServicios adapters, on first use (not listed here):
+#   SAP B1 Service Layer (InterfazContable): SAP_B1_URL, SAP_B1_USER, SAP_B1_PASSWORD, SAP_B1_COMPANY
+#   SAP B1 database (CreaInterfazDiaria / CreaInterfazDemanda, plan de cuentas): SAP_B1_DB_URL, SAP_B1_DB_USER,
+#     SAP_B1_DB_PASSWORD
+#   SFTP (CreaInterfazDiaria / CreaInterfazDemanda): SFTP_HOST, SFTP_PORT, SFTP_USER, SFTP_PASSWORD, SFTP_KNOWN_HOSTS
+#   Legacy TomEE platform proxy: PLATAFORMA_BASE_URL
+server:
+  port: 8082
+
+spring:
+  application:
+    name: bcs-contabilidad-jobs
+  # The one DataSource of the application (SAP HANA). The jobs, the Servicios services and BAT.Programa.RutaSalida
+  # all run on it, in the job's transaction.
+  datasource:
+    url: ${HANA_URL}
+    username: ${HANA_USER}
+    password: ${HANA_PASSWORD}
+    driver-class-name: com.sap.db.jdbc.Driver
+
+# Shared secret of /internal/** (header X-Internal-Token), set through the INTERNAL_TOKEN environment variable. Empty = every
+# request is rejected (fail closed); only /actuator/health and /actuator/info are public.
+services:
+  internal-token: ${INTERNAL_TOKEN:}
+
+contabilidad:
+  jobs:
+    # Step 5 (collaborators in process, see TRANSFORMATION_NOTES.md): the already migrated collaborators the Contabilidad services reach
+    # (Tesoreria's ConsultarClearingFinanciero) run inside the job transaction instead of POST /api/tesoreria/... over HTTP.
+    # false (or absent) = the pre-step-5 wiring.
+    colaboradores-en-proceso: true
+    # Job pattern H4 (parameters and claim from BAT.Programa; see TRANSFORMATION_NOTES.md):
+    # programa | parametros-del-llamador (tests and local runs only).
+    programa:
+      modo: programa
+    # Step 6 (fail-closed guard for TomEE write collaborators, JOBS_PATTERN.md H-1): marks H4G in BAT.LogPrograma before/after each guarded
+    # call (today only InscribirProcesoBatch) and a program whose earlier run left a HECHO or an unclosed INTENTO is NOT re-run ("requires
+    # review", HTTP 423). Active only in a run with an idPrograma (programa mode). false = no marks, no checks (the golden/test profile).
+    guarda-tomee: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

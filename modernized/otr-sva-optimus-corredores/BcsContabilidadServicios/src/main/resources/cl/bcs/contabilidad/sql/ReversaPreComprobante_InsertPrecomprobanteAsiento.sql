@@ -1,0 +1,26 @@
+INSERT INTO "BSCL.Contabilidad.BD::ITZ.PreComprobanteAsiento"
+("IdPreComprobanteAsiento"
+,"IdEmpresa"
+,"IdPreComprobante"  
+,"IdCuentaContable"  
+,"Ejercicio"
+,"Linea"
+,"MontoDebe"  
+,"MontoHaber"  
+,"FechaContable"
+,"Glosa"
+,"Estado"
+)
+VALUES(
+:IdPreComprobanteAsiento
+,:IdEmpresa
+,:IdPreComprobante
+,:IdCuentaContable
+,:Ejercicio
+,:Linea
+,:MontoDebe
+,:MontoHaber
+,:FechaContable
+,:Glosa
+,:Estado
+)

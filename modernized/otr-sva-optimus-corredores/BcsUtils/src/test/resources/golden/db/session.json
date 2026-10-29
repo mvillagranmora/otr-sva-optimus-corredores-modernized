@@ -1,0 +1,840 @@
+{
+  "area": "session",
+  "timeZone": "UTC",
+  "note": "Sesion token, SesionUtils, ProcesaLlamadaServletCall on H2; CURRENT_UTCTIMESTAMP is an H2 constant. Synthetic users only.",
+  "cases": [
+    {
+      "id": "SESSION-001",
+      "rule": "RULE-021",
+      "input": {
+        "idEmpresa": 1,
+        "nombreUsuario": "usuario.prueba",
+        "currentTimestamp": "2024-03-15 10:20:30",
+        "nanos": 0,
+        "idCanal": "WS"
+      },
+      "out": {
+        "value": {
+          "token": "MTp1c3VhcmlvLnBydWViYToyMDI0LTAzLTE1IDEwOjIwOjMwLjAzZTIxYjUyZS04OGMzLTQ3MGMtOTczYy04YTQxNjU3Nzk1MmE=",
+          "raw": "1:usuario.prueba:2024-03-15 10:20:30.03e21b52e-88c3-470c-973c-8a416577952a",
+          "uuid": "3e21b52e-88c3-470c-973c-8a416577952a",
+          "tsToString": "2024-03-15 10:20:30.0",
+          "insertedRow": "77|S|WS|true"
+        }
+      }
+    },
+    {
+      "id": "SESSION-002",
+      "rule": "RULE-021",
+      "input": {
+        "idEmpresa": null,
+        "nombreUsuario": "x",
+        "currentTimestamp": "2024-03-15 10:20:30",
+        "nanos": 123456789,
+        "idCanal": "CLI"
+      },
+      "out": {
+        "value": {
+          "token": "bnVsbDp4OjIwMjQtMDMtMTUgMTA6MjA6MzAuMTIzNDU2Nzg5Yzg1ZDYwZjgtMzM4Yy00ZDU4LTg2NWEtOWFjN2I5NDQxZmE0",
+          "raw": "null:x:2024-03-15 10:20:30.123456789c85d60f8-338c-4d58-865a-9ac7b9441fa4",
+          "uuid": "c85d60f8-338c-4d58-865a-9ac7b9441fa4",
+          "tsToString": "2024-03-15 10:20:30.123456789",
+          "insertedRow": "77|S|CLI|true"
+        }
+      }
+    },
+    {
+      "id": "SESSION-003",
+      "rule": "RULE-021",
+      "input": {
+        "idEmpresa": 2,
+        "nombreUsuario": "ñandú",
+        "currentTimestamp": "1970-01-01 00:00:00",
+        "nanos": 0,
+        "idCanal": "COR"
+      },
+      "out": {
+        "value": {
+          "token": "MjrDsWFuZMO6OjE5NzAtMDEtMDEgMDA6MDA6MDAuMDcwOGU3ZDg3LWMxYTgtNDhiMC05NDk2LTA5Mjg1MmE3OTY1Nw==",
+          "raw": "2:ñandú:1970-01-01 00:00:00.0708e7d87-c1a8-48b0-9496-092852a79657",
+          "uuid": "708e7d87-c1a8-48b0-9496-092852a79657",
+          "tsToString": "1970-01-01 00:00:00.0",
+          "insertedRow": "77|S|COR|true"
+        }
+      }
+    },
+    {
+      "id": "SESSION-004",
+      "rule": "RULE-021",
+      "input": {
+        "idEmpresa": 1,
+        "nombreUsuario": "",
+        "currentTimestamp": "2024-03-15 10:20:30.5",
+        "nanos": 500000000,
+        "idCanal": "AGE"
+      },
+      "out": {
+        "value": {
+          "token": "MTo6MjAyNC0wMy0xNSAxMDoyMDozMC41Y2NhY2MyMDUtNWVlOC00YjlkLWFkZGQtYjJlNjM2NTg5MTc2",
+          "raw": "1::2024-03-15 10:20:30.5ccacc205-5ee8-4b9d-addd-b2e636589176",
+          "uuid": "ccacc205-5ee8-4b9d-addd-b2e636589176",
+          "tsToString": "2024-03-15 10:20:30.5",
+          "insertedRow": "77|S|AGE|true"
+        }
+      }
+    },
+    {
+      "id": "SESSION-005",
+      "rule": "RULE-021",
+      "input": {
+        "idEmpresa": 1,
+        "nombreUsuario": null,
+        "currentTimestamp": "2024-12-31 23:59:59",
+        "nanos": 999000000,
+        "idCanal": "WS"
+      },
+      "out": {
+        "value": {
+          "token": "MTpudWxsOjIwMjQtMTItMzEgMjM6NTk6NTkuOTk5YWU5YzUxOWMtM2U1Yi00MjlmLTg4NDMtOGMwYzY2Y2NmNzIy",
+          "raw": "1:null:2024-12-31 23:59:59.999ae9c519c-3e5b-429f-8843-8c0c66ccf722",
+          "uuid": "ae9c519c-3e5b-429f-8843-8c0c66ccf722",
+          "tsToString": "2024-12-31 23:59:59.999",
+          "insertedRow": "77|S|WS|true"
+        }
+      }
+    },
+    {
+      "id": "SESSION-006",
+      "rule": "RULE-021",
+      "input": {
+        "idEmpresa": -7,
+        "nombreUsuario": "a:b",
+        "currentTimestamp": "2024-03-15 10:20:30",
+        "nanos": 1,
+        "idCanal": "WS"
+      },
+      "out": {
+        "value": {
+          "token": "LTc6YTpiOjIwMjQtMDMtMTUgMTA6MjA6MzAuMDAwMDAwMDAxZjRlOTQ5MzAtNGM5MS00NGM4LTlkZTUtOWE5M2U0MzY4OGNm",
+          "raw": "-7:a:b:2024-03-15 10:20:30.000000001f4e94930-4c91-44c8-9de5-9a93e43688cf",
+          "uuid": "f4e94930-4c91-44c8-9de5-9a93e43688cf",
+          "tsToString": "2024-03-15 10:20:30.000000001",
+          "insertedRow": "77|S|WS|true"
+        }
+      }
+    },
+    {
+      "id": "SESSION-007",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "WS",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "600000"
+      }
+    },
+    {
+      "id": "SESSION-008",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "CLI",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "900000"
+      }
+    },
+    {
+      "id": "SESSION-009",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "AGE",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "1200000"
+      }
+    },
+    {
+      "id": "SESSION-010",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "COR",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "1800000"
+      }
+    },
+    {
+      "id": "SESSION-011",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "ws",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "1800000"
+      }
+    },
+    {
+      "id": "SESSION-012",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "cor",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "1800000"
+      }
+    },
+    {
+      "id": "SESSION-013",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "1800000"
+      }
+    },
+    {
+      "id": "SESSION-014",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "SSO",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "1800000"
+      }
+    },
+    {
+      "id": "SESSION-015",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "WEB",
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": "1800000"
+      }
+    },
+    {
+      "id": "SESSION-016",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": null,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "SESSION-017",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "WS",
+        "config": "no PLA.IdleMaxTimeWS row"
+      },
+      "out": {
+        "throws": "java.lang.IndexOutOfBoundsException"
+      }
+    },
+    {
+      "id": "SESSION-018",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "WS",
+        "config": "PLA.IdleMaxTimeWS = NULL"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "SESSION-019",
+      "rule": "RULE-024",
+      "input": {
+        "fn": "GetParametro",
+        "canal": "WS",
+        "config": "600000 then updated to 1",
+        "check": "JVM-wide cache"
+      },
+      "out": {
+        "value": {
+          "first": "600000",
+          "afterDbUpdate": "600000",
+          "otherDatabase": "600000"
+        }
+      }
+    },
+    {
+      "id": "SESSION-020",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "WS",
+        "canalSesion": "WS",
+        "idleMs": 599000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-021",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "WS",
+        "canalSesion": "WS",
+        "idleMs": 601000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "N",
+          "p_out_Mensaje": "TOKEN INVALIDO",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "N|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-022",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "CLI",
+        "canalSesion": "CLI",
+        "idleMs": 899000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-023",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "CLI",
+        "canalSesion": "CLI",
+        "idleMs": 901000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "N",
+          "p_out_Mensaje": "TOKEN INVALIDO",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "N|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-024",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "AGE",
+        "canalSesion": "AGE",
+        "idleMs": 1199000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-025",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "AGE",
+        "canalSesion": "AGE",
+        "idleMs": 1201000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "N",
+          "p_out_Mensaje": "TOKEN INVALIDO",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "N|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-026",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "COR",
+        "canalSesion": "COR",
+        "idleMs": 299000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|unchanged|0"
+        }
+      }
+    },
+    {
+      "id": "SESSION-027",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "COR",
+        "canalSesion": "COR",
+        "idleMs": 301000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|unchanged|0"
+        }
+      }
+    },
+    {
+      "id": "SESSION-028",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "COR",
+        "canalSesion": "COR",
+        "idleMs": 1801000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|unchanged|0"
+        }
+      }
+    },
+    {
+      "id": "SESSION-029",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "COR",
+        "canalSesion": "COR",
+        "idleMs": 864000000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|unchanged|0"
+        }
+      }
+    },
+    {
+      "id": "SESSION-030",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "cor",
+        "canalSesion": "cor",
+        "idleMs": 864000000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|unchanged|0"
+        }
+      }
+    },
+    {
+      "id": "SESSION-031",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "XYZ",
+        "canalSesion": "XYZ",
+        "idleMs": 1799000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-032",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "XYZ",
+        "canalSesion": "XYZ",
+        "idleMs": 1801000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "N",
+          "p_out_Mensaje": "TOKEN INVALIDO",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "N|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-033",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "ws",
+        "canalSesion": "ws",
+        "idleMs": 601000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-034",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "ws",
+        "canalSesion": "ws",
+        "idleMs": 1801000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "N",
+          "p_out_Mensaje": "TOKEN INVALIDO",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "N|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-035",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": null,
+        "canalSesion": "COR",
+        "idleMs": 864000000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|unchanged|0"
+        }
+      }
+    },
+    {
+      "id": "SESSION-036",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "WS",
+        "canalSesion": "SSO",
+        "idleMs": 599000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-037",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "WS",
+        "canalSesion": "SSO",
+        "idleMs": 601000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "N",
+          "p_out_Mensaje": "TOKEN INVALIDO",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "N|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-038",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "WS",
+        "canalSesion": "CLI",
+        "idleMs": 1000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "N",
+          "p_out_Mensaje": "TOKEN INVALIDO",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|unchanged|0"
+        }
+      }
+    },
+    {
+      "id": "SESSION-039",
+      "rule": "RULE-025",
+      "input": {
+        "canalLlamada": "WS",
+        "canalSesion": "WS",
+        "idleMs": -5000,
+        "config": {
+          "PLA.IdleMaxTimeWS": "600000",
+          "PLA.IdleMaxTimeCLI": "900000",
+          "PLA.IdleMaxTimeAGE": "1200000",
+          "PLA.IdleMaxTimeCOR": "300000"
+        }
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "S",
+          "p_out_Mensaje": "OK++",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|other:2024-03-15 00:00:00.0|1"
+        }
+      }
+    },
+    {
+      "id": "SESSION-040",
+      "rule": "RULE-027",
+      "input": {
+        "canalLlamada": "WS",
+        "canalSesion": "WS",
+        "idleMs": 1000,
+        "idServicio": 999
+      },
+      "out": {
+        "value": {
+          "p_out_PermiteUso": "N",
+          "p_out_Mensaje": "SERVICIO INVALIDO",
+          "sesionDespues(TokenValido|FechaUltimoUso|UsoToken)": "S|unchanged|0"
+        }
+      }
+    },
+    {
+      "id": "SESSION-041",
+      "rule": "RULE-071",
+      "input": {
+        "fn": "ObtenerFechaHoraUTCTs",
+        "db": "2024-03-15 12:00:00.123456789 then 2030-01-01 00:00:00"
+      },
+      "out": {
+        "value": {
+          "firstCall": {
+            "type": "java.sql.Timestamp",
+            "ms": 1710504000123,
+            "local": "2024-03-15T12:00:00.123Z",
+            "nanos": 123000000,
+            "toString": "2024-03-15 12:00:00.123"
+          },
+          "firstCallMinusDbMs": 0,
+          "afterDbChange_usesCache": true,
+          "ageJustUnderOneHour_usesCacheAndAdvances": {
+            "cached": true
+          },
+          "ageJustOverOneHour_refreshes": true,
+          "ultTimeMillisInitiallyZeroThenWallClock": true
+        }
+      }
+    },
+    {
+      "id": "SESSION-042",
+      "rule": "RULE-071",
+      "input": {
+        "fn": "ObtenerFechaHoraUTCTs",
+        "db": "NULL then 2024-03-15 12:00:00"
+      },
+      "out": {
+        "value": {
+          "dbReturnsNull": {
+            "throws": "java.lang.Exception"
+          },
+          "ultTimeMillisUpdatedEvenIfNull": true,
+          "nextCallWithinHour_nearDbValue": {
+            "throws": "java.lang.Exception"
+          }
+        }
+      }
+    }
+  ]
+}

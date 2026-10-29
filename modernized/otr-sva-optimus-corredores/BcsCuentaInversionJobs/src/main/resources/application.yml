@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: bcs-cuenta-inversion-jobs
+  # HANA JDBC (values injected via environment, never commit credentials)
+  datasource:
+    url: ${HANA_URL}
+    username: ${HANA_USER}
+    password: ${HANA_PASSWORD}
+    driver-class-name: com.sap.db.jdbc.Driver
+
+services:
+  # Collaborators that live outside CuentaInversion (InscribirProcesoBatch of the PAUTA steps, ConsultarEmpresa, CalcularParidad, ...):
+  # the platform JavaCall router. No default: the deployment must say where it is (empty: such a call fails when it is made).
+  javacall:
+    url: ${JAVACALL_URL:}
+    connect-timeout: PT2S
+    read-timeout: PT60S
+  # Configuration service of the platform: only used by ConsultarSaldoCuentaInversion, which the report services run in process.
+  # REQUIRED, no default: the application does not start without CONFIGURACION_URL (a localhost default would point at another service).
+  # The other services.* clients of the Servicios library are not part of this module.
+  configuracion:
+    url: ${CONFIGURACION_URL}
+    connect-timeout: PT2S
+    read-timeout: PT60S
+  # Shared secret of /internal/** (Job Manager -> POST /internal/job-call, and jobs -> router). Empty: every /internal call is rejected.
+  internal-token: ${INTERNAL_TOKEN:}
+
+# Session statements of BcsJob.java:130-132 on every transaction of a run (HANA). false only for a non-HANA database.
+cuentainversion:
+  jobs:
+    sesion-hana: true
+    # Job pattern H4 (parameters and claim from BAT.Programa; see TRANSFORMATION_NOTES.md): programa | parametros-del-llamador (tests and local runs only).
+    programa:
+      modo: programa
+    # Step 6 (JOBS_PATTERN.md H-1): fail-closed guard for the collaborators that still live in TomEE and write (InscribirProcesoBatch, ...): marks
+    # H4G in BAT.LogPrograma before/after each call, and a program whose earlier run left a HECHO or an unclosed INTENTO is NOT re-run (it goes to
+    # "requires review"). Active only in a run with an idPrograma (programa mode). false = no marks, no checks (the golden/test profile).
+    guarda-tomee: true

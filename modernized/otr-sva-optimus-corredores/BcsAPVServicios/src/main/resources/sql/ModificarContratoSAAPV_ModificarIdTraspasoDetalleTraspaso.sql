@@ -1,0 +1,1 @@
+UPDATE "BSCL.APV.BD::TRA.DetalleTraspaso" SET "IdTraspaso" = :IdTraspasoNuevo WHERE "IdTraspaso" = :IdTraspaso

@@ -1,0 +1,1 @@
+SELECT "IdPreferenciaPago","IdMedioDePago" FROM "BSCL.Plataforma.BD::PAG.PreferenciaPago"   WHERE "IdPreferenciaPago" like '%SPT_%' ;

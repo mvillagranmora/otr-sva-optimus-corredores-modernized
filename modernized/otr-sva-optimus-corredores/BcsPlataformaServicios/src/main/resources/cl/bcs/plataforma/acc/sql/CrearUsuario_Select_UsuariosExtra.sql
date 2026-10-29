@@ -1,0 +1,1 @@
+SELECT "Valor" AS "IdCorreosJuntos" FROM "BSCL.Plataforma.BD::PLA.Configuracion" WHERE "CodigoParametro" = 'ACC.NotificoExtraCrearUsuario'; 

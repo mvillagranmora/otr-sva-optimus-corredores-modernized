@@ -1,0 +1,1 @@
+SELECT "IdTipoDatoEvento","TipoDato" FROM "BSCL.Contabilidad.BD::ITZ.EventoTipoDato" WHERE "IdTipoDatoEvento" = :IdTipoDatoEvento

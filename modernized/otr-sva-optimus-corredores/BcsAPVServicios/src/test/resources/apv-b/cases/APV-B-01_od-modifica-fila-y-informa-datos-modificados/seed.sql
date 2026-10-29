@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.APV.BD::APV.OrigenDestinoTransicion" ("IdOrigenDestinoTransicion","IdEmpresa","Operacion","OrigenCtaBco","SocioNegocioCtaBco","DestinoCtaBco","IdEstado") VALUES (1,1,'DISTRIBUCION',11,22,33,'INA');

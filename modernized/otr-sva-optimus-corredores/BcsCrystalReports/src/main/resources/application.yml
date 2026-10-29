@@ -1,0 +1,33 @@
+server:
+  port: 8100
+
+spring:
+  datasource:
+    url: ${HANA_URL}
+    username: ${HANA_USER}
+    password: ${HANA_PASSWORD}
+    driver-class-name: com.sap.db.jdbc.Driver
+  mvc:
+    throw-exception-if-no-handler-found: true
+  servlet:
+    multipart:
+      # the legacy @MultipartConfig had no limit (Spring's default is 1MB, too small for .rpt files)
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health   # explicit: no /actuator/info, /env, ... even if a starter changes its defaults
+
+services:
+  internal-token: ${INTERNAL_TOKEN:}   # empty = every protected call is rejected (fail closed)
+
+app:
+  hana:
+    schema: ${HANA_SCHEMA:BSCL}
+
+logging:
+  level:
+    cl.bcs: INFO

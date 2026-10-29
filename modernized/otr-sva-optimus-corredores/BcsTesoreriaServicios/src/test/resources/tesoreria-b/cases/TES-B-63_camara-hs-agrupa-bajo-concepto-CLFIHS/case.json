@@ -1,0 +1,54 @@
+{
+  "servicio": "liq.ProcesarClearingFinanciero",
+  "metodo": "call",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 5,
+    "p_IdModulo": "TES",
+    "p_UsaReglasNegocio": "S",
+    "p_FechaLiquidacion": "2025-04-01",
+    "p_IdPais": 44,
+    "p_Camaras": [
+      {
+        "Camara": "PH"
+      },
+      {
+        "Camara": "PM"
+      },
+      {
+        "Camara": "SM"
+      }
+    ]
+  },
+  "config": {
+    "PLATAFORMA/PLA.LocalizacionSistema": "CL",
+    "TESORERIA/UsaCamaraHS": "S"
+  },
+  "colaboradores": {
+    "crearIngresoEgreso": {
+      "idIngresoEgresoBase": 9000
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Orden.BD::ORD.Transaccion",
+      "orden": "\"IdTransaccion\"",
+      "columnas": [
+        "IdTransaccion",
+        "IdComprobanteTesoreria"
+      ]
+    },
+    {
+      "nombre": "BSCL.Custodia.BD::CUS.EventoCapitalCliente",
+      "orden": "\"IdEventoCapitalCliente\""
+    },
+    {
+      "nombre": "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento",
+      "orden": "\"IdCargoAbonoMovimiento\"",
+      "columnas": [
+        "IdCargoAbonoMovimiento",
+        "IdComprobanteTesoreria"
+      ]
+    }
+  ]
+}

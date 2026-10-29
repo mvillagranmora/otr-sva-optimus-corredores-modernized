@@ -1,0 +1,156 @@
+{
+  "servicio": "LiquidarMovimientoAutomatico",
+  "metodo": "call",
+  "config": {
+    "TESORERIA/USARCREARCOMPROBANTEJAVA": "S"
+  },
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Tesoreria.BD.Servicios::ModificarIngresoEgreso": {
+        "p_out_ErroresContador": 1,
+        "p_out_AdvertenciasContador": 0,
+        "p_out_ResultadoProceso": [],
+        "p_out_IngresoEgresoModificado": [],
+        "p_out_AdvertenciasDetalle": [],
+        "p_out_ErroresDetalle": [
+          {
+            "NumeroReferencia": 5602,
+            "Codigo": "ERR_MOD",
+            "Descripcion": "error al modificar"
+          }
+        ]
+      }
+    }
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 97,
+    "p_IdModulo": "TES",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_FechaMovimiento": "2025-04-01",
+    "p_Canal": "WEB",
+    "p_IngresoEgreso": [
+      {
+        "NumeroReferencia": 1,
+        "IdIngresoEgreso": 5602,
+        "TipoComprobante": ""
+      }
+    ],
+    "p_FormaDePago": [
+      {
+        "NumeroReferencia": 1,
+        "IdMedioDePago": "TRA",
+        "IdModalidadDePago": "MODDEP",
+        "IdMoneda": "CLP",
+        "Monto": 10000,
+        "IdCuentaBancariaCorredora": 301
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.Comprobante",
+      "orden": "\"IdComprobante\"",
+      "columnas": [
+        "IdComprobante",
+        "IdEmpresa",
+        "IdTipoMovimiento",
+        "IdEstado",
+        "Monto",
+        "IdMoneda",
+        "IdCaja",
+        "TipoComprobante",
+        "IdPersona",
+        "IdPortafolioTitularPago",
+        "FechaLiquidacion",
+        "FechaMovimiento"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.ComprobanteDetalle",
+      "orden": "\"IdComprobanteDetalle\"",
+      "columnas": [
+        "IdComprobanteDetalle",
+        "IdComprobante",
+        "IdTipoMovimiento",
+        "IdConcepto",
+        "NroLinea",
+        "Monto",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago",
+      "orden": "\"IdComprobanteFormaDePago\"",
+      "columnas": [
+        "IdComprobanteFormaDePago",
+        "IdComprobante",
+        "IdTipoMovimiento",
+        "IdMedioDePago",
+        "IdModalidadDePago",
+        "Monto",
+        "IdEstado",
+        "IdCuentaBancariaCorredora",
+        "DiasRetencion",
+        "FechaAfectaSaldo"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.ComprobanteDetalleOrigen",
+      "orden": "\"IdComprobanteDetalleOrigen\"",
+      "columnas": [
+        "IdComprobanteDetalleOrigen",
+        "IdComprobanteDetalle",
+        "IdIngresoEgreso",
+        "IdComprobante"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.IngresoEgreso",
+      "orden": "\"IdIngresoEgreso\"",
+      "columnas": [
+        "IdIngresoEgreso",
+        "IdEstado",
+        "IdUsuarioEmision",
+        "FechaHoraEmision"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.IngresoEgresoFormaDePago",
+      "orden": "\"IdIngresoEgresoFormaDePago\"",
+      "columnas": [
+        "IdIngresoEgresoFormaDePago",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_IngresoEgresoGenerar",
+      "orden": "\"NumeroReferencia\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_ComprobanteGenerar",
+      "orden": "\"NumeroReferencia\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_FormaDePago",
+      "orden": "\"NumeroReferencia\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearComprobante_Salida_ResultadoProceso",
+      "orden": "\"Id\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearComprobante_Salida_ErroresDetalle",
+      "orden": "\"Codigo\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.IngresoEgreso",
+      "orden": "\"IdIngresoEgreso\"",
+      "columnas": [
+        "IdIngresoEgreso",
+        "IdEstado"
+      ]
+    }
+  ]
+}

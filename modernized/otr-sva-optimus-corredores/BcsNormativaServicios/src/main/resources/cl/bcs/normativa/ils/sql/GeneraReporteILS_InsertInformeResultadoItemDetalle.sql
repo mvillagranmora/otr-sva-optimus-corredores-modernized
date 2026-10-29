@@ -1,0 +1,3 @@
+INSERT INTO "BSCL.Normativa.BD::ILS.InformeResultadoItemDetalle"
+VALUES (:IdResultadoItemDetalle,:IdResultadoItem,:IdTipoItem, :Monto, :IdItem, :NombreItem, :IdIndice, :IdConceptoGrupo, :IdConcepto,:CuentaContable,:SaldoDebeHaber
+	,:Condicion,:MontoCondicion,:Operacion, :FactorItem,:MontoCalculado,:PosicionIndice,:MayorACero,:MenorACero,:PermiteCero,:ProcesoFuncion, :MontoContable, :MontoDigitado, :MontoProgramado);

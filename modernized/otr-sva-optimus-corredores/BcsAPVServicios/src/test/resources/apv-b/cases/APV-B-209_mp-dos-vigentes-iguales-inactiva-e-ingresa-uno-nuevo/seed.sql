@@ -1,0 +1,13 @@
+INSERT INTO "BSCL.SocioNegocio.BD::PER.Persona" ("IdPersona","Tipo") VALUES (117940,'N');
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" ("IdPersona","DocumentoIdentidad","Predeterminado") VALUES (117940,'15571571-5','S');
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" ("IdCliente","IdPersona","IdEstado") VALUES (85050,117940,'ACT');
+INSERT INTO "BSCL.APV.BD::SCS.ContratoSAAPV" ("IdContratoSAAPV","IdEmpresa","FolioContratoSAAPV","IdCliente","IdPersona","CodigoTipoSolicitud","IdEstado","IdPerfilComercial") VALUES (1013894,1,'F1013894',85050,117940,'TRA','PDI','PERFIL BCS');
+INSERT INTO "BSCL.APV.BD::TRA.Traspaso" ("IdTraspaso","IdContratoSAAPV","IdEmpresa","TipoMovimiento","RazonRetiro","IdEstado","CodigoTipoTraspaso","IdCliente") VALUES (2991733,1013894,1,'INGRESO','TRA','PDI','TOT',8001);
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV","IdPlanTipoInversion","IdProductoAgrupador","IdRegimenTributario") VALUES (100,2,2,4);
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV","IdPlanTipoInversion","IdProductoAgrupador","IdRegimenTributario") VALUES (200,2,2,2);
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV","IdPlanTipoInversion","IdProductoAgrupador","IdRegimenTributario") VALUES (300,3,2,6);
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV","IdPlanTipoInversion","IdProductoAgrupador","IdRegimenTributario") VALUES (999,2,2,99);
+INSERT INTO "BSCL.APV.BD::TRA.DetalleTraspaso" ("IdTraspaso","IdDetalleTraspaso","IdPortafolio","FechaIngreso","FechaModificacion","IdPlanTipoInversion","IdProductoAgrupador","IdRegimenTributario","MontoPeso","MontoUF","Porcentaje","IdEstado","EsReapertura") VALUES (2991733,1930047,487451,'2025-03-01','0001-01-01',2,2,4,2000000,0,0,'VIG','N');
+INSERT INTO "BSCL.APV.BD::SCS.PortafolioContratoSAAPV" ("IdPortafolioContratoSAAPV","IdPortafolio","IdContratoSAAPV","IdEstado","OrigenAhorro","MontoPesos","MontoUF","PorcentajeRegimenImponible","Pago","PeriodoInicio","PeriodoTermino") VALUES (50,487451,1013894,'VIG','DC',2000000,0,0,'UNI','2025-03','2025-03');
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio","IdCliente","CodigoPortafolio","IdMatrizAgrupadorAPV","IdEstado","IdEstadoAutorizacion","Proposito") VALUES (487451,85050,'DC-AL',100,'ACT','AUT','PROPOSITOAPV');
+INSERT INTO "BSCL.APV.BD::TRA.DetalleTraspaso" ("IdTraspaso","IdDetalleTraspaso","IdPortafolio","FechaIngreso","FechaModificacion","IdPlanTipoInversion","IdProductoAgrupador","IdRegimenTributario","MontoPeso","MontoUF","Porcentaje","IdEstado","EsReapertura") VALUES (2991733,1930047,487451,'2025-03-01','0001-01-01',2,2,4,1000000,0,0,'VIG','N');

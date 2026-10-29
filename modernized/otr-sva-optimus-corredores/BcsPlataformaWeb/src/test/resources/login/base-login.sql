@@ -1,0 +1,23 @@
+-- Base configuration of every login test (fictitious). System date Monday 2026-03-02, company 1.
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'PLA.FechaSistema', '2026-03-02');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'PLA.ClaveUsuarioIntentos', '3');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'PLA.ClaveUsuarioTiempoBloqueo', '15');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'PLA.IdleMaxTimeWS', '60000');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'PLA.IdleMaxTimeCLI', '900000');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'PLA.IdleMaxTimeAGE', '900000');
+INSERT INTO "BSCL.SocioNegocio.BD::EMP.Empleado" VALUES (100, 'ACT', 'S');
+INSERT INTO "BSCL.SocioNegocio.BD::PER.Persona" VALUES (200, 'ACT', 'S');
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" VALUES (300, 'ACT', 'S');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'ACC.numLongitud', '8');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'ACC.numMayusculas', '1');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'ACC.numMinuscula', '1');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'ACC.numCaracteres', '1');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'ACC.numDigitos', '1');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'PLA.LargoMaximoToken', '10');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('CONTRASENA_ACTUALIZADA', 'CL', 'Contrasena actualizada correctamente.', NULL);
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('CONTRASENA_Y_CONFIRMACION_NO_SON_IGUALES', 'CL', 'La contrasena y su confirmacion no son iguales.', NULL);
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('CONTRASENA_INVALIDA', 'CL', 'Contrasena invalida.', NULL);
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('CLAVE_PROVISORIA_VALIDA', 'CL', 'Clave provisoria valida.', NULL);
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('CLAVE_PROVISORIA_VENCIDA', 'CL', 'Clave provisoria vencida.', NULL);
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('CLAVE_PROVISORIA_INVALIDA', 'CL', 'Clave provisoria invalida.', NULL);
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('SUPERA_INTENTOS_MAXIMOS', 'CL', 'Supera los intentos maximos.', NULL);

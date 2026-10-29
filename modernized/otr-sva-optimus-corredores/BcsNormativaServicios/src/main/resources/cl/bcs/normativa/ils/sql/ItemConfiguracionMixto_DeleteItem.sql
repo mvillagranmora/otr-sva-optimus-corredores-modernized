@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Normativa.BD::ILS.ItemConfiguracion" WHERE "IdConfiguracionItem" = :IdConfiguracionItem;

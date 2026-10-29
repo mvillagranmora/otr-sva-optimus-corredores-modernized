@@ -1,0 +1,76 @@
+{
+  "id": "APV-C-062",
+  "titulo": "the deposit creation reports an error (no PAC cash box): its message is returned and the counter is set, no employer/client created, the load stays VIG",
+  "pina": "ProcesarCargaMasivaRecaudacion.java:256",
+  "servicio": "ProcesarCargaMasivaRecaudacion",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 70830,
+    "p_IdModulo": "APV",
+    "p_accion": "PRO",
+    "p_IdCargaMasiva": 77
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 900,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionEmpleador": 600,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionCliente": 500
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEmpresa",
+        "FolioCartola",
+        "LineaCartola",
+        "CuentaCorriente",
+        "MontoDeposito",
+        "IdTipoDeposito",
+        "IdBanco",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Empleador",
+      "orden": "\"IdRecaudacionEmpleador\"",
+      "columnas": [
+        "IdRecaudacionEmpleador",
+        "IdRecaudacion",
+        "IdPersona",
+        "PeriodoPago",
+        "TipoAfiliado",
+        "TipoPago",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdRecaudacionEmpleador",
+        "IdCliente",
+        "TipoAfiliado",
+        "IdRegimenTriburario",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::APV.CargaMasiva",
+      "orden": "\"IdCargaMasiva\"",
+      "columnas": [
+        "IdCargaMasiva",
+        "IdEstado"
+      ]
+    }
+  ]
+}

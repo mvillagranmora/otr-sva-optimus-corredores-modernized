@@ -1,0 +1,1 @@
+SELECT "FolioContratoSAAPV" FROM "BSCL.APV.BD::SCS.ContratoSAAPV" WHERE "FolioContratoSAAPV" = :FolioContratoSAAPV AND "FolioContratoSAAPV" != ''

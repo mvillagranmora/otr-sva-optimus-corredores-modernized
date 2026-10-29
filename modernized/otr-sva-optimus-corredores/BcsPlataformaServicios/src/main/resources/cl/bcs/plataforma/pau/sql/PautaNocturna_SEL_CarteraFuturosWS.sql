@@ -1,0 +1,71 @@
+
+SELECT 
+"BSCL.Plataforma.BD.Secuencias::IdProcesamientoValorizaCustodiaMasiva".NEXTVAL AS "IdProcesamientoValorizaCustodiaMasiva",
+dt."IdCartera"									AS "IdTablaOrigen",
+'CARTERA' 										AS "TablaOrigen",
+'PENDIENTE' 									AS "EstadoProcesamiento",
+ dt."FechaOperacion" 							AS "PQ_FechaOperacion",
+ 'S'											AS "PQ_ValorizaACompra",
+ dt."IdClasificacionTipoInstrumento" 			AS "PQ_IdClasificacionTipoInstrumento",
+ dt."IdTipoInstrumento" 						AS "PQ_IdTipoInstrumento",
+ dt."IdInstrumento" 							AS "PQ_IdInstrumento",
+ dt."Nemotecnico" 								AS "PQ_Nemotecnico",
+ dt."IdMonedaInstrumento" 						AS "PQ_IdMoneda",
+ dt."INGCantidad"								AS "PQ_Cantidad",
+ dt."INGPrecioCompra" 							AS "PQ_Precio",
+ dt."Tamano" 									AS "PQ_Tamano",
+ 'CARTERA' 										AS "PQ_UsoPrecio",
+ NULL 											AS "PQ_TipoCartera", 
+ 'NORMATIVO' 									AS "PQ_IdTipoCriterioTasa",
+ dt."FechaVencimientoInstrumento" 				AS "PQ_FechaVencimientoOperacion",
+ dt."INGTasaCompra"								AS "PQ_Tasa",
+ dt."PlazoEnDiasOperacion" 						AS "PQ_Plazo",
+ NULL  											AS "PQ_PlazoResidual", 
+ NULL  											AS "PQ_Base",				
+ dt."IdCliente" 								AS "PQ_IdCliente",		
+ dt."IdPortafolio"								AS "PQ_IdPortafolio",
+ dt."FechaOperacion" 							AS "WS_FechaOperacion",
+ 'S'					 						AS "WS_ValorizaACompra",
+ coalesce(dt."ValorizaPor",'T')					AS "WS_ValorizaPor",
+ dt."IdClasificacionTipoInstrumento"			AS "WS_IdClasificacionTipoInstrumento",
+ dt."IdTipoInstrumento" 						AS "WS_IdTipoInstrumento",
+ dt."IdInstrumento" 							AS "WS_IdInstrumento",
+ dt."Nemotecnico"	 							AS "WS_Nemotecnico",
+ dt."IdEmisor" 									AS "WS_IdEmisor",
+ dt."FechaEmisionInstrumento"					AS "WS_FechaEmision",
+ dt."FechaVencimientoInstrumento" 				AS "WS_FechaVencimiento",
+ dt."IdTipoReajuste" 							AS "WS_IdTipoReajuste",
+ dt."INGCantidad" 								AS "WS_Cantidad",
+ dt."INGValorRescate"							AS "WS_ValorRescate",
+ dt."INGPrecioCompra"							AS "WS_PrecioCompra",
+ dt."INGTasaCompra"								AS "WS_TasaCompra",
+ NULL  											AS "WS_PrecioSubyacente",
+ NULL  											AS "WS_TasaSubyacente",
+ NULL  											AS "WS_PrecioGarantia",
+ NULL  											AS "WS_TasaGarantia",
+ dt."TIFTasa" 									AS "WS_TasaTIF",
+ 'CARTERA' 										AS "WS_UsoPrecio",
+ NULL  											AS "WS_TipoCartera",
+ 'NORMATIVO'				 					AS "WS_IdTipoCriterioTasa",
+ dt."TipoValorizacion" 							AS "WS_TipoValorizacion",
+ dt."TieneCorteDeCupon"							AS "WS_TieneCorteDeCupon",
+ dt."IdCliente" 								AS "WS_IdCliente",		
+ dt."IdPortafolio"								AS "WS_IdPortafolio",	
+ dt."INGMontoCompraActualMonedaInstrumento"	 	AS "WS_BK_INGMontoCompraActualMonedaInstrumento",	
+ dt."INGMontoATasaCompraActual"				 	AS "WS_BK_INGMontoATasaCompraActual",	
+ dt."INGMontoMercadoActualMonedaInstrumento" 	AS "WS_BK_INGMontoMercadoActualMonedaInstrumento",	
+ dt."INGMontoATasaMercadoActual"			 	AS "WS_BK_INGMontoATasaMercadoActual",						
+ dt."IdMonedaInstrumento" 					 	AS "WS_IdMonedaInstrumento",
+ dt."MontoCompra"		 					 	AS "WS_MontoCompra",
+ dt."PlazoEnDiasOperacion"		 			 	AS "WS_PlazoEnDias",
+ dt."IdMonedaEmision"		 				 	AS "WS_IdMonedaEmision"
+ 
+FROM  "BSCL.Custodia.BD::CUS.Cartera" dt
+WHERE  dt."IdEmpresa" = :IdEmpresa 
+AND dt."IdEstado" = 'VIG'
+AND dt."IdCliente" = CASE  WHEN  ifnull(:IdCliente,0)=0 THEN   dt."IdCliente" ELSE  :IdCliente END 
+AND dt."IdPortafolio" = CASE  WHEN  ifnull(:IdPortafolio,0)=0 THEN  dt."IdPortafolio" ELSE  :IdPortafolio END  
+AND dt."IdTipoInstrumento" = 'FBC'
+AND dt."IdClasificacionTipoInstrumento" IN ('DV');
+
+

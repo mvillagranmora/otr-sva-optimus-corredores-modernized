@@ -1,0 +1,1 @@
+SELECT "FolioPAC" FROM "BSCL.Tesoreria.BD::PAC.MandatoPAC" WHERE "FolioPAC" IN (:FolioPAC)

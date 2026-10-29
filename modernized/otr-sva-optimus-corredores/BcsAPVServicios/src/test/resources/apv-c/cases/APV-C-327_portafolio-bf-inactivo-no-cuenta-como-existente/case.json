@@ -1,0 +1,175 @@
+{
+  "id": "APV-C-327",
+  "titulo": "the client only has an inactive BF portfolio in the view: it is not found, so the CrearPortafolio procedure is called",
+  "pina": "EjecutarBonificacion.java:317",
+  "servicio": "EjecutarBonificacion",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 51,
+    "p_IdModulo": "APV",
+    "p_Parametros": [
+      {
+        "IdBonificacion": 1
+      }
+    ]
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 960,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionCliente": 520
+  },
+  "colaboradores": {
+    "ConsultarCustodiaPortafolio": {
+      "salida": {
+        "P_OUT_TBL": [
+          {
+            "IdPortafolio": 901,
+            "IdInstrumento": 421060,
+            "Nemotecnico": "FFMM-A",
+            "CantidadCustodia": 100,
+            "MontoMercadoCustodia": 100000,
+            "IdRegimenTributario": "APV-A",
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FFM",
+            "Producto": "APV FONDOS MUTUOS",
+            "CodigoRegimenTipoAhorro": "APV",
+            "CodigoPortafolio": "APV-A",
+            "PPPCustodia": 10,
+            "ValorPPPCustodia": 10,
+            "MontoPPPCustodia": 100000,
+            "IdEmisor": "EMI1",
+            "IdMonedaInstrReajuste": "CLP",
+            "NombreCliente": "ANA PEREZ SOTO",
+            "DocumentoIdentidad": "11111111-1"
+          }
+        ],
+        "P_OUT_MENSAJES": [],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    },
+    "ConsultarCustodiaPortafolioFondoMutuo": {
+      "salida": {
+        "P_OUT_TBL": []
+      }
+    },
+    "ConsultarSaldoCuentaInversion": {
+      "salida": {
+        "P_OUT_SALDOINICIALFINAL": [],
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdPortafolio": 901,
+            "IdMoneda": "CLP",
+            "Saldo": 5000
+          }
+        ],
+        "P_OUT_SALDOPORFECHAMOVIMIENTO": [],
+        "P_OUT_INFORMACIONCONTADOR": 0,
+        "P_OUT_INFORMACIONDETALLE": [],
+        "P_OUT_ADVERTENCIASCONTADOR": 0,
+        "P_OUT_ADVERTENCIASDETALLE": [],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_ERRORESDETALLE": []
+      }
+    },
+    "CrearCargoAbono": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_CARGOABONOGENERADO": [],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    },
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [
+          {
+            "NumeroReferencia": 1,
+            "IdIngresoEgreso": 7001,
+            "IdTipoMovimiento": "MOVING"
+          }
+        ],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          }
+        ]
+      }
+    },
+    "CrearSolicitudAporteRescateNormal": {
+      "salida": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADO": [
+          {
+            "IdInterno": 1,
+            "IdSolicitudAporteRescate": 3001,
+            "FolioContrato": 0
+          }
+        ]
+      }
+    },
+    "StoredProcedure": {
+      "BSCL.Portafolio.BD.Servicios::CrearPortafolio": {
+        "salida": {
+          "p_out_RefId": 950,
+          "p_out_AdvertenciasContador": 0,
+          "p_out_ErroresContador": 0,
+          "p_out_ErroresDetalle": [],
+          "p_out_AdvertenciasDetalle": []
+        }
+      }
+    }
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::INV.Bonificacion",
+      "orden": "\"IdBonificacion\"",
+      "columnas": [
+        "IdBonificacion",
+        "IdCliente",
+        "IdEstado",
+        "MontoCalculado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEmpresa",
+        "MontoDeposito",
+        "Origen",
+        "IdBanco",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdCliente",
+        "IdRegimenTriburario",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.Portafolio.BD::POR.Portafolio",
+      "orden": "\"IdPortafolio\"",
+      "columnas": [
+        "IdPortafolio",
+        "CodigoPortafolio",
+        "IdCliente"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+SELECT DISTINCT "Dia",TO_VARCHAR("Fecha",'YYYY-MM-DD') AS "Fecha" FROM "BSCL.Plataforma.BD::REG.DiaFeriado" 
+WHERE "Tipo" = 'FERIADO' AND "AgnoCarga" = :Agno AND "Fecha" BETWEEN :FechaDesde AND :FechaHasta AND "IdEstado" = 'ACT'

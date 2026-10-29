@@ -1,0 +1,3 @@
+INSERT INTO "BSCL.Normativa.BD::CAR.OUTResumenInversionBasePaso"
+("IdNomina","IdTrabajo","IdCliente", "IdPortafolio", "Grupo", "Item", "IdMonedaOperacion", "MontoMonedaOperacion", "IdMonedaSistema", "MontoMonedaSistema", "TotalMonedaSistema", "IdMonedaAdicional", "MontoMonedaAdicional", "TotalMonedaAdicional", "MonedaResumenInversion")
+VALUES(:IdNomina,:IdTrabajo,:IdCliente, :IdPortafolio, :Grupo, :Item, :IdMonedaOperacion, :MontoMonedaOperacion, :IdMonedaSistema, :MontoMonedaSistema, :TotalMonedaSistema, :IdMonedaAdicional, :MontoMonedaAdicional, :TotalMonedaAdicional, :MonedaResumenInversion);

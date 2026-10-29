@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Orden.BD::ORD.Transaccion" ("IdTransaccion","IdEmpresa","Folio","Nemotecnico","Cantidad","Precio","Monto","FechaSistemaCreacion","FechaLiquidacion","IdCamara","EsBilateral") VALUES (8020,1,'F1','COPEC',100,50,5000,'2025-04-01','2025-04-02','','N');

@@ -1,0 +1,94 @@
+{
+  "servicio": "GrabarTraspasos",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 0,
+    "p_IdModulo": "APV",
+    "p_Opcion": "I",
+    "p_Fecha": "2025-04-01",
+    "p_Traspasos": [
+      {
+        "IdTraspaso": 2991747,
+        "IdContratoSAAPV": 1013908,
+        "FechaIngreso": "2025-04-01",
+        "FechaModificacion": "0001-01-01",
+        "IdCliente": 8001,
+        "IdPersonaCliente": 117943,
+        "DocumentoIdentidad": "19263099-1",
+        "IdPerfilComercial": "APV INV ACTIVA_ARRIESGADO",
+        "IdPortafolio": 0,
+        "IdPropositoPortafolio": "PROPOSITOAPV",
+        "IdPlanTipoInversion": 2,
+        "NombrePlan": "I. ACTIVO",
+        "IdProductoAgrupador": 2,
+        "ProductoAgrupador": "APV Acciones",
+        "IdRegimenTributario": 2,
+        "RegimenTributario": "APV-A",
+        "CodigoAgrupador": "GRUPO 2",
+        "MontoPeso": 200000,
+        "MontoUF": 0,
+        "Porcentaje": 0
+      }
+    ]
+  },
+  "config": {
+    "APV/APV.ApruebaTraspasoAutomatico": "N"
+  },
+  "colaboradores": {
+    "CrearEventoAutorizacionMasivo": {
+      "salida": {
+        "P_OUT_IDEVENTO": [
+          {
+            "IdEvento": 7000,
+            "NumeroOperacionConcepto": "2991747"
+          }
+        ],
+        "P_OUT_ADVERTENCIASCONTADOR": 1,
+        "P_OUT_ADVERTENCIASDETALLE": [
+          {
+            "Codigo": "ADV_AUT",
+            "RequiereAutorizacion": "S",
+            "Descripcion": "requiere autorizacion"
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 1,
+        "P_OUT_ERRORESDETALLE": [
+          {
+            "Codigo": "ERR_AUT",
+            "Descripcion": "falla la autorizacion"
+          }
+        ]
+      }
+    }
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencias::TRA.IdDetalleTraspaso": 700
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::TRA.Traspaso",
+      "orden": "\"IdTraspaso\"",
+      "columnas": [
+        "IdTraspaso",
+        "IdContratoSAAPV",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::TRA.DetalleTraspaso",
+      "orden": "\"IdDetalleTraspaso\""
+    },
+    {
+      "nombre": "BSCL.APV.BD::SCS.PortafolioContratoSAAPV",
+      "orden": "\"IdPortafolioContratoSAAPV\"",
+      "enmascarar": [
+        "PeriodoInicio",
+        "PeriodoTermino"
+      ]
+    },
+    {
+      "nombre": "BSCL.Portafolio.BD::POR.Portafolio",
+      "orden": "\"IdPortafolio\""
+    }
+  ]
+}

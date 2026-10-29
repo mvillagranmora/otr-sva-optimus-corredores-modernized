@@ -1,0 +1,2 @@
+SELECT DISTINCT "IdEmpresa","IdSerieFondo","RescateConMandato" FROM "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarRegimenSerieDeFondo" 
+WHERE "RescateConMandato" = 'S' AND "IdEstadoRegimenSerieDeFondo" = 'ACT' AND "IdEmpresa" = :IdEmpresa AND "IdSerieFondo" IN (:IdSerieFondo)

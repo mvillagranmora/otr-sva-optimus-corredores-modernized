@@ -1,0 +1,3 @@
+-- HANA-SOURCE: cl/bcs/tesoreria/sql/QuitarDetalleNominasTransferencias_UpdateSetMontoComprobantePartidaEgreso.sql
+-- H2 rewrite (joins -> EXISTS); parameter order kept: SET subquery first, WHERE second.
+UPDATE "BSCL.Tesoreria.BD::TES.Comprobante" AS C SET "Monto" = (SELECT NT2."Monto" FROM "BSCL.Tesoreria.BD::TES.NominaTransferencia" AS NT2 WHERE NT2."IdNominaTransferencia" = :IdNominaTransferencia) WHERE EXISTS (SELECT 1 FROM "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago" AS CFP INNER JOIN "BSCL.Tesoreria.BD::TES.NominaTransferencia" AS NT ON CFP."IdComprobantePartida" = NT."IdComprobantePartidaEgreso" WHERE CFP."IdComprobantePartida" = C."IdComprobante" AND NT."IdNominaTransferencia" = :IdNominaTransferencia)

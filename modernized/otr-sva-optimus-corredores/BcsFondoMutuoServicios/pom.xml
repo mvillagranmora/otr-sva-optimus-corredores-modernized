@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>cl.bcs</groupId>
+    <artifactId>otr-sva-optimus-corredores</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>bcs-fondo-mutuo-servicios</artifactId>
+  <packaging>jar</packaging>
+  <name>BcsFondoMutuoServicios — Mutual Fund Service (Spring Boot 4.1.1)</name>
+
+  <dependencies>
+    <!-- BcsUtils shared library -->
+    <dependency>
+      <groupId>cl.bcs</groupId>
+      <artifactId>bcs-utils</artifactId>
+    </dependency>
+
+    <!-- F2 W1 (C1..C4 of PLAN_FONDOMUTUO_F2 4.1): BcsTesoreriaServicios as an IN-PROCESS library, the plain jar (not the -exec classifier), as
+         BcsTesoreriaJobs and BcsAPVJobs consume it. Only the beans named in tesoreria.TesoreriaEnProcesoConfiguration are registered (no scan of
+         cl.bcs.tesoreria); its application.properties is shadowed by this module's own (src/main/resources/application.properties). -->
+    <dependency>
+      <groupId>cl.bcs</groupId>
+      <artifactId>tesoreria-service</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- tesoreria-service pins jakarta.xml.ws-api 4.0.2; the Spring Boot BOM would raise the transitive one to 4.0.3 (same pin as BcsTesoreriaJobs). -->
+    <dependency>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
+      <version>4.0.2</version>
+    </dependency>
+
+    <!-- F3 custody in process (2026-10-28): BcsCustodiaServicios as an IN-PROCESS library, the plain jar (not the -exec classifier), exactly as
+         tesoreria-service above. Its groupId is cl.bcs.custodia (its own pom). Only cl.bcs.custodia.flujo.ConsultarFlujoCustodiaFlujo is used (registered by
+         custodia.FlujoCustodiaEnProcesoConfiguracion, only when fondomutuo.custodia.habilitada=true); cl.bcs.custodia is never component-scanned. The
+         library needs only Gson and the JDK, both already here: every transitive dependency of its pom (web, actuator, jdbc, validation, ngdbc 2.19.16) is
+         excluded so none of them can change the versions this module already resolves. Its application.yml is shadowed by this module's own
+         (seguridad.RecursosDuplicadosTest). -->
+    <dependency>
+      <groupId>cl.bcs.custodia</groupId>
+      <artifactId>bcs-custodia-servicios</artifactId>
+      <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- Spring Boot starters -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+
+    <!-- JSON -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+
+    <!-- SAP HANA JDBC driver (runtime) -->
+    <dependency>
+      <groupId>com.sap.cloud.db.jdbc</groupId>
+      <artifactId>ngdbc</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <!-- The F3 read-only fronts compare dates and numbers as text: the zone and language of the JVM are fixed so the result does not depend on the machine -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Duser.timezone=UTC -Duser.language=en</argLine>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

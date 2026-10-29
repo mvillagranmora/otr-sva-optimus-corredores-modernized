@@ -1,0 +1,584 @@
+{
+  "area": "collections",
+  "timeZone": "America/Santiago",
+  "note": "Utils.List2Hash / getColumn / List2ListHashGenericObject / copyPojo (dump = public instance fields).",
+  "cases": [
+    {
+      "id": "COLLECTIONS-001",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": "A1x,B2y,C3x",
+        "keyfield": "Codigo"
+      },
+      "out": {
+        "value": {
+          "A:String": {
+            "Codigo": "String:A",
+            "Id": "Long:1",
+            "Valor": "String:x"
+          },
+          "B:String": {
+            "Codigo": "String:B",
+            "Id": "Long:2",
+            "Valor": "String:y"
+          },
+          "C:String": {
+            "Codigo": "String:C",
+            "Id": "Long:3",
+            "Valor": "String:x"
+          }
+        }
+      }
+    },
+    {
+      "id": "COLLECTIONS-002",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": "A1x,B2y,C3x",
+        "keyfield": "Id"
+      },
+      "out": {
+        "value": {
+          "1:Long": {
+            "Codigo": "String:A",
+            "Id": "Long:1",
+            "Valor": "String:x"
+          },
+          "2:Long": {
+            "Codigo": "String:B",
+            "Id": "Long:2",
+            "Valor": "String:y"
+          },
+          "3:Long": {
+            "Codigo": "String:C",
+            "Id": "Long:3",
+            "Valor": "String:x"
+          }
+        }
+      }
+    },
+    {
+      "id": "COLLECTIONS-003",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": "A1x,B2y,C3x",
+        "keyfield": "Valor"
+      },
+      "out": {
+        "throws": "java.lang.Exception"
+      }
+    },
+    {
+      "id": "COLLECTIONS-004",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": "[]",
+        "keyfield": "Codigo"
+      },
+      "out": {
+        "value": {}
+      }
+    },
+    {
+      "id": "COLLECTIONS-005",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": null,
+        "keyfield": "Codigo"
+      },
+      "out": {
+        "throws": "java.lang.Exception"
+      }
+    },
+    {
+      "id": "COLLECTIONS-006",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": "A1x,B2y,C3x",
+        "keyfield": "NoExiste"
+      },
+      "out": {
+        "throws": "java.lang.NoSuchFieldException"
+      }
+    },
+    {
+      "id": "COLLECTIONS-007",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": "A1x,B2y,C3x",
+        "keyfield": "CONSTANTE"
+      },
+      "out": {
+        "throws": "java.lang.Exception"
+      }
+    },
+    {
+      "id": "COLLECTIONS-008",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": "null1x,B2y",
+        "keyfield": "Codigo"
+      },
+      "out": {
+        "value": {
+          "B:String": {
+            "Codigo": "String:B",
+            "Id": "Long:2",
+            "Valor": "String:y"
+          },
+          "null": {
+            "Codigo": null,
+            "Id": "Long:1",
+            "Valor": "String:x"
+          }
+        }
+      }
+    },
+    {
+      "id": "COLLECTIONS-009",
+      "rule": "UTIL-24",
+      "input": {
+        "fn": "List2Hash",
+        "list": "Fila(A),OtraFila(null)",
+        "keyfield": "Codigo"
+      },
+      "out": {
+        "throws": "java.lang.IllegalArgumentException"
+      }
+    },
+    {
+      "id": "COLLECTIONS-010",
+      "rule": "UTIL-25",
+      "input": {
+        "fn": "getColumn",
+        "list": "A1x,B2y,C3x",
+        "keyfield": "Valor",
+        "duplicate": false
+      },
+      "out": {
+        "value": [
+          "x",
+          "y"
+        ]
+      }
+    },
+    {
+      "id": "COLLECTIONS-011",
+      "rule": "UTIL-25",
+      "input": {
+        "fn": "getColumn",
+        "list": "A1x,B2y,C3x",
+        "keyfield": "Valor",
+        "duplicate": true
+      },
+      "out": {
+        "value": [
+          "x",
+          "y",
+          "x"
+        ]
+      }
+    },
+    {
+      "id": "COLLECTIONS-012",
+      "rule": "UTIL-25",
+      "input": {
+        "fn": "getColumn",
+        "list": "null,null,z",
+        "keyfield": "Valor",
+        "duplicate": false
+      },
+      "out": {
+        "value": [
+          null,
+          "z"
+        ]
+      }
+    },
+    {
+      "id": "COLLECTIONS-013",
+      "rule": "UTIL-25",
+      "input": {
+        "fn": "getColumn",
+        "list": "[]",
+        "keyfield": "Valor",
+        "duplicate": false
+      },
+      "out": {
+        "value": []
+      }
+    },
+    {
+      "id": "COLLECTIONS-014",
+      "rule": "UTIL-25",
+      "input": {
+        "fn": "getColumn",
+        "list": null,
+        "keyfield": "Valor",
+        "duplicate": false
+      },
+      "out": {
+        "throws": "java.lang.Exception"
+      }
+    },
+    {
+      "id": "COLLECTIONS-015",
+      "rule": "UTIL-25",
+      "input": {
+        "fn": "getColumn",
+        "list": "A1x,B2y,C3x",
+        "keyfield": "Nada",
+        "duplicate": false
+      },
+      "out": {
+        "throws": "java.lang.NoSuchFieldException"
+      }
+    },
+    {
+      "id": "COLLECTIONS-016",
+      "rule": "UTIL-26",
+      "input": {
+        "fn": "List2ListHashGenericObject",
+        "list": "A1x,B2y,C3x"
+      },
+      "out": {
+        "value": [
+          {
+            "CONSTANTE": "String:K",
+            "Codigo": "String:A",
+            "Id": "Long:1",
+            "Valor": "String:x"
+          },
+          {
+            "CONSTANTE": "String:K",
+            "Codigo": "String:B",
+            "Id": "Long:2",
+            "Valor": "String:y"
+          },
+          {
+            "CONSTANTE": "String:K",
+            "Codigo": "String:C",
+            "Id": "Long:3",
+            "Valor": "String:x"
+          }
+        ]
+      }
+    },
+    {
+      "id": "COLLECTIONS-017",
+      "rule": "UTIL-26",
+      "input": {
+        "fn": "List2ListHashGenericObject",
+        "list": "[]"
+      },
+      "out": {
+        "value": []
+      }
+    },
+    {
+      "id": "COLLECTIONS-018",
+      "rule": "UTIL-26",
+      "input": {
+        "fn": "List2ListHashGenericObject",
+        "list": null
+      },
+      "out": {
+        "throws": "java.lang.Exception"
+      }
+    },
+    {
+      "id": "COLLECTIONS-019",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "restrictDate": "default(true)"
+      },
+      "out": {
+        "value": {
+          "Id": "Long:10",
+          "Num": "Integer:20",
+          "Texto": "String:texto",
+          "Monto": "BigDecimal:12.3400",
+          "FechaHora": {
+            "type": "java.sql.Timestamp",
+            "ms": 1725764400000,
+            "local": "2024-09-07T23:00:00.000-04:00",
+            "nanos": 0,
+            "toString": "2024-09-07 23:00:00.0"
+          },
+          "Fecha": {
+            "type": "java.sql.Date",
+            "ms": 1725764400000,
+            "local": "2024-09-07T23:00:00.000-04:00",
+            "toString": "2024-09-07"
+          },
+          "Hora": {
+            "type": "java.sql.Time",
+            "ms": 45030000,
+            "local": "1970-01-01T09:30:30.000-03:00",
+            "toString": "09:30:30"
+          },
+          "Detalles": [
+            {
+              "Codigo": "String:A",
+              "Valor": "Long:1"
+            },
+            {
+              "Codigo": "String:B",
+              "Valor": null
+            }
+          ],
+          "Tasa": null,
+          "Activo": null,
+          "Primitivo": "Integer:0",
+          "FechaTexto": null,
+          "FechaHoraTexto": null,
+          "FechaHoraATexto": null,
+          "FechaATexto": null,
+          "SoloDestino": "String:intacto",
+          "TipoDistinto": "String:intacto"
+        }
+      }
+    },
+    {
+      "id": "COLLECTIONS-020",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "restrictDate": true
+      },
+      "out": {
+        "value": {
+          "Id": "Long:10",
+          "Num": "Integer:20",
+          "Texto": "String:texto",
+          "Monto": "BigDecimal:12.3400",
+          "FechaHora": {
+            "type": "java.sql.Timestamp",
+            "ms": 1725764400000,
+            "local": "2024-09-07T23:00:00.000-04:00",
+            "nanos": 0,
+            "toString": "2024-09-07 23:00:00.0"
+          },
+          "Fecha": {
+            "type": "java.sql.Date",
+            "ms": 1725764400000,
+            "local": "2024-09-07T23:00:00.000-04:00",
+            "toString": "2024-09-07"
+          },
+          "Hora": {
+            "type": "java.sql.Time",
+            "ms": 45030000,
+            "local": "1970-01-01T09:30:30.000-03:00",
+            "toString": "09:30:30"
+          },
+          "Detalles": [
+            {
+              "Codigo": "String:A",
+              "Valor": "Long:1"
+            },
+            {
+              "Codigo": "String:B",
+              "Valor": null
+            }
+          ],
+          "Tasa": null,
+          "Activo": null,
+          "Primitivo": "Integer:0",
+          "FechaTexto": null,
+          "FechaHoraTexto": null,
+          "FechaHoraATexto": null,
+          "FechaATexto": null,
+          "SoloDestino": "String:intacto",
+          "TipoDistinto": "String:intacto"
+        }
+      }
+    },
+    {
+      "id": "COLLECTIONS-021",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "restrictDate": false
+      },
+      "out": {
+        "value": {
+          "Id": "Long:10",
+          "Num": "Integer:20",
+          "Texto": "String:texto",
+          "Monto": "BigDecimal:12.3400",
+          "FechaHora": {
+            "type": "java.sql.Timestamp",
+            "ms": 1725764400000,
+            "local": "2024-09-07T23:00:00.000-04:00",
+            "nanos": 0,
+            "toString": "2024-09-07 23:00:00.0"
+          },
+          "Fecha": {
+            "type": "java.sql.Date",
+            "ms": 1725764400000,
+            "local": "2024-09-07T23:00:00.000-04:00",
+            "toString": "2024-09-07"
+          },
+          "Hora": {
+            "type": "java.sql.Time",
+            "ms": 45030000,
+            "local": "1970-01-01T09:30:30.000-03:00",
+            "toString": "09:30:30"
+          },
+          "Detalles": [
+            {
+              "Codigo": "String:A",
+              "Valor": "Long:1"
+            },
+            {
+              "Codigo": "String:B",
+              "Valor": null
+            }
+          ],
+          "Tasa": null,
+          "Activo": null,
+          "Primitivo": "Integer:0",
+          "FechaTexto": {
+            "type": "java.sql.Date",
+            "ms": 1725768000000,
+            "local": "2024-09-08T01:00:00.000-03:00",
+            "toString": "2024-09-08"
+          },
+          "FechaHoraTexto": {
+            "type": "java.sql.Timestamp",
+            "ms": 1725769800000,
+            "local": "2024-09-08T01:30:00.000-03:00",
+            "nanos": 0,
+            "toString": "2024-09-08 01:30:00.0"
+          },
+          "FechaHoraATexto": "String:2024-03-15 11:20:30.123",
+          "FechaATexto": "String:2024-09-07",
+          "SoloDestino": "String:intacto",
+          "TipoDistinto": "String:intacto"
+        }
+      }
+    },
+    {
+      "id": "COLLECTIONS-022",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "restrictDate": false,
+        "FechaTexto": "no-es-fecha"
+      },
+      "out": {
+        "throws": "java.time.format.DateTimeParseException"
+      }
+    },
+    {
+      "id": "COLLECTIONS-023",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "restrictDate": false,
+        "nulls": true
+      },
+      "out": {
+        "value": {
+          "Id": "Long:10",
+          "Num": "Integer:20",
+          "Texto": null,
+          "Monto": "BigDecimal:12.3400",
+          "FechaHora": {
+            "type": "java.sql.Timestamp",
+            "ms": 1725764400000,
+            "local": "2024-09-07T23:00:00.000-04:00",
+            "nanos": 0,
+            "toString": "2024-09-07 23:00:00.0"
+          },
+          "Fecha": {
+            "type": "java.sql.Date",
+            "ms": 1725764400000,
+            "local": "2024-09-07T23:00:00.000-04:00",
+            "toString": "2024-09-07"
+          },
+          "Hora": {
+            "type": "java.sql.Time",
+            "ms": 45030000,
+            "local": "1970-01-01T09:30:30.000-03:00",
+            "toString": "09:30:30"
+          },
+          "Detalles": null,
+          "Tasa": null,
+          "Activo": null,
+          "Primitivo": "Integer:0",
+          "FechaTexto": null,
+          "FechaHoraTexto": null,
+          "FechaHoraATexto": null,
+          "FechaATexto": null,
+          "SoloDestino": "String:intacto",
+          "TipoDistinto": "String:intacto"
+        }
+      }
+    },
+    {
+      "id": "COLLECTIONS-024",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "check": "identity"
+      },
+      "out": {
+        "value": {
+          "FechaHoraSameInstance": false,
+          "DetallesSameInstance": false,
+          "DetalleItemSameInstance": false,
+          "MontoSameInstance": false,
+          "TextoSameInstance": false,
+          "DetallesClass": "java.util.ArrayList"
+        }
+      }
+    },
+    {
+      "id": "COLLECTIONS-025",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "src": null
+      },
+      "out": {
+        "throws": "java.lang.Exception"
+      }
+    },
+    {
+      "id": "COLLECTIONS-026",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "target": null
+      },
+      "out": {
+        "throws": "java.lang.Exception"
+      }
+    },
+    {
+      "id": "COLLECTIONS-027",
+      "rule": "UTIL-27",
+      "input": {
+        "fn": "copyPojo",
+        "src": "Fila(A,1,v)",
+        "target": "Detalle()"
+      },
+      "out": {
+        "value": {
+          "Codigo": "String:A",
+          "Valor": null
+        }
+      }
+    }
+  ]
+}

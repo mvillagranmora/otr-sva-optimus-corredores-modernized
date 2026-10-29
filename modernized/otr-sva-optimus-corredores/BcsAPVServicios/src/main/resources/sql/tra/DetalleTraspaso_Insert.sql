@@ -1,0 +1,30 @@
+INSERT INTO "BSCL.APV.BD::TRA.DetalleTraspaso"(
+ "IdTraspaso"
+,"IdDetalleTraspaso"
+,"IdPortafolio"
+,"FechaIngreso"
+,"FechaModificacion"
+,"IdPlanTipoInversion"
+,"IdProductoAgrupador"
+,"IdRegimenTributario"
+,"MontoPeso"
+,"MontoUF"	
+,"Porcentaje"
+,"IdEstado"
+,"EsReapertura"
+)
+VALUES(
+ :IdTraspaso
+,:IdDetalleTraspaso
+,:IdPortafolio
+,:FechaIngreso
+,:FechaModificacion
+,:IdPlanTipoInversion
+,:IdProductoAgrupador
+,:IdRegimenTributario
+,:MontoPeso
+,:MontoUF	
+,:Porcentaje
+,:IdEstado
+,:EsReapertura
+);

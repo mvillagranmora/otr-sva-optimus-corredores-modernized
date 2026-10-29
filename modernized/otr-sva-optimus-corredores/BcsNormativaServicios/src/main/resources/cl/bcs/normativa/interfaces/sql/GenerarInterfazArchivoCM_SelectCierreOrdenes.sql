@@ -1,0 +1,1 @@
+select "IdEmpresa","CodigoModulo","IdEstado" from "BSCL.Plataforma.BD::PAU.Modulo" where "CodigoModulo" = 'ORD' AND "IdEmpresa" = :IdEmpresa

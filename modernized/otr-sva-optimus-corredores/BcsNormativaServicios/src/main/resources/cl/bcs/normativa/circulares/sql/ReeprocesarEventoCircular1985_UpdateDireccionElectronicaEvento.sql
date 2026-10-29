@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::EVT.EventoDirecciones" SET "IdDireccionElectronica" = :IdEmail WHERE "IdEvento" = :IdEvento;

@@ -1,0 +1,1 @@
+select 1 AS "Tab" from m_temporary_tables where table_name = :Tabla

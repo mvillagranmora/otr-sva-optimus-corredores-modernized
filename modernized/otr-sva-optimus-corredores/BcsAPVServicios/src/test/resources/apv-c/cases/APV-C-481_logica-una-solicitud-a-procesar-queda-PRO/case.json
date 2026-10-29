@@ -1,0 +1,36 @@
+{
+  "id": "APV-C-481",
+  "titulo": "one request to process, none rejected: its LogMandatoPAC row becomes PRO / PreRendicion S / Glosa \"Procesado.\" / Usuario = the user id / FechaProceso rewritten",
+  "pina": "ValidarMandatosPAC.java:88",
+  "servicio": "ValidarMandatosPAC",
+  "metodo": "logica",
+  "entrada": {
+    "entrada": {
+      "P_OUT_SOLICITUDES_A_PROCESAR": [
+        {
+          "IdMandatoPAC": 1,
+          "IdentServicio": "S1"
+        }
+      ]
+    },
+    "idEmpresa": 1,
+    "idUsuario": 21
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::PAC.LogMandatoPAC",
+      "orden": "\"IdMandatoPAC\", \"FechaSistema\", \"Usuario\", \"Glosa\", \"EstadoProcesamiento\", \"PreRendicion\"",
+      "columnas": [
+        "IdMandatoPAC",
+        "FechaSistema",
+        "Usuario",
+        "EstadoProcesamiento",
+        "PreRendicion",
+        "Glosa"
+      ],
+      "expresiones": {
+        "FechaProceso": "CASE WHEN \"FechaProceso\" IS NULL THEN 'NULA' WHEN \"FechaProceso\" = DATE '2024-01-01' THEN 'SIN_CAMBIO' ELSE 'ACTUALIZADA' END"
+      }
+    }
+  ]
+}

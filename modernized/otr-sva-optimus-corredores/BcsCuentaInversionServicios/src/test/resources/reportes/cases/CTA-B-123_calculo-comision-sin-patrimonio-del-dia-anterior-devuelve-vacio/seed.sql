@@ -1,0 +1,2 @@
+DELETE FROM "BSCL.CuentaInversion.BD::CTA.PatrimonioCaja";
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.CargoAbonoMovimiento" VALUES (8240, 4001, 1, 'MOVABN', 'CRT', 'CTA', NULL, 'CNC001', 50000, DATE '2025-03-14', DATE '2025-03-14', TIMESTAMP '2025-03-14 10:00:00');

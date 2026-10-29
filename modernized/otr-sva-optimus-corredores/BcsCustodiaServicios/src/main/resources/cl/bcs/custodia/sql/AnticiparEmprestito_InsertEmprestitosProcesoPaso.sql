@@ -1,0 +1,44 @@
+
+INSERT INTO "BSCL.Custodia.BD::GBL.AnticiparEmprestito_Proceso_Paso"
+(    
+	"FolioPrestamo",
+	"FolioEmprestito",
+    "PrecioInstrumento",
+    "Cantidad",
+    "MontoInstrumento",
+    "TasaPremio",
+    "MontoPremio",
+    "MontoAPlazo",
+    "FechaAnticipo",
+    "PlazoAlVencimiento",
+    "IdPais",
+    "IdMonedaLiquidacion",
+    "IdCondicionLiquidacion",
+    "FechaLiquidacion",
+    "DevolverCustodia",
+    "IdEmpleadoDigitador",    
+	"UsaPrecioMedio",
+	"PrecioMedio"
+)
+VALUES
+(
+	:FolioPrestamo,
+	:FolioEmprestito,
+	:PrecioInstrumento,
+	:Cantidad,
+	:MontoInstrumento,
+	:TasaPremio,
+	:MontoPremio,
+	:MontoAPlazo,
+	:FechaAnticipo,
+	:PlazoAlVencimiento,
+	:IdPais,
+	:IdMonedaLiquidacion,
+	:IdCondicionLiquidacion,
+	:FechaLiquidacion,
+	:DevolverCustodia,
+	:IdEmpleadoDigitador,
+	:UsaPrecioMedio,
+	:PrecioMedio
+);
+

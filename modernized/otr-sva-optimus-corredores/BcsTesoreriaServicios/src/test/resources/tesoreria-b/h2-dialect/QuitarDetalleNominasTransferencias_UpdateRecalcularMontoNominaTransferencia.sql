@@ -1,0 +1,3 @@
+-- HANA-SOURCE: cl/bcs/tesoreria/sql/QuitarDetalleNominasTransferencias_UpdateRecalcularMontoNominaTransferencia.sql
+-- H2 rewrite: the inner NT alias shadows the target (uncorrelated subquery), renamed NT2 so H2 does not confuse it.
+UPDATE "BSCL.Tesoreria.BD::TES.NominaTransferencia" AS NT SET "Monto" = (SELECT SUM(CFP."Monto") FROM "BSCL.Tesoreria.BD::TES.NominaTransferencia" AS NT2 INNER JOIN "BSCL.Tesoreria.BD::TES.NominaTransferenciaDetalle" AS NTD ON NT2."IdNominaTransferencia" = NTD."IdNominaTransferencia" INNER JOIN "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago" AS CFP ON NTD."IdComprobanteFormaDePago" = CFP."IdComprobanteFormaDePago" WHERE NT2."IdNominaTransferencia" = :IdNominaTransferencia) WHERE NT."IdNominaTransferencia" = :IdNominaTransferencia

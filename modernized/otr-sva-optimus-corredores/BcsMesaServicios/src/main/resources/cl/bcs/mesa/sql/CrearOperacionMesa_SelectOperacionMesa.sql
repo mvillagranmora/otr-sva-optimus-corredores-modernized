@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Mesa.BD::GBL.Operacion" ("IdOperacion") VALUES (:IdOperacion)

@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.FondoMutuo.BD::GBL.InformeRentabilidadFFMMExtranjero_Cliente" WHERE "IdTrabajo" = :IdTrabajo;

@@ -1,0 +1,992 @@
+# =============================================================================
+# Stack completo Optimus — Core modernizado + Frontends + TomEE legacy
+#
+# Uso:
+#   cp .env.example .env   # completar valores reales
+#   docker compose up -d   # o: podman compose up -d
+#
+# URLs de acceso:
+#   Corredores  → http://localhost:8881/   (→ /BSCL/Plataforma/UI/optimus?p=login)
+#   Clientes    → http://localhost:8880/   (→ /iclient-optimus/)
+#   Agentes     → http://localhost:8882/   (→ /iagente/)
+#
+# Arquitectura:
+#   Portal Corredores (nginx:8881) → bcs-plataforma-web:8117 (app shell /optimus)
+#                                  → BcsGateway:9090 (API calls)
+#     ├─ Core modernizado (Spring Boot, puertos internos)
+#     └─ TomEE legacy (tomee-legacy:8080, fallback circuit breaker del gateway)
+#   Portal Clientes  (nginx:8880) → bcs-front-iclient-api:3002 → BcsGateway:9090
+#   Portal Agentes   (nginx:8882) → iagente-api:3000           → BcsGateway:9090
+# =============================================================================
+
+networks:
+  optimus-net:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+
+services:
+
+  # ===========================================================================
+  # INFRAESTRUCTURA
+  # ===========================================================================
+
+  # ---------------------------------------------------------------------------
+  # MongoDB — sesiones de iCliente e iAgente
+  # ---------------------------------------------------------------------------
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    expose:
+      - "27017"
+    networks:
+      - optimus-net
+    volumes:
+      - mongodb-data:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # TomEE legacy — core antiguo, fallback del circuit breaker del gateway
+  #
+  # El gateway accede internamente a http://tomee-legacy:8080 (puerto TomEE).
+  # Desde el host se expone en localhost:8888.
+  # Si tu imagen TomEE escucha en otro puerto, ajusta la variable TOMEE_URL
+  # en el servicio bcs-gateway más abajo.
+  #
+  # Configura TOMEE_LEGACY_IMAGE en .env con la imagen prebuildeada del core:
+  #   TOMEE_LEGACY_IMAGE=registry.tu-empresa.cl/optimus-tomee:8.0-latest
+  # ---------------------------------------------------------------------------
+  tomee-legacy:
+    image: tomee:latest
+    container_name: tomee-legacy
+    restart: unless-stopped
+    networks:
+      - optimus-net
+    ports:
+      - "8888:8080"
+    environment:
+      # SAP HANA — conexión al servidor de base de datos
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      # JVM heap — mínimo / máximo según carga esperada en desarrollo
+      JVM_XMS: "512m"
+      JVM_XMX: "2048m"
+    mem_limit: "2560m"
+    healthcheck:
+      disable: true
+
+  # ===========================================================================
+  # CORE MODERNIZADO — Spring Boot (otr-sva-optimus-corredores)
+  # ===========================================================================
+
+  bcs-crystal-reports:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCrystalReports/Dockerfile
+    image: bcs-crystal-reports:latest
+    expose:
+      - "8100"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL:?set HANA_URL in .env}
+      HANA_USER: ${HANA_USER:?set HANA_USER in .env}
+      HANA_PASSWORD: ${HANA_PASSWORD:?set HANA_PASSWORD in .env}
+      HANA_SCHEMA: ${HANA_SCHEMA:-BSCL}
+      # shared secret of /report (X-Internal-Token); without it every /report call is 401
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?set INTERNAL_TOKEN in .env}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8100/reports/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    mem_limit: 2g
+    # container-level hardening (H3/H6): the sidecar opens uploaded .rpt files with a native-heavy runtime
+    read_only: true
+    tmpfs:
+      - /app/tmp:rw,size=512m,mode=1777   # templates / pictures written during a render (TempFiles)
+      - /tmp:rw,size=256m,mode=1777       # Tomcat work dirs, JRC / AWT scratch
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+  bcs-cuenta-inversion-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCuentaInversionServicios/Dockerfile
+    image: bcs-cuenta-inversion-servicios:latest
+    expose:
+      - "8080"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-contabilidad-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsContabilidadServicios/Dockerfile
+    image: bcs-contabilidad-servicios:latest
+    expose:
+      - "8081"
+    networks:
+      - optimus-net
+    environment:
+      SERVER_PORT: 8081
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-tesoreria-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsTesoreriaServicios/Dockerfile
+    image: bcs-tesoreria-servicios:latest
+    expose:
+      - "8073"
+    networks:
+      - optimus-net
+    environment:
+      SERVER_PORT: 8073
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8073/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-apv-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsAPVServicios/Dockerfile
+    image: bcs-apv-servicios:latest
+    expose:
+      - "8083"
+    networks:
+      - optimus-net
+    environment:
+      SERVER_PORT: 8083
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      CRYSTAL_REPORTS_URL: http://bcs-crystal-reports:8100
+    depends_on:
+      bcs-crystal-reports:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8083/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-portafolio-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsPortafolioServicios/Dockerfile
+    image: bcs-portafolio-servicios:latest
+    expose:
+      - "8076"
+    networks:
+      - optimus-net
+    environment:
+      SERVER_PORT: 8076
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8076/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-mesa-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsMesaServicios/Dockerfile
+    image: bcs-mesa-servicios:latest
+    expose:
+      - "8085"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      CRYSTAL_REPORTS_URL: http://bcs-crystal-reports:8100
+      ORDEN_SERVICIOS_URL: http://bcs-orden-servicios:8086
+      PORTAFOLIO_SERVICIOS_URL: http://bcs-portafolio-servicios:8076
+    depends_on:
+      bcs-crystal-reports:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8085/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-orden-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsOrdenServicios/Dockerfile
+    image: bcs-orden-servicios:latest
+    expose:
+      - "8086"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      CRYSTAL_REPORTS_URL: http://bcs-crystal-reports:8100
+      MESA_SERVICIOS_URL: http://bcs-mesa-servicios:8085
+    depends_on:
+      bcs-crystal-reports:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8086/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-valo2:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsValo2/Dockerfile
+    image: bcs-valo2:latest
+    expose:
+      - "8087"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    restart: on-failure
+
+  bcs-becb:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsBECB/Dockerfile
+    image: bcs-becb:latest
+    expose:
+      - "8091"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      BECB_BASE_URL: ${BECB_BASE_URL}
+      BECB_API_KEY: ${BECB_API_KEY}
+    restart: on-failure
+
+  bcs-sura:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsSURA/Dockerfile
+    image: bcs-sura:latest
+    expose:
+      - "8092"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      SURA_BASE_URL: ${SURA_BASE_URL}
+      SURA_API_KEY: ${SURA_API_KEY}
+    restart: on-failure
+
+  bcs-custodia-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCustodiaServicios/Dockerfile
+    image: bcs-custodia-servicios:latest
+    expose:
+      - "8097"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      CRYSTAL_REPORTS_URL: http://bcs-crystal-reports:8100
+    depends_on:
+      bcs-crystal-reports:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8097/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-socio-negocio-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsSocioNegocioServicios/Dockerfile
+    image: bcs-socio-negocio-servicios:latest
+    expose:
+      - "8098"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8098/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-facturacion-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsFacturacionServicios/Dockerfile
+    image: bcs-facturacion-servicios:latest
+    expose:
+      - "8099"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      CRYSTAL_REPORTS_URL: http://bcs-crystal-reports:8100
+    depends_on:
+      bcs-crystal-reports:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8099/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    restart: on-failure
+
+  bcs-canal-agente-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCanalAgenteServicios/Dockerfile
+    image: bcs-canal-agente-servicios:latest
+    expose:
+      - "8102"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    restart: on-failure
+
+  bcs-portal-confirmacion-web:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsPortalConfirmacionWeb/Dockerfile
+    image: bcs-portal-confirmacion-web:latest
+    expose:
+      - "8103"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    restart: on-failure
+
+  bcs-cartolas:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCartolas/Dockerfile
+    image: bcs-cartolas:latest
+    expose:
+      - "8108"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    restart: on-failure
+
+  bcs-job-manager:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsJobManager/Dockerfile
+    image: bcs-job-manager:latest
+    expose:
+      - "8106"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    restart: on-failure
+
+  bcs-fondo-mutuo-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsFondoMutuoServicios/Dockerfile
+    image: bcs-fondo-mutuo-servicios:latest
+    expose:
+      - "8111"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      # Shared secret of the service-to-service calls (fail closed: empty rejects everything but the health probes)
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?set INTERNAL_TOKEN in .env}
+      # Platform JavaCall router for the collaborators of other modules (POST {JAVACALL_URL}/internal/java-call); no default
+      JAVACALL_URL: ${JAVACALL_URL:-http://bcs-plataforma-web:8117}
+      # Same JVM options as the proven services (UTC); can be overridden per country
+      JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:--Duser.timezone=UTC -Duser.language=en}
+      CRYSTAL_REPORTS_URL: http://bcs-crystal-reports:8100
+      PARIDAD_URL: http://bcs-plataforma-servicios:8114
+      CUENTA_INVERSION_URL: http://bcs-cuenta-inversion-servicios:8080
+    depends_on:
+      bcs-crystal-reports:
+        condition: service_healthy
+    restart: on-failure
+
+  bcs-normativa-core:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsNormativaCore/Dockerfile
+    image: bcs-normativa-core:latest
+    expose:
+      - "8109"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    restart: on-failure
+
+  bcs-normativa-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsNormativaServicios/Dockerfile
+    image: bcs-normativa-servicios:latest
+    expose:
+      - "8113"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      PLATAFORMA_URL: http://bcs-plataforma-servicios:8114
+      CRYSTAL_REPORTS_URL: http://bcs-crystal-reports:8100
+    depends_on:
+      - bcs-normativa-core
+      - bcs-crystal-reports
+    restart: on-failure
+
+  bcs-plataforma-web:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsPlataformaWeb/Dockerfile
+    image: bcs-plataforma-web:latest
+    expose:
+      - "8117"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      COR_SESSION_TIMEOUT_MINUTES: ${COR_SESSION_TIMEOUT_MINUTES:-30}
+      BCS_PLATAFORMA_SERVICIOS_URL: http://bcs-plataforma-servicios:8114
+      BCS_MESA_SERVICIOS_URL: http://bcs-mesa-servicios:8085
+      BCS_ORDEN_SERVICIOS_URL: http://bcs-orden-servicios:8086
+      BCS_PORTAFOLIO_SERVICIOS_URL: http://bcs-portafolio-servicios:8076
+      BCS_SOCIO_NEGOCIO_SERVICIOS_URL: http://bcs-socio-negocio-servicios:8098
+      BCS_CUSTODIA_SERVICIOS_URL: http://bcs-custodia-servicios:8097
+      BCS_FACTURACION_SERVICIOS_URL: http://bcs-facturacion-servicios:8099
+      BCS_APV_SERVICIOS_URL: http://bcs-apv-servicios:8083
+      BCS_TESORERIA_SERVICIOS_URL: http://bcs-tesoreria-servicios:8073
+      BCS_NORMATIVA_SERVICIOS_URL: http://bcs-normativa-servicios:8113
+      BCS_CUENTA_INVERSION_SERVICIOS_URL: http://bcs-cuenta-inversion-servicios:8080
+      BCS_CONTABILIDAD_SERVICIOS_URL: http://bcs-contabilidad-servicios:8081
+      BCS_FONDO_MUTUO_SERVICIOS_URL: http://bcs-fondo-mutuo-servicios:8111
+      BCS_CANAL_AGENTE_SERVICIOS_URL: http://bcs-canal-agente-servicios:8102
+      # Fallback J-type canary: paquetes no migrados (Custodia, SocioNegocio) y errores de microservicio
+      TOMEE_URL: ${TOMEE_URL:-http://tomee-legacy:8080}
+      # Step 5b: /internal/java-call (jobs). Shared secret, fail closed; classes opted in to the migrated owners (empty = all to TomEE)
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?set INTERNAL_TOKEN in .env}
+      PLATAFORMA_JAVACALL_CLASES_HABILITADAS: ${PLATAFORMA_JAVACALL_CLASES_HABILITADAS:-}
+    restart: on-failure
+
+  bcs-plataforma-servicios:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsPlataformaServicios/Dockerfile
+    image: bcs-plataforma-servicios:latest
+    expose:
+      - "8114"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    depends_on:
+      - bcs-plataforma-web
+    restart: on-failure
+
+  bcs-plataforma-reporte-api:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsPlataformaReporteApi/Dockerfile
+    image: bcs-plataforma-reporte-api:latest
+    expose:
+      - "8115"
+    networks:
+      - optimus-net
+    environment:
+      CRYSTAL_REPORTS_URL: http://bcs-crystal-reports:8100
+    depends_on:
+      bcs-crystal-reports:
+        condition: service_healthy
+    restart: on-failure
+
+  bcs-filters:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsFilters/Dockerfile
+    image: bcs-filters:latest
+    expose:
+      - "8116"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      # false durante canary (TomEE y Spring Boot comparten BD — no reescribe hashes)
+      # true post-cutover (TomEE apagado — migra progresivamente a BCrypt)
+      SECURITY_REHASH_ENABLED: ${SECURITY_REHASH_ENABLED:-false}
+      COR_SESSION_TIMEOUT_MINUTES: ${COR_SESSION_TIMEOUT_MINUTES:-30}
+    depends_on:
+      - bcs-plataforma-web
+    restart: on-failure
+
+  # ---------------------------------------------------------------------------
+  # Jobs batch (sin exposición al host)
+  # ---------------------------------------------------------------------------
+  bcs-tesoreria-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsTesoreriaJobs/Dockerfile
+    image: bcs-tesoreria-jobs:latest
+    expose:
+      - "8074"
+    networks:
+      - optimus-net
+    environment:
+      SERVER_PORT: 8074
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      JAVACALL_URL: ${JAVACALL_URL:-http://bcs-plataforma-web:8117}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?set INTERNAL_TOKEN in .env}
+    depends_on:
+      - bcs-tesoreria-servicios
+    restart: on-failure
+
+  bcs-contabilidad-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsContabilidadJobs/Dockerfile
+    image: bcs-contabilidad-jobs:latest
+    expose:
+      - "8082"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?set INTERNAL_TOKEN in .env}
+      SAP_B1_SERVER_URL: ${SAP_B1_SERVER_URL}
+      SAP_B1_USER: ${SAP_B1_USER}
+      SAP_B1_PASSWORD: ${SAP_B1_PASSWORD}
+      CONTABILIDAD_SERVICIOS_URL: http://bcs-contabilidad-servicios:8081
+    depends_on:
+      - bcs-contabilidad-servicios
+    restart: on-failure
+
+  bcs-cuenta-inversion-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCuentaInversionJobs/Dockerfile
+    image: bcs-cuenta-inversion-jobs:latest
+    expose:
+      - "8075"
+    networks:
+      - optimus-net
+    environment:
+      SERVER_PORT: 8075
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      # Jobs run in-process on BcsCuentaInversionServicios (library): they need its settings, not its URL.
+      # Platform JavaCall router for the collaborators of other modules (POST {JAVACALL_URL}/internal/java-call); no default in the service
+      JAVACALL_URL: ${JAVACALL_URL:-http://bcs-plataforma-web:8117}
+      # configuration service used by the in-process ConsultarSaldoCuentaInversion (reports); REQUIRED by the service (no default there: it does not start without it)
+      CONFIGURACION_URL: ${CONFIGURACION_URL:-http://bcs-plataforma-servicios:8114}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?set INTERNAL_TOKEN in .env}
+    depends_on:
+      - bcs-cuenta-inversion-servicios
+    restart: on-failure
+
+  bcs-apv-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsAPVJobs/Dockerfile
+    image: bcs-apv-jobs:latest
+    expose:
+      - "8084"
+    networks:
+      - optimus-net
+    environment:
+      SERVER_PORT: 8084
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      JAVACALL_URL: ${JAVACALL_URL:-http://bcs-plataforma-web:8117}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?set INTERNAL_TOKEN in .env}
+      # Base folder of generated files (apv.archivos.base-dir); shared with bcs-apv-servicios
+      APV_ARCHIVOS_DIR: ${APV_ARCHIVOS_DIR:-/data/archivos}
+    volumes:
+      - ${APV_ARCHIVOS_HOST_DIR:-./data/archivos}:/data/archivos
+    depends_on:
+      - bcs-apv-servicios
+    restart: on-failure
+
+  bcs-job-orders:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsJobOrders/Dockerfile
+    image: bcs-job-orders:latest
+    expose:
+      - "8088"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      ORDEN_SERVICIOS_URL: http://bcs-orden-servicios:8086
+    depends_on:
+      - bcs-orden-servicios
+    restart: on-failure
+
+  bcs-mesa-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsMesaJobs/Dockerfile
+    image: bcs-mesa-jobs:latest
+    expose:
+      - "8089"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      MESA_SERVICIOS_URL: http://bcs-mesa-servicios:8085
+    depends_on:
+      - bcs-mesa-servicios
+    restart: on-failure
+
+  bcs-orden-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsOrdenJobs/Dockerfile
+    image: bcs-orden-jobs:latest
+    expose:
+      - "8090"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      ORDEN_SERVICIOS_URL: http://bcs-orden-servicios:8086
+    depends_on:
+      - bcs-orden-servicios
+    restart: on-failure
+
+  bcs-replica:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsReplica/Dockerfile
+    image: bcs-replica:latest
+    expose:
+      - "8093"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    restart: on-failure
+
+  bcs-socio-negocio-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsSocioNegocioJobs/Dockerfile
+    image: bcs-socio-negocio-jobs:latest
+    expose:
+      - "8094"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      SOCIO_NEGOCIO_SERVICIOS_URL: http://bcs-socio-negocio-servicios:8098
+    depends_on:
+      - bcs-socio-negocio-servicios
+    restart: on-failure
+
+  bcs-facturacion-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsFacturacionJobs/Dockerfile
+    image: bcs-facturacion-jobs:latest
+    expose:
+      - "8095"
+    networks:
+      - optimus-net
+    environment:
+      SERVER_PORT: 8095
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      FACTURACION_SERVICIOS_URL: http://bcs-facturacion-servicios:8099
+    depends_on:
+      bcs-facturacion-servicios:
+        condition: service_healthy
+    restart: on-failure
+
+  bcs-custodia-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCustodiaJobs/Dockerfile
+    image: bcs-custodia-jobs:latest
+    expose:
+      - "8096"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      CUSTODIA_SERVICIOS_URL: http://bcs-custodia-servicios:8097
+    depends_on:
+      - bcs-custodia-servicios
+    restart: on-failure
+
+  bcs-tributario-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsTributarioJobs/Dockerfile
+    image: bcs-tributario-jobs:latest
+    expose:
+      - "8101"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+    restart: on-failure
+
+  bcs-normativa-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsNormativaJobs/Dockerfile
+    image: bcs-normativa-jobs:latest
+    expose:
+      - "8112"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      NORMATIVA_SCHEMA: ${NORMATIVA_SCHEMA:-BSCL}
+      NORMATIVA_LOG_BASE_PATH: ${NORMATIVA_LOG_BASE_PATH:-/data/archivos}
+    depends_on:
+      - bcs-normativa-core
+    restart: on-failure
+
+  bcs-plataforma-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsPlataformaJobs/Dockerfile
+    image: bcs-plataforma-jobs:latest
+    expose:
+      - "8110"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      PLATAFORMA_URL: http://bcs-plataforma-jobs:8110
+      PLA_LOG_BASE_PATH: ${PLA_LOG_BASE_PATH:-/data/archivos}
+    depends_on:
+      - bcs-plataforma-servicios
+    restart: on-failure
+
+  bcs-cartolas-master:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCartolasMaster/Dockerfile
+    image: bcs-cartolas-master:latest
+    expose:
+      - "8105"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      CARTOLAS_URL: http://bcs-cartolas:8108
+    depends_on:
+      - bcs-cartolas
+    restart: on-failure
+
+  bcs-cartolas-jobs:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsCartolasJobs/Dockerfile
+    image: bcs-cartolas-jobs:latest
+    expose:
+      - "8104"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      CARTOLAS_URL: http://bcs-cartolas:8108
+      CARTOLAS_MASTER_URL: http://bcs-cartolas-master:8105
+    depends_on:
+      - bcs-cartolas
+      - bcs-cartolas-master
+    restart: on-failure
+
+  bcs-jobs-fondo-mutuo:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsJobsFondoMutuo/Dockerfile
+    image: bcs-jobs-fondo-mutuo:latest
+    expose:
+      - "8107"
+    networks:
+      - optimus-net
+    environment:
+      HANA_URL: ${HANA_URL}
+      HANA_USER: ${HANA_USER}
+      HANA_PASSWORD: ${HANA_PASSWORD}
+      FONDO_MUTUO_SERVICIOS_URL: http://bcs-fondo-mutuo-servicios:8111
+    depends_on:
+      - bcs-fondo-mutuo-servicios
+    restart: on-failure
+
+  # ---------------------------------------------------------------------------
+  # BcsGateway — Spring Cloud Gateway (canary router)
+  # Puerto interno 9090 no expuesto al host (los portales nginx lo consumen)
+  # TOMEE_URL toma el valor de la variable de entorno (definida en .env).
+  # Por defecto apunta al puerto interno del contenedor tomee-legacy (8080).
+  # El host accede a TomEE directamente en localhost:8888 si necesita debug.
+  # ---------------------------------------------------------------------------
+  bcs-gateway:
+    build:
+      context: ./otr-sva-optimus-corredores
+      dockerfile: BcsGateway/Dockerfile
+    image: bcs-gateway:latest
+    container_name: bcs-gateway
+    expose:
+      - "9090"
+    networks:
+      - optimus-net
+    environment:
+      GATEWAY_PORT: 9090
+      TOMEE_URL: ${TOMEE_URL:-http://tomee-legacy:8080}
+    depends_on:
+      - bcs-filters
+      - bcs-plataforma-web
+      - bcs-plataforma-servicios
+      - tomee-legacy
+      - bcs-mesa-servicios
+      - bcs-orden-servicios
+      - bcs-portafolio-servicios
+      - bcs-socio-negocio-servicios
+      - bcs-custodia-servicios
+      - bcs-facturacion-servicios
+      - bcs-apv-servicios
+      - bcs-tesoreria-servicios
+      - bcs-normativa-servicios
+      - bcs-cuenta-inversion-servicios
+      - bcs-contabilidad-servicios
+      - bcs-fondo-mutuo-servicios
+      - bcs-canal-agente-servicios
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9090/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
+    restart: on-failure

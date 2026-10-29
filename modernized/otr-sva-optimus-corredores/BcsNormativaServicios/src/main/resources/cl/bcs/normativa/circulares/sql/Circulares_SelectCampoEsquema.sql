@@ -1,0 +1,27 @@
+SELECT 
+	"Esquema" 
+	,"Version" 
+	,"Nombre" 
+	,"TipoDiccionario"
+	,"Orden"
+	,"Titulo"
+	,"TipoDato"
+	,"Largo"
+	,"ValorDefecto"
+	,"Obligatorio"
+	,"Editable"
+	,"ModoMasivo"
+	,"Exportable"
+	,"OcultoEnGrilla"
+	,"OcultoEnMantenedor"
+	,"Comun"
+	,"Clave"
+	,"Grupo"
+	,"OrdenCargaExterna"
+	,"Ayuda"
+	,"CodigoSII"
+	,"CantidadDecimales"
+FROM "BSCL.Normativa.BD::DOC.Campo"
+WHERE "Esquema"=:Esquema 
+AND "Version"=:Version
+ORDER BY "Orden";

@@ -1,0 +1,26 @@
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.HistorialCambiosModificarFechasSolicitudAporteRescate" (
+	"IdHistorialCambiosModificarFechas",
+	"IdSolicitudAporteRescate", 
+	"FechaAceptacion", 
+	"FechaCertificacion", 
+	"FechaLiquidacion", 
+	"FechaValorCuota", 
+	"FechaAceptacionAnterior",
+	"FechaCertificacionAnterior", 
+	"FechaLiquidacionAnterior", 
+	"FechaValorCuotaAnterior", 
+	"UsuarioModificador",
+	"UsuarioAutorizador")
+VALUES ( 
+	"BSCL.FondoMutuo.BD.Secuencias::HistorialCambiosModificarFechas".NEXTVAL,
+	:IdSolicitudAporteRescate, 
+	:FechaAceptacion, 
+	:FechaCertificacion,
+	:FechaLiquidacion,
+	:FechaValorCuota, 
+	:FechaAceptacionAnterior, 
+	:FechaCertificacionAnterior,
+	:FechaLiquidacionAnterior,
+	:FechaValorCuotaAnterior, 
+	:UsuarioModificador, 
+	:UsuarioAutorizador);

@@ -1,0 +1,937 @@
+{
+  "area": "json",
+  "timeZone": "America/Santiago",
+  "note": "Utils.printJson, BcsPojo.toString, getGsonBuilder, Gson*Deserializer (gson on the oracle classpath: see provenance).",
+  "cases": [
+    {
+      "id": "JSON-001",
+      "rule": "UTIL-20",
+      "input": {
+        "fn": "printJson",
+        "obj": "Muestra",
+        "pretty": false
+      },
+      "out": {
+        "value": "{\"IdCliente\":1313,\"Nombre\":\"José \\u003cb\\u003e\\u0026\\u0027\\u003d\\\"\\\\ ñ\",\"Monto\":1250.50,\"Tasa\":NaN,\"Activo\":true,\"Cantidad\":7,\"Fecha\":\"2024-09-07 23:00:00.000\",\"FechaHora\":\"2024-03-15 11:20:30.123\",\"FechaSql\":\"2024-09-07 23:00:00.000\",\"Etiquetas\":[\"a\",null,\"c\"],\"Nulo\":null,\"Detalle\":{\"Codigo\":\"X1\",\"Valor\":9}}"
+      }
+    },
+    {
+      "id": "JSON-002",
+      "rule": "UTIL-20",
+      "input": {
+        "fn": "printJson",
+        "obj": "Muestra",
+        "pretty": true
+      },
+      "out": {
+        "value": "{\n  \"IdCliente\": 1313,\n  \"Nombre\": \"José \\u003cb\\u003e\\u0026\\u0027\\u003d\\\"\\\\ ñ\",\n  \"Monto\": 1250.50,\n  \"Tasa\": NaN,\n  \"Activo\": true,\n  \"Cantidad\": 7,\n  \"Fecha\": \"2024-09-07 23:00:00.000\",\n  \"FechaHora\": \"2024-03-15 11:20:30.123\",\n  \"FechaSql\": \"2024-09-07 23:00:00.000\",\n  \"Etiquetas\": [\n    \"a\",\n    null,\n    \"c\"\n  ],\n  \"Nulo\": null,\n  \"Detalle\": {\n    \"Codigo\": \"X1\",\n    \"Valor\": 9\n  }\n}"
+      }
+    },
+    {
+      "id": "JSON-003",
+      "rule": "UTIL-20",
+      "input": {
+        "fn": "printJson",
+        "obj": null,
+        "pretty": false
+      },
+      "out": {
+        "value": "[]"
+      }
+    },
+    {
+      "id": "JSON-004",
+      "rule": "UTIL-20",
+      "input": {
+        "fn": "printJson",
+        "obj": null,
+        "pretty": true
+      },
+      "out": {
+        "value": "[]"
+      }
+    },
+    {
+      "id": "JSON-005",
+      "rule": "UTIL-20",
+      "input": {
+        "fn": "printJson",
+        "obj": "\"abc\"",
+        "pretty": false
+      },
+      "out": {
+        "value": "\"abc\""
+      }
+    },
+    {
+      "id": "JSON-006",
+      "rule": "UTIL-20",
+      "input": {
+        "fn": "printJson",
+        "obj": "[1, 2.5, +Inf]",
+        "pretty": false
+      },
+      "out": {
+        "value": "[1,2.5,Infinity]"
+      }
+    },
+    {
+      "id": "JSON-007",
+      "rule": "UTIL-20",
+      "input": {
+        "fn": "printJson",
+        "obj": "Muestra(empty)",
+        "pretty": false
+      },
+      "out": {
+        "value": "{\"IdCliente\":null,\"Nombre\":null,\"Monto\":null,\"Tasa\":null,\"Activo\":null,\"Cantidad\":0,\"Fecha\":null,\"FechaHora\":null,\"FechaSql\":null,\"Etiquetas\":null,\"Nulo\":null,\"Detalle\":null}"
+      }
+    },
+    {
+      "id": "JSON-008",
+      "rule": "UTIL-21",
+      "input": {
+        "fn": "BcsPojo.toString",
+        "obj": "MuestraPojo"
+      },
+      "out": {
+        "value": "{\"Id\":5,\"Texto\":\"t\",\"FechaHora\":\"1969-12-31 21:00:00.000\"}"
+      }
+    },
+    {
+      "id": "JSON-009",
+      "rule": "UTIL-22",
+      "input": {
+        "fn": "getGsonBuilder.toJson",
+        "obj": "Muestra"
+      },
+      "out": {
+        "value": "{\"IdCliente\":1313,\"Nombre\":\"José \\u003cb\\u003e\\u0026\\u0027\\u003d\\\"\\\\ ñ\",\"Monto\":1250.50,\"Tasa\":NaN,\"Activo\":true,\"Cantidad\":7,\"Fecha\":\"2024-09-07 23:00:00.000\",\"FechaHora\":\"2024-03-15 11:20:30.123\",\"FechaSql\":\"2024-09-07 23:00:00.000\",\"Etiquetas\":[\"a\",null,\"c\"],\"Nulo\":null,\"Detalle\":{\"Codigo\":\"X1\",\"Valor\":9}}"
+      }
+    },
+    {
+      "id": "JSON-010",
+      "rule": "UTIL-22",
+      "input": {
+        "fn": "JavaCall.getGsonBuilder.toJson",
+        "obj": "Muestra"
+      },
+      "out": {
+        "value": "{\"IdCliente\":1313,\"Nombre\":\"José \\u003cb\\u003e\\u0026\\u0027\\u003d\\\"\\\\ ñ\",\"Monto\":1250.50,\"Tasa\":NaN,\"Activo\":true,\"Cantidad\":7,\"Fecha\":\"2024-09-07 23:00:00.000\",\"FechaHora\":\"2024-03-15 11:20:30.123\",\"FechaSql\":\"2024-09-07 23:00:00.000\",\"Etiquetas\":[\"a\",null,\"c\"],\"Nulo\":null,\"Detalle\":{\"Codigo\":\"X1\",\"Valor\":9}}"
+      }
+    },
+    {
+      "id": "JSON-011",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710471600000,
+          "local": "2024-03-15T00:00:00.000-03:00",
+          "toString": "2024-03-15"
+        }
+      }
+    },
+    {
+      "id": "JSON-012",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710471600000,
+          "local": "2024-03-15T00:00:00.000-03:00",
+          "nanos": 0,
+          "toString": "2024-03-15 00:00:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-013",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15 10:20:30"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710508830000,
+          "local": "2024-03-15T10:20:30.000-03:00",
+          "toString": "2024-03-15"
+        }
+      }
+    },
+    {
+      "id": "JSON-014",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15 10:20:30"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710508830000,
+          "local": "2024-03-15T10:20:30.000-03:00",
+          "nanos": 0,
+          "toString": "2024-03-15 10:20:30.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-015",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15 10:20:30.123"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710508830123,
+          "local": "2024-03-15T10:20:30.123-03:00",
+          "toString": "2024-03-15"
+        }
+      }
+    },
+    {
+      "id": "JSON-016",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15 10:20:30.123"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710508830123,
+          "local": "2024-03-15T10:20:30.123-03:00",
+          "nanos": 123000000,
+          "toString": "2024-03-15 10:20:30.123"
+        }
+      }
+    },
+    {
+      "id": "JSON-017",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-02-30"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1709262000000,
+          "local": "2024-03-01T00:00:00.000-03:00",
+          "toString": "2024-03-01"
+        }
+      }
+    },
+    {
+      "id": "JSON-018",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-02-30"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1709262000000,
+          "local": "2024-03-01T00:00:00.000-03:00",
+          "nanos": 0,
+          "toString": "2024-03-01 00:00:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-019",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-13-01"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1735700400000,
+          "local": "2025-01-01T00:00:00.000-03:00",
+          "toString": "2025-01-01"
+        }
+      }
+    },
+    {
+      "id": "JSON-020",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-13-01"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1735700400000,
+          "local": "2025-01-01T00:00:00.000-03:00",
+          "nanos": 0,
+          "toString": "2025-01-01 00:00:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-021",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15 25:00:00"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710561600000,
+          "local": "2024-03-16T01:00:00.000-03:00",
+          "toString": "2024-03-16"
+        }
+      }
+    },
+    {
+      "id": "JSON-022",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15 25:00:00"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710561600000,
+          "local": "2024-03-16T01:00:00.000-03:00",
+          "nanos": 0,
+          "toString": "2024-03-16 01:00:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-023",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15 10:20:30.1"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710508830001,
+          "local": "2024-03-15T10:20:30.001-03:00",
+          "toString": "2024-03-15"
+        }
+      }
+    },
+    {
+      "id": "JSON-024",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15 10:20:30.1"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710508830001,
+          "local": "2024-03-15T10:20:30.001-03:00",
+          "nanos": 1000000,
+          "toString": "2024-03-15 10:20:30.001"
+        }
+      }
+    },
+    {
+      "id": "JSON-025",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15 10:20:30.12"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710508830012,
+          "local": "2024-03-15T10:20:30.012-03:00",
+          "toString": "2024-03-15"
+        }
+      }
+    },
+    {
+      "id": "JSON-026",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15 10:20:30.12"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710508830012,
+          "local": "2024-03-15T10:20:30.012-03:00",
+          "nanos": 12000000,
+          "toString": "2024-03-15 10:20:30.012"
+        }
+      }
+    },
+    {
+      "id": "JSON-027",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15 10:20:30.123456"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710508953456,
+          "local": "2024-03-15T10:22:33.456-03:00",
+          "toString": "2024-03-15"
+        }
+      }
+    },
+    {
+      "id": "JSON-028",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15 10:20:30.123456"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710508953456,
+          "local": "2024-03-15T10:22:33.456-03:00",
+          "nanos": 456000000,
+          "toString": "2024-03-15 10:22:33.456"
+        }
+      }
+    },
+    {
+      "id": "JSON-029",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15T10:20:30"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-030",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15T10:20:30"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-031",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "abc"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-032",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "abc"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-033",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": ""
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-034",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": ""
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-035",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024/03/15"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-036",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024/03/15"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-037",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "  2024-03-15"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-038",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "  2024-03-15"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-039",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-09-08"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1725768000000,
+          "local": "2024-09-08T01:00:00.000-03:00",
+          "toString": "2024-09-08"
+        }
+      }
+    },
+    {
+      "id": "JSON-040",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-09-08"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1725768000000,
+          "local": "2024-09-08T01:00:00.000-03:00",
+          "nanos": 0,
+          "toString": "2024-09-08 01:00:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-041",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-09-08 00:30:00"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1725769800000,
+          "local": "2024-09-08T01:30:00.000-03:00",
+          "toString": "2024-09-08"
+        }
+      }
+    },
+    {
+      "id": "JSON-042",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-09-08 00:30:00"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1725769800000,
+          "local": "2024-09-08T01:30:00.000-03:00",
+          "nanos": 0,
+          "toString": "2024-09-08 01:30:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-043",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-04-06 23:30:00"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1712460600000,
+          "local": "2024-04-06T23:30:00.000-04:00",
+          "toString": "2024-04-06"
+        }
+      }
+    },
+    {
+      "id": "JSON-044",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-04-06 23:30:00"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1712460600000,
+          "local": "2024-04-06T23:30:00.000-04:00",
+          "nanos": 0,
+          "toString": "2024-04-06 23:30:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-045",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-04-07 00:00:00"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1712462400000,
+          "local": "2024-04-07T00:00:00.000-04:00",
+          "toString": "2024-04-07"
+        }
+      }
+    },
+    {
+      "id": "JSON-046",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-04-07 00:00:00"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1712462400000,
+          "local": "2024-04-07T00:00:00.000-04:00",
+          "nanos": 0,
+          "toString": "2024-04-07 00:00:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-047",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "0001-01-01"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": -62135755200000,
+          "local": "0001-01-01T00:00:00.000-04:00",
+          "toString": "0001-01-01"
+        }
+      }
+    },
+    {
+      "id": "JSON-048",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "0001-01-01"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": -62135755200000,
+          "local": "0001-01-01T00:00:00.000-04:00",
+          "nanos": 0,
+          "toString": "0001-01-01 00:00:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-049",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "0001-01-01 00:00:00.000"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": -62135755200000,
+          "local": "0001-01-01T00:00:00.000-04:00",
+          "toString": "0001-01-01"
+        }
+      }
+    },
+    {
+      "id": "JSON-050",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "0001-01-01 00:00:00.000"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": -62135755200000,
+          "local": "0001-01-01T00:00:00.000-04:00",
+          "nanos": 0,
+          "toString": "0001-01-01 00:00:00.0"
+        }
+      }
+    },
+    {
+      "id": "JSON-051",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "9999-12-31 23:59:59.999"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 253402311599999,
+          "local": "9999-12-31T23:59:59.999-03:00",
+          "toString": "9999-12-31"
+        }
+      }
+    },
+    {
+      "id": "JSON-052",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "9999-12-31 23:59:59.999"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 253402311599999,
+          "local": "9999-12-31T23:59:59.999-03:00",
+          "nanos": 999000000,
+          "toString": "9999-12-31 23:59:59.999"
+        }
+      }
+    },
+    {
+      "id": "JSON-053",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15 10:20:30.999"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710508830999,
+          "local": "2024-03-15T10:20:30.999-03:00",
+          "toString": "2024-03-15"
+        }
+      }
+    },
+    {
+      "id": "JSON-054",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15 10:20:30.999"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710508830999,
+          "local": "2024-03-15T10:20:30.999-03:00",
+          "nanos": 999000000,
+          "toString": "2024-03-15 10:20:30.999"
+        }
+      }
+    },
+    {
+      "id": "JSON-055",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "2024-03-15 10:20:30.-1"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Date",
+          "ms": 1710508829999,
+          "local": "2024-03-15T10:20:29.999-03:00",
+          "toString": "2024-03-15"
+        }
+      }
+    },
+    {
+      "id": "JSON-056",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "2024-03-15 10:20:30.-1"
+      },
+      "out": {
+        "value": {
+          "type": "java.sql.Timestamp",
+          "ms": 1710508829999,
+          "local": "2024-03-15T10:20:29.999-03:00",
+          "nanos": 999000000,
+          "toString": "2024-03-15 10:20:29.999"
+        }
+      }
+    },
+    {
+      "id": "JSON-057",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": 20240315
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-058",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": 20240315
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-059",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "null"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-060",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer",
+        "json": "null"
+      },
+      "out": {
+        "value": null
+      }
+    },
+    {
+      "id": "JSON-061",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer.direct",
+        "json": "JsonNull"
+      },
+      "out": {
+        "throws": "java.lang.UnsupportedOperationException"
+      }
+    },
+    {
+      "id": "JSON-062",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonTimestampDeserializer.direct",
+        "json": "JsonNull"
+      },
+      "out": {
+        "throws": "java.lang.UnsupportedOperationException"
+      }
+    },
+    {
+      "id": "JSON-063",
+      "rule": "UTIL-23",
+      "input": {
+        "fn": "GsonDateDeserializer",
+        "json": "{}"
+      },
+      "out": {
+        "throws": "java.lang.UnsupportedOperationException"
+      }
+    },
+    {
+      "id": "JSON-064",
+      "rule": "UTIL-22",
+      "input": {
+        "fn": "getGsonBuilder.fromJson.utilDate",
+        "json": "2024-03-15 10:20:30.123"
+      },
+      "out": {
+        "value": {
+          "type": "java.util.Date",
+          "ms": 1710508830123,
+          "local": "2024-03-15T10:20:30.123-03:00",
+          "toString": null
+        }
+      }
+    },
+    {
+      "id": "JSON-065",
+      "rule": "UTIL-22",
+      "input": {
+        "fn": "getGsonBuilder.fromJson.utilDate",
+        "json": "2024-03-15"
+      },
+      "out": {
+        "value": {
+          "type": "java.util.Date",
+          "ms": 1710471600000,
+          "local": "2024-03-15T00:00:00.000-03:00",
+          "toString": null
+        }
+      }
+    }
+  ]
+}

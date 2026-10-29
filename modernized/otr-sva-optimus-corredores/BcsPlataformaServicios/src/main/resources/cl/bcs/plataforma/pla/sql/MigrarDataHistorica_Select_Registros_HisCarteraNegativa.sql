@@ -1,0 +1,12 @@
+SELECT "FechaRespaldo", "IdCarteraNegativa", "FechaIngresoRegistro", "FechaNeteo", "IdEstado", "IdUsuarioIngreso", "IdUsuarioNeteo", "FechaOperacion", "IdTipoOperacion", "IdEmpresa",
+"IdCliente", "IdPortafolio", "IdInstrumento", "Cantidad", "ValorRescate", "IdConcepto", "IdCuentaCustodioPortafolio", "IdCondicionLiquidacion", "FechaLiquidacion", "CodigoIFRS", "IdMesa",
+"Nemotecnico", "IdEmisor", "FechaVencimientoOperacion", "EsFungible", "IdTipoReajuste", "IdOperacionMesa", "IdTipoComprobante", "FolioComprobante", "IdMovimientoComprobante", 
+"PrecioOperacion", "MontoOperacionMonedaInstrumento", "TasaOperacion", "IdBoveda", "IdTipoProducto", "IdCorredoraContraparte", "FolioTransaccion", "FechaTransaccion", "IdBolsa",
+"IdOperacion", "IdAgente", "IdMonedaInstrumento", "IdTipoCanalIngreso", "CorteMinimo", "FolioCustodia", "FolioExternoReferencia", "IdSucursal", "Glosa", "NemoSVS", "IdMonedaEmision",
+"FechaValorizacion", "PrecioMercado", "TasaMercado", "MontoMercadoMonedaSistema", "MontoMercadoMonedaInstrumento", "FechaPrecioTasa", "FuentePrecioTasa", "MontoCorteCupon", 
+"IdMonedaPagoCupon", "FechaCorteCupon", "NumeroCupon", "MontoCapitalCorteCupon", "MontoInteresCorteCupon", "InteresesPagoCorteCupon", "MontoCapitalCorteCuponMonedaInstrumento", 
+"MontoReajusteCorteCupon", "FechaPagoCorteCupon", "MontoCorteCuponMonedaInstrumento", "IdInstrumentoAnterior"
+FROM "BSCL.Custodia.BD::HIS.CarteraNegativa"
+WHERE CAST("FechaRespaldo" AS DATE) BETWEEN  :p_Desde AND :p_Hasta
+ORDER BY "IdCarteraNegativa", "FechaRespaldo" DESC
+LIMIT :p_Limit OFFSET :p_Offset;

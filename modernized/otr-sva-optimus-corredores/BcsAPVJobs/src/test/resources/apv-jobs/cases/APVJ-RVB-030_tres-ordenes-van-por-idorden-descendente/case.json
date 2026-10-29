@@ -1,0 +1,82 @@
+{
+  "id": "APVJ-RVB-030",
+  "slug": "tres-ordenes-van-por-idorden-descendente",
+  "titulo": "three orders are processed by IdOrden DESC with correlative IdInterno",
+  "pina": "IngresarOrdenRVBonificacionFiscal.java:253",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "1000"
+          }
+        ]
+      }
+    },
+    "ConsultarFlujoCaja": {
+      "P_OUT_FLUJOCAJA": [
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2000,
+          "IdMoneda": "CLP",
+          "Saldo": "1000000"
+        },
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2001,
+          "IdMoneda": "CLP",
+          "Saldo": "1000000"
+        },
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2002,
+          "IdMoneda": "CLP",
+          "Saldo": "1000000"
+        }
+      ]
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "5"
+        },
+        {
+          "IdInterno": 2,
+          "CantidadOperacion": "6"
+        },
+        {
+          "IdInterno": 3,
+          "CantidadOperacion": "7"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": []
+    }
+  }
+}

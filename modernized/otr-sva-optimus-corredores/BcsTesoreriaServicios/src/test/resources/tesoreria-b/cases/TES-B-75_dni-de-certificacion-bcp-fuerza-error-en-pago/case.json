@@ -1,0 +1,53 @@
+{
+  "servicio": "RecaudacionBCP",
+  "metodo": "call",
+  "entrada": {
+    "IdSolicitudBcp": "RQ-0001",
+    "NumeroOperacionBcp": "123456",
+    "NumeroOperacionExtornoBcp": "654321",
+    "FechaOperacionBcp": "2025-04-01 09:30:00",
+    "TipoOperacionBCP": "PAGO",
+    "MensajeEntrada": "{\"mensaje\":\"entrada BCP de prueba\"}",
+    "OperacionesBcp": [
+      {
+        "IdClienteBcp": "67412388",
+        "IdMoneda": "CLP",
+        "Monto": 1000
+      }
+    ]
+  },
+  "colaboradores": {
+    "crearIngresoEgreso": {
+      "resultados": [
+        {
+          "Campo": "IdComprobante",
+          "Id": 4001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearIngresoEgreso",
+          "Resultado": "ING"
+        },
+        {
+          "Campo": "IdIngresoEgreso",
+          "Id": 9001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearIngresoEgreso",
+          "Resultado": "ING"
+        }
+      ]
+    },
+    "liquidarComprobante": {
+      "resultados": [
+        {
+          "Campo": "IdComprobante",
+          "Id": 4001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::LiquidarComprobantes",
+          "Resultado": "LIQ"
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::LOG.MensajeTransaccionBCP",
+      "orden": "\"IdMensajeTransaccion\""
+    }
+  ]
+}

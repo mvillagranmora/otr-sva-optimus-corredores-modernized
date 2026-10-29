@@ -1,0 +1,26 @@
+INSERT INTO "BSCL.Contabilidad.BD::ITZ.Evento"(
+ "IdEmpresa"
+,"IdEvento" 
+,"IdTipoEvento"
+,"IdCentralizacion"
+,"IdMovimiento"
+,"FechaContable"
+,"Monto"
+,"CodigoMoneda"
+,"CodigoUsuario"
+,"FechaProceso"
+,"HoraProceso"
+,"Estado")
+VALUES(
+:IdEmpresa
+,:IdEvento
+,:IdTipoEvento
+,:IdCentralizacion
+,:IdMovimiento
+,:FechaContable
+,:Monto
+,:CodigoMoneda
+,:CodigoUsuario
+,:FechaProceso
+,:HoraProceso
+,:Estado)

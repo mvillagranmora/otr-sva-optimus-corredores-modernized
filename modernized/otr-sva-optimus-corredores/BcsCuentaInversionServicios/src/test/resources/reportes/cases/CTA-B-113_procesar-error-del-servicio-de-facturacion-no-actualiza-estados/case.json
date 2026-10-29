@@ -1,0 +1,44 @@
+{
+  "id": "CTA-B-113",
+  "clase": "ProcesarCobroComisionPatrimonio",
+  "nota": "The billing service reports an error: only its ERROR messages are returned (the warning is dropped), the error counter is recomputed, and no state is changed.",
+  "seeds": [
+    "cobro-comision.sql"
+  ],
+  "colaboradores": {
+    "crearMovimientoComprobante": {
+      "P_OUT_ERRORESCONTADOR": 1,
+      "P_OUT_MENSAJES": [
+        {
+          "id": 0,
+          "tipo": "ERROR",
+          "codigo": "ERROR_FACTURACION",
+          "descripcion": "Falla simulada"
+        },
+        {
+          "id": 0,
+          "tipo": "ADVERTENCIA",
+          "codigo": "ADV_FACTURACION",
+          "descripcion": "Advertencia simulada"
+        }
+      ]
+    }
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 33,
+    "p_IdModulo": "CTA",
+    "p_UsaReglasNegocio": "N",
+    "p_EsProcesoMasivo": "S",
+    "p_Filtros": {
+      "IdCliente": 0,
+      "IdPortafolio": 0,
+      "IdProductoAgrupador": 0,
+      "IdEstado": "",
+      "FechaDesde": "2025-02-01",
+      "FechaHasta": "2025-02-28",
+      "Periodo": 2
+    },
+    "p_PortafoliosSeleccionados": []
+  }
+}

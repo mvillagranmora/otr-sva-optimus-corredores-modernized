@@ -1,0 +1,55 @@
+SELECT 
+SOL."IdSolicitudAporteRescate" AS "FOLIO"
+,SOL."IdCliente"
+,CLI."IdPersona" AS "IDCLIENTEPERSONA"
+,SOL."IdSerieFondo" AS "NEMO"
+,CLI."DocumentoIdentidad" AS "RUT"
+,CLI."NombreCompleto" AS "CLIENTE"
+,SOL."IdPortafolio" AS "IdPortafolioCliente"
+,POR."DescripcionPortafolio" AS "CUENTA"
+,TO_BIGINT(0) AS "IdEmpleadoDigitador"
+,'-' AS "AGENTE"
+,TO_BIGINT(0) AS "IDEMPLEADOPERSONA"
+,CORREO."Direccion" AS "CORREO"
+,TELEFONO."Numero" AS "TELEFONO"
+,TO_VARCHAR(ADD_SECONDS(CURRENT_UTCTIMESTAMP,:SegundosZonaHoraria), 'DD-MM-YYYY') AS "FECHA"
+,TO_VARCHAR(ADD_SECONDS(CURRENT_UTCTIMESTAMP,:SegundosZonaHoraria), 'HH24:MI:SS') AS "HORA"
+,CURRENT_UTCTIMESTAMP AS "FECHA_EVENTO"
+,CTP."Nombre" AS "PRODUCTO"
+,CTO."Descripcion" AS "TIPO_OPERACION"
+,"BSCL.Plataforma.BD.Utilitarios::DarFormatoNumero"(SOL."NumeroCuotas",'dx',SERIE."DecimalesCuota") AS "CANTIDAD"
+,"BSCL.Plataforma.BD.Utilitarios::DarFormatoNumero"(SOL."ValorCuota",'dx',SERIE."DecimalesValorCuota") AS "PRECIO"
+,"BSCL.Plataforma.BD.Utilitarios::DarFormatoNumero"(SOL."Monto",CASE WHEN SOL."IdMoneda"='CLP' THEN 'i' ELSE 'd' END,CASE WHEN SOL."IdMoneda"='CLP' THEN 0 ELSE 3 END ) AS "MONTO"
+,SOL."IdMoneda" AS "MONEDA"
+,EST."Nombre" AS "ESTADO"
+,CEMP."Nombre" AS "CORREDORA"
+,CEMP."TelefonoPrincipal" AS "ATENCIONCLIENTE"
+,'T0' AS "CONDICIONLIQUIDACION"
+,'M' AS "TIPOPRECIOORDEN"
+,TO_VARCHAR(SOL."FechaCertificacion",'DD-MM-YYYY') AS "FECHAVIGENCIA"
+,TO_BIGINT(0) "TASA"
+,TO_BIGINT(0) "PLAZOVENCIMIENTO"
+,"BSCL.Plataforma.BD.Utilitarios::DarFormatoNumero"(0,CASE WHEN SOL."IdMoneda"='CLP' THEN 'i' ELSE 'd' END, CASE WHEN SOL."IdMoneda"='CLP' THEN 0 ELSE 3 END ) AS "MONTOPRIMA"
+,'N' AS "VENTACORTA"
+,"BSCL.Plataforma.BD.Utilitarios::DarFormatoNumero"(SOL."MontoComision",'i',0) AS "COMISION"
+,"BSCL.Plataforma.BD.Utilitarios::DarFormatoNumero"(0,'i',0) AS "IMPUESTO"
+,"BSCL.Plataforma.BD.Utilitarios::DarFormatoNumero"(0,'i',0) AS "GASTO"
+,"BSCL.Plataforma.BD.Utilitarios::DarFormatoNumero"(0,'i',0) AS "DERECHO"
+,CASE 	
+WHEN COALESCE(CIPO."IdDireccionNotificacion", '')='' OR CIPO."IdDireccionNotificacion"='N' OR CIPO."IdDireccionNotificacion"='false' THEN CASE CIP."ValorIndicador" WHEN '' THEN TO_BIGINT(0) ELSE TO_BIGINT(CIP."ValorIndicador") END 
+ELSE TO_BIGINT(CIPO."IdDireccionNotificacion") END AS "IdDireccionEvento"
+,'TO' AS "TipoDestinatarioEvento"
+FROM  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate" SOL
+INNER JOIN "BSCL.Portafolio.BD.Vistas::ConsultarPortafolio" POR ON POR."IdPortafolio" = SOL."IdPortafolio"
+INNER JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" CLI ON CLI."IdCliente" = SOL."IdCliente"
+INNER JOIN "BSCL.FondoMutuo.BD::FMM.SerieDeFondo" SERIE ON (SOL."IdSerieFondo" = SERIE."IdSerieFondo")
+LEFT OUTER JOIN "BSCL.SocioNegocio.BD.Vistas::PER.ConsultarPersonaDireccionElectronica" CORREO ON (CORREO."IdDireccionElectronica" = CLI."IdDireccionElectronicaPrincipal")
+LEFT OUTER JOIN "BSCL.SocioNegocio.BD.Vistas::PER.ConsultarPersonaTelefono" TELEFONO ON (TELEFONO."IdTelefono" = CLI."IdTelefonoPrincipal")
+INNER JOIN "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEstado" EST ON EST."IdEstado" = SOL."Estado"
+INNER JOIN "BSCL.Plataforma.BD.Vistas::INS.ConsultarTipoProducto" CTP ON CTP."IdTipoProducto" = 'INFM'
+INNER JOIN "BSCL.FondoMutuo.BD::FMM.TipoMovimientoFondoMutuo" CTO ON CTO."IdTipoMovimientoFondoMutuo" = SOL."IdTipoMovimientoFondoMutuo"
+INNER JOIN "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa" CEMP ON CEMP."IdEmpresa" = SOL."IdEmpresa"
+LEFT JOIN "BSCL.Orden.BD.Vistas::ConsultarIndicadoresPortafolioOrdenes" CIPO ON CIPO."IdPortafolio" = SOL."IdPortafolio"
+LEFT JOIN (SELECT IND."IdEntidad",IND."ValorIndicador" FROM "BSCL.Plataforma.BD::IND.Indicador" IND  
+INNER JOIN "BSCL.Plataforma.BD::IND.TipoIndicador" TP ON TP."IdTipoIndicador" = IND."IdTipoIndicador" AND TP."IdUso" = 'PRE' AND TP."GrupoIndicador" = 'GRUPONOTIFICACIONES' AND TP."CodigoTipoIndicador" = 'NOT_EMAIL' AND IND."IdTipoEntidad" = 'PORTAFOLIO') AS CIP ON CIP."IdEntidad" = POR."IdPortafolio"
+WHERE "IdSolicitudAporteRescate" IN (:IdSolicitudAporteRescate);

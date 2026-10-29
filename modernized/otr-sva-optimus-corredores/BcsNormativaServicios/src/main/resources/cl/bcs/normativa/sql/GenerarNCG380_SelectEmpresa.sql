@@ -1,0 +1,1 @@
+SELECT top 1 "IdEmpresa" FROM "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa";

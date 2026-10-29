@@ -1,0 +1,110 @@
+{
+  "_provenance": "Recorded by legacy-oracle/runner/OracleRunner.java executing the unmodified legacy cl.bcs.APV.CrearTraspasoTesoreria.call on H2 MODE=LEGACY. Do not edit by hand; re-record.",
+  "salida": {
+    "P_OUT_MENSAJES": [
+      {
+        "id": 31,
+        "tipo": "OK",
+        "codigo": "CARGO_ABONO_OK",
+        "descripcion": "cargo y abono creados"
+      }
+    ],
+    "P_OUT_ERRORESCONTADOR": 0,
+    "p_IngresoEgreso": [],
+    "p_FormaDePago": []
+  },
+  "tablas": {
+    "BSCL.APV.BD::TRA.Traspaso": [
+      {
+        "IdTraspaso": 151,
+        "IdContratoSAAPV": 500,
+        "IdEstado": "VIG"
+      },
+      {
+        "IdTraspaso": 152,
+        "IdContratoSAAPV": 501,
+        "IdEstado": "VIG"
+      }
+    ]
+  },
+  "colaboradores": [
+    {
+      "servicio": "StoredProcedure",
+      "entrada": {
+        "procedimiento": "BSCL.CuentaInversion.BD.Servicios::ConsultarSaldoCuentaInversionCliente",
+        "entrada": {
+          "p_CuentaInversionAConsultar": [
+            {
+              "IdEjecutivo": null,
+              "IdCliente": 7000,
+              "IdPortafolio": null,
+              "IdMoneda": "CLP"
+            }
+          ],
+          "p_FechaDesde": "2025-04-01",
+          "p_FechaHasta": "2025-04-01",
+          "p_IdEmpresa": 1,
+          "p_IdModulo": "APV",
+          "p_IdUsuario": 25,
+          "p_IncluyeOtrosSaldos": "N",
+          "p_TipoAgrupador": "PO",
+          "p_UsaReglasNegocio": "N"
+        }
+      }
+    },
+    {
+      "servicio": "CrearCargoAbono",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 25,
+        "p_IdModulo": "APV",
+        "p_simularOperacion": "N",
+        "p_UsaReglasNegocio": "S",
+        "p_FechaSistema": "2025-04-01",
+        "p_EsIngresoManual": "N",
+        "p_CargoAbonoAGenerar": []
+      }
+    },
+    {
+      "servicio": "CrearIngresoEgreso",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 25,
+        "p_IdModulo": "APV",
+        "p_SimularOperacion": "N",
+        "p_UsaReglasNegocio": "S",
+        "p_IdOrigenProceso": null,
+        "p_EsIngresoAutomatico": "N",
+        "p_EsIngresoUI": "N",
+        "p_FechaMovimiento": "0001-01-01",
+        "p_IngresoEgresoGenerar": [],
+        "p_FormaDePago": []
+      }
+    },
+    {
+      "servicio": "CrearComprobante",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 25,
+        "p_IdModulo": "APV",
+        "p_SimularOperacion": "N",
+        "p_UsaReglasNegocio": "S",
+        "p_FechaMovimiento": "2025-04-01",
+        "p_IdCaja": 1,
+        "p_GenerarComprobanteDesdeMovimientos": "S",
+        "p_GenerarComprobanteDesdeComprobantes": "N",
+        "p_EsIngresoAutomatico": "N",
+        "p_IngresoEgresoGenerar": [
+          {
+            "NumeroReferencia": 1,
+            "IdIngresoEgreso": 9001,
+            "TipoComprobante": "PAREGR"
+          }
+        ],
+        "p_ComprobanteGenerar": [],
+        "p_FormaDePago": []
+      }
+    }
+  ],
+  "secuenciasSolicitadas": []
+}

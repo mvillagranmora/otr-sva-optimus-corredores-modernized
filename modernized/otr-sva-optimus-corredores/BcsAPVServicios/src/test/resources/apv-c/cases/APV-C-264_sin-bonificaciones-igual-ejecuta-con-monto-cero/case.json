@@ -1,0 +1,69 @@
+{
+  "id": "APV-C-264",
+  "titulo": "no bonificacion found: no zero-amount guard; the traspaso, the (empty) egreso call and the comprobante are still invoked",
+  "pina": "DevolucionBF_EntidadRecaudadora.java:322",
+  "servicio": "DevolucionBF_EntidadRecaudadora",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 39,
+    "p_IdModulo": "APV",
+    "p_Parametros": [
+      {
+        "IdBonificacion": 99
+      }
+    ]
+  },
+  "colaboradores": {
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [
+          {
+            "NumeroReferencia": 1,
+            "IdIngresoEgreso": 7001,
+            "IdTipoMovimiento": "MOVEGR"
+          },
+          {
+            "NumeroReferencia": 2,
+            "IdIngresoEgreso": 7002,
+            "IdTipoMovimiento": "MOVING"
+          }
+        ],
+        "P_OUT_RESULTADOPROCESO": []
+      }
+    },
+    "CrearComprobante": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          },
+          {
+            "Campo": "IdComprobante",
+            "Id": 8002,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 2
+          }
+        ]
+      }
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::INV.Bonificacion",
+      "orden": "\"IdBonificacion\"",
+      "columnas": [
+        "IdBonificacion",
+        "IdCliente",
+        "AnoAhorro",
+        "IdEstado"
+      ]
+    }
+  ]
+}

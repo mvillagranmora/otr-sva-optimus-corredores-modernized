@@ -1,0 +1,108 @@
+{
+  "clase": "CalcularComisiones",
+  "ref": "FM-COM-06: las 4 conversiones (ids IdInterno*5+1..4) con resultado",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "S",
+    "p_UsaReglasNegocio": "S",
+    "p_DatosCustodia": [
+      {
+        "IdInterno": 1,
+        "IdSerieFondo": "FM001A",
+        "IdInstrumento": 900,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "Cantidad": 100,
+        "IdMonedaFondo": "CLP",
+        "IdMonedaOperacion": "CLP",
+        "TipoSolicitud": "RES",
+        "IdTipoMovimientoFondoMutuo": "RESNORM",
+        "FechaValorCuota": "2026-03-02",
+        "FechaCurse": "2026-03-02",
+        "EsTraspaso": "N"
+      }
+    ]
+  },
+  "colaboradores": {
+    "ConsultarFlujoCustodia": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "p_out_FlujoDetallado": [
+          {
+            "IdCliente": 100,
+            "IdPortafolio": 500,
+            "IdInstrumento": 900,
+            "Cantidad": 100,
+            "PrecioCompra": 1500,
+            "IdConcepto": "APORFM",
+            "FechaOrigenCompra": "2026-02-10 00:00:00.000",
+            "FechaOperacion": "2026-02-09 00:00:00.000"
+          }
+        ]
+      }
+    },
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 1,
+            "IdClasificacionTipoInstrumento": "FM",
+            "Precio": 1000,
+            "IdInstrumento": 900,
+            "FechaFuente": "2026-03-02 00:00:00.000"
+          },
+          {
+            "IdRegistro": 2,
+            "IdClasificacionTipoInstrumento": "FM",
+            "Precio": 1000,
+            "IdInstrumento": 900,
+            "FechaFuente": "2026-03-02 00:00:00.000"
+          }
+        ]
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdInterno": 6,
+                "MontoDestino": 11.5
+              },
+              {
+                "IdInterno": 7,
+                "MontoDestino": 12.5
+              },
+              {
+                "IdInterno": 8,
+                "MontoDestino": 0.0011
+              },
+              {
+                "IdInterno": 9,
+                "MontoDestino": 0.0012
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": []
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

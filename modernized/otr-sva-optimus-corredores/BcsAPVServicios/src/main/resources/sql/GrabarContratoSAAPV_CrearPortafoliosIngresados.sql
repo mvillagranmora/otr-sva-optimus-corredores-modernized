@@ -1,0 +1,1 @@
+create local temporary table #PortafoliosIngresados ("IdPortafolio" BIGINT , "Producto" nvarchar(100))

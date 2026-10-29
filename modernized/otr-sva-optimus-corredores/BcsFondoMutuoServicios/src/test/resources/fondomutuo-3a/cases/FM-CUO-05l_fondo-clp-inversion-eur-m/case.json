@@ -1,0 +1,70 @@
+{
+  "clase": "CalcularMontoNumeroCuota",
+  "ref": "FM-CUO-05: fondo en moneda sistema e inversion en EUR (no USD): usa CalcularParidad",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_Series": [
+      {
+        "IdInterno": 1,
+        "Fecha": "2026-03-02",
+        "IdSerieFondo": "FM001A",
+        "CalculoPorMontoCuota": "M",
+        "Monto": 150000,
+        "NumeroCuotas": null,
+        "IdMonedaFondo": "CLP",
+        "IdMonedaInversion": "EUR",
+        "TipoSolicitud": "APO",
+        "TipoFactorAjuste": "UF",
+        "IdEmpresa": 1,
+        "Porcentaje": 0,
+        "IdTipoMovimientoFondoMutuo": ""
+      }
+    ]
+  },
+  "colaboradores": {
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 1,
+            "IdClasificacionTipoInstrumento": "FM",
+            "Precio": 1500.1234,
+            "IdInstrumento": 900,
+            "FechaFuente": "2026-03-02 00:00:00.000"
+          }
+        ]
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdInterno": 1,
+                "FactorCambioLocal": 0.9,
+                "FactorOrigenDestino": 0.9,
+                "MontoDestino": 140.5
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": []
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

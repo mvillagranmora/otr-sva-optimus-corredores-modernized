@@ -1,0 +1,31 @@
+INSERT INTO "BSCLPortafolioBD::PORPreferenciaPagoPortafolio"
+(					
+	"IdPreferenciaPagoPortafolio",
+	"IdPortafolio",
+	"IdPreferenciaPago",
+	"IdCuentaBancaria",
+	"IdTarjetaBancaria",
+   	"FechaCreacion",
+	"FechaModificacion",
+	"IdUsuarioCreador",
+	"IdEstado",
+	"IdEmpresa",			
+	"FechaIngreso",					 
+	"IdEstadoAutorizacion",
+	"PorDefecto"
+) VALUES 
+(  
+    "BSCLPortafolioBDSecuencias::PreferenciaPagoPortafolio".NEXTVAL,
+	:IdPortafolio,
+	:IdPreferenciaPago,
+	:IdCuentaBancaria,
+	:IdTarjetaBancaria,
+   	:FechaCreacion,
+	:FechaModificacion,
+	:IdUsuarioCreador,
+	:IdEstado,
+	:IdEmpresa,
+	:FechaIngreso,
+	:IdEstadoAutorizacion,
+	:PorDefecto
+);

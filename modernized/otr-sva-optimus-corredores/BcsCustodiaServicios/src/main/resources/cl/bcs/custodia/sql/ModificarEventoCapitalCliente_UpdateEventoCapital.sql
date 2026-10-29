@@ -1,0 +1,32 @@
+UPDATE "BSCL.Custodia.BD::CUS.EventoCapitalCliente"
+SET
+    "CantidadDerecho"                   = :p_CantidadDerecho,
+    "CantidadNueva"                     = :p_CantidadNueva,
+    "MontoCapital"                      = :p_MontoCapital,
+    "MontoInteres"                      = :p_MontoInteres,
+    "TipoCartera"                       = :p_TipoCartera,
+    "IdBoveda"                          = :p_IdBoveda,
+    "Total"                             = :p_Total,
+    "CantidadDerechoArchivo"            = :p_CantidadDerechoArchivo,
+    "DiferenciaCantidadDerecho"         = :p_DiferenciaCantidadDerechoArchivo,
+    "AccionesDisponiblesArchivo"        = :p_CantidadNuevaArchivo,
+    "DiferenciaAccionesCantidadNueva"   = :p_DiferenciaCantidadNuevaArchivo,
+    "MontoBeneficioArchivo"             = :p_MontoBeneficioArchivo,
+    "DiferenciaMontoBeneficio"          = :p_DiferenciaMontoBeneficioArchivo,
+    "MontoInteresArchivo"               = :p_MontoInteresArchivo,
+    "DiferenciaMontoInteres"            = :p_DiferenciaMontoInteresArchivo,
+    "MontoCapitalArchivo"               = :p_MontoCapitalArchivo,
+    "DiferenciaMontoCapital"            = :p_DiferenciaMontoCapitalArchivo,
+    "Amortizacion"                      = :p_MontoCapital,
+	"TipoSocioNegocio"					= :p_TipoSocioNegocio,
+    "FechaHoraUltimaActualizacion"      = :p_FechaHoraUltimaActualizacion, 
+    "Precio"                            = :p_Precio,
+    "ISFUT"								= :p_ISFUT,
+    "RetencionISFUT"					= :p_RetencionISFUT,
+    "MontoRetencionISFUT"				= :p_MontoRetencionISFUT,
+    "IdMoneda"							= COALESCE(:p_IdMoneda,"IdMoneda"),
+    "FactorOtraMoneda"					= :p_FactorOtraMoneda,
+    "MontoImpuestoExtranjero"			= :p_MontoImpuestoExtranjero,
+    "MontoGastoTransferencia"			= :p_MontoGastoTransferencia
+WHERE
+    "IdEventoCapitalCliente" = :p_IdEventoCapitalCliente;

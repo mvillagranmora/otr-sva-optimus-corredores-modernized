@@ -1,0 +1,16 @@
+SELECT RAPV."IdReporteAPV"
+	  ,RAPV."DocumentoIdentidad"
+	  ,CC."IdDocumentoIdentidad"
+	  ,CC."IdCliente"
+	  ,CC."TipoDocumentoIdentidad"
+	  ,RAPV."SaldoAcumulado"
+	  ,RAPV."SaldoRegimenTributarioA"
+	  ,RAPV."SaldoRegimenTributarioB"
+	  ,RAPV."SaldoBonificacionEstatal"
+	  ,RAPV."SaldoAPVCEmpleador"
+	  ,RAPV."SaldoAPVCTrabajadorA"
+	  ,RAPV."SaldoAPVCTrabajadorB"
+	  ,RAPV."SaldoAPVCBonificacionEstatal"	  
+FROM "BSCL.Normativa.BD::NOR.ReporteAPV" RAPV
+LEFT JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" CC ON RAPV."DocumentoIdentidad" = CC."DocumentoIdentidad"
+WHERE "IdReporteAPV" IN (:IdReporteAPV);

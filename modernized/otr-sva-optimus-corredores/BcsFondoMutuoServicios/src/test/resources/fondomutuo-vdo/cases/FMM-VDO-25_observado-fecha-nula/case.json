@@ -1,0 +1,49 @@
+{
+  "servicio": "ConsultarValorDolarFondoMutuo",
+  "ref": "FM-VDO-02: dos series con Fecha null explicito => una sola entrada con Fecha nula (HashMap acepta nulo); resultado con Fecha omitida",
+  "esquemasExtra": [
+    "seed/base-vdo.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_Series": [
+      {
+        "IdSerieFondo": "V001",
+        "IdTipoSolicitud": "APO",
+        "Fecha": null
+      },
+      {
+        "IdSerieFondo": "V002",
+        "IdTipoSolicitud": "APO",
+        "Fecha": null
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorTipoCambio",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.Parametro",
+      "orden": "\"IdEmpresa\", \"NombreTipoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "CalcularParidad": {
+      "defecto": {
+        "p_out_CalculosSalida": [
+          {
+            "IdTrabajo": 1,
+            "IdInterno": 0,
+            "FactorOrigenDestino": 940.25,
+            "MontoDestino": 940.25,
+            "FactorCambioLocal": 1
+          }
+        ]
+      }
+    }
+  }
+}

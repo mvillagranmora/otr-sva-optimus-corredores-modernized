@@ -1,0 +1,3 @@
+INSERT INTO "BSCL.APV.BD::REC.Recaudacion" ("IdRecaudacion", "IdEmpresa", "CodigoArchivo", "FolioCartola", "LineaCartola", "Sucursal", "FechaDeposito", "CuentaCorriente", "MontoDeposito", "ConceptoRecaudacion", "Origen", "Observacion", "NumeroDocumento", "IdTipoDeposito", "IdBanco", "IdRegimenTributario", "IdCarga", "IdEstado") VALUES (10, 1, 'O01I', 2069202305000228, 1, 'SUCUR', '2025-03-31', '13602227', 100000, '', 'CARGA', '', 1, 'TRA', 12, 0, 0, 'ING');
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdCliente", "DocumentoIdentidad") VALUES (7001, '11184931-5');
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdCliente", "DocumentoIdentidad") VALUES (7002, '8765432-1');

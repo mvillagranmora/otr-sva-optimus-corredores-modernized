@@ -1,0 +1,190 @@
+{
+  "servicio": "IngresoRecaudacionTraspaso",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 21,
+    "p_IdModulo": "APV",
+    "p_TipoTraspaso": "R",
+    "p_Recaudacion": {
+      "CuentaCorriente": "111111",
+      "IdTipoDeposito": "TRA",
+      "IdBanco": 29
+    },
+    "p_Traspasos": [
+      {
+        "IdTraspaso": 2991747,
+        "MontoTraspaso": 100000,
+        "IdDetalleTraspaso": [
+          800
+        ]
+      }
+    ]
+  },
+  "config": {
+    "APV/REC.LiquidacionAutomatica": "N",
+    "APV/REC.ValidacionSAAPV_Empleador": "S",
+    "APV/REC.ValidacionSAAPV_PeriodoTermino": "S",
+    "APV/REC.ValidacionSAAPV_Monto": "S",
+    "PLATAFORMA/APV.AbreRegistrosTesoreria": "N"
+  },
+  "colaboradores": {
+    "CalcularMontoNumeroCuota": {
+      "salida": {
+        "P_OUT_RESULTADO": [
+          {
+            "IdInterno": 1,
+            "Monto": 160000,
+            "NumeroCuotas": 157.5
+          }
+        ]
+      }
+    },
+    "CrearSolicitudAporteRescateNormal": {
+      "salida": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADO": [
+          {
+            "IdInterno": 1,
+            "IdSolicitudAporteRescate": 3001,
+            "FolioContrato": 5000
+          }
+        ]
+      }
+    },
+    "CrearCargoAbono": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_CARGOABONOGENERADO": []
+      }
+    },
+    "CrearIngresoEgreso": {
+      "salidas": [
+        {
+          "P_OUT_MENSAJES": [],
+          "P_OUT_INGRESOEGRESOGENERADO": [
+            {
+              "NumeroReferencia": 1,
+              "IdIngresoEgreso": 7001,
+              "IdTipoMovimiento": "MOVING"
+            }
+          ],
+          "P_OUT_RESULTADOPROCESO": [
+            {
+              "Campo": "IdComprobante",
+              "Id": 8001,
+              "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+              "Resultado": "ING",
+              "NumeroReferencia": 1
+            }
+          ]
+        },
+        {
+          "P_OUT_MENSAJES": [],
+          "P_OUT_INGRESOEGRESOGENERADO": [
+            {
+              "NumeroReferencia": 1,
+              "IdIngresoEgreso": 7002,
+              "IdTipoMovimiento": "MOVING"
+            }
+          ],
+          "P_OUT_RESULTADOPROCESO": [
+            {
+              "Campo": "IdComprobante",
+              "Id": 8002,
+              "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+              "Resultado": "ING",
+              "NumeroReferencia": 1
+            }
+          ]
+        }
+      ]
+    },
+    "CrearComprobante": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8002,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          }
+        ]
+      }
+    }
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 963,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionCliente": 500,
+    "BSCL.FondoMutuo.BD.Secuencias::FolioContrato": 5000,
+    "BSCL.APV.BD.Secuencia::APV.IdEstadoTransicion": 7000
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "FolioCartola",
+        "LineaCartola",
+        "Sucursal",
+        "FechaDeposito",
+        "CuentaCorriente",
+        "MontoDeposito",
+        "Origen",
+        "NumeroDocumento",
+        "IdTipoDeposito",
+        "IdBanco",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdCliente",
+        "TipoAfiliado",
+        "IdRegimenTriburario",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.AsignacionContratoRecaudacion",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdContratoSAAPV"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::TRA.Traspaso",
+      "orden": "\"IdTraspaso\"",
+      "columnas": [
+        "IdTraspaso",
+        "IdContratoSAAPV",
+        "IdEstado",
+        "CierreSolicitud"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::SCS.ContratoSAAPV",
+      "orden": "\"IdContratoSAAPV\"",
+      "columnas": [
+        "IdContratoSAAPV",
+        "FolioContratoSAAPV",
+        "IdEstado",
+        "IdEstadoSolicitud"
+      ]
+    }
+  ]
+}

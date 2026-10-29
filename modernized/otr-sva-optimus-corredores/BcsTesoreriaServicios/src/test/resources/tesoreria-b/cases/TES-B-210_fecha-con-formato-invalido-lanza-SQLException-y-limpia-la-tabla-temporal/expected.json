@@ -1,0 +1,66 @@
+{
+  "_provenance": "Recorded by legacy-oracle/runner/OracleRunner.java executing the unmodified legacy ban.ActualizarSaldosCuentaBanco.call on H2 MODE=LEGACY. Do not edit by hand; re-record.",
+  "excepcion": "SQLException: Cannot parse \"DATE\" constant \"no-es-fecha\"; SQL statement:\nWITH FechMax AS(\n\tSELECT MAX(VCFP.\"FechaAfectaSaldo\") AS \"FechaAfectaSaldoAnterior\"\n\t\t\t  \t\t\t\t\t,CB.\"IdCuentaBanco\"\n\tFROM \"BSCL.Tesoreria.BD::GBL.ActualizarSaldosCuentaBanco_Proceso_Paso\" AS CB\n\tLEFT JOIN \"BSCL.Tesoreria.BD.Vistas::ConsultarComprobanteFormaDePago\" AS VCFP ON VCFP.\"IdCuentaBancariaCorredora\" = CB.\"IdCuentaBanco\" AND VCFP.\"AfectoSaldo\" = 'S'\n\tWHERE VCFP.\"FechaAfectaSaldo\" < ? \n\tGROUP BY CB.\"IdCuentaBanco\"\n\t ),\nv_SaldoDisponibleDetalladoInicial AS(\n\tSELECT  COUNT(VCFP.\"IdComprobanteFormaDePago\") over (partition by VCFP.\"FechaAfectaSaldo\",VCFP.\"IdCuentaBancariaCorredora\" \n\t\torder by VCFP.\"FechaHoraAfectaSaldo\",VCFP.\"IdComprobanteFormaDePago\"  \n\t\tASC rows between unbounded preceding and current row) AS \"Id\"\n\t\t\t\t\t,VCFP.\"IdComprobanteFormaDePago\"\n\t\t\t\t\t,COALESCE(VCFP.\"SaldoDisponible\",0) AS \"SaldoDisponible\"\n\t\t\t\t\t,FechMax.\"IdCuentaBanco\"\n\t\t\t\t\t,FechMax.\"FechaAfectaSaldoAnterior\"\n\tFROM \"BSCL.Tesoreria.BD.Vistas::ConsultarComprobanteFormaDePago\" AS VCFP\n\tINNER JOIN FechMax \n\tON VCFP.\"FechaAfectaSaldo\" = FechMax.\"FechaAfectaSaldoAnterior\" \n\tAND VCFP.\"IdCuentaBancariaCorredora\" = FechMax.\"IdCuentaBanco\"\n\tAND VCFP.\"AfectoSaldo\" = 'S'\n),\nSCMax AS(\n\tSELECT MAX(\"Id\") AS \"MaxId\", \"IdCuentaBanco\", \"FechaAfectaSaldoAnterior\" \n\tFROM v_SaldoDisponibleDetalladoInicial \n\tGROUP BY \"FechaAfectaSaldoAnterior\", \"IdCuentaBanco\"\n)\nSELECT \n\tSC.\"IdCuentaBanco\"\n\t,SC.\"IdComprobanteFormaDePago\"\n\t,to_varchar(SC.\"FechaAfectaSaldoAnterior\") AS \"FechaAfectaSaldoAnterior\"\n\t,CAST(SC.\"SaldoDisponible\" AS decimal(26,8)) AS \"SaldoAnterior\"\nFROM v_SaldoDisponibleDetalladoInicial AS SC\nINNER JOIN SCMax\nON SCMax.\"IdCuentaBanco\" = SC.\"IdCuentaBanco\" \nAND SCMax.\"FechaAfectaSaldoAnterior\" = SC.\"FechaAfectaSaldoAnterior\" \nAND SCMax.\"MaxId\" = SC.\"Id\" [22007-240] Query: WITH FechMax AS(\n\tSELECT MAX(VCFP.\"FechaAfectaSaldo\") AS \"FechaAfectaSaldoAnterior\"\n\t\t\t  \t\t\t\t\t,CB.\"IdCuentaBanco\"\n\tFROM \"BSCL.Tesoreria.BD::GBL.ActualizarSaldosCuentaBanco_Proceso_Paso\" AS CB\n\tLEFT JOIN \"BSCL.Tesoreria.BD.Vistas::ConsultarComprobanteFormaDePago\" AS VCFP ON VCFP.\"IdCuentaBancariaCorredora\" = CB.\"IdCuentaBanco\" AND VCFP.\"AfectoSaldo\" = 'S'\n\tWHERE VCFP.\"FechaAfectaSaldo\" < :p_FechaMovimiento \n\tGROUP BY CB.\"IdCuentaBanco\"\n\t ),\nv_SaldoDisponibleDetalladoInicial AS(\n\tSELECT  COUNT(VCFP.\"IdComprobanteFormaDePago\") over (partition by VCFP.\"FechaAfectaSaldo\",VCFP.\"IdCuentaBancariaCorredora\" \n\t\torder by VCFP.\"FechaHoraAfectaSaldo\",VCFP.\"IdComprobanteFormaDePago\"  \n\t\tASC rows between unbounded preceding and current row) AS \"Id\"\n\t\t\t\t\t,VCFP.\"IdComprobanteFormaDePago\"\n\t\t\t\t\t,COALESCE(VCFP.\"SaldoDisponible\",0) AS \"SaldoDisponible\"\n\t\t\t\t\t,FechMax.\"IdCuentaBanco\"\n\t\t\t\t\t,FechMax.\"FechaAfectaSaldoAnterior\"\n\tFROM \"BSCL.Tesoreria.BD.Vistas::ConsultarComprobanteFormaDePago\" AS VCFP\n\tINNER JOIN FechMax \n\tON VCFP.\"FechaAfectaSaldo\" = FechMax.\"FechaAfectaSaldoAnterior\" \n\tAND VCFP.\"IdCuentaBancariaCorredora\" = FechMax.\"IdCuentaBanco\"\n\tAND VCFP.\"AfectoSaldo\" = 'S'\n),\nSCMax AS(\n\tSELECT MAX(\"Id\") AS \"MaxId\", \"IdCuentaBanco\", \"FechaAfectaSaldoAnterior\" \n\tFROM v_SaldoDisponibleDetalladoInicial \n\tGROUP BY \"FechaAfectaSaldoAnterior\", \"IdCuentaBanco\"\n)\nSELECT \n\tSC.\"IdCuentaBanco\"\n\t,SC.\"IdComprobanteFormaDePago\"\n\t,to_varchar(SC.\"FechaAfectaSaldoAnterior\") AS \"FechaAfectaSaldoAnterior\"\n\t,CAST(SC.\"SaldoDisponible\" AS decimal(26,8)) AS \"SaldoAnterior\"\nFROM v_SaldoDisponibleDetalladoInicial AS SC\nINNER JOIN SCMax\nON SCMax.\"IdCuentaBanco\" = SC.\"IdCuentaBanco\" \nAND SCMax.\"FechaAfectaSaldoAnterior\" = SC.\"FechaAfectaSaldoAnterior\" \nAND SCMax.\"MaxId\" = SC.\"Id\";",
+  "tablas": {
+    "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago": [
+      {
+        "IdComprobanteFormaDePago": 2101,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2102,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2103,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2104,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2105,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2106,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2107,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2108,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2109,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2201,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      },
+      {
+        "IdComprobanteFormaDePago": 2202,
+        "SaldoDisponible": 0,
+        "SaldoContable": 0
+      }
+    ],
+    "BSCL.Tesoreria.BD::GBL.ActualizarSaldosCuentaBanco_Proceso_Paso": []
+  },
+  "colaboradores": [],
+  "secuenciasSolicitadas": []
+}

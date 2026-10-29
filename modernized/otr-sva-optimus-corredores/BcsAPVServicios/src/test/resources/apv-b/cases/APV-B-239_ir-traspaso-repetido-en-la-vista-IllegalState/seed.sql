@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.APV.BD.Vistas::TRA.ConsultarTraspasosAPV" ("IdTraspaso","IdPersona","IdEmpleador","FolioContratoSAAPV","MontoPesoDetalle","Trabajador","IdEstado","NombreEntidad") VALUES (2991747,117940,0,'F1',1000000,'DEPENDIENTE','ING','AFP DEMO');
+INSERT INTO "BSCL.APV.BD.Vistas::TRA.ConsultarTraspasosAPV" ("IdTraspaso","IdPersona","IdEmpleador","FolioContratoSAAPV","MontoPesoDetalle","Trabajador","IdEstado","NombreEntidad") VALUES (2991747,117940,0,'F2',1000000,'DEPENDIENTE','ING','AFP DEMO');

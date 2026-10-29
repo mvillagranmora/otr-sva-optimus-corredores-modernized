@@ -1,0 +1,10 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.MonedaFormato" ("IdMonedaFormato", "IdMoneda", "IdUsoMonedaFormato", "IdTipoInstrumento", "IdTipoOperacion", "PrecioDecimales", "PrecioTrucaRedondea", "TasaDecimales", "TasaTrucaRedondea", "CantidadDecimales", "CantidadTrucaRedondea", "MontoDecimales", "MontoTrucaRedondea", "TipoCambioDecimales", "TipoCambioTrucaRedondea", "ParidadDecimales", "ParidadTrucaRedondea", "PuntosDecimales", "PuntosTrucaRedondea", "IdEstado") VALUES (158, 'EUR', 'GEN', '', '', 4, 'R', 4, 'R', 4, 'R', 2, 'R', 2, 'R', 4, 'R', 2, 'R', 'ACT');
+CREATE LOCAL TEMPORARY TABLE "tmp_fondo" AS SELECT * FROM "BSCL.FondoMutuo.BD::FMM.Fondo" WHERE "IdFondo" = '10';
+UPDATE "tmp_fondo" SET "IdMoneda" = 'EUR', "IdFondo" = '21' WHERE 1 = 1;
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.Fondo" SELECT * FROM "tmp_fondo";
+DROP TABLE "tmp_fondo";
+CREATE LOCAL TEMPORARY TABLE "tmp_serie" AS SELECT * FROM "BSCL.FondoMutuo.BD::FMM.SerieDeFondo" WHERE "IdSerieFondo" = 'FM001A';
+UPDATE "tmp_serie" SET "IdInstrumento" = 902, "IdSerieFondo" = 'FM003E', "IdFondo" = '21' WHERE 1 = 1;
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.SerieDeFondo" SELECT * FROM "tmp_serie";
+DROP TABLE "tmp_serie";
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.ValorTipoCambio" ("IdSerieFondo", "IdEmpresa", "ValorDolarAporte", "ValorDolarRescate") VALUES ('FM003E', 1, 1000, 990);

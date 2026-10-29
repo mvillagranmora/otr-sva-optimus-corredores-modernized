@@ -1,0 +1,86 @@
+{
+  "servicio": "EdicionMultiple",
+  "metodo": "call",
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Tesoreria.BD.Servicios::EdicionMultiple": {
+        "p_out_InformacionContador": 0,
+        "p_out_AdvertenciasContador": 0,
+        "p_out_ErroresContador": 0,
+        "p_out_FormaDePagoComprobante": [
+          {
+            "IdComprobante": 9101,
+            "IdComprobanteFormaDePago": 91011,
+            "IdTipoMovimiento": "MOVING"
+          }
+        ]
+      }
+    }
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 97,
+    "p_IdModulo": "TES",
+    "p_UsaReglasNegocio": "S",
+    "p_FechaMovimiento": "2025-04-01",
+    "p_Entidad": "TES.Comprobante",
+    "p_LiquidaComprobante": "N",
+    "p_FormasDePago": [
+      {
+        "NumeroReferencia": 1,
+        "IdMedioDePago": "TRA",
+        "IdModalidadDePago": "MODDEP",
+        "IdMoneda": "CLP",
+        "Monto": 10000,
+        "IdCuentaBancariaCorredora": 301
+      }
+    ],
+    "p_RegistrosAProcesar": [
+      {
+        "Id": 9101,
+        "Entidad": "TES.Comprobante",
+        "Accion": "MOD"
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.Comprobante",
+      "orden": "\"IdComprobante\"",
+      "columnas": [
+        "IdComprobante",
+        "IdEstado",
+        "FechaLiquidacion"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago",
+      "orden": "\"IdComprobanteFormaDePago\"",
+      "columnas": [
+        "IdComprobanteFormaDePago",
+        "IdComprobante",
+        "IdEstado",
+        "IdUsuarioLiquidacion",
+        "FechaHoraLiquidacion",
+        "FechaAfectaSaldo"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.ComprobanteDetalle",
+      "orden": "\"IdComprobanteDetalle\"",
+      "columnas": [
+        "IdComprobanteDetalle",
+        "IdComprobante",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.LiquidarComprobante_TablaComprobante",
+      "orden": "\"IdInterno\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.LiquidarComprobantes_Servicio_ComprobantesMuevenCuentaInversion",
+      "orden": "\"IdComprobante\""
+    }
+  ]
+}

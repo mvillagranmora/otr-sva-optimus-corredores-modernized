@@ -1,0 +1,1 @@
+SELECT "CodigoModulo","IdEstado" FROM "BSCL.Plataforma.BD::PAU.Modulo"

@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::COM.DetallePerfilCobros" SET "IdEstadoAutorizacion" = :p_IdEstadoAutorizacion WHERE "IdDetallePerfilCobros" = :p_IdDetallePerfilCobros

@@ -1,0 +1,91 @@
+{
+  "id": "APV-C-180",
+  "titulo": "one valid row: the deposit is created (Sucursal 7, account without leading zeros, amount parsed) and the CargaMasiva row is written",
+  "pina": "CargaMasivaBanco.java:318",
+  "servicio": "CargaMasivaBanco",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 15,
+    "p_IdModulo": "APV",
+    "p_NombreCarga": "Banco-AC07BAA_20191212_1648Z.TXT",
+    "p_Origen": "BANCO",
+    "p_Archivo": [
+      {
+        "IdEmpresa": 1,
+        "IdCargaMasiva": 0,
+        "NombreCargaMasiva": "Banco-AC07BAA_20191212_1648Z.TXT",
+        "CantidadRegistros": 1,
+        "IdUsuario": 15,
+        "IdTipoCarga": 3,
+        "Descripcion": "Carga Banco",
+        "FechaCarga": "2019-12-16T03:00:00.000Z",
+        "IdEstado": "VIG"
+      }
+    ],
+    "p_Parametros": [
+      {
+        "TipoFila": 2,
+        "Folio": 2069201912003132,
+        "FechaOperacion": "20191010",
+        "HoraOperacion": "123036",
+        "IdBanco": "Banco Security  ",
+        "TipoInstitucion": "IAAPV",
+        "Institucion": "Corredores de Bolsa SURA S.A.",
+        "FechaAbono": "20191212",
+        "HoraAbono": "090000",
+        "PeriodoPago": "201912",
+        "RutPagador": "0763090973",
+        "CuentaCorrientePagador": "165369501",
+        "NumeroAfiliado": "00001",
+        "NumeroContrato": "12",
+        "MontoAbono": "000000841456",
+        "CuentaCorrienteInstitucion": "000004360602                  ",
+        "MENSAJEVALIDACION": "OK"
+      }
+    ]
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::APV.IdCargaMasiva": 90,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 950
+  },
+  "colaboradores": {
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          }
+        ]
+      }
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "CodigoArchivo",
+        "FolioCartola",
+        "LineaCartola",
+        "Sucursal",
+        "CuentaCorriente",
+        "MontoDeposito",
+        "Origen",
+        "IdBanco",
+        "IdCarga",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::APV.CargaMasiva",
+      "orden": "\"IdCargaMasiva\""
+    }
+  ]
+}

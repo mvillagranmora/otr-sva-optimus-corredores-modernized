@@ -1,0 +1,31 @@
+INSERT INTO "BSCL.Plataforma.BD::COM_2.DetallePerfilCobro"(
+	  "IdDetallePerfilCobros",	
+	  "IdEmpresa",	
+	  "IdPerfilCobros",
+	  "IdTipoProducto",
+	  "IdTipoOperacion",
+	  "IdTipoCanalIngreso",
+	  "IdBolsa",
+	  "CodigoDefinicionCobro",
+	  "FechaCreacion",
+	  "FechaIngresoRegistro",
+	  "IdEstadoAutorizacion",
+	  "IdUsuarioCreador",
+	  "Borrado",
+	  "IdUsuarioBorra") 
+	  VALUES(
+	  
+	  "BSCL.Plataforma.BD.Secuencias::COM_2.DetallePerfilCobro".NEXTVAL,	
+	  :IdEmpresa,	
+	  :IdPerfilCobros,
+	  :IdTipoProducto,
+	  :IdTipoOperacion,
+	  :IdTipoCanalIngreso,
+	  :IdBolsa,
+	  :CodigoDefinicionCobro,
+	  CURRENT_UTCTIMESTAMP, 
+  	  CURRENT_UTCTIMESTAMP,
+	  :IdEstadoAutorizacion,
+	  :IdUsuarioCreador,
+	  :Borrado,
+	  :IdUsuarioBorra);

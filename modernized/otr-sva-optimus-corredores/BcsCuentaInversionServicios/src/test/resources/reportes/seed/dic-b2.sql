@@ -1,0 +1,20 @@
+-- Dictionary entries of ClientesPorPagarYCobrar / Anexo16 / InformeAtributtionAnalisys (text = "[CODE]" so a message proves the code used).
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_ANEXO16_LIBRO_DIARIO_DE_CUENTAS_POR_COBRAR', '[UI_ANEXO16_LIBRO_DIARIO_DE_CUENTAS_POR_COBRAR]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_ANTIGUEDAD', '[UI_ANTIGUEDAD]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_CLASIFICACION_CONTABLE', '[UI_CLASIFICACION_CONTABLE]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_CLAS_CONT_NO', '[UI_CLAS_CONT_NO]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_CLAS_CONT_SI', '[UI_CLAS_CONT_SI]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_DETALLE_CTAS', '[UI_DETALLE_CTAS]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_HASTA10', '[UI_HASTA10]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_HASTA30', '[UI_HASTA30]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_MAS30', '[UI_MAS30]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_MONTOCOBRAR', '[UI_MONTOCOBRAR]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_OBSERVACION', '[UI_OBSERVACION]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_OBSERVACIONES', '[UI_OBSERVACIONES]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_OPERACION_TIENE_ERRORES', '[UI_OPERACION_TIENE_ERRORES]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_REFERENCIA', '[UI_REFERENCIA]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_RELACIONADO', '[UI_RELACIONADO]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_RELACIONES', '[UI_RELACIONES]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_RUT_CLIENTE', '[UI_RUT_CLIENTE]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_SECUENCIA', '[UI_SECUENCIA]');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" VALUES ('es', 'UI_VIGENTES', '[UI_VIGENTES]');

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>cl.bcs</groupId>
+    <artifactId>otr-sva-optimus-corredores</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>bcs-utils</artifactId>
+  <packaging>jar</packaging>
+  <name>BcsUtils — shared platform utilities library</name>
+
+  <dependencies>
+    <!-- JSON — Utils.printJson/getGsonBuilder, JavaCall family, Gson deserializers -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+
+    <!-- IO utilities — FilenameUtils in ZipUtil -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+
+    <!-- Spring Web: only RestClient/MediaType for CrystalReportsRestClient. NOT spring-boot-starter-web: the starter would
+         push Tomcat/webmvc into every consumer (e.g. a batch job would start a servlet container). -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+    <!-- @Component on CrystalReportsRestClient / HybridPasswordEncoder -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <!-- Logging API used by Timer, ZipUtil and FechaJsonLenient (was only transitive through the starter) -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <!-- Spring Security Crypto — BCryptPasswordEncoder + PasswordEncoder interface only -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-crypto</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- Commons Codec — DigestUtils.sha256Hex (HybridPasswordEncoder) and the lenient Base64 of
+         Utils.decodificarEvento; no longer optional because the pure Utils API needs it at run time -->
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>

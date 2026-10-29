@@ -1,0 +1,18 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.Empresa" ("IdEmpresa", "IdSocioDeNegocio") VALUES (1, 50);
+INSERT INTO "BSCL.SocioNegocio.BD::SOC.SocioDeNegocio" ("IdSocioDeNegocio", "IdPersona") VALUES (50, 900);
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" ("IdPersona", "IdPortafolioDefecto", "IdCliente", "IdSocioDeNegocio") VALUES (900, 777, 9000, 50);
+INSERT INTO "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa" ("IdEmpresa", "IdPersona", "IdSocioDeNegocio") VALUES (1, 900, 50);
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdSocioDeNegocio", "IdPortafolioDefecto", "IdCliente", "DocumentoIdentidad") VALUES (50, 777, 9000, '76000000-0');
+INSERT INTO "BSCL.Tesoreria.BD::TES.Caja" ("IdCaja", "Codigo", "Nombre", "IdEstado", "IdEmpresa") VALUES (5, 'PAC', 'CAJA PAC', 'ABT', 1);
+INSERT INTO "BSCL.Plataforma.BD::BAN.Banco" ("IdBanco", "IdPersona") VALUES (12, 3012);
+INSERT INTO "BSCL.Tesoreria.BD.Vistas::ConsultarCuentasBancarias" ("IdBanco", "NombreBanco", "NumeroCuentaBancaria", "IdCuentaBanco") VALUES (12, 'CHILE', '111111', 122);
+INSERT INTO "BSCL.Tesoreria.BD::TES.CuentaBanco" ("IdCuentaBanco", "IdBanco", "NumeroCuentaBancaria") VALUES (122, 12, '111111');
+INSERT INTO "BSCL.APV.BD::APV.CargaMasiva" ("IdEmpresa", "IdCargaMasiva", "NombreCargaArchivo", "CantidadRegistros", "IdUsuario", "IdTipoCarga", "Descripcion", "FechaCarga", "IdEstado") VALUES (1, 77, 'Carga_4.txt', 3, 21, 2, 'Carga', '2021-12-07', 'VIG');
+INSERT INTO "BSCL.APV.BD::APV.CargaMasivaDetalleRecaudacion" ("IdCargaMasiva", "Fecha", "TipoDeposito", "FolioCartola", "FolioLineaCartola", "Banco", "Cuenta", "Monto", "PeriodoPago", "TipoPago", "RUTEmpleador", "RUTCliente", "TipoDeAfiliado", "Regimen", "MensajeValidacion", "EstadoRendicion", "EstadoProceso") VALUES (77, '2021-12-07', 'TRA', 1011, 115, 'CHILE', '111111', 1500, '2021-07', 'NORMAL', '76129263-3', '9499210-9', 'DEP', 'APV-B', '', '', 'CRT');
+INSERT INTO "BSCL.APV.BD::APV.CargaMasivaDetalleRecaudacion" ("IdCargaMasiva", "Fecha", "TipoDeposito", "FolioCartola", "FolioLineaCartola", "Banco", "Cuenta", "Monto", "PeriodoPago", "TipoPago", "RUTEmpleador", "RUTCliente", "TipoDeAfiliado", "Regimen", "MensajeValidacion", "EstadoRendicion", "EstadoProceso") VALUES (77, '2021-12-07', 'TRA', 1011, 115, 'CHILE', '111111', 52500, '2021-07', 'NORMAL', '76129263-3', '12969673-7', 'DEP', 'APV-B', '', '', 'CRT');
+INSERT INTO "BSCL.APV.BD::APV.CargaMasivaDetalleRecaudacion" ("IdCargaMasiva", "Fecha", "TipoDeposito", "FolioCartola", "FolioLineaCartola", "Banco", "Cuenta", "Monto", "PeriodoPago", "TipoPago", "RUTEmpleador", "RUTCliente", "TipoDeAfiliado", "Regimen", "MensajeValidacion", "EstadoRendicion", "EstadoProceso") VALUES (77, '2021-12-07', 'TRA', 1011, 115, 'CHILE', '111111', 8500, '2021-07', 'NORMAL', '76129263-3', '20231097-4', 'DEP', 'APV-B', '', '', 'CRT');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarPersonaJuridica" ("IdPersona", "PersonaBusqueda", "DocumentoIdentidad", "IdEstado") VALUES (4400, '76129263-3 RAZON SOCIAL', '76129263-3', 'ACT');
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdCliente", "DocumentoIdentidad") VALUES (7001, '9499210-9');
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdCliente", "DocumentoIdentidad") VALUES (7002, '12969673-7');
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdCliente", "DocumentoIdentidad") VALUES (7003, '20231097-4');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudacion" ("IdRecaudacion", "IdEmpresa", "FolioCartola", "LineaCartola", "MontoDeposito", "IdEstado") VALUES (900, 1, 1011, 115, 62500, 'ING');

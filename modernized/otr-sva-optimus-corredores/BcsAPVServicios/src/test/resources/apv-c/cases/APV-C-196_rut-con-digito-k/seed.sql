@@ -1,0 +1,12 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.Empresa" ("IdEmpresa", "IdSocioDeNegocio") VALUES (1, 50);
+INSERT INTO "BSCL.SocioNegocio.BD::SOC.SocioDeNegocio" ("IdSocioDeNegocio", "IdPersona") VALUES (50, 900);
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" ("IdPersona", "IdPortafolioDefecto", "IdCliente", "IdSocioDeNegocio") VALUES (900, 777, 9000, 50);
+INSERT INTO "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa" ("IdEmpresa", "IdPersona", "IdSocioDeNegocio") VALUES (1, 900, 50);
+INSERT INTO "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" ("IdSocioDeNegocio", "IdPortafolioDefecto", "IdCliente", "DocumentoIdentidad") VALUES (50, 777, 9000, '76000000-0');
+INSERT INTO "BSCL.Tesoreria.BD::TES.Caja" ("IdCaja", "Codigo", "Nombre", "IdEstado", "IdEmpresa") VALUES (5, 'PAC', 'CAJA PAC', 'ABT', 1);
+INSERT INTO "BSCL.Plataforma.BD::BAN.Banco" ("IdBanco", "IdPersona") VALUES (12, 3012);
+INSERT INTO "BSCL.Tesoreria.BD::TES.CuentaBanco" ("IdCuentaBanco", "IdBanco", "NumeroCuentaBancaria") VALUES (122, 12, '4360602');
+INSERT INTO "BSCL.Tesoreria.BD::TES.SucursalesBancarias" ("IdSucursal", "NombreSucursal", "IdBanco", "IdEstado") VALUES (7, 'BANCA EN LINEA', 12, 'ACT');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarBancoPrevired" ("IdBanco", "CodigoBancoPrevired") VALUES (12, 'Banco Security');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarPersonaJuridica" ("IdPersona", "PersonaBusqueda", "DocumentoIdentidad", "IdEstado") VALUES (4400, '76309097-3 EMPRESA', '76309097-3', 'ACT');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarPersonaJuridica" ("IdPersona", "PersonaBusqueda", "DocumentoIdentidad", "IdEstado") VALUES (4402, '12345678-K EMPRESA', '12345678-K', 'ACT');

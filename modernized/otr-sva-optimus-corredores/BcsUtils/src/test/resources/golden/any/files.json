@@ -1,0 +1,386 @@
+{
+  "area": "files",
+  "timeZone": "ANY",
+  "note": "FileUtils (FileUtils.java:11-25), Utils.touch. relPath is relative to the case temp dir.",
+  "cases": [
+    {
+      "id": "FILES-001",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": "a"
+      },
+      "out": {
+        "value": {
+          "relPath": "/a",
+          "name": "a",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-002",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": "a/b/c"
+      },
+      "out": {
+        "value": {
+          "relPath": "/a/b/c",
+          "name": "c",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-003",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": ""
+      },
+      "out": {
+        "value": {
+          "relPath": "",
+          "name": "c3",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-004",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": ".."
+      },
+      "out": {
+        "value": {
+          "relPath": "/..",
+          "name": "..",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-005",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": "x y"
+      },
+      "out": {
+        "value": {
+          "relPath": "/x y",
+          "name": "x y",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-006",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": "ñandú"
+      },
+      "out": {
+        "value": {
+          "relPath": "/ñandú",
+          "name": "ñandú",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-007",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": "."
+      },
+      "out": {
+        "value": {
+          "relPath": "/.",
+          "name": ".",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-008",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": "a/../b"
+      },
+      "out": {
+        "value": {
+          "relPath": "/a/../b",
+          "name": "b",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-009",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": null
+      },
+      "out": {
+        "value": {
+          "relPath": "/null",
+          "name": "null",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-010",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>/no/existe/aun",
+        "folderName": "hija"
+      },
+      "out": {
+        "value": {
+          "relPath": "/no/existe/aun/hija",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-011",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>/soy-archivo (a regular file)",
+        "folderName": "hija"
+      },
+      "out": {
+        "value": {
+          "relPath": "/soy-archivo/hija",
+          "exists": false,
+          "isDirectory": false
+        }
+      }
+    },
+    {
+      "id": "FILES-012",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": "<tmp>",
+        "folderName": "ya (exists)"
+      },
+      "out": {
+        "value": {
+          "relPath": "/ya",
+          "exists": true,
+          "isDirectory": true
+        }
+      }
+    },
+    {
+      "id": "FILES-013",
+      "rule": "UTIL-50",
+      "input": {
+        "fn": "createFolder",
+        "root": null,
+        "folderName": "x"
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "FILES-014",
+      "rule": "UTIL-51",
+      "input": {
+        "fn": "encodeBase64String",
+        "content": "vacio"
+      },
+      "out": {
+        "value": {
+          "value": "",
+          "hasLineBreak": false
+        }
+      }
+    },
+    {
+      "id": "FILES-015",
+      "rule": "UTIL-51",
+      "input": {
+        "fn": "encodeBase64String",
+        "content": "hola"
+      },
+      "out": {
+        "value": {
+          "value": "aG9sYQ==",
+          "hasLineBreak": false
+        }
+      }
+    },
+    {
+      "id": "FILES-016",
+      "rule": "UTIL-51",
+      "input": {
+        "fn": "encodeBase64String",
+        "content": "utf8"
+      },
+      "out": {
+        "value": {
+          "value": "w7FhbmTDuiDigJMg8J+YgAo=",
+          "hasLineBreak": false
+        }
+      }
+    },
+    {
+      "id": "FILES-017",
+      "rule": "UTIL-51",
+      "input": {
+        "fn": "encodeBase64String",
+        "content": "bytes256"
+      },
+      "out": {
+        "value": {
+          "value": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+          "hasLineBreak": false
+        }
+      }
+    },
+    {
+      "id": "FILES-018",
+      "rule": "UTIL-51",
+      "input": {
+        "fn": "encodeBase64String",
+        "content": "1MiB"
+      },
+      "out": {
+        "value": {
+          "length": 1398104,
+          "sha256": "ff1dc72daffde0762d4a5f7aefd6f7cfceec483c063d59f12a55ffd3f35fbbc1",
+          "head": "AB8+XXybutn4FzZVdJOy0fAPLk1si6rJ6AcmRWSDosHg/x49XHuaudj3FjVUc5Kx0O8OLUxriqnI",
+          "hasLineBreak": false
+        }
+      }
+    },
+    {
+      "id": "FILES-019",
+      "rule": "UTIL-51",
+      "input": {
+        "fn": "encodeBase64String",
+        "content": "1025"
+      },
+      "out": {
+        "value": {
+          "length": 1368,
+          "sha256": "093fd288e672ccfdf4665d990deace0c4dee360d7aae7c18046546229680d557",
+          "head": "enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6",
+          "hasLineBreak": false
+        }
+      }
+    },
+    {
+      "id": "FILES-020",
+      "rule": "UTIL-51",
+      "input": {
+        "fn": "encodeBase64String",
+        "content": "missing file"
+      },
+      "out": {
+        "throws": "java.nio.file.NoSuchFileException"
+      }
+    },
+    {
+      "id": "FILES-021",
+      "rule": "UTIL-51",
+      "input": {
+        "fn": "encodeBase64String",
+        "content": null
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "FILES-022",
+      "rule": "UTIL-52",
+      "input": {
+        "fn": "touch",
+        "file": "new",
+        "timestamp": 1700000000000
+      },
+      "out": {
+        "value": {
+          "exists": true,
+          "length": 0,
+          "lastModified": 1700000000000
+        }
+      }
+    },
+    {
+      "id": "FILES-023",
+      "rule": "UTIL-52",
+      "input": {
+        "fn": "touch",
+        "file": "existing(hola)",
+        "timestamp": 1600000000000
+      },
+      "out": {
+        "value": {
+          "exists": true,
+          "content": "hola",
+          "lastModified": 1600000000000
+        }
+      }
+    },
+    {
+      "id": "FILES-024",
+      "rule": "UTIL-52",
+      "input": {
+        "fn": "touch",
+        "file": "missing parent dir",
+        "timestamp": 1700000000000
+      },
+      "out": {
+        "throws": "java.io.FileNotFoundException"
+      }
+    },
+    {
+      "id": "FILES-025",
+      "rule": "UTIL-52",
+      "input": {
+        "fn": "touch",
+        "file": "new",
+        "timestamp": -1
+      },
+      "out": {
+        "throws": "java.lang.IllegalArgumentException"
+      }
+    }
+  ]
+}

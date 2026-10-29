@@ -1,0 +1,63 @@
+{
+  "id": "CTA-B-102",
+  "clase": "ConsultaAntiguedadDeudasCuentaInversion",
+  "nota": "LEGACY QUIRK: Consolidar=S only consolidates when there is exactly one currency; with several it takes the per-account path and skips the currency conversion (the conversion only runs for Consolidar=N), mixing CLP and USD amounts.",
+  "seeds": [
+    "clientes-reportes.sql"
+  ],
+  "sinOrden": [
+    "P_OUT_TABLA",
+    "llamadasColaboradores"
+  ],
+  "colaboradores": {
+    "empresa": {
+      "IdEmpresa": 1,
+      "Codigo": "BCS",
+      "Nombre": "Corredora de Prueba",
+      "IdPais": 44
+    },
+    "consultarSaldo": [
+      {
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdCuentaInversion": 4001,
+            "IdCliente": 1001,
+            "IdPortafolio": 2001,
+            "IdMoneda": "CLP",
+            "SaldoDisponible": -150,
+            "SaldoRetenido": 0
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 0
+      },
+      {
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdCuentaInversion": 4002,
+            "IdCliente": 1001,
+            "IdPortafolio": 2001,
+            "IdMoneda": "USD",
+            "SaldoDisponible": -10,
+            "SaldoRetenido": 0
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    ],
+    "paridad": {
+      "USD>CLP": "950.5"
+    }
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 33,
+    "p_IdModulo": "CTA",
+    "p_UsaReglasNegocio": "N",
+    "p_FechaConsulta": "2025-03-14",
+    "p_IdMoneda": "TODAS",
+    "p_IdEjecutivo": 0,
+    "p_SeparaIntermediacion": "N",
+    "p_AgrupaPortafolios": "N",
+    "p_Consolidar": "S"
+  }
+}

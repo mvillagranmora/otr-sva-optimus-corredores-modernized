@@ -1,0 +1,61 @@
+{
+  "id": "CTA-B-203",
+  "clase": "GenerarArchivoCuentasPorCobrarAnexo16",
+  "nota": "LEGACY QUIRK: rows with balance >= 0 or Relacion CPRO are skipped; when none is left the report is NOT rejected: an xls with header only and a pdf with an empty table are zipped and returned.",
+  "seeds": [
+    "cargoabono-ext.sql",
+    "dic-b2.sql",
+    "clientes-reportes.sql",
+    "anexo16.sql",
+    "archivos.sql"
+  ],
+  "directorios": [
+    "CTA"
+  ],
+  "colaboradores": {
+    "consultarSaldo": [
+      {
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdCuentaInversion": 4001,
+            "CodigoCuentaInversion": "CI4001",
+            "IdCliente": 1001,
+            "DocumentoIdentidad": "11111111-1",
+            "NombreCliente": "Cliente Uno Natural",
+            "FechaSaldo": "2025-03-14",
+            "Relacion": "NO",
+            "FechaUltimoMovimiento": "2025-03-13",
+            "SaldoDisponible": 100,
+            "IdMoneda": "CLP"
+          },
+          {
+            "IdCuentaInversion": 4003,
+            "CodigoCuentaInversion": "CI4003",
+            "IdCliente": 1002,
+            "DocumentoIdentidad": "76222222-2",
+            "NombreCliente": "Empresa Dos Ltda",
+            "FechaSaldo": "2025-03-14",
+            "Relacion": "CPRO",
+            "FechaUltimoMovimiento": "2025-02-01",
+            "SaldoDisponible": -2500,
+            "IdMoneda": "CLP"
+          }
+        ],
+        "P_OUT_SALDOINICIALFINAL": [],
+        "P_OUT_ERRORESCONTADOR": 0
+      },
+      {
+        "P_OUT_SALDOINICIALFINAL": [],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    ],
+    "paridad": {
+      "USD>CLP": "950"
+    }
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 33,
+    "p_FechaHasta": "2025-03-14"
+  }
+}

@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_IngresoEgresoGenerar" SELECT 0 AS "NumeroReferencia", 0 AS "IdIngresoEgreso", '' AS "TipoComprobante" FROM DUMMY WHERE 1=2

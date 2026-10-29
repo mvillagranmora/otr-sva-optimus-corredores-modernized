@@ -1,0 +1,12 @@
+INSERT INTO "BSCL.FondoMutuo.BD::CSC.ContratoSuscripcionCuotas" VALUES (50001, 'CSC-100', 9001, 5, 'PAC', 'ING', 0, 1, 0);
+INSERT INTO "BSCL.FondoMutuo.BD::CSC.ContratoSuscripcionCuotas" VALUES (50002, 'CSC-200', 9001, 5, 'PAC', 'VIG', 0, 1, 0);
+INSERT INTO "BSCL.APV.BD::SCS.ContratoSAAPV" VALUES (60001, 'SAAPV-100', 6001, 9001, 0, 'ENV', 'ING', 'VIG', 0, '', 10);
+INSERT INTO "BSCL.APV.BD::SCS.ContratoSAAPV" VALUES (60002, 'SAAPV-200', 6001, 9001, 0, 'ENV', 'ING', 'ANU', 0, '', 10);
+INSERT INTO "BSCL.Tesoreria.BD::PAC.MandatoPAC" VALUES (7201, 9001, 8001, 'CSC-100', '000111', '0', NULL, 'CAJA', '2025-03-01', 1, 'FIRMA', '1001', 'ING', 'ACT', 1, 'WEB', NULL, NULL, NULL, 4001, 'ING', 'VIG', 5);
+INSERT INTO "BSCL.Tesoreria.BD::PAC.MandatoPAC" VALUES (7202, 9001, 8001, 'CSC-200', '000111', '0', NULL, 'CAJA', '2025-03-01', 1, 'FIRMA', '1002', 'ING', 'ACT', 1, 'WEB', NULL, NULL, NULL, 4001, 'ING', 'VIG', 5);
+INSERT INTO "BSCL.Tesoreria.BD::PAC.MandatoPAC" VALUES (7203, 9001, 8001, '0', '000111', 'SAAPV-100', NULL, 'CAJA', '2025-03-01', 1, 'FIRMA', '1003', 'ING', 'ACT', 1, 'WEB', NULL, NULL, NULL, 4001, 'ING', 'VIG', 5);
+INSERT INTO "BSCL.Tesoreria.BD::PAC.MandatoPAC" VALUES (7204, 9001, 8001, '0', '000111', 'SAAPV-200', NULL, 'CAJA', '2025-03-01', 1, 'FIRMA', '1004', 'ING', 'ACT', 1, 'WEB', NULL, NULL, NULL, 4001, 'ING', 'VIG', 5);
+INSERT INTO "BSCL.Tesoreria.BD::PAC.MandatoPAC" VALUES (7205, 9001, 8001, 'CSC-100', '000111', '0', NULL, 'CAJA', '2025-03-01', 1, 'FIRMA', '1005', 'PAU', 'ACT', 1, 'WEB', NULL, NULL, NULL, 4001, 'ING', 'VIG', 5);
+INSERT INTO "BSCL.Tesoreria.BD::PAC.MandatoPAC" VALUES (7206, 9001, 8001, 'CSC-100', '000111', '0', NULL, 'CAJA', '2025-03-01', 1, 'FIRMA', '9999', 'ING', 'INA', 1, 'WEB', NULL, NULL, NULL, 4001, 'ING', 'VIG', 5);
+INSERT INTO "BSCL.Tesoreria.BD::CAR.CargaMasivaDetallePAC" VALUES (1, 1, '001', 'EMP', 'CNV', 'D', 'OLD1', '', '0', '', '', '', '', 'ACT', 'UNI', '', '');
+INSERT INTO "BSCL.Tesoreria.BD::CAR.CargaMasivaDetallePAC" VALUES (2, 1, '001', 'EMP', 'CNV', 'D', 'OLD2', '', '0', '', '', '', '', 'ACT', 'REN', '', '');

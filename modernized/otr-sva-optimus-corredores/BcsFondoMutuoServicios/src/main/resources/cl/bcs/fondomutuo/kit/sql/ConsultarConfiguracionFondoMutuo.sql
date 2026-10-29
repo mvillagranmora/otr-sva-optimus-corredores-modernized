@@ -1,0 +1,1 @@
+SELECT "IdEmpresa","NombreTipoParametro" AS "CodigoParametro", "ValorParametro" AS "Valor" FROM "BSCL.FondoMutuo.BD::FMM.Parametro";

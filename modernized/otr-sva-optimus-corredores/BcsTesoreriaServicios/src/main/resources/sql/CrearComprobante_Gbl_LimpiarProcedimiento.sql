@@ -1,0 +1,13 @@
+-- one statement per line: global temporary tables of the stored procedure CrearComprobante (inputs, outputs and its work tables)
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_IngresoEgresoGenerar"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_ComprobanteGenerar"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_FormaDePago"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Salida_ResultadoProceso"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Salida_InformacionDetalle"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Salida_AdvertenciasDetalle"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Salida_ErroresDetalle"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Comprobante"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_ComprobanteDetalle"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_ComprobanteFormaDePago"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_ComprobanteDetalleOrigen"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_TablaCodigosMensajes"

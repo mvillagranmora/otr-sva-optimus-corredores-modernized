@@ -1,0 +1,12 @@
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (1, 'ING', 'INGRESADO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (2, 'CON', 'CONCILIADO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (3, 'DIS', 'DISTRIBUIDO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (4, 'REZ', 'REZAGO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (5, 'REC', 'RECUPERADO', 'RECAUDACION');
+INSERT INTO "BSCL.APV.BD::APV.Estado" ("IdEstado", "Codigo", "Nombre", "NombreEntidad") VALUES (9, 'ACT', 'ACTIVO', 'CLIENTE');
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (1, 'CON', 'CON', '2025-03-05', 1000, 0, 'APV', 1000, 0, 0);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (2, 'CON', 'CON', '2025-03-06', 500, 0, 'DC', 500, 0, 0);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (3, 'DIS', 'DIS', '2025-03-07', 2000, 1990, 'APV', 2000, 0, 1990);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (4, 'DIS', 'DIS', '2025-03-08', 800, 800, 'DC', 800, 800, 0);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (5, 'REZ', 'REZ', '2025-03-09', 300, 0, 'APV', 300, 0, 0);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRecaudadoDistribuido" ("FolioRecaudacion", "CodigoEstado", "NombreEstado", "FechaDeposito", "RecTotal", "DisTotal", "TipoRegimen", "RecMonto", "DisMontoDC", "DisMontoAPV") VALUES (6, 'REC', 'REC', '2025-03-10', 100, 0, 'DC', 100, 0, 0);

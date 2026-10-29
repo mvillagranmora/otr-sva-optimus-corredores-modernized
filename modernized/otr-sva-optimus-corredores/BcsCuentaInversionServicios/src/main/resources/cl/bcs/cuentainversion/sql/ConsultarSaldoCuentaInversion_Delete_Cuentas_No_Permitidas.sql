@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.CuentaInversion.BD::GBL.ConsultarSaldoCuentaInversion_Cuenta_Paso" WHERE "IdPortafolio" NOT IN (SELECT "IdPortafolio" FROM "BSCL.CuentaInversion.BD::GBL.ConsultarSaldoCuentaInversion_Cuenta_Delete") AND "IdTrabajo" = :IdTrabajo;

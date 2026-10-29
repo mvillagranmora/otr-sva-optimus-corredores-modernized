@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Normativa.BD::CIR.GenerarAnexo1Circular20_SaldosCustodia_Paso";

@@ -1,0 +1,26 @@
+SELECT DISTINCT
+"SolicitudAporteRescate"."IdSolicitudAporteRescate",
+"SolicitudAporteRescate"."IdSolicitudAporteRescateRelacionado",
+"SolicitudAporteRescate"."DocumentoIdentidad",
+"SolicitudAporteRescate"."CodigoPortafolio",
+"SolicitudAporteRescate"."FechaLiquidacion",
+"SolicitudAporteRescate"."FechaAceptacion",
+"SolicitudAporteRescate"."TipoSolicitud",
+"SolicitudAporteRescate"."EstadoSolicitud" as "IdEstadoSolicitud",
+"SolicitudAporteRescate"."IdSerieFondo",
+"SolicitudAporteRescate"."IdUsuario",
+"SolicitudAporteRescate"."NumeroCuotas",
+"SolicitudAporteRescate"."ValorCuotaSolicitud" AS "ValorCuota",
+"SolicitudAporteRescate"."Monto",
+"SolicitudAporteRescate"."CalculoPorMontoCuota",
+"SolicitudAporteRescate"."IdMoneda",
+"SolicitudAporteRescate"."IdRegimenTributario" AS "PropositoSerie",
+"SolicitudAporteRescate"."IdSerieFondoDestino",
+"SolicitudAporteRescate"."IdEstadoSerieFondo" AS "IdEstadoSerieFondo",
+"SolicitudAporteRescate"."IndicadorMLT",
+"SolicitudAporteRescate"."NombreCompleto",
+"SolicitudAporteRescate"."IdTipoMovimientoFondoMutuo",
+"SolicitudAporteRescate"."FolioContratoOperacion",
+"SolicitudAporteRescate"."TipoContratoOperacion"
+FROM "BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarSolicitudAporteRescate" AS "SolicitudAporteRescate"
+WHERE "IdSolicitudAporteRescate" IN (:IdSolicitudAporteRescate)

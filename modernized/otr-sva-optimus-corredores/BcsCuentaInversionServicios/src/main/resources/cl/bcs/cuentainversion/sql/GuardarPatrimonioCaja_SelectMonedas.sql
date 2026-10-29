@@ -1,0 +1,1 @@
+SELECT DISTINCT "IdMoneda" FROM "BSCL.CuentaInversion.BD::CTA.CuentaInversion" WHERE "IdMoneda" != :IdMonedaSistema AND "IdEstado" = 'ACT'

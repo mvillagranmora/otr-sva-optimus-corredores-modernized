@@ -1,0 +1,104 @@
+{
+  "_provenance": "Recorded by legacy-oracle/runner/OracleRunner.java executing the unmodified legacy cl.bcs.fondomutuo.ConsultarCustodiaPortafolioFFMM.call (real cl.bcs.utils.SQL/JavaCall and the real closure) on H2 MODE=LEGACY, JVM zone UTC, fixed clock 2026-03-02 14:30:00, collaborators outside the closure answered by registered doubles. Do not edit by hand; re-record.",
+  "excepcion": "SQLException:  Query: \tSELECT\n\t   CAR.\"IdClasificacionTipoInstrumento\"\n\t   ,CAR.\"IdTipoInstrumento\"\n\t   ,CAR.\"IdInstrumento\"\n\t   ,CAR.\"Nemotecnico\" as \"Nemotecnico\"\n\t   ,CAR.\"IdEmisor\"\n\t   ,CAR.\"IdCliente\"\n\t   ,CAR.\"IdPortafolio\"\n\t   ,CAR.\"IdBoveda\" \n\t   ,CAST(IFNULL(CAR.\"INGCantidad\",0) as DECIMAL(26,8)) as \"Cantidad\"\n\t   ,CAR.\"INGMontoCompraActualMonedaInstrumento\" as \"ValorCompra\"\n\t   ,COALESCE (CAR.\"PrecioCompra\",0) AS \"PrecioCompra\"\n\t   ,CAR.\"INGMontoATasaCompraActual\" as \"MontoCompra\"\t\t\t\t\t\n\t   ,CAR.\"IdRegimenFondoMutuo\"\n\t   ,CLI.\"IdPersona\"\n\t   ,CTINS.\"Nombre\" AS \"NombreClasificacionTipoInstrumento\"\n\t   ,TINS.\"Nombre\" AS \"NombreTipoInstrumento\"\n\t   ,CLI.\"DocumentoIdentidad\"\n\t   ,CLI.\"RazonSocial\"\n\t   ,Portafolio.\"CodigoPortafolio\"\n\t   ,SOC.\"IdSocioDeNegocio\"\n\t   ,ProductoAgrupador.\"NombreProductoAgrupador\" AS \"Producto\"\n\t   ,CASE WHEN COALESCE(Portafolio.\"IdMatrizAgrupadorAPV\",0) != 0 THEN COALESCE(Portafolio.\"IdMatrizAgrupadorAPV\",0) ELSE COALESCE(MAT_NOAPV.\"IdMatrizAgrupadorNOAPV\",0) END AS \"IdMatrizAgrupador\"\n\t   ,CASE WHEN COALESCE(Portafolio.\"IdMatrizAgrupadorAPV\",0) != 0 THEN COALESCE(MatrizAgrupador.\"EsADC\",'N') ELSE COALESCE(MAT_NOAPV.\"EsADC\",'N') END AS \"EsADC\"\n\t   ,COALESCE (REG.\"Descripcion\",'') \t\t\t\t\t\t\t\tAS \"RegimenTributario\"\n\t\tFROM \"BSCL.Plataforma.BD::INS.Instrumento\" as INS\n\t\tLEFT JOIN \"BSCL.Custodia.BD::CUS.Cartera\" AS CAR on CAR.\"IdInstrumento\" = INS.\"IdInstrumento\" AND\tCAR.\"IdTipoInstrumento\" = 'FFM' --desarmar\n\t\t\n\t\tLEFT OUTER JOIN \"BSCL.Plataforma.BD::INS.TipoInstrumento\" AS TINS ON TINS.\"IdTipoInstrumento\" = INS.\"IdTipoInstrumento\"\n\t\tLEFT OUTER JOIN \"BSCL.Plataforma.BD::INS.ClasificacionTipoInstrumento\" AS CTINS ON CTINS.\"IdClasificacionTipoInstrumento\" = TINS.\"IdClasificacionTipoInstrumento\"\n\t\t\t\t\n\t\tLEFT JOIN \"BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente\" AS CLI ON (CLI.\"IdCliente\" = CAR.\"IdCliente\")--desarmar\n\t\tLEFT JOIN \"BSCL.Portafolio.BD::POR.Portafolio\" AS Portafolio ON Portafolio.\"IdPortafolio\" = CAR.\"IdPortafolio\" AND Portafolio.\"IdCliente\" = CAR.\"IdCliente\"\n\t\tLEFT JOIN \"BSCL.SocioNegocio.BD::SOC.SocioDeNegocio\" as SOC ON CLI.\"IdPersona\" = SOC.\"IdPersona\"\n\t\tLEFT JOIN \"BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV\" AS MatrizAgrupador ON MatrizAgrupador.\"IdMatrizAgrupadorAPV\" = Portafolio.\"IdMatrizAgrupadorAPV\"\n\t\tLEFT JOIN \"BSCL.APV.BD::APV.ProductoAgrupador\" AS ProductoAgrupador ON ProductoAgrupador.\"IdProductoAgrupador\" = MatrizAgrupador.\"IdProductoAgrupador\"\n\t\tLEFT JOIN \"BSCL.FondoMutuo.BD::FMM.SerieDeFondo\" AS Serie ON Serie.\"IdInstrumento\" = CAR.\"IdInstrumento\" AND Serie.\"IdEmpresa\" = :IdEmpresa\n\t\tLEFT JOIN \"BSCL.Portafolio.BD::POR.MatrizAgrupadorNOAPV\" MAT_NOAPV ON MAT_NOAPV.\"CodigoPortafolio\" = Portafolio.\"CodigoPortafolio\" AND Portafolio.\"IdMatrizAgrupadorAPV\" = 0\n\t\tLEFT JOIN \"BSCL.FondoMutuo.BD::FMM.RegimenFondoMutuo\" \tAS REG \t\t\t\tON REG.\"IdRegimenFondoMutuo\" = CAR.\"IdRegimenFondoMutuo\"\n\t\tWHERE \n\t\t\tCAR.\"IdEmpresa\" = :IdEmpresa\n\t\tAND\tCAR.\"IdCliente\" = CASE WHEN :IdCliente > 0 THEN :IdCliente ELSE CAR.\"IdCliente\" END\n\t\tAND\tCAR.\"IdPortafolio\" = CASE WHEN :IdPortafolio > 0 THEN :IdPortafolio ELSE CAR.\"IdPortafolio\" END\n\t\tAND CAR.\"IdClasificacionTipoInstrumento\" = 'FM'\n\t\t\n\t\tAND\tCAR.\"IdInstrumento\" = CASE WHEN IFNULL(:IdInstrumento,0) > 0 THEN :IdInstrumento ELSE CAR.\"IdInstrumento\" END\n\t\tAND\n\t\t(\n\t\t\t(:TipoFechaConsulta = 'LIQ' AND (\n\t\t\t\t:FechaConsulta BETWEEN CAR.\"INGFechaLiquidacion\" and CASE WHEN IFNULL(CAR.\"EGRFechaLiquidacion\",'0001-01-01') = '0001-01-01' THEN '2300-12-31' ELSE IFNULL(CAR.\"EGRFechaLiquidacion\",'0001-01-01') END\n\t\t\t\tAND\n\t\t\t\t:FechaConsulta < case when IFNULL(\"EGRFechaLiquidacion\",'0001-01-01') = '0001-01-01' then '2300-12-31' else IFNULL(CAR.\"EGRFechaLiquidacion\",'0001-01-01') end\t   \n\t\t\t))\n\t\t\tOR\n\t\t\t(:TipoFechaConsulta = 'ADQ' AND (\n\t\t\t\t:FechaConsulta BETWEEN CAR.\"INGFechaOperacion\" and CASE WHEN IFNULL(CAR.\"INGFechaOperacion\",'0001-01-01') = '0001-01-01' THEN '2300-12-31' ELSE IFNULL(CAR.\"EGRFechaOperacion\",'0001-01-01') END\n\t\t\t\tAND\n\t\t\t\t:FechaConsulta < CASE WHEN IFNULL(\"EGRFechaOperacion\",'0001-01-01') = '0001-01-01' then '2300-12-31' ELSE IFNULL(CAR.\"EGRFechaOperacion\",'0001-01-01') END\t\n\t\t\t))\n\t\t)\n\t\tAND\tCAR.\"IdEstado\" = 'VIG'\n\t\tAND (:IdProductoAgrupador IS NULL OR MAP(MatrizAgrupador.\"IdProductoAgrupador\",NULL,0,MatrizAgrupador.\"IdProductoAgrupador\") = :IdProductoAgrupador)\n\t\tAND (:IdEmisor IS NULL OR CAR.\"IdEmisor\" = :IdEmisor)\n\t\tAND\tSerie.\"IdFamiliaFondo\" = CASE WHEN IFNULL(:IdFamiliaFondo,'') <> '' THEN IFNULL(:IdFamiliaFondo,'') ELSE Serie.\"IdFamiliaFondo\" END\n\nUNION ALL \n\nSELECT Instrumento.\"IdClasificacionTipoInstrumento\"\t   \n\t   ,Instrumento.\"IdTipoInstrumento\"\t   \n\t   ,SerieFondo.\"IdInstrumento\"\n\t   ,Solicitudes.\"IdSerieFondo\" as \"Nemotecnico\"\n\t   ,Instrumento.\"IdEmisor\"\n\t   ,Solicitudes.\"IdCliente\"\n\t   ,Solicitudes.\"IdPortafolio\"\n\t   ,'' AS \"IdBoveda\" \n\t   ,'0' as \"Cantidad\"\n\t   ,Solicitudes.\"ValorCuota\" as \"ValorCompra\"\n\t   ,'0' AS \"PrecioCompra\"\n\t   ,Solicitudes.\"Monto\" as \"MontoCompra\"\t\t\t\t\t\n\t   ,Solicitudes.\"IdRegimenTributario\" AS \"IdRegimenFondoMutuo\"\n\t   ,Cliente.\"IdPersona\"\n\t   ,Instrumento.\"NombreClasificacionTipoInstrumento\"\n\t   ,Instrumento.\"NombreTipoInstrumento\"\n\t   ,Cliente.\"DocumentoIdentidad\"\n\t   ,Cliente.\"RazonSocial\"\n\t   ,Portafolio.\"CodigoPortafolio\"\n\t   ,SocioNegocio.\"IdSocioDeNegocio\"\n\t   ,ProductoAgrupador.\"NombreProductoAgrupador\" AS \"Producto\"\n\t   ,CASE \n\t      WHEN COALESCE(Portafolio.\"IdMatrizAgrupadorAPV\",0) != 0 THEN COALESCE(Portafolio.\"IdMatrizAgrupadorAPV\",0) \n\t    ELSE COALESCE(MatrizAgrupadorNoAPV.\"IdMatrizAgrupadorNOAPV\",0) \n\t    END AS \"IdMatrizAgrupador\"\n\t   ,CASE \n\t      WHEN COALESCE(Portafolio.\"IdMatrizAgrupadorAPV\",0) != 0 THEN COALESCE(MatrizAgrupador.\"EsADC\",'N') \n\t    ELSE COALESCE(MatrizAgrupadorNoAPV.\"EsADC\",'N') \n\t    END AS \"EsADC\" \t\n\t    ,COALESCE (REG.\"Descripcion\",'') \nFROM \"BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate\" AS Solicitudes\n  LEFT JOIN \"BSCL.FondoMutuo.BD::FMM.SerieDeFondo\" AS SerieFondo\n    ON SerieFondo.\"IdSerieFondo\" = Solicitudes.\"IdSerieFondo\" \n  LEFT JOIN \"BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente\" AS Cliente\n    ON Cliente.\"IdCliente\" = Solicitudes.\"IdCliente\" \n   AND Cliente.\"IdEmpresa\" = :IdEmpresa \n  LEFT JOIN \"BSCL.Portafolio.BD.Vistas::ConsultarPortafolio\" AS Portafolio\n    ON Portafolio.\"IdPortafolio\" = Solicitudes.\"IdPortafolio\"\n  LEFT JOIN \"BSCL.SocioNegocio.BD.Vistas::SOC.ConsultarSocioDeNegocio\" AS SocioNegocio \n    ON SocioNegocio.\"IdCliente\" = Solicitudes.\"IdCliente\" \n   AND SocioNegocio.\"IdEmpresa\" = :IdEmpresa \n  LEFT JOIN \"BSCL.Plataforma.BD.Vistas::INS.ConsultarInstrumento\" AS Instrumento \n    ON Instrumento.\"IdInstrumento\" = SerieFondo.\"IdInstrumento\" \n  LEFT JOIN \"BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV\" AS MatrizAgrupador\n    ON MatrizAgrupador.\"IdMatrizAgrupadorAPV\" = Portafolio.\"IdMatrizAgrupadorAPV\"\n  LEFT JOIN \"BSCL.APV.BD::APV.ProductoAgrupador\" AS ProductoAgrupador \n    ON ProductoAgrupador.\"IdProductoAgrupador\" = MatrizAgrupador.\"IdProductoAgrupador\" \n  LEFT JOIN \"BSCL.Portafolio.BD::POR.MatrizAgrupadorNOAPV\" MatrizAgrupadorNoAPV \n    ON MatrizAgrupadorNoAPV.\"CodigoPortafolio\" = Portafolio.\"CodigoPortafolio\" \n   AND Portafolio.\"IdMatrizAgrupadorAPV\" = 0  \n   LEFT JOIN \"BSCL.FondoMutuo.BD::FMM.RegimenFondoMutuo\" \tAS REG \t\t\t\t\n   \tON REG.\"IdRegimenFondoMutuo\" = Solicitudes.\"IdRegimenTributario\"\nWHERE Solicitudes.\"IdEmpresa\" = :IdEmpresa\n  AND Solicitudes.\"IdCliente\" = CASE WHEN :IdCliente > 0 THEN :IdCliente ELSE Solicitudes.\"IdCliente\" END\n  AND Solicitudes.\"IdPortafolio\" = CASE WHEN :IdPortafolio > 0 THEN :IdPortafolio ELSE Solicitudes.\"IdPortafolio\" END\n  AND Solicitudes.\"Estado\" IN ('ING', 'PEN')\n  AND Solicitudes.\"FechaAceptacion\" <= :FechaConsulta\n  AND (:IdProductoAgrupador IS NULL OR MAP(MatrizAgrupador.\"IdProductoAgrupador\",NULL,0,MatrizAgrupador.\"IdProductoAgrupador\") = :IdProductoAgrupador)\n  AND Solicitudes.\"IdSerieFondo\" NOT IN (SELECT Cartera.\"Nemotecnico\"\n                             FROM \"BSCL.Custodia.BD::CUS.Cartera\" AS Cartera \n                             WHERE Cartera.\"IdEmpresa\" = Solicitudes.\"IdEmpresa\"\n                               AND Cartera.\"IdCliente\" = Solicitudes.\"IdCliente\"\n                               AND ((:TipoFechaConsulta = 'LIQ' AND (:FechaConsulta BETWEEN Cartera.\"INGFechaLiquidacion\" AND CASE \n                                                                                                                            WHEN IFNULL(Cartera.\"EGRFechaLiquidacion\",'0001-01-01') = '0001-01-01' THEN '2300-12-31' \n                                                                                                                          ELSE IFNULL(Cartera.\"EGRFechaLiquidacion\",'0001-01-01') \n                                                                                                                          END\n                                                                                                                      AND :FechaConsulta < CASE \n                                                                                                                                             WHEN IFNULL(\"EGRFechaLiquidacion\",'0001-01-01') = '0001-01-01' THEN '2300-12-31' \n                                                                                                                                           ELSE IFNULL(Cartera.\"EGRFechaLiquidacion\",'0001-01-01') \n                                                                                                                                           END\n                                   ))\n                               OR (:TipoFechaConsulta = 'ADQ' AND (\t:FechaConsulta BETWEEN Cartera.\"INGFechaOperacion\" AND CASE\n                                                                                                                         WHEN IFNULL(Cartera.\"INGFechaOperacion\",'0001-01-01') = '0001-01-01' THEN '2300-12-31' \n                                                                                                                       ELSE IFNULL(Cartera.\"EGRFechaOperacion\",'0001-01-01') \n                                                                                                                       END\n                                                                                                                   AND :FechaConsulta < CASE \n                                                                                                                                          WHEN IFNULL(\"EGRFechaOperacion\",'0001-01-01') = '0001-01-01' THEN '2300-12-31' \n                                                                                                                                        ELSE IFNULL(Cartera.\"EGRFechaOperacion\",'0001-01-01') \n                                                                                                                                        END\n                                   )))\n                            ); Parameters: [{FechaConsulta=2026-03-10 00:00:00, IdCliente=0, IdEmisor=null, TipoFechaConsulta=LIQ, IdInstrumento=0, IdEmpresa=1, IdPortafolio=0, IdProductoAgrupador=null, IdFamiliaFondo=}]",
+  "decisionServlet": "ROLLBACK_HTTP500",
+  "tablas": {
+    "BSCL.Custodia.BD::CUS.Cartera": [
+      {
+        "IdCartera": 1,
+        "FolioCartera": 1,
+        "IdEmpresa": 1,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "IdEstado": "VIG",
+        "IdClasificacionTipoInstrumento": "FM",
+        "IdTipoInstrumento": "FFM",
+        "IdInstrumento": 900,
+        "Nemotecnico": "FM001A",
+        "IdEmisor": "AGF1",
+        "IdBoveda": "COR",
+        "IdRegimenFondoMutuo": "GEN",
+        "PrecioCompra": 9800,
+        "INGFechaOperacion": "2026-01-10",
+        "INGFechaLiquidacion": "2026-01-12",
+        "INGCantidad": 100,
+        "INGMontoATasaCompraActual": 990000,
+        "INGMontoCompraActualMonedaInstrumento": 980000,
+        "EGRFechaOperacion": "0001-01-01",
+        "EGRFechaLiquidacion": "0001-01-01",
+        "EGRMonto": 0
+      }
+    ],
+    "BSCL.Plataforma.BD::PLA.Configuracion": [
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.FechaSistema",
+        "Valor": "2026-03-10"
+      },
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.HorasOperaCINClienteNuevoBloqueado",
+        "Valor": "24"
+      },
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.LocalizacionSistema",
+        "Valor": "es"
+      },
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.Moneda",
+        "Valor": "CLP"
+      },
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.MonedaAdicional",
+        "Valor": "USD"
+      },
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.MonedaSistema",
+        "Valor": "CLP"
+      },
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.NotificarEstadoOrdenOWP",
+        "Valor": "N"
+      },
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.PaisSistema",
+        "Valor": "56"
+      },
+      {
+        "IdEmpresa": 1,
+        "CodigoParametro": "PLA.SegundosZonaHoraria",
+        "Valor": "-10800"
+      }
+    ]
+  },
+  "colaboradores": [
+    {
+      "colaborador": "ConsultarEmpresa",
+      "metodo": "logica",
+      "argumentos": [
+        1
+      ],
+      "respuesta": {
+        "IdEmpresa": 1,
+        "Codigo": "BCS",
+        "Nombre": "Corredora Ficticia",
+        "IdEstado": "ACT",
+        "IdPais": 56,
+        "IdSocioDeNegocio": 10,
+        "IdPersona": 1,
+        "IdCliente": 99
+      }
+    }
+  ],
+  "secuenciasSolicitadas": [],
+  "sesion": {
+    "tablasLocalesSinDrop": [],
+    "commitsAutonomos": []
+  }
+}

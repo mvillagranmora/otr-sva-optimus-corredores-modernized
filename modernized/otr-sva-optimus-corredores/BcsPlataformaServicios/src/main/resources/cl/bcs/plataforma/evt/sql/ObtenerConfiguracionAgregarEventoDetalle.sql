@@ -1,0 +1,1 @@
+SELECT * FROM "BSCL.Plataforma.BD::EVT.ConfiguracionEventoDetalle";

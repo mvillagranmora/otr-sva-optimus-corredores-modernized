@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: bcs-fondo-mutuo-servicios
+  # One DataSource, one transaction per JavaCall (JavaCallUnitOfWorkFilter). Credentials come from the environment only; there is no default.
+  datasource:
+    url: ${HANA_URL}
+    username: ${HANA_USER}
+    password: ${HANA_PASSWORD}
+    driver-class-name: com.sap.db.jdbc.Driver
+    # M2 pool sizing: one request = one connection held for its whole life (including the HTTP calls to the router), plus the connection of
+    # the lock procedures' session. Concurrent requests above the pool wait connection-timeout ms and then fail (500). Tune with the router's concurrency.
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:10}
+      connection-timeout: ${DB_POOL_WAIT_MS:10000}
+
+server:
+  port: ${SERVER_PORT:8111}
+  shutdown: graceful
+  # SEC-004: connection-level limits (the body/JSON limits are in JavaCallLimitesFilter, services.javacall.max-*)
+  tomcat:
+    max-swallow-size: 2MB            # unread body Tomcat will swallow after an early answer (413/400/401); beyond it the connection is closed
+    max-http-form-post-size: 2MB     # form posts are not used by this module; same cap as the JSON body
+    connection-timeout: 20s          # time to receive the request line/headers/body bytes
+    keep-alive-timeout: 15s
+    max-keep-alive-requests: 100
+
+services:
+  # Shared secret of the platform router (X-Internal-Token). Empty = every request is rejected (fails closed). Environment only.
+  internal-token: ${INTERNAL_TOKEN:}
+  # Platform JavaCall router: the HTTP collaborators of this module (CalcularParidad, EntregarPreciosTasas, SaldoFlujoCaja, AgregarLog, ...)
+  # are called as POST {url}/internal/java-call. No default: the module does not start without it (the old 8200-8206 URLs pointed at services
+  # that do not exist).
+  javacall:
+    url: ${JAVACALL_URL}
+    connect-timeout: PT2S
+    # M2: every HTTP call holds one pooled DB connection (the unit of work is open); keep it short. A read timeout = generic 500, connection released.
+    read-timeout: PT10S
+    # M2: transaction timeout of the unit of work of a JavaCall request, in seconds (JavaCallUnitOfWorkFilter). Size the pool for the concurrent requests.
+    transaction-timeout-seconds: 120
+    # SEC-004: input limits applied before the unit of work (JavaCallLimitesFilter). Body > max-body-bytes = 413; JSON nesting > max-json-depth or
+    # any array > max-list-size = 400 (fixed bodies). Far above every oracle case.
+    max-body-bytes: ${JAVACALL_MAX_BODY_BYTES:2097152}
+    max-json-depth: ${JAVACALL_MAX_JSON_DEPTH:64}
+    max-list-size: ${JAVACALL_MAX_LIST_SIZE:5000}
+
+# Gates G0..G5 of the F1 closure (PLAN_FONDOMUTUO_SOLICITUD_APORTE_RESCATE 6.3, PLAN_FONDOMUTUO_F2 6). FAIL CLOSED: everything not enabled
+# here answers 503 BEFORE the first write and the router repeats the whole request in TomEE.
+fondomutuo:
+  solicitud:
+    # G0: lists of the Manejador this module serves (FM-MAN). F1 = only NORMAL. Any request with rows in another list answers 503.
+    # F2 W1: RESCATE_REINVERSION has a handler (Manejador list AND the direct FQN cl.bcs.fondomutuo.CrearSolicitudRescateReinversion) but stays
+    # CLOSED here: add it (NORMAL,RESCATE_REINVERSION) only after PROVEN and sign-off. Removing it again (restart) returns both entries to TomEE.
+    listas-servidas: NORMAL
+  tesoreria:
+    # G1: contributions whose payment medium is not CIN (CrearIngresoEgreso). F2 W1: LIFTED, Tesoreria runs in process in the transaction of the
+    # request (tesoreria.TesoreriaEnProcesoConfiguration). Setting it to false (restart) sends those requests back to TomEE (503) without a code change.
+    habilitada: true
+  spot:
+    habilitado: false      # G2: GeneraSpot=S / p_FormaPagoSpot with rows (Mesa CrearOperacionSpot)
+  flujo-caja:
+    habilitado: false      # G3: manual-origin CIN contributions (SaldoFlujoCaja exposed by Plataforma as JavaCall)
+  owp:
+    habilitado: false      # G4: channel OWP with PLA.NotificarEstadoOrdenOWP=S (NotificarEstadoOrdenesOWP)
+  custodia:
+    habilitada: false      # G-CUS (F2): custody by HTTP breaks atomicity. true = custody flow IN PROCESS (same transaction, custodia.FlujoCustodiaEnProcesoConfiguracion); start-up fails if the effective CustodiaPort is not that adapter
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health   # SEC-007: only health (public, without details); no info
+  endpoint:
+    health:
+      show-details: never
+      show-components: never

@@ -1,0 +1,6 @@
+INSERT INTO "BSCL.Portafolio.BD.Vistas::UI.ConsultarClientePortafolio" ("IdEmpresa","IdCliente","IdPortafolio","CodigoPortafolio","DocumentoIdentidad","NombreCompletoPortafolio","IdEstado","IdEstadoCliente") VALUES (1, 9001, 8001, 'POR-8001', '11111111-1', 'Portafolio Juan Perez', 'ACT', 'ACT');
+INSERT INTO "BSCL.Portafolio.BD.Vistas::UI.ConsultarClientePortafolio" ("IdEmpresa","IdCliente","IdPortafolio","CodigoPortafolio","DocumentoIdentidad","NombreCompletoPortafolio","IdEstado","IdEstadoCliente") VALUES (1, 9002, 8002, 'POR-8002', '22222222-2', 'Portafolio Corredora', 'ACT', 'ACT');
+DELETE FROM "BSCL.Portafolio.BD.Vistas::UI.ConsultarClientePortafolio" WHERE "IdPortafolio" = 8001;
+INSERT INTO "BSCL.Portafolio.BD.Vistas::UI.ConsultarClientePortafolio" ("IdEmpresa","IdCliente","IdPortafolio","CodigoPortafolio","DocumentoIdentidad","NombreCompletoPortafolio","IdEstado","IdEstadoCliente") VALUES (1, 9001, 8001, 'POR-8001', '11111111-1', 'Portafolio Juan Perez', 'ACT', 'PRO');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Configuracion" VALUES (1, 'PLA.HorasOperaCINClienteNuevoBloqueado', '1');
+UPDATE "BSCL.SocioNegocio.BD::CLI.Cliente" SET "IdEstado" = 'PRO', "FechaCreacion" = TIMESTAMP '2025-04-01 08:00:00' WHERE "IdCliente" = 9001;

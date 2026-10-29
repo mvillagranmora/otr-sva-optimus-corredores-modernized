@@ -1,0 +1,79 @@
+{
+  "id": "CTA-B-124",
+  "clase": "GuardarPatrimonioCaja",
+  "nota": "Only the system currency has accounts: one ConsultarSaldo call; a LIQ row (from the by-effective-date balances) and an ADQ row (by movement date) per account. MontoPatrimonio = + SaldoDisponible + SaldoEnGarantia - SaldoRetiro (operators + / - of PLA.ConfiguracionPatrimonioCaja, only ACT items; the unknown item SaldoInexistente is ignored and the \"*\" operator item is not read); amounts formatted by MonedaFormato (CLP truncate 0 decimals); rows of the date are deleted first (the 03-12 row stays); ids from the PatrimonioCaja sequence; commission fields stay 0/INA (CobroComisionPatrimonio = N).",
+  "seeds": [
+    "clientes-reportes.sql",
+    "patrimonio.sql"
+  ],
+  "colaboradores": {
+    "consultarSaldo": [
+      {
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdCuentaInversion": 4001,
+            "IdCliente": 1001,
+            "IdPortafolio": 2001,
+            "IdMoneda": "CLP",
+            "SaldoDisponible": 1000,
+            "SaldoRetenido": 0,
+            "SaldoEnGarantia": 200,
+            "SaldoRetiro": 50,
+            "SaldoAPlazoSimultanea": 0,
+            "SaldoAPlazoVentaCorta": 0,
+            "SaldoAPlazoCompromiso": 0
+          },
+          {
+            "IdCuentaInversion": 4003,
+            "IdCliente": 1002,
+            "IdPortafolio": 2002,
+            "IdMoneda": "CLP",
+            "SaldoDisponible": 300,
+            "SaldoRetenido": 0,
+            "SaldoEnGarantia": 0,
+            "SaldoRetiro": 0,
+            "SaldoAPlazoSimultanea": 0,
+            "SaldoAPlazoVentaCorta": 0,
+            "SaldoAPlazoCompromiso": 0
+          }
+        ],
+        "P_OUT_SALDOPORFECHAMOVIMIENTO": [
+          {
+            "IdCuentaInversion": 4001,
+            "IdCliente": 1001,
+            "IdPortafolio": 2001,
+            "IdMoneda": "CLP",
+            "SaldoDisponible": 900,
+            "SaldoRetenido": 0,
+            "SaldoEnGarantia": 100,
+            "SaldoRetiro": 0,
+            "SaldoAPlazoSimultanea": 0,
+            "SaldoAPlazoVentaCorta": 0,
+            "SaldoAPlazoCompromiso": 0
+          },
+          {
+            "IdCuentaInversion": 4003,
+            "IdCliente": 1002,
+            "IdPortafolio": 2002,
+            "IdMoneda": "CLP",
+            "SaldoDisponible": 0,
+            "SaldoRetenido": 0,
+            "SaldoEnGarantia": 0,
+            "SaldoRetiro": 0,
+            "SaldoAPlazoSimultanea": 0,
+            "SaldoAPlazoVentaCorta": 0,
+            "SaldoAPlazoCompromiso": 0
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    ],
+    "canonicalizarParidad": true
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 35,
+    "p_IdModulo": "CUS",
+    "p_Fecha": "2025-03-14"
+  }
+}

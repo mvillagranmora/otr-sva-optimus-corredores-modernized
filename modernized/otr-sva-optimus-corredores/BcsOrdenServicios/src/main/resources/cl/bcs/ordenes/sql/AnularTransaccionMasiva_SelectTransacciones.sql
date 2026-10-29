@@ -1,0 +1,1 @@
+SELECT "IdTransaccion","IdEstado","IdTransaccionPlazo" FROM "BSCL.Orden.BD::ORD.Transaccion" WHERE "IdTransaccion" IN (:IdTransaccion)

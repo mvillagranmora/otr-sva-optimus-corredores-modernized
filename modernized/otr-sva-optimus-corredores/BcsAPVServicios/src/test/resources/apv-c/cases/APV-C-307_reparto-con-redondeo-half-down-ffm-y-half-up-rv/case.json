@@ -1,0 +1,209 @@
+{
+  "id": "APV-C-307",
+  "titulo": "FFM 100 + RV 700 (total 800): 12.5% rounds to 12 for the fund (HALF_DOWN, scale 0) and 87.5% to 88 for the order (HALF_UP); amounts are the bonificacion 50000 times the integer percentage / 100",
+  "pina": "EjecutarBonificacion.java:424",
+  "servicio": "EjecutarBonificacion",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 51,
+    "p_IdModulo": "APV",
+    "p_Parametros": [
+      {
+        "IdBonificacion": 1
+      }
+    ]
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 960,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacionCliente": 520
+  },
+  "colaboradores": {
+    "ConsultarCustodiaPortafolio": {
+      "salida": {
+        "P_OUT_TBL": [
+          {
+            "IdPortafolio": 901,
+            "IdInstrumento": 421060,
+            "Nemotecnico": "FFMM-A",
+            "CantidadCustodia": 100,
+            "MontoMercadoCustodia": 100,
+            "IdRegimenTributario": "APV-A",
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FFM",
+            "Producto": "APV FONDOS MUTUOS",
+            "CodigoRegimenTipoAhorro": "APV",
+            "CodigoPortafolio": "APV-A",
+            "PPPCustodia": 10,
+            "ValorPPPCustodia": 10,
+            "MontoPPPCustodia": 100,
+            "IdEmisor": "EMI1",
+            "IdMonedaInstrReajuste": "CLP",
+            "NombreCliente": "ANA PEREZ SOTO",
+            "DocumentoIdentidad": "11111111-1"
+          },
+          {
+            "IdPortafolio": 901,
+            "IdInstrumento": 5001,
+            "Nemotecnico": "CHILE",
+            "CantidadCustodia": 100,
+            "MontoMercadoCustodia": 700,
+            "IdRegimenTributario": "APV-A",
+            "IdClasificacionTipoInstrumento": "RV",
+            "IdTipoInstrumento": "ACN",
+            "Producto": "APV FONDOS MUTUOS",
+            "CodigoRegimenTipoAhorro": "APV",
+            "CodigoPortafolio": "APV-A",
+            "PPPCustodia": 10,
+            "ValorPPPCustodia": 10,
+            "MontoPPPCustodia": 700,
+            "IdEmisor": "EMI1",
+            "IdMonedaInstrReajuste": "CLP",
+            "NombreCliente": "ANA PEREZ SOTO",
+            "DocumentoIdentidad": "11111111-1"
+          }
+        ],
+        "P_OUT_MENSAJES": [],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    },
+    "ConsultarCustodiaPortafolioFondoMutuo": {
+      "salida": {
+        "P_OUT_TBL": []
+      }
+    },
+    "ConsultarSaldoCuentaInversion": {
+      "salida": {
+        "P_OUT_SALDOINICIALFINAL": [],
+        "P_OUT_SALDOPORFECHAEFECTIVA": [
+          {
+            "IdPortafolio": 901,
+            "IdMoneda": "CLP",
+            "Saldo": 5000
+          }
+        ],
+        "P_OUT_SALDOPORFECHAMOVIMIENTO": [],
+        "P_OUT_INFORMACIONCONTADOR": 0,
+        "P_OUT_INFORMACIONDETALLE": [],
+        "P_OUT_ADVERTENCIASCONTADOR": 0,
+        "P_OUT_ADVERTENCIASDETALLE": [],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_ERRORESDETALLE": []
+      }
+    },
+    "CrearCargoAbono": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_CARGOABONOGENERADO": [],
+        "P_OUT_ERRORESCONTADOR": 0
+      }
+    },
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [
+          {
+            "NumeroReferencia": 1,
+            "IdIngresoEgreso": 7001,
+            "IdTipoMovimiento": "MOVING"
+          }
+        ],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          }
+        ]
+      }
+    },
+    "CrearSolicitudAporteRescateNormal": {
+      "salida": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADO": [
+          {
+            "IdInterno": 1,
+            "IdSolicitudAporteRescate": 3001,
+            "FolioContrato": 0
+          }
+        ]
+      }
+    },
+    "ConsultarInstrumentoPrecioBolsa": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_INSTRUMENTO": [
+          {
+            "IdInstrumento": 5001,
+            "PrecioCierre": 2500,
+            "IdBolsa": "BCS"
+          }
+        ]
+      }
+    },
+    "CalcularMontoYCobrosOrden": {
+      "salida": {
+        "p_out_Ordenes": []
+      }
+    },
+    "CrearOrdenes": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_RESULTADO": []
+      }
+    }
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::INV.Bonificacion",
+      "orden": "\"IdBonificacion\"",
+      "columnas": [
+        "IdBonificacion",
+        "IdCliente",
+        "IdEstado",
+        "MontoCalculado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEmpresa",
+        "MontoDeposito",
+        "Origen",
+        "IdBanco",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdCliente",
+        "IdRegimenTriburario",
+        "MontoDepositoAPV",
+        "Origen",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.Portafolio.BD::POR.Portafolio",
+      "orden": "\"IdPortafolio\"",
+      "columnas": [
+        "IdPortafolio",
+        "CodigoPortafolio",
+        "IdCliente"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+
+INSERT INTO "BSCL.Custodia.BD::GBL.AnticiparPrestamo_Proceso_Paso"
+(    
+	"FolioPrestamo",
+	"FechaAnticipo",
+	"IdPais",
+    "IdMonedaLiquidacion",
+    "IdCondicionLiquidacion",    
+	"FechaLiquidacion",
+	"DevolverCustodia",
+	"IdEmpleadoDigitador",
+    "Cantidad",
+    "PrecioInstrumento",
+    "TasaAnticipo",
+    "MontoPrima",
+    "Monto",
+    "MontoAPlazo",
+	"UsaPrecioMedio",
+	"PrecioMedio"
+)
+VALUES
+(
+	:FolioPrestamo,
+	:FechaAnticipo,
+	:IdPais,
+    :IdMonedaLiquidacion,
+    :IdCondicionLiquidacion,    
+	:FechaLiquidacion,
+	:DevolverCustodia,
+	:IdEmpleadoDigitador,
+    :Cantidad,
+    :PrecioInstrumento,
+    :TasaAnticipo,
+    :MontoPrima,
+    :Monto,
+    :MontoAPlazo,
+	:UsaPrecioMedio,
+	:PrecioMedio
+);
+

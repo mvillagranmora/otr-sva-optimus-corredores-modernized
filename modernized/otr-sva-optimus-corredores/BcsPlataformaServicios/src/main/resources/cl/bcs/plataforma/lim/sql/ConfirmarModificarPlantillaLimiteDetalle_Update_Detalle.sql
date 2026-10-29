@@ -1,0 +1,27 @@
+UPDATE "BSCL.Plataforma.BD::LIM.Limite"
+SET 
+	"Nombre" = COALESCE(:Nombre, "Nombre"),
+	"IdMesa" = COALESCE(:IdMesa, "IdMesa"),
+	"IdCanalIngreso" = COALESCE(:IdCanalIngreso, "IdCanalIngreso"),
+	"IdTipoInstrumento" = COALESCE(:IdTipoInstrumento, "IdTipoInstrumento"),
+	"IdTipoOperacion" = COALESCE(:IdTipoOperacion, "IdTipoOperacion"),
+	"IdTipoProducto" = COALESCE(:IdTipoProducto, "IdTipoProducto"),
+	"IdInstrumento" = COALESCE(:IdInstrumento, "IdInstrumento"),
+	"UnidadPlazo" = COALESCE(:UnidadPlazo, "UnidadPlazo"),
+	"Plazo" = COALESCE(:Plazo, "Plazo"),
+	"IdTipoReajuste" = COALESCE(:IdTipoReajuste, "IdTipoReajuste"),
+	"CodigoOperador" = COALESCE(:CodigoOperador, "CodigoOperador"),
+	"MontoTotal" = COALESCE(:MontoTotal, "MontoTotal"),
+	"MontoIntraday" = COALESCE(:MontoIntraday, "MontoIntraday"),
+	"MontoOvernight" = COALESCE(:MontoOvernight, "MontoOvernight"),
+	"IdMoneda" = COALESCE(:IdMoneda, "IdMoneda"),
+	"IdMonedaCalculo" = COALESCE(:IdMonedaCalculo, "IdMonedaCalculo"),
+	"ClasificacionRiesgoMinima" = COALESCE(:ClasificacionRiesgoMinima, "ClasificacionRiesgoMinima"),
+	"IdEstado" = COALESCE(:IdEstado, "IdEstado"),
+	"EsPersonalizada" = COALESCE(:EsPersonalizada, "EsPersonalizada"),
+	"EsTotalizador" = COALESCE(:EsTotalizador, "EsTotalizador"),
+	"IdAgente" = COALESCE(:IdAgente, "IdAgente"),
+	"IdClasificacionTipoInstrumento" = COALESCE(:IdClasificacionTipoInstrumento, "IdClasificacionTipoInstrumento"),
+	"Porcentaje" = COALESCE(:Porcentaje, "Porcentaje"),
+	"IdEstadoAutorizacion" = :IdEstadoAutorizacion
+WHERE "IdLimite" = :IdLimite

@@ -1,0 +1,59 @@
+{
+  "id": "APV-A-527",
+  "titulo": "IdCliente 701 is not the id of any OK message: the plan change is applied but the output is its message list and its counter, with no resultado (legacy defect: the id compared is the client, the OK message carries the portfolio count)",
+  "pina": "AutorizacionCambiarAPlanActivoContratoSAAPV.java:109",
+  "servicio": "AutorizacionCambiarAPlanActivoContratoSAAPV",
+  "metodo": "autorizarEvento",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 21,
+    "p_IdModulo": "APV",
+    "p_Lista": [
+      {
+        "IdEvento": 5001,
+        "IdEmpresa": 1,
+        "IdModulo": "APV",
+        "IdUsuario": 21,
+        "IdCliente": 701
+      }
+    ]
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencias::TRA.IdTraspaso": 6000,
+    "BSCL.APV.BD.Secuencias::TRA.IdDetalleOrigenTraspaso": 6500
+  },
+  "colaboradores": {
+    "ModificarPortafolio": {
+      "P_OUT_ERRORESCONTADOR": 0
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Portafolio.BD::POR.Portafolio",
+      "orden": "\"IdPortafolio\"",
+      "columnas": [
+        "IdPortafolio",
+        "IdMatrizAgrupadorAPV",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::GBL.PortafoliosCambioPlanActivo",
+      "orden": "\"IdPortafolio\""
+    },
+    {
+      "nombre": "BSCL.APV.BD::SCS.ContratoSAAPV",
+      "orden": "\"IdContratoSAAPV\"",
+      "columnas": [
+        "IdContratoSAAPV",
+        "FolioContratoSAAPV",
+        "IdPlan",
+        "IdEstado",
+        "IdEstadoSolicitud",
+        "IdEstadoEnvioNotificacion",
+        "IdPerfilComercial",
+        "NombrePlan"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+# Minimal EKS deployment of the login MVP (T-02c): only bcs-gateway and bcs-plataforma-web. Nothing else of the platform is needed:
+# every other route of the gateway is `enabled: false`, so those requests go to the legacy TomEE (TOMEE_URL).
+#
+# Before applying, replace the <...> values and create the secret OUT OF BAND (never commit its values):
+#   kubectl -n optimus create secret generic bcs-plataforma-web \
+#     --from-literal=HANA_URL=... --from-literal=HANA_USER=... --from-literal=HANA_PASSWORD=... --from-literal=INTERNAL_TOKEN=...
+#
+# The login route of the gateway is OFF (`bcs-plataforma-login`, enabled: false) until the verification is PROVEN and signed (G-01). To turn it on
+# without rebuilding the image, set BCS_GATEWAY_ENABLED_ROUTES=bcs-plataforma-login in the ConfigMap below.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: optimus
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bcs-gateway
+  namespace: optimus
+data:
+  GATEWAY_PORT: "9090"
+  # the legacy TomEE that keeps serving everything that is not migrated (and the fallback of routes that allow it)
+  TOMEE_URL: "http://<tomee-legacy-service>:8080"
+  # routes forced ON, comma list. Empty = 100% TomEE.
+  BCS_GATEWAY_ENABLED_ROUTES: ""
+  # UI on the same origin as the gateway: no CORS list needed. If it ever changes, list the exact origins here (https://host), never a wildcard.
+  BCS_GATEWAY_CORS_ALLOWED_ORIGINS: ""
+  # true because the ALB sits in front: the gateway keeps the chain it received and appends the ALB address
+  # (the services must read the client from the right end of X-Forwarded-For)
+  BCS_GATEWAY_TRUST_FORWARDED_FOR: "true"
+  JAVA_TOOL_OPTIONS: "-Duser.timezone=UTC -Duser.language=en"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcs-plataforma-web
+  namespace: optimus
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: bcs-plataforma-web }
+  template:
+    metadata:
+      labels: { app: bcs-plataforma-web }
+    spec:
+      containers:
+        - name: bcs-plataforma-web
+          image: <account>.dkr.ecr.<region>.amazonaws.com/bcs-plataforma-web:<tag>
+          ports:
+            - containerPort: 8117
+          envFrom:
+            - secretRef:
+                name: bcs-plataforma-web
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Duser.timezone=UTC -Duser.language=en"
+          readinessProbe:
+            httpGet: { path: /actuator/health, port: 8117 }
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /actuator/health, port: 8117 }
+            initialDelaySeconds: 90
+            periodSeconds: 20
+          resources:
+            requests: { cpu: 250m, memory: 512Mi }
+            limits: { memory: 1Gi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcs-plataforma-web
+  namespace: optimus
+spec:
+  type: ClusterIP
+  selector: { app: bcs-plataforma-web }
+  ports:
+    - port: 8117
+      targetPort: 8117
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcs-gateway
+  namespace: optimus
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: bcs-gateway }
+  template:
+    metadata:
+      labels: { app: bcs-gateway }
+    spec:
+      containers:
+        - name: bcs-gateway
+          image: <account>.dkr.ecr.<region>.amazonaws.com/bcs-gateway:<tag>
+          ports:
+            - containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: bcs-gateway
+          readinessProbe:
+            httpGet: { path: /actuator/health, port: 9090 }
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /actuator/health, port: 9090 }
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          resources:
+            requests: { cpu: 250m, memory: 384Mi }
+            limits: { memory: 768Mi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcs-gateway
+  namespace: optimus
+spec:
+  type: ClusterIP
+  selector: { app: bcs-gateway }
+  ports:
+    - port: 9090
+      targetPort: 9090
+---
+# Only the gateway reaches the service from inside the cluster (the jobs and owner services call /internal/java-call, so allow the namespace
+# when they are deployed here; until then, the gateway only).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: bcs-plataforma-web-solo-gateway
+  namespace: optimus
+spec:
+  podSelector:
+    matchLabels: { app: bcs-plataforma-web }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: { app: bcs-gateway }
+      ports:
+        - port: 8117
+---
+# AWS Load Balancer Controller (ALB). TLS ends at the ALB; the certificate ARN and the host are yours to set.
+# The UI and the gateway share this host (same origin): the UI paths go to the UI service, /BSCL/Plataforma/GWJAVA/* to the gateway.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: optimus
+  namespace: optimus
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: <acm-certificate-arn>
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+spec:
+  ingressClassName: alb
+  rules:
+    - host: <optimus.dominio>
+      http:
+        paths:
+          - path: /BSCL/Plataforma/GWJAVA
+            pathType: Prefix
+            backend:
+              service:
+                name: bcs-gateway
+                port: { number: 9090 }
+          # - path: /          # the UI service of the UI team goes here
+          #   pathType: Prefix
+          #   backend: { service: { name: <ui-service>, port: { number: 80 } } }

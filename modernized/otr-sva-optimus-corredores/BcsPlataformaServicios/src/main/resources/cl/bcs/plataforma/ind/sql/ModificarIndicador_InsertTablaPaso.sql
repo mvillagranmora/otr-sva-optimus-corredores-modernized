@@ -1,0 +1,20 @@
+INSERT INTO "BSCL.Plataforma.BD::GBL.ModificarIndicador"
+(
+"IdTrabajo"
+,"IdEntidad"
+,"IdTipoEntidad"
+,"IdIndicador"
+,"IdTipoIndicador"
+,"ValorIndicador"
+,"FechaVencimiento"
+)
+VALUES
+(
+:IdTrabajo
+,:IdEntidad
+,:IdTipoEntidad
+,:IdIndicador
+,:IdTipoIndicador
+,:ValorIndicador
+,:FechaVencimiento
+)

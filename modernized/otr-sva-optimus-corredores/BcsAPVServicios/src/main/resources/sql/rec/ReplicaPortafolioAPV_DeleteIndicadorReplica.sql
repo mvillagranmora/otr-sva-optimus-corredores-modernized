@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.Plataforma.BD::IND.Indicador" WHERE "IdPortafolio" = :IdPortafolio AND "IdTipoIndicador" = :IdTipoIndicador;

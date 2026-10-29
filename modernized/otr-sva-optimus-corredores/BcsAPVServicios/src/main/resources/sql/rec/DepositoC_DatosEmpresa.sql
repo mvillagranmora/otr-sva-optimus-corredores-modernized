@@ -1,0 +1,1 @@
+ SELECT SOC."IdPersona", CLI."IdPortafolioDefecto" FROM "BSCL.Plataforma.BD::PLA.Empresa" AS EMP INNER JOIN "BSCL.SocioNegocio.BD::SOC.SocioDeNegocio" AS SOC ON (SOC."IdSocioDeNegocio" = EMP."IdSocioDeNegocio") INNER JOIN "BSCL.SocioNegocio.BD::CLI.Cliente" AS CLI ON ( CLI."IdPersona" = SOC."IdPersona" ) WHERE EMP."IdEmpresa" = :IdEmpresa

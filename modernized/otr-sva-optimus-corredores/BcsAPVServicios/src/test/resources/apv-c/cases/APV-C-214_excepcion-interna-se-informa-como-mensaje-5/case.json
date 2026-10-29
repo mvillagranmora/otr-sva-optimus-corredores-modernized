@@ -1,0 +1,85 @@
+{
+  "id": "APV-C-214",
+  "titulo": "an exception inside (settlement parameter missing) is swallowed: message id 5 CARGA_ERROR_JSON with the exception text; the CargaMasiva row stays",
+  "pina": "CargaRecaudacion.java:171",
+  "servicio": "CargaRecaudacion",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 39,
+    "p_IdModulo": "APV",
+    "p_Archivo": [
+      {
+        "IdEmpresa": 1,
+        "NombreCargaMasiva": "Depositos.txt",
+        "CantidadRegistros": 1,
+        "IdUsuario": 39,
+        "IdTipoCarga": 4,
+        "Descripcion": "carga",
+        "FechaCarga": "2018-03-13",
+        "IdEstado": "VIG"
+      }
+    ],
+    "p_ParametrosRecaudacion": [
+      {
+        "IdEmpresa": 1,
+        "IdRecaudacion": 0,
+        "FolioCartola": 0,
+        "LineaCartola": 0,
+        "Sucursal": "SUCUR",
+        "FechaDeposito": "2025-03-31",
+        "CuentaCorriente": "13602227",
+        "MontoDeposito": 1000,
+        "Observacion": "CARGA MASIVA",
+        "NumeroDocumento": 17580478,
+        "ConceptoRecaudacion": "00",
+        "IdBanco": 12,
+        "IdTipoDeposito": "DEP",
+        "IdEstado": "ING",
+        "IdCuentaBanco": 122,
+        "IdCarga": 0
+      }
+    ]
+  },
+  "config": {
+    "APV/REC.LiquidacionAutomatica": null
+  },
+  "secuencias": {
+    "BSCL.APV.BD.Secuencia::APV.IdCargaMasiva": 44,
+    "BSCL.APV.BD.Secuencia::REC.IdRecaudacion": 902
+  },
+  "colaboradores": {
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_INGRESOEGRESOGENERADO": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          }
+        ]
+      }
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::APV.CargaMasiva",
+      "orden": "\"IdCargaMasiva\""
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEmpresa",
+        "IdCarga",
+        "Origen",
+        "IdEstado",
+        "MontoDeposito"
+      ]
+    }
+  ]
+}

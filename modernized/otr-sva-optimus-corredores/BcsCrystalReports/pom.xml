@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- STANDALONE — NOT a child of the Java 25 parent pom -->
+  <groupId>cl.bcs</groupId>
+  <artifactId>BcsCrystalReports</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.7.18</version>
+    <relativePath/>
+  </parent>
+
+  <properties>
+    <java.version>11</java.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <!-- JVM flags the engine needs (same for tests, spring-boot:run and the Dockerfile ENTRYPOINT):
+         com.sun.rowset access for ListMapResultSet on JDK 9+, headless AWT, legacy ran with file.encoding=UTF-8 -->
+    <crystal.jvm.args>--add-exports java.sql.rowset/com.sun.rowset=ALL-UNNAMED --add-exports java.sql.rowset/com.sun.rowset.internal=ALL-UNNAMED --add-opens java.sql.rowset/com.sun.rowset=ALL-UNNAMED -Djava.awt.headless=true -Dfile.encoding=UTF-8</crystal.jvm.args>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+
+    <!-- Crystal Reports (local install) -->
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>CrystalReportsRuntime</artifactId>
+      <version>14.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>CrystalCommon2</artifactId>
+      <version>14.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>webreporting</artifactId>
+      <version>14.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>JDBInterface</artifactId>
+      <version>14.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>DatabaseConnectors</artifactId>
+      <version>14.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>pfjgraphics</artifactId>
+      <version>14.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>cvom</artifactId>
+      <version>14.1</version>
+    </dependency>
+
+    <!-- JRC runtime classpath gaps found by the spike (NoClassDefFoundError); proprietary ones come from libs/ -->
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>logging</artifactId>
+      <version>14.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>keycodeDecoder</artifactId>
+      <version>14.1</version>
+    </dependency>
+    <!-- log4j 1.x as shipped in legacy libs-private (1.2.6); JRC logs through org.apache.log4j.Logger -->
+    <dependency>
+      <groupId>com.crystaldecisions</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-configuration</groupId>
+      <artifactId>commons-configuration</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>icu4j</artifactId>
+      <version>71.1</version>
+    </dependency>
+
+    <!-- Barcode + PDF417 -->
+    <dependency>
+      <groupId>net.sf.barcode4j</groupId>
+      <artifactId>barcode4j</artifactId>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+
+    <!-- Apache POI for Excel/TXT export path in ReportDocument. PINNED TO 3.17 on purpose: the legacy engine formats the
+         Crystal xls with POI 3.x DataFormatter (e.g. it cannot parse '[$$-0409]* #,##0' and writes the raw number); POI 5.x
+         applies the format and changes the TXT export (fresh case F035, regression case Facturacion_InformeGananciaCapital).
+         Only 'poi' is used by ReportDocument (HSSF + ss.usermodel + IOUtils). The log4j 1.2.17 that poi 3.17 drags in is
+         excluded: the JRC log4j 1.2.6 (com.crystaldecisions:log4j) is the one on the legacy classpath.
+         Do not upgrade without re-running the equivalence suites. -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.17</version>
+      <exclusions>
+        <exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- sql2o for HANA queries in ReportDocument -->
+    <dependency>
+      <groupId>org.sql2o</groupId>
+      <artifactId>sql2o</artifactId>
+      <version>1.6.0</version>
+    </dependency>
+
+    <!-- Gson for JSON data source in ReportDocument -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+
+    <!-- HANA driver -->
+    <dependency>
+      <groupId>com.sap.cloud.db.jdbc</groupId>
+      <artifactId>ngdbc</artifactId>
+      <version>2.19.16</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- H2 for tests -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <jvmArguments>${crystal.jvm.args}</jvmArguments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <!-- the release option forbids add-exports (needed to compile ListMapResultSet against com.sun.rowset),
+               so main code is compiled with source/target 11 and no release; tests keep release 11 -->
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <release combine.self="override"/>
+              <compilerArgs>
+                <arg>--add-exports</arg><arg>java.sql.rowset/com.sun.rowset=ALL-UNNAMED</arg>
+                <arg>--add-exports</arg><arg>java.sql.rowset/com.sun.rowset.internal=ALL-UNNAMED</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.6</version>
+        <configuration>
+          <argLine>${crystal.jvm.args}</argLine>
+          <!-- JRC ReportDocument.<clinit> asserts that the optional com.azalea.ufl.BarcodeLibrary loads; production runs without -ea -->
+          <enableAssertions>false</enableAssertions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

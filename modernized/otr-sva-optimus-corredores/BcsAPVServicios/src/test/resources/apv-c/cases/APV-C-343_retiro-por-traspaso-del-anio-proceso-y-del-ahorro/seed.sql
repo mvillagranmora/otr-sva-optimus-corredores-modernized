@@ -1,0 +1,15 @@
+INSERT INTO "BSCL.APV.BD::REC.RegimenTributario" ("IdRegimenTributario", "Codigo", "IdEstado") VALUES (1, 'APV-A', 'VIG');
+INSERT INTO "BSCL.APV.BD::REC.RegimenTributario" ("IdRegimenTributario", "Codigo", "IdEstado") VALUES (2, 'APV-B', 'VIG');
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV", "IdRegimenTributario") VALUES (1, 1);
+INSERT INTO "BSCL.Portafolio.BD::POR.MatrizAgrupadorAPV" ("IdMatrizAgrupadorAPV", "IdRegimenTributario") VALUES (2, 2);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdMatrizAgrupadorAPV", "IdEstado", "IdCliente") VALUES (901, 1, 'ACT', 701);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdMatrizAgrupadorAPV", "IdEstado", "IdCliente") VALUES (902, 2, 'ACT', 701);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" ("IdPortafolio", "IdMatrizAgrupadorAPV", "IdEstado", "IdCliente") VALUES (903, 1, 'INA', 701);
+INSERT INTO "BSCL.APV.BD::INV.Bonificacion" ("IdBonificacion", "IdCliente", "AnoAhorro", "IdEmpresa", "IdEstado", "MontoReajustadoPagadoAfiliado", "MontoBonificacionAfiliadoNeto", "MontoCalculado") VALUES (1, 701, 2024, 1, 'ING', 70000, 1, 0);
+INSERT INTO "BSCL.Normativa.BD.Vistas::TRI.DJ1871.Datos" ("ID", "IdCliente", "AnoAhorro", "AhorrosDeposito", "RetirosDeposito", "RutCliente") VALUES (701, 701, 2024, 300000, 100000, '1701-9');
+INSERT INTO "BSCL.APV.BD::TRA.Traspaso" ("IdTraspaso", "IdCliente", "IdEmpresa") VALUES (1, 701, 1);
+INSERT INTO "BSCL.APV.BD::TRA.OrdenTraspaso" ("IdTraspaso", "IdSolicitudAporteRescate", "IdOrden") VALUES (1, 61, NULL);
+INSERT INTO "BSCL.APV.BD::TRA.Traspaso" ("IdTraspaso", "IdCliente", "IdEmpresa") VALUES (2, 701, 1);
+INSERT INTO "BSCL.APV.BD::TRA.OrdenTraspaso" ("IdTraspaso", "IdSolicitudAporteRescate", "IdOrden") VALUES (2, NULL, 62);
+INSERT INTO "BSCL.Custodia.BD.Vistas::CUS.ConsultarCartera" ("IdCliente", "EGRCantidad", "PrecioCompra", "IdPortafolio", "EGRIdOperacion", "IdModulo", "IdClasificacionTipoInstrumento", "FechaOperacion", "EGRFechaOperacion", "IdEstado") VALUES (701, 4, 1000, 901, 61, 'FMM', 'FM', '2024-06-01', '2025-02-10', 'VIG');
+INSERT INTO "BSCL.Custodia.BD.Vistas::CUS.ConsultarCartera" ("IdCliente", "EGRCantidad", "PrecioCompra", "IdPortafolio", "EGRIdOperacion", "IdModulo", "IdClasificacionTipoInstrumento", "FechaOperacion", "EGRFechaOperacion", "IdEstado") VALUES (701, 2.5, 2000, 901, 62, 'FAC', 'FM', '2024-06-01', '2024-11-05', 'VIG');

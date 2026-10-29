@@ -1,0 +1,1 @@
+SELECT "BSCL.Tesoreria.BD.Secuencias::NominaTransferencia".NEXTVAL AS "v_IdNominaTransferencia" FROM DUMMY

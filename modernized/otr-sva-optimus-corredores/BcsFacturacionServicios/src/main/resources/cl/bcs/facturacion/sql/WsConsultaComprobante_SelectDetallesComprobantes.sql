@@ -1,0 +1,20 @@
+SELECT 
+ DET."IdComprobante" 
+,DET."NemotecnicoInstrumento" 
+,DET."Cantidad" 
+,DET."Precio" 
+,DET."Tasa" 
+,DET."Monto" 
+,DET."IdFormaCustodia" 
+,DET."IdTipoProducto" 
+,DET."IdTipoInstrumento" 
+,DET."Descripcion" 
+,DET."FechaLiquidacion" 
+,DET."IdInstrumento"
+,INS."IdEmisor"
+,INS."FechaVencimiento"
+,INS."PresenciaBursatilAjustada"
+FROM "BSCL.Facturacion.BD.Vistas::ConsultarComprobanteDetalle" AS DET
+INNER JOIN #WsConsultaComprobantes_IdComprobantes AS COM ON COM."IdComprobante" = DET."IdComprobante"
+INNER JOIN "BSCL.Plataforma.BD::INS.Instrumento" AS INS ON INS."IdInstrumento" = DET."IdInstrumento"
+ORDER BY DET."IdComprobante" ASC

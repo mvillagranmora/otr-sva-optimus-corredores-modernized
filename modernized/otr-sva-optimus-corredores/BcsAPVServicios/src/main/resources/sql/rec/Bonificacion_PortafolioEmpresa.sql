@@ -1,0 +1,1 @@
+SELECT "IdPortafolioDefecto" FROM "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa" Empresa INNER JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" Cliente ON Cliente."IdSocioDeNegocio" = Empresa."IdSocioDeNegocio" WHERE Empresa."IdEmpresa" = :IdEmpresa

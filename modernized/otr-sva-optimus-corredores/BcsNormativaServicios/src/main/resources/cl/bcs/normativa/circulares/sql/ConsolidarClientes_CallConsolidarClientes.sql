@@ -1,0 +1,1 @@
+CALL "BSCL.Normativa.BD.Servicios.NCG380::ConsolidaClientes"() 

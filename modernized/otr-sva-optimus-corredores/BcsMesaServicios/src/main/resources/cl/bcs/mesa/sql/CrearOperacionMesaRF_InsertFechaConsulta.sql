@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Mesa.BD::GBL.FechasConsulta" ("IdTrabajo", "Fecha") VALUES (:IdTrabajo, :FechaVencimiento);

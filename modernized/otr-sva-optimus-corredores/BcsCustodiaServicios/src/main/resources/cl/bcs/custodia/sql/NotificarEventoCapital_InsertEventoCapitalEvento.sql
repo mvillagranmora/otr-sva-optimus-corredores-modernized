@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.Custodia.BD::CUS.EventoCapitalEvento" ("IdEventoCapitalEvento", "IdEventoCapital", "IdEvento","IdSecuencia")
+VALUES (:IdEventoCapitalEvento, :IdEventoCapital, :IdEvento,:IdSecuencia);

@@ -1,0 +1,112 @@
+{
+  "servicio": "CrearSolicitudAporteRescateNormal",
+  "ref": "limite: SaldoFlujoCaja = monto del aporte CIN manual",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_SolicitudesAporteRescate": [
+      {
+        "IdInterno": 1,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "TipoSolicitud": "APO",
+        "IdSerieFondo": "FM001A",
+        "CalculoPorMontoCuota": "M",
+        "EsPorMontoLiquido": "N",
+        "Monto": 100000,
+        "NumeroCuotas": 0,
+        "IdMoneda": "CLP",
+        "IdMedioDePago": "CIN",
+        "IdPreferenciaPagoPortafolio": 0,
+        "Visado": "N",
+        "SolicitudBatch": "N",
+        "OrigenOperacion": "M",
+        "FechaOperacion": "0001-01-01",
+        "IdRegimenTributario": "GEN",
+        "Glosa": "",
+        "IndicadorMLT": "N",
+        "IdSerieFondoDestino": "",
+        "IdEmisorDestino": "",
+        "IdAutorizadoOrigen": 0,
+        "Porcentaje": 0,
+        "FolioContrato": 0,
+        "IdMonedaPago": "CLP"
+      }
+    ],
+    "p_FormaPagoSpot": []
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate",
+      "orden": "\"IdBloqueoSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.InterfazAgf",
+      "orden": "\"IdInterfazAgf\""
+    }
+  ],
+  "colaboradores": {
+    "SaldoFlujoCaja": {
+      "defecto": {
+        "P_OUT_FLUJOCAJA": [
+          {
+            "IdPortafolio": 500,
+            "IdMoneda": "CLP",
+            "FechaSaldo": "2026-03-02",
+            "Saldo": 100000
+          }
+        ]
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 1,
+                "FactorCambioLocal": 1,
+                "FactorOrigenDestino": 1,
+                "MontoDestino": 100000
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 6,
+                "MontoDestino": 38.5
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 7,
+                "FactorOrigenDestino": 39000,
+                "MontoDestino": 39000
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

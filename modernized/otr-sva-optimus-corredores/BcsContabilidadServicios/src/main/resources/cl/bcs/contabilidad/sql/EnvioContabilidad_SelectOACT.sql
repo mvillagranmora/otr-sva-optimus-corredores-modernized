@@ -1,0 +1,1 @@
+SELECT "GroupMask","LocManTran","AcctCode","ActType" FROM :EMPRESA.OACT;

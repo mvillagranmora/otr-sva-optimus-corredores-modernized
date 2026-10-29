@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_IngresoEgresoGenerar"("NumeroReferencia", "IdIngresoEgreso", "TipoComprobante") VALUES(:NumeroReferencia, :IdIngresoEgreso, :TipoComprobante)

@@ -1,0 +1,12 @@
+-- one statement per line: global temporary tables of the Java implementation
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_FormaDePago"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Entrada_IngresoEgresoGenerar"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_Comprobante"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_ComprobanteDetalle"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_ComprobanteFormaDePago"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_ComprobanteDetalleOrigen"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.IngresoEgresoGenerarComprobante_Proceso"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.FormaDePagoGenerarComprobante_Proceso"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CrearComprobante_GruposDeComprobantes"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.MovimientoDetalleGenerarComprobante"
+DELETE FROM "BSCL.Tesoreria.BD::GBL.CuentaBancariaCorredoraGenerarComprobante"

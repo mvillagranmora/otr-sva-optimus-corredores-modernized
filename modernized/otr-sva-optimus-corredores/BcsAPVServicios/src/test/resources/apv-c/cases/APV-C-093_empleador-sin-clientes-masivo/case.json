@@ -1,0 +1,43 @@
+{
+  "id": "APV-C-093",
+  "titulo": "same case in massive mode: the _MASIVO message; logica forces its counter to 0 (so the massive log with the folio range and a random IdTrabajo, masked, IS written) but call() recomputes P_OUT_ERRORESCONTADOR from the messages",
+  "pina": "ConciliarDeposito.java:370",
+  "servicio": "ConciliarDeposito",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 9,
+    "p_IdModulo": "APV",
+    "p_AsignacionAutomaticaContrato": "N",
+    "p_EsProcesoMasivo": "S",
+    "p_Parametros": [
+      {
+        "IdRecaudacion": 10
+      }
+    ]
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "MontoDeposito",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Empleador",
+      "orden": "\"IdRecaudacionEmpleador\"",
+      "columnas": [
+        "IdRecaudacionEmpleador",
+        "IdRecaudacion",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "IdEstado"
+      ]
+    }
+  ]
+}

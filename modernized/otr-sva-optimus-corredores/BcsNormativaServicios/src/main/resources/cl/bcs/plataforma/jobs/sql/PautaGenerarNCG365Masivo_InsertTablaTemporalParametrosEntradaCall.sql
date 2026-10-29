@@ -1,0 +1,1 @@
+INSERT INTO #GenerarNCG365Masivo_ParametrosEntrada ("NombreParametro", "Valor") VALUES (:NombreParametro, :Valor);

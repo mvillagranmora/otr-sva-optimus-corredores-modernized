@@ -1,0 +1,1 @@
+SELECT "IdConcepto" FROM "BSCL.Orden.BD::ORD.ConceptoOrden" WHERE "Uso" = :Uso;

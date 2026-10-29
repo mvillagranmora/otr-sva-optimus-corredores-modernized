@@ -1,0 +1,56 @@
+{
+  "id": "APV-C-484",
+  "titulo": "requests 1 2 3 to process and 2 4 rejected: 1 and 3 become PRO, 2 and 4 PEN (2 is both: rejected wins)",
+  "pina": "ValidarMandatosPAC.java:79",
+  "servicio": "ValidarMandatosPAC",
+  "metodo": "logica",
+  "entrada": {
+    "entrada": {
+      "P_OUT_SOLICITUDES_A_PROCESAR": [
+        {
+          "IdMandatoPAC": 1,
+          "IdentServicio": "S1"
+        },
+        {
+          "IdMandatoPAC": 2,
+          "IdentServicio": "S2"
+        },
+        {
+          "IdMandatoPAC": 3,
+          "IdentServicio": "S3"
+        }
+      ],
+      "P_OUT_SOLICITUDES_NO_PROCESADAS": [
+        {
+          "IdMandatoPAC": 2,
+          "IdentServicio": "S2",
+          "EstadoRendicion": "SIN FONDOS"
+        },
+        {
+          "IdMandatoPAC": 4,
+          "IdentServicio": "S4",
+          "EstadoRendicion": "CUENTA CERRADA"
+        }
+      ]
+    },
+    "idEmpresa": 1,
+    "idUsuario": 21
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::PAC.LogMandatoPAC",
+      "orden": "\"IdMandatoPAC\", \"FechaSistema\", \"Usuario\", \"Glosa\", \"EstadoProcesamiento\", \"PreRendicion\"",
+      "columnas": [
+        "IdMandatoPAC",
+        "FechaSistema",
+        "Usuario",
+        "EstadoProcesamiento",
+        "PreRendicion",
+        "Glosa"
+      ],
+      "expresiones": {
+        "FechaProceso": "CASE WHEN \"FechaProceso\" IS NULL THEN 'NULA' WHEN \"FechaProceso\" = DATE '2024-01-01' THEN 'SIN_CAMBIO' ELSE 'ACTUALIZADA' END"
+      }
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+INSERT INTO  "BSCL.Tesoreria.BD::TES.IngresoEgresoFormaDePago"
+(
+	 "IdIngresoEgresoFormaDePago"
+	,"IdIngresoEgreso"
+	,"IdTipoMovimiento"
+	,"IdMedioDePago"
+	,"NombreMedioDePago"
+	,"IdModalidadDePago"
+	,"NombreModalidadDePago"
+	,"IdCuentaBancariaCorredora"
+	,"IdTipoCuentaBancariaCorredora"
+	,"NombreTipoCuentaBancariaCorredora"
+	,"NombreCuentaBancariaCorredora"
+	,"NumeroCuentaBancariaCorredora"
+	,"IdTarjetaBancariaCorredora"
+	,"IdTipoTarjetaBancariaCorredora"
+	,"NombreTipoTarjetaBancariaCorredora"
+	,"NumeroTarjetaBancariaCorredora"			
+	,"IdChequera"
+	,"NumeroDocumentoCorredora"
+	,"FechaDocumentoPagoCorredora"
+	,"IdCuentaBancariaSocio"
+	,"IdTipoCuentaBancariaSocio"
+	,"IdBancoSocio"
+	,"NombreTipoCuentaBancariaSocio"
+	,"NombreCuentaBancariaSocio"
+	,"NumeroCuentaBancariaSocio"
+	,"IdTarjetaBancariaSocio"
+	,"IdTipoTarjetaBancariaSocio"
+	,"NombreTipoTarjetaBancariaSocio"
+	,"NumeroTarjetaBancariaSocio"
+	,"FechaVctoTarjetaBancariaSocio"
+	,"NumeroSerieSocio"
+	,"NumeroDocumentoSocio"
+	,"FechaDocumentoPagoSocio"
+	,"IdMoneda"
+	,"Monto"
+	,"FechaIngresoRegistro"
+	,"IdEstado"
+) 
+VALUES
+(
+	 :IdIngresoEgresoFormaDePago
+	,:IdIngresoEgreso
+	,:IdTipoMovimiento
+	,:IdMedioDePago
+	,:NombreMedioDePago
+	,:IdModalidadDePago
+	,:NombreModalidadDePago
+	,:IdCuentaBancariaCorredora
+	,:IdTipoCuentaBancariaCorredora
+	,:NombreTipoCuentaBancariaCorredora
+	,:NombreCuentaBancariaCorredora
+	,:NumeroCuentaBancariaCorredora
+	,:IdTarjetaBancariaCorredora
+	,:IdTipoTarjetaBancariaCorredora
+	,:NombreTipoTarjetaBancariaCorredora
+	,:NumeroTarjetaBancariaCorredora			
+	,:IdChequera
+	,:NumeroDocumentoCorredora
+	,:FechaDocumentoPagoCorredora
+	,:IdCuentaBancariaSocio
+	,:IdTipoCuentaBancariaSocio
+	,:IdBancoSocio
+	,:NombreTipoCuentaBancariaSocio
+	,:NombreCuentaBancariaSocio
+	,:NumeroCuentaBancariaSocio
+	,:IdTarjetaBancariaSocio
+	,:IdTipoTarjetaBancariaSocio
+	,:NombreTipoTarjetaBancariaSocio
+	,:NumeroTarjetaBancariaSocio
+	,:FechaVctoTarjetaBancariaSocio
+	,:NumeroSerieSocio
+	,:NumeroDocumentoSocio
+	,:FechaDocumentoPagoSocio
+	,:IdMoneda
+	,:Monto
+	,CURRENT_UTCTIMESTAMP  -- FechaIngresoRegistro
+	,:IdEstado
+);

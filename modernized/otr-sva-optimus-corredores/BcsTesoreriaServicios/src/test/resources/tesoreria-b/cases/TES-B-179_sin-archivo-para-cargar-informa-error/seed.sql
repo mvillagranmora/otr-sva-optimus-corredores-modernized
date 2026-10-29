@@ -1,0 +1,10 @@
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" VALUES (801, 'RUT', '11111111-1');
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" VALUES (802, 'RUT', '22222222-2');
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" VALUES (901, 801, 'ACT', 8801);
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" VALUES (902, 802, 'ACT', 8802);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" VALUES (8801, 901, 'ACT', 'PA01');
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" VALUES (8802, 902, 'ACT', 'PB01');
+INSERT INTO "BSCL.Plataforma.BD.Vistas::PLA.ConsultarConceptosManuales" VALUES ('INGMAN', 'VIG', 'SI', 'NO', 'TES');
+INSERT INTO "BSCL.Plataforma.BD.Vistas::PLA.ConsultarConceptosManuales" VALUES ('OTRMAN', 'VIG', 'SI', 'NO', 'TES');
+INSERT INTO "BSCL.Tesoreria.BD.Vistas::ConsultarConceptosTesoreria" VALUES ('INGMAN', 'IN', 'TES.IngresoEgreso', 'VIG', 'S', 'S', 'S', 'S');
+INSERT INTO "BSCL.Tesoreria.BD.Vistas::ConsultarConceptosTesoreria" VALUES ('OTRMAN', 'EG', 'TES.IngresoEgreso', 'VIG', 'S', 'S', 'S', 'S');

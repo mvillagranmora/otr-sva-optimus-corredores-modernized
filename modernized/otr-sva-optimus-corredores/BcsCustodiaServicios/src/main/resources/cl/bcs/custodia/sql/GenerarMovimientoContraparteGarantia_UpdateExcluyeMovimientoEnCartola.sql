@@ -1,0 +1,1 @@
+UPDATE "BSCL.Custodia.BD::CUS.MovimientoCarteraEnTransito" SET "ExcluyeMovimientoEnCartola" = 'S' WHERE "IdMovimientoCarteraEnTransito"= :IdMovimientoCarteraEnTransito;

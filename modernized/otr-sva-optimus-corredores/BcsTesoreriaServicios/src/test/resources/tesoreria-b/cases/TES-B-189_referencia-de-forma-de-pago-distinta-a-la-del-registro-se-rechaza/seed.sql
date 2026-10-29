@@ -1,0 +1,12 @@
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" VALUES (801, 'RUT', '11111111-1');
+INSERT INTO "BSCL.SocioNegocio.BD::PER.DocumentoIdentidad" VALUES (802, 'RUT', '22222222-2');
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" VALUES (901, 801, 'ACT', 8801);
+INSERT INTO "BSCL.SocioNegocio.BD::CLI.Cliente" VALUES (902, 802, 'ACT', 8802);
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" VALUES (8801, 901, 'ACT', 'PA01');
+INSERT INTO "BSCL.Portafolio.BD::POR.Portafolio" VALUES (8802, 902, 'ACT', 'PB01');
+INSERT INTO "BSCL.Plataforma.BD.Vistas::PLA.ConsultarConceptosManuales" VALUES ('INGMAN', 'VIG', 'SI', 'NO', 'TES');
+INSERT INTO "BSCL.Plataforma.BD.Vistas::PLA.ConsultarConceptosManuales" VALUES ('OTRMAN', 'VIG', 'SI', 'NO', 'TES');
+INSERT INTO "BSCL.Tesoreria.BD.Vistas::ConsultarConceptosTesoreria" VALUES ('INGMAN', 'IN', 'TES.IngresoEgreso', 'VIG', 'S', 'S', 'S', 'S');
+INSERT INTO "BSCL.Tesoreria.BD.Vistas::ConsultarConceptosTesoreria" VALUES ('OTRMAN', 'EG', 'TES.IngresoEgreso', 'VIG', 'S', 'S', 'S', 'S');
+INSERT INTO "BSCL.Plataforma.BD::FTP.Cabecera" VALUES (700, 'CARGA_MASIVA_INGRESO_EGRESO_FFMM', 'PEN', '2025-05-05 00:00:00', 5, 'CDB_IngresoEgreso_FFMM_20250505.csv');
+INSERT INTO "BSCL.Plataforma.BD::FTP.Detalle" VALUES (1, 700, '1;MOVING;CLI;RUT;11111111-1;PA01;CLP;1000.50;2025-05-06;INGMAN;SEQ1;pago dap;S;N;S;7;TRA;MODDEP;CLP;1000.50;123;2025-05-05;4001;17;00123456;2025-05-05;136;;;;;;;;DAP;COMDAP;5551;2025-05-05;T0', '', 0);

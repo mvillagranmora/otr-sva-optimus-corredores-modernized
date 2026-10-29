@@ -1,0 +1,91 @@
+{
+  "id": "APV-C-249",
+  "titulo": "the traspaso DEV gets a Tesoreria error: its ERROR messages are copied, the counter is the number of errors and nothing else runs (no own movement, state unchanged)",
+  "pina": "DevolucionPagoRezagos.java:398",
+  "servicio": "DevolucionPagoRezagos",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 51,
+    "p_IdModulo": "APV",
+    "p_DevolucionTipoPersona": "OTROS",
+    "p_DevolucionIdPersona": 900,
+    "p_DevolucionIdPortafolio": 100027,
+    "p_DevolucionIdMedioPago": "TRA",
+    "p_DevolucionIdBanco": 300,
+    "p_DevolucionIdCuentaCorriente": 0,
+    "p_Parametros": [
+      {
+        "IdRecaudacionCliente": 11
+      }
+    ]
+  },
+  "colaboradores": {
+    "CrearIngresoEgreso": {
+      "salida": {
+        "P_OUT_MENSAJES": [
+          {
+            "id": 1,
+            "tipo": "ERROR",
+            "codigo": "SIN_SALDO",
+            "descripcion": "sin saldo"
+          }
+        ],
+        "P_OUT_INGRESOEGRESOGENERADO": [],
+        "P_OUT_RESULTADOPROCESO": []
+      }
+    },
+    "CrearComprobante": {
+      "salida": {
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADOPROCESO": [
+          {
+            "Campo": "IdComprobante",
+            "Id": 8001,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 1
+          },
+          {
+            "Campo": "IdComprobante",
+            "Id": 8002,
+            "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearComprobante",
+            "Resultado": "ING",
+            "NumeroReferencia": 2
+          }
+        ]
+      }
+    }
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Empleador",
+      "orden": "\"IdRecaudacionEmpleador\"",
+      "columnas": [
+        "IdRecaudacionEmpleador",
+        "IdRecaudacion",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdRecaudacionEmpleador",
+        "IdEstado"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+SELECT "IdMetadataCuentaContable" AS "Id" FROM "BSCL.Contabilidad.BD::ITZ.MetadataCuentaContable" WHERE "CodigoMetadata" = :CodigoMetadata

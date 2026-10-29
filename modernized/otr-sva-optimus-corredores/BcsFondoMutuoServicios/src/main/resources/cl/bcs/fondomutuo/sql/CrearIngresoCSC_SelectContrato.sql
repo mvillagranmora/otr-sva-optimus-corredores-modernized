@@ -1,0 +1,1 @@
+SELECT "FolioCSC" FROM "BSCL.FondoMutuo.BD::CSC.ContratoSuscripcionCuotas" WHERE "FolioCSC" IN (:FolioCSC) AND "Estado" = 'ING'

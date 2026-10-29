@@ -1,0 +1,57 @@
+{
+  "id": "APV-C-095",
+  "titulo": "employer = deposit but the APV/DC split of the clients differs: UI_NO_CUADRAN_MONTOS_APV_DC_DE_EMPLEADOR_CLIENTE",
+  "pina": "ConciliarDeposito.java:361",
+  "servicio": "ConciliarDeposito",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 9,
+    "p_IdModulo": "APV",
+    "p_AsignacionAutomaticaContrato": "N",
+    "p_EsProcesoMasivo": "N",
+    "p_Parametros": [
+      {
+        "IdRecaudacion": 10
+      }
+    ]
+  },
+  "enmascarar": [
+    "*IdTrabajo"
+  ],
+  "tablas": [
+    {
+      "nombre": "BSCL.APV.BD::REC.Recaudacion",
+      "orden": "\"IdRecaudacion\"",
+      "columnas": [
+        "IdRecaudacion",
+        "MontoDeposito",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Empleador",
+      "orden": "\"IdRecaudacionEmpleador\"",
+      "columnas": [
+        "IdRecaudacionEmpleador",
+        "IdRecaudacion",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.APV.BD::REC.Cliente",
+      "orden": "\"IdRecaudacionCliente\"",
+      "columnas": [
+        "IdRecaudacionCliente",
+        "IdRecaudacion",
+        "IdRecaudacionEmpleador",
+        "IdCliente",
+        "IdRegimenTriburario",
+        "MontoDepositoConvenido",
+        "MontoDepositoAPV",
+        "IdEstado"
+      ]
+    }
+  ]
+}

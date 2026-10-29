@@ -1,0 +1,4 @@
+DELETE FROM "BSCL.Tesoreria.BD.Vistas::ConsultarFormatoArchivo";
+INSERT INTO "BSCL.Tesoreria.BD::TES.NominaTransferencia" ("IdNominaTransferencia", "IdEmpresa", "NombreArchivo") VALUES (48, 1, NULL);
+INSERT INTO "BSCL.Tesoreria.BD.Vistas::ConsultarFormatoArchivoDetalle" ("IdFormatoArchivo", "CodigoFormatoArchivo", "IdFormatoArchivoDetalle", "TipoRegistro", "Campo", "TipoDato", "Largo", "Decimales", "ValorDefecto", "Orden", "DescripcionFormatoDetalle", "Formato") VALUES (5, 'GEN_TXT', 101, 1, 'Rut', 'CHAR', 10, 0, '', 1, 'd', NULL);
+INSERT INTO "BSCL.Tesoreria.BD.Vistas::ConsultarFormatoArchivoDetalle" ("IdFormatoArchivo", "CodigoFormatoArchivo", "IdFormatoArchivoDetalle", "TipoRegistro", "Campo", "TipoDato", "Largo", "Decimales", "ValorDefecto", "Orden", "DescripcionFormatoDetalle", "Formato") VALUES (5, 'GEN_TXT', 102, 1, 'Monto', 'DEC', 12, 2, '', 2, 'd', NULL);

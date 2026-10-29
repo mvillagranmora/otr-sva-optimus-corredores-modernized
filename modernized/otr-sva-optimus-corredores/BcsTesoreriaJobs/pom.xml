@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>cl.bcs</groupId>
+    <artifactId>otr-sva-optimus-corredores</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>tesoreria-jobs</artifactId>
+  <packaging>jar</packaging>
+  <name>BcsTesoreriaJobs — Treasury Job Service (Spring Boot 4.1.1)</name>
+
+  <dependencies>
+    <!-- BcsUtils shared library -->
+    <dependency>
+      <groupId>cl.bcs</groupId>
+      <artifactId>bcs-utils</artifactId>
+    </dependency>
+
+    <!-- BcsTesoreriaServicios as an in-process library (decision 2026-10-15: the jobs call its services directly, no HTTP).
+         The Servicios pom builds the plain jar (this one) and the executable tesoreria-service-*-exec.jar. -->
+    <dependency>
+      <groupId>cl.bcs</groupId>
+      <artifactId>tesoreria-service</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- tesoreria-service pins jakarta.xml.ws-api 4.0.2; the Spring Boot BOM would raise the transitive one to 4.0.3. -->
+    <dependency>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
+      <version>4.0.2</version>
+    </dependency>
+
+    <!-- Step 5 (collaborators in process, JOBS_PATTERN.md H-1): the OWNER libraries of the already migrated collaborators (group M of
+         JOBS_H1_H4_INVENTORY.md) run inside the job transaction instead of going over HTTP. They are plain jars (no Maven cycle: neither
+         apv-service nor tesoreria-service depends on the other; the Tesoreria<->APV cycle is resolved at the jobs application level,
+         see wiring/EnProcesoConfiguration). Their application.yml is shadowed by this module's application.yml (see its comment). -->
+    <dependency>
+      <groupId>cl.bcs</groupId>
+      <artifactId>bcs-apv-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>cl.bcs</groupId>
+      <artifactId>bcs-apv-javacall-adapter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>cl.bcs</groupId>
+      <artifactId>apv-service</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>cl.bcs</groupId>
+      <artifactId>bcs-cuenta-inversion-servicios</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Spring Boot starters -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+
+
+
+    <!-- JSON for TomEE proxy responses -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+
+    <!-- SAP HANA JDBC driver (runtime) -->
+    <dependency>
+      <groupId>com.sap.cloud.db.jdbc</groupId>
+      <artifactId>ngdbc</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- The legacy goldens were recorded under JVM zone UTC (legacy-oracle/record.sh); H2 caches the default zone, so the
+           whole suite runs in one UTC fork with UTF-8 file encoding (the legacy files are written with the platform charset). -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Duser.timezone=UTC -Dfile.encoding=UTF-8 -Duser.language=en -Duser.country=US</argLine>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

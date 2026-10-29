@@ -1,0 +1,1 @@
+DROP TABLE #LiquidarMovimientoAutomatico_P_FORMAPAGO

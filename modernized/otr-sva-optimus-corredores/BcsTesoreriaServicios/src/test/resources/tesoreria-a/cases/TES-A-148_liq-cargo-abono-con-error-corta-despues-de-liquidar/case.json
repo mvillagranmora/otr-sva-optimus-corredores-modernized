@@ -1,0 +1,73 @@
+{
+  "servicio": "LiquidarComprobante",
+  "metodo": "call",
+  "colaboradores": {
+    "CrearCargoAbono": {
+      "P_OUT_MENSAJES": [
+        {
+          "id": 1,
+          "tipo": "ERROR",
+          "codigo": "CUENTA_INVERSION_INACTIVA",
+          "descripcion": "cuenta inversion inactiva"
+        }
+      ],
+      "P_OUT_CARGOABONOGENERADO": []
+    }
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 97,
+    "p_IdModulo": "TES",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_FechaMovimiento": "2025-04-01",
+    "p_ComprobanteLiquidar": [
+      {
+        "IdComprobante": 1063,
+        "IdTipoMovimiento": "MOVING",
+        "AfectaCuentaInversion": "CLI"
+      }
+    ],
+    "p_FormaDePagoLiquidar": []
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.Comprobante",
+      "orden": "\"IdComprobante\"",
+      "columnas": [
+        "IdComprobante",
+        "IdEstado",
+        "FechaLiquidacion"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.ComprobanteFormaDePago",
+      "orden": "\"IdComprobanteFormaDePago\"",
+      "columnas": [
+        "IdComprobanteFormaDePago",
+        "IdComprobante",
+        "IdEstado",
+        "IdUsuarioLiquidacion",
+        "FechaHoraLiquidacion",
+        "FechaAfectaSaldo"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.ComprobanteDetalle",
+      "orden": "\"IdComprobanteDetalle\"",
+      "columnas": [
+        "IdComprobanteDetalle",
+        "IdComprobante",
+        "IdEstado"
+      ]
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.LiquidarComprobante_TablaComprobante",
+      "orden": "\"IdInterno\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.LiquidarComprobantes_Servicio_ComprobantesMuevenCuentaInversion",
+      "orden": "\"IdComprobante\""
+    }
+  ]
+}

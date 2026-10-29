@@ -1,0 +1,1 @@
+SELECT "IdPortafolio", "Proposito" FROM "BSCL.Portafolio.BD::POR.Portafolio" WHERE "IdPortafolio" IN (:IdPortafolio);

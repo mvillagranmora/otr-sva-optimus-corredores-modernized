@@ -1,0 +1,1 @@
+SELECT "IdCargoAbonoMovimiento",'ANU' as "Resultado", "IdTipoMovimiento" FROM "BSCL.CuentaInversion.BD::CTA.AnularCargoAbono_SRV_Movimientos_Anular";

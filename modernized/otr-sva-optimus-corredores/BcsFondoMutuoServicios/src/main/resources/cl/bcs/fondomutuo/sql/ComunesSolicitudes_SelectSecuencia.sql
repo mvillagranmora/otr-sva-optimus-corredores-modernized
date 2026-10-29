@@ -1,0 +1,1 @@
+SELECT "BSCL.FondoMutuo.BD.Secuencias::SolicitudAporteRescate".NEXTVAL AS "Id" FROM DUMMY;

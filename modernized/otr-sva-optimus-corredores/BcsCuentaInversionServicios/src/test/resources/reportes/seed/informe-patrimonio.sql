@@ -1,0 +1,7 @@
+-- Extra custody patrimony columns for the daily patrimony report (use with cobro-comision.sql). Synthetic.
+UPDATE "BSCL.Custodia.BD::CUS.PatrimonioCustodia" SET "Nemotecnico" = 'BONO-A', "PorcentajeCobroComision" = 0.0012, "CantidadCustodia" = 1000, "CantidadGarantia" = 0, "PrecioMercadoCustodia" = 1000.5 WHERE "IdPatrimonioCustodia" = 8001;
+UPDATE "BSCL.Custodia.BD::CUS.PatrimonioCustodia" SET "Nemotecnico" = 'BONO-A', "PorcentajeCobroComision" = 0.0012, "CantidadCustodia" = 700, "CantidadGarantia" = 50, "PrecioMercadoCustodia" = 1001.25 WHERE "IdPatrimonioCustodia" = 8002;
+UPDATE "BSCL.Custodia.BD::CUS.PatrimonioCustodia" SET "Nemotecnico" = 'BONO-B', "PorcentajeCobroComision" = 0.0008, "CantidadCustodia" = 300, "CantidadGarantia" = 0, "PrecioMercadoCustodia" = 999.99 WHERE "IdPatrimonioCustodia" = 8003;
+UPDATE "BSCL.Custodia.BD::CUS.PatrimonioCustodia" SET "Nemotecnico" = 'BONO-C', "PorcentajeCobroComision" = 0.0012, "CantidadCustodia" = 500, "CantidadGarantia" = 0, "PrecioMercadoCustodia" = 1000 WHERE "IdPatrimonioCustodia" = 8004;
+UPDATE "BSCL.Custodia.BD::CUS.PatrimonioCustodia" SET "Nemotecnico" = 'BONO-A', "PorcentajeCobroComision" = 0.0012, "CantidadCustodia" = 0, "CantidadGarantia" = 0, "PrecioMercadoCustodia" = 0 WHERE "IdPatrimonioCustodia" = 8005;
+UPDATE "BSCL.Custodia.BD::CUS.PatrimonioCustodia" SET "Nemotecnico" = 'BONO-A', "PorcentajeCobroComision" = 0.0012, "CantidadCustodia" = 100, "CantidadGarantia" = 0, "PrecioMercadoCustodia" = 1002 WHERE "IdPatrimonioCustodia" < 0;

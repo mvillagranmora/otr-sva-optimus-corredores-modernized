@@ -1,0 +1,86 @@
+{
+  "servicio": "CrearIngresoEgreso",
+  "metodo": "call",
+  "config": {
+    "TESORERIA/VALIDAFLUJOCAJAEGRESONEGOCIO": "S",
+    "TESORERIA/VALIDAFLUJOCAJAEGRESOMANUAL": "S"
+  },
+  "secuencias": {
+    "BSCL.Tesoreria.BD.Secuencias::IngresoEgreso": 5000,
+    "BSCL.Tesoreria.BD.Secuencias::IngresoEgresoFormaDePago": 6000
+  },
+  "colaboradores": {
+    "saldoFlujoCaja": [
+      {
+        "IdPortafolio": 8001,
+        "IdMoneda": "CLP",
+        "FechaSaldo": "2025-04-01",
+        "Saldo": 5000
+      }
+    ]
+  },
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 97,
+    "p_IdModulo": "TES",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_IdOrigenProceso": "PAC",
+    "p_EsIngresoAutomatico": "N",
+    "p_EsIngresoUI": "S",
+    "p_FechaMovimiento": "2025-04-01",
+    "p_IngresoEgresoGenerar": [
+      {
+        "NumeroReferencia": 1,
+        "IdTipoMovimiento": "MOVEGR",
+        "IdTipoPersona": "CLI",
+        "IdPersona": 101,
+        "IdPortafolio": 8001,
+        "IdMoneda": "CLP",
+        "Monto": 10000,
+        "FechaLiquidacion": "2025-04-01",
+        "IdConcepto": "VTARV0",
+        "IdTipoPersonaTitularPago": "CLI",
+        "IdPersonaTitularPago": 101,
+        "IdPortafolioTitularPago": 8001,
+        "IdCaja": 0,
+        "Glosa": "aporte de prueba",
+        "FechaOperacion": "2025-04-01",
+        "TitularPago": "S",
+        "MueveCuentaInversion": "S"
+      }
+    ],
+    "p_FormaDePago": [
+      {
+        "NumeroReferencia": 1,
+        "NumeroReferenciaFormaDePago": 1,
+        "IdMedioDePago": "TRA",
+        "IdModalidadDePago": "MODDEP",
+        "IdMoneda": "CLP",
+        "Monto": 10000,
+        "IdCuentaBancariaCorredora": 301,
+        "IdCuentaBancariaSocio": 401,
+        "IdTarjetaBancariaCorredora": 0,
+        "IdTarjetaBancariaSocio": 0
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.IngresoEgreso",
+      "orden": "\"IdIngresoEgreso\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.IngresoEgresoFormaDePago",
+      "orden": "\"IdIngresoEgresoFormaDePago\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearIngresoEgreso_Proceso",
+      "orden": "\"NumeroReferencia\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearIngresoEgresoFormaDePago_Proceso",
+      "orden": "\"NumeroReferenciaFormaDePago\""
+    }
+  ]
+}

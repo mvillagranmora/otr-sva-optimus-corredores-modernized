@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.APV.BD::APV.PerfilComercialAPV" ("IdPerfilComercialAPV", "IdEmpresa", "IdCategoriaInversionista", "IdPerfilComercialAbierto", "IdPerfilComercialActivo", "IdEstado") VALUES (1, 1, 'MODERADO', 'AB', 'AC', 'INA');
+INSERT INTO "BSCL.APV.BD::APV.PerfilComercialAPV" ("IdPerfilComercialAPV", "IdEmpresa", "IdCategoriaInversionista", "IdPerfilComercialAbierto", "IdPerfilComercialActivo", "IdEstado") VALUES (2, 2, 'MODERADO', 'AB', 'AC', 'VIG');

@@ -1,0 +1,1328 @@
+{
+  "area": "strings",
+  "timeZone": "ANY",
+  "note": "StringUtils, Utils string helpers, token alphabets, StreamUtils. Run with -Dfile.encoding=UTF-8.",
+  "cases": [
+    {
+      "id": "STRINGS-001",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": [
+          "a",
+          "b"
+        ]
+      },
+      "out": {
+        "value": "a,b"
+      }
+    },
+    {
+      "id": "STRINGS-002",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": []
+      },
+      "out": {
+        "value": ""
+      }
+    },
+    {
+      "id": "STRINGS-003",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": [
+          "x"
+        ]
+      },
+      "out": {
+        "value": "x"
+      }
+    },
+    {
+      "id": "STRINGS-004",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": [
+          "",
+          "b"
+        ]
+      },
+      "out": {
+        "value": "b"
+      }
+    },
+    {
+      "id": "STRINGS-005",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": [
+          "",
+          "",
+          "c"
+        ]
+      },
+      "out": {
+        "value": "c"
+      }
+    },
+    {
+      "id": "STRINGS-006",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": [
+          "a",
+          "",
+          "c"
+        ]
+      },
+      "out": {
+        "value": "a,,c"
+      }
+    },
+    {
+      "id": "STRINGS-007",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": [
+          "a",
+          "b",
+          ""
+        ]
+      },
+      "out": {
+        "value": "a,b,"
+      }
+    },
+    {
+      "id": "STRINGS-008",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": [
+          null,
+          "b"
+        ]
+      },
+      "out": {
+        "value": "null,b"
+      }
+    },
+    {
+      "id": "STRINGS-009",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": [
+          "a",
+          null
+        ]
+      },
+      "out": {
+        "value": "a,null"
+      }
+    },
+    {
+      "id": "STRINGS-010",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": null,
+        "items": [
+          "a",
+          "b"
+        ]
+      },
+      "out": {
+        "value": "anullb"
+      }
+    },
+    {
+      "id": "STRINGS-011",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": "",
+        "items": [
+          "a",
+          "b"
+        ]
+      },
+      "out": {
+        "value": "ab"
+      }
+    },
+    {
+      "id": "STRINGS-012",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": " | ",
+        "items": [
+          "ñ",
+          "ü",
+          "😀"
+        ]
+      },
+      "out": {
+        "value": "ñ | ü | 😀"
+      }
+    },
+    {
+      "id": "STRINGS-013",
+      "rule": "UTIL-10",
+      "input": {
+        "fn": "join",
+        "sep": ",",
+        "items": null
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "STRINGS-014",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": null
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-015",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": ""
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-016",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": " "
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-017",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": "\t\n\r"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-018",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": " "
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-019",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": " "
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-020",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": "\u0000"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-021",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": "a"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-022",
+      "rule": "UTIL-11",
+      "input": {
+        "fn": "isNullOrBlank",
+        "s": " a "
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-023",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "correo@dominio.cl"
+      },
+      "out": {
+        "value": "c*****@d******.c*"
+      }
+    },
+    {
+      "id": "STRINGS-024",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "a@b.c"
+      },
+      "out": {
+        "value": "a@b.c"
+      }
+    },
+    {
+      "id": "STRINGS-025",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "ab"
+      },
+      "out": {
+        "value": "a*"
+      }
+    },
+    {
+      "id": "STRINGS-026",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "a"
+      },
+      "out": {
+        "value": "a"
+      }
+    },
+    {
+      "id": "STRINGS-027",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": ""
+      },
+      "out": {
+        "value": ""
+      }
+    },
+    {
+      "id": "STRINGS-028",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": null
+      },
+      "out": {
+        "value": ""
+      }
+    },
+    {
+      "id": "STRINGS-029",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "sin-arroba"
+      },
+      "out": {
+        "value": "s*********"
+      }
+    },
+    {
+      "id": "STRINGS-030",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "x.y@z"
+      },
+      "out": {
+        "value": "x.y@z"
+      }
+    },
+    {
+      "id": "STRINGS-031",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "user.name@sub.domain.com"
+      },
+      "out": {
+        "value": "u********@s*********.c**"
+      }
+    },
+    {
+      "id": "STRINGS-032",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "@x.cl"
+      },
+      "out": {
+        "value": "@x.c*"
+      }
+    },
+    {
+      "id": "STRINGS-033",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "a@b"
+      },
+      "out": {
+        "value": "a@b"
+      }
+    },
+    {
+      "id": "STRINGS-034",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "ñandú@correo.cl"
+      },
+      "out": {
+        "value": "ñ****@c*****.c*"
+      }
+    },
+    {
+      "id": "STRINGS-035",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "a@b.c."
+      },
+      "out": {
+        "value": "a@b**."
+      }
+    },
+    {
+      "id": "STRINGS-036",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "😀x@y.cl"
+      },
+      "out": {
+        "utf16": [
+          "d83d",
+          "002a",
+          "002a",
+          "0040",
+          "0079",
+          "002e",
+          "0063",
+          "002a"
+        ]
+      }
+    },
+    {
+      "id": "STRINGS-037",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "a.b.c"
+      },
+      "out": {
+        "value": "a**.c"
+      }
+    },
+    {
+      "id": "STRINGS-038",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": "@"
+      },
+      "out": {
+        "value": "@"
+      }
+    },
+    {
+      "id": "STRINGS-039",
+      "rule": "UTIL-12",
+      "input": {
+        "fn": "obfuscateEmail",
+        "email": ".."
+      },
+      "out": {
+        "value": ".."
+      }
+    },
+    {
+      "id": "STRINGS-040",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "correo@dominio.cl"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-041",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@b.c"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-042",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@b.co"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-043",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a.b@c.cl"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-044",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a+b@c.cl"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-045",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a_b-c@d-e.cl"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-046",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a..b@c.cl"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-047",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": ".a@b.cl"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-048",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@b..cl"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-049",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@-b.cl"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-050",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@b.c1"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-051",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "ñ@b.cl"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-052",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@b.CL"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-053",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "A@B.COM"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-054",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@b"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-055",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a b@c.cl"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-056",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": ""
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-057",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@b.museum"
+      },
+      "out": {
+        "value": true
+      }
+    },
+    {
+      "id": "STRINGS-058",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@[1.2.3.4]"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-059",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": "a@b.c-d"
+      },
+      "out": {
+        "value": false
+      }
+    },
+    {
+      "id": "STRINGS-060",
+      "rule": "UTIL-13",
+      "input": {
+        "fn": "emailValidate",
+        "email": null
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "STRINGS-061",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "codificarEvento",
+        "idEvento": "123"
+      },
+      "out": {
+        "value": "ICAgICAgIDEyMw=="
+      }
+    },
+    {
+      "id": "STRINGS-062",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "codificarEvento",
+        "idEvento": ""
+      },
+      "out": {
+        "value": "ICAgICAgICAgIA=="
+      }
+    },
+    {
+      "id": "STRINGS-063",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "codificarEvento",
+        "idEvento": "1234567890"
+      },
+      "out": {
+        "value": "MTIzNDU2Nzg5MA=="
+      }
+    },
+    {
+      "id": "STRINGS-064",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "codificarEvento",
+        "idEvento": "12345678901"
+      },
+      "out": {
+        "value": "MTIzNDU2Nzg5MDE="
+      }
+    },
+    {
+      "id": "STRINGS-065",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "codificarEvento",
+        "idEvento": " 12 "
+      },
+      "out": {
+        "value": "ICAgICAgIDEyIA=="
+      }
+    },
+    {
+      "id": "STRINGS-066",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "codificarEvento",
+        "idEvento": "ñ"
+      },
+      "out": {
+        "value": "ICAgICAgICAgw7E="
+      }
+    },
+    {
+      "id": "STRINGS-067",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "codificarEvento",
+        "idEvento": "abc def"
+      },
+      "out": {
+        "value": "ICAgYWJjIGRlZg=="
+      }
+    },
+    {
+      "id": "STRINGS-068",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "codificarEvento",
+        "idEvento": null
+      },
+      "out": {
+        "value": "ICAgICAgbnVsbA=="
+      }
+    },
+    {
+      "id": "STRINGS-069",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": "ICAgICAgIDEyMw=="
+      },
+      "out": {
+        "value": "123"
+      }
+    },
+    {
+      "id": "STRINGS-070",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": "ICAgICAgIDEyMw"
+      },
+      "out": {
+        "value": "123"
+      }
+    },
+    {
+      "id": "STRINGS-071",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": "MTIzNDU2Nzg5MDE="
+      },
+      "out": {
+        "value": "12345678901"
+      }
+    },
+    {
+      "id": "STRINGS-072",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": "!!!"
+      },
+      "out": {
+        "value": ""
+      }
+    },
+    {
+      "id": "STRINGS-073",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": ""
+      },
+      "out": {
+        "value": ""
+      }
+    },
+    {
+      "id": "STRINGS-074",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": "  YWJj  "
+      },
+      "out": {
+        "value": "abc"
+      }
+    },
+    {
+      "id": "STRINGS-075",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": "ICAgICAgICAgw7E="
+      },
+      "out": {
+        "value": "ñ"
+      }
+    },
+    {
+      "id": "STRINGS-076",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": "YQ"
+      },
+      "out": {
+        "value": "a"
+      }
+    },
+    {
+      "id": "STRINGS-077",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": "Y"
+      },
+      "out": {
+        "value": ""
+      }
+    },
+    {
+      "id": "STRINGS-078",
+      "rule": "UTIL-14",
+      "input": {
+        "fn": "decodificarEvento",
+        "codificado": null
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "STRINGS-079",
+      "rule": "UTIL-15",
+      "input": {
+        "fn": "appendKeys",
+        "llaves": [
+          "a",
+          "b"
+        ]
+      },
+      "out": {
+        "value": "a-b-"
+      }
+    },
+    {
+      "id": "STRINGS-080",
+      "rule": "UTIL-15",
+      "input": {
+        "fn": "appendKeys",
+        "llaves": []
+      },
+      "out": {
+        "value": ""
+      }
+    },
+    {
+      "id": "STRINGS-081",
+      "rule": "UTIL-15",
+      "input": {
+        "fn": "appendKeys",
+        "llaves": [
+          "a"
+        ]
+      },
+      "out": {
+        "value": "a-"
+      }
+    },
+    {
+      "id": "STRINGS-082",
+      "rule": "UTIL-15",
+      "input": {
+        "fn": "appendKeys",
+        "llaves": [
+          "a",
+          null
+        ]
+      },
+      "out": {
+        "value": "a-null-"
+      }
+    },
+    {
+      "id": "STRINGS-083",
+      "rule": "UTIL-15",
+      "input": {
+        "fn": "appendKeys",
+        "llaves": [
+          "",
+          ""
+        ]
+      },
+      "out": {
+        "value": "--"
+      }
+    },
+    {
+      "id": "STRINGS-084",
+      "rule": "UTIL-15",
+      "input": {
+        "fn": "appendKeys",
+        "llaves": [
+          "x-y",
+          "z"
+        ]
+      },
+      "out": {
+        "value": "x-y-z-"
+      }
+    },
+    {
+      "id": "STRINGS-085",
+      "rule": "UTIL-15",
+      "input": {
+        "fn": "appendKeys",
+        "llaves": null
+      },
+      "out": {
+        "throws": "java.lang.NullPointerException"
+      }
+    },
+    {
+      "id": "STRINGS-086",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateToken.length",
+        "size": -5
+      },
+      "out": {
+        "value": 0
+      }
+    },
+    {
+      "id": "STRINGS-087",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateAlphanumericToken.length",
+        "size": -5
+      },
+      "out": {
+        "value": 0
+      }
+    },
+    {
+      "id": "STRINGS-088",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateToken.length",
+        "size": 0
+      },
+      "out": {
+        "value": 0
+      }
+    },
+    {
+      "id": "STRINGS-089",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateAlphanumericToken.length",
+        "size": 0
+      },
+      "out": {
+        "value": 0
+      }
+    },
+    {
+      "id": "STRINGS-090",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateToken.length",
+        "size": 1
+      },
+      "out": {
+        "value": 1
+      }
+    },
+    {
+      "id": "STRINGS-091",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateAlphanumericToken.length",
+        "size": 1
+      },
+      "out": {
+        "value": 1
+      }
+    },
+    {
+      "id": "STRINGS-092",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateToken.length",
+        "size": 5
+      },
+      "out": {
+        "value": 5
+      }
+    },
+    {
+      "id": "STRINGS-093",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateAlphanumericToken.length",
+        "size": 5
+      },
+      "out": {
+        "value": 5
+      }
+    },
+    {
+      "id": "STRINGS-094",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateToken.length",
+        "size": 64
+      },
+      "out": {
+        "value": 64
+      }
+    },
+    {
+      "id": "STRINGS-095",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateAlphanumericToken.length",
+        "size": 64
+      },
+      "out": {
+        "value": 64
+      }
+    },
+    {
+      "id": "STRINGS-096",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateToken.alphabet",
+        "size": 200000
+      },
+      "out": {
+        "value": [
+          "!",
+          "#",
+          "$",
+          "%",
+          "&",
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "=",
+          "?",
+          "@",
+          "B",
+          "C",
+          "D",
+          "F",
+          "G",
+          "H",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z",
+          "b",
+          "c",
+          "d",
+          "f",
+          "g",
+          "h",
+          "j",
+          "k",
+          "l",
+          "m",
+          "n",
+          "p",
+          "q",
+          "r",
+          "s",
+          "t",
+          "v",
+          "w",
+          "x",
+          "y",
+          "z"
+        ]
+      }
+    },
+    {
+      "id": "STRINGS-097",
+      "rule": "UTIL-16",
+      "input": {
+        "fn": "generateAlphanumericToken.alphabet",
+        "size": 200000
+      },
+      "out": {
+        "value": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "f",
+          "g",
+          "h",
+          "i",
+          "j",
+          "k",
+          "l",
+          "m",
+          "n",
+          "o",
+          "p",
+          "q",
+          "r",
+          "s",
+          "t",
+          "u",
+          "v",
+          "w",
+          "x",
+          "y",
+          "z"
+        ]
+      }
+    },
+    {
+      "id": "STRINGS-098",
+      "rule": "UTIL-17",
+      "input": {
+        "fn": "parallelFlatmap",
+        "t": [
+          "a",
+          "b",
+          "c"
+        ],
+        "s": [
+          1,
+          2
+        ]
+      },
+      "out": {
+        "value": [
+          "a1",
+          "a2",
+          "b1",
+          "b2",
+          "c1",
+          "c2"
+        ]
+      }
+    },
+    {
+      "id": "STRINGS-099",
+      "rule": "UTIL-17",
+      "input": {
+        "fn": "parallelFlatmap",
+        "t": [],
+        "s": [
+          1,
+          2
+        ]
+      },
+      "out": {
+        "value": []
+      }
+    },
+    {
+      "id": "STRINGS-100",
+      "rule": "UTIL-17",
+      "input": {
+        "fn": "parallelFlatmap",
+        "t": [
+          "a"
+        ],
+        "s": []
+      },
+      "out": {
+        "value": []
+      }
+    },
+    {
+      "id": "STRINGS-101",
+      "rule": "UTIL-17",
+      "input": {
+        "fn": "parallelFlatmap",
+        "t": "0..299",
+        "s": [
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      "out": {
+        "value": {
+          "size": 900,
+          "first": [
+            "0x",
+            "0y",
+            "0z",
+            "1x",
+            "1y",
+            "1z",
+            "2x"
+          ],
+          "last": "299z",
+          "sha256": "91e013b8d429ebb2758dc77d7f5c431ff087a97b9ed5a8345f3ac563da98351d"
+        }
+      }
+    }
+  ]
+}

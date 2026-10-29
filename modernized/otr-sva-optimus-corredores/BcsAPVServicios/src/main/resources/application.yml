@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: apv-service
+  datasource:
+    url: ${HANA_URL}
+    username: ${HANA_USER}
+    password: ${HANA_PASSWORD}
+    driver-class-name: com.sap.db.jdbc.Driver
+
+server:
+  port: ${SERVER_PORT:8083}
+
+services:
+  # Platform JavaCall router (collaborators of other modules, see ColaboradoresJavaCall). NO default: the deployment must say where it is.
+  javacall:
+    url: ${JAVACALL_URL}
+    connect-timeout: PT2S
+    read-timeout: PT60S
+  # Shared secret of the service-to-service calls (TokenInternoFilter, fail closed): empty means every request except the health probes is rejected.
+  internal-token: ${INTERNAL_TOKEN:}
+
+apv:
+  archivos:
+    # Base folder of every file the module writes (AlmacenArchivosLocal confines the writes to it). Empty: file output disabled.
+    base-dir: ${APV_ARCHIVOS_DIR:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

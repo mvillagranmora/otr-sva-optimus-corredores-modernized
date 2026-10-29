@@ -1,0 +1,68 @@
+server:
+  port: 8106
+
+spring:
+  application:
+    name: bcs-job-manager
+
+  # No credentials hardcoded — sourced from environment variables
+  datasource:
+    jobmanager:
+      jdbc-url: ${HANA_URL}
+      username: ${HANA_USER}
+      password: ${HANA_PASSWORD}
+      driver-class-name: com.sap.db.jdbc.Driver
+      hikari:
+        auto-commit: false
+        connection-test-query: SELECT 1 FROM dummy
+        maximum-pool-size: 10
+    jobs:
+      jdbc-url: ${HANA_URL}
+      username: ${HANA_USER}
+      password: ${HANA_PASSWORD}
+      driver-class-name: com.sap.db.jdbc.Driver
+      hikari:
+        auto-commit: false
+        connection-test-query: SELECT 1 FROM dummy
+        maximum-pool-size: 20
+
+  # Disable Spring Boot auto-configuration for a single DataSource
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+jobmanager:
+  # Cluster node name — override per deployment
+  node: ${JM_NODE:LOCAL}
+  # Only used to register the node in BAT.Nodos; NOT a selection filter (see tipos-habilitados)
+  task-type: ${JM_TASK_TYPE:}
+  # INERT BY DEFAULT: IdTipoPrograma values this dispatcher selects and posts. Empty = does nothing.
+  # Production activation is ONE global decision (stop the legacy Job Manager of the node first); see README.
+  # Env: JM_TIPOS_HABILITADOS=TIPO_A,TIPO_B
+  tipos-habilitados: ${JM_TIPOS_HABILITADOS:}
+  # Destination (base URL of the job module) by IdTipoPrograma or by class package prefix (longest prefix wins).
+  # Dotted keys need brackets, e.g.:  "[cl.bcs.tesoreria]": http://bcs-tesoreria-jobs:8101
+  destinos: {}
+  # Shared secret sent as X-Internal-Token to /internal/job-call
+  internal-token: ${INTERNAL_TOKEN:}
+  connect-timeout-ms: 2000
+  # The job runs synchronously inside the call; a read timeout is NOT a job failure (the module owns the state)
+  read-timeout-ms: ${JM_READ_TIMEOUT_MS:1800000}
+  queue-capacity: 100
+  shutdown-wait-ms: 30000
+  agenda:
+    # Diary (creates programs from BAT.Agenda): OFF, owned by the legacy manager until the global cutover.
+    # Needs mode=AGENDA as well.
+    habilitada: false
+  # Optional process identifier for heartbeat table
+  process-id: ${JM_PROCESS_ID:}
+  # Poll interval in milliseconds
+  poll-interval-ms: ${JM_POLL_INTERVAL_MS:1000}
+  # Thread pool size for concurrent job execution
+  concurrent-jobs: ${JM_CONCURRENT_JOBS:4}
+  # Mode: PROGRAMA (job queue) or AGENDA (diary scheduler)
+  mode: ${JM_MODE:PROGRAMA}
+
+logging:
+  level:
+    cl.bcs.jobmanager: INFO

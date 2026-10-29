@@ -1,0 +1,1 @@
+INSERT INTO "BSCL.APV.BD::TRA.Traspaso" ("IdTraspaso","IdContratoSAAPV","IdEmpresa","TipoMovimiento","RazonRetiro","FechaIngreso","FechaEgreso","FechaModificacion","CodigoTipoTraspaso","IdCliente","IdPersona","IdEstado","Canal","CierreSolicitud") VALUES (124,500,1,'EGRESO','TRA','2025-03-01','0001-01-01','0001-01-01','TOT',7000,1765331,'PDI','OPT','2025-03-15');
