@@ -1,0 +1,143 @@
+{
+  "servicio": "ManejadorSolicitudAporteRescate",
+  "ref": "Programado y Overnight: las pasadas reales devuelven contadores 2 y 3 con sus mensajes (el contador total es la suma; los mensajes de la pasada real se pierden)",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_IdTipoCanalIngreso": "OPT",
+    "p_FormaPagoSpot": [],
+    "p_SolicitudesAporteRescateProgramado": [
+      {
+        "IdInterno": 91
+      }
+    ],
+    "p_SolicitudAporteOvernight": [
+      {
+        "IdInterno": 92
+      }
+    ]
+  },
+  "colaboradores": {
+    "CrearSolicitudAporteRescateProgramado": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 91,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "N"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 2,
+            "P_OUT_MENSAJES": [
+              {
+                "id": 1,
+                "tipo": "ERROR",
+                "codigo": "X_P1",
+                "descripcion": "p1"
+              },
+              {
+                "id": 2,
+                "tipo": "ERROR",
+                "codigo": "X_P2",
+                "descripcion": "p2"
+              }
+            ],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 91,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "CrearSolicitudAporteOvernight": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 92,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "N"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 3,
+            "P_OUT_MENSAJES": [
+              {
+                "id": 3,
+                "tipo": "ERROR",
+                "codigo": "X_O1",
+                "descripcion": "o1"
+              },
+              {
+                "id": 4,
+                "tipo": "ERROR",
+                "codigo": "X_O2",
+                "descripcion": "o2"
+              },
+              {
+                "id": 5,
+                "tipo": "ERROR",
+                "codigo": "X_O3",
+                "descripcion": "o3"
+              }
+            ],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 92,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate",
+      "orden": "\"IdBloqueoSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.InterfazAgf",
+      "orden": "\"IdInterfazAgf\""
+    }
+  ]
+}

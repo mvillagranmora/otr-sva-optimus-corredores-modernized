@@ -1,0 +1,490 @@
+# Security remediation patch — otr-sva-optimus-corredores  (round 2)
+# Apply from workspace root: patch -p1 -d legacy/otr-sva-optimus-corredores < analysis/otr-sva-optimus-corredores/security_remediation.patch
+#
+# Findings covered: SEC-001 SEC-002 SEC-012 SEC-013 SEC-014 SEC-015 SEC-016 SEC-020 SEC-022 SEC-023 SEC-024 SEC-025
+# Credential findings (SEC-003 through SEC-011): see security_remediation.local.patch (gitignored; not for sharing)
+# Findings requiring manual JAR/dependency replacement (SEC-017 SEC-018 SEC-019 SEC-021): see SECURITY_FINDINGS.md Remediation Log
+#
+# PREREQUISITE for SEC-012 (BCrypt):
+#   1. Add to build.gradle:  implementation 'org.mindrot:jbcrypt:0.4'
+#   2. Add to each modified file: import org.mindrot.jbcrypt.BCrypt;
+#   Existing SHA-256 hashes in ACC.Usuario.Clave are preserved during migration; CrearSesion
+#   falls back to SHA-256 for hashes not starting with "$2".
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-001: Remove unauthenticated OS command execution; validate DB-derived Ambiente
+# CWE-78 — Critical — WebAdmin.java:78-121
+# (a) Removes the 'command' action that passed raw HTTP params to Runtime.exec().
+# (b) Validates Ambiente (fetched from DB via IdEmpresa) against alphanumeric/hyphen
+#     pattern before it is concatenated into systemctl/path strings in the remaining
+#     three actions (restart, tomcatlog, joblog). Closes the second-order injection path
+#     identified in verification round 1.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/BcsJobManager/src/cl/bcs/scheduler/web/WebAdmin.java
++++ b/BSCL/Plataforma/JAVA/BcsJobManager/src/cl/bcs/scheduler/web/WebAdmin.java
+@@ -76,7 +76,12 @@ public class WebAdmin extends HttpServlet {
+ 			int	   IdEmpresa=Integer.parseInt(request.getParameter("IdEmpresa"));
+ 			String action=request.getParameter("Action");
+ 			String Ambiente=Utils.getConfiguracion(conn, Utils.getSchema(), IdEmpresa, "PLA.Ambiente");
++			if (Ambiente == null || !Ambiente.matches("[A-Za-z0-9_-]*")) {
++				response.setStatus(400);
++				response.getOutputStream().println("Error: invalid environment");
++				conn.close();
++				return;
++			}
+ 			String AppDir="/home/optimus"+Ambiente;
+@@ -117,14 +123,6 @@ public class WebAdmin extends HttpServlet {
+ 				out+="-------------- JOBS   ---------------------\n";
+ 				out+=Utils.startProcess("find "+AppDir+"/jobm/log* -mmin +500 -exec tail -n500 {} \\;",AppDir, 30*1000); //30 segs
+ 				out+="--------------------------------------------";
+-				response.getOutputStream().println(out);
+-			}else if (action.equalsIgnoreCase("command")) {
+-				String cmd=request.getParameter("exe");
+-				String path=request.getParameter("path");
+-				if (cmd!=null && path!=null) {
+-					String out=Utils.startProcess(cmd,path, 2*60*1000);//2 mins
+-					response.getOutputStream().println(out);
+-				}else {
+-					response.getOutputStream().println("Error: invalid command parameters");
+-				}
++				response.getOutputStream().println(out);
+ 			}else {
+ 				response.getOutputStream().println("Error:"+action);
+ 			}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-002: Add authentication gate to JOBMANAGER web.xml
+# CWE-284 — Critical — ANT/config/Jobmanager.xml
+# (a) Adds explicit <servlet>/<servlet-mapping> so the security-constraint applies
+#     unambiguously in TomEE — resolves the @WebServlet annotation + web.xml
+#     interaction edge-case identified in verification round 1.
+# (b) Adds <transport-guarantee>CONFIDENTIAL</transport-guarantee> so BASIC auth
+#     credentials cannot be transmitted in cleartext.
+# Team must configure a TomEE realm (JDBC, LDAP, or Kerberos) and assign users to
+# role ADMIN before deploying.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/ANT/config/Jobmanager.xml
++++ b/BSCL/Plataforma/JAVA/ANT/config/Jobmanager.xml
+@@ -9,4 +9,26 @@
+     <welcome-file>default.htm</welcome-file>
+     <welcome-file>default.jsp</welcome-file>
+   </welcome-file-list>
++  <servlet>
++    <servlet-name>WebAdmin</servlet-name>
++    <servlet-class>cl.bcs.scheduler.web.WebAdmin</servlet-class>
++  </servlet>
++  <servlet-mapping>
++    <servlet-name>WebAdmin</servlet-name>
++    <url-pattern>/admin</url-pattern>
++  </servlet-mapping>
++  <security-constraint>
++    <web-resource-collection>
++      <web-resource-name>Admin</web-resource-name>
++      <url-pattern>/admin</url-pattern>
++    </web-resource-collection>
++    <auth-constraint>
++      <role-name>ADMIN</role-name>
++    </auth-constraint>
++    <user-data-constraint>
++      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
++    </user-data-constraint>
++  </security-constraint>
++  <login-config>
++    <auth-method>BASIC</auth-method>
++    <realm-name>JobManagerAdmin</realm-name>
++  </login-config>
++  <security-role>
++    <role-name>ADMIN</role-name>
++  </security-role>
+ </web-app>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-003 through SEC-011: credential remediation
+# CWE-798 — Critical/High — multiple files
+# Raw credential values appear on '-' lines in the local patch only.
+# SEC-003: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+# SEC-004: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+# SEC-005: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+# SEC-006: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+# SEC-007: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+# SEC-008: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+# SEC-009: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+# SEC-010: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+# SEC-011: credential remediation — hunk in security_remediation.local.patch (gitignored; not for sharing)
+#
+# SEC-003 git history purge (run before or after credential rotation, must be done):
+#   git rm --cached connections.properties
+#   git filter-repo --path connections.properties --invert-paths
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-012: Replace unsalted SHA-256 with BCrypt (cost 12)
+# CWE-916 — High — CrearSesion.java:277, ActualizarUsuario.java:382
+# Backward-compat: login path detects BCrypt ($2* prefix) vs SHA-256 (legacy).
+# Verified RESOLVES in round 1.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/BcsPlataformaServicios/src/cl/bcs/plataforma/acc/ActualizarUsuario.java
++++ b/BSCL/Plataforma/JAVA/BcsPlataformaServicios/src/cl/bcs/plataforma/acc/ActualizarUsuario.java
+@@ -379,7 +379,7 @@ public class ActualizarUsuario extends JavaCall {
+ 			}
+
+ 			if(!in.p_Clave.equals("")){
+-				in.p_Clave = Hashing.sha256().newHasher().putString(in.p_Clave, Charsets.UTF_8).hash().toString().toUpperCase();
++				in.p_Clave = BCrypt.hashpw(in.p_Clave, BCrypt.gensalt(12));
+
+--- a/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/CrearSesion.java
++++ b/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/CrearSesion.java
+@@ -274,8 +274,14 @@ public class CrearSesion extends HttpServlet {
+
+ 			//clave correcta?
+-			String claveHash = DigestUtils.sha256Hex(claveUsuario.getBytes()).toUpperCase();
+-			if (!claveHash.equals(u.get(0).Clave)) {
++			String storedClave = u.get(0).Clave;
++			boolean claveValida;
++			if (storedClave != null && storedClave.startsWith("$2")) {
++				claveValida = BCrypt.checkpw(claveUsuario, storedClave);
++			} else {
++				claveValida = DigestUtils.sha256Hex(claveUsuario.getBytes()).toUpperCase().equals(storedClave);
++			}
++			if (!claveValida) {
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-013: Parameterize SQL — ConnectorsOrders (3 injection points)
+# CWE-89 — High — ConnectorsOrders.java:165, 399-401, 931-934
+# Round 2 change: adds nombreTabla pattern validation before the INSERT so that
+# table name concatenation is guarded against non-alphanumeric values.
+# addLog and existAssignAutomaticActive verified RESOLVES in round 1.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Orden/JAVA/BcsJobOrders/src/cl/bcs/scheduler/orders/util/connectorsorders/ConnectorsOrders.java
++++ b/BSCL/Orden/JAVA/BcsJobOrders/src/cl/bcs/scheduler/orders/util/connectorsorders/ConnectorsOrders.java
+@@ -161,9 +161,15 @@ public class ConnectorsOrders {
+ 			try (ResultSet rs = st.executeQuery(sql);) {
+ 				String nombreParametro = "";
+ 				String valor = "";
+ 				while (rs.next()) {
+ 					nombreParametro = rs.getString("NombreParametro");
+ 					valor = rs.getString("Valor");
+-					anotherSt.executeUpdate(
+-							"INSERT INTO " + nombreTabla + " values ('" + nombreParametro + "','" + valor + "')");
++					if (nombreTabla == null || !nombreTabla.matches("[A-Za-z0-9_.#]+")) {
++						throw new java.sql.SQLException("Rejected unsafe table name");
++					}
++					try (java.sql.PreparedStatement insertSt = connection.prepareStatement(
++							"INSERT INTO " + nombreTabla + " values (?,?)")) {
++						insertSt.setString(1, nombreParametro);
++						insertSt.setString(2, valor);
++						insertSt.executeUpdate();
++					}
+ 				}
+@@ -395,14 +401,21 @@ public class ConnectorsOrders {
+ 	public void addLog(final long idTarea, final String estadoProceso, final String nombreProceso,
+ 			Connection connection) throws SQLException {
+-		final String query = "call \"BSCL.Plataforma.BD.Servicios::BAT.AgregarLogProgramas\"(1,1,'ORD', 'INFORMATIVO', '"
+-				+ estadoProceso + "' , 'Asignación Automática Cronológica'," + idTarea + ",'Asignación Crónológica',"
+-				+ idTarea + ",'" + estadoProceso + "','" + nombreProceso + "',?,?,?,?)";
+-
+ 		final String sql = "call \"BSCL.Plataforma.BD.Servicios::BAT.AgregarLogProgramas\"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+-		Logger.getLogger(ConnectorsOrders.class.getName()).log(Level.INFO, query);
++		Logger.getLogger(ConnectorsOrders.class.getName()).log(Level.INFO, "addLog idTarea={0}", idTarea);
+
+ 		try {
+-			Connection con = connection;
+-			try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(query);) {
+-
+-			}
++			try (java.sql.CallableStatement cs = connection.prepareCall(sql)) {
++				cs.setInt(1, 1);
++				cs.setInt(2, 1);
++				cs.setString(3, "ORD");
++				cs.setString(4, "INFORMATIVO");
++				cs.setString(5, estadoProceso);
++				cs.setString(6, "Asignación Automática Cronológica");
++				cs.setLong(7, idTarea);
++				cs.setString(8, "Asignación Crónológica");
++				cs.setLong(9, idTarea);
++				cs.setString(10, estadoProceso);
++				cs.setString(11, nombreProceso);
++				cs.registerOutParameter(12, java.sql.Types.VARCHAR);
++				cs.registerOutParameter(13, java.sql.Types.VARCHAR);
++				cs.registerOutParameter(14, java.sql.Types.VARCHAR);
++				cs.registerOutParameter(15, java.sql.Types.VARCHAR);
++				cs.execute();
++			}
+ 		} catch (SQLException e) {
+@@ -929,10 +942,12 @@ public class ConnectorsOrders {
+ 	public int existAssignAutomaticActive(int IdLibroOrdenes, String TipoPrograma, Connection connection)
+ 			throws SQLException {
+-		final String query = "select count(1) from \"BSCL.Plataforma.BD.Vistas::BAT.ConsultarParametrosProgramas\" where   \"Valor\" = '"
+-				+ IdLibroOrdenes
+-				+ "' and \"NombreParametro\" = 'IdLibroOrdenes' and \"idEstado\" = 'PEN' or \"idEstado\" = 'ASI' and \"IdTipoPrograma\" = '"
+-				+ TipoPrograma + "' ";
++		final String query = "select count(1) from \"BSCL.Plataforma.BD.Vistas::BAT.ConsultarParametrosProgramas\" where \"Valor\" = ? and \"NombreParametro\" = 'IdLibroOrdenes' and (\"idEstado\" = 'PEN' or (\"idEstado\" = 'ASI' and \"IdTipoPrograma\" = ?))";
+ 		Logger.getLogger(ConnectorsOrders.class.getName()).log(Level.INFO, query);
+ 		try {
+-			Connection con = connection;
+-			try (Statement st = con.createStatement()) {
+-				try (ResultSet rs = st.executeQuery(query)) {
++			try (java.sql.PreparedStatement st = connection.prepareStatement(query)) {
++				st.setInt(1, IdLibroOrdenes);
++				st.setString(2, TipoPrograma);
++				try (ResultSet rs = st.executeQuery()) {
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-014: Remove FTP credential from job log; remove hardcoded test credentials
+# CWE-532 / CWE-798 — High — ExtractorArchivosJob.java:47-48, 62
+# Round 2: also moves hardcoded test-mode FTP credentials (sftpusu1/sftpusu1)
+# to env-vars — these were identified as still-live CWE-798 in round 1.
+# The remaining raw values for the isTestMode block are in security_remediation.local.patch.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/BcsPlataformaJobs/src/cl/bcs/plataforma/jobs/ExtractorArchivosJob.java
++++ b/BSCL/Plataforma/JAVA/BcsPlataformaJobs/src/cl/bcs/plataforma/jobs/ExtractorArchivosJob.java
+@@ -44,8 +44,8 @@ public class ExtractorArchivosJob extends BcsJob {
+ 		if (isTestMode) {
+ 			idEmpresa = 1L;
+-			ftpHostname = "161.238.90.38";
+-			ftpUser = "sftpusu1";
+-			ftpPassword = "sftpusu1";
++			ftpHostname = System.getenv("FTP_TEST_HOST");
++			ftpUser = System.getenv("FTP_TEST_USER");
++			ftpPassword = System.getenv("FTP_TEST_PASSWORD");
+ 			schema = "BSCL";
+@@ -60,7 +60,7 @@ public class ExtractorArchivosJob extends BcsJob {
+ 			schema = this.getParam("schema");
+ 			folder = this.getParam("folder");
+ 		}
+-		log.write("CONECTANDO A :" + ftpHostname + ":"  + ftpUser + ":" + ftpPassword);
++		log.write("CONECTANDO A :" + ftpHostname + ":" + ftpUser + ":****");
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-015: Suppress verbose error messages in FileDownload
+# CWE-209 — Medium — FileDownload.java:149, 156
+# Verified RESOLVES in round 1.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/FileDownload.java
++++ b/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/FileDownload.java
+@@ -146,12 +146,12 @@ public class FileDownload extends HttpServlet {
+ 				} catch(Exception e) {
+ 					response.setStatus(404);
+-					response.getOutputStream().print("404 - FILE NOT FOUND AT " + sfile + " ERROR: " + e.getMessage());
++					response.getOutputStream().print("404 - File Not Found");
+ 					response.getOutputStream().flush();
+ 					return;
+ 				}
+
+ 				if(file.exists()==false || file.isDirectory() || !file.getCanonicalPath().startsWith(normalizedBase)) {
+ 					response.setStatus(404);
+-					response.getOutputStream().print("404 - FILE NOT FOUND AT " + sfile);
++					response.getOutputStream().print("404 - File Not Found");
+ 					response.getOutputStream().flush();
+ 					return;
+ 				}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-016: Upgrade Log4j 2.11.2 → 2.17.1 (Log4Shell CVE-2021-44228 CVSS 10.0)
+# CWE-1035 — Critical — GRADLE/JOBMAN.gradle:146-147
+# Verified RESOLVES in round 1.
+# PREREQUISITE: download log4j-api-2.17.1.jar and log4j-core-2.17.1.jar and
+# place them in BSCL/Plataforma/JAVA/libs/ before applying.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/GRADLE/JOBMAN.gradle
++++ b/BSCL/Plataforma/JAVA/GRADLE/JOBMAN.gradle
+@@ -144,8 +144,8 @@ dependencies {
+
+ 	// nuevo sistema de logs
+-	compile files(ruta + '/BSCL/Plataforma/JAVA/libs/log4j-api-2.11.2.jar')
+-    compile files(ruta + '/BSCL/Plataforma/JAVA/libs/log4j-core-2.11.2.jar')
++	compile files(ruta + '/BSCL/Plataforma/JAVA/libs/log4j-api-2.17.1.jar')
++	compile files(ruta + '/BSCL/Plataforma/JAVA/libs/log4j-core-2.17.1.jar')
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-020: Fix path traversal bypass via startsWith without trailing separator
+# CWE-22 — Medium — FileDownload.java:116-154
+# Verified RESOLVES in round 1.
+# Note: SEC-015 and SEC-020 both modify FileDownload.java at non-overlapping offsets;
+# apply them as a single pass (they are shown separately for clarity).
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/FileDownload.java
++++ b/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/FileDownload.java
+@@ -114,8 +114,9 @@ public class FileDownload extends HttpServlet {
+ 			String sfile=request.getParameter("file");
+ 			if (sfile==null) {
+ 				response.setStatus(404);
+ 				response.getOutputStream().print("404 - INVALID FILE");
+ 				response.getOutputStream().flush();
+ 				return;
+ 			}
+ 			String rutaCompleta = rutaBase + sfile;
++			String normalizedBase = rutaBase.endsWith(File.separator) ? rutaBase : rutaBase + File.separator;
+
+ 			//Generar zip
+ 			String zipped = request.getParameter("zipped");
+@@ -121,7 +122,7 @@ public class FileDownload extends HttpServlet {
+             String nuevaRuta = obtenerRutaZip(zipped, rutaCompleta);
+
+ 			File file = new File(nuevaRuta);
+-			if(file.exists()==false || file.isDirectory() || !file.getCanonicalPath().startsWith(rutaBase)) {
++			if(file.exists()==false || file.isDirectory() || !file.getCanonicalPath().startsWith(normalizedBase)) {
+@@ -136,7 +137,7 @@ public class FileDownload extends HttpServlet {
+ 					file = new File(nuevaRuta);
+
+-					if(file.exists()==false || file.isDirectory() || !file.getCanonicalPath().startsWith(rutaBase)) {
++					if(file.exists()==false || file.isDirectory() || !file.getCanonicalPath().startsWith(normalizedBase)) {
+@@ -152,7 +153,7 @@ public class FileDownload extends HttpServlet {
+ 				}
+
+-			if(file.exists()==false || file.isDirectory() || !file.getCanonicalPath().startsWith(rutaBase)) {
++			if(file.exists()==false || file.isDirectory() || !file.getCanonicalPath().startsWith(normalizedBase)) {
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-022: Upgrade commons-fileupload 1.3.3 → 1.5 (CVE-2023-24998 DoS)
+# CWE-1035 — Medium — build.gradle:132
+# Verified RESOLVES in round 1.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/build.gradle
++++ b/build.gradle
+@@ -130,7 +130,7 @@ dependencies {
+     implementation 'commons-dbutils:commons-dbutils:1.6'
+     implementation 'commons-digester:commons-digester:2.1'
+-    implementation 'commons-fileupload:commons-fileupload:1.3.3'
++    implementation 'commons-fileupload:commons-fileupload:1.5'
+     implementation 'commons-io:commons-io:2.4'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-023: Harden DocumentBuilderFactory against XXE — all 6 files
+# CWE-611 — Low — 6 files
+# Round 2: adds the missing 5 file hunks. Identical 4-line setFeature pattern.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/BcsPlataformaJobs/src/cl/bcs/plataforma/jobs/GenerarArchivoTasas.java
++++ b/BSCL/Plataforma/JAVA/BcsPlataformaJobs/src/cl/bcs/plataforma/jobs/GenerarArchivoTasas.java
+@@ -48,6 +48,10 @@ public class GenerarArchivoTasas extends BcsJob {
+ 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
++		factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
++		factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
++		factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
++		factory.setExpandEntityReferences(false);
+ 		DocumentBuilder builder = factory.newDocumentBuilder();
+
+--- a/BSCL/Mesa/JAVA/BcsMesaJobs/src/cl/bcs/mesa/jobs/GenerarArchivoAnexoXIX.java
++++ b/BSCL/Mesa/JAVA/BcsMesaJobs/src/cl/bcs/mesa/jobs/GenerarArchivoAnexoXIX.java
+@@ -63,6 +63,10 @@ public class GenerarArchivoAnexoXIX extends BcsJob {
+         	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
++        	factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
++        	factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
++        	factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
++        	factory.setExpandEntityReferences(false);
+         	DocumentBuilder builder        = factory.newDocumentBuilder();
+
+--- a/BSCL/Mesa/JAVA/BcsMesaJobs/src/cl/bcs/mesa/jobs/GenerarArchivoAnexoIX.java
++++ b/BSCL/Mesa/JAVA/BcsMesaJobs/src/cl/bcs/mesa/jobs/GenerarArchivoAnexoIX.java
+@@ -56,6 +56,10 @@ public class GenerarArchivoAnexoIX extends BcsJob {
+         	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
++        	factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
++        	factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
++        	factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
++        	factory.setExpandEntityReferences(false);
+         	DocumentBuilder builder        = factory.newDocumentBuilder();
+
+--- a/BSCL/Mesa/JAVA/BcsMesaJobs/src/cl/bcs/mesa/jobs/GenerarArchivoPAccmmdd.java
++++ b/BSCL/Mesa/JAVA/BcsMesaJobs/src/cl/bcs/mesa/jobs/GenerarArchivoPAccmmdd.java
+@@ -57,6 +57,10 @@ public class GenerarArchivoPAccmmdd extends BcsJob {
+         	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
++        	factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
++        	factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
++        	factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
++        	factory.setExpandEntityReferences(false);
+         	DocumentBuilder builder        = factory.newDocumentBuilder();
+
+--- a/BSCL/Mesa/JAVA/BcsMesaJobs/src/cl/bcs/mesa/jobs/GenerarArchivoCCccmmdd.java
++++ b/BSCL/Mesa/JAVA/BcsMesaJobs/src/cl/bcs/mesa/jobs/GenerarArchivoCCccmmdd.java
+@@ -64,6 +64,10 @@ public class GenerarArchivoCCccmmdd extends BcsJob {
+         	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
++        	factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
++        	factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
++        	factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
++        	factory.setExpandEntityReferences(false);
+         	DocumentBuilder builder        = factory.newDocumentBuilder();
+
+--- a/BSCL/Normativa/Java/BcsNormativaServicios/src/cl/bcs/normativa/circulares/GenerarAnexo1Circular20.java
++++ b/BSCL/Normativa/Java/BcsNormativaServicios/src/cl/bcs/normativa/circulares/GenerarAnexo1Circular20.java
+@@ -749,6 +749,10 @@ public class GenerarAnexo1Circular20 extends JavaCall {
+         	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
++        	factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
++        	factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
++        	factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
++        	factory.setExpandEntityReferences(false);
+         	DocumentBuilder builder        = factory.newDocumentBuilder();
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-024: Parameterize SQL — TransactionManager.executionCount()
+# CWE-89 — High — TransactionManager.java:526-535
+# Round 3: wraps Integer.parseInt(taskType) in a defensive try/catch that re-throws as
+# SQLException so callers (which declare only throws SQLException) are not surprised by
+# unchecked NumberFormatException/NullPointerException propagation.
+# taskType was bare unquoted numeric in original SQL → must bind as setInt, not setString.
+# Also logs swallowed SQLException.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/BcsJobManager/src/cl/bcs/scheduler/sql/TransactionManager.java
++++ b/BSCL/Plataforma/JAVA/BcsJobManager/src/cl/bcs/scheduler/sql/TransactionManager.java
+@@ -522,21 +522,26 @@ public class TransactionManager {
+ 	public int executionCount(String taskType, String parameterName,
+ 			String parameterValue, DataSource datasource) throws SQLException {
+ 		int contador = -1;
+ 		String fecha = getNow(datasource);
+-		String query = "SELECT	count(*) as contador from \"BSCL.Plataforma.BD.Vistas::BAT.ConsultarPrograma\" where \"idEstado\" = 'ASI' and \"NombreParametro\"='"
+-				+ parameterName
+-				+ "' and \"Valor\"='"
+-				+ parameterValue
+-				+ "' and \"IdTipoPrograma\" = "
+-				+ taskType
+-				+ "  and \"fechaEjecucion\" between (to_seconddate(TO_DATE('"
+-				+ fecha.substring(0, 10)
+-				+ "') || ' ' || '00:00:00', 'YYYY-MM-DD HH24:MI:SS')) and (to_seconddate('"
+-				+ fecha.substring(0, 19) + "', 'YYYY-MM-DD HH24:MI:SS'))";
++		String query = "SELECT count(*) as contador from \"BSCL.Plataforma.BD.Vistas::BAT.ConsultarPrograma\" where \"idEstado\" = 'ASI' and \"NombreParametro\"=? and \"Valor\"=? and \"IdTipoPrograma\"=? and \"fechaEjecucion\" between (to_seconddate(TO_DATE(?) || ' ' || '00:00:00', 'YYYY-MM-DD HH24:MI:SS')) and (to_seconddate(?, 'YYYY-MM-DD HH24:MI:SS'))";
++		int taskTypeInt;
++		try { taskTypeInt = Integer.parseInt(taskType); }
++		catch (NumberFormatException | NullPointerException e) { throw new SQLException("Invalid taskType: " + taskType, e); }
+ 		logger.trace(query);
+ 		try (Connection con = datasource.getConnection();
+-				PreparedStatement st = con.prepareStatement(query);
+-				ResultSet rs = st.executeQuery();) {
+-			if (rs.next())
+-				return contador = Integer.parseInt(rs.getString(1));
+-		} catch (SQLException e) { }
++				PreparedStatement st = con.prepareStatement(query)) {
++			st.setString(1, parameterName);
++			st.setString(2, parameterValue);
++			st.setInt(3, taskTypeInt);
++			st.setString(4, fecha.substring(0, 10));
++			st.setString(5, fecha.substring(0, 19));
++			try (ResultSet rs = st.executeQuery()) {
++				if (rs.next())
++					return contador = Integer.parseInt(rs.getString(1));
++			}
++		} catch (SQLException e) {
++			logger.warn("executionCount query failed for taskType={}", taskType, e);
++		}
+ 		return contador;
+ 	}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEC-025: Remove security token from log; fail securely on DB unavailable
+# CWE-312 — Medium — CallBatch.java:92-94
+# Verified RESOLVES in round 1.
+# ─────────────────────────────────────────────────────────────────────────────
+--- a/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/CallBatch.java
++++ b/BSCL/Plataforma/JAVA/BcsPlataformaWeb/src/cl/bcs/plataforma/services/CallBatch.java
+@@ -86,10 +86,12 @@ public class CallBatch extends HttpServlet {
+ 			if (tokenSeguridad==null) {
+ 				try (Connection conn=dataSource.getConnection()) {
+ 					tokenSeguridad=Utils.getConfiguracion(conn,1L,"PLA.CallBatchToken");
+ 				}catch(Exception er) {
+-					tokenSeguridad="CALLBATCH";
++					response.setStatus(503);
++					response.getOutputStream().print("503 - SERVICE UNAVAILABLE");
++					response.getOutputStream().flush();
++					return;
+ 				}
+-				log.write("Usando token seguridad:"+tokenSeguridad);
+ 			}
+ 			if (!tokenSeguridad.equals(pTokenSession)) {

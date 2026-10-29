@@ -1,0 +1,33 @@
+MUTATION 3: Manejador G0 input: an empty list counts as a list with rows (size > 0 -> >= 0)
+FILE manejador/ManejadorSolicitudAporteRescateService.java
+53c53
+<         return l != null && l.size() > 0;   // a null list is NOT a gate matter: the legacy NPE happens at its turn
+---
+>         return l != null && l.size() >= 0;   // a null list is NOT a gate matter: the legacy NPE happens at its turn
+--- JUnit on the mutant copy (must be RED)
+[ERROR] Tests run: 6, Failures: 1, Errors: 2, Skipped: 0, Time elapsed: 0.243 s <<< FAILURE! -- in cl.bcs.fondomutuo.manejador.ManejadorJavaCallHandlerTest
+[ERROR] cl.bcs.fondomutuo.manejador.ManejadorJavaCallHandlerTest.fmMan16_sinLaClaveFormaPagoSpot_esNpe_DMAN2_tambienPorElJson -- Time elapsed: 0.015 s <<< FAILURE!
+[ERROR] cl.bcs.fondomutuo.manejador.ManejadorJavaCallHandlerTest.fmMan14_jsonDeSalida_conLasClavesDelLegacy_enOrden_sinNulos_yElContadorSiempre -- Time elapsed: 0.003 s <<< ERROR!
+[ERROR] cl.bcs.fondomutuo.manejador.ManejadorJavaCallHandlerTest.fmMan15_laListaNormalSeLeeConGsonPlano_yElResultadoSeSerializaSinNulos -- Time elapsed: 0.003 s <<< ERROR!
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.241 s -- in cl.bcs.fondomutuo.manejador.ManejadorOraculoTest
+[ERROR] Tests run: 7, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.022 s <<< FAILURE! -- in cl.bcs.fondomutuo.manejador.ManejadorServiceCompuertaTest
+[ERROR] cl.bcs.fondomutuo.manejador.ManejadorServiceCompuertaTest.fmMan12_sinListasConFilas_ningunIfEntra_contadorCeroSinMensajes -- Time elapsed: 0.002 s <<< ERROR!
+[ERROR] cl.bcs.fondomutuo.manejador.ManejadorServiceCompuertaTest.fmMan11b_g0_soloNormalSeSirve_yUnaListaNullNoEsDeLaCompuerta -- Time elapsed: 0.001 s <<< ERROR!
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in cl.bcs.fondomutuo.manejador.ManejadorServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.368 s -- in cl.bcs.fondomutuo.normal.NormalCompuertasYDefectosTest
+[INFO] Tests run: 87, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.035 s -- in cl.bcs.fondomutuo.normal.NormalEquivalenciaTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.104 s -- in cl.bcs.fondomutuo.normal.NormalTesoreriaSpotAbiertasTest
+[ERROR]   ManejadorJavaCallHandlerTest.fmMan16_sinLaClaveFormaPagoSpot_esNpe_DMAN2_tambienPorElJson:58 
+[ERROR]   ManejadorJavaCallHandlerTest.fmMan14_jsonDeSalida_conLasClavesDelLegacy_enOrden_sinNulos_yElContadorSiempre:38 » ServicioNoServido G0: list TRANSFERENCIA is not served by this module
+--- fresh inputs through the oracle with the mutant classes
+ORACLE: NOT DETECTED - 0 of 14 fresh cases changed
+--- green control after restoring the copy
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.237 s -- in cl.bcs.fondomutuo.manejador.ManejadorJavaCallHandlerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.248 s -- in cl.bcs.fondomutuo.manejador.ManejadorOraculoTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in cl.bcs.fondomutuo.manejador.ManejadorServiceCompuertaTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in cl.bcs.fondomutuo.manejador.ManejadorServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.342 s -- in cl.bcs.fondomutuo.normal.NormalCompuertasYDefectosTest
+[INFO] Tests run: 87, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.841 s -- in cl.bcs.fondomutuo.normal.NormalEquivalenciaTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.110 s -- in cl.bcs.fondomutuo.normal.NormalTesoreriaSpotAbiertasTest
+[INFO] Tests run: 124, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS

@@ -1,0 +1,64 @@
+{
+  "servicio": "RecaudacionBCP",
+  "metodo": "call",
+  "entrada": {
+    "IdSolicitudBcp": "RQ-F02",
+    "NumeroOperacionBcp": "9007199254740993",
+    "NumeroOperacionExtornoBcp": "654321",
+    "FechaOperacionBcp": "2025-03-31 23:59:59",
+    "TipoOperacionBCP": "PAGO",
+    "MensajeEntrada": "{\"mensaje\":\"entrada BCP de prueba\"}",
+    "OperacionesBcp": [
+      {
+        "IdClienteBcp": "000012345678",
+        "IdMoneda": "CLP",
+        "Monto": 0.01
+      },
+      {
+        "IdClienteBcp": "20101031340",
+        "IdMoneda": "USD",
+        "Monto": 99999999999.99
+      },
+      {
+        "IdClienteBcp": "        ",
+        "IdMoneda": "CLP",
+        "Monto": 5
+      }
+    ]
+  },
+  "colaboradores": {
+    "crearIngresoEgreso": {
+      "resultados": [
+        {
+          "Campo": "IdComprobante",
+          "Id": 4001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearIngresoEgreso",
+          "Resultado": "ING"
+        },
+        {
+          "Campo": "IdIngresoEgreso",
+          "Id": 9001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearIngresoEgreso",
+          "Resultado": "ING"
+        }
+      ]
+    },
+    "liquidarComprobante": {
+      "resultados": [
+        {
+          "Campo": "IdComprobante",
+          "Id": 4001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::LiquidarComprobantes",
+          "Resultado": "LIQ"
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::LOG.MensajeTransaccionBCP",
+      "orden": "\"IdMensajeTransaccion\""
+    }
+  ],
+  "ref": "FRESH input (independent verifier), derived from TES-B-67_pago-con-dni-y-ruc-quita-ceros-a-la-izquierda"
+}

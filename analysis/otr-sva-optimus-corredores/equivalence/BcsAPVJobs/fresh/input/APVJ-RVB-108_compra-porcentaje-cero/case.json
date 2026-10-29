@@ -1,0 +1,65 @@
+{
+  "id": "APVJ-RVB-108",
+  "slug": "compra-porcentaje-cero",
+  "titulo": "COMPRA pct 0: amount 0, saldo 0 is not below 0, the order goes with amount 0",
+  "pina": "fresh",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "config": {
+    "APV/APV.PorcentajeBonificacionFiscal": "0"
+  },
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "1000"
+          }
+        ]
+      }
+    },
+    "ConsultarFlujoCaja": {
+      "P_OUT_FLUJOCAJA": [
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2000,
+          "IdMoneda": "CLP",
+          "Saldo": "0"
+        }
+      ]
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "0"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": []
+    }
+  }
+}

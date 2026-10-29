@@ -1,0 +1,2 @@
+-- fresh verify seed (fake data, H2 only)
+INSERT INTO "BSCL.Plataforma.BD::PAU.Modulo" ("IdEmpresa","CodigoModulo","IdEstado","CodigoModuloDependenciaCierre1","CodigoModuloDependenciaCierre2","CodigoModuloDependenciaCierre3","CodigoModuloDependenciaCierre4","CodigoModuloDependenciaCierre5","CodigoUsuario","FechaUltimaActualizacion") VALUES (-9223372036854775808,'APV','SIS','','','','','','fake_user',TIMESTAMP '2025-01-15 10:00:00.0000000');

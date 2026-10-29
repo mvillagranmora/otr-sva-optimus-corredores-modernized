@@ -1,0 +1,21 @@
+flowchart TD
+  %% Critical path: Broker executes a securities order
+  %% Persona: Broker (corredor) trading desk operator
+
+  S0["Authenticate via session token\n(BcsPlataformaWeb)"]
+  S1["Session filter validates role and routes request\n(BcsFilters, BcsPlataformaWeb)"]
+  S2["Order creation validates client and account\n(BcsOrdenServicios, BcsSocioNegocioServicios)"]
+  S3["Order booked in HANA and sent to BECB\n(BcsOrdenServicios, HANA_BSCL)"]
+  S4["Custody record updated at DCV settlement\n(BcsCustodiaServicios, DCV_SOAP)"]
+  S5["Accounting journal entry created\n(BcsContabilidadServicios, HANA_BSCL)"]
+  S6["Confirmation report generated (Crystal Reports)\n(BcsFacturacionServicios, CrystalReports)"]
+
+  S0 --> S1
+  S1 --> S2
+  S2 --> S3
+  S3 --> S4
+  S4 --> S5
+  S5 --> S6
+
+  style S0 fill:#4a9eff,color:#fff
+  style S6 fill:#2ecc71,color:#fff

@@ -1,0 +1,498 @@
+{
+  "domain": "Data",
+  "datastores": [
+    {
+      "id": "ds:HANA_BSCL",
+      "name": "SAP HANA (BSCL schema)",
+      "kind": "datastore",
+      "description": "Primary SAP HANA database. Contains 156 calculation views, the PLA.Servicio service registry (1,817+ JavaCall class names driving runtime reflection dispatch), and all business domain tables across Plataforma, Orden, Custodia, Normativa, and related schemas."
+    },
+    {
+      "id": "ds:HANA_PLA_Servicio",
+      "name": "PLA.Servicio registry (HANA)",
+      "kind": "datastore",
+      "description": "SAP HANA table holding 1,817+ service definitions: class name, type (J/P/Q/X/O), and route. CallServlet reads this table on every request to resolve the target JavaCall class via Class.forName(). The entire service dispatch plane depends on the integrity of this registry."
+    },
+    {
+      "id": "ds:SQL_Server",
+      "name": "SQL Server (jtds/mssql)",
+      "kind": "datastore",
+      "description": "Secondary relational database accessed via jtds 1.3.1 and mssql-jdbc 7.2.1. Used by regulatory reporting (Normativa) and historical data modules."
+    },
+    {
+      "id": "ds:PostgreSQL",
+      "name": "PostgreSQL 42.7.7",
+      "kind": "datastore",
+      "description": "Tertiary relational database. PostgreSQL 42.7.7 driver present in build. Used for specific domain data distinct from HANA."
+    },
+    {
+      "id": "ds:SFTP",
+      "name": "SFTP (file transfer)",
+      "kind": "datastore",
+      "description": "External file exchange via JSch SFTP. ExtractorArchivosJob transfers regulatory files to/from settlement counterparties."
+    },
+    {
+      "id": "ds:DTE_SII",
+      "name": "DTE/SII (e-invoicing API)",
+      "kind": "datastore",
+      "description": "Chile SII electronic invoice API. Facturacion sends electronic tax documents and receives acknowledgements via REST calls to the DTE provider."
+    },
+    {
+      "id": "ds:DCV_SOAP",
+      "name": "DCV Settlement (SOAP)",
+      "kind": "datastore",
+      "description": "DCV (Dep\u00f3sito Central de Valores) securities settlement system, accessed via generated SOAP stubs in Custodia. Handles custody transfers, capital events, and settlement instructions."
+    },
+    {
+      "id": "ds:BECB_SOAP",
+      "name": "BECB Broker (SOAP)",
+      "kind": "datastore",
+      "description": "BECB electronic brokerage channel. Orden sends trade confirmations and order reports via AdditionalTradeInfo SOAP calls."
+    },
+    {
+      "id": "ds:SMTP",
+      "name": "SMTP (email)",
+      "kind": "datastore",
+      "description": "Outbound email relay. MailChecker and notification services use javax.mail to send alerts and regulatory notifications."
+    },
+    {
+      "id": "ds:JasperReports",
+      "name": "JasperReports (131 .jrxml)",
+      "kind": "datastore",
+      "description": "JasperReports 6.3.0 template engine. 131 .jrxml templates drive regulatory cartolas, tax certificates, and portfolio statements. BcsCartolas and BcsNormativaJobs are the primary consumers."
+    },
+    {
+      "id": "ds:CrystalReports",
+      "name": "Crystal Reports (182 .rpt)",
+      "kind": "datastore",
+      "description": "SAP Crystal Reports runtime (proprietary binary). 182 .rpt template files drive broker confirmation reports and institutional statements. Binary-only; no source representation."
+    }
+  ],
+  "edges": [
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:PostgreSQL",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsJobManager",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaJobs",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsPlataformaJobs",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsUtils",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsUtils",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsUtils",
+      "target": "ds:PostgreSQL",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsUtils",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFilters",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaReporteApi",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaReporteApi",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsValo2",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsValo2",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsDeploy",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsDeploy",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCargasPeru",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCargasPeru",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaServlets",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPortalConfirmacionWeb",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsSocioNegocioJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:DCV_SOAP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaJobs",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:BECB_SOAP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsJobOrders",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsMesaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsMesaJobs",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsFondoMutuoServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFacturacionJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFacturacionJobs",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadJobs",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:JasperReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaJobs",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsNormativaCore",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCartolas",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCartolas",
+      "target": "ds:JasperReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsCartolasJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCartolasJobs",
+      "target": "ds:JasperReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsCartolasMaster",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCartolasMaster",
+      "target": "ds:JasperReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsTributarioJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCuentaInversionJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPortafolioServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCanalAgenteServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsReplica",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    }
+  ]
+}

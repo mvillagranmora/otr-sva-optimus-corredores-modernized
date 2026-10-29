@@ -1,0 +1,11 @@
+--- a/modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/main/java/cl/bcs/tesoreria/jobs/job/BcsJobCargaMasivaIngresoEgresoDAPFFMM.java
++++ b/modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/main/java/cl/bcs/tesoreria/jobs/job/BcsJobCargaMasivaIngresoEgresoDAPFFMM.java
+@@ -142,7 +142,7 @@
+         RangoHorario rango = rangos.get(0);
+         LocalTime ahora = LocalTime.parse(horaProceso, HORA);
+         // TES-J-DEF-01: both ends are excluded
+-        if (!(ahora.isAfter(LocalTime.parse(rango.HoraInicio, HORA)) && ahora.isBefore(LocalTime.parse(rango.HoraFin, HORA)))) {
++        if (!(!ahora.isBefore(LocalTime.parse(rango.HoraInicio, HORA)) && ahora.isBefore(LocalTime.parse(rango.HoraFin, HORA)))) {
+             return rechazar(ctx, idPrograma, fechaCarga, horaProceso, "El proceso se encuentra fuera de Horario ",
+                     tipoArchivoCarga, idEmpresa, new Registro(idUsuario, fechaSistema));
+         }

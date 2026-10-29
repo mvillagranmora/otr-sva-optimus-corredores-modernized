@@ -1,0 +1,124 @@
+=== MUTACION: 1 escribir con S en vez de N
+110c110
+<         if ("N".equals(entrada.p_SimularOperacion)) {
+---
+>         if ("S".equals(entrada.p_SimularOperacion)) {
+[ERROR] Tests run: 8, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 7.382 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcAnfitrionTest
+[ERROR] Tests run: 74, Failures: 49, Errors: 0, Skipped: 0, Time elapsed: 9.365 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 126, Errors: 0, Skipped: 0, Time elapsed: 3.246 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 18, Errors: 21, Skipped: 0, Time elapsed: 8.840 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 199, Errors: 21, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 199, Errors: 21, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 2 no tragar el fallo del log
+309c309
+<         } catch (Exception e) {
+---
+>         } catch (Exception e) { if (true) throw new RuntimeException(e);
+[ERROR] Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 8.177 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcAnfitrionTest
+[ERROR] Tests run: 74, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 26.01 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 3.541 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 10.89 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 5, Errors: 4, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 5, Errors: 4, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 3 orden de los pasos: borrar vigentes antes de insertar historico
+115,116c115
+<             escritura.insertarHistorico(historico, ids);
+<             escritura.eliminarVigentes(vigentes);
+---
+>             escritura.eliminarVigentes(vigentes); escritura.insertarHistorico(historico, ids);
+[ERROR] Tests run: 74, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 26.03 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 3.279 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 9.952 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 5, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 5, Errors: 0, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 4 ids de secuencia antes del paso 1
+113,114c113
+<             escritura.actualizarUltimaCarga(historico);
+<             List<Long> ids = secuencias.siguientes(SECUENCIA_HISTORICO, (long) historico.size());
+---
+>             List<Long> ids = secuencias.siguientes(SECUENCIA_HISTORICO, (long) historico.size()); escritura.actualizarUltimaCarga(historico);
+[ERROR] Tests run: 201, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 3.362 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 9.893 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 4, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 4, Errors: 0, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 5 vigente = la fecha mas antigua
+270c270
+<             return v2.FechaVigencia.compareTo(v1.FechaVigencia) == 1 ? 1 : -1;
+---
+>             return v2.FechaVigencia.compareTo(v1.FechaVigencia) == 1 ? -1 : 1;
+[ERROR] Tests run: 74, Failures: 8, Errors: 0, Skipped: 0, Time elapsed: 20.89 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 9, Errors: 0, Skipped: 0, Time elapsed: 3.373 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 9.716 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 19, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 19, Errors: 0, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 6 comparacion de fecha futura invertida
+234c234
+<         if (fechaCierre.compareTo(fechaSistemaComparacion) == 1) return new String[] { ERR, "FECHA_VALOR_CUOTA_INCORRECTA" };
+---
+>         if (fechaCierre.compareTo(fechaSistemaComparacion) == -1) return new String[] { ERR, "FECHA_VALOR_CUOTA_INCORRECTA" };
+[ERROR] Tests run: 74, Failures: 14, Errors: 0, Skipped: 0, Time elapsed: 20.15 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 23, Errors: 0, Skipped: 0, Time elapsed: 3.810 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 30, Errors: 0, Skipped: 0, Time elapsed: 10.46 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 67, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 67, Errors: 0, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 7 el log recibe tambien las filas ERR
+118c118
+<             agregarLog(entrada, historico);
+---
+>             agregarLog(entrada, out.P_OUT_RESULTADO);
+[ERROR] Tests run: 74, Failures: 22, Errors: 0, Skipped: 0, Time elapsed: 17.22 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 41, Errors: 0, Skipped: 0, Time elapsed: 3.307 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 10.79 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 65, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 65, Errors: 0, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 8 el log se llama sin filas OK
+280c280
+<         if (filas.isEmpty()) {
+---
+>         if (false) {
+[ERROR] Tests run: 74, Failures: 14, Errors: 0, Skipped: 0, Time elapsed: 19.91 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 33, Errors: 0, Skipped: 0, Time elapsed: 3.571 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 10.06 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 50, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 50, Errors: 0, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 9 FORMATO_INVALIDO deja de ser prioritario (valor de la salida)
+227c227
+<         if (!OK.equals(valorCuota.MENSAJEVALIDACION)) return new String[] { ERR, "FORMATO_INVALIDO" };
+---
+>         if (!OK.equals(valorCuota.MENSAJEVALIDACION)) return new String[] { ERR, "FORMATO_INVALIDO_X" };
+[ERROR] Tests run: 74, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 23.71 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 11, Errors: 0, Skipped: 0, Time elapsed: 3.713 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 12, Errors: 0, Skipped: 0, Time elapsed: 9.925 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 29, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 29, Errors: 0, Skipped: 0
+restaurado (cmp ok)
+=== MUTACION: 10 comparacion de moneda sin ignorar modo ISIN
+231c231
+<         if ("N".equals(allFunds) && !valorCuota.IDMONEDA.equals(serie.IdMoneda)) return new String[] { ERR, "MONEDA_INCORRECTA" };
+---
+>         if (!"X".equals(allFunds) && !valorCuota.IDMONEDA.equals(serie.IdMoneda)) return new String[] { ERR, "MONEDA_INCORRECTA" };
+[ERROR] Tests run: 74, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 23.17 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcDeterminismoTest
+[ERROR] Tests run: 201, Failures: 10, Errors: 0, Skipped: 0, Time elapsed: 3.502 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcEquivalenciaTest
+[ERROR] Tests run: 248, Failures: 11, Errors: 1, Skipped: 0, Time elapsed: 9.678 s <<< FAILURE! -- in cl.bcs.fondomutuo.valorcuota.CvcReglasTest
+[ERROR] Tests run: 543, Failures: 22, Errors: 1, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] Tests run: 543, Failures: 22, Errors: 1, Skipped: 0
+restaurado (cmp ok)
+FIN

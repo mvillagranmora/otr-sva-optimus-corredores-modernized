@@ -1,0 +1,58 @@
+graph LR
+  %% Data lineage: domains to datastores
+  %% --> read, ==> write
+
+  HANA_BSCL[(SAP HANA)]
+  HANA_PLA_Servicio[(PLA.Servicio registry)]
+  SQL_Server[(SQL Server)]
+  PostgreSQL[(PostgreSQL)]
+  SFTP[(SFTP)]
+  DTE_SII[(DTE/SII)]
+  DCV_SOAP[(DCV Settlement)]
+  BECB_SOAP[(BECB Broker)]
+  SMTP[(SMTP)]
+  JasperReports[(JasperReports)]
+  CrystalReports[(Crystal Reports)]
+
+  APV ==>|write| HANA_BSCL
+  Contabilidad ==>|write| HANA_BSCL
+  CuentaInversion ==>|write| HANA_BSCL
+  Custodia ==>|write| HANA_BSCL
+  Facturacion ==>|write| HANA_BSCL
+  FondoMutuo ==>|write| HANA_BSCL
+  Mesa ==>|write| HANA_BSCL
+  Normativa ==>|write| HANA_BSCL
+  Orden ==>|write| HANA_BSCL
+  Plataforma ==>|write| HANA_BSCL
+  Portafolio ==>|write| HANA_BSCL
+  Replica ==>|write| HANA_BSCL
+  SocioNegocio ==>|write| HANA_BSCL
+  Tesoreria ==>|write| HANA_BSCL
+  Plataforma -->|read| HANA_PLA_Servicio
+  Custodia -->|read| SQL_Server
+  Orden -->|read| SQL_Server
+  Plataforma -->|read| SQL_Server
+  Plataforma -->|read| PostgreSQL
+  Contabilidad ==>|write| SFTP
+  Normativa ==>|write| SFTP
+  Plataforma ==>|write| SFTP
+  SocioNegocio ==>|write| SFTP
+  Tesoreria ==>|write| SFTP
+  CanalAgente ==>|write| DTE_SII
+  Contabilidad ==>|write| DTE_SII
+  CuentaInversion ==>|write| DTE_SII
+  Custodia ==>|write| DTE_SII
+  Facturacion ==>|write| DTE_SII
+  Normativa ==>|write| DTE_SII
+  Orden ==>|write| DTE_SII
+  Plataforma ==>|write| DTE_SII
+  SocioNegocio ==>|write| DTE_SII
+  Tesoreria ==>|write| DTE_SII
+  Custodia ==>|write| DCV_SOAP
+  Orden ==>|write| BECB_SOAP
+  Normativa -->|read| JasperReports
+  Custodia -->|read| CrystalReports
+  Facturacion -->|read| CrystalReports
+  Mesa -->|read| CrystalReports
+  Normativa -->|read| CrystalReports
+  Plataforma -->|read| CrystalReports

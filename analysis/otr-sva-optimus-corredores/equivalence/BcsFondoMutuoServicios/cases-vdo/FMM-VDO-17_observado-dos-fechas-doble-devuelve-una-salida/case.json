@@ -1,0 +1,49 @@
+{
+  "servicio": "ConsultarValorDolarFondoMutuo",
+  "ref": "FM-VDO-02 D-F3A-14: 2 fechas y un colaborador que devuelve UNA sola salida (IdInterno 0): no hay clave repetida y las dos series reciben ese valor",
+  "esquemasExtra": [
+    "seed/base-vdo.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_Series": [
+      {
+        "IdSerieFondo": "V001",
+        "IdTipoSolicitud": "APO",
+        "Fecha": "2026-03-10"
+      },
+      {
+        "IdSerieFondo": "V002",
+        "IdTipoSolicitud": "RES",
+        "Fecha": "2026-03-11"
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorTipoCambio",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.Parametro",
+      "orden": "\"IdEmpresa\", \"NombreTipoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "CalcularParidad": {
+      "defecto": {
+        "p_out_CalculosSalida": [
+          {
+            "IdTrabajo": 1,
+            "IdInterno": 0,
+            "FactorOrigenDestino": 940.25,
+            "MontoDestino": 940.25,
+            "FactorCambioLocal": 1
+          }
+        ]
+      }
+    }
+  }
+}

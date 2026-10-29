@@ -1,0 +1,80 @@
+{
+  "servicio": "ConsultarCustodiaPortafolioFondoMutuo",
+  "ref": "FM-CPF-04 D-NOR-9: sin precios y DOS series: dos resultados con IdInterno nulo => toMap con clave repetida: IllegalStateException",
+  "esquemasExtra": [
+    "schema-cpf.sql",
+    "seed/base-cpf.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM"
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::PLA.Configuracion",
+      "orden": "\"IdEmpresa\", \"CodigoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": []
+      }
+    },
+    "ConsultarCustodiaPortafolioFFMM": {
+      "defecto": {
+        "p_out_tbl": []
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 1,
+                "MontoDestino": 1
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 2,
+                "MontoDestino": 1
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 3,
+                "MontoDestino": 1
+              },
+              {
+                "IdTrabajo": 2,
+                "IdInterno": 4,
+                "MontoDestino": 1
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

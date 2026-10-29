@@ -1,0 +1,430 @@
+== mutation 4: D-F2-1 'fixed': any runtime exception after the lock releases it
+diff -r /c/Users/m.villagran.mora/AppData/Local/Temp/mvscratch/rre-canary/pristine/BcsFondoMutuoServicios/src/main/java/cl/bcs/fondomutuo/rescatereinversion/CrearSolicitudRescateReinversionService.java /c/Users/m.villagran.mora/AppData/Local/Temp/mvscratch/rre-canary/root/BcsFondoMutuoServicios/src/main/java/cl/bcs/fondomutuo/rescatereinversion/CrearSolicitudRescateReinversionService.java
+115c115
+<         } catch (ServicioNoServidoException e) {
+---
+>         } catch (RuntimeException e) {
+Picked up JAVA_TOOL_OPTIONS: -Duser.timezone=UTC -Dfile.encoding=UTF-8
+Picked up JAVA_TOOL_OPTIONS: -Duser.timezone=UTC -Dfile.encoding=UTF-8
+[ERROR] Tests run: 9, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.872 s <<< FAILURE! -- in cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.dF21_otraExcepcionTrasElBloqueo_elBloqueoAutonomoQueda -- Time elapsed: 0.112 s <<< FAILURE!
+java.lang.AssertionError: 
+[autonomous lock left (D-F2-1)] 
+Expected size: 1 but was: 0 in:
+[]
+	at cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.dF21_otraExcepcionTrasElBloqueo_elBloqueoAutonomoQueda(RreCompuertasTest.java:113)
+
+[ERROR] Tests run: 71, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 2.814 s <<< FAILURE! -- in cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(String)[21] -- Time elapsed: 0.050 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+FMM-RRE-21_excepcion-tras-el-bloqueo-lo-deja :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1199)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.comparar(RreEquivalenciaTest.java:48)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(RreEquivalenciaTest.java:43)
+
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(String)[44] -- Time elapsed: 0.029 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+FMM-RRE-44_solicitudbatch-nulo-npe :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1199)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.comparar(RreEquivalenciaTest.java:48)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(RreEquivalenciaTest.java:43)
+
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(String)[49] -- Time elapsed: 0.027 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+FMM-RRE-49_error-segundo-calculo :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    },
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_5_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 5,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1199)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.comparar(RreEquivalenciaTest.java:48)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(RreEquivalenciaTest.java:43)
+
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(String)[50] -- Time elapsed: 0.033 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+FMM-RRE-50_agregarlog-falla-tras-insertar :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1199)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.comparar(RreEquivalenciaTest.java:48)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(RreEquivalenciaTest.java:43)
+
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(String)[51] -- Time elapsed: 0.029 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+FMM-RRE-51_segundo-calculo-sin-valor-cuota :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM003A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM003A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1199)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.comparar(RreEquivalenciaTest.java:48)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(RreEquivalenciaTest.java:43)
+
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(String)[52] -- Time elapsed: 0.027 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+FMM-RRE-52_segundo-calculo-primero-ok-segundo-falla :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    },
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM003A_5_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM003A",
+      "Monto": 0,
+      "NumeroCuotas": 5,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1199)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.comparar(RreEquivalenciaTest.java:48)
+	at cl.bcs.fondomutuo.rescatereinversion.RreEquivalenciaTest.equivalente(RreEquivalenciaTest.java:43)
+
+[ERROR] Failures: 
+[ERROR]   RreCompuertasTest.dF21_otraExcepcionTrasElBloqueo_elBloqueoAutonomoQueda:113 [autonomous lock left (D-F2-1)] 
+Expected size: 1 but was: 0 in:
+[]
+[ERROR]   RreEquivalenciaTest.equivalente:43->comparar:48 FMM-RRE-21_excepcion-tras-el-bloqueo-lo-deja :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+[ERROR]   RreEquivalenciaTest.equivalente:43->comparar:48 FMM-RRE-44_solicitudbatch-nulo-npe :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+[ERROR]   RreEquivalenciaTest.equivalente:43->comparar:48 FMM-RRE-49_error-segundo-calculo :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    },
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_5_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 5,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+[ERROR]   RreEquivalenciaTest.equivalente:43->comparar:48 FMM-RRE-50_agregarlog-falla-tras-insertar :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+[ERROR]   RreEquivalenciaTest.equivalente:43->comparar:48 FMM-RRE-51_segundo-calculo-sin-valor-cuota :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM003A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM003A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+[ERROR]   RreEquivalenciaTest.equivalente:43->comparar:48 FMM-RRE-52_segundo-calculo-primero-ok-segundo-falla :: tablas ==> expected: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM002A_10_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM002A",
+      "Monto": 0,
+      "NumeroCuotas": 10,
+      "RescateTotal": "N"
+    },
+    {
+      "FechaSistema": "2026-03-02",
+      "IdBloqueaReinversion": "500_GEN_FM003A_5_2026-03-02",
+      "IdCliente": 0,
+      "IdGrupoRegimen": "",
+      "IdPortafolio": 500,
+      "IdRegimenTributario": "GEN",
+      "IdSerieFondo": "FM003A",
+      "Monto": 0,
+      "NumeroCuotas": 5,
+      "RescateTotal": "N"
+    }
+  ],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}> but was: <{
+  "BSCL.FondoMutuo.BD::FMM.InterfazAgf": [],
+  "BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion": [],
+  "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino": [],
+  "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": []
+}>
+[ERROR] Tests run: 130, Failures: 7, Errors: 0, Skipped: 0
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.6:test (default-test) on project bcs-fondo-mutuo-servicios: There are test failures.
+[ERROR] 
+[ERROR] See C:\Users\m.villagran.mora\AppData\Local\Temp\mvscratch\rre-canary\root\BcsFondoMutuoServicios\target\surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+exit 1

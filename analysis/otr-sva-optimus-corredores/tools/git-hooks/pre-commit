@@ -1,0 +1,21 @@
+#!/bin/sh
+# pre-commit: the legacy is FROZEN. After the first commit that contains legacy/, any staged change under legacy/ is rejected.
+# Install (from the workspace root, after `git init`):  cp analysis/otr-sva-optimus-corredores/tools/git-hooks/pre-commit .git/hooks/pre-commit
+# To change the legacy on purpose (a person's decision): git commit --no-verify  (it is deliberately not scripted here).
+
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  cambio=$(git diff --cached --name-only -- legacy | head -3)
+  if [ -n "$cambio" ]; then
+    echo "pre-commit: legacy/ is frozen; these paths are staged:" >&2
+    echo "$cambio" >&2
+    echo "Unstage them (git restore --staged legacy) or, if a person decided it, use --no-verify." >&2
+    exit 1
+  fi
+fi
+
+# secrets: refuse an .env that was force-added
+if git diff --cached --name-only | grep -E '(^|/)\.env($|\.)' | grep -v '\.env\.example$' >/dev/null 2>&1; then
+  echo "pre-commit: an .env file is staged; credentials must never be committed (RULE-076)." >&2
+  exit 1
+fi
+exit 0

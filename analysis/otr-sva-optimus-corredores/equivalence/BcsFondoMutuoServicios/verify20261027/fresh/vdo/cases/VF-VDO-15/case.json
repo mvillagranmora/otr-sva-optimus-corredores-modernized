@@ -1,0 +1,56 @@
+{
+  "servicio": "ConsultarValorDolarFondoMutuo",
+  "ref": "observado S: el colaborador devuelve dos salidas, una con IdInterno 0 y otra 7 (se toma la 0), una fecha",
+  "esquemasExtra": [
+    "seed/base-vdo.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_Series": [
+      {
+        "IdSerieFondo": "V001",
+        "IdTipoSolicitud": "RES",
+        "Fecha": "2026-03-10"
+      },
+      {
+        "IdSerieFondo": "V005",
+        "IdTipoSolicitud": "APO",
+        "Fecha": "2026-03-10"
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorTipoCambio",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.Parametro",
+      "orden": "\"IdEmpresa\", \"NombreTipoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "CalcularParidad": {
+      "defecto": {
+        "p_out_CalculosSalida": [
+          {
+            "IdTrabajo": 1,
+            "IdInterno": 7,
+            "FactorOrigenDestino": 55.5,
+            "MontoDestino": 55.5,
+            "FactorCambioLocal": 1
+          },
+          {
+            "IdTrabajo": 1,
+            "IdInterno": 0,
+            "FactorOrigenDestino": 66.6,
+            "MontoDestino": 66.6,
+            "FactorCambioLocal": 1
+          }
+        ]
+      }
+    }
+  }
+}

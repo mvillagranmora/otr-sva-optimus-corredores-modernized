@@ -1,0 +1,36 @@
+{
+  "servicio": "InterfazContable",
+  "descripcion": "Fresh verify input (job shell): unknown id between two valid ones",
+  "entrada": {
+    "idEmpresa": 1,
+    "idUsuario": 21,
+    "destino": "B",
+    "secuencias": "100;999;200"
+  },
+  "sap": {
+    "POST /b1s/v1/Login": [
+      {
+        "status": 200,
+        "body": "{\"SessionId\":\"fake-session-0001\",\"Version\":\"1000000\",\"SessionTimeout\":30}",
+        "setCookies": [
+          "B1SESSION=fake-session-0001; HttpOnly",
+          "ROUTEID=.node1; path=/b1s"
+        ]
+      }
+    ],
+    "GET /b1s/v1/BusinessPartners('CL76123456-7')": [
+      {
+        "status": 200,
+        "body": "{\"CardCode\":\"X\"}"
+      }
+    ],
+    "POST /b1s/v1/JournalVouchersService_Add": [
+      {
+        "status": 204
+      },
+      {
+        "status": 204
+      }
+    ]
+  }
+}

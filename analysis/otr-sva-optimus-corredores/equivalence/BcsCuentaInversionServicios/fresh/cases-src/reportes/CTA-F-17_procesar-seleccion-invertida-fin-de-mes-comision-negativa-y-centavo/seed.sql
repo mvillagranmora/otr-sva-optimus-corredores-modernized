@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.Custodia.BD::CUS.PatrimonioCustodia" ("IdPatrimonioCustodia","IdCliente","IdPortafolio","IdInstrumento","FechaPatrimonio","TipoFechaConsulta","MontoComision","IdEstadoComision","MontoPatrimonio") VALUES (8101, 1001, 2001, 3001, DATE '2025-02-28', 'LIQ', -10.50, 'VIG', 100);
+INSERT INTO "BSCL.Custodia.BD::CUS.PatrimonioCustodia" ("IdPatrimonioCustodia","IdCliente","IdPortafolio","IdInstrumento","FechaPatrimonio","TipoFechaConsulta","MontoComision","IdEstadoComision","MontoPatrimonio") VALUES (8102, 1002, 2002, 3001, DATE '2025-02-28', 'LIQ', 0.01, 'VIG', 1);

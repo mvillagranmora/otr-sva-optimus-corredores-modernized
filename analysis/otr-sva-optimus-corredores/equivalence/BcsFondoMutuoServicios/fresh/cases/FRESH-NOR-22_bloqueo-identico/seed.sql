@@ -1,0 +1,2 @@
+-- case seed on top of seed/base-fmm.sql (fake data)
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate" ("IdBloqueoSolicitudAporteRescate", "IdPortafolio", "IdSerieFondo", "IdRegimenTributario", "TipoSolicitud", "Monto", "NumeroCuotas", "FechaSistema") VALUES ('500_FM001A_GEN_APO_100000_0_2026-03-02', 500, 'FM001A', 'GEN', 'APO', 100000, 0, '2026-03-02');

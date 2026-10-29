@@ -1,0 +1,39 @@
+{
+  "servicio": "InterfazContable",
+  "descripcion": "Fresh verify input (job shell): partner creation rejected",
+  "entrada": {
+    "idEmpresa": 1,
+    "idUsuario": 21,
+    "destino": "B",
+    "secuencias": "300"
+  },
+  "sap": {
+    "POST /b1s/v1/Login": [
+      {
+        "status": 200,
+        "body": "{\"SessionId\":\"fake-session-0001\",\"Version\":\"1000000\",\"SessionTimeout\":30}",
+        "setCookies": [
+          "B1SESSION=fake-session-0001; HttpOnly",
+          "ROUTEID=.node1; path=/b1s"
+        ]
+      }
+    ],
+    "GET /b1s/v1/BusinessPartners('CL77000000-0')": [
+      {
+        "status": 404,
+        "body": "{\"error\": {\"code\": -2028, \"message\": {\"lang\": \"en-us\", \"value\": \"No matching records found\"}}}"
+      }
+    ],
+    "POST /b1s/v1/BusinessPartners": [
+      {
+        "status": 400,
+        "body": "{\"error\": {\"code\": -10, \"message\": {\"lang\": \"en-us\", \"value\": \"bad partner\"}}}"
+      }
+    ],
+    "POST /b1s/v1/JournalVouchersService_Add": [
+      {
+        "status": 204
+      }
+    ]
+  }
+}

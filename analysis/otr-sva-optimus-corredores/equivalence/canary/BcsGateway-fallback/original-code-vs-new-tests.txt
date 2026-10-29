@@ -1,0 +1,40 @@
+== ORIGINAL ProxyRouter (pre-change) against the new tests: confirms the replay bug ==
+[ERROR] Tests run: 13, Failures: 4, Errors: 4, Skipped: 0, Time elapsed: 68.05 s <<< FAILURE! -- in cl.bcs.gateway.SafeFallbackTest
+[ERROR] cl.bcs.gateway.SafeFallbackTest.disabledRoute_goesToTomee_andTheServiceIsNotCalled -- Time elapsed: 1.148 s <<< FAILURE!
+java.lang.AssertionError: Response body expected:<{"from":"tomee"}> but was:<{"from":"upstream"}>
+	at cl.bcs.gateway.SafeFallbackTest.disabledRoute_goesToTomee_andTheServiceIsNotCalled(SafeFallbackTest.java:176)
+[ERROR] cl.bcs.gateway.SafeFallbackTest.bodyWithoutLength_connectionRefused_returns503_tomeeNotCalled -- Time elapsed: 0.028 s <<< FAILURE!
+java.lang.AssertionError: Status expected:<503 SERVICE_UNAVAILABLE> but was:<200 OK>
+	at cl.bcs.gateway.SafeFallbackTest.bodyWithoutLength_connectionRefused_returns503_tomeeNotCalled(SafeFallbackTest.java:302)
+[ERROR] cl.bcs.gateway.SafeFallbackTest.bodyWithoutLength_upstream503_returns503_tomeeNotCalled -- Time elapsed: 0.012 s <<< FAILURE!
+java.lang.AssertionError: Status expected:<503 SERVICE_UNAVAILABLE> but was:<200 OK>
+	at cl.bcs.gateway.SafeFallbackTest.bodyWithoutLength_upstream503_returns503_tomeeNotCalled(SafeFallbackTest.java:292)
+[ERROR] cl.bcs.gateway.SafeFallbackTest.upstream503_onPost_replaysTheSameBodyInTomee -- Time elapsed: 15.01 s <<< ERROR!
+java.lang.IllegalStateException: Timeout on blocking read for 15000000000 NANOSECONDS
+	at cl.bcs.gateway.SafeFallbackTest.post(SafeFallbackTest.java:169)
+	at cl.bcs.gateway.SafeFallbackTest.upstream503_onPost_replaysTheSameBodyInTomee(SafeFallbackTest.java:230)
+[ERROR] cl.bcs.gateway.SafeFallbackTest.bodyLargerThanTheBufferLimit_upstream503_returns503_tomeeNotCalled -- Time elapsed: 15.02 s <<< ERROR!
+java.lang.IllegalStateException: Timeout on blocking read for 15000000000 NANOSECONDS
+	at cl.bcs.gateway.SafeFallbackTest.post(SafeFallbackTest.java:169)
+	at cl.bcs.gateway.SafeFallbackTest.bodyLargerThanTheBufferLimit_upstream503_returns503_tomeeNotCalled(SafeFallbackTest.java:282)
+[ERROR] cl.bcs.gateway.SafeFallbackTest.upstream500_reachesTheClient_tomeeNotCalled_andBreakerCountsTheFailure -- Time elapsed: 15.01 s <<< ERROR!
+java.lang.IllegalStateException: Timeout on blocking read for 15000000000 NANOSECONDS
+	at cl.bcs.gateway.SafeFallbackTest.post(SafeFallbackTest.java:169)
+	at cl.bcs.gateway.SafeFallbackTest.upstream500_reachesTheClient_tomeeNotCalled_andBreakerCountsTheFailure(SafeFallbackTest.java:240)
+[ERROR] cl.bcs.gateway.SafeFallbackTest.upstreamSlowerThanTheResponseTimeout_is504_tomeeNotCalled_andCounted -- Time elapsed: 4.009 s <<< FAILURE!
+java.lang.AssertionError: Status expected:<504 GATEWAY_TIMEOUT> but was:<200 OK>
+	at cl.bcs.gateway.SafeFallbackTest.upstreamSlowerThanTheResponseTimeout_is504_tomeeNotCalled_andCounted(SafeFallbackTest.java:257)
+[ERROR] cl.bcs.gateway.SafeFallbackTest.circuitOpen_goesToTomeeWithoutCallingTheUpstream -- Time elapsed: 15.01 s <<< ERROR!
+java.lang.IllegalStateException: Timeout on blocking read for 15000000000 NANOSECONDS
+	at cl.bcs.gateway.SafeFallbackTest.post(SafeFallbackTest.java:169)
+	at cl.bcs.gateway.SafeFallbackTest.circuitOpen_goesToTomeeWithoutCallingTheUpstream(SafeFallbackTest.java:265)
+[ERROR]   SafeFallbackTest.bodyWithoutLength_connectionRefused_returns503_tomeeNotCalled:302 Status expected:<503 SERVICE_UNAVAILABLE> but was:<200 OK>
+[ERROR]   SafeFallbackTest.bodyWithoutLength_upstream503_returns503_tomeeNotCalled:292 Status expected:<503 SERVICE_UNAVAILABLE> but was:<200 OK>
+[ERROR]   SafeFallbackTest.disabledRoute_goesToTomee_andTheServiceIsNotCalled:176 Response body expected:<{"from":"tomee"}> but was:<{"from":"upstream"}>
+[ERROR]   SafeFallbackTest.upstreamSlowerThanTheResponseTimeout_is504_tomeeNotCalled_andCounted:257 Status expected:<504 GATEWAY_TIMEOUT> but was:<200 OK>
+[ERROR]   SafeFallbackTest.bodyLargerThanTheBufferLimit_upstream503_returns503_tomeeNotCalled:282->post:169 » IllegalState Timeout on blocking read for 15000000000 NANOSECONDS
+[ERROR]   SafeFallbackTest.circuitOpen_goesToTomeeWithoutCallingTheUpstream:265->post:169 » IllegalState Timeout on blocking read for 15000000000 NANOSECONDS
+[ERROR]   SafeFallbackTest.upstream500_reachesTheClient_tomeeNotCalled_andBreakerCountsTheFailure:240->post:169 » IllegalState Timeout on blocking read for 15000000000 NANOSECONDS
+[ERROR]   SafeFallbackTest.upstream503_onPost_replaysTheSameBodyInTomee:230->post:169 » IllegalState Timeout on blocking read for 15000000000 NANOSECONDS
+[ERROR] Tests run: 13, Failures: 4, Errors: 4, Skipped: 0
+[ERROR] BUILD FAILURE

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# usage: cov3b.sh <TestClassesCsv>   -> branch coverage of the 3B classes (JaCoCo core API over the exec of the jacoco agent; no pom change)
+export JAVA_HOME="/c/Program Files/Eclipse Adoptium/jdk-25.0.4.101-hotspot"
+export FM3B_BASE="C:/Users/m.villagran.mora/Downloads/develop/nuam-modernizado/analysis/otr-sva-optimus-corredores/equivalence/BcsFondoMutuoServicios"
+S=/c/Users/m.villagran.mora/AppData/Local/Temp/mvscratch
+EXT=C:/Users/m.villagran.mora/.vscode/extensions/vscjava.vscode-java-test-0.47.0/server
+rm -f $S/cov3b/fm3b.exec
+bash $S/sync3b.sh > $S/cov3b/sync.log 2>&1
+cd $S/bcsfm3b
+mvn -o -f pom.xml test -Dtest="$1" -DfailIfNoTests=false -Dsurefire.failIfNoSpecifiedTests=false -Dfile.encoding=UTF-8 \
+  "-DargLine=-javaagent:$EXT/jacocoagent.jar=destfile=C:/Users/m.villagran.mora/AppData/Local/Temp/mvscratch/cov3b/fm3b.exec,includes=cl.bcs.fondomutuo.*" > $S/cov3b/mvn.log 2>&1
+M2=C:/Users/m.villagran.mora/.m2/repository
+CP="$EXT/org.jacoco.core_0.8.15.202606040825.jar;$EXT/org.objectweb.asm.commons_9.10.1.jar;$EXT/org.objectweb.asm.tree_9.10.1.jar;$M2/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar"
+SW=C:/Users/m.villagran.mora/AppData/Local/Temp/mvscratch
+"$JAVA_HOME/bin/javac" -cp "$CP" -d $SW/cov3b $SW/cov3b/CoverageReport.java > $S/cov3b/javac.log 2>&1
+"$JAVA_HOME/bin/java" -cp "$SW/cov3b;$CP" CoverageReport $SW/cov3b/fm3b.exec $SW/bcsfm3b/target/classes "cl/bcs/fondomutuo/" $2 > $S/cov3b/report.txt 2>&1
+echo COVDONE >> $S/cov3b/report.txt

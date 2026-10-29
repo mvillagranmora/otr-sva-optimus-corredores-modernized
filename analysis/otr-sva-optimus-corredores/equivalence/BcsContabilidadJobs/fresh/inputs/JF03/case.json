@@ -1,0 +1,31 @@
+{
+  "servicio": "InterfazContable",
+  "descripcion": "Fresh verify input (job shell): login fails once then succeeds",
+  "entrada": {
+    "idEmpresa": 1,
+    "idUsuario": 21,
+    "destino": "B",
+    "secuencias": "200"
+  },
+  "sap": {
+    "POST /b1s/v1/Login": [
+      {
+        "status": 500,
+        "body": "{}"
+      },
+      {
+        "status": 200,
+        "body": "{\"SessionId\":\"fake-session-0001\",\"Version\":\"1000000\",\"SessionTimeout\":30}",
+        "setCookies": [
+          "B1SESSION=fake-session-0001; HttpOnly",
+          "ROUTEID=.node1; path=/b1s"
+        ]
+      }
+    ],
+    "POST /b1s/v1/JournalVouchersService_Add": [
+      {
+        "status": 204
+      }
+    ]
+  }
+}

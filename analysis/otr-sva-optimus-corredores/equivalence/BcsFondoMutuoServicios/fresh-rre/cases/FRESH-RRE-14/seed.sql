@@ -1,0 +1,7 @@
+-- fresh seed
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.ConfiguracionFechasFondoMutuo" ("IdEmpresa", "IdModalidad", "IdTipoFecha", "TipoSolicitud", "EstadoFondo", "FondoExtranjero", "Descripcion", "CantidadDias", "EsHabil", "IdTipoFechaOrigen", "DebeSerHabilFechaOrigen", "ValutaCurse", "ValutaValorCuota", "ValutaCertificacion", "ValutaRetencion", "CalendarioLocal", "CalendarioEmisor", "CalendarioFondo", "CalendarioMoneda", "IdEstado") SELECT "IdEmpresa", 'BATCH', "IdTipoFecha", "TipoSolicitud", "EstadoFondo", "FondoExtranjero", "Descripcion", "CantidadDias", "EsHabil", "IdTipoFechaOrigen", "DebeSerHabilFechaOrigen", "ValutaCurse", "ValutaValorCuota", "ValutaCertificacion", "ValutaRetencion", "CalendarioLocal", "CalendarioEmisor", "CalendarioFondo", "CalendarioMoneda", "IdEstado" FROM "BSCL.FondoMutuo.BD::FMM.ConfiguracionFechasFondoMutuo" WHERE "IdModalidad" = 'UNITARIO';
+INSERT INTO "BSCL.Portafolio.BD.Vistas::ConsultarPortafolio" ("IdPortafolio", "IdMatrizAgrupadorAPV") VALUES (500, 1);
+INSERT INTO "BSCL.APV.BD.Vistas::REC.ConsultarRegimenTributario" ("IdMatrizAgrupadorAPV", "IdRegimenTributario") VALUES (1, 10);
+INSERT INTO "BSCL.APV.BD::REC.RegimenTributario" ("IdRegimenTributario", "Codigo") VALUES (10, 'APV-A');
+UPDATE "BSCL.FondoMutuo.BD::FMM.SerieDeFondo" SET "PatrimonioMinimo" = 999999999 WHERE "IdSerieFondo" = 'FMX02U';
+UPDATE "BSCL.FondoMutuo.BD::FMM.SerieDeFondo" SET "PatrimonioAltos" = 'S' WHERE "IdSerieFondo" = 'FM001A';

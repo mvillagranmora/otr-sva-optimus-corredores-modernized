@@ -1,0 +1,909 @@
+{
+ "system": "otr-sva-optimus-corredores / BcsFondoMutuoServicios solicitud",
+ "legacy": {
+  "label": "unmodified legacy cl.bcs.fondomutuo.* on H2 (OracleRunner, registered doubles)",
+  "command": "legacy-oracle/record.sh with -Doracle.cases=fresh/cases"
+ },
+ "new": {
+  "label": "new Normal (NormalSubject) / new Manejador (ManejadorNuevoSubject) over the same H2 and doubles",
+  "command": "legacy-oracle/subject4a.sh, run4b.sh"
+ },
+ "cases": [
+  {
+   "id": "FRESH-MAN-01_normal-tres-dos-buenas",
+   "input": "FRESH-MAN-01_normal-tres-dos-buenas",
+   "title": "Normal con 3 solicitudes: la 2da excede la custodia en la simulacion",
+   "legacy": "legacy/FRESH-MAN-01_normal-tres-dos-buenas/FRESH-MAN-01_normal-tres-dos-buenas.json",
+   "new": "new/FRESH-MAN-01_normal-tres-dos-buenas/FRESH-MAN-01_normal-tres-dos-buenas.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-02_normal-usuario-sin-perfil",
+   "input": "FRESH-MAN-02_normal-usuario-sin-perfil",
+   "title": "Normal con un usuario sin perfil de fondos mutuos (9): todo rechazado en la simulacion",
+   "legacy": "legacy/FRESH-MAN-02_normal-usuario-sin-perfil/FRESH-MAN-02_normal-usuario-sin-perfil.json",
+   "new": "new/FRESH-MAN-02_normal-usuario-sin-perfil/FRESH-MAN-02_normal-usuario-sin-perfil.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-03_id-interno-cero",
+   "input": "FRESH-MAN-03_id-interno-cero",
+   "title": "Normal con IdInterno 0: ID_INTERNO_NO_CERO en la simulacion",
+   "legacy": "legacy/FRESH-MAN-03_id-interno-cero/FRESH-MAN-03_id-interno-cero.json",
+   "new": "new/FRESH-MAN-03_id-interno-cero/FRESH-MAN-03_id-interno-cero.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-04_normal-programado-overnight",
+   "input": "FRESH-MAN-04_normal-programado-overnight",
+   "title": "Normal (real) + Programado + Overnight (dobles): mezcla de listas (el modulo F1 responde 503 por G0)",
+   "legacy": "legacy/FRESH-MAN-04_normal-programado-overnight/FRESH-MAN-04_normal-programado-overnight.json",
+   "new": "new/FRESH-MAN-04_normal-programado-overnight/FRESH-MAN-04_normal-programado-overnight.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-04_normal-programado-overnight@G0",
+   "input": "FRESH-MAN-04_normal-programado-overnight",
+   "title": "Normal (real) + Programado + Overnight (dobles): mezcla de listas (el modulo F1 responde 503 por G0) [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-04_normal-programado-overnight/FRESH-MAN-04_normal-programado-overnight.json",
+   "new": "new-g0/FRESH-MAN-04_normal-programado-overnight/FRESH-MAN-04_normal-programado-overnight.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list PROGRAMADO is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-MAN-05_normal-vacia-con-programado",
+   "input": "FRESH-MAN-05_normal-vacia-con-programado",
+   "title": "Lista Normal vacia y Programado con filas (503 por G0 en el modulo nuevo)",
+   "legacy": "legacy/FRESH-MAN-05_normal-vacia-con-programado/FRESH-MAN-05_normal-vacia-con-programado.json",
+   "new": "new/FRESH-MAN-05_normal-vacia-con-programado/FRESH-MAN-05_normal-vacia-con-programado.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-05_normal-vacia-con-programado@G0",
+   "input": "FRESH-MAN-05_normal-vacia-con-programado",
+   "title": "Lista Normal vacia y Programado con filas (503 por G0 en el modulo nuevo) [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-05_normal-vacia-con-programado/FRESH-MAN-05_normal-vacia-con-programado.json",
+   "new": "new-g0/FRESH-MAN-05_normal-vacia-con-programado/FRESH-MAN-05_normal-vacia-con-programado.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list PROGRAMADO is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-MAN-06_cambio-serie-par-bueno",
+   "input": "FRESH-MAN-06_cambio-serie-par-bueno",
+   "title": "CambioSerie con el par rescate/aporte (se ejecuta)",
+   "legacy": "legacy/FRESH-MAN-06_cambio-serie-par-bueno/FRESH-MAN-06_cambio-serie-par-bueno.json",
+   "new": "new/FRESH-MAN-06_cambio-serie-par-bueno/FRESH-MAN-06_cambio-serie-par-bueno.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-06_cambio-serie-par-bueno@G0",
+   "input": "FRESH-MAN-06_cambio-serie-par-bueno",
+   "title": "CambioSerie con el par rescate/aporte (se ejecuta) [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-06_cambio-serie-par-bueno/FRESH-MAN-06_cambio-serie-par-bueno.json",
+   "new": "new-g0/FRESH-MAN-06_cambio-serie-par-bueno/FRESH-MAN-06_cambio-serie-par-bueno.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list CAMBIO_SERIE is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-MAN-07_reinversion-una-rechazada",
+   "input": "FRESH-MAN-07_reinversion-una-rechazada",
+   "title": "Reinversion de aporte con 2 solicitudes, la 2da rechazada en la simulacion",
+   "legacy": "legacy/FRESH-MAN-07_reinversion-una-rechazada/FRESH-MAN-07_reinversion-una-rechazada.json",
+   "new": "new/FRESH-MAN-07_reinversion-una-rechazada/FRESH-MAN-07_reinversion-una-rechazada.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-07_reinversion-una-rechazada@G0",
+   "input": "FRESH-MAN-07_reinversion-una-rechazada",
+   "title": "Reinversion de aporte con 2 solicitudes, la 2da rechazada en la simulacion [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-07_reinversion-una-rechazada/FRESH-MAN-07_reinversion-una-rechazada.json",
+   "new": "new-g0/FRESH-MAN-07_reinversion-una-rechazada/FRESH-MAN-07_reinversion-una-rechazada.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list REINVERSION_APORTE is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-MAN-08_sin-spot-solo-programado",
+   "input": "FRESH-MAN-08_sin-spot-solo-programado",
+   "title": "p_FormaPagoSpot ausente pero la lista Normal vacia: solo Programado (503 por G0)",
+   "legacy": "legacy/FRESH-MAN-08_sin-spot-solo-programado/FRESH-MAN-08_sin-spot-solo-programado.json",
+   "new": "new/FRESH-MAN-08_sin-spot-solo-programado/FRESH-MAN-08_sin-spot-solo-programado.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-08_sin-spot-solo-programado@G0",
+   "input": "FRESH-MAN-08_sin-spot-solo-programado",
+   "title": "p_FormaPagoSpot ausente pero la lista Normal vacia: solo Programado (503 por G0) [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-08_sin-spot-solo-programado/FRESH-MAN-08_sin-spot-solo-programado.json",
+   "new": "new-g0/FRESH-MAN-08_sin-spot-solo-programado/FRESH-MAN-08_sin-spot-solo-programado.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list PROGRAMADO is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-MAN-09_sin-spot-normal-npe",
+   "input": "FRESH-MAN-09_sin-spot-normal-npe",
+   "title": "p_FormaPagoSpot ausente con 2 solicitudes Normal (NPE de D-MAN-2)",
+   "legacy": "legacy/FRESH-MAN-09_sin-spot-normal-npe/FRESH-MAN-09_sin-spot-normal-npe.json",
+   "new": "new/FRESH-MAN-09_sin-spot-normal-npe/FRESH-MAN-09_sin-spot-normal-npe.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "exception TEXT only (class NullPointerException identical, every other field identical): JVM helpful NullPointerException/SQLException message of the JVM/driver (approved by the user)"
+  },
+  {
+   "id": "FRESH-MAN-10_spot-con-filas-normal",
+   "input": "FRESH-MAN-10_spot-con-filas-normal",
+   "title": "p_FormaPagoSpot con una fila y Normal de rescate (se envia a Normal tal cual)",
+   "legacy": "legacy/FRESH-MAN-10_spot-con-filas-normal/FRESH-MAN-10_spot-con-filas-normal.json",
+   "new": "new/FRESH-MAN-10_spot-con-filas-normal/FRESH-MAN-10_spot-con-filas-normal.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-11_transferencia-excepcion-segunda",
+   "input": "FRESH-MAN-11_transferencia-excepcion-segunda",
+   "title": "Transferencia: el doble falla en la pasada real tras escribir Normal (rollback total)",
+   "legacy": "legacy/FRESH-MAN-11_transferencia-excepcion-segunda/FRESH-MAN-11_transferencia-excepcion-segunda.json",
+   "new": "new/FRESH-MAN-11_transferencia-excepcion-segunda/FRESH-MAN-11_transferencia-excepcion-segunda.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-11_transferencia-excepcion-segunda@G0",
+   "input": "FRESH-MAN-11_transferencia-excepcion-segunda",
+   "title": "Transferencia: el doble falla en la pasada real tras escribir Normal (rollback total) [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-11_transferencia-excepcion-segunda/FRESH-MAN-11_transferencia-excepcion-segunda.json",
+   "new": "new-g0/FRESH-MAN-11_transferencia-excepcion-segunda/FRESH-MAN-11_transferencia-excepcion-segunda.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list TRANSFERENCIA is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-MAN-12_traspaso-y-rescate-reinversion",
+   "input": "FRESH-MAN-12_traspaso-y-rescate-reinversion",
+   "title": "Traspaso + RescateReinversion con par completo (503 por G0 en el modulo nuevo)",
+   "legacy": "legacy/FRESH-MAN-12_traspaso-y-rescate-reinversion/FRESH-MAN-12_traspaso-y-rescate-reinversion.json",
+   "new": "new/FRESH-MAN-12_traspaso-y-rescate-reinversion/FRESH-MAN-12_traspaso-y-rescate-reinversion.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-12_traspaso-y-rescate-reinversion@G0",
+   "input": "FRESH-MAN-12_traspaso-y-rescate-reinversion",
+   "title": "Traspaso + RescateReinversion con par completo (503 por G0 en el modulo nuevo) [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-12_traspaso-y-rescate-reinversion/FRESH-MAN-12_traspaso-y-rescate-reinversion.json",
+   "new": "new-g0/FRESH-MAN-12_traspaso-y-rescate-reinversion/FRESH-MAN-12_traspaso-y-rescate-reinversion.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list RESCATE_REINVERSION is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-MAN-13_veinticinco-rescates",
+   "input": "FRESH-MAN-13_veinticinco-rescates",
+   "title": "Normal con 25 rescates de 1..25 cuotas (25 precios guionados, ids de bloqueo distintos)",
+   "legacy": "legacy/FRESH-MAN-13_veinticinco-rescates/FRESH-MAN-13_veinticinco-rescates.json",
+   "new": "new/FRESH-MAN-13_veinticinco-rescates/FRESH-MAN-13_veinticinco-rescates.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-14_canal-owp-parametro-n",
+   "input": "FRESH-MAN-14_canal-owp-parametro-n",
+   "title": "canal OWP con el parametro de notificacion en N (Normal)",
+   "legacy": "legacy/FRESH-MAN-14_canal-owp-parametro-n/FRESH-MAN-14_canal-owp-parametro-n.json",
+   "new": "new/FRESH-MAN-14_canal-owp-parametro-n/FRESH-MAN-14_canal-owp-parametro-n.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-15_dos-listas-contador-de-la-pasada-real",
+   "input": "FRESH-MAN-15_dos-listas-contador-de-la-pasada-real",
+   "title": "Programado y Overnight: las pasadas reales devuelven contadores 2 y 3 con sus mensajes (el contador total es la suma; los mensajes de la pasada real se pierden)",
+   "legacy": "legacy/FRESH-MAN-15_dos-listas-contador-de-la-pasada-real/FRESH-MAN-15_dos-listas-contador-de-la-pasada-real.json",
+   "new": "new/FRESH-MAN-15_dos-listas-contador-de-la-pasada-real/FRESH-MAN-15_dos-listas-contador-de-la-pasada-real.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-15_dos-listas-contador-de-la-pasada-real@G0",
+   "input": "FRESH-MAN-15_dos-listas-contador-de-la-pasada-real",
+   "title": "Programado y Overnight: las pasadas reales devuelven contadores 2 y 3 con sus mensajes (el contador total es la suma; los mensajes de la pasada real se pierden) [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-15_dos-listas-contador-de-la-pasada-real/FRESH-MAN-15_dos-listas-contador-de-la-pasada-real.json",
+   "new": "new-g0/FRESH-MAN-15_dos-listas-contador-de-la-pasada-real/FRESH-MAN-15_dos-listas-contador-de-la-pasada-real.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list PROGRAMADO is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos",
+   "input": "FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos",
+   "title": "Transferencia con 2 filas (la 2da rechazada) y Traspaso con 1 fila buena: filtro por IdInterno y orden de las listas de rescate",
+   "legacy": "legacy/FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos/FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos.json",
+   "new": "new/FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos/FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos@G0",
+   "input": "FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos",
+   "title": "Transferencia con 2 filas (la 2da rechazada) y Traspaso con 1 fila buena: filtro por IdInterno y orden de las listas de rescate [F1 gate G0: only Normal lists served]",
+   "legacy": "legacy/FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos/FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos.json",
+   "new": "new-g0/FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos/FRESH-MAN-16_transferencia-y-traspaso-solo-aportes-buenos.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G0: list TRANSFERENCIA is not served by this module; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-NOR-01_monto-igual-al-minimo-de-la-serie",
+   "input": "FRESH-NOR-01_monto-igual-al-minimo-de-la-serie",
+   "title": "limite: aporte = MontoMinimo exacto (100000)",
+   "legacy": "legacy/FRESH-NOR-01_monto-igual-al-minimo-de-la-serie/FRESH-NOR-01_monto-igual-al-minimo-de-la-serie.json",
+   "new": "new/FRESH-NOR-01_monto-igual-al-minimo-de-la-serie/FRESH-NOR-01_monto-igual-al-minimo-de-la-serie.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-02_monto-minimo-menos-uno",
+   "input": "FRESH-NOR-02_monto-minimo-menos-uno",
+   "title": "limite: aporte = MontoMinimo - 1",
+   "legacy": "legacy/FRESH-NOR-02_monto-minimo-menos-uno/FRESH-NOR-02_monto-minimo-menos-uno.json",
+   "new": "new/FRESH-NOR-02_monto-minimo-menos-uno/FRESH-NOR-02_monto-minimo-menos-uno.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-03_monto-igual-al-maximo-de-la-serie",
+   "input": "FRESH-NOR-03_monto-igual-al-maximo-de-la-serie",
+   "title": "limite: aporte = MontoMaximo exacto",
+   "legacy": "legacy/FRESH-NOR-03_monto-igual-al-maximo-de-la-serie/FRESH-NOR-03_monto-igual-al-maximo-de-la-serie.json",
+   "new": "new/FRESH-NOR-03_monto-igual-al-maximo-de-la-serie/FRESH-NOR-03_monto-igual-al-maximo-de-la-serie.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-04_monto-maximo-mas-uno",
+   "input": "FRESH-NOR-04_monto-maximo-mas-uno",
+   "title": "limite: aporte = MontoMaximo + 1",
+   "legacy": "legacy/FRESH-NOR-04_monto-maximo-mas-uno/FRESH-NOR-04_monto-maximo-mas-uno.json",
+   "new": "new/FRESH-NOR-04_monto-maximo-mas-uno/FRESH-NOR-04_monto-maximo-mas-uno.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-05_rescate-igual-a-la-custodia",
+   "input": "FRESH-NOR-05_rescate-igual-a-la-custodia",
+   "title": "limite: NumeroCuotas = custodia (1000)",
+   "legacy": "legacy/FRESH-NOR-05_rescate-igual-a-la-custodia/FRESH-NOR-05_rescate-igual-a-la-custodia.json",
+   "new": "new/FRESH-NOR-05_rescate-igual-a-la-custodia/FRESH-NOR-05_rescate-igual-a-la-custodia.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-06_rescate-custodia-mas-una-cuota",
+   "input": "FRESH-NOR-06_rescate-custodia-mas-una-cuota",
+   "title": "limite: NumeroCuotas = custodia + 1",
+   "legacy": "legacy/FRESH-NOR-06_rescate-custodia-mas-una-cuota/FRESH-NOR-06_rescate-custodia-mas-una-cuota.json",
+   "new": "new/FRESH-NOR-06_rescate-custodia-mas-una-cuota/FRESH-NOR-06_rescate-custodia-mas-una-cuota.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-07_rescate-fraccion-de-cuota",
+   "input": "FRESH-NOR-07_rescate-fraccion-de-cuota",
+   "title": "cuotas con decimales (10.5) en un rescate por cuotas",
+   "legacy": "legacy/FRESH-NOR-07_rescate-fraccion-de-cuota/FRESH-NOR-07_rescate-fraccion-de-cuota.json",
+   "new": "new/FRESH-NOR-07_rescate-fraccion-de-cuota/FRESH-NOR-07_rescate-fraccion-de-cuota.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-08_rescate-por-monto-minimo",
+   "input": "FRESH-NOR-08_rescate-por-monto-minimo",
+   "title": "rescate por monto con Monto=1 (menos de una cuota)",
+   "legacy": "legacy/FRESH-NOR-08_rescate-por-monto-minimo/FRESH-NOR-08_rescate-por-monto-minimo.json",
+   "new": "new/FRESH-NOR-08_rescate-por-monto-minimo/FRESH-NOR-08_rescate-por-monto-minimo.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-09_rescate-por-monto-enorme",
+   "input": "FRESH-NOR-09_rescate-por-monto-enorme",
+   "title": "rescate por monto 999999999999 (mas que la custodia)",
+   "legacy": "legacy/FRESH-NOR-09_rescate-por-monto-enorme/FRESH-NOR-09_rescate-por-monto-enorme.json",
+   "new": "new/FRESH-NOR-09_rescate-por-monto-enorme/FRESH-NOR-09_rescate-por-monto-enorme.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-10_rescate-total-con-cuotas-cero",
+   "input": "FRESH-NOR-10_rescate-total-con-cuotas-cero",
+   "title": "rescate total (T) con NumeroCuotas 0",
+   "legacy": "legacy/FRESH-NOR-10_rescate-total-con-cuotas-cero/FRESH-NOR-10_rescate-total-con-cuotas-cero.json",
+   "new": "new/FRESH-NOR-10_rescate-total-con-cuotas-cero/FRESH-NOR-10_rescate-total-con-cuotas-cero.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-11_saldo-igual-al-aporte",
+   "input": "FRESH-NOR-11_saldo-igual-al-aporte",
+   "title": "limite: SaldoFlujoCaja = monto del aporte CIN manual",
+   "legacy": "legacy/FRESH-NOR-11_saldo-igual-al-aporte/FRESH-NOR-11_saldo-igual-al-aporte.json",
+   "new": "new/FRESH-NOR-11_saldo-igual-al-aporte/FRESH-NOR-11_saldo-igual-al-aporte.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-12_saldo-un-peso-menos",
+   "input": "FRESH-NOR-12_saldo-un-peso-menos",
+   "title": "limite: SaldoFlujoCaja = monto - 1",
+   "legacy": "legacy/FRESH-NOR-12_saldo-un-peso-menos/FRESH-NOR-12_saldo-un-peso-menos.json",
+   "new": "new/FRESH-NOR-12_saldo-un-peso-menos/FRESH-NOR-12_saldo-un-peso-menos.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-13_patrimonio-minimo-igual-al-monto",
+   "input": "FRESH-NOR-13_patrimonio-minimo-igual-al-monto",
+   "title": "limite: PatrimonioMinimo = monto (origen REC no exento)",
+   "legacy": "legacy/FRESH-NOR-13_patrimonio-minimo-igual-al-monto/FRESH-NOR-13_patrimonio-minimo-igual-al-monto.json",
+   "new": "new/FRESH-NOR-13_patrimonio-minimo-igual-al-monto/FRESH-NOR-13_patrimonio-minimo-igual-al-monto.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-14_patrimonio-minimo-monto-menos-uno",
+   "input": "FRESH-NOR-14_patrimonio-minimo-monto-menos-uno",
+   "title": "limite: monto = PatrimonioMinimo - 1 (REC)",
+   "legacy": "legacy/FRESH-NOR-14_patrimonio-minimo-monto-menos-uno/FRESH-NOR-14_patrimonio-minimo-monto-menos-uno.json",
+   "new": "new/FRESH-NOR-14_patrimonio-minimo-monto-menos-uno/FRESH-NOR-14_patrimonio-minimo-monto-menos-uno.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-15_origen-bonif-rescate",
+   "input": "FRESH-NOR-15_origen-bonif-rescate",
+   "title": "origen BONIF con un rescate (sin bloqueo)",
+   "legacy": "legacy/FRESH-NOR-15_origen-bonif-rescate/FRESH-NOR-15_origen-bonif-rescate.json",
+   "new": "new/FRESH-NOR-15_origen-bonif-rescate/FRESH-NOR-15_origen-bonif-rescate.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-16_origen-vacio-aporte",
+   "input": "FRESH-NOR-16_origen-vacio-aporte",
+   "title": "origen de proceso vacio (aplica bloqueo) con aporte CIN",
+   "legacy": "legacy/FRESH-NOR-16_origen-vacio-aporte/FRESH-NOR-16_origen-vacio-aporte.json",
+   "new": "new/FRESH-NOR-16_origen-vacio-aporte/FRESH-NOR-16_origen-vacio-aporte.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-17_canal-web",
+   "input": "FRESH-NOR-17_canal-web",
+   "title": "canal WEB: el doble de productos solo habilita OPT",
+   "legacy": "legacy/FRESH-NOR-17_canal-web/FRESH-NOR-17_canal-web.json",
+   "new": "new/FRESH-NOR-17_canal-web/FRESH-NOR-17_canal-web.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-18_regimen-no-permite-aporte",
+   "input": "FRESH-NOR-18_regimen-no-permite-aporte",
+   "title": "el regimen GEN no permite aportes",
+   "legacy": "legacy/FRESH-NOR-18_regimen-no-permite-aporte/FRESH-NOR-18_regimen-no-permite-aporte.json",
+   "new": "new/FRESH-NOR-18_regimen-no-permite-aporte/FRESH-NOR-18_regimen-no-permite-aporte.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-19_aporte-cerrado-backoffice",
+   "input": "FRESH-NOR-19_aporte-cerrado-backoffice",
+   "title": "serie con aporte cerrado para backoffice y comercial",
+   "legacy": "legacy/FRESH-NOR-19_aporte-cerrado-backoffice/FRESH-NOR-19_aporte-cerrado-backoffice.json",
+   "new": "new/FRESH-NOR-19_aporte-cerrado-backoffice/FRESH-NOR-19_aporte-cerrado-backoffice.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-20_fondo-con-bloqueo-de-aporte",
+   "input": "FRESH-NOR-20_fondo-con-bloqueo-de-aporte",
+   "title": "fondo con BloqueoAporte=S",
+   "legacy": "legacy/FRESH-NOR-20_fondo-con-bloqueo-de-aporte/FRESH-NOR-20_fondo-con-bloqueo-de-aporte.json",
+   "new": "new/FRESH-NOR-20_fondo-con-bloqueo-de-aporte/FRESH-NOR-20_fondo-con-bloqueo-de-aporte.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-21_bloqueo-con-escala-distinta",
+   "input": "FRESH-NOR-21_bloqueo-con-escala-distinta",
+   "title": "D-NOR-2: bloqueo existente con id 100000 y solicitud 100000.0 (la escala cambia el id)",
+   "legacy": "legacy/FRESH-NOR-21_bloqueo-con-escala-distinta/FRESH-NOR-21_bloqueo-con-escala-distinta.json",
+   "new": "new/FRESH-NOR-21_bloqueo-con-escala-distinta/FRESH-NOR-21_bloqueo-con-escala-distinta.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-22_bloqueo-identico",
+   "input": "FRESH-NOR-22_bloqueo-identico",
+   "title": "el bloqueo identico (id 100000) ya existe",
+   "legacy": "legacy/FRESH-NOR-22_bloqueo-identico/FRESH-NOR-22_bloqueo-identico.json",
+   "new": "new/FRESH-NOR-22_bloqueo-identico/FRESH-NOR-22_bloqueo-identico.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-23_seis-solicitudes-orden-inusual",
+   "input": "FRESH-NOR-23_seis-solicitudes-orden-inusual",
+   "title": "6 solicitudes, IdInterno descendente, aportes y rescates mezclados",
+   "legacy": "legacy/FRESH-NOR-23_seis-solicitudes-orden-inusual/FRESH-NOR-23_seis-solicitudes-orden-inusual.json",
+   "new": "new/FRESH-NOR-23_seis-solicitudes-orden-inusual/FRESH-NOR-23_seis-solicitudes-orden-inusual.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-24_cuarenta-rescates",
+   "input": "FRESH-NOR-24_cuarenta-rescates",
+   "title": "lista grande: 40 rescates con 1..40 cuotas (ids de bloqueo distintos)",
+   "legacy": "legacy/FRESH-NOR-24_cuarenta-rescates/FRESH-NOR-24_cuarenta-rescates.json",
+   "new": "new/FRESH-NOR-24_cuarenta-rescates/FRESH-NOR-24_cuarenta-rescates.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-25_simulacion-con-una-rechazada",
+   "input": "FRESH-NOR-25_simulacion-con-una-rechazada",
+   "title": "p_SimularOperacion=S con 3 solicitudes (la 2da excede la custodia)",
+   "legacy": "legacy/FRESH-NOR-25_simulacion-con-una-rechazada/FRESH-NOR-25_simulacion-con-una-rechazada.json",
+   "new": "new/FRESH-NOR-25_simulacion-con-una-rechazada/FRESH-NOR-25_simulacion-con-una-rechazada.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-26_simulacion-minuscula",
+   "input": "FRESH-NOR-26_simulacion-minuscula",
+   "title": "p_SimularOperacion en minuscula 's' (no es 'S')",
+   "legacy": "legacy/FRESH-NOR-26_simulacion-minuscula/FRESH-NOR-26_simulacion-minuscula.json",
+   "new": "new/FRESH-NOR-26_simulacion-minuscula/FRESH-NOR-26_simulacion-minuscula.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-27_visado-s",
+   "input": "FRESH-NOR-27_visado-s",
+   "title": "Visado=S en un rescate",
+   "legacy": "legacy/FRESH-NOR-27_visado-s/FRESH-NOR-27_visado-s.json",
+   "new": "new/FRESH-NOR-27_visado-s/FRESH-NOR-27_visado-s.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-28_fecha-operacion-sabado",
+   "input": "FRESH-NOR-28_fecha-operacion-sabado",
+   "title": "FechaOperacion explicita un sabado (2026-02-28)",
+   "legacy": "legacy/FRESH-NOR-28_fecha-operacion-sabado/FRESH-NOR-28_fecha-operacion-sabado.json",
+   "new": "new/FRESH-NOR-28_fecha-operacion-sabado/FRESH-NOR-28_fecha-operacion-sabado.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-29_usuario-inexistente",
+   "input": "FRESH-NOR-29_usuario-inexistente",
+   "title": "p_IdUsuario 999 sin fila de usuario",
+   "legacy": "legacy/FRESH-NOR-29_usuario-inexistente/FRESH-NOR-29_usuario-inexistente.json",
+   "new": "new/FRESH-NOR-29_usuario-inexistente/FRESH-NOR-29_usuario-inexistente.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-30_empresa-inexistente",
+   "input": "FRESH-NOR-30_empresa-inexistente",
+   "title": "p_IdEmpresa 2 (sin datos)",
+   "legacy": "legacy/FRESH-NOR-30_empresa-inexistente/FRESH-NOR-30_empresa-inexistente.json",
+   "new": "new/FRESH-NOR-30_empresa-inexistente/FRESH-NOR-30_empresa-inexistente.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-31_tipo-solicitud-minuscula",
+   "input": "FRESH-NOR-31_tipo-solicitud-minuscula",
+   "title": "TipoSolicitud 'res' en minuscula",
+   "legacy": "legacy/FRESH-NOR-31_tipo-solicitud-minuscula/FRESH-NOR-31_tipo-solicitud-minuscula.json",
+   "new": "new/FRESH-NOR-31_tipo-solicitud-minuscula/FRESH-NOR-31_tipo-solicitud-minuscula.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-32_moneda-eur-no-existe",
+   "input": "FRESH-NOR-32_moneda-eur-no-existe",
+   "title": "IdMoneda EUR (sin fila en PLA.Moneda) en un rescate",
+   "legacy": "legacy/FRESH-NOR-32_moneda-eur-no-existe/FRESH-NOR-32_moneda-eur-no-existe.json",
+   "new": "new/FRESH-NOR-32_moneda-eur-no-existe/FRESH-NOR-32_moneda-eur-no-existe.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-33_rescate-usd-pago-usd",
+   "input": "FRESH-NOR-33_rescate-usd-pago-usd",
+   "title": "rescate en USD pagado en USD",
+   "legacy": "legacy/FRESH-NOR-33_rescate-usd-pago-usd/FRESH-NOR-33_rescate-usd-pago-usd.json",
+   "new": "new/FRESH-NOR-33_rescate-usd-pago-usd/FRESH-NOR-33_rescate-usd-pago-usd.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-34_mlt-porcentaje-folio",
+   "input": "FRESH-NOR-34_mlt-porcentaje-folio",
+   "title": "IndicadorMLT=S, Porcentaje 50 y FolioContrato 12345",
+   "legacy": "legacy/FRESH-NOR-34_mlt-porcentaje-folio/FRESH-NOR-34_mlt-porcentaje-folio.json",
+   "new": "new/FRESH-NOR-34_mlt-porcentaje-folio/FRESH-NOR-34_mlt-porcentaje-folio.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-35_medio-pago-vacio",
+   "input": "FRESH-NOR-35_medio-pago-vacio",
+   "title": "IdMedioDePago vacio en un aporte",
+   "legacy": "legacy/FRESH-NOR-35_medio-pago-vacio/FRESH-NOR-35_medio-pago-vacio.json",
+   "new": "new/FRESH-NOR-35_medio-pago-vacio/FRESH-NOR-35_medio-pago-vacio.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G1: non-CIN contribution needs Tesoreria CrearIngresoEgreso; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-NOR-36_tra-en-el-medio-de-la-lista",
+   "input": "FRESH-NOR-36_tra-en-el-medio-de-la-lista",
+   "title": "aportes CIN, TRA, CIN: Tesoreria necesaria (G1 en el modulo nuevo)",
+   "legacy": "legacy/FRESH-NOR-36_tra-en-el-medio-de-la-lista/FRESH-NOR-36_tra-en-el-medio-de-la-lista.json",
+   "new": "new/FRESH-NOR-36_tra-en-el-medio-de-la-lista/FRESH-NOR-36_tra-en-el-medio-de-la-lista.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ],
+   "approvedDifference": "DEV-F4 (approved by the user 2026-10-21): gate closed -> ServicioNoServidoException: G1: non-CIN contribution needs Tesoreria CrearIngresoEgreso; the new dump has no request, no lock and no AGF row, no local table left and no write collaborator called"
+  },
+  {
+   "id": "FRESH-NOR-37_sin-bloqueo-doble-lista",
+   "input": "FRESH-NOR-37_sin-bloqueo-doble-lista",
+   "title": "dos solicitudes identicas con IdInterno distinto (el bloqueo compara listas)",
+   "legacy": "legacy/FRESH-NOR-37_sin-bloqueo-doble-lista/FRESH-NOR-37_sin-bloqueo-doble-lista.json",
+   "new": "new/FRESH-NOR-37_sin-bloqueo-doble-lista/FRESH-NOR-37_sin-bloqueo-doble-lista.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-38_parametros-de-monto-total-inversion",
+   "input": "FRESH-NOR-38_parametros-de-monto-total-inversion",
+   "title": "MontoMinimoTotalInversion=200000 y aporte de 100000",
+   "legacy": "legacy/FRESH-NOR-38_parametros-de-monto-total-inversion/FRESH-NOR-38_parametros-de-monto-total-inversion.json",
+   "new": "new/FRESH-NOR-38_parametros-de-monto-total-inversion/FRESH-NOR-38_parametros-de-monto-total-inversion.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-39_aporte-monto-doce-digitos",
+   "input": "FRESH-NOR-39_aporte-monto-doce-digitos",
+   "title": "precision: aporte CIN de 123456789012 pesos (cuotas, comisiones y pagos con muchos digitos)",
+   "legacy": "legacy/FRESH-NOR-39_aporte-monto-doce-digitos/FRESH-NOR-39_aporte-monto-doce-digitos.json",
+   "new": "new/FRESH-NOR-39_aporte-monto-doce-digitos/FRESH-NOR-39_aporte-monto-doce-digitos.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-40_aporte-monto-con-decimales",
+   "input": "FRESH-NOR-40_aporte-monto-con-decimales",
+   "title": "precision: aporte CLP de 100000.55 (monto con decimales)",
+   "legacy": "legacy/FRESH-NOR-40_aporte-monto-con-decimales/FRESH-NOR-40_aporte-monto-con-decimales.json",
+   "new": "new/FRESH-NOR-40_aporte-monto-con-decimales/FRESH-NOR-40_aporte-monto-con-decimales.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-41_saldo-66",
+   "input": "FRESH-NOR-41_saldo-66",
+   "title": "limite del saldo de flujo de caja: SaldoFlujoCaja = 66 para un aporte CIN manual de 100000 (paridad guionada a 100000)",
+   "legacy": "legacy/FRESH-NOR-41_saldo-66/FRESH-NOR-41_saldo-66.json",
+   "new": "new/FRESH-NOR-41_saldo-66/FRESH-NOR-41_saldo-66.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-42_saldo-99000",
+   "input": "FRESH-NOR-42_saldo-99000",
+   "title": "limite del saldo de flujo de caja: SaldoFlujoCaja = 99000 para un aporte CIN manual de 100000 (paridad guionada a 100000)",
+   "legacy": "legacy/FRESH-NOR-42_saldo-99000/FRESH-NOR-42_saldo-99000.json",
+   "new": "new/FRESH-NOR-42_saldo-99000/FRESH-NOR-42_saldo-99000.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-NOR-43_saldo-100001",
+   "input": "FRESH-NOR-43_saldo-100001",
+   "title": "limite del saldo de flujo de caja: SaldoFlujoCaja = 100001 para un aporte CIN manual de 100000 (paridad guionada a 100000)",
+   "legacy": "legacy/FRESH-NOR-43_saldo-100001/FRESH-NOR-43_saldo-100001.json",
+   "new": "new/FRESH-NOR-43_saldo-100001/FRESH-NOR-43_saldo-100001.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"(?:[^\"\\\\]|\\\\.)*\"",
+     "why": "provenance text names the subject that produced the dump (legacy oracle vs new subject): not behaviour"
+    }
+   ]
+  }
+ ]
+}

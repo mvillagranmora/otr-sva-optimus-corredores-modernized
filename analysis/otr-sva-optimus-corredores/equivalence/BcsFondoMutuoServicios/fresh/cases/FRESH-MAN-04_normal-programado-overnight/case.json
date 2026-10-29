@@ -1,0 +1,147 @@
+{
+  "servicio": "ManejadorSolicitudAporteRescate",
+  "ref": "Normal (real) + Programado + Overnight (dobles): mezcla de listas (el modulo F1 responde 503 por G0)",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_IdTipoCanalIngreso": "OPT",
+    "p_FormaPagoSpot": [],
+    "p_SolicitudesAporteRescateNormal": [
+      {
+        "IdInterno": 1,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "TipoSolicitud": "RES",
+        "IdSerieFondo": "FM001A",
+        "CalculoPorMontoCuota": "C",
+        "EsPorMontoLiquido": "N",
+        "Monto": 0,
+        "NumeroCuotas": 10,
+        "IdMoneda": "CLP",
+        "IdMedioDePago": "CIN",
+        "IdPreferenciaPagoPortafolio": 0,
+        "Visado": "N",
+        "SolicitudBatch": "N",
+        "OrigenOperacion": "M",
+        "FechaOperacion": "0001-01-01",
+        "IdRegimenTributario": "GEN",
+        "Glosa": "",
+        "IndicadorMLT": "N",
+        "IdSerieFondoDestino": "",
+        "IdEmisorDestino": "",
+        "IdAutorizadoOrigen": 0,
+        "Porcentaje": 0,
+        "FolioContrato": 0,
+        "IdMonedaPago": "CLP"
+      }
+    ],
+    "p_SolicitudesAporteRescateProgramado": [
+      {
+        "IdInterno": 11
+      }
+    ],
+    "p_SolicitudAporteOvernight": [
+      {
+        "IdInterno": 12
+      }
+    ]
+  },
+  "colaboradores": {
+    "CrearSolicitudAporteRescateProgramado": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 11,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "N"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 11,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "CrearSolicitudAporteOvernight": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [
+              {
+                "id": 1,
+                "tipo": "ERROR",
+                "codigo": "X_OVN",
+                "descripcion": "overnight 12"
+              }
+            ],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 12,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "N"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 12,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate",
+      "orden": "\"IdBloqueoSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.InterfazAgf",
+      "orden": "\"IdInterfazAgf\""
+    }
+  ]
+}

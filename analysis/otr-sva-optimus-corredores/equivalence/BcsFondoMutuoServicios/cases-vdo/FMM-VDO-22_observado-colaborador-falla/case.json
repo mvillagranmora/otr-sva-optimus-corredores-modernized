@@ -1,0 +1,41 @@
+{
+  "servicio": "ConsultarValorDolarFondoMutuo",
+  "ref": "FM-VDO-02: el colaborador lanza una excepcion => se propaga tal cual (HTTP 500, mensaje del colaborador)",
+  "esquemasExtra": [
+    "seed/base-vdo.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_Series": [
+      {
+        "IdSerieFondo": "V001",
+        "IdTipoSolicitud": "APO",
+        "Fecha": "2026-03-10"
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorTipoCambio",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.Parametro",
+      "orden": "\"IdEmpresa\", \"NombreTipoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "CalcularParidad": {
+      "defecto": {
+        "p_out_CalculosSalida": []
+      },
+      "respuestas": [
+        {
+          "error": "Paridad no disponible para la fecha"
+        }
+      ]
+    }
+  }
+}

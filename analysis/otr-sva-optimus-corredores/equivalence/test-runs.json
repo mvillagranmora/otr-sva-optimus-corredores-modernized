@@ -1,0 +1,1184 @@
+{
+  "date": "2026-10-29",
+  "legacy": {
+    "ran": true,
+    "how": "verify 2026-10-23: per module, the unmodified legacy classes compiled from legacy/ (read-only) into scratch and run by the module's own legacy-oracle (record.sh / OracleRunner + shims) on in-memory H2 MODE=LEGACY, JDK 25, UTC; fresh inputs re-recorded today for BcsTesoreriaJobs, BcsAPVJobs, BcsCuentaInversionJobs, BcsAPVServicios, BcsContabilidadJobs and (new) BcsPlataformaServicios; BcsUtils fresh legacy outputs kept from verify3 (JDK 11 driver). Earlier: BcsContabilidadServicios only: unmodified legacy EnvioContabilidad/ReversaPreComprobante compiled from legacy/ (read-only) into scratch and run by the module's legacy-oracle/OracleRunner on H2 MODE=LEGACY + shims, JDK 25. BcsUtils (verify3 2026-10-19): the unmodified pure legacy classes of cl.bcs.utils compiled from legacy/ (read-only) into scratch with JDK 11 -source 8 and run by one Fresh.java driver (equivalence/BcsUtils/fresh/Fresh.java), JDK 11 for legacy and JDK 25 for the new code, same zone/locale flags. BcsCuentaInversionServicios (verify1 2026-10-19): the 44 unmodified legacy JavaCall classes compiled from legacy/ (read-only) into scratch and run by the module's legacy-oracle (OracleRunner + shims) on in-memory H2 MODE=LEGACY, JDK 25; the dev goldens were recorded that way, the fresh inputs were recorded again by the verifier. BcsTesoreriaServicios (verify1 2026-10-20): the unmodified legacy cl.bcs.tesoreria classes compiled from legacy/ (read-only) into scratch (the legacy tree does not compile as is: CalcularMontoYCobrosOrden.Orden_Entrada does not exist, the oracle defines it from its use) and run by the module's legacy-oracle (OracleRunner + shims) on in-memory H2 MODE=LEGACY, JDK 25, JVM zone UTC; the dev goldens were recorded that way, the fresh inputs were recorded again by the verifier. BcsAPVServicios (verify1 2026-10-20): the unmodified legacy cl.bcs.APV classes are compiled from legacy/ (read-only) into scratch and run by the module's per-family legacy-oracle (record.sh + OracleRunner + shims) on in-memory H2 MODE=LEGACY, JDK 25, JVM zone UTC; the dev goldens were recorded that way and the fresh inputs were recorded again by the verifier. BcsTesoreriaJobs (verify1 2026-10-21): the 12 unmodified legacy cl.bcs.tesoreria job classes plus the real BcsJob.java are compiled from legacy/ (read-only) into scratch and run by the module's legacy-oracle (record.sh + OracleRunner + shims) through the real BcsJob.run() on in-memory H2 MODE=LEGACY, JDK 25, JVM zone UTC, en-US, UTF-8; the dev goldens were recorded that way and the 46 fresh inputs were recorded again by the verifier. BcsAPVJobs (verify1 2026-10-21): the 4 unmodified legacy cl.bcs.APV job classes plus the real BcsJob.java are compiled from legacy/ (read-only) into scratch and run by the module's legacy-oracle (record.sh + OracleRunner + shims) through the real BcsJob.run() on in-memory H2 MODE=LEGACY, JDK 25, UTC; the dev goldens were recorded that way and the fresh inputs were recorded again by the verifier. BcsCuentaInversionJobs (verify1 2026-10-21): the 23 unmodified legacy cl.bcs.cuentaInversion job classes plus the real BcsJob.java, BcsJobListener and BcsProcesoPauta are compiled from legacy/ (read-only) into scratch and run by the module's legacy-oracle (record.sh + OracleRunner + shims) through the real BcsJob.run() on in-memory H2 MODE=LEGACY, JDK 25, UTC, en-US, LF; the dev goldens were recorded that way and the 59 fresh inputs were recorded again by the verifier. BcsCrystalReports (verify1 2026-10-21): the unmodified legacy engine classes (BcsPlataformaReporteApi ReportDocument, JsonResultSet, SubreportDocument) are compiled from legacy/ (read-only) into scratch with JDK 11, the Crystal JRC 14.1 jars and POI 3.17, and render the real .rpt templates headless from an in-memory H2 template table through the module's recorder (src/test/legacy-recorder); the dev goldens (21 templates x 5 formats) and the fresh goldens (16 templates x 5 formats) were recorded that way. The legacy production runtime was JRE 8 on Alpine: it was not available here, so 'legacy' means the legacy source run on JDK 11. BcsFondoMutuoServicios (verify 2026-10-25): the unmodified legacy cl.bcs.fondomutuo classes compiled from legacy/ (read-only) into scratch by legacy-oracle/record_rre.sh and run by OracleRunner on H2 MODE=LEGACY with registered doubles, JDK 25, UTC; the 22 verifier fresh inputs VF-RRE-01..22 recorded that way; the development goldens (Normal, Tesoreria layer 1/2, RescateReinversion) were recorded the same way by development. BcsPlataformaWeb login MVP (verify 2026-10-26): the legacy web runs on the QA environment (qa.optimuscb.cl:9045, HANA QA); its pages were captured with a browser (TestsOptimusSelenium LoginOraculoTest) and its credential services called over HTTP with a dedicated test user; the modernized service ran locally against the same HANA QA. Cases: analysis/otr-sva-optimus-corredores/equivalence/BcsPlataformaWeb/{cases,fresh-cases}.json. BcsFondoMutuoServicios F3 W1 reads (verify 2026-10-27): the unmodified legacy cl.bcs.fondomutuo classes of FSA, VDO, FMR, IFM, SFM, WS, DET (with its delegate ConsultarSolicitudAporteRescateUI) and CPF compiled from legacy/ (read-only) into scratch by the per-front legacy-oracle/record_<x>.sh and run by OracleRunner on H2 MODE=LEGACY with registered doubles, JDK 25, UTC, en; the 135 verifier fresh inputs (seed 20261027, three independent verifiers) were recorded that way; the modernized side ran through the module's own test harness (Caso<X>.ejecutar, profile ABIERTA). Cases: equivalence/BcsFondoMutuoServicios/{cases,fresh-cases}.json (fragments and drivers under verify20261027/). BcsFondoMutuoServicios F3 W2 CargarValorCuota (verify 2026-10-27, second run): the unmodified legacy CargarValorCuota and AgregarLog compiled from legacy/ (read-only) into scratch by legacy-oracle/record_cvc.sh (OracleRunnerCvc) on H2 MODE=LEGACY with registered doubles, JDK 25, UTC, en; 32 verifier fresh inputs (seed 20261027) recorded that way; the modernized side through CasoCvc.ejecutar (profile ABIERTA). BcsFondoMutuoServicios verify 2026-10-28: the unmodified legacy ConsultarCustodiaPortafolioFFMM and the CPF + FFMM chain (CPF and FFMM both real, no double) compiled from legacy/ (read-only) into scratch by record_ffmm.sh / record_cpfchain.sh on H2 MODE=LEGACY with doubles only for ConsultarEmpresa, CalcularParidad and EntregarPreciosTasas, JDK 25, UTC, en; 42 verifier fresh inputs (seed 20261028) recorded that way; the NEW side of every family already verified (Normal, RescateReinversion, the 8 reads and CargarValorCuota) was re-run against the current code with the same drivers (Volcar, Volcar27..27d) and the legacy dumps were checked byte by byte unchanged. BcsFondoMutuoServicios verify 2026-10-29: the new side of the 13 families already verified was re-run against the current code with the same drivers (Volcar, Volcar27..27d, Volcar28; legacy dumps checked byte by byte unchanged in 25 paths) and 42 fresh inputs of CrearSolicitudAporteRescateNormal (seed 20261029) were recorded on the unmodified legacy with a copy of record.sh (v29-record_nor.sh: only adds ORACLE_CASES, ORACLE_REPEAT, ORACLE_REPORT), 20 repetitions each, 0 unstable.",
+    "why": "Modules without an oracle (the TomEE/Java 8 runtime is not available here; QA GWJAVA refused the session on 2026-10-10) have no legacy output: their fresh-input check is a gap, not a pass."
+  },
+  "leftOut": [
+    "Fresh-input check: legacy cannot run in this environment (TomEE 8 / Java 8 required). Malformed records not attempted; there is no INTENT.md in this workspace, so the earlier claim of 'INTENT.md guidance' for that choice was unsupported. Fresh-input verification is trace-based only.",
+    "2026-10-10 BcsCustodiaServicios: QA legacy comparison attempted with the user's authorization (read-only). QA endpoints reachable; HANA QA reads succeeded. The legacy GWJAVA application refused the service call (HTTP 401 Invalid Session), so the legacy side produced no output to compare and no fresh-input case could be completed.",
+    "2026-10-10 BcsCustodiaServicios: the earlier fresh set at equivalence/fresh/BcsCustodiaServicios-verify2/ is placeholder-only — all 15 legacy/*.txt files are 0 bytes, so its 15-of-15 'differs' are artifacts of empty files, not behavioral differences. Not promoted to the canonical cases path; it proves nothing either way.",
+    "2026-10-10: a read-only diagnostic SELECT against ACC.Sesion (to explain the 401) was blocked by this environment's production-read guard and was not run.",
+    "cases.json: no development equivalence cases were generated; no legacy runner available to generate or re-run them.",
+    "HANA verify 2026-10-08: BSCL_VIRTUAL.CUSTODIA_OPTIMUS queried (5454 rows, 172 distinct NEMOs). No NEMOs with transitional markers found — determinarNuevoNemo identity path verified on 20 real codes. CONFIGURACION_T and POSICION_CUSTODIA_T do not exist in HANA — adapter plain-SQL uses H2 placeholder table names; schema alignment required before HANA connection. Results in analysis/otr-sva-optimus-corredores/equivalence/fresh/BcsCustodiaServicios/nemo-fresh-check.txt.",
+    "2026-10-15 BcsContabilidadServicios: the legacy ran through shims for its runtime (SQL/JavaCall/config/OACT) on H2, not on TomEE/HANA; HANA-specific SQL behavior beyond H2 MODE=LEGACY is not covered.",
+    "2026-10-15 BcsContabilidadServicios: comparison is of salida + table dumps through the module's JsonCanon (null keys dropped, numbers by value, unordered SQL arrays sorted); secuenciasSolicitadas and log text were not compared.",
+    "2026-10-15 verify5 BcsContabilidadServicios: fresh inputs F01-F16 cover only EnvioContabilidad and ReversaPreComprobante (the slice the legacy oracle can run); Centralizacion, devengo, interfaz, informe, GenerarJson and InterfazContable have no fresh legacy comparison here (trace-based tests only).",
+    "2026-10-15 verify5 BcsContabilidadServicios: one malformed record tried (F16, letters in SecuenciaComprobante): both sides throw JsonSyntaxException, only the class is compared; other malformed shapes were not tried.",
+    "2026-10-16 verify2 BcsContabilidadJobs: fresh inputs JF01-JF12 cover only the InterfazContable job shell (the only job the legacy oracle can run here); CentralizaMultiSeleccionJob, CreaInterfazDiaria/Demanda and GenerarInformeClienteRelacionadoBatch need the TomEE Job Manager and HANA/SFTP, so they rest on trace-based tests.",
+    "2026-10-16 verify2 BcsContabilidadJobs: malformed records (non-numeric SecCmbte ids, bad base64) were not compared against the legacy: the OracleRunner records an exception without the job-shell outputs; unit tests CONT-J-62/63/64 pin them.",
+    "2026-10-16 verify2 BcsContabilidadJobs: RutaSalida is not compared (legacy wall-clock timestamp vs fixed clock); CONT-J-68 pins its format.",
+    "2026-10-19 verify3 BcsUtils: fresh inputs F01-F14 cover the pure API only (RutUtil, StringUtils, Utils pure subset, DateUtil, Fecha, copyPojo/List2Hash/getColumn, FileUtils/ZipUtil, Gson deserializers); no INTENT.md exists, so malformed records were tried (F01, F03, F04, F07, F08, F13).",
+    "2026-10-19 verify3 BcsUtils: not compared against the legacy: Timer (API changed to createTimer(LongSupplier), SLF4J), clave/PoliticaClave, sesion/* and security/HybridPasswordEncoder (new or DB-bound classes; RULE-021/024/025/031-034/071 rest on golden-driven tests), CrystalReports client, and the approved deviations RULE-025, RULE-032, RULE-031 (128+ chars), UTIL-56 (ZIP-027).",
+    "2026-10-19 verify3 BcsUtils: legacy gson 2.8.2 / commons 2.5 / JDK 11 stand in for the production pins (gson 2.6.2, commons-io 2.4, Java 8 JRE); BcsUtils/src/test/resources/golden/PROVENANCE.md records that json and collections re-recorded with gson 2.11.0 are identical.",
+    "2026-10-19 verify1 BcsCuentaInversionServicios fresh inputs: 23 inputs (12 transaccional, 11 reportes), 40 output files. Left out: F03 (malformed empty date: both sides throw DateTimeParseException, no output), F20 (lower-case status: status-only output), F26 (index first value 0: both ArithmeticException), F16 (all outputs identical to a development output). Malformed records tried only in F03 and F20 because there is no INTENT.md.",
+    "2026-10-19 verify2 BcsCuentaInversionServicios: the verify1 difference F24-pdfTextos came from the modern test double recording blank PDF cells that the legacy never draws (GenerarArchivoSaldoCuentas.java:745: an empty text gives no line, so no showText). The double now skips blank cells and the SaldoCuentas tests compare pdfTextos (3 dev cases with 84/75/42 texts); the fresh modern side was re-run: 40 of 40 same. The comparison is of recorded PDF cell texts, not of a real PDF.",
+    "2026-10-19 verify1 BcsCuentaInversionServicios: not covered by fresh inputs: Anexo16, ClientesPorPagarYCobrar, InformeAttribution, GenerarReporteAcreedores, GuardarPatrimonioCaja, Eliminar*/Crear*OpcionesCobro, CargaMasiva, GenerarArchivoCargoAbono, ConsultaComparacionSaldo, ConsultarCartolaDeMovimiento, ConsultarMovimientosWS, SaldoCuentaInversion, ActualizarSaldoCargoAbono directly.",
+    "2026-10-19 verify1 BcsCuentaInversionServicios: HANA is not exercised. Everything runs on H2 with a modelled schema shared by oracle and modern code (DECIMAL(28,16), views as tables, PLA.Identidad 6x6): a schema-model error would not show. The SQLScript of the CrearCargoAbono stored procedure is not in the repo (only its Java side is pinned). Collaborator numerics are scripted. PDF layout is not compared (iText/PDFBox shims record text only); no production PdfGenerator adapter exists. ICU4J 4.6 and POI 3.17 stand in for 71.1 and the production version.",
+    "2026-10-19 verify1 BcsCuentaInversionServicios: a first canary on ActualizarSaldoCargoAbonoService.acumularSaldoEfectivo (add to subtract) SURVIVED: 0 tests failed, because those two helpers are dead code in production (kept only for the old ServiceFormulasTest; the live accumulation is SQL). Evidence: equivalence/canary/BcsCuentaInversionServicios-verify1/saldo-signo-codigo-muerto. It is not listed in canaries.",
+    "2026-10-19 verify1 BcsCuentaInversionServicios: the only P0 rule the module answers for is RULE-076 (main() only in the Spring bootstrap class). BUSINESS_RULES.md has no rule for CuentaInversion, so the oracle is the legacy code itself.",
+    "2026-10-20 verify1 BcsTesoreriaServicios: HANA is not exercised. Everything runs on H2 with a schema inferred from the legacy SQL (106 tables, HANA views as seeded tables), shared by oracle and modern code: a schema-model error would not show. Stored procedures (EdicionMultiple, CrearComprobante with USARCREARCOMPROBANTEJAVA=N, the LiquidacionMasiva call) are pinned only on their Java side; the ProcedimientoAlmacenado adapter, SecuenciasJdbc and temp-table behavior are untested on HANA.",
+    "2026-10-20 verify1 BcsTesoreriaServicios: outside the proof: Cloper and CloperWsBSC (real HTTPS), DistribucionPac (dead, does not compile in the legacy), cases TES-A-345/355 (H2 MERGE emulation) and TES-A-429/443 (H2 conversion text), the stock-order path of ProcesarDistribucion (scripted collaborators whose contracts are hand-written shims), queries without ORDER BY whose order HANA decides, branches of ProcesarDistribucion unreachable through the legacy SQL.",
+    "2026-10-20 verify1 BcsTesoreriaServicios: cross-module collaborators (CrearCargoAbono, CalcularParidad, CrearOrdenes, ...) are proven only against scripted doubles; the routing of every collaborator name is tested (ColaboradoresJavaCallEnrutamientoTest) but nothing was exchanged with the real services.",
+    "2026-10-20 verify1 BcsTesoreriaServicios: SOAP (SvcRecaudaInqV1/TrnV1) is covered only by a STATIC contract (SoapContratoEstaticoTest): no real WSDL, no runtime, no wire XML, no consumer validation; the modern endpoints are still a skeleton that does not reproduce the legacy port implementations.",
+    "2026-10-20 verify1 BcsTesoreriaServicios: the only P0 rule the module answers for is RULE-076; BUSINESS_RULES.md has no Tesoreria rule (the session and provisional-password rules were reassigned to BcsUtils and BcsPlataformaWeb by decision of the user), so the oracle is the legacy code itself.",
+    "2026-10-20 verify1 BcsTesoreriaServicios: two canaries SURVIVED and are not listed in canaries: ConsultarLibretaBancoService:254 rounding HALF_UP to DOWN (no case holds a half-cent value on that line; evidence in canary/BcsTesoreriaServicios-verify1/libreta-redondeo-linea254-sobrevive) and, from the transform step, CrearTraspasoService:168 (Math.abs) and GestionDeDepositosService:171 (branch unreachable because of a legacy defect).",
+    "2026-10-20 verify1 BcsAPVServicios: HANA is not exercised. Everything runs on H2 with a schema inferred from the legacy SQL (HANA views as seeded tables), shared by oracle and modern code: a schema-model error would not show. Stored procedures, SecuenciasJdbc (NEXTVAL FROM DUMMY), the three seeded recaudacion views and the HANA unique-violation path (code 301) of GrabarContratoSAAPV are pinned only on their Java side.",
+    "2026-10-20 verify1 BcsAPVServicios: cross-module collaborators (Tesoreria, CuentaInversion, SocioNegocio, Ordenes, ...) are proven only against scripted doubles; the routing of the collaborator names is tested but nothing was exchanged with the real services, and they now run over HTTP outside the APV transaction (review finding H4, open).",
+    "2026-10-20 verify1 BcsAPVServicios: REST and the legacy JSON adapter are proven by wiring and mapping tests (RestEntradaConDefectosLegacyTest 69, RestRegistroConsistenciaTest, ApvCableadoRealTest, AutorizacionesControllerTest), not by the dual-execution cases; no real-proxy test exists for the services with mid-flow commit/rollback (CargaMasivaPAC, CargaMasivaBanco, CargaBonificacionTGR, DevolucionBF, EjecutarBonificacion, ProcesarDistribucion, EliminarRegistros).",
+    "2026-10-20 verify1 BcsAPVServicios: not covered by cases: CargaBonificacionTGR batches over 1000 rows, ReplicaPortafolioAPV with data, ProcesarCargaMasivaRecaudacion with more than 2 deposits; ValidarBancoPrevired and ValidarMandatosPAC return null in the legacy and stay null adapters. The 20 fresh inputs cover 11 operations, not all 64.",
+    "2026-10-20 verify1 BcsAPVServicios: the oracle is the legacy code itself; BUSINESS_RULES.md rules are not tied to this module by name (the only P0 rule the module answers for is RULE-076). Legacy defects are kept bug-for-bug and listed in TRANSFORMATION_NOTES.md for the domain expert; SME sign-off on APV regulatory correctness is an external blocker and malformed records were not tried (INTENT.md asks for equivalence on valid-format inputs).",
+    "2026-10-21 verify1 BcsTesoreriaJobs: HANA is not exercised. Everything runs on H2 with a schema inferred from the legacy SQL (shared by oracle and modern code): a schema-model error would not show. Stored procedures (the HANA CALLs of the file jobs) are scripted on their Java side only; ProcedimientoArchivoJdbc is tested with mocks.",
+    "2026-10-21 verify1 BcsTesoreriaJobs: opencsv 3.7 (the legacy runtime library, libs/opencsv-3.7.jar) is not available offline: the legacy oracle runs a shim of the 3.x rules and the modern code a reproduction (CsvLegacyWriter), so both are the same reading of 3.7, never checked against the real jar. Production OS (LF line endings, Linux) is an assumption.",
+    "2026-10-21 verify1 BcsTesoreriaJobs: the collaborators (ValidarMandatosPAC, ValidaEjecucionProcesoRecPAC, ConsultarEstadoModulo, ObtenerDiaAnterior, AgregarLog and the Tesoreria services) are proven only against scripted doubles; nothing was exchanged with the real services or the platform router.",
+    "2026-10-21 verify1 BcsTesoreriaJobs: not proven: Quartz / Job Manager scheduling (the jobs are called in process through POST /internal/job-call; the legacy ran under BcsJob + Quartz), real file delivery (volume, FTP, bank consumers), and the web entry point against the real platform. Open review findings H2 (ephemeral output files, no volume, healthcheck, non-root), H3 (no bound on a run) and H4 (parameters and idPrograma chosen by the caller, in-flight guard per JVM only) need decisions or deployment work.",
+    "2026-10-21 verify1 BcsTesoreriaJobs: no P0 rule of BUSINESS_RULES.md is tied to this module by name except RULE-061, RULE-076 and RULE-077 (tested by Rule061/076/077 classes); the oracle is the legacy code itself. 19 legacy defects (TES-J-DEF-01..19) are kept bug-for-bug and listed for the domain expert. Malformed records were not tried (INTENT.md asks for exact behavior on valid-format inputs only).",
+    "2026-10-21 verify1 BcsTesoreriaJobs: fresh input PG-BX01 first try (amount 0.00000001) made the legacy fail with StringIndexOutOfBoundsException (defect family TES-J-DEF-12); it was replaced by 0.00000100 and is not counted. The 46 fresh inputs cover the 6 jobs but not every branch.",
+    "2026-10-21 verify1 BcsAPVJobs: HANA is not exercised: everything runs on H2 with a schema inferred from the legacy SQL (shared by oracle and modern code); stored procedures only on their Java side. Collaborators outside the module are proven only against scripted doubles. The jobs run in process through POST /internal/job-call; Quartz / Job Manager scheduling is not proven. Open architecture-review findings (H-1 collaborators commit outside the job transaction over HTTP, H2/H3/H4 job pattern, shared output volume) need decisions or deployment work. Production is Linux (LF). Malformed records were not tried (INTENT.md asks for exact behavior on valid-format inputs only). The oracle is the legacy code itself; only RULE-061, RULE-076 and RULE-077 tie to the module.",
+    "2026-10-21 verify1 BcsAPVJobs: canary job/IngresarOrdenRVBonificacionFiscal.java:147 custody cap compareTo(cantidadBF) < 0 changed to <= 0 SURVIVED (IngresarOrdenRVBonificacionFiscalCasosTest 50/50 green): no case holds a custody quantity exactly equal to the bonus quantity; evidence in canary/BcsAPVJobs-verify1/rv-tope-custodia (not listed in canaries).",
+    "2026-10-21 verify1 BcsAPVJobs: the OBF-006, CMP-025 and RVB-039 Error cases mask the `tablas` comparison point (a harness artifact: the legacy dumped the tables on a connection still open after a java.lang.Error; HANA rolls back on close); decided by the user (option a).",
+    "2026-10-21 verify1 BcsAPVJobs: the 4 jobs collaborators were not exchanged with the real services; the router names are covered by ColaboradoresJobsEnrutamientoTest.",
+    "2026-10-21 verify1 BcsAPVJobs: fresh inputs OBF-101 and OBF-102 are marginal: the job sends a hard-coded order and ignores the scripted answer, so only the tablas facet (new IdPrograma) differs from OBF-001; the OBF job has no real input surface. MonedaFormato static cache is cleared per case by the oracle.",
+    "2026-10-21 verify1 BcsCuentaInversionJobs: HANA is not exercised: everything runs on H2 with a schema inferred from the legacy SQL (shared by oracle and modern code); stored procedures only on their Java side. Collaborators outside the module are proven only against scripted doubles. The jobs run in process through POST /internal/job-call; Quartz / Job Manager scheduling is not proven. Open architecture-review findings (H-1 collaborators commit outside the job transaction over HTTP, H2/H3/H4 job pattern, shared output volume) need decisions or deployment work. Production is Linux (LF). Malformed records were not tried (INTENT.md asks for exact behavior on valid-format inputs only). The oracle is the legacy code itself; only RULE-061, RULE-076 and RULE-077 tie to the module.",
+    "2026-10-21 verify1 BcsCuentaInversionJobs: opencsv 3.7 is reproduced (shim in the oracle, own writer in the module), never run against the real jar.",
+    "2026-10-21 verify1 BcsCuentaInversionJobs: the Servicio-name validation (^[A-Za-z0-9_.:]+$) in GenerarArchivo is a deliberate hardening deviation decided by the user (option A); golden GA-29 (Servicio SP\"X) runs only through the test-only 4-argument constructor with validation off, so that golden does not exercise the production constructor.",
+    "2026-10-21 verify1 BcsCuentaInversionJobs: Step 1 test-support changes accepted by the user (Observacion, ColaboradoresDeCaso, Equivalencia with ${RUTA_BASE} masked on both sides in 24 IP/RC cases); goldens untouched.",
+    "2026-10-21 verify1 BcsCuentaInversionJobs: PLA.RutaBaseArchivos and PLA.FechaSistema are read from PLA.Configuracion (legacy used a HANA procedure): an assumption not proven on HANA. The PAUTA steps have no entry point yet (plain beans with ProcesoPauta).",
+    "2026-10-21 verify1 BcsCrystalReports: only 21 of the 153 repository templates (2 per domain plus one regression case) and 16 fresh ones were rendered: about 116 templates were never rendered by either engine; the 15 templates exported from HANA QA and the 21 HANA-only rows were not rendered either; SocioNegocio has no .rpt (3 queries only) and its templates, if they exist, are not in the repository nor in the HANA QA listing.",
+    "2026-10-21 verify1 BcsCrystalReports: inputs are fake rows deduced from the templates and .sql files, not real HANA data or types: typed dates arrive as text through the JSON contract (two templates, Normativa CI63Transacciones and Mesa MRF_QUINCENAL_DE_PACTOS, could not be rendered even by the legacy engine and were replaced); procedure-driven templates and real data volumes are not covered.",
+    "2026-10-21 verify1 BcsCrystalReports: the legacy production runtime (JRE 8, Alpine, TomEE) was not available: engine equality is shown on JDK 11 only; the container image (Alpine, DejaVu fonts, non-root) renders a 1-page PDF with the expected text but the goldens use the Windows font set of this machine: pixel/page equivalence inside the image is not proven; POI is pinned to 3.17 while the legacy build files declare 3.14 (the 3.14 jar probe gave the same output on the one affected xls).",
+    "2026-10-21 verify1 BcsCrystalReports: masks (PDF /Title temp name, print date/time text and the font subset objects that change with the minute, 6 Excel print-time bytes, RTF \\creatim, TXT time) are documented in equiv/README.md; text, positions, images, font names and object order are compared exactly; Word is RTF in both engines; TXT mojibake exists in both engines.",
+    "2026-10-21 verify1 BcsCrystalReports: REST contract: the legacy object-form data (serviceId/serviceData: server-side data access) and the user session token (X-SESSION-TOKEN) are deliberately outside the sidecar (the platform must resolve data and call with the internal token); an optional schema field and a companyId parameter were added; other HTTP methods answer 500 instead of 405; BcsPlataformaWeb CallReportServlet and about 29 in-process ReportDocument callers (Normativa, Mesa, FondoMutuo, Facturacion, Custodia) have not been redirected to the sidecar.",
+    "2026-10-21 verify1 BcsCrystalReports: open review findings: /reports/generate stays public until its consumers send the token (retirement date not set), caller-controlled debug:true returns stack traces, no per-request timeout (a render without data waits about 20 s for the HANA host embedded in the template), ListMapResultSet static metadata field (renders are serialized with a lock instead), 100 MB upload limit and no body/pixel guards, no audit log of template upload/update, the uploaded .rpt is opened by the engine in a process that holds HANA credentials (needs a dedicated HANA user, egress limited to HANA, upload/update restricted at the platform), mem_limit 2g not exercised (the podman machine has no memory cgroup), Spring Boot 2.7.18 end of life (compensating controls: no published port, network isolation).",
+    "2026-10-21 verify1 BcsCrystalReports: canary extension-xls (RenderOrchestrator.java:53 XLS->XLSX) is pinned by one test only (122 run, 1 failed): the file-name extension of the Excel reply is weakly pinned.",
+    "2026-10-21 verify1 BcsCrystalReports: malformed requests were not tried (INTENT.md asks for exact behavior on valid-format inputs only); data with a backslash was not run (a bug of the test tooling Facet.rtfText, not of the engine).",
+    "BcsFondoMutuoServicios: no fresh inputs this run; its F1 oracles (equivalence/BcsFondoMutuoServicios) are not in the compare.py cases format, and the module is still mostly stubs (F1 slice only), so fresh-input work is deferred to the full-module verify.",
+    "BcsJobManager, BcsPlataformaWeb, BcsAPVApi, BcsApvJavaCallAdapter: platform/routing or typed-API libraries with no legacy oracle here; no fresh inputs.",
+    "2026-10-25 BcsFondoMutuoServicios: dev cases.json holds the 135 FMM-NOR and 73 FMM-RRE goldens only; the FMM-MAN Manejador goldens and the 3A/3B pure-closure goldens are left out (their module tests compare a subset, not a full dump, so no byte comparison exists).",
+    "2026-10-25 BcsFondoMutuoServicios: verifier fresh inputs cover RescateReinversion only (the code changed on 2026-10-25); Normal and the in-process Tesoreria (changed 2026-10-23/24) got no verifier fresh inputs this run.",
+    "2026-10-25 BcsFondoMutuoServicios: malformed records tried: VF-RRE-21 (letters in NumeroCuotas) and VF-RRE-22 (blank IdInterno): both sides JsonSyntaxException; no other malformed shape tried.",
+    "2026-10-25 BcsFondoMutuoServicios: H2 only, scripted collaborators; HANA, the autonomous lock procedures' real behaviour and the router answers are not exercised.",
+    "2026-10-26 BcsCustodiaServicios verify4: no fresh inputs run. The ConsultarFlujoCustodia slice has no implementation to run, and the legacy GWJAVA QA refused sessions earlier (HTTP 401); the live QA re-run was not repeated here because QA is not a local instance.",
+    "2026-10-26 BcsCustodiaServicios verify5: fresh inputs F01..F15 (15 invented, valid records; INTENT.md does not exist so malformed records were allowed but none was tried: the slice reads typed database rows, not text records). F06 left out: the unmodified legacy is UNSTABLE on it (3 runs differ, D-CUS-06). 14 fresh inputs compared, all same.",
+    "2026-10-26 BcsGateway: no legacy counterpart (the legacy had nginx in front): judged by its own tests only.",
+    "2026-10-26 BcsPlataformaWeb login MVP: legacy oracle = the legacy OPTIMUS web on QA (qa.optimuscb.cl:9045) over HTTP and a browser capture, with the QA test users; ActualizarClave needs a session in the new code (owner decision, the legacy asks none): its refusals were compared with the legacy anonymous answers, and the 400 / 403 rules have no legacy counterpart (tests only). Not compared: a successful ActualizarClave (it changes the password), channels other than COR, SSO, /call, menus and windows (UI); malformed records not tried (the contract, not broken input, must match).",
+    "2026-10-26 BcsFondoMutuoServicios: no new fresh inputs this round (the change touches only the failure path of the reinversion lock and a start-up guard); the 22 fresh inputs of 2026-10-25 were re-run on the current code against the same legacy dumps. FMM-RRE-10 and FMM-RRE-11 differ from the legacy golden only in the session field tablasLocalesSinDrop (DEV-6-H1 extended to RescateReinversion; the user approved the deviation in the session on 2026-10-26, the per-case approval is for a person to record).",
+    "F3 W1 reads, verify 2026-10-27: no fresh input was refused by the legacy (leftOut empty for the 135); DESVIO-KIT-1 (empresa nula/sin configuracion: legacy NullPointerException, new ParametroNoEncontradoException of the kit) and VDO FMM-VDO-05/06 (legacy plain Exception, new ParametroNoEncontradoException, same message) are NOT approved here: 15 development cases and 1 fresh case differ only by exception class, for a person to decide.",
+    "F3 W1 reads: malformed records were not tried beyond the nulls, wrong JSON types and unparseable dates that the legacy itself accepts or rejects in the fronts' own cases; INTENT.md asks for the same behaviour including quirks, and the fresh inputs of each front already include them.",
+    "F3 W1 reads: HANA-only behaviour is not covered (column types, MAP, row order without ORDER BY, the driver's getColumnName with an alias); the proof is on H2 with the unmodified legacy classes. Read-only SELECTs on HANA QA settled Q-F3A-9 (IdEmpresa 0 filters IdEmpresa=0), D-F3A-28 (getColumnName returns the underlying name), MAP(NULL,...)=0, IngresoAutomatico without NULL in ING/PEN and a null Long bound as NULL; readOnly transaction and statement timeout are tested on H2 only.",
+    "F3 W2 CVC, verify 2026-10-27: VF-CVC-15 (ISIN mode with repeated ISINs) left out because its dump is byte-identical to a development output (the dumped tables do not show the extra series); VF-CVC-33 replaces it. The legacy refused no input.",
+    "F3 W2 CVC: not approved here (a person decides): cvc-FMM-CVC-193 (DESVIO-KIT-1, NullPointerException vs ParametroNoEncontradoException) and VF-CVC-29 / VF-CVC-30 (an injected write failure in a batch of 12: the legacy SQL.batch on H2 keeps executing the rows after the failing one, the new SqlLote stops at the first; the state after the host's rollback is identical, only the in-session state before the rollback differs; HANA's executeBatch behaviour on a partial failure cannot be checked with a SELECT).",
+    "F3 FFMM and chain, verify 2026-10-28: no fresh input was refused by the legacy; a first run refused an input with IdRegimenTributario NULL because FMM.SolicitudAporteRescate.IdRegimenTributario is NOT NULL in the schema (not reachable), replaced by an empty string in VF-FFMM-10b and VF-CHAIN-11.",
+    "F3 FFMM, verify 2026-10-28: not approved here (a person decides): ffmm-FM-CPFF-C04d/C04e/C04f (DESVIO-KIT-1: null, absent or unconfigured company; legacy NullPointerException, new ParametroNoEncontradoException of the kit; everything else identical).",
+    "F3 FFMM chain, verify 2026-10-28: CadenaEquivalenciaTest.conIdsCanonicos requires the request ids to be 2..n+1 without gaps; VF-CHAIN-05 and VF-CHAIN-17 mix amount and quota requests (ids [2,4] and [3]); both sides are identical and the verifier renamed by first appearance; a case like that added to the module suite would fail its own assertion.",
+    "Re-run of the new side 2026-10-28: VF-CVC-29 and VF-CVC-30, approved by the user on 2026-10-27 as a batch difference, are now identical to the legacy (real executeBatch); their approvals are no longer needed.",
+    "F3 Normal fresh, verify 2026-10-29: no input was refused by the legacy; 6 of the 42 do not count (VF-NOR-27..32: early-error outputs equal to an existing one: user without profile, p_IdUsuario 0 and 2147483647, p_IdEmpresa 0 and -1, a batch of 1 with IdInterno 0).",
+    "Normal, verify 2026-10-29: not approved here (a person decides): VF-NOR-11 (USD contribution with Spot: legacy ROLLBACK_HTTP500 SQLException because the oracle H2 has no MES.Mesa; new ROLLBACK_503 ServicioNoServidoException, gate G2 closed: the same behaviour as the approved development case FMM-NOR-07, DEV-F4) and VF-NOR-36 (batch of 5 with a duplicated lock key: only the session differs: the legacy leaves the local table #p_BloqueoSolicitudAporteRescate undropped, the new code drops it: the same behaviour as the approved development case FMM-NOR-37, DEV-6-H1).",
+    "Normal custody switches, verify 2026-10-29: the CasoNormal harness builds Compuertas with the 6-argument constructor (Normal follows G-CUS), so it does not exercise normal-habilitada separately; a verifier copy (V29Gates) ran the 42 inputs with each combination: with G-CUS and normal-habilitada open, with or without comisiones-en-proceso, identical to the harness; with normal-habilitada=false 21 inputs (the ones that query the custody flow) answer 503 G-CUS by design; with habilitada=false they also answer 503 because ConsultarFlujoCustodiaFondoMutuoService also evaluates gCustodia()."
+  ],
+  "suites": [
+    {
+      "module": "BcsNormativaCore",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsNormativaCore/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsNormativaJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsNormativaJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsMesaServicios",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsMesaServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsOrdenServicios",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsOrdenServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsPortafolioServicios",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsPortafolioServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "91 tests (82 B-POR-01..15 + 6 RULE-068 + 3 RULE-076), 0 failures. RULE-068 fix: HanaUtilService.getSequence now validates sequence name against [A-Za-z0-9_.:\\-]+ whitelist before SQL concatenation. RULE-076 tests verify no hardcoded credentials or main() in service classes."
+    },
+    {
+      "module": "BcsValo2",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsValo2/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsJobOrders",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsJobOrders/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsMesaJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsMesaJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsOrdenJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsOrdenJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsBECB",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsBECB/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsSURA",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsSURA/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsReplica",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsReplica/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsSocioNegocioJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsSocioNegocioJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsFacturacionJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsFacturacionJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsCustodiaJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCustodiaJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsSocioNegocioServicios",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsSocioNegocioServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsFacturacionServicios",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsFacturacionServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsFilters",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsFilters/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsPortalConfirmacionWeb",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsPortalConfirmacionWeb/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsCartolasMaster",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCartolasMaster/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsTributarioJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsTributarioJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsCartolasJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCartolasJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsCanalAgenteServicios",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCanalAgenteServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsPlataformaReporteApi",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsPlataformaReporteApi/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsPlataformaJobs",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsPlataformaJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsCartolas",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCartolas/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsJobsFondoMutuo",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsJobsFondoMutuo/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsNormativaServicios",
+      "name": "unit + integration tests (Maven Surefire)",
+      "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsNormativaServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/full-build-verify2.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": ""
+    },
+    {
+      "module": "BcsGateway",
+      "name": "unit + integration tests (Maven Surefire), verify 2026-10-26 (second run)",
+      "command": "mvn -o test -Dmaven.test.failure.ignore=true (in BcsGateway, after deleting target/; JDK 25.0.4)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsGateway/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsGateway-verify-20261026b.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "Clean run: 37 tests, 0 failed (login routes, security headers, CORS, X-Forwarded-For, strict prefix rewrite, safe fallback)."
+    },
+    {
+      "module": "BcsContabilidadServicios",
+      "name": "unit tests (Maven Surefire, clean)",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/BcsContabilidadServicios/pom.xml clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsContabilidadServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsContabilidadServicios-verify5.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify5 2026-10-15: target/ deleted first; JDK 25.0.4 (default JAVA_HOME is JDK 11); H2 in-memory, fakes and localhost only."
+    },
+    {
+      "module": "BcsCuentaInversionServicios",
+      "name": "unit + characterization tests (Maven Surefire, two forks: UTC and America/Santiago)",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-cuenta-inversion-servicios clean test -Dmaven.test.failure.ignore=true -Dequivalence.out=<scratch dump dir> --batch-mode",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCuentaInversionServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsCuentaInversionServicios-verify3.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify3 2026-10-20, from clean (target/ deleted), JDK 25, offline, H2 only, re-run after the TokenInternoFilter fix (allow-list, architecture review H3 of Tesoreria that also applied here). 355 tests UTC fork + 233 reportes fork + 4 new filter tests."
+    },
+    {
+      "module": "BcsTesoreriaServicios",
+      "name": "unit + characterization + wiring tests (Maven Surefire, one UTC fork)",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :tesoreria-service clean test -Dmaven.test.failure.ignore=true -Dequivalence.out=<scratch dump dir> --batch-mode",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsTesoreriaServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsTesoreriaServicios-verify1.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify1 2026-10-20, from clean (target/ deleted), JDK 25, offline, H2 only, JVM zone UTC; includes the wiring tests (Spring context, real transaction manager, real filter and controller) added after the architecture review."
+    },
+    {
+      "module": "BcsCrystalReports",
+      "name": "unit + render equivalence + REST contract + container-hardening tests (Maven Surefire, JDK 11)",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/BcsCrystalReports/pom.xml test --batch-mode (module is standalone, Spring Boot 2.7.18 / Java 11; mvn clean is not available offline: target/ was emptied by hand first)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCrystalReports/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsCrystalReports-verify1.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify1 2026-10-21, target/ emptied by hand, JDK 11, offline, H2 only; 290 tests (incl. RULE-076); the dumps of this code are identical to the stored ones (dev 105/105, REST 105/105, fresh 80/80 same with the real compare.py)."
+    },
+    {
+      "module": "BcsContabilidadJobs",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl BcsContabilidadJobs -am clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsContabilidadJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsContabilidadJobs-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline, H2/fakes, UTC; reactor -am also ran BcsUtils, ContabilidadServicios, Tesoreria/APV/CI Servicios tests (same log). Dev+fresh drivers re-run in scratch: outputs byte-identical."
+    },
+    {
+      "module": "BcsUtils",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-utils clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsUtils/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsUtils-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline (UTC for the suite; dev dump re-run in scratch in the default zone as recorded): 1840 dev outputs byte-identical; fresh F01-F14 new side re-run, identical."
+    },
+    {
+      "module": "BcsAPVServicios",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-apv-api,:bcs-apv-javacall-adapter,:apv-service clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsAPVServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsAPVServicios-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline, H2 only, UTC; dev dump identical to stored (4324); 20 fresh inputs re-recorded on the legacy and re-run on the new code in scratch: identical."
+    },
+    {
+      "module": "BcsAPVJobs",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :apv-jobs clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsAPVJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsAPVJobs-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline, H2 only, UTC; dev (*CasosTest) and 22 fresh inputs re-run in scratch, legacy re-recorded."
+    },
+    {
+      "module": "BcsCuentaInversionJobs",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-cuenta-inversion-jobs clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCuentaInversionJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsCuentaInversionJobs-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline, H2 only, UTC; dev (full suite dump) and 60 fresh inputs re-run in scratch, legacy re-recorded."
+    },
+    {
+      "module": "BcsTesoreriaJobs",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :tesoreria-jobs clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsTesoreriaJobs-verify-20261023b.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 (b) from clean after adding programa/ProgramaReglasP0Test (RULE-057/058/059/062/066/068, incl. the database-claim window) and naming RULE-055/056/057 in the H4 tests; JDK 25, offline, H2 only, UTC; dev and fresh outputs from the earlier run unchanged (main code untouched)."
+    },
+    {
+      "module": "BcsPlataformaServicios",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :plataforma-service clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsPlataformaServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsPlataformaServicios-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline, H2 only, UTC; only ConsultarEstadoModulo (600017) migrated, 326 stubs; 29 dev oracle cases re-run with the module's compare_new.py: 28 same + 1 approved (DEV-A3). Dev cases.json now carries compare.py fields (compare_cases.py; new side out/new from NewSubject on the 16:03 clean build): 28 same + 1 approved (DEV-A3)."
+    },
+    {
+      "module": "BcsPlataformaWeb",
+      "name": "unit + H2 login MVP + live QA read-only (Maven Surefire), verify 2026-10-26 (third run)",
+      "command": "mvn -o test -Dmaven.test.failure.ignore=true after deleting target/ (JDK 25.0.4); then, in the same folder, mvn -o test -Dtest=HomeQaComparacionTest,LoginBootstrapQaTest,ConfiguracionesQaTest,RecuperacionQaTest with the QA_HANA_* variables",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsPlataformaWeb-verify-20261026c.test-output.txt",
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsPlataformaWeb-live-qa-20261026c.test-output.txt"
+      ],
+      "skippedReason": "2 tests skipped by @Disabled: they need a live HANA and the services registry (/call)",
+      "note": "163 tests: 161 pass, 2 disabled (/call). First log: clean run (4 live QA tests skipped without the HANA variables); second log: those 4 run read-only on HANA QA and pass. The XML folder holds the latest result of every class."
+    },
+    {
+      "module": "BcsJobManager",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-job-manager clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsJobManager/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsJobManager-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline, H2 only, UTC."
+    },
+    {
+      "module": "BcsAPVApi",
+      "name": "unit tests (Maven Surefire), built in the BcsAPVServicios reactor run, verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-apv-api,:bcs-apv-javacall-adapter,:apv-service clean test -Dmaven.test.failure.ignore=true --batch-mode",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsAPVApi/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsAPVServicios-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare."
+    },
+    {
+      "module": "BcsApvJavaCallAdapter",
+      "name": "unit tests (Maven Surefire), built in the BcsAPVServicios reactor run, verify 2026-10-23",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-apv-api,:bcs-apv-javacall-adapter,:apv-service clean test -Dmaven.test.failure.ignore=true --batch-mode",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsApvJavaCallAdapter/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsAPVServicios-verify-20261023.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare."
+    },
+    {
+      "module": "BcsCustodiaServicios",
+      "name": "unit + integration + ConsultarFlujoCustodia goldens (Maven Surefire), clean re-run 2026-10-28 after the plain-jar pom change",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/BcsCustodiaServicios/pom.xml test -Dmaven.test.failure.ignore=true (JAVA_HOME=jdk-25.0.4.101-hotspot, target/ deleted first)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsCustodiaServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsCustodiaServicios-verify5.test-output.txt"
+      ],
+      "skippedReason": "6 skipped: 3 HANA stored procedures not available in H2, 3 live-QA tests that need the QA_* environment variables",
+      "note": "228 tests, 0 failures, 6 skipped (the 4 live QA tests without HANA variables and 2 more); ConsultarFlujoCustodia slice: 85 golden cases + 102 rule tests + 4 harness tests pass."
+    },
+    {
+      "module": "BcsCustodiaServicios",
+      "name": "live QA, read-only HANA QA (QA-2, QA-3), re-run 2026-10-28 with VPN active (scratch copy outside modernized/, after the pom.xml and Dockerfile change)",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/BcsCustodiaServicios/pom.xml test -Dtest=BcsCustodiaServiciosQAEquivalenceTest#qa2*+qa3* (QA_HANA_URL/USER/PASSWORD loaded as environment variables from the workspace .env by a loader that prints nothing; only SELECT is issued)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/qa-live/BcsCustodiaServicios-20261028"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/qa-live/BcsCustodiaServicios-20261028/qa-live.test-output.txt"
+      ],
+      "skippedReason": "QA-1 (GWJAVA t=2 date == HANA) was NOT run: it needs the QA GWJAVA base URL and an application user/password (QA_GWJAVA_BASE, QA_APP_USER, QA_APP_PASSWORD) that were not supplied, and it opens a session in the QA application",
+      "note": "QA-2 adapter SQL = direct HANA query (2026-10-19) and QA-3 CUSTODIA_OPTIMUS 5454 rows: pass. QA-1 (needs QA_GWJAVA_BASE) not run."
+    },
+    {
+      "module": "BcsFondoMutuoServicios",
+      "name": "unit + golden tests (Maven Surefire), verify 2026-10-29 (F1 to F3, CargarValorCuota, in-process Custody, ConsultarCustodiaPortafolioFFMM, and the custody architecture-review fixes)",
+      "command": "mvn -o test -Dmaven.test.failure.ignore=true in BcsFondoMutuoServicios after deleting target/ (JDK 25.0.4; surefire argLine -Duser.timezone=UTC -Duser.language=en)",
+      "junit": [
+        "modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsFondoMutuoServicios-verify-20261029.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard)."
+    }
+  ],
+  "canaries": [
+    {
+      "module": "BcsPortafolioServicios",
+      "change": "Disabled validateSequenceName() body via `if (false && ...)` (RULE-068 whitelist bypass); 4 RULE-068 tests failed: nullRejected, semicolonRejected, doubleQuoteRejected, spacesRejected",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPortafolioServicios-rule068"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsCustodiaServicios",
+      "change": "2026-10-10 verify3 canary: calculoInteres() tasa.divide(100) -> divide(1000) in a scratch copy outside modernized/; 1 test failed that passed clean: bCus03_calculoInteres_terminatingDecimals (expected 0, got -1)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCustodiaServicios",
+      "change": "verify canary: changed obtenerRangoDeFechas() !isAfter→isBefore (end date excluded); 2 tests failed: bCus07_obtenerRangoDeFechas_inclusiveRange, bCus08_obtenerRangoDeFechas_singleDay",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsCustodiaServicios",
+      "change": "verify2 canary (fresh scratch copy): changed obtenerRangoDeFechas() !inicio.isAfter(termino)→inicio.isBefore(termino) (end date excluded); 2 tests failed: bCus07_obtenerRangoDeFechas_inclusiveRange, bCus08_obtenerRangoDeFechas_singleDay",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify2"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify2/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsContabilidadServicios",
+      "change": "verify5: JavaCallUnitOfWorkFilter.java:101 return contador.getAsLong() == 0L -> >= 0L (commit when the error counter is positive; legacy CallServlet rolls back) in a scratch copy; ran JavaCallUnitOfWorkFilterTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsContabilidadServicios-verify5"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsContabilidadServicios-verify5/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsContabilidadJobs",
+      "change": "verify2: GenerarInformeClienteRelacionadoBatch.java:41 default IdModulo \"CON\" -> \"COM\" in a scratch reactor copy; ran GenerarInformeClienteRelacionadoBatchTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsContabilidadJobs"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsContabilidadJobs/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsUtils",
+      "change": "RutUtil.digitoVerificador: case 11 -> '0' changed to '1' (scratch copy outside modernized/); ran RutUtilTest + AlcanceLibreriaTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/rut"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/rut/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsUtils",
+      "change": "PoliticaInactividad.sesionExpirada: '>' changed to '>=' (RULE-024 strict idle boundary; scratch copy); ran PoliticaSesionTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/idle"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/idle/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCuentaInversionServicios",
+      "change": "reportes/TramosAntiguedad.java:40 aging loop 'dias >= 0' changed to 'dias > 0' (scratch copy outside modernized/); ran the 3 antiguedad service tests",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionServicios-verify1/tramos"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionServicios-verify1/tramos/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCuentaInversionServicios",
+      "change": "service/FormatoMoneda.java:59 currency rounding RoundingMode.HALF_UP changed to DOWN (scratch copy); ran the whole UTC fork (355 tests)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionServicios-verify1/redondeo-moneda"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionServicios-verify1/redondeo-moneda/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsTesoreriaServicios",
+      "change": "javacall/LiquidarComprobanteService.java:666 comprobante amount check compareTo(...) == -1 changed to == 1 (scratch copy outside modernized/); ran LiquidarComprobanteServiceTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaServicios-verify1/liquidar-monto"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaServicios-verify1/liquidar-monto/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsTesoreriaServicios",
+      "change": "javacall/liq/ProcesarClearingFinancieroService.java:349 movement type sign compareTo(ZERO) == -1 changed to == 1 (scratch copy); ran ProcesarClearingFinancieroServiceTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaServicios-verify1/clearing-signo"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaServicios-verify1/clearing-signo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsAPVServicios",
+      "change": "application/recaudacion/EjecutarBonificacionServicio.java:358 RoundingMode.HALF_DOWN changed to UP (scratch copy outside modernized/); ran EjecutarBonificacionTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/bonificacion-redondeo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/bonificacion-redondeo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsAPVServicios",
+      "change": "application/traspasos/CalcularMontosDesinversionServicio.java:178 setScale RoundingMode.HALF_DOWN changed to UP (scratch copy); ran CalculoMontosDesinversionTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/desinversion-redondeo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/desinversion-redondeo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsTesoreriaJobs",
+      "change": "job/archivo/FormatoCargos.java:78 RoundingMode.DOWN changed to HALF_UP (scratch copy outside modernized/); ran GenerarArchivoCargosGoldenTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/cargos-redondeo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/cargos-redondeo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsTesoreriaJobs",
+      "change": "job/BcsJobCargaMasivaIngresoEgresoDAPFFMM.java:145 window end bound isBefore(HoraFin) changed to !isAfter(HoraFin) (scratch copy); ran CargaMasivaGoldenTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/ventana-fin/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/ventana-fin/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsTesoreriaJobs",
+      "change": "job/archivo/GeneradorPago.java:86 record type check compareTo(1) changed to compareTo(2) (scratch copy); ran GenerarArchivoPagoGoldenTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/pago-tipo-registro/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/pago-tipo-registro/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsAPVJobs",
+      "change": "job/IngresarOrdenFMBonificacionFiscal.java:189 Monto = apor.Monto*pct/100 exact division changed to divide(cien, 0, RoundingMode.UP) (scratch copy outside modernized/); ran IngresarOrdenFMBonificacionFiscalCasosTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/fm-division/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/fm-division/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsAPVJobs",
+      "change": "job/BcsJobCargaMasivaPrevired.java:42 log timestamp pattern yyyyMMddHHmmss changed to yyyyMMddHHmm (scratch copy); ran BcsJobCargaMasivaPreviredCasosTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/previred-marca-log/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/previred-marca-log/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCuentaInversionJobs",
+      "change": "job/archivo/FormateadorCampo.java:113 DEC decimal-part left padding replace(' ', '0') changed to replace(' ', '9') (scratch copy outside modernized/); ran GenerarArchivoGoldenTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/dec-relleno-izquierda/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/dec-relleno-izquierda/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCuentaInversionJobs",
+      "change": "job/archivo/FormateadorCampo.java:88 date parse pattern yyyy-MM-dd changed to yyyy-dd-MM (scratch copy); ran GenerarArchivoGoldenTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/fecha-parseo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/fecha-parseo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCuentaInversionJobs",
+      "change": "job/archivo/Archivo.java:60 file name timestamp yyyyMMdd_HHmmss changed to yyyyMMddHHmmss (scratch copy); ran GenerarArchivoGoldenTest and ArchivosServiciosGoldenTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/nombre-archivo-marca/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/nombre-archivo-marca/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCrystalReports",
+      "change": "rest/RenderOrchestrator.java:53 Excel reply extension \"XLS\" changed to \"XLSX\" (scratch copy outside modernized/); ran ReportRestRenderTest and EquivalenceRestTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/extension-xls/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/extension-xls/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCrystalReports",
+      "change": "rest/TemplateModes.java:44 reply {\"result\":\"OK\"} of ?update changed to \"DONE\" (scratch copy); ran ReportRestModesTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/result-ok/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/result-ok/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCrystalReports",
+      "change": "report/ReportDocument.java:689 TXT conversion numeric-cell test CELL_TYPE_NUMERIC changed to CELL_TYPE_STRING (scratch copy); ran EquivalenceTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/txt-celda-numerica/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/txt-celda-numerica/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsUtils",
+      "change": "verify 2026-10-23: RutUtil.java:46 check digit case 11 '0' changed to '1' (scratch copy); ran RutUtil*Test",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify20261023/utils-rut/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify20261023/utils-rut/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsContabilidadJobs",
+      "change": "verify 2026-10-23: GenerarInformeClienteRelacionadoBatch.java:41 default IdModulo \"CON\" changed to \"COM\" (scratch copy); ran GenerarInformeClienteRelacionadoBatchTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsContabilidadJobs-verify20261023/contjobs-idmodulo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsContabilidadJobs-verify20261023/contjobs-idmodulo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsAPVServicios",
+      "change": "verify 2026-10-23: EjecutarBonificacionServicio.java:358 RoundingMode.HALF_DOWN changed to UP (scratch copy); ran EjecutarBonificacion*Test",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify20261023/apvserv-bonif-redondeo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify20261023/apvserv-bonif-redondeo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsAPVJobs",
+      "change": "verify 2026-10-23: BcsJobCargaMasivaPrevired.java:42 log stamp yyyyMMddHHmmss changed to yyyyMMddHHmm (scratch copy); ran BcsJobCargaMasivaPrevired*Test",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify20261023/apvjobs-previred-marca/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify20261023/apvjobs-previred-marca/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCuentaInversionJobs",
+      "change": "verify 2026-10-23: FormateadorCampo.java:113 DEC decimal padding replace(' ', '0') changed to '9' (scratch copy); ran GenerarArchivoGoldenTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify20261023/cijobs-dec-relleno/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify20261023/cijobs-dec-relleno/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsTesoreriaJobs",
+      "change": "verify 2026-10-23: FormatoCargos.java:78 RoundingMode.DOWN changed to HALF_UP (scratch copy); ran GenerarArchivoCargosGoldenTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-cargos-redondeo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-cargos-redondeo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-23: CasosUso.java:15 AnularTraspasoEgreso listed twice in TODOS (scratch copy); ran the module suite",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-verify20261023/apvapi-duplicado/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-verify20261023/apvapi-duplicado/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsApvJavaCallAdapter",
+      "change": "verify 2026-10-23: ApvJavaCallRegistro.java:149 PREFIJO \"cl.bcs.APV.\" changed to \"cl.bcs.apv.\" (scratch copy); ran the module suite",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsApvJavaCallAdapter-verify20261023/adapter-prefijo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsApvJavaCallAdapter-verify20261023/adapter-prefijo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsPlataformaServicios",
+      "change": "verify 2026-10-23: ModuloJdbcRepository.java:28 IFNULL(IdEstado,'ABT') default changed to 'CER' (scratch copy); ran the module suite",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaServicios-verify20261023/pla-ifnull-estado/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaServicios-verify20261023/pla-ifnull-estado/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsJobManager",
+      "change": "verify 2026-10-23: AdminController.java:49 health DB-down status 503 changed to 200 (scratch copy); ran AdminControllerTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsJobManager-verify20261023/jm-health-503/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsJobManager-verify20261023/jm-health-503/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsPlataformaWeb",
+      "change": "verify 2026-10-23: InternalJavaCallController.java:55 GATEWAY_TIMEOUT / BAD_GATEWAY swapped (scratch copy); ran InternalJavaCallControllerTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261023/web-timeout-swap/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261023/web-timeout-swap/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsTesoreriaJobs",
+      "change": "verify 2026-10-23 (b): Programa.java:18 reclamable() without the PEN check (scratch copy); ran cl.bcs.tesoreria.jobs.programa.*Test",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-reclamable-sin-estado/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-reclamable-sin-estado/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsTesoreriaJobs",
+      "change": "verify 2026-10-23 (b), re-run after adding the RULE-057/062 database-claim test: ProgramaSql.java:35 RECLAMAR without the Bloqueo='N' AND idEstado='PEN' conditions (scratch copy); ran cl.bcs.tesoreria.jobs.programa.*Test. The first run of this break (before that test) made no test fail: that gap is what the new test closes",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-reclamo-sin-bloqueo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-reclamo-sin-bloqueo/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsFondoMutuoServicios",
+      "change": "verify 2026-10-25: rescatereinversion/RreValidacion.java:124 sol.NumeroCuotas.compareTo(cantidad) == 1 changed to >= 0 (custody check: rescue equal to custody now rejected), scratch copy; ran Rre*Test + ManejadorRescateReinversionTest",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-verify20261025/rre-custodia-limite/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-verify20261025/rre-custodia-limite/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCustodiaServicios",
+      "change": "verify4 canary (scratch copy): calculoInteres tasa.divide(new BigDecimal(100)) -> (1000); 1 test failed that passed clean: bCus03_calculoInteres_terminatingDecimals",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify4"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify4/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsCustodiaServicios",
+      "change": "verify5 canary (scratch copy): MatrizDeUso tie rule actual.MayorSimilitud < puntaje -> <= (a tie takes the LAST use instead of the first); 1 test failed that passes clean (the CUS-FLU-11 tie case)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify5"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify5/canary.test-output.txt"
+      ]
+    },
+    {
+      "module": "BcsGateway",
+      "change": "verify 2026-10-26 second run (scratch copy): SecurityFilters X-Frame-Options value SAMEORIGIN changed to ALLOWALL; whole suite run",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsGateway-verify20261026b"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsPlataformaWeb",
+      "change": "verify 2026-10-26 third run (scratch copy): CrearSesionServicio.java:220 IntentosConexion + 1 >= max changed to > ; whole suite run",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261026c-a"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsPlataformaWeb",
+      "change": "verify 2026-10-26 third run (scratch copy): GestionClaveServicio.sesionEsDelUsuario returns true (any session may change any password); whole suite run",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261026c-b"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsFondoMutuoServicios",
+      "change": "verify 2026-10-26 (scratch copy): BloqueoReinversionJdbc.crear no longer drops the session-local lock table after a failed INSERT/CALL (DEV-6-H1 for RescateReinversion); Rre* tests run",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-DEV6H1-RR"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsFondoMutuoServicios",
+      "change": "verify 2026-10-26 (scratch copy): ManejadorConfiguracion start-up guard condition inverted (!custodiaHabilitada -> custodiaHabilitada); Manejador* tests run",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-G0-custodia"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsFondoMutuoServicios",
+      "change": "verify 2026-10-27 (scratch copy): consultas/fecha/ConsultarFechaService.java:113 boolean comercial = PERFIL_COMERCIAL.equals(perfil) negated (wrong liquidation state by profile); 10 of the 178 FSA tests failed",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-F3"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsFondoMutuoServicios",
+      "change": "verify 2026-10-27 second run (scratch copy): valorcuota/CargarValorCuotaService.java:230 VALORCUOTA.compareTo(ZERO) == 0 changed to <= 0 (a negative value is rejected; the legacy lets it through); 4 of the 543 CVC tests failed",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-F3W2"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsFondoMutuoServicios",
+      "change": "verify 2026-10-28 (scratch copy): custodia/FlujoCustodiaEnProceso.java:55 the valued flow check \"S\".equals(p_ValorizarFlujo) changed to \"N\".equals (a flow without valuation is rejected instead of the valued one); 13 of the 23 in-process Custody tests failed (5 failures, 8 errors)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-custodia-en-proceso"
+      ],
+      "log": []
+    },
+    {
+      "module": "BcsFondoMutuoServicios",
+      "change": "verify 2026-10-29 (scratch copy): adapter/out/jdbc/SqlNombrado.java:80 aplicarPlazo tolerarVencido condition inverted ('if (!tolerarVencido) throw e' -> 'if (tolerarVencido) throw e': the cleanup DELETE of the in-process custody library now fails with an expired deadline); 1 of the 38 proxy and in-process custody tests failed",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-proxy-conexion"
+      ],
+      "log": []
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+MUTATION 5: profile: commercial and back-office states of a rescue swapped (first occurrence)
+FILE normal/NormalFechas.java
+36c36
+<                 fecha.EstadoFondo = comercial ? serie.EstadoRescateComercial : serie.EstadoRescateBackoffice;
+---
+>                 fecha.EstadoFondo = comercial ? serie.EstadoRescateBackoffice : serie.EstadoRescateComercial;
+63c63
+<                 String estado = comercial ? serie.EstadoRescateComercial : serie.EstadoRescateBackoffice;
+---
+>                 String estado = comercial ? serie.EstadoRescateBackoffice : serie.EstadoRescateComercial;
+--- red run (must fail)
+[ERROR] Tests run: 47, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 2.145 s <<< FAILURE! -- in cl.bcs.fondomutuo.normal.NormalEquivalenciaTest
+[ERROR] cl.bcs.fondomutuo.normal.NormalEquivalenciaTest.equivalente(String)[44] -- Time elapsed: 0.039 s <<< FAILURE!
+[ERROR] cl.bcs.fondomutuo.normal.NormalEquivalenciaTest.equivalente(String)[45] -- Time elapsed: 0.035 s <<< FAILURE!
+[ERROR] Tests run: 55, Failures: 2, Errors: 0, Skipped: 0
+--- green run after restore

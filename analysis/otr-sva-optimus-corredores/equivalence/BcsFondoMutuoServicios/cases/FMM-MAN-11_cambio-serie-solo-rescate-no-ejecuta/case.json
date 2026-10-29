@@ -1,0 +1,110 @@
+{
+  "servicio": "ManejadorSolicitudAporteRescate",
+  "ref": "FM-MAN-07 D-MAN-7: CambioSerie con una sola lista (rescate): solo simula, sin mensaje, contador 0; RescateReinversion con par completo ejecuta",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_IdTipoCanalIngreso": "OPT",
+    "p_FormaPagoSpot": [],
+    "p_SolicitudCambioSerieRescate": [
+      {
+        "IdInterno": 21
+      }
+    ],
+    "p_SolicitudRescateReinversionRescate": [
+      {
+        "IdInterno": 22
+      }
+    ],
+    "p_SolicitudRescateReinversionAporte": [
+      {
+        "IdInterno": 23
+      }
+    ]
+  },
+  "colaboradores": {
+    "CrearSolicitudCambioSerie": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 21,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "CrearSolicitudRescateReinversion": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 22,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              },
+              {
+                "IdInterno": 23,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "N"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 22,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              },
+              {
+                "IdInterno": 23,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate",
+      "orden": "\"IdBloqueoSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.InterfazAgf",
+      "orden": "\"IdInterfazAgf\""
+    }
+  ]
+}

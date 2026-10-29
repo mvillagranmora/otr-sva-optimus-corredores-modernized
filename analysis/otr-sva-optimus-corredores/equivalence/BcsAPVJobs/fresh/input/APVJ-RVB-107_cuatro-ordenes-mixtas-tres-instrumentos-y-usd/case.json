@@ -1,0 +1,111 @@
+{
+  "id": "APVJ-RVB-107",
+  "slug": "cuatro-ordenes-mixtas-tres-instrumentos-y-usd",
+  "titulo": "COMPRA/VENTA/COMPRA USD/COMPRA over instruments 31, 32, 33 (orders 4,3,2,1 by IdOrden DESC), distinct prices",
+  "pina": "fresh",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "config": {
+    "APV/APV.PorcentajeBonificacionFiscal": "25"
+  },
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "1234.56"
+          },
+          {
+            "IdInstrumento": 32,
+            "PrecioCierre": "0.01"
+          },
+          {
+            "IdInstrumento": 33,
+            "PrecioCierre": "99999"
+          }
+        ]
+      }
+    },
+    "ConsultarFlujoCaja": {
+      "P_OUT_FLUJOCAJA": [
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2000,
+          "IdMoneda": "CLP",
+          "Saldo": "50000"
+        },
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2001,
+          "IdMoneda": "USD",
+          "Saldo": "3000"
+        },
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2003,
+          "IdMoneda": "CLP",
+          "Saldo": "0.5"
+        }
+      ]
+    },
+    "ConsultarCustodiaPortafolio": {
+      "P_OUT_TBL": [
+        {
+          "CantidadTotal": "80"
+        }
+      ]
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "1"
+        },
+        {
+          "IdInterno": 2,
+          "CantidadOperacion": "2"
+        },
+        {
+          "IdInterno": 3,
+          "CantidadOperacion": "3"
+        },
+        {
+          "IdInterno": 4,
+          "CantidadOperacion": "4"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": [
+        {
+          "id": 1,
+          "tipo": "ADVERTENCIA",
+          "codigo": "C",
+          "descripcion": "x"
+        }
+      ]
+    }
+  }
+}

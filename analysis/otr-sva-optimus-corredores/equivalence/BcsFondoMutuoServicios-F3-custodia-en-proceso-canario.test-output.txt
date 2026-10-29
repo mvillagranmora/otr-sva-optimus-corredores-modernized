@@ -1,0 +1,83 @@
+Canary of the in-process custody code (F3, 2026-10-28). Each mutation: one line, tests FlujoCustodiaEnProcesoTest + RreCustodiaEnProcesoTest + CustodiaEnProcesoArranqueTest + CustodiaEnProcesoContextoTest, then restored and verified with cmp.
+=================== CANARY C1-otra-conexion: sed 's|return flujo.call(con, entrada);|return flujo.call(java.sql.DriverManager.getConnection("jdbc:h2:mem:otra;MODE=LEGACY", "sa", ""), entrada);|' on FlujoCustodiaEnProceso.java
+60c60
+<                 return flujo.call(con, entrada);
+---
+>                 return flujo.call(java.sql.DriverManager.getConnection("jdbc:h2:mem:otra;MODE=LEGACY", "sa", ""), entrada);
+[ERROR] Tests run: 22, Failures: 4, Errors: 6, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] cl.bcs.fondomutuo.custodia.FlujoCustodiaEnProcesoTest.unRollbackDelAnfitrionNoDejaNada -- Time elapsed: 0.389 s <<< ERROR!
+[ERROR] cl.bcs.fondomutuo.custodia.FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy(String)[1] -- Time elapsed: 0.101 s <<< ERROR!
+[ERROR] cl.bcs.fondomutuo.custodia.FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy(String)[2] -- Time elapsed: 0.187 s <<< ERROR!
+[ERROR] cl.bcs.fondomutuo.custodia.FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy(String)[3] -- Time elapsed: 0.122 s <<< ERROR!
+[ERROR] cl.bcs.fondomutuo.custodia.FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy(String)[4] -- Time elapsed: 0.082 s <<< ERROR!
+[ERROR] cl.bcs.fondomutuo.custodia.FlujoCustodiaEnProcesoTest.laBibliotecaUsaLaConexionDelAnfitrion -- Time elapsed: 0.019 s <<< ERROR!
+[ERROR]   FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy:107 [D-CUS-02_npe-cliente-configurado-nulo: exception of the legacy kept] 
+[ERROR]   FlujoCustodiaEnProcesoTest.unaExcepcionDelAnfitrionRevierteLaLlamada:165 
+[ERROR]   RreCustodiaEnProcesoTest.custodiaInsuficienteConCustodiaReal:251->igualAlGolden:227 [FMM-RRE-41_custodia-insuficiente-break exception: "AccesoDatosException: SQL failure: SQLState=42S04 ErrorCode=42104"] 
+[ERROR]   RreCustodiaEnProcesoTest.parNacionalConCustodiaReal:245->igualAlGolden:215->igualAlGolden:227 [FMM-RRE-01_real-un-par-nacional exception: "AccesoDatosException: SQL failure: SQLState=42S04 ErrorCode=42104"] 
+[ERROR]   FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy:100->lambda$igualALaBibliotecaYAlLegacy$2:100 » AccesoDatos SQL failure: SQLState=42S04 ErrorCode=42104
+[ERROR]   FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy:100->lambda$igualALaBibliotecaYAlLegacy$2:100 » AccesoDatos SQL failure: SQLState=42S04 ErrorCode=42104
+[ERROR]   FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy:100->lambda$igualALaBibliotecaYAlLegacy$2:100 » AccesoDatos SQL failure: SQLState=42S04 ErrorCode=42104
+[ERROR]   FlujoCustodiaEnProcesoTest.igualALaBibliotecaYAlLegacy:100->lambda$igualALaBibliotecaYAlLegacy$2:100 » AccesoDatos SQL failure: SQLState=42S04 ErrorCode=42104
+=================== CANARY C2-commit-propio: sed 's|return flujo.call(con, entrada);|JsonObject r = flujo.call(con, entrada); con.commit(); return r;|' on FlujoCustodiaEnProceso.java
+60c60
+<                 return flujo.call(con, entrada);
+---
+>                 JsonObject r = flujo.call(con, entrada); con.commit(); return r;
+[ERROR] Tests run: 22, Failures: 3, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR]   FlujoCustodiaEnProcesoTest.laBibliotecaUsaLaConexionDelAnfitrion:123->lambda$laBibliotecaUsaLaConexionDelAnfitrion$0:129 [commit / rollback / setAutoCommit / close received while the adapter worked] 
+[ERROR]   FlujoCustodiaEnProcesoTest.unRollbackDelAnfitrionNoDejaNada:150 [the host rolled back] 
+[ERROR]   FlujoCustodiaEnProcesoTest.unaExcepcionDelAnfitrionRevierteLaLlamada:166 
+=================== CANARY C3-sin-guardia-de-arranque: sed 's|if (!(efectivo instanceof FlujoCustodiaEnProceso)) {|if (false) {|' on CustodiaEnProcesoArranque.java
+32c32
+<         if (!(efectivo instanceof FlujoCustodiaEnProceso)) {
+---
+>         if (false) {
+[ERROR] Tests run: 22, Failures: 3, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR]   CustodiaEnProcesoArranqueTest.abiertaConHttpFalla:55->lambda$abiertaConHttpFalla$0:56 
+[ERROR]   CustodiaEnProcesoArranqueTest.abiertaConValorQueNoEsTrueExactoFalla:76->lambda$abiertaConValorQueNoEsTrueExactoFalla$0:77 
+[ERROR]   CustodiaEnProcesoArranqueTest.laRegla:115 
+=================== CANARY C4-acepta-valorizado: sed 's|"S".equals(valorizar.getAsString())|"X".equals(valorizar.getAsString())|' on FlujoCustodiaEnProceso.java
+55c55
+<         if (valorizar != null && !valorizar.isJsonNull() && "S".equals(valorizar.getAsString())) {
+---
+>         if (valorizar != null && !valorizar.isJsonNull() && "X".equals(valorizar.getAsString())) {
+[ERROR] Tests run: 22, Failures: 1, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR]   FlujoCustodiaEnProcesoTest.elFlujoValorizadoSeRechaza:189 [no sequence consumed] 
+=================== CANARY C5-sin-primario: sed 's|^    @Primary$|    // no primary|' on FlujoCustodiaEnProcesoConfiguracion.java
+34c34
+<     @Primary
+---
+>     // no primary
+[ERROR] Tests run: 22, Failures: 1, Errors: 2, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] cl.bcs.fondomutuo.custodia.CustodiaEnProcesoContextoTest.deCustodiaSoloEstaLaClaseDelFlujo_sinEscaneo -- Time elapsed: 0.002 s <<< ERROR!
+[ERROR] cl.bcs.fondomutuo.custodia.CustodiaEnProcesoContextoTest.elAdaptadorEnProcesoEsElPuertoEfectivo_yLaCompuertaEstaAbierta -- Time elapsed: 0.001 s <<< ERROR!
+[ERROR]   CustodiaEnProcesoArranqueTest.abiertaConEnProcesoArranca:85->lambda$abiertaConEnProcesoArranca$0:86 
+[ERROR]   CustodiaEnProcesoContextoTest.deCustodiaSoloEstaLaClaseDelFlujo_sinEscaneo » IllegalState Failed to load ApplicationContext for [WebMergedContextConfiguration@c758a2d testClass = cl.bcs.fondomutuo.custodia.CustodiaEnProcesoContextoTest, locations = 
+[ERROR]   CustodiaEnProcesoContextoTest.elAdaptadorEnProcesoEsElPuertoEfectivo_yLaCompuertaEstaAbierta » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@c758a2d testC
+=================== CANARY C6-secuencias-vacias: sed 's|secuencias::siguientes|(n, c) -> java.util.List.of(1L)|' on FlujoCustodiaEnProcesoConfiguracion.java
+30c30
+<         return new ConsultarFlujoCustodiaFlujo(FlujoCustodiaEnProceso.valorizadorCerrado(), secuencias::siguientes);
+---
+>         return new ConsultarFlujoCustodiaFlujo(FlujoCustodiaEnProceso.valorizadorCerrado(), (n, c) -> java.util.List.of(1L));
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+--- C6 survived the first round (the configuration wiring was not exercised): test laConfiguracionCableaLasSecuenciasDelAnfitrion added, C6 repeated below
+=================== CANARY C6b-secuencias-fijas: sed 's|secuencias::siguientes|(n, c) -> java.util.List.of(1L)|' on FlujoCustodiaEnProcesoConfiguracion.java
+30c30
+<         return new ConsultarFlujoCustodiaFlujo(FlujoCustodiaEnProceso.valorizadorCerrado(), secuencias::siguientes);
+---
+>         return new ConsultarFlujoCustodiaFlujo(FlujoCustodiaEnProceso.valorizadorCerrado(), (n, c) -> java.util.List.of(1L));
+[ERROR] Tests run: 23, Failures: 0, Errors: 1, Skipped: 0
+[ERROR] BUILD FAILURE
+[ERROR] cl.bcs.fondomutuo.custodia.FlujoCustodiaEnProcesoTest.laConfiguracionCableaLasSecuenciasDelAnfitrion -- Time elapsed: 0.030 s <<< ERROR!
+[ERROR]   FlujoCustodiaEnProcesoTest.laConfiguracionCableaLasSecuenciasDelAnfitrion:248->lambda$laConfiguracionCableaLasSecuenciasDelAnfitrion$0:248 » NoSuchElement
+restored OK: FlujoCustodiaEnProceso
+restored OK: CustodiaEnProcesoArranque
+restored OK: FlujoCustodiaEnProcesoConfiguracion
+Result: 6 mutations (C1 other connection, C2 own commit, C3 no start-up guard, C4 accepts valued flow, C5 no @Primary, C6 sequences not wired -> caught only after the new test) each put tests red; restored byte for byte (cmp above).

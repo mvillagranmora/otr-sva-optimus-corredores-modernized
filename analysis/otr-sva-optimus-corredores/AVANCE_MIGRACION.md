@@ -1,0 +1,113 @@
+# Avance de la migracion (se regenera con `tools/avance_migracion.py`)
+
+Generado: 2026-10-29. Metodo: lineas Java del legacy (`LOC_LEGACY.md`, 42 modulos del brief, 765.652 lineas) como aproximacion; el SQL embebido (188.823 lineas) viaja con cada modulo y no se cuenta aparte. **Probado** = veredicto PROVEN en `VERIFICATION.json`; un modulo solo se rotula `PROBADO` (100 %) si `avance_estado.json` lo marca `completo`, es decir, si todo su codigo legacy esta portado (los limites de prueba, como H2 frente a HANA, y las firmas de expertos no impiden la marca):  un PROVEN no completo se rotula `PROBADO PARCIAL (solo lo migrado)` o `PROBADO (100 % sin confirmar)`, nunca `PROBADO`. Las lineas son un proxy del tamano, no del esfuerzo.
+
+## Resumen
+
+| Medida | Valor |
+|---|---:|
+| Modulos probados | 13 de 42 (31.0 %) |
+| Codigo migrado y probado | 109.598 de 765.652 lineas (**14.3 %**) |
+| Codigo construido (probado + sin probar + parcial) | 111.146 lineas (14.5 %) |
+| Meta de las pruebas de conjunto (80 %) | 612.521 lineas; faltan **502.923** |
+| **Codigo nuevo escrito** (Java activo en `src/main`, lineas no vacias, incluye los modulos fuera de los 42) | **155.730 lineas** |
+| Probado (PROVEN) pero sin marca de modulo completo: no se afirma 100 % | 39.492 lineas en 2 modulos (BcsTesoreriaServicios, BcsCuentaInversionServicios) |
+| Codigo de pruebas escrito (`src/test`, Java) | 123.376 lineas |
+| Pruebas de la ultima corrida registrada en `target/surefire-reports` | 12.421 |
+
+La verificacion firmada es del 2026-10-29; los modulos marcados *desactualizada* cambiaron despues y hay que re-verificarlos y volver a firmar antes de contarlos como cerrados. Los modulos nuevos fuera de los 42 (BcsCrystalReports, BcsApvJavaCallAdapter, BcsAPVApi) se listan aparte. Nota: en `BcsPlataformaServicios` y `BcsFondoMutuoServicios` el codigo nuevo cuenta solo las carpetas activas (los stubs viejos siguen en el arbol pero fuera del contexto de Spring y no se cuentan). Las pruebas se leen de la ultima corrida que haya dejado resultados: un modulo sin `target/` muestra `-`.
+
+## Por modulo
+
+| Dominio | Modulo | Avance (porcentaje) | Estado | Lineas Java legacy | Lineas legacy migradas | Nota |
+|---|---|---:|---|---:|---:|---|
+| APV | BcsAPVServicios | 100.0 % | PROBADO | 25.224 | 25.224 | Completo: todo su codigo legacy esta portado. Lo que figura en su 'Not migrated / not proven' son limites de prueba (H2 frente a HANA, colaboradores simulados) y la firma del experto APV, que NO bloquean la marca de completo. |
+| APV | BcsAPVJobs | 100.0 % | PROBADO | 1.078 | 1.078 | Completo: sin piezas declaradas como no migradas. Marcado completo el 2026-10-27 segun sus TRANSFORMATION_NOTES (sin auditoria linea a linea): lo no portado es codigo muerto, de depuracion o sustituido por decision documentada. |
+| CanalAgente | BcsCanalAgenteServicios | 0.0 % | pendiente / esqueleto | 253 | 0 |  |
+| Contabilidad | BcsContabilidadServicios | 100.0 % | PROBADO | 16.931 | 16.931 | Completo: sin seccion de no migrado; las DEV-14/16 son desviaciones, no lo no portado. Marcado completo el 2026-10-27 segun sus TRANSFORMATION_NOTES (sin auditoria linea a linea): lo no portado es codigo muerto, de depuracion o sustituido por decision documentada. |
+| Contabilidad | BcsContabilidadJobs | 100.0 % | PROBADO | 1.191 | 1.191 | Completo: no portado = main() y debug (RULE-076), CallerWSJournalVoucher/Respuesta/LoginSAP sustituidos por SapB1Gateway, call()/pause() vacios, rama demonio (decision del usuario 2026-10-16) y datasource 3DES. Marcado completo el 2026-10-27 segun sus TRANSFORMATION_NOTES (sin auditoria linea a linea): lo no portado es codigo muerto, de depuracion o sustituido por decision documentada. |
+| Corredor | BECB | 0.0 % | pendiente / esqueleto | 2.275 | 0 |  |
+| Corredor | SURA | 0.0 % | pendiente / esqueleto | 1.178 | 0 |  |
+| CuentaInversion | BcsCuentaInversionServicios | 100.0 % | PROBADO (100 % sin confirmar) | 17.976 | 17.976 | PROVEN sin marcar completo por una BRECHA DE CODIGO: la generacion de PDF no esta portada (GeneradorPdf es un puerto sin adaptador real, GeneradorPdfNoDisponible; falta elegir la libreria; las pruebas fijan el texto de las celdas, no la maquetacion). Limites de prueba que NO bloquean: H2 frente a HANA y el procedimiento HANA CrearCargoAbono (vive en HANA, no se migra; solo probado del lado Java). |
+| CuentaInversion | BcsCuentaInversionJobs | 100.0 % | PROBADO | 2.373 | 2.373 | Completo: no portado = main()/debug/running, pause() y call() vacios (RULE-061/076). Marcado completo el 2026-10-27 segun sus TRANSFORMATION_NOTES (sin auditoria linea a linea): lo no portado es codigo muerto, de depuracion o sustituido por decision documentada. |
+| Custodia | BcsCustodiaServicios | 2.7 % | PROBADO PARCIAL (solo lo migrado) | 96.409 | 2.612 | solo el slice ConsultarFlujoCustodia (2.612 lineas legacy, 18 llamadores en proceso) migrado como libreria en cl.bcs.custodia.flujo: 85 casos de equivalencia y 14 entradas frescas iguales al legacy (H2), 191 pruebas del slice (228 del modulo), canary 19 fallos; QA-2 y QA-3 contra HANA QA (solo SELECT) OK, QA-1 (GWJAVA) sin ejecutar; PROVEN y firmado el 2026-10-26. Faltan: jar plano consumible, adaptadores de ValorizarInstrumento y secuencias; las otras clases del modulo siguen como stubs (ConsultarCustodiaPortafolio, 3.935 lineas, es la siguiente) |
+| Custodia | BcsCustodiaJobs | 0.0 % | pendiente / esqueleto | 5.729 | 0 |  |
+| Facturacion | BcsFacturacionServicios | 0.0 % | pendiente / esqueleto | 34.597 | 0 |  |
+| Facturacion | BcsFacturacionJobs | 0.0 % | pendiente / esqueleto | 1.679 | 0 |  |
+| FondoMutuo | BcsFondoMutuoServicios | 24.5 % | PROBADO PARCIAL (solo lo migrado) | 58.637 | 14.345 | PROVEN y firmado por el usuario (verify 2026-10-29; cubre lo firmado el 27 y el 28-oct): Manejador, Normal, libreria Tesoreria en proceso, RescateReinversion, 8 lecturas de la UI (FSA, VDO, FMR, IFM, SFM, WS, DET, CPF), CargarValorCuota, cableado EN PROCESO de la libreria de Custodia (proxy de conexion con plazo por sentencia, guardia de transaccion, interruptores separados: habilitada para RescateReinversion, normal-habilitada para Normal, comisiones-en-proceso para CalcularComisiones; sin valorizacion en proceso) y ConsultarCustodiaPortafolioFFMM bug a bug con la cadena CPF + FFMM probada contra el legacy real. 3483 pruebas, 0 fallos; 1579 casos de desarrollo y 273 entradas frescas sin diferencia no aprobada (31 diferencias aprobadas por el usuario en desarrollo y 3 en frescas). Todas las listas siguen cerradas por defecto (503): antes de abrir cualquiera falta la firma del experto de dominio. Pendientes: imagen Docker sin construir (CI), 14 personas con dos socios en QA (D-F3C-19) y 200 series con varios regimenes ACT (D-F3A-08), SFM/WS sin filtro de empresa ni tope (como el legacy), pruebas en HANA QA (readOnly, timeout, batch parcial, custodia: permisos, secuencias y tabla de trabajo; tipo de la UNION de FFMM), preguntas QD-F3A-09..12 y Q-F3A-7, W3 (Certificar). loc_migrado aprox. (lineas no vacias de las clases legacy portadas). |
+| FondoMutuo | BcsJobsFondoMutuo | 0.0 % | pendiente / esqueleto | 1.928 | 0 |  |
+| Mesa | BcsMesaServicios | 0.0 % | pendiente / esqueleto | 53.668 | 0 |  |
+| Mesa | BcsMesaJobs | 0.0 % | pendiente / esqueleto | 3.348 | 0 |  |
+| Normativa | BcsNormativaServicios | 0.0 % | pendiente / esqueleto | 66.429 | 0 |  |
+| Normativa | BcsNormativaJobs | 0.0 % | pendiente / esqueleto | 35.378 | 0 |  |
+| Normativa | BcsCartolas | 0.0 % | pendiente / esqueleto | 3.636 | 0 |  |
+| Normativa | BcsNormativaCore | 0.0 % | pendiente / esqueleto | 3.367 | 0 |  |
+| Normativa | BcsCartolasMaster | 0.0 % | pendiente / esqueleto | 1.542 | 0 |  |
+| Normativa | BcsCartolasJobs | 0.0 % | pendiente / esqueleto | 1.016 | 0 |  |
+| Normativa | BcsTributarioJobs | 0.0 % | pendiente / esqueleto | 106 | 0 |  |
+| Orden | BcsOrdenServicios | 0.0 % | pendiente / esqueleto | 57.763 | 0 |  |
+| Orden | BcsOrdenJobs | 0.0 % | pendiente / esqueleto | 9.630 | 0 |  |
+| Orden | BcsJobOrders | 0.0 % | pendiente / esqueleto | 1.635 | 0 |  |
+| Plataforma | BcsPlataformaServicios | 0.2 % | PROBADO PARCIAL (solo lo migrado) | 82.016 | 124 | solo ConsultarEstadoModulo (600017) migrada, 113 pruebas, commit 71fb8b0d; 326 clases siguen como stubs fuera del contexto |
+| Plataforma | BcsPlataformaJobs | 0.0 % | pendiente / esqueleto | 18.143 | 0 |  |
+| Plataforma | BcsUtils | 24.3 % | PROBADO PARCIAL (solo lo migrado) | 7.045 | 1.712 | Alcance A (biblioteca comun pura, decision 2026-10-16): 18 de 76 clases legacy portadas por nombre (24,3 % de las lineas; loc_migrado ES ESTIMACION proporcional sobre las 7.045 lineas del brief). NO migrado: acceso a datos (SQL, JdbcUtil, Named*Statement, cl.bcs.sql.*), clases de servlet/TomEE/BD de plataforma (AgregarLog, Locker, CallRestService, JobFileManager...), StatsD, Log, Crypto, Sesion y las partes no puras de Utils. |
+| Plataforma | BcsPlataformaWeb | 35.5 % | PROBADO PARCIAL (solo lo migrado) | 6.199 | 2.200 | MVP del login: router /internal/java-call y login (CrearSesion, gestion de clave, bootstrap JSON, filtro de sesion cerrado por defecto, ActualizarClave con sesion); 163 pruebas (H2 + 4 de HANA QA solo lectura), 2 omitidas; 44 casos de desarrollo iguales al legacy y 21 frescas sin diferencia no aprobada; escrituras probadas contra el legacy con usuario de prueba; verify 26-oct sin firma. loc_migrado ES UNA ESTIMACION (~36 %) de las lineas legacy del login; NO migrado: CallServlet (stub 503), CallBatch (stub 503), CallReportServlet, CallWebsocket, Contratos/Documentos/Boletines/ImageManager/FileDownload, SSO, TemplateServlet, filemanager, menus y HTML de la pagina; falta medirlo clase por clase. |
+| Plataforma | BcsValo2 | 0.0 % | pendiente / esqueleto | 6.045 | 0 |  |
+| Plataforma | BcsJobManager | 100.0 % | construido, sin probar | 1.548 | 1.548 | despachador moderno inerte, solo lectura; 108 pruebas; fuera del pack |
+| Plataforma | BcsPlataformaReporteApi | 0.0 % | pendiente / esqueleto | 888 | 0 |  |
+| Plataforma | BcsPortalConfirmacionWeb | 0.0 % | pendiente / esqueleto | 485 | 0 |  |
+| Plataforma | BcsFilters | 0.0 % | pendiente / esqueleto | 321 | 0 |  |
+| Portafolio | BcsPortafolioServicios | 0.0 % | pendiente / esqueleto | 7.071 | 0 |  |
+| Replica | BcsReplica | 0.0 % | pendiente / esqueleto | 904 | 0 |  |
+| SocioNegocio | BcsSocioNegocioServicios | 0.0 % | pendiente / esqueleto | 104.899 | 0 |  |
+| SocioNegocio | BcsSocioNegocioJobs | 0.0 % | pendiente / esqueleto | 1.280 | 0 |  |
+| Tesoreria | BcsTesoreriaServicios | 100.0 % | PROBADO (100 % sin confirmar) | 21.516 | 21.516 | PROVEN sin marcar completo por BRECHAS DE CODIGO: Cloper no tiene cliente de produccion (503 a TomEE); los servicios SOAP SvcRecaudaInqV1/TrnV1 estan solo como contrato estatico y sus endpoints modernos son esqueleto (sin PortType ni la construccion de respuestas MFX). Limites de prueba que NO bloquean: H2 frente a HANA y los procedimientos EdicionMultiple, CrearComprobante (USARCREARCOMPROBANTEJAVA=N) y LiquidacionMasiva (viven en HANA, no se migran; probados solo del lado Java). |
+| Tesoreria | BcsTesoreriaJobs | 100.0 % | PROBADO | 2.316 | 2.316 | Completo para los 12 jobs; Cloper (cliente) es del servicio y responde 503 a TomEE. Marcado completo el 2026-10-27 segun sus TRANSFORMATION_NOTES (sin auditoria linea a linea): lo no portado es codigo muerto, de depuracion o sustituido por decision documentada. |
+
+## Modulos nuevos fuera de los 42 del brief
+
+| Modulo | Veredicto pack | Codigo nuevo (lineas) | Pruebas (lineas) | Pruebas (n) |
+|---|---|---:|---:|---:|
+| BcsCrystalReports | PROVEN | 1.909 | 2.211 | 290 |
+| BcsApvJavaCallAdapter | PARTLY PROVEN | 8.721 | 219 | 12 |
+| BcsAPVApi | PARTLY PROVEN | 8.309 | 35 | 1 |
+
+## Historial
+
+| Fecha | Evento |
+|---|---|
+| 2026-10-29 | Revision de arquitectura de FFMM y Custodia en proceso (ebf09f66): proxy de conexion con plazo por sentencia, guardia de transaccion, interruptores separados normal-habilitada y comisiones-en-proceso, Dockerfile con las librerias; 3483 pruebas. verify (cuarta corrida): PROVEN tras aprobar el usuario VF-NOR-11 (DEV-F4) y VF-NOR-36 (DEV-6-H1); lado nuevo de las 13 familias re-ejecutado sin diferencias nuevas; 42 entradas frescas de Normal; firma del usuario |
+| 2026-10-28 | verify BcsFondoMutuoServicios (tercera corrida): PROVEN tras aprobar el usuario 3 diferencias de ConsultarCustodiaPortafolioFFMM (DESVIO-KIT-1); se re-ejecuto el lado nuevo de las 10 familias anteriores sin diferencias nuevas (VF-CVC-29/30 ahora iguales al legacy); 1579 casos de desarrollo y 231 frescas; canario propio 13 pruebas rojas; firma del usuario; BcsCustodiaServicios queda PARTLY PROVEN (su evidencia de QA en vivo del 26-oct es anterior al cambio de su pom y su Dockerfile; repetir QA-2 y QA-3 con VPN) |
+| 2026-10-28 | ConsultarCustodiaPortafolioFFMM (aafe9da5): 22 tarjetas, 192 casos de la clase sola y 78 de la cadena CPF + FFMM reales frente al legacy; el adaptador real reemplaza a CustodiaCerrada (interruptor fondomutuo.custodia.ffmm.cerrada); consultas de solo lectura en HANA QA: 14 IdPersona con dos socios de negocio, IdRegimenFondoMutuo nulable, clase no registrada en PLA.Servicio; 3448 pruebas. Pendiente verify y firma |
+| 2026-10-28 | Custodia en proceso (dd5abd14): BcsCustodiaServicios publica jar plano (classifier exec) y BcsFondoMutuoServicios lo consume con FlujoCustodiaEnProceso en la misma transaccion; RescateReinversion ya puede abrirse con G-CUS habilitada (guardia de arranque si el CustodiaPort no es el adaptador); 3051 pruebas; BcsCustodiaServicios 228 |
+| 2026-10-28 | Revision de arquitectura de CargarValorCuota (1671b81f): lote real con un solo PreparedStatement, un solo vuelo por instancia (503 CVC_OCUPADA), guardia de escala, INFO/WARN de arranque, max-body-bytes del router interno de Plataforma de 1 MB a 16 MB; 3028 pruebas |
+| 2026-10-28 | Criterio del avance aclarado por el usuario: los limites de H2 y la firma de un experto NO impiden marcar un modulo completo; solo cuenta que todo el codigo legacy este portado. Notas de APV Servicios, CuentaInversion Servicios y Tesoreria Servicios reescritas separando brechas de codigo (adaptador PDF; Cloper y SOAP) de limites de prueba |
+| 2026-10-27 | Revision de los 9 modulos PROBADO sin confirmar segun sus notas de transformacion: 6 marcados completos (APV Servicios y Jobs, Contabilidad Servicios y Jobs, CuentaInversion Jobs, Tesoreria Jobs); BcsUtils pasa a parcial (~24 %, solo la biblioteca pura: 18 de 76 clases); CuentaInversion Servicios y Tesoreria Servicios quedan 'sin confirmar' por brechas conocidas (adaptador PDF; Cloper y SOAP) |
+| 2026-10-27 | Regla del avance: un PROVEN solo se rotula PROBADO (100 %) si el modulo esta marcado completo en avance_estado.json; si no, PROBADO PARCIAL o PROBADO (100 % sin confirmar). BcsPlataformaWeb se corrige de 100 % a parcial (~36 % estimado: solo el MVP del login; /call y /CallBatch son stubs); los otros 9 modulos PROBADO quedan 'sin confirmar' hasta revisar sus secciones 'Not migrated' |
+| 2026-10-27 | Firma del usuario del verify de BcsFondoMutuoServicios (segunda corrida: F1, F2 W1, F3 W1 y F3 W2 CargarValorCuota PROVEN); alcance solo BcsFondoMutuoServicios; BcsPlataformaWeb sigue sin firma |
+| 2026-10-27 | verify BcsFondoMutuoServicios (segunda corrida): PROVEN tras aprobar el usuario 3 diferencias de CargarValorCuota (DESVIO-KIT-1 y un lote JDBC que en H2 sigue ejecutando filas tras un fallo; igual tras el rollback); 1309 casos de desarrollo y 189 frescas; canario propio 4 pruebas rojas; falta la firma del usuario sobre este VERIFICATION.md |
+| 2026-10-27 | F3 W2: CargarValorCuota (27272993), unica clase de la UI que escribe: 199 casos, escrituras con ids por el puerto de secuencias, un solo AgregarLog por HTTP que traga cualquier Exception como el legacy, PK real de FMM.ValorCuota verificada en HANA QA de solo lectura; lista CARGAR_VALOR_CUOTA cerrada por defecto; 3005 pruebas en el modulo |
+| 2026-10-27 | verify BcsFondoMutuoServicios: PROVEN tras aprobar el usuario 17 diferencias de clase de excepcion (DESVIO-KIT-1 y FMM-VDO-05/06); 1110 casos de desarrollo y 157 entradas frescas (135 nuevas de 3 verificadores independientes), canario propio 10 pruebas rojas; firma registrada del usuario (alcance solo BcsFondoMutuoServicios) |
+| 2026-10-27 | Revision de arquitectura de las 8 lecturas de F3 W1 (f706b173): el arranque aceptaba solo las 8 listas del Manejador, asi que ninguna lectura era abrible (H1); timeout por sentencia y transaccion readOnly (H2); CPF abierta con la custodia cerrada falla al arrancar (M1); tope en el calculo del dia siguiente y aviso si la JVM no esta en UTC (M2); mensajes de BD fuera de los logs (M3); 33 pruebas nuevas, 2462 en total |
+| 2026-10-27 | F3 W1 frentes 2-8: VDO, FMR, IFM (f1b361fa), SFM, WS y DET (094aa4e4) y CPF (5ed0d413) implementadas bug a bug; 2429 pruebas en el modulo, 0 fallos; consultas a HANA QA solo lectura cerraron Q-F3A-9 (empresa 0 filtra IdEmpresa=0, sin fuga entre empresas) y D-F3A-28; decision del usuario: con empresa sin configuracion se mantiene ParametroNoEncontradoException del kit (legacy NPE), a registrar como diferencia; pendiente verify y firma de F3 |
+| 2026-10-26 | F3 W1 frente 1: ConsultarFechaSolicitudAporteRescate (lectura de UI, 16.217 usos) implementada y commiteada (c9366913); 178 pruebas, canario 8 en rojo; lista cerrada por defecto |
+| 2026-10-26 | BcsFondoMutuoServicios F2 W1 cerrada: libreria Tesoreria en proceso y CrearSolicitudRescateReinversion (DEV-6-H1 extendida; guarda de arranque con la custodia cerrada); verify PROVEN (11 diferencias aprobadas, 22/22 frescos) y firma registrada del usuario; 933 pruebas |
+| 2026-10-26 | verify BcsPlataformaWeb: NOT PROVEN por 2 diferencias frente al legacy; corregida la de BCS_MUESTRA_SSO_GOOGLE (texto null); ActualizarClave pasa a exigir sesion (decision del usuario); queda 1 diferencia (RULE-032, renglon de digito) por decidir |
+| 2026-10-26 | Seguridad del gateway (cabeceras, CORS por lista, X-Forwarded-For, rewrite estricto; 37 pruebas) y manifiesto de EKS sin aplicar (BcsGateway/deploy/eks/mvp-login.yaml); guia USO_LOGIN.md con anexos para el desarrollador de la UI. Pendientes: decision de ActualizarClave, usuario de prueba dedicado para las escrituras, verify de nuevo y firma |
+| 2026-10-26 | Login MVP, comparacion con el legacy real: login por Selenium (robot2) captura la pagina de bootstrap; home y login bootstrap de BcsPlataformaWeb iguales en HANA QA (solo lectura); /Configuraciones probado en QA; 3 defectos solo visibles en HANA corregidos (fechas, BLOB, tablas del despachador); filtro de sesion cerrado por defecto; recuperacion de clave en seco; firmas de 8 procedimientos verificadas |
+| 2026-10-26 | Login MVP: BcsPlataformaWeb (CrearSesion, gestion de clave, bootstrap JSON, filtro de sesion, prefijo /PLA; 156 pruebas H2) y BcsGateway (reescritura /BSCL/Plataforma/GWJAVA/PLA, ruta de login apagada sin fallback a TomEE; 27 pruebas). verify: ambos PARTLY PROVEN, sin firma; 2 riesgos HIGH del architecture-critic pendientes de decision |
+| 2026-10-26 | Firma del usuario (Mauricio Villagran Mora, Arquitecto): BcsCustodiaServicios PROVEN, alcance solo ese modulo |
+| 2026-10-26 | verify BcsCustodiaServicios: 14 entradas frescas iguales con el legacy real (F06 inestable en el legacy, D-CUS-06), canary, QA-2/QA-3 HANA QA en vivo (solo lectura); veredicto PROVEN; QA-1 sin ejecutar |
+| 2026-10-26 | BcsCustodiaServicios: slice ConsultarFlujoCustodia migrado (cl.bcs.custodia.flujo, ~2.900 lineas), 85 casos de equivalencia, revision de arquitectura (3 correcciones aplicadas) |
+| 2026-10-23 | Brechas cerradas: BcsTesoreriaJobs PROVEN otra vez (ProgramaReglasP0Test, 5 pruebas para RULE-057/058/059/062/066/068 y RULE-055/056/057 nombradas en las pruebas H4; 574 pruebas) y BcsPlataformaServicios PROVEN (cases.json en formato compare.py: 28 iguales + 1 aprobado DEV-A3). 11 PROVEN, sin firmar los 2 nuevos. |
+| 2026-10-23 | Verificacion 2026-10-23 (10 modulos cambiados re-ejecutados desde limpio, 6.627 pruebas, 0 fallas; canarios y entradas nuevas re-ejecutados) y firma del usuario: 9 modulos PROVEN (BcsUtils, Contabilidad Servicios/Jobs, CuentaInversion Servicios/Jobs, Tesoreria Servicios, APV Servicios/Jobs, BcsCrystalReports). BcsTesoreriaJobs baja a PARTLY PROVEN (8 de 11 reglas P0 sin prueba). |
+| 2026-10-22 | BcsFondoMutuoServicios F1 pasos 5-7: verificacion independiente (59 entradas frescas, canario 8/8, golden mutation 14/14), arreglos de arquitectura (H1, escritura confirmada, timeouts) y de seguridad (SEC-003/004/006/007/009); 742 pruebas (commits efe886f0, 73d37e19, f43d20c9) |
+| 2026-10-22 | BcsFondoMutuoServicios F1 paso 4: Normal y Manejador implementados y equivalentes al legacy en H2 (675 pruebas, 0 fallos); falta pack de verificacion y firma |
+| 2026-10-22 | BcsFondoMutuoServicios F1 pasos 3A+3B: 10 clases del cierre puro portadas, 558 pruebas, cobertura de ramas 85-100 %, canarios en rojo |
+| 2026-10-22 | BcsFondoMutuoServicios F1 paso 2 (f15c4acc): kit, lista blanca de 2 clases, transaccion Spring C1/C1b, SQL por paquete C3; 137 pruebas; oraculo H2 con autochequeo 20/20 |
+| 2026-10-22 | BcsPlataformaServicios: ConsultarEstadoModulo migrada (71fb8b0d), 113 pruebas, 28/29 goldens identicos y 1 diferencia aprobada (DEV-A3) |
+| 2026-10-21 | BcsPlataformaWeb: router /internal/java-call (b9cb0b0a), 114 pruebas |
+| 2026-10-21 | Jobs de Tesoreria, APV, CuentaInversion y Contabilidad: pasos 5, 6 y 6b (guarda TomEE fail-closed); ya no coinciden con la verificacion firmada |
+| 2026-10-21 | Firma del usuario: 10 modulos PROVEN (BcsUtils, Contabilidad Servicios/Jobs, CuentaInversion Servicios/Jobs, Tesoreria Servicios/Jobs, APV Servicios/Jobs, BcsCrystalReports) |
+
+Regla de mantenimiento: cada vez que un modulo se actualiza o se cierra, el asistente agrega una fila al historial de `avance_estado.json`, ajusta su estado y vuelve a ejecutar el script.

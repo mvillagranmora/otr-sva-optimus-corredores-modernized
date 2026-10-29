@@ -1,0 +1,121 @@
+{
+  "servicio": "ManejadorSolicitudAporteRescate",
+  "ref": "Transferencia con 2 filas (la 2da rechazada) y Traspaso con 1 fila buena: filtro por IdInterno y orden de las listas de rescate",
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_IdTipoCanalIngreso": "OPT",
+    "p_FormaPagoSpot": [],
+    "p_SolicitudRescateTransferencia": [
+      {
+        "IdInterno": 101
+      },
+      {
+        "IdInterno": 102
+      }
+    ],
+    "p_SolicitudRescateTraspaso": [
+      {
+        "IdInterno": 103
+      }
+    ]
+  },
+  "colaboradores": {
+    "CrearSolicitudRescateTransferencia": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [
+              {
+                "id": 1,
+                "tipo": "ERROR",
+                "codigo": "X_T2",
+                "descripcion": "t2"
+              }
+            ],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 101,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "N"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 101,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "CrearSolicitudRescateTraspaso": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "S"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 103,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_SimularOperacion": "N"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_RESULTADO": [
+              {
+                "IdInterno": 103,
+                "IdPortafolio": 500,
+                "TipoSolicitud": "APO"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate",
+      "orden": "\"IdBloqueoSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.InterfazAgf",
+      "orden": "\"IdInterfazAgf\""
+    }
+  ]
+}

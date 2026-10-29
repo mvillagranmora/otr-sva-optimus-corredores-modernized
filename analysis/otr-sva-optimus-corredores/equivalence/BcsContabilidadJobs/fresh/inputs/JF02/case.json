@@ -1,0 +1,47 @@
+{
+  "servicio": "InterfazContable",
+  "descripcion": "Fresh verify input (job shell): first and last rejected",
+  "entrada": {
+    "idEmpresa": 1,
+    "idUsuario": 21,
+    "destino": "B",
+    "secuencias": "100;200;300"
+  },
+  "sap": {
+    "POST /b1s/v1/Login": [
+      {
+        "status": 200,
+        "body": "{\"SessionId\":\"fake-session-0001\",\"Version\":\"1000000\",\"SessionTimeout\":30}",
+        "setCookies": [
+          "B1SESSION=fake-session-0001; HttpOnly",
+          "ROUTEID=.node1; path=/b1s"
+        ]
+      }
+    ],
+    "GET /b1s/v1/BusinessPartners('CL76123456-7')": [
+      {
+        "status": 200,
+        "body": "{\"CardCode\":\"X\"}"
+      }
+    ],
+    "GET /b1s/v1/BusinessPartners('CL77000000-0')": [
+      {
+        "status": 200,
+        "body": "{\"CardCode\":\"X\"}"
+      }
+    ],
+    "POST /b1s/v1/JournalVouchersService_Add": [
+      {
+        "status": 400,
+        "body": "{\"error\": {\"code\": -5002, \"message\": {\"lang\": \"en-us\", \"value\": \"Invalid account code 'SAP-1101'\"}}}"
+      },
+      {
+        "status": 204
+      },
+      {
+        "status": 400,
+        "body": "{\"error\": {\"code\": -1000, \"message\": {\"lang\": \"en-us\", \"value\": \"Field too long\"}}}"
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+-- case seed on top of seed/base-fmm.sql + schema-cvc.sql + seed/base-cvc.sql (fake data)
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico" ("IdValorCuotaHistorico", "IdSerieFondo", "FechaCierre", "ValorCuota", "IdMoneda", "Observacion", "FechaCarga", "FechaIngresoRegistro", "EsUltimaCargaDiaria", "IdEmpresa") VALUES (1, 'FM001A', '2026-03-02', 99, 'CLP', 'previa', '2026-03-01', TIMESTAMP '2026-02-20 10:00:00', 'S', 1);
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.ValorCuota" ("IdSerieFondo", "FechaCierre", "ValorCuota", "IdMoneda", "FechaCarga", "FechaIngresoRegistro", "IdEmpresa", "Observacion") VALUES ('FM001A', '2026-03-01', 100, 'CLP', '2026-03-01', TIMESTAMP '2026-02-20 10:00:00', 1, 'previa');
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.ValorCuota" ("IdSerieFondo", "FechaCierre", "ValorCuota", "IdMoneda", "FechaCarga", "FechaIngresoRegistro", "IdEmpresa", "Observacion") VALUES ('FM001B', '2026-03-01', 5, 'CLP', '2026-03-01', TIMESTAMP '2026-02-20 10:00:00', 1, 'previa');
+ALTER TABLE "BSCL.FondoMutuo.BD::FMM.ValorCuota" ADD CONSTRAINT "FALLA_INYECTADA" CHECK ("ValorCuota" <> 77.77);

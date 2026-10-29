@@ -1,0 +1,23 @@
+{
+  "what": "Step 5 fresh inputs for CrearSolicitudAporteRescateNormal (FRESH-NOR-01..43) and ManejadorSolicitudAporteRescate (FRESH-MAN-01..14). Inputs: make_fresh.py (make_fresh_nor.py, make_fresh_man.py) under fresh/cases/<id>/{case.json,seed.sql}. Legacy dumps: unmodified legacy via legacy-oracle/record.sh (-Doracle.cases=fresh/cases). New dumps: NormalSubject (subject4a.sh) and ManejadorNuevoSubject (run4b.sh). Verdict: fresh_verdict.py -> fresh-cases.json, FRESH_EQUIVALENCE.json (skill compare.py) and FRESH_EQUIVALENCE_pass1.json (before any approval).",
+  "mask": "only the text of the \"_provenance\" property (names the subject that produced the dump). Nothing else is masked.",
+  "approvedDifferences": {
+    "DEV-F4": "gate closed (G0 for the Manejador lists of the 7 classes of F2, G1 for a non CIN means of payment): the new module answers a 503 before the first write; verified by the script: the new dump has no request, no lock row, no AGF row, no local table left and no write collaborator called",
+    "text": "same exception class, only the TEXT differs (JVM helpful NullPointerException names compiler locals; driver SQLException)"
+  },
+  "f1GateRun": "the cases FRESH-MAN-xx@G0 repeat the legacy output against the new Manejador configured as in F1 (only the Normal list served, -Doracle.listas=NORMAL); the other 13 FRESH-MAN cases run with all eight lists served (equivalence of the dispatch code)",
+  "leftOut": [
+    "malformed records (broken JSON, wrong field types, unknown enum literals, numbers as text): the input format is the contract of the callers; only VALID records were used",
+    "concurrency of the anti-duplicate lock and AUTONOMOUS TRANSACTION (H2 simulates it with a second connection): not provable without HANA",
+    "any collaborator behaviour beyond the scripted doubles (CalcularParidad, EntregarPreciosTasas, ConsultarFlujoCustodia, SaldoFlujoCaja ...): the oracle answers what each case scripts, real prices/parities are not reproduced",
+    "Tesoreria and Spot write paths with the gates open (F2): the legacy cannot run them in H2 (no Tesoreria/Mesa tables) and the new module answers 503",
+    "real calendars/holidays/valutas, real series configuration and real dictionary texts (the universe is the fictitious seed)",
+    "payloads above the size of the oracle universe (one client, one portfolio, one series FM001A, 1000 cuotas of custody)"
+  ],
+  "observations": [
+    "FRESH-NOR-37, 24 (first version) and 36 (first version): identical requests inside one batch are answered UI_ERROR_BLOQUEO_SOLICITUD although no lock existed before (the lock list holds repeated ids; legacy and new agree): worth showing to the domain expert (D-NOR-2 family)",
+    "FRESH-NOR-19: both aporte states closed (comercial and backoffice): the request is accepted with the warning FONDO_CERRADO_REQ_APO_RES, not rejected (legacy and new agree)",
+    "the cash-flow check of CIN aportes is 'total > saldo' (equal passes): FRESH-NOR-11/12/41/42/43 with CalcularParidad scripted to 100000 (the base double answers 15001 whatever the amount, which hid the boundary)",
+    "FRESH-NOR-01..04: MontoMinimo and MontoMaximo of the series are inclusive (amount = limit accepted; one peso outside rejected)"
+  ]
+}

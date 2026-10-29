@@ -1,0 +1,2046 @@
+{
+  "system": "otr-sva-optimus-corredores",
+  "root": {
+    "id": "sys",
+    "name": "otr-sva-optimus-corredores",
+    "kind": "system",
+    "children": [
+      {
+        "id": "dom:Plataforma",
+        "name": "Plataforma",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsPlataformaWeb",
+            "name": "BcsPlataformaWeb",
+            "kind": "module",
+            "loc": 8137,
+            "file": "BSCL/Plataforma/JAVA/BcsPlataformaWeb",
+            "language": "java",
+            "description": "BcsPlataformaWeb is the web front-end for the Plataforma domain, acting as the top-level entry point with no inbound callers across 8,137 lines of code. Its BootstrapServlet reads Diccionario, Empresa, Imagen, and DiaFeriado reference data from HANA_BSCL; the module also writes to HANA_BSCL and reads from CrystalReports. It dispatches across 35 outbound connections to modules including BcsSocioNegocioServicios, BcsCustodiaServicios, BcsOrdenServicios, BcsMesaServicios, BcsFondoMutuoServicios, BcsTesoreriaServicios, BcsFacturacionServicios, BcsContabilidadServicios, and BcsNormativaServicios."
+          },
+          {
+            "id": "mod:BcsPlataformaServicios",
+            "name": "BcsPlataformaServicios",
+            "kind": "module",
+            "loc": 103816,
+            "file": "BSCL/Plataforma/JAVA/BcsPlataformaServicios",
+            "language": "java",
+            "description": "BcsPlataformaServicios is the central services hub of the Plataforma domain, providing shared platform capabilities to 20 callers including BECB, BcsAPVServicios, BcsCanalAgenteServicios, BcsContabilidadServicios, BcsFondoMutuoServicios, BcsMesaServicios, BcsNormativaServicios, BcsOrdenServicios, and BcsPortafolioServicios. It reads from SQL_Server and PostgreSQL, writes to HANA_BSCL, SFTP, and DTE_SII, and in turn calls BcsReplica, BcsSocioNegocioServicios, BcsTesoreriaServicios, BcsTesoreriaJobs, and BcsValo2. At 103,816 lines of code, it supplies downstream modules with form field metadata lookups across entity types such as Moneda, Pais, TipoTelefono, and Giro."
+          },
+          {
+            "id": "mod:BcsJobManager",
+            "name": "BcsJobManager",
+            "kind": "module",
+            "loc": 1887,
+            "file": "BSCL/Plataforma/JAVA/BcsJobManager",
+            "language": "java",
+            "description": "BcsJobManager is a batch job scheduling engine within the Plataforma domain that identifies and dispatches pending scheduled programs for execution. Its TransactionManager class reads Programa and Agenda records from HANA_BSCL, filtering candidates in state PEN whose fechaEjecucion falls within the current day and whose Intento count has not reached MaximoIntentos. It locks each selected row by setting Bloqueo to 'S' before processing, detects daemon jobs via the EsDemonio flag, and registers no inbound callers across its 1887 lines of code."
+          },
+          {
+            "id": "mod:BcsPlataformaJobs",
+            "name": "BcsPlataformaJobs",
+            "kind": "module",
+            "loc": 22858,
+            "file": "BSCL/Plataforma/JAVA/BcsPlataformaJobs",
+            "language": "java",
+            "description": "BcsPlataformaJobs is a 22,858-line scheduled batch module in the Plataforma domain that processes securities market files, loading structured records for corporate actions (TBACFVC), issuer data (TBUTEMIS), price vectors (VectorPrecios), and fixed-income instruments (TBRFMI). The primary job class, ProcesadorArchivosJob, extends BcsJob and reads source data from SQL_Server, then writes results to HANA_BSCL and delivers output files to SFTP. The module has no inbound connections and is not called by any other component in the domain."
+          },
+          {
+            "id": "mod:BcsUtils",
+            "name": "BcsUtils",
+            "kind": "module",
+            "loc": 11978,
+            "file": "BSCL/Plataforma/JAVA/BcsUtils",
+            "language": "java",
+            "description": "BcsUtils is a shared utility library for the Plataforma domain that centralizes cross-cutting infrastructure services across 11,978 lines of code, including configuration retrieval, in-memory definition caching, file compression, HTTP communication, and logging support. It calls the stored procedure BSCL.Plataforma.BD.Utilitarios::ObtenerConfiguracion via cl.bcs.nuam.StoredProcedure to resolve per-company parameters identified by IdEmpresa and CodigoParametro. The module reads from SQL_Server and PostgreSQL, writes to HANA_BSCL and SFTP, and the packet records no inbound connections."
+          },
+          {
+            "id": "mod:BcsFilters",
+            "name": "BcsFilters",
+            "kind": "module",
+            "loc": 421,
+            "file": "BSCL/Plataforma/JAVA/BcsFilters",
+            "language": "java",
+            "description": "BcsFilters enforces service-level access control across the Plataforma domain by intercepting every inbound HTTP request through the ServiceFilter servlet filter (421 LOC). For each request carrying an X-SESSION-TOKEN header, it reads ACC.Sesion, ACC.Usuario, ACC.Rol, ACC.Perfil, ACC.Acceso, ACC.AccesoServicio, and PLA.Servicio tables in HANA_BSCL via the jdbc/hanaDB DataSource to verify that the caller's profile may invoke the target service. Requests matching noAuthURLs, noAuthServices identifiers 700729, 600017, 171721, 1381, 14, 1556, and 384, or noAuthChanels WS, CLI, and AGE bypass the check. No module calls BcsFilters directly."
+          },
+          {
+            "id": "mod:BcsPlataformaReporteApi",
+            "name": "BcsPlataformaReporteApi",
+            "kind": "module",
+            "loc": 1380,
+            "file": "BSCL/Plataforma/JAVA/BcsPlataformaReporteApi",
+            "language": "java",
+            "description": "BcsPlataformaReporteApi is the report-generation API for the Plataforma domain, responsible for loading Crystal Reports templates, populating them with data, and exporting finished documents. At 1,380 lines, it reads report definitions from CrystalReports and writes output to HANA_BSCL, querying the table BSCL.Report::Template via Sql2o. The module handles subreport assembly, barcode generation through barcode4j, image embedding using PictureObject, and Excel workbook evaluation through Apache POI; no inbound connections are recorded, so callers are not captured in the packet."
+          },
+          {
+            "id": "mod:BcsValo2",
+            "name": "BcsValo2",
+            "kind": "module",
+            "loc": 7342,
+            "file": "BSCL/Plataforma/JAVA/BcsValo2",
+            "language": "java",
+            "description": "BcsValo2 is a 7,342-line Plataforma module that loads and stages fixed-income bond instrument records for valuation. Called by BcsPlataformaServicios, it reads bond data from SQL_Server via ArchivoBonos and the Bono entity, then generates INSERT statements that populate the BSCL.Plataforma.BD::INS.Instrumento and BSCL.Plataforma.BD::INS.InstrumentoBono tables in HANA_BSCL, recording fields such as IdInstrumento, Nemotecnico, ISIN, TasaEmision, FechaVencimiento, ConvencionDias, TipoLibor, and NumeroCupones."
+          },
+          {
+            "id": "mod:BcsDeploy",
+            "name": "BcsDeploy",
+            "kind": "module",
+            "loc": 3397,
+            "file": "BSCL/Plataforma/JAVA/BcsDeploy",
+            "language": "java",
+            "description": "BcsDeploy is a standalone deployment automation tool within the Plataforma domain that promotes artifacts from a development environment to production by coordinating database schema changes and file transfers. The 3,397-line Deploy class reads configuration from config.properties, queries SVN for file metadata, and writes to both HANA_BSCL and an SFTP endpoint. It targets remote hosts Web, Fiori, WebServices, and ICliente using JSch for secure file transfer, and has 0 inbound connections \u2014 no other module calls it."
+          },
+          {
+            "id": "mod:BcsCargasPeru",
+            "name": "BcsCargasPeru",
+            "kind": "module",
+            "loc": 13489,
+            "file": "BSCL/Plataforma/JAVA/BcsCargasPeru",
+            "language": "java",
+            "description": "BcsCargasPeru is a 13,489-line batch client-enrollment loader for Peru that provisions new business-partner records into the Plataforma domain. The module resolves enrollment data through ConsultarEnrolamiento and ValidarDocumentoIdentidad, then orchestrates sequential calls to CrearPersona, CrearDocumentoIdentidad, CrearDireccionFisica, CrearDireccionElectronica, CrearTelefono, and CrearCliente before writing results to HANA_BSCL and DTE_SII. It applies a Peru-specific identity-type branching rule keyed on CodigoPais='PE'. No inbound connections are recorded; it is invoked externally with no registered callers in the graph."
+          },
+          {
+            "id": "mod:BcsPlataformaServlets",
+            "name": "BcsPlataformaServlets",
+            "kind": "module",
+            "loc": 1026,
+            "file": "BSCL/Plataforma/JAVA/BcsPlataformaServlets",
+            "language": "java",
+            "description": "BcsPlataformaServlets manages normativo file intake for the Plataforma domain, accepting multipart POST uploads at /files/upload and rejecting GET requests outright. Spanning 1026 lines, the module resolves storage paths through LocalizadorArchivo, persists document metadata via DocumentoDAO and Documento, and triggers downstream processing through Batch, writing results to HANA_BSCL over the jdbc/hanaDB DataSource. Individual uploads are capped at 10 megabytes per the MAX_FILE_SIZE constant. No inbound connections are recorded, so callers are unknown."
+          },
+          {
+            "id": "mod:BcsPortalConfirmacionWeb",
+            "name": "BcsPortalConfirmacionWeb",
+            "kind": "module",
+            "loc": 595,
+            "file": "BSCL/Plataforma/JAVA/BcsPortalConfirmacionWeb",
+            "language": "java",
+            "description": "BcsPortalConfirmacionWeb is a 595-line Plataforma module that renders confirmation notifications for the BCS portal by evaluating FreeMarker 2.3.23 templates against JSON context data. Its EvalTemplate class, in package cl.bcs.notificacion.template, uses Gson to deserialize context payloads, StringEscapeUtils to sanitize HTML, and JSONObject and JSONArray to group KeyValue records by codigo into structured output. The module writes its results to HANA_BSCL and registers no inbound connections in the packet, meaning no callers are catalogued here."
+          }
+        ]
+      },
+      {
+        "id": "dom:SocioNegocio",
+        "name": "SocioNegocio",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsSocioNegocioServicios",
+            "name": "BcsSocioNegocioServicios",
+            "kind": "module",
+            "loc": 131100,
+            "file": "BSCL/SocioNegocio/JAVA/BcsSocioNegocioServicios",
+            "language": "java",
+            "description": "BcsSocioNegocioServicios is the central service layer for business-partner management in the SocioNegocio domain, handling operations such as portfolio annotation uploads through SubirArchivoAnotacionPortafolio. Spanning 131100 lines of code, it is called by 13 upstream modules including BcsAPVServicios, BcsFacturacionServicios, BcsJobsFondoMutuo, BcsMesaServicios, BcsTesoreriaJobs, SURA, and BcsPlataformaWeb; it calls 10 downstream modules including BcsCuentaInversionServicios, BcsCustodiaServicios, BcsNormativaServicios, BcsOrdenServicios, and BcsPortafolioServicios, and writes to HANA_BSCL, SFTP, and DTE_SII."
+          },
+          {
+            "id": "mod:BcsSocioNegocioJobs",
+            "name": "BcsSocioNegocioJobs",
+            "kind": "module",
+            "loc": 1588,
+            "file": "BSCL/SocioNegocio/JAVA/BcsSocioNegocioJobs",
+            "language": "java",
+            "description": "BcsSocioNegocioJobs automates the scheduled blocking of clients within the SocioNegocio domain, running 1,588 lines of batch-job logic dispatched by BcsPlataformaWeb. The primary job, PautaBloqueoAutomaticoClientes, verifies prior-run status via ConsultarPautaEjecutar, then invokes BloqueoAutomaticoClientesPorConfiguracion and BloqueoAutomaticoClientesPorTemporalidad against module SOC to apply two distinct blocking strategies. It advances the next pauta via AdelantarPauta using a 10-second offset, logs all lifecycle steps through AgregarControlPauta, and writes results to HANA_BSCL."
+          }
+        ]
+      },
+      {
+        "id": "dom:Custodia",
+        "name": "Custodia",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsCustodiaServicios",
+            "name": "BcsCustodiaServicios",
+            "kind": "module",
+            "loc": 123977,
+            "file": "BSCL/Custodia/JAVA/BcsCustodiaServicios",
+            "language": "java",
+            "description": "BcsCustodiaServicios is the core custody services module in the Custodia domain, managing securities portfolio positions across 15 search types including CUS_NEG, VENPAC, COMPAC, SIM, EMP, GTA, and TRA, with both current and historical views. Called by 11 modules \u2014 among them BcsAPVServicios, BcsContabilidadServicios, BcsFondoMutuoServicios, BcsMesaServicios, and BcsPlataformaWeb \u2014 it reads from SQL_Server and CrystalReports, writes to HANA_BSCL, DTE_SII, and DCV_SOAP, and calls BcsCuentaInversionServicios, BcsReplica, BcsTesoreriaJobs, and BcsFacturacionServicios across 15 outbound connections."
+          },
+          {
+            "id": "mod:BcsCustodiaJobs",
+            "name": "BcsCustodiaJobs",
+            "kind": "module",
+            "loc": 7231,
+            "file": "BSCL/Custodia/JAVA/BcsCustodiaJobs",
+            "language": "java",
+            "description": "BcsCustodiaJobs is a 7,231-line Custodia domain module that produces scheduled financial reports, most notably GenerarArchivoInformeMayorMenorValor, which ranks portfolio positions by highest and lowest value. Dispatched by BcsPlataformaWeb, the module reads valuation data from CrystalReports and writes results to HANA_BSCL. It emits Excel and CSV output files applying per-currency precision rules \u2014 4 decimals for UF, 2 for USD and EUR, and 0 for CLP \u2014 and differentiates among pact types PP, PC, and PD."
+          }
+        ]
+      },
+      {
+        "id": "dom:Orden",
+        "name": "Orden",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsOrdenServicios",
+            "name": "BcsOrdenServicios",
+            "kind": "module",
+            "loc": 72127,
+            "file": "BSCL/Orden/JAVA/BcsOrdenServicios",
+            "language": "java",
+            "description": "BcsOrdenServicios is the central order-management module of the Orden domain, at 72,127 lines, responsible for creating, routing, and charging investment orders while computing coverage, exigibility, and guarantees for client portfolios. Ten modules depend on it: BcsAPVServicios, BcsCuentaInversionServicios, BcsCustodiaServicios, BcsFacturacionServicios, BcsJobsFondoMutuo, BcsOrdenJobs, BcsPlataformaServicios, BcsSocioNegocioServicios, and BcsTesoreriaJobs call it, while BcsPlataformaWeb dispatches to it. Outbound, it calls BcsMesaServicios and BcsSocioNegocioServicios, reads from SQL_Server, and writes to HANA_BSCL, DTE_SII, and BECB_SOAP."
+          },
+          {
+            "id": "mod:BcsOrdenJobs",
+            "name": "BcsOrdenJobs",
+            "kind": "module",
+            "loc": 11867,
+            "file": "BSCL/Orden/JAVA/BcsOrdenJobs",
+            "language": "java",
+            "description": "BcsOrdenJobs is an 11,867-line scheduled-job module in the Orden domain that processes operator transactions, invoking CrearOrdenesPostreras to create late orders, ReservarLiberarTransacciones to reserve and release transactions, and EnviarAsignacionesFacturar to forward assignments for billing. It is called by BcsFacturacionServicios and BcsOrdenServicios, and dispatched by BcsPlataformaWeb. At runtime it calls BcsOrdenServicios and BcsPlataformaServicios, and writes results to HANA_BSCL."
+          },
+          {
+            "id": "mod:BcsJobOrders",
+            "name": "BcsJobOrders",
+            "kind": "module",
+            "loc": 2124,
+            "file": "BSCL/Orden/JAVA/BcsJobOrders",
+            "language": "java",
+            "description": "BcsJobOrders is a 2124-line Java scheduler module in the Orden domain that manages chronological order allocation and assignment within the BSCL schema. Dispatched by BcsPlataformaWeb, it writes to HANA_BSCL via the ConnectorsOrders class, which reads the LibroOrdenes table and the ConsultarParametrosProgramas view, and invokes stored procedures PrepararAsignacionCronologica, PrepararAsignacionCronologicaConFecha, BloquearDesbloquearOrdenes, BloquearDesbloquearTransacciones, AnularAsignacionMasiva, and AgregarAsignacion to orchestrate assignment lifecycle operations."
+          }
+        ]
+      },
+      {
+        "id": "dom:Mesa",
+        "name": "Mesa",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsMesaServicios",
+            "name": "BcsMesaServicios",
+            "kind": "module",
+            "loc": 65153,
+            "file": "BSCL/Mesa/JAVA/BcsMesaServicios",
+            "language": "java",
+            "description": "BcsMesaServicios is the central trading-desk service module for the Mesa domain, at 65,153 lines of code, that manages spot foreign-exchange operations including trade recording, margin calculation, liquidation confirmation, and payment-voucher generation. It is called by BcsCustodiaServicios, BcsJobsFondoMutuo, BcsOrdenServicios, BcsTesoreriaJobs, and BcsPlataformaWeb, and it calls BcsContabilidadJobs, BcsContabilidadServicios, BcsCuentaInversionServicios, BcsCustodiaServicios, BcsFacturacionServicios, BcsFondoMutuoServicios, BcsJobsFondoMutuo, BcsPlataformaServicios, BcsPortafolioServicios, BcsSocioNegocioServicios, and BcsTesoreriaJobs, while writing to HANA_BSCL and reading from CrystalReports."
+          },
+          {
+            "id": "mod:BcsMesaJobs",
+            "name": "BcsMesaJobs",
+            "kind": "module",
+            "loc": 4314,
+            "file": "BSCL/Mesa/JAVA/BcsMesaJobs",
+            "language": "java",
+            "description": "BcsMesaJobs processes scheduled batch jobs for the Mesa domain, executing bulk file loads of termination operations dispatched by BcsPlataformaWeb. Each job run reads operation headers, details, portfolios, instruments, and liquidation conditions from HANA_BSCL and reads report definitions from CrystalReports, then invokes CrearOperacionMesa, IngresarDetalleOperacionMesa, ValorizarInstrumento, CalcularParidad, and ObtenerDiaSiguiente before writing processed results back to HANA_BSCL. The module spans 4,314 lines of code and serves as the batch execution layer for the Mesa domain."
+          }
+        ]
+      },
+      {
+        "id": "dom:FondoMutuo",
+        "name": "FondoMutuo",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsFondoMutuoServicios",
+            "name": "BcsFondoMutuoServicios",
+            "kind": "module",
+            "loc": 69956,
+            "file": "BSCL/FondoMutuo/JAVA/BcsFondoMutuoServicios",
+            "language": "java",
+            "description": "BcsFondoMutuoServicios is the core mutual-fund operations engine of the FondoMutuo domain, handling contribution and rescue request certification, commission calculation, custody processing, and reinvestment workflows across 69,956 lines of code. It writes results to HANA_BSCL and calls BcsCustodiaServicios, BcsJobsFondoMutuo, and BcsPlataformaServicios for downstream processing. Eight upstream modules depend on it: BcsAPVServicios, BcsCuentaInversionServicios, BcsFacturacionServicios, BcsJobsFondoMutuo, BcsMesaServicios, BcsPlataformaServicios, and BcsTesoreriaJobs call it directly, while BcsPlataformaWeb dispatches to it."
+          },
+          {
+            "id": "mod:BcsJobsFondoMutuo",
+            "name": "BcsJobsFondoMutuo",
+            "kind": "module",
+            "loc": 2516,
+            "file": "BSCL/FondoMutuo/JAVA/BcsJobsFondoMutuo",
+            "language": "java",
+            "description": "BcsJobsFondoMutuo is the batch-job orchestration module for the FondoMutuo domain, processing mutual-fund operations such as fiscal-bonus reinvestment orders (IngresarOrdenBonificacionFiscalReinversion) across 2,516 lines of code. Ten upstream callers invoke it, including BcsAPVServicios, BcsCuentaInversionServicios, BcsFondoMutuoServicios, BcsNormativaServicios, BcsTesoreriaJobs, and BcsPlataformaWeb, which dispatches it. It in turn calls 12 downstream services \u2014 BcsOrdenServicios, BcsPortafolioServicios, BcsSocioNegocioServicios, BcsCustodiaServicios, BcsFacturacionServicios, and BcsMesaServicios among them \u2014 and writes output to the HANA_BSCL data store."
+          }
+        ]
+      },
+      {
+        "id": "dom:Tesoreria",
+        "name": "Tesoreria",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsTesoreriaServicios",
+            "name": "BcsTesoreriaServicios",
+            "kind": "module",
+            "loc": 28600,
+            "file": "BSCL/Tesoreria/JAVA/BcsTesoreriaServicios",
+            "language": "java",
+            "description": "BcsTesoreriaServicios is the 28,600-line treasury services module for the Tesoreria domain, responsible for collection distribution, PAC mandate processing, CSC and SAAPV fund subscriptions, cargo/abono generation, and ingress/egress voucher liquidation for client portfolios. It is called by BcsAPVServicios, BcsContabilidadServicios, BcsPlataformaServicios, and BcsTesoreriaJobs, and dispatched by BcsPlataformaWeb. Outbound, it calls BcsCuentaInversionServicios, BcsPlataformaServicios, and BcsTesoreriaJobs, and writes transactional results to HANA_BSCL, SFTP, and DTE_SII."
+          },
+          {
+            "id": "mod:BcsTesoreriaJobs",
+            "name": "BcsTesoreriaJobs",
+            "kind": "module",
+            "loc": 2899,
+            "file": "BSCL/Tesoreria/JAVA/BcsTesoreriaJobs",
+            "language": "java",
+            "description": "BcsTesoreriaJobs is a 2,899-line scheduled-job module in the Tesoreria domain that orchestrates bulk DAP and FFMM income and expense processing. It receives 9 inbound connections \u2014 called by BcsAPVServicios, BcsCustodiaServicios, BcsFacturacionServicios, BcsJobsFondoMutuo, BcsMesaServicios, BcsNormativaServicios, BcsPlataformaServicios, and BcsTesoreriaServicios, and dispatched by BcsPlataformaWeb. Outbound, it calls 9 services including BcsCuentaInversionServicios, BcsFondoMutuoServicios, BcsOrdenServicios, and BcsSocioNegocioServicios, and writes results to HANA_BSCL."
+          }
+        ]
+      },
+      {
+        "id": "dom:Facturacion",
+        "name": "Facturacion",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsFacturacionServicios",
+            "name": "BcsFacturacionServicios",
+            "kind": "module",
+            "loc": 45979,
+            "file": "BSCL/Facturacion/JAVA/BcsFacturacionServicios",
+            "language": "java",
+            "description": "BcsFacturacionServicios handles billing and electronic invoice generation across the securities brokerage platform, producing comprobantes of document types including FAC, BOE, FOE, and NCE for orders, custody, and mutual fund operations. Spanning 45979 lines, it is called by 7 modules \u2014 BcsCuentaInversionServicios, BcsCustodiaServicios, BcsJobsFondoMutuo, BcsMesaServicios, BcsOrdenServicios, BcsPlataformaServicios, and BcsPlataformaWeb \u2014 maintains 12 outbound connections, writes fiscal documents to DTE_SII and transaction data to HANA_BSCL, and reads report definitions from CrystalReports."
+          },
+          {
+            "id": "mod:BcsFacturacionJobs",
+            "name": "BcsFacturacionJobs",
+            "kind": "module",
+            "loc": 2296,
+            "file": "BSCL/Facturacion/JAVA/BcsFacturacionJobs",
+            "language": "java",
+            "description": "BcsFacturacionJobs handles scheduled billing file generation for the Facturacion domain, producing physical output files whose format is defined in FAC.FormatoArchivo and whose data is supplied by a stored procedure associated with each format. Dispatched by BcsPlataformaWeb, the 2296-line module receives IdEmpresa, IdUsuario, CodigoFormatoArchivo, and IdPrograma as runtime parameters, calls the configured stored procedure via a CALL statement, and writes the resulting files to both HANA_BSCL and DTE_SII."
+          }
+        ]
+      },
+      {
+        "id": "dom:Contabilidad",
+        "name": "Contabilidad",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsContabilidadServicios",
+            "name": "BcsContabilidadServicios",
+            "kind": "module",
+            "loc": 20443,
+            "file": "BSCL/Contabilidad/JAVA/BcsContabilidadServicios",
+            "language": "java",
+            "description": "BcsContabilidadServicios is the core accounting-centralization service for the Contabilidad domain, generating pre-comprobantes with journal entries (asientos) across multiple TipoContabilidad types and persisting results to HANA_BSCL and SFTP while also submitting electronic tax documents to DTE_SII. At 20,443 lines, it is called by BcsMesaServicios and dispatched by BcsPlataformaWeb; in turn it calls BcsContabilidadJobs, BcsCustodiaServicios, BcsPlataformaServicios, and BcsTesoreriaServicios to resolve cross-domain data needed during pre-voucher assembly."
+          },
+          {
+            "id": "mod:BcsContabilidadJobs",
+            "name": "BcsContabilidadJobs",
+            "kind": "module",
+            "loc": 1519,
+            "file": "BSCL/Contabilidad/JAVA/BcsContabilidadJobs",
+            "language": "java",
+            "description": "BcsContabilidadJobs handles the accounting InterfazContable job by accepting batches of PreComprobante identifiers, generating JSON journal entries via GenerarJsonAsientoSap, and posting them one by one to SAP through CallerWSJournalVoucher; it reads connection parameters from interfazSAP.properties, maps response codes using ITZ.HomologaRespuestaSap, updates ITZ.PreComprobante records in HANA_BSCL, and writes audit logs to SFTP. At 1,519 lines, it is called by BcsContabilidadServicios and BcsMesaServicios and dispatched by BcsPlataformaWeb."
+          }
+        ]
+      },
+      {
+        "id": "dom:Normativa",
+        "name": "Normativa",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsNormativaServicios",
+            "name": "BcsNormativaServicios",
+            "kind": "module",
+            "loc": 83376,
+            "file": "BSCL/Normativa/Java/BcsNormativaServicios",
+            "language": "java",
+            "description": "BcsNormativaServicios is the central regulatory compliance service for the Normativa domain, generating statutory reports and annexes \u2014 including Annex 1 of Circular 20 covering voluntary pension savings (APV) deposits, balances, transfers, and withdrawals broken down by plan, series, and gender. At 83,376 lines of code, it is called by BcsCuentaInversionServicios, BcsCustodiaServicios, BcsNormativaJobs, BcsPlataformaServicios, BcsPortafolioServicios, BcsSocioNegocioServicios, and BcsPlataformaWeb; it calls out to BcsJobsFondoMutuo and BcsTesoreriaJobs; reads report templates from JasperReports and CrystalReports; and writes results to HANA_BSCL, SFTP, and DTE_SII."
+          },
+          {
+            "id": "mod:BcsNormativaJobs",
+            "name": "BcsNormativaJobs",
+            "kind": "module",
+            "loc": 57661,
+            "file": "BSCL/Normativa/Java/BcsNormativaJobs",
+            "language": "java",
+            "description": "BcsNormativaJobs enforces regulatory validation rules for derivative instrument reporting, including DJ1 form checks covering instrument types such as CAL, CAP, CCS, FLR, FOB, FUT, FWD, FXS, OTR, PUT, STN, and SWP, as well as event codes, currency pairs, country codes, and counterparty RUT values. At 57,661 lines of code, the module is dispatched by BcsPlataformaWeb, calls BcsNormativaServicios and BcsPlataformaServicios, writes results to HANA_BSCL, and reads report definitions from CrystalReports."
+          },
+          {
+            "id": "mod:BcsNormativaCore",
+            "name": "BcsNormativaCore",
+            "kind": "module",
+            "loc": 8347,
+            "file": "BSCL/Normativa/Java/BcsNormativaCore",
+            "language": "java",
+            "description": "BcsNormativaCore manages the regulatory-document schema lifecycle for the Normativa domain, enforcing submission deadlines and regulatory-entity assignments tracked through the Esquema entity with fields including codigoVersionSII, fechaPresentacionLimite, idEntidadReguladora, periodicidad, and periodoInicio. Spanning 8,347 lines of code, the module is dispatched by BcsPlataformaWeb and writes validated schema data to the HANA_BSCL data store using target namespaces defined under BSCL.Normativa.BD and source views under BSCL.Normativa.BD.Vistas."
+          },
+          {
+            "id": "mod:BcsCartolas",
+            "name": "BcsCartolas",
+            "kind": "module",
+            "loc": 4558,
+            "file": "BSCL/Normativa/Java/BcsCartolas",
+            "language": "java",
+            "description": "BcsCartolas manages the certified account statement workflow within the Normativa domain, handling Nomina records that track period-based processing across states EN_PROCESO, TERMINADO, and ERROR for each IdEmpresa and IdUsuario. At 4,558 lines, the module is dispatched by BcsPlataformaWeb, reads from JasperReports, and writes to HANA_BSCL. Each Nomina captures FechaDesde, FechaHasta, FechaCertificacion, TipoProceso, EstadoProceso, and MensajeProceso, with lifecycle transitions persisted through NominaService using ContextoCartolas."
+          },
+          {
+            "id": "mod:BcsCartolasJobs",
+            "name": "BcsCartolasJobs",
+            "kind": "module",
+            "loc": 1235,
+            "file": "BSCL/Normativa/Java/BcsCartolasJobs",
+            "language": "java",
+            "description": "BcsCartolasJobs is a 1,235-line Normativa module that configures and generates investment account statements by loading Plantilla templates, chart procedures including GraficoActivoPorProducto, GraficoConsolidadoPorProducto, and GraficoFM, and images such as Logo and Banner, effective from 2016. It is dispatched by BcsPlataformaWeb, reads report definitions from JasperReports via JasperUtils and stored procedures under the prefix BSCL.Normativa.BD.Servicios::CAR., and writes configuration and resource records to HANA_BSCL using ConfigService, PlantillaService, and RecursoService."
+          },
+          {
+            "id": "mod:BcsCartolasMaster",
+            "name": "BcsCartolasMaster",
+            "kind": "module",
+            "loc": 1775,
+            "file": "BSCL/Normativa/Java/BcsCartolasMaster",
+            "language": "java",
+            "description": "BcsCartolasMaster generates consolidated client account statements \u2014 cartolas master \u2014 in PDF format within the Normativa domain, assembling up to seven conditional sections including InfoCarteraMasterPag2, InfoCarteraFM, CarteraRV, CarteraRF, CarteraIF, CarteraFuturos, and CarteraFM based on data availability and template parameters. Its 1,775-line GeneradorMaster class is dispatched by BcsPlataformaWeb, reads report templates from JasperReports, writes results to HANA_BSCL, and archives each generated file through ConcurrentArchiver using the CARTOLA_MASTER template."
+          },
+          {
+            "id": "mod:BcsTributarioJobs",
+            "name": "BcsTributarioJobs",
+            "kind": "module",
+            "loc": 136,
+            "file": "BSCL/Normativa/Java/BcsTributarioJobs",
+            "language": "java",
+            "description": "BcsTributarioJobs schedules the loading of IPC factor values within the Normativa domain, executing the CargaIPC batch job. Dispatched by BcsPlataformaWeb, the 136-line module's BcsJobCargaIPC class extends BcsJob and calls the stored procedure BSCL.Normativa.BD.Servicios::TRI.CargarValorFactorIpc against schema BSCL, supplying parameters IdEmpresa, IdUsuario, IdModulo, SimularOperacion, and UsaReglasNegocio; it then writes to HANA_BSCL, rolling back when the error counter exceeds zero and committing on success."
+          }
+        ]
+      },
+      {
+        "id": "dom:APV",
+        "name": "APV",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsAPVServicios",
+            "name": "BcsAPVServicios",
+            "kind": "module",
+            "loc": 31928,
+            "file": "BSCL/APV/JAVA/BcsAPVServicios",
+            "language": "java",
+            "description": "BcsAPVServicios is the central service layer for the APV domain, orchestrating voluntary pension savings operations including bulk loading of TGR bonification files via CargaBonificacionTGR, which processes record types for affiliates carrying fields such as RutAfiliado, AnoAhorro, FolioEgreso, and MontoPagadoNeto. It writes results to HANA_BSCL and calls BcsCuentaInversionServicios, BcsCustodiaServicios, BcsFondoMutuoServicios, BcsJobsFondoMutuo, BcsOrdenServicios, BcsPlataformaServicios, BcsPortafolioServicios, BcsSocioNegocioServicios, BcsTesoreriaJobs, and BcsTesoreriaServicios. It is called by BcsJobsFondoMutuo, BcsPlataformaServicios, BcsPortafolioServicios, BcsSocioNegocioServicios, BcsTesoreriaJobs, and dispatched from BcsPlataformaWeb across 31928 lines of code."
+          },
+          {
+            "id": "mod:BcsAPVJobs",
+            "name": "BcsAPVJobs",
+            "kind": "module",
+            "loc": 1369,
+            "file": "BSCL/APV/JAVA/BcsAPVJobs",
+            "language": "java",
+            "description": "BcsAPVJobs handles Voluntary Pension Savings (APV) batch processing of fiscal bonus orders for variable income instruments, creating purchase orders with current market prices, custody data, and distribution details. Dispatched by BcsPlataformaWeb, the module runs job INGRESAR_ORDEN_RV_BONIFICACION_FISCAL via IngresarOrdenRVBonificacionFiscal, which calls CrearOrdenes, CalcularMontoYCobrosOrden, ConsultarCustodiaPortafolio, DistribucionContrato, and ConsultarFlujoCaja. It creates and drops a temporary table PrecioInstrumentos during each run and logs execution through AgregarLogPrograma and AgregarLog. At 1,369 lines, it declares no outbound module connections."
+          }
+        ]
+      },
+      {
+        "id": "dom:CuentaInversion",
+        "name": "CuentaInversion",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsCuentaInversionServicios",
+            "name": "BcsCuentaInversionServicios",
+            "kind": "module",
+            "loc": 22466,
+            "file": "BSCL/CuentaInversion/JAVA/BcsCuentaInversionServicios",
+            "language": "java",
+            "description": "BcsCuentaInversionServicios is the central services module for the CuentaInversion domain, managing investment account balances, debt aging reports, and MovimientoCargoAbono movements across 22,466 lines of code. It receives 14 inbound connections from modules including BcsAPVServicios, BcsMesaServicios, BcsOrdenServicios, BcsPortafolioServicios, BcsTesoreriaServicios, and BcsPlataformaWeb; it calls out to BcsFacturacionServicios, BcsFondoMutuoServicios, BcsNormativaServicios, BcsOrdenServicios, and BcsSocioNegocioServicios, and writes to the HANA_BSCL database and DTE_SII system."
+          },
+          {
+            "id": "mod:BcsCuentaInversionJobs",
+            "name": "BcsCuentaInversionJobs",
+            "kind": "module",
+            "loc": 3137,
+            "file": "BSCL/CuentaInversion/JAVA/BcsCuentaInversionJobs",
+            "language": "java",
+            "description": "BcsCuentaInversionJobs generates physical investment account files for the CuentaInversion domain, reading file format configuration from CTA.FormatoArchivo and dynamically calling the stored procedure named in each format with fixed parameters p_IdEmpresa, p_IdUsuario, p_CodigoFormatoArchivo, and p_IdPrograma. The 3137-line module is dispatched by BcsPlataformaWeb and writes results to HANA_BSCL, also updating RutaSalida in BSCL.Plataforma.BD::BAT.Programa. GenerarArchivo, the main job class, extends BcsJob, implements JavaCall, and logs under CTA.GENERAR_ARCHIVO."
+          }
+        ]
+      },
+      {
+        "id": "dom:Portafolio",
+        "name": "Portafolio",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsPortafolioServicios",
+            "name": "BcsPortafolioServicios",
+            "kind": "module",
+            "loc": 9111,
+            "file": "BSCL/Portafolio/JAVA/BcsPortafolioServicios",
+            "language": "java",
+            "description": "BcsPortafolioServicios is the service layer for the Portafolio domain, spanning 9,111 lines of code, and is responsible for creating and fully configuring client investment portfolios, including fee profile assignment, payment preference setup, tax regime validation, and authorization event generation. It is called by BcsAPVServicios, BcsJobsFondoMutuo, BcsMesaServicios, and BcsSocioNegocioServicios, and dispatched from BcsPlataformaWeb. Outbound, it calls BcsAPVServicios, BcsCuentaInversionServicios, BcsNormativaServicios, BcsPlataformaServicios, and BcsSocioNegocioServicios, and writes to HANA_BSCL."
+          }
+        ]
+      },
+      {
+        "id": "dom:CanalAgente",
+        "name": "CanalAgente",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsCanalAgenteServicios",
+            "name": "BcsCanalAgenteServicios",
+            "kind": "module",
+            "loc": 288,
+            "file": "BSCL/CanalAgente/JAVA/BcsCanalAgenteServicios",
+            "language": "java",
+            "description": "BcsCanalAgenteServicios operates within the CanalAgente domain to expose investment account movement history to agent-channel users across a date range; dispatched by BcsPlataformaWeb, it accepts p_IdEmpresa, p_IdUsuario, p_IdPortafolio, p_FechaDesde, p_FechaHasta, and p_IdMoneda and returns P_SALDOEFECTIVOINICIAL, P_SALDOEFECTIVOFINAL, and a list of MovimientoCuentaInversion records. To serve each request, it calls BcsCuentaInversionServicios via ConsultarCartolaDeMovimiento and BcsPlataformaServicios for platform utilities, and writes CartolaDeMovimientoComprobante data to DTE_SII."
+          }
+        ]
+      },
+      {
+        "id": "dom:Corredor",
+        "name": "Corredor",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BECB",
+            "name": "BECB",
+            "kind": "module",
+            "loc": 3080,
+            "file": "BSCL/Corredor/BECB",
+            "language": "java",
+            "description": "BECB is a 3080-line Corredor module that generates the InformeVencimientosGenerales report, consolidating maturity data across PactosSimultaneas, Spots, CuentaPropiaTerceros, and VencimientoOperacionesTermino positions \u2014 including historical variants \u2014 for a given p_IdEmpresa and p_FechaInforme. The class GenerarInformeVencimientosGenerales in package cl.bcs.becb implements JavaCall, writing PDF output via PDFBox and Excel via HSSFWorkbook, then packaging both into a ZIP archive. It is dispatched by BcsPlataformaWeb and calls out to BcsPlataformaServicios."
+          },
+          {
+            "id": "mod:SURA",
+            "name": "SURA",
+            "kind": "module",
+            "loc": 1468,
+            "file": "BSCL/Corredor/SURA",
+            "language": "java",
+            "description": "The SURA module, operating in the Corredor domain, manages portfolio profile modifications for clients, including batch lookups of commercial profiles by identity document, bulk updates to portfolio profiles, and insert or update of cobro custodia indicators. It also enforces a rule that APV-purpose portfolios cannot have their payment method changed. BcsPlataformaWeb dispatches requests to SURA, which in turn calls BcsPlataformaServicios and BcsSocioNegocioServicios. The module spans 1468 lines of Java."
+          }
+        ]
+      },
+      {
+        "id": "dom:Replica",
+        "name": "Replica",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "mod:BcsReplica",
+            "name": "BcsReplica",
+            "kind": "module",
+            "loc": 1133,
+            "file": "BSCL/Replica/JAVA/BcsReplica",
+            "language": "java",
+            "description": "BcsReplica synchronizes Custodia and CuentaInversion balance data into the HANA_BSCL data store, serving the Replica domain. For the INICIO_PAUTA process it drops and recreates database triggers to suspend online replication, then clears and reinserts historical rows keyed by FechaLiquidacion, FechaOperacion, FechaEfectiva, and FechaMovimiento, including non-business-day projections for DiaInhabil dates. It is called by BcsCustodiaServicios and BcsPlataformaServicios; it in turn calls BcsPlataformaServicios and writes to HANA_BSCL. The module spans 1133 lines."
+          }
+        ]
+      },
+      {
+        "id": "dom:Data",
+        "name": "Data stores",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "ds:HANA_BSCL",
+            "name": "SAP HANA (BSCL schema)",
+            "kind": "datastore",
+            "description": "Primary SAP HANA database. Contains 156 calculation views, the PLA.Servicio service registry (1,817+ JavaCall class names driving runtime reflection dispatch), and all business domain tables across Plataforma, Orden, Custodia, Normativa, and related schemas."
+          },
+          {
+            "id": "ds:HANA_PLA_Servicio",
+            "name": "PLA.Servicio registry (HANA)",
+            "kind": "datastore",
+            "description": "SAP HANA table holding 1,817+ service definitions: class name, type (J/P/Q/X/O), and route. CallServlet reads this table on every request to resolve the target JavaCall class via Class.forName(). The entire service dispatch plane depends on the integrity of this registry."
+          },
+          {
+            "id": "ds:SQL_Server",
+            "name": "SQL Server (jtds/mssql)",
+            "kind": "datastore",
+            "description": "Secondary relational database accessed via jtds 1.3.1 and mssql-jdbc 7.2.1. Used by regulatory reporting (Normativa) and historical data modules."
+          },
+          {
+            "id": "ds:PostgreSQL",
+            "name": "PostgreSQL 42.7.7",
+            "kind": "datastore",
+            "description": "Tertiary relational database. PostgreSQL 42.7.7 driver present in build. Used for specific domain data distinct from HANA."
+          },
+          {
+            "id": "ds:SFTP",
+            "name": "SFTP (file transfer)",
+            "kind": "datastore",
+            "description": "External file exchange via JSch SFTP. ExtractorArchivosJob transfers regulatory files to/from settlement counterparties."
+          },
+          {
+            "id": "ds:DTE_SII",
+            "name": "DTE/SII (e-invoicing API)",
+            "kind": "datastore",
+            "description": "Chile SII electronic invoice API. Facturacion sends electronic tax documents and receives acknowledgements via REST calls to the DTE provider."
+          },
+          {
+            "id": "ds:DCV_SOAP",
+            "name": "DCV Settlement (SOAP)",
+            "kind": "datastore",
+            "description": "DCV (Dep\u00f3sito Central de Valores) securities settlement system, accessed via generated SOAP stubs in Custodia. Handles custody transfers, capital events, and settlement instructions."
+          },
+          {
+            "id": "ds:BECB_SOAP",
+            "name": "BECB Broker (SOAP)",
+            "kind": "datastore",
+            "description": "BECB electronic brokerage channel. Orden sends trade confirmations and order reports via AdditionalTradeInfo SOAP calls."
+          },
+          {
+            "id": "ds:SMTP",
+            "name": "SMTP (email)",
+            "kind": "datastore",
+            "description": "Outbound email relay. MailChecker and notification services use javax.mail to send alerts and regulatory notifications."
+          },
+          {
+            "id": "ds:JasperReports",
+            "name": "JasperReports (131 .jrxml)",
+            "kind": "datastore",
+            "description": "JasperReports 6.3.0 template engine. 131 .jrxml templates drive regulatory cartolas, tax certificates, and portfolio statements. BcsCartolas and BcsNormativaJobs are the primary consumers."
+          },
+          {
+            "id": "ds:CrystalReports",
+            "name": "Crystal Reports (182 .rpt)",
+            "kind": "datastore",
+            "description": "SAP Crystal Reports runtime (proprietary binary). 182 .rpt template files drive broker confirmation reports and institutional statements. Binary-only; no source representation."
+          }
+        ]
+      }
+    ]
+  },
+  "edges": [
+    {
+      "source": "mod:BECB",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsFondoMutuoServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsPortafolioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "mod:BcsTesoreriaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCanalAgenteServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCanalAgenteServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "mod:BcsContabilidadJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "mod:BcsTesoreriaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "mod:BcsFacturacionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "mod:BcsFondoMutuoServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "mod:BcsNormativaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsFacturacionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsMesaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsNormativaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsReplica",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsFondoMutuoServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsOrdenJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFondoMutuoServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFondoMutuoServicios",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsFondoMutuoServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsAPVServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsFacturacionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsFondoMutuoServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsMesaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsPortafolioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsContabilidadJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsContabilidadServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsFacturacionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsFondoMutuoServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsPortafolioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsNormativaJobs",
+      "target": "mod:BcsNormativaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsNormativaJobs",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenJobs",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenJobs",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsFacturacionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsMesaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsOrdenJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsAPVServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsFacturacionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsFondoMutuoServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsNormativaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsReplica",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsTesoreriaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "mod:BcsValo2",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPortafolioServicios",
+      "target": "mod:BcsAPVServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPortafolioServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPortafolioServicios",
+      "target": "mod:BcsNormativaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPortafolioServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPortafolioServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsReplica",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "mod:BcsAPVServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "mod:BcsNormativaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "mod:BcsPortafolioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsAPVServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsFondoMutuoServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsMesaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "mod:BcsTesoreriaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:SURA",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:SURA",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:PostgreSQL",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsJobManager",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaJobs",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsPlataformaJobs",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsUtils",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsUtils",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsUtils",
+      "target": "ds:PostgreSQL",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsUtils",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFilters",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaReporteApi",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaReporteApi",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsValo2",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsValo2",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsDeploy",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsDeploy",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCargasPeru",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCargasPeru",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaServlets",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPortalConfirmacionWeb",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsSocioNegocioServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsSocioNegocioJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaServicios",
+      "target": "ds:DCV_SOAP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCustodiaJobs",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:BECB_SOAP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsJobOrders",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsMesaServicios",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsMesaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsMesaJobs",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsFondoMutuoServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsJobsFondoMutuo",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsTesoreriaServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsTesoreriaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsFacturacionServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFacturacionJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsFacturacionJobs",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsContabilidadJobs",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:JasperReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:SFTP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsNormativaJobs",
+      "target": "ds:CrystalReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsNormativaCore",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCartolas",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCartolas",
+      "target": "ds:JasperReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsCartolasJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCartolasJobs",
+      "target": "ds:JasperReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsCartolasMaster",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCartolasMaster",
+      "target": "ds:JasperReports",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsTributarioJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsAPVServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCuentaInversionServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCuentaInversionJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPortafolioServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsCanalAgenteServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsReplica",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsSocioNegocioJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsCustodiaJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsOrdenJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsJobOrders",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsMesaServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsMesaJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsFondoMutuoServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsJobsFondoMutuo",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsTesoreriaServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsTesoreriaJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsFacturacionServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsFacturacionJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsContabilidadServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsContabilidadJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsNormativaServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsNormativaJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsNormativaCore",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsCartolas",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsCartolasJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsCartolasMaster",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsTributarioJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsAPVServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsAPVJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsCuentaInversionJobs",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsPortafolioServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BcsCanalAgenteServicios",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:BECB",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "mod:SURA",
+      "kind": "dispatch"
+    },
+    {
+      "source": "mod:BcsPlataformaWeb",
+      "target": "ds:HANA_PLA_Servicio",
+      "kind": "read"
+    }
+  ],
+  "entryPoints": [
+    "mod:BcsAPVJobs",
+    "mod:BcsCartolasJobs",
+    "mod:BcsContabilidadJobs",
+    "mod:BcsCuentaInversionJobs",
+    "mod:BcsCustodiaJobs",
+    "mod:BcsCustodiaServicios",
+    "mod:BcsFacturacionJobs",
+    "mod:BcsJobManager",
+    "mod:BcsJobOrders",
+    "mod:BcsJobsFondoMutuo",
+    "mod:BcsMesaJobs",
+    "mod:BcsNormativaJobs",
+    "mod:BcsOrdenJobs",
+    "mod:BcsOrdenServicios",
+    "mod:BcsPlataformaJobs",
+    "mod:BcsPlataformaServlets",
+    "mod:BcsPlataformaWeb",
+    "mod:BcsPortalConfirmacionWeb",
+    "mod:BcsSocioNegocioJobs",
+    "mod:BcsTesoreriaJobs",
+    "mod:BcsTributarioJobs"
+  ],
+  "deadEnds": [
+    "mod:BcsUtils",
+    "mod:BcsFilters",
+    "mod:BcsPlataformaReporteApi",
+    "mod:BcsDeploy",
+    "mod:BcsCargasPeru"
+  ],
+  "observations": [
+    "Runtime reflection dispatch: CallServlet (BcsPlataformaWeb) reads 1,817+ service class names from the PLA.Servicio HANA table and resolves them via Class.forName() at request time. Static analysis cannot enumerate the full service surface without DB access; all 14 business domains are potential targets of unresolvable dispatch calls.",
+    "Single point of failure: BcsPlataformaWeb is both the authentication gateway and the service dispatcher. A crash or misconfiguration here takes down all 1,817+ services across all 14 domains simultaneously.",
+    "Normativa is the most complex domain (603 Java files across 7 modules) with the broadest outbound dependency set: it reads from Custodia, CuentaInversion, SocioNegocio, and Portafolio, and writes to JasperReports (131 templates) for regulatory cartolas. Any schema change in those domains requires Normativa regression testing.",
+    "BcsJobManager (batch scheduler, 153+ jobs) and BcsPlataformaServlets (missing servlet implementations) are NOT compiled by the main Gradle build. They are built by a separate ANT process. Their absence from PLUGIN_OPTIMUS.jar means jdeps cannot trace their dependencies, leaving their edges unresolved in this map.",
+    "HANA calculation views (156 views) and PLA.Servicio registry are shared read infrastructure. BcsPlataformaWeb, BcsCustodiaServicios, BcsOrdenServicios, BcsNormativaServicios, and BcsContabilidadServicios all depend on the same HANA schema. A HANA schema migration requires coordinating all 14 domains simultaneously.",
+    "Crystal Reports (182 .rpt binary files) has no source representation and no path to static analysis. Modules that render .rpt files (BcsNormativaServicios, BcsFacturacionServicios) cannot be refactored without a parallel Crystal\u2192JasperReports migration plan.",
+    "BcsValo2 (portfolio valuation) is a high-coupling node: BcsPortafolioServicios, BcsSocioNegocioServicios, and BcsCustodiaServicios all depend on it. It reads from HANA and writes valuation results consumed by Normativa regulatory reports. It is an extraction candidate for an independent pricing microservice."
+  ],
+  "flows": [
+    {
+      "name": "Broker executes a securities order",
+      "persona": "Broker (corredor) trading desk operator",
+      "description": "A broker logs in, selects a client account, enters a buy/sell order, and receives CMF-compliant confirmation and settlement instruction.",
+      "steps": [
+        {
+          "label": "Authenticate via session token",
+          "nodes": [
+            "mod:BcsPlataformaWeb"
+          ]
+        },
+        {
+          "label": "Session filter validates role and routes request",
+          "nodes": [
+            "mod:BcsFilters",
+            "mod:BcsPlataformaWeb"
+          ]
+        },
+        {
+          "label": "Order creation validates client and account",
+          "nodes": [
+            "mod:BcsOrdenServicios",
+            "mod:BcsSocioNegocioServicios",
+            "mod:BcsCuentaInversionServicios"
+          ]
+        },
+        {
+          "label": "Order booked in HANA and sent to BECB",
+          "nodes": [
+            "mod:BcsOrdenServicios",
+            "ds:HANA_BSCL",
+            "ds:BECB_SOAP"
+          ]
+        },
+        {
+          "label": "Custody record updated at DCV settlement",
+          "nodes": [
+            "mod:BcsCustodiaServicios",
+            "ds:DCV_SOAP"
+          ]
+        },
+        {
+          "label": "Accounting journal entry created",
+          "nodes": [
+            "mod:BcsContabilidadServicios",
+            "ds:HANA_BSCL"
+          ]
+        },
+        {
+          "label": "Confirmation report generated (Crystal Reports)",
+          "nodes": [
+            "mod:BcsFacturacionServicios",
+            "ds:CrystalReports"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Client views portfolio statement",
+      "persona": "Investment client (cliente)",
+      "description": "A client logs in via the web portal and downloads their monthly portfolio statement with valuation, positions, and performance.",
+      "steps": [
+        {
+          "label": "Client authenticates (SSO or local)",
+          "nodes": [
+            "mod:BcsPlataformaWeb"
+          ]
+        },
+        {
+          "label": "Portfolio positions read from HANA",
+          "nodes": [
+            "mod:BcsPortafolioServicios",
+            "ds:HANA_BSCL"
+          ]
+        },
+        {
+          "label": "Positions valued using BcsValo2 pricing engine",
+          "nodes": [
+            "mod:BcsValo2",
+            "ds:HANA_BSCL"
+          ]
+        },
+        {
+          "label": "Statement compiled from Normativa templates",
+          "nodes": [
+            "mod:BcsCartolas",
+            "ds:JasperReports"
+          ]
+        },
+        {
+          "label": "Document served via FileDownload servlet",
+          "nodes": [
+            "mod:BcsPlataformaWeb"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Regulatory report submitted to CMF",
+      "persona": "Compliance officer (normativa team)",
+      "description": "An automated batch job compiles trade and position data across all domains and submits a CMF regulatory report on schedule.",
+      "steps": [
+        {
+          "label": "BcsTributarioJobs scheduler triggers report job",
+          "nodes": [
+            "mod:BcsTributarioJobs"
+          ]
+        },
+        {
+          "label": "Trade and position data aggregated from HANA",
+          "nodes": [
+            "mod:BcsNormativaJobs",
+            "mod:BcsCustodiaServicios",
+            "ds:HANA_BSCL"
+          ]
+        },
+        {
+          "label": "Client identity resolved from SocioNegocio",
+          "nodes": [
+            "mod:BcsNormativaServicios",
+            "mod:BcsSocioNegocioServicios"
+          ]
+        },
+        {
+          "label": "Report rendered from JasperReports templates",
+          "nodes": [
+            "mod:BcsNormativaServicios",
+            "ds:JasperReports"
+          ]
+        },
+        {
+          "label": "Report emailed to CMF (SMTP)",
+          "nodes": [
+            "mod:BcsNormativaJobs",
+            "ds:SMTP"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mutual fund subscription processed",
+      "persona": "Fund administrator (APV/FondoMutuo team)",
+      "description": "A client subscribes to a mutual fund; the system validates quotas, books the purchase, updates custody, and replicates the portfolio.",
+      "steps": [
+        {
+          "label": "Subscription request received via CallServlet dispatch",
+          "nodes": [
+            "mod:BcsPlataformaWeb",
+            "ds:HANA_PLA_Servicio"
+          ]
+        },
+        {
+          "label": "Fund quota and availability validated",
+          "nodes": [
+            "mod:BcsFondoMutuoServicios",
+            "ds:HANA_BSCL"
+          ]
+        },
+        {
+          "label": "Client account debited via CuentaInversion",
+          "nodes": [
+            "mod:BcsCuentaInversionServicios",
+            "ds:HANA_BSCL"
+          ]
+        },
+        {
+          "label": "Custody record updated",
+          "nodes": [
+            "mod:BcsCustodiaServicios",
+            "ds:HANA_BSCL"
+          ]
+        },
+        {
+          "label": "Portfolio replica updated with new position",
+          "nodes": [
+            "mod:BcsPortafolioServicios",
+            "mod:BcsValo2"
+          ]
+        },
+        {
+          "label": "APV tax treatment applied if applicable",
+          "nodes": [
+            "mod:BcsAPVServicios",
+            "ds:HANA_BSCL"
+          ]
+        }
+      ]
+    }
+  ]
+}

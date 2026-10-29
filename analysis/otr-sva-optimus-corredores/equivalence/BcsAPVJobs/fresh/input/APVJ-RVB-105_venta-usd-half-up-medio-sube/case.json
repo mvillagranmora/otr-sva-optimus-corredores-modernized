@@ -1,0 +1,62 @@
+{
+  "id": "APVJ-RVB-105",
+  "slug": "venta-usd-half-up-medio-sube",
+  "titulo": "VENTA USD pct 50: 1 * 50 / 100 = 0.5 formatted HALF_UP to 0 decimals = 1",
+  "pina": "fresh",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "config": {
+    "APV/APV.PorcentajeBonificacionFiscal": "50"
+  },
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "10"
+          }
+        ]
+      }
+    },
+    "ConsultarCustodiaPortafolio": {
+      "P_OUT_TBL": [
+        {
+          "CantidadTotal": "1000"
+        }
+      ]
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "1"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": []
+    }
+  }
+}

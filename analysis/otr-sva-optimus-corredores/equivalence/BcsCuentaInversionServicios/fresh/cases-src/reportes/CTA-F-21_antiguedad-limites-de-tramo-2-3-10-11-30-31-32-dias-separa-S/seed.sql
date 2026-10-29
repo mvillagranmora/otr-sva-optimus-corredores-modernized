@@ -1,0 +1,16 @@
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-12', 1001, 2001, 'CLP', 'G', -10.5);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-12', 1001, 2001, 'CLP', 'I', -4.25);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-11', 1001, 2001, 'CLP', 'G', -12);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-11', 1001, 2001, 'CLP', 'I', -4.25);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-04', 1001, 2001, 'CLP', 'G', -20.75);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-04', 1001, 2001, 'CLP', 'I', -5);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-03', 1001, 2001, 'CLP', 'G', -33.5);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-03', 1001, 2001, 'CLP', 'I', -6);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-02-12', 1001, 2001, 'CLP', 'G', -45.125);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-02-12', 1001, 2001, 'CLP', 'I', -10);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-02-11', 1001, 2001, 'CLP', 'G', -60);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-02-11', 1001, 2001, 'CLP', 'I', -15);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-02-10', 1001, 2001, 'CLP', 'G', -99);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-02-10', 1001, 2001, 'CLP', 'I', -1);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-14', 1001, 2001, 'CLP', 'G', -50.5);
+INSERT INTO "BSCL.CuentaInversion.BD::CTA.SaldosReporteAntiguedad" VALUES (DATE '2025-03-14', 1001, 2001, 'CLP', 'I', -9.75);

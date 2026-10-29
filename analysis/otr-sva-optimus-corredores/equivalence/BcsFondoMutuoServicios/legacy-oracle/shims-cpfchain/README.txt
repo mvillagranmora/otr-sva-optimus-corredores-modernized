@@ -1,0 +1,1 @@
+F3 W1 front 9 part B (CHAIN CPF + FFMM REAL): compile-only shims of record_cpfchain.sh. None is needed: the closure imports nothing outside what record_cpfchain.sh compiles. The directory exists because the script scans it (find shims-cpfchain -name '*.java').

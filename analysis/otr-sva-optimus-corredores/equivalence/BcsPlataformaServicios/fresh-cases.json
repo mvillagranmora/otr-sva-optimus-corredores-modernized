@@ -1,0 +1,270 @@
+{
+ "system": "otr-sva-optimus-corredores",
+ "module": "BcsPlataformaServicios",
+ "legacy": {
+  "label": "FRESH inputs (not used in development) run through the unmodified legacy cl.bcs.plataforma.cre.ConsultarEstadoModulo with the module oracle (legacy-oracle/record.sh + OracleRunner, real cl.bcs.utils SQL/JavaCall, H2 MODE=LEGACY, JVM UTC, JDK 25) on a scratch copy holding only the fresh cases",
+  "command": "ORACLE_WORK=<scratch> bash legacy-oracle/record.sh  (scratch copy; LEG pointed at legacy/otr-sva-optimus-corredores read-only)"
+ },
+ "new": {
+  "label": "modernized BcsPlataformaServicios target/classes of the clean verify run 2026-10-23, called through new-subject/NewSubject (ConsultarEstadoModuloHandler.call) on the same seeded H2",
+  "command": "ORACLE_SUBJECT=cl.bcs.oracle.NewSubject ORACLE_OUT=<dir> ORACLE_EXTRA_SOURCES=new-subject/.../NewSubject.java ORACLE_EXTRA_CP=<module>/target/classes bash legacy-oracle/record.sh"
+ },
+ "note": "verify 2026-10-23. No INTENT.md, so malformed inputs were tried (FRESH-ESM-04..08, 13). Masks: harness _provenance label and exception message text (class kept).",
+ "cases": [
+  {
+   "id": "FRESH-ESM-01-out",
+   "input": "FRESH-ESM-01",
+   "title": "empresa3-dos-modulos-nuevos (ConsultarEstadoModulo.java:22-23)",
+   "legacy": "fresh/legacy/FRESH-ESM-01/out.json",
+   "new": "fresh/new/FRESH-ESM-01/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-02-out",
+   "input": "FRESH-ESM-02",
+   "title": "empresa-negativa-con-filas (ConsultarEstadoModulo.java:115)",
+   "legacy": "fresh/legacy/FRESH-ESM-02/out.json",
+   "new": "fresh/new/FRESH-ESM-02/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-03-out",
+   "input": "FRESH-ESM-03",
+   "title": "empresa-minimo-long (ConsultarEstadoModulo.java:115; BIGINT)",
+   "legacy": "fresh/legacy/FRESH-ESM-03/out.json",
+   "new": "fresh/new/FRESH-ESM-03/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-04-out",
+   "input": "FRESH-ESM-04",
+   "title": "empresa-desborde-long-malformado (ConsultarEstadoModulo.java:64 (Gson Long))",
+   "legacy": "fresh/legacy/FRESH-ESM-04/out.json",
+   "new": "fresh/new/FRESH-ESM-04/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-05-out",
+   "input": "FRESH-ESM-05",
+   "title": "empresa-booleana-malformado (ConsultarEstadoModulo.java:64)",
+   "legacy": "fresh/legacy/FRESH-ESM-05/out.json",
+   "new": "fresh/new/FRESH-ESM-05/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-06-out",
+   "input": "FRESH-ESM-06",
+   "title": "empresa-arreglo-malformado (ConsultarEstadoModulo.java:64)",
+   "legacy": "fresh/legacy/FRESH-ESM-06/out.json",
+   "new": "fresh/new/FRESH-ESM-06/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-07-out",
+   "input": "FRESH-ESM-07",
+   "title": "empresa-texto-con-espacios-malformado (ConsultarEstadoModulo.java:64)",
+   "legacy": "fresh/legacy/FRESH-ESM-07/out.json",
+   "new": "fresh/new/FRESH-ESM-07/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-08-out",
+   "input": "FRESH-ESM-08",
+   "title": "empresa-texto-vacio-malformado (ConsultarEstadoModulo.java:64)",
+   "legacy": "fresh/legacy/FRESH-ESM-08/out.json",
+   "new": "fresh/new/FRESH-ESM-08/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-09-out",
+   "input": "FRESH-ESM-09",
+   "title": "empresa-exponente-1e2 (ConsultarEstadoModulo.java:64 (Gson Long desde 1e2))",
+   "legacy": "fresh/legacy/FRESH-ESM-09/out.json",
+   "new": "fresh/new/FRESH-ESM-09/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-10-out",
+   "input": "FRESH-ESM-10",
+   "title": "codigos-con-tab-salto-comilla-y-barra (ConsultarEstadoModulo.java:22 (texto verbatim, escape JSON))",
+   "legacy": "fresh/legacy/FRESH-ESM-10/out.json",
+   "new": "fresh/new/FRESH-ESM-10/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-11-out",
+   "input": "FRESH-ESM-11",
+   "title": "50-modulos-orden-inverso (ConsultarEstadoModulo.java:22-23 (sin ORDER BY))",
+   "legacy": "fresh/legacy/FRESH-ESM-11/out.json",
+   "new": "fresh/new/FRESH-ESM-11/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-12-out",
+   "input": "FRESH-ESM-12",
+   "title": "claves-extra-desconocidas-se-ignoran (ConsultarEstadoModulo.java:64 (Gson ignora campos desconocidos))",
+   "legacy": "fresh/legacy/FRESH-ESM-12/out.json",
+   "new": "fresh/new/FRESH-ESM-12/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-13-out",
+   "input": "FRESH-ESM-13",
+   "title": "p_IdUsuario-fraccion (ConsultarEstadoModulo.java:64,49)",
+   "legacy": "fresh/legacy/FRESH-ESM-13/out.json",
+   "new": "fresh/new/FRESH-ESM-13/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-14-out",
+   "input": "FRESH-ESM-14",
+   "title": "empresa-solo-modulos-de-otra-empresa-mismo-codigo (ConsultarEstadoModulo.java:22-23)",
+   "legacy": "fresh/legacy/FRESH-ESM-14/out.json",
+   "new": "fresh/new/FRESH-ESM-14/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  },
+  {
+   "id": "FRESH-ESM-15-out",
+   "input": "FRESH-ESM-15",
+   "title": "estado-unicode-y-minusculas (ConsultarEstadoModulo.java:22 (IdEstado verbatim))",
+   "legacy": "fresh/legacy/FRESH-ESM-15/out.json",
+   "new": "fresh/new/FRESH-ESM-15/out.json",
+   "mask": [
+    {
+     "regex": "\"_provenance\": \"[^\"\\n]*\"",
+     "why": "harness label naming the subject that ran (legacy vs new), not product output"
+    },
+    {
+     "regex": "(?:Exception|Error): (?:[^\"\\\\\\n]|\\\\.)*",
+     "why": "runtime-generated exception message text; only the exception class is compared"
+    }
+   ]
+  }
+ ]
+}

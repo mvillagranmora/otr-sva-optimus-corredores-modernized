@@ -1,0 +1,12 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'CLIENTE_BLOQUEADO', 'Cliente ::DocumentoIdentidad:: bloqueado');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'MONTO_MAXIMO_REQ_APO_RES', 'Monto maximo ::IdInstrumento:: ::CodigoPortafolio:: ::DocumentoIdentidad::');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'FONDO_CERRADO_REQ_APO_RES', 'Fondo ::IdInstrumento:: cerrado');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'NO_MONEY_MARKET', 'No es money market');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'MONTO_VALIDO', 'Monto invalido');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'INSTRUMENTO_NO_VIGENTE_RUT_CLIENTE', 'Instrumento ::Nemotecnico:: no vigente ::DocumentoIdentidad::');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'FECHA_INVALIDA_RESCATE_REQ_APO_RES', 'Fecha rescate invalida ::DocumentoIdentidad::');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'CLIENTE_BLOQUEADO_POR_CUMPLIMIENTO', 'Bloqueado por cumplimiento ::NombreCliente:: ::DocumentoIdentidad::');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'NUMERO_CUOTA_VALIDO_REQ_APO_RES', 'Cuotas invalidas ::NombreCliente::');
+INSERT INTO "BSCL.Plataforma.BD::PLA.Diccionario" ("CodLenguaje", "CodDiccionario", "Descripcion") VALUES ('es', 'ERROR_AL_ENCONTRAR_ID_USUARIO', 'Usuario sin empleado');
+INSERT INTO "BSCL.Plataforma.BD::IND.TipoIndicador" ("IdTipoIndicador", "IdTipoEntidad", "CodigoTipoIndicador", "IdEstado") VALUES (9, 'CLIENTE', 'BCCUM', 'ACT');
+INSERT INTO "BSCL.Plataforma.BD::IND.Indicador" ("IdEntidad", "IdTipoIndicador", "IdTipoEntidad", "ValorIndicador") VALUES (100, 9, 'CLIENTE', 'S');

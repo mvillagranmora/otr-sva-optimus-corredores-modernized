@@ -1,0 +1,2 @@
+-- case seed on top of seed/base-fmm.sql + schema-cvc.sql + seed/base-cvc.sql (fake data)
+INSERT INTO "BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico" ("IdValorCuotaHistorico", "IdSerieFondo", "FechaCierre", "ValorCuota", "IdMoneda", "Observacion", "FechaCarga", "FechaIngresoRegistro", "EsUltimaCargaDiaria", "IdEmpresa") VALUES (1, 'FM001A', '2026-03-01', 90, 'CLP', 'previa', '2026-03-01', TIMESTAMP '2026-02-20 10:00:00', 'N', 1);

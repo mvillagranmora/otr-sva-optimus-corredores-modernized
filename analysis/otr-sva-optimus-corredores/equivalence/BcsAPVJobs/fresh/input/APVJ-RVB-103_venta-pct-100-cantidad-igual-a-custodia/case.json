@@ -1,0 +1,62 @@
+{
+  "id": "APVJ-RVB-103",
+  "slug": "venta-pct-100-cantidad-igual-a-custodia",
+  "titulo": "VENTA pct 100: 12.345 truncated to 12.34 by the CLP format, custody 12.34 (equal): not replaced",
+  "pina": "fresh",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "config": {
+    "APV/APV.PorcentajeBonificacionFiscal": "100"
+  },
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "10"
+          }
+        ]
+      }
+    },
+    "ConsultarCustodiaPortafolio": {
+      "P_OUT_TBL": [
+        {
+          "CantidadTotal": "12.34"
+        }
+      ]
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "12.34"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": []
+    }
+  }
+}

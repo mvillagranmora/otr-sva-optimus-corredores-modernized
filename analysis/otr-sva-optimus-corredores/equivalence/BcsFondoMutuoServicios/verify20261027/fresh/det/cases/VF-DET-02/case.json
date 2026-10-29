@@ -1,0 +1,77 @@
+{
+  "servicio": "ConsultarDetalleSolicitud",
+  "ref": "PEN rescate por cuotas 368.1088, precio 2794.6934",
+  "esquemasExtra": [
+    "schema-det.sql",
+    "seed/base-det.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SolicitudesAporteRescate": 4562
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorCuota",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::PLA.Configuracion",
+      "orden": "\"IdEmpresa\", \"CodigoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 4562,
+            "IdClasificacionTipoInstrumento": "FM",
+            "Precio": 2794.6934,
+            "IdInstrumento": 900,
+            "FechaFuente": "2026-03-02 00:00:00.000"
+          }
+        ]
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdInterno": 18250,
+                "MontoDestino": 91.7008
+              },
+              {
+                "IdInterno": 18251,
+                "FactorOrigenDestino": 39000,
+                "MontoDestino": 39000
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

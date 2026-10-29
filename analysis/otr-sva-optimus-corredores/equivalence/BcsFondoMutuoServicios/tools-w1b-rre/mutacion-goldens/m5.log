@@ -1,0 +1,201 @@
+== generating shim Utils and doubles into /c/Users/m.villagran.mora/AppData/Local/Temp/mvscratch/rre-mut/work-5/gen
+Utils shim: 6 methods copied verbatim
+double: cl.bcs.tesoreria.CrearIngresoEgreso
+double: cl.bcs.mesa.SPT.CrearOperacionSpot
+double: cl.bcs.mesa.SPT.ConsultarPuntasPorTramo
+double: cl.bcs.custodia.ConsultarFlujoCustodia
+double: cl.bcs.plataforma.mer.CalcularParidad
+double: cl.bcs.plataforma.tas.EntregarPreciosTasas
+double: cl.bcs.plataforma.pla.SaldoFlujoCaja
+double: cl.bcs.plataforma.pla.AgregarLog
+double: cl.bcs.plataforma.bat.InscribirProcesoBatch
+double: cl.bcs.plataforma.com.ConsultarProductosPortafolio
+double: cl.bcs.plataforma.pla.NotificarEstadoOrdenesOWP
+double: cl.bcs.plataforma.ins.ConsultarDatosInstrumentos
+double: cl.bcs.plataforma.pla.utils.ConsultarEmpresa
+double: cl.bcs.fondomutuo.CrearSolicitudAporteRescateProgramado
+double: cl.bcs.fondomutuo.CrearSolicitudAporteOvernight
+double: cl.bcs.fondomutuo.CrearSolicitudAporteReinversion
+double: cl.bcs.fondomutuo.CrearSolicitudCambioSerie
+double: cl.bcs.fondomutuo.CrearSolicitudRescateTransferencia
+double: cl.bcs.fondomutuo.CrearSolicitudRescateTraspaso
+== compiling oracle into /c/Users/m.villagran.mora/AppData/Local/Temp/mvscratch/rre-mut/work-5/classes (release 11)
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+== running
+== FMM-RRE-01_real-un-par-nacional
+== FMM-RRE-02_simulacion-un-par
+== FMM-RRE-03_sin-rescates
+== FMM-RRE-04_sin-aportes-indexoutofbounds
+== FMM-RRE-05_idinterno-cero
+== FMM-RRE-06_idinterno-repetido
+== FMM-RRE-07_idinterno-nulo-npe
+== FMM-RRE-08_aporte-idinterno-repetido
+== FMM-RRE-09_bloqueo-duplicado
+== FMM-RRE-10_bloqueo-id-mas-de-70
+org.h2.jdbc.JdbcBatchUpdateException: Value too long for column "IdBloqueaReinversion CHARACTER VARYING(100)": "'500_RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR_FM002AXXXXXXXXXXXXXXXXXXXXXXXXXXXX... (101)"; SQL statement:
+INSERT INTO "#p_BloqueoProcesarReinversion" (
+	"IdBloqueaReinversion",
+	"IdPortafolio",
+	"IdSerieFondo",
+	"IdRegimenTributario",
+	"IdCliente",
+	"NumeroCuotas",
+	"Monto",
+	"FechaSistema",
+	"IdGrupoRegimen"
+)
+VALUES (
+	?, 
+	?, 
+	?,
+	?,
+	?,
+	?,
+	?,
+	?,
+	?
+) [22001-240]
+	at org.h2.jdbc.JdbcPreparedStatement.executeBatch(JdbcPreparedStatement.java:1277)
+	at cl.bcs.utils.NamedParameterStatement.executeBatch(NamedParameterStatement.java:384)
+	at cl.bcs.utils.SQL.batch(SQL.java:599)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.insertarReinversionBloqueada(CrearSolicitudRescateReinversion.java:1579)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.logica(CrearSolicitudRescateReinversion.java:538)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.call(CrearSolicitudRescateReinversion.java:277)
+	at cl.bcs.oracle.LegacySubject.call(LegacySubject.java:15)
+	at OracleRunner.run(OracleRunner.java:115)
+	at OracleRunner.main(OracleRunner.java:70)
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IdBloqueaReinversion CHARACTER VARYING(100)": "'500_RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR_FM002AXXXXXXXXXXXXXXXXXXXXXXXXXXXX... (101)"; SQL statement:
+INSERT INTO "#p_BloqueoProcesarReinversion" (
+	"IdBloqueaReinversion",
+	"IdPortafolio",
+	"IdSerieFondo",
+	"IdRegimenTributario",
+	"IdCliente",
+	"NumeroCuotas",
+	"Monto",
+	"FechaSistema",
+	"IdGrupoRegimen"
+)
+VALUES (
+	?, 
+	?, 
+	?,
+	?,
+	?,
+	?,
+	?,
+	?,
+	?
+) [22001-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:518)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getValueTooLongException(DbException.java:334)
+	at org.h2.value.Value.getValueTooLongException(Value.java:2617)
+	at org.h2.value.Value.convertToVarchar(Value.java:1292)
+	at org.h2.value.Value.convertTo(Value.java:1148)
+	at org.h2.value.Value.convertForAssignTo(Value.java:1123)
+	at org.h2.table.Column.validateConvertUpdateSequence(Column.java:410)
+	at org.h2.table.Table.convertInsertRow(Table.java:948)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:167)
+	at org.h2.command.dml.Insert.update(Insert.java:135)
+	at org.h2.command.dml.DataChangeStatement.update(DataChangeStatement.java:77)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:139)
+	at org.h2.command.Command.executeUpdate(Command.java:306)
+	at org.h2.command.Command.executeBatchUpdate(Command.java:273)
+	at org.h2.jdbc.JdbcPreparedStatement.executeBatchInternal(JdbcPreparedStatement.java:1318)
+	at org.h2.jdbc.JdbcPreparedStatement.executeBatch(JdbcPreparedStatement.java:1267)
+	at cl.bcs.utils.NamedParameterStatement.executeBatch(NamedParameterStatement.java:384)
+	at cl.bcs.utils.SQL.batch(SQL.java:599)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.insertarReinversionBloqueada(CrearSolicitudRescateReinversion.java:1579)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.logica(CrearSolicitudRescateReinversion.java:538)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.call(CrearSolicitudRescateReinversion.java:277)
+	at cl.bcs.oracle.LegacySubject.call(LegacySubject.java:15)
+	at OracleRunner.run(OracleRunner.java:115)
+	at OracleRunner.main(OracleRunner.java:70)
+== FMM-RRE-11_bloqueo-id-mas-de-100
+== FMM-RRE-12_simulacion-nula-es-real
+== FMM-RRE-13_simulacion-minuscula
+== FMM-RRE-14_aportes-desordenados-id-por-posicion
+== FMM-RRE-15_menos-aportes-que-rescates
+== FMM-RRE-16_canal-nulo-age
+== FMM-RRE-17_canal-web
+== FMM-RRE-18_canal-eje
+== FMM-RRE-19_falta-parametro-spot
+== FMM-RRE-20_perfil-ausente
+== FMM-RRE-21_excepcion-tras-el-bloqueo-lo-deja
+== FMM-RRE-22_switch-mismo-emisor-extranjero
+== FMM-RRE-23_internacional-distinto-emisor
+== FMM-RRE-24_extranjero-a-nacional-spot-S
+== FMM-RRE-25_extranjero-a-nacional-diferido
+== FMM-RRE-26_misma-serie-origen-destino
+== FMM-RRE-27_batch-car-respeta-N
+== FMM-RRE-28_batch-respeta-S
+== FMM-RRE-29_dos-rescates-agrupador-cero
+== FMM-RRE-30_dos-grupos
+== FMM-RRE-31_uno-a-n-tres-destinos
+== FMM-RRE-32_bf-cuotas-cero
+== FMM-RRE-33_regimen-destino-sin-configuracion
+== FMM-RRE-34_regimen-destino-configurado-apv
+== FMM-RRE-35_mlt-sin-mandato
+== FMM-RRE-36_serie-sin-cambio-fondo-nada-por-procesar
+== FMM-RRE-37_montos-agrupados-canal-web
+== FMM-RRE-38_montos-agrupados-canal-age
+== FMM-RRE-39_patrimonio-altos-distinto-emisor
+== FMM-RRE-40_patrimonio-altos-mismo-emisor
+== FMM-RRE-41_custodia-insuficiente-break
+== FMM-RRE-42_custodia-insuficiente-car-continue
+== FMM-RRE-43_patrimonio-minimo-de-otro-par
+== FMM-RRE-44_solicitudbatch-nulo-npe
+== FMM-RRE-45_folio-contrato-informado
+== FMM-RRE-46_portafolio-apv-programa-batch
+== FMM-RRE-47_apv-dos-folios-incluye-rechazadas
+== FMM-RRE-48_error-valor-cuota-del-rescate
+== FMM-RRE-49_error-segundo-calculo
+== FMM-RRE-50_agregarlog-falla-tras-insertar
+ERROR CalcularFechaSolicitudAporteRescate Error::CalcularFechaSolicitudAporteRescate
+ java.lang.NullPointerException: Cannot invoke "java.lang.Long.longValue()" because "<local11>.IdPaisEmisor" is null
+	at cl.bcs.fondomutuo.CalcularFechaSolicitudAporteRescate.obtenerSolicitudesAProcesar(CalcularFechaSolicitudAporteRescate.java:497)
+	at cl.bcs.fondomutuo.CalcularFechaSolicitudAporteRescate.logica(CalcularFechaSolicitudAporteRescate.java:379)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.obtenerFechaAporte(CrearSolicitudRescateReinversion.java:1504)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.logica(CrearSolicitudRescateReinversion.java:549)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.call(CrearSolicitudRescateReinversion.java:277)
+	at cl.bcs.oracle.LegacySubject.call(LegacySubject.java:15)
+	at OracleRunner.run(OracleRunner.java:115)
+	at OracleRunner.main(OracleRunner.java:70)
+== FMM-RRE-51_segundo-calculo-sin-valor-cuota
+ERROR CalcularFechaSolicitudAporteRescate Error::CalcularFechaSolicitudAporteRescate
+ java.lang.NullPointerException: Cannot invoke "java.lang.Long.longValue()" because "<local11>.IdPaisEmisor" is null
+	at cl.bcs.fondomutuo.CalcularFechaSolicitudAporteRescate.obtenerSolicitudesAProcesar(CalcularFechaSolicitudAporteRescate.java:497)
+	at cl.bcs.fondomutuo.CalcularFechaSolicitudAporteRescate.logica(CalcularFechaSolicitudAporteRescate.java:379)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.obtenerFechaAporte(CrearSolicitudRescateReinversion.java:1504)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.logica(CrearSolicitudRescateReinversion.java:549)
+	at cl.bcs.fondomutuo.CrearSolicitudRescateReinversion.call(CrearSolicitudRescateReinversion.java:277)
+	at cl.bcs.oracle.LegacySubject.call(LegacySubject.java:15)
+	at OracleRunner.run(OracleRunner.java:115)
+	at OracleRunner.main(OracleRunner.java:70)
+== FMM-RRE-52_segundo-calculo-primero-ok-segundo-falla
+== FMM-RRE-53_fecha-valor-cuota-10
+== FMM-RRE-54_fecha-valor-cuota-19
+Failed to parse Date:Unparseable date: "ayer"
+== FMM-RRE-55_fecha-valor-cuota-ilegible
+== FMM-RRE-56_sin-perfil-todo-batch-backoffice
+== FMM-RRE-57_tributacion-art108-art107-57bis
+== FMM-RRE-58_regimen-nulo
+== FMM-RRE-59_portafolio-inexistente
+== FMM-RRE-60_serie-rescate-inexistente
+== FMM-RRE-61_monto-maximo-destino
+== FMM-RRE-62_monto-maximo-agrupado-web
+== FMM-RRE-63_patrimonio-altos-destino-usd
+== FMM-RRE-64_mlt-con-regimenes-distinto-grupo
+== FMM-RRE-65_calculo-por-monto
+== FMM-RRE-66_bf-aporte-cuotas-cero
+== FMM-RRE-M01_manejador-par-simple
+== FMM-RRE-M02_manejador-uno-a-n-pierde-destinos
+== FMM-RRE-M03_manejador-solo-aportes
+== FMM-RRE-M04_manejador-simulacion-rechaza
+== FMM-RRE-M05_manejador-bloqueo-duplicado-real
+cases executed (legacy): 71

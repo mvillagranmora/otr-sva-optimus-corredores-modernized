@@ -1,0 +1,44 @@
+CANARY: SoapContratoEstaticoTest must go red when ONE annotation value of the ported SOAP types changes.
+Date: 2026-10-20. Method: scratch copy of the module outside modernized/ and analysis/ (build dir excluded), one mutation per copy,
+command in each copy: mvn -o -f pom.xml test -Dtest=SoapContratoEstaticoTest -Dsurefire.failIfNoSpecifiedTests=false
+Baseline (real tree, unmutated): Tests run: 14, Failures: 0, Errors: 0 (see BcsTesoreriaServicios-soap-test-output.txt)
+
+=== Mutation A ===
+SvcRecaudaInqRqType.java: @XmlElement(name = "RqUID", required = true) -> required = false
+[ERROR] Tests run: 14, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.464 s <<< FAILURE! -- in cl.bcs.tesoreria.soap.SoapContratoEstaticoTest
+[ERROR] cl.bcs.tesoreria.soap.SoapContratoEstaticoTest.soap09_cardinality -- Time elapsed: 0.206 s <<< FAILURE!
+[SOAP-09 differences] 
+Expecting empty but was: ["SvcRecaudaInqV1.SvcRecaudaInqRqType.rqUID cardinality: expected <1..1> but was <0..1>"]
+[ERROR] cl.bcs.tesoreria.soap.SoapContratoEstaticoTest.soap08_properties -- Time elapsed: 0.029 s <<< FAILURE!
+[SOAP-08 differences] 
+Expecting empty but was: ["SvcRecaudaInqV1.SvcRecaudaInqRqType.rqUID annotations.XmlElement.required: expected <true> but was <false>"]
+[ERROR]   SoapContratoEstaticoTest.soap08_properties:375 [SOAP-08 differences] 
+Expecting empty but was: ["SvcRecaudaInqV1.SvcRecaudaInqRqType.rqUID annotations.XmlElement.required: expected <true> but was <false>"]
+[ERROR]   SoapContratoEstaticoTest.soap09_cardinality:426 [SOAP-09 differences] 
+Expecting empty but was: ["SvcRecaudaInqV1.SvcRecaudaInqRqType.rqUID cardinality: expected <1..1> but was <0..1>"]
+
+=== Mutation B ===
+SegRolType.java: @XmlEnumValue("UsuarioSupervisor") -> "UsuarioSupervisr"
+[ERROR] Tests run: 14, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.417 s <<< FAILURE! -- in cl.bcs.tesoreria.soap.SoapContratoEstaticoTest
+[ERROR] cl.bcs.tesoreria.soap.SoapContratoEstaticoTest.soap10_enums -- Time elapsed: 0.017 s <<< FAILURE!
+[SOAP-10 differences] 
+Expecting empty but was: ["SvcRecaudaInqV1.SegRolType value() of USUARIO_SUPERVISOR: expected <UsuarioSupervisr> but was <UsuarioSupervisor>",
+    "SvcRecaudaInqV1.SegRolType constants=wire values (ordered): expected <[USUARIO_APP=UsuarioApp, USUARIO_RQ=UsuarioRq, USUARIO_SUPERVISOR=UsuarioSupervisor, USUARIO_CARD=UsuarioCard]> but was <[USUARIO_APP=UsuarioApp, USUARIO_RQ=UsuarioRq, USUARIO_SUPERVISOR=UsuarioSupervisr, USUARIO_CARD=UsuarioCard]>",
+    "SvcRecaudaTrnV1.SegRolType value() of USUARIO_SUPERVISOR: expected <UsuarioSupervisr> but was <UsuarioSupervisor>",
+    "SvcRecaudaTrnV1.SegRolType constants=wire values (ordered): expected <[USUARIO_APP=UsuarioApp, USUARIO_RQ=UsuarioRq, USUARIO_SUPERVISOR=UsuarioSupervisor, USUARIO_CARD=UsuarioCard]> but was <[USUARIO_APP=UsuarioApp, USUARIO_RQ=UsuarioRq, USUARIO_SUPERVISOR=UsuarioSupervisr, USUARIO_CARD=UsuarioCard]>"]
+[ERROR]   SoapContratoEstaticoTest.soap10_enums:469 [SOAP-10 differences] 
+Expecting empty but was: ["SvcRecaudaInqV1.SegRolType value() of USUARIO_SUPERVISOR: expected <UsuarioSupervisr> but was <UsuarioSupervisor>",
+    "SvcRecaudaInqV1.SegRolType constants=wire values (ordered): expected <[USUARIO_APP=UsuarioApp, USUARIO_RQ=UsuarioRq, USUARIO_SUPERVISOR=UsuarioSupervisor, USUARIO_CARD=UsuarioCard]> but was <[USUARIO_APP=UsuarioApp, USUARIO_RQ=UsuarioRq, USUARIO_SUPERVISOR=UsuarioSupervisr, USUARIO_CARD=UsuarioCard]>",
+    "SvcRecaudaTrnV1.SegRolType value() of USUARIO_SUPERVISOR: expected <UsuarioSupervisr> but was <UsuarioSupervisor>",
+    "SvcRecaudaTrnV1.SegRolType constants=wire values (ordered): expected <[USUARIO_APP=UsuarioApp, USUARIO_RQ=UsuarioRq, USUARIO_SUPERVISOR=UsuarioSupervisor, USUARIO_CARD=UsuarioCard]> but was <[USUARIO_APP=UsuarioApp, USUARIO_RQ=UsuarioRq, USUARIO_SUPERVISOR=UsuarioSupervisr, USUARIO_CARD=UsuarioCard]>"]
+
+=== Mutation C ===
+SvcRecaudaInqV1PortType.java: @WebService targetNamespace http://mfxV2_0 -> http://mfxV2_1
+[ERROR] Tests run: 14, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.479 s <<< FAILURE! -- in cl.bcs.tesoreria.soap.SoapContratoEstaticoTest
+[ERROR] cl.bcs.tesoreria.soap.SoapContratoEstaticoTest.soap02_portTypeAnnotations -- Time elapsed: 0.025 s <<< FAILURE!
+[SOAP-02 differences] 
+Expecting empty but was: ["SvcRecaudaInqV1 PortType annotations.WebService.targetNamespace: expected <http://mfxV2_0> but was <http://mfxV2_1>"]
+[ERROR]   SoapContratoEstaticoTest.soap02_portTypeAnnotations:120 [SOAP-02 differences] 
+Expecting empty but was: ["SvcRecaudaInqV1 PortType annotations.WebService.targetNamespace: expected <http://mfxV2_0> but was <http://mfxV2_1>"]
+
+RESULT: all 3 mutations turned the test red; the unmutated tree is green.

@@ -1,0 +1,141 @@
+{
+  "servicio": "CrearSolicitudAporteRescateNormal",
+  "ref": "F2 W1B: ROLLBACK POR CONTADOR: Tesoreria acepta la 1 (la escribe) y rechaza la 2 (cuenta del socio inexistente): contador 1, se rechaza la PRIMERA (D-NOR-5)",
+  "tesoreriaReal": true,
+  "esquemasExtra": [
+    "schema-tesoreria-fm.sql",
+    "seed/base-tesoreria-fm.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_SolicitudesAporteRescate": [
+      {
+        "IdInterno": 1,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "TipoSolicitud": "APO",
+        "IdSerieFondo": "FM001A",
+        "CalculoPorMontoCuota": "M",
+        "EsPorMontoLiquido": "N",
+        "Monto": 100000,
+        "NumeroCuotas": 0,
+        "IdMoneda": "CLP",
+        "IdMedioDePago": "TRA",
+        "IdPreferenciaPagoPortafolio": 9001,
+        "Visado": "N",
+        "SolicitudBatch": "N",
+        "OrigenOperacion": "M",
+        "FechaOperacion": "0001-01-01",
+        "IdRegimenTributario": "GEN",
+        "Glosa": "",
+        "IndicadorMLT": "N",
+        "IdSerieFondoDestino": "",
+        "IdEmisorDestino": "",
+        "IdAutorizadoOrigen": 0,
+        "Porcentaje": 0,
+        "FolioContrato": 0,
+        "IdMonedaPago": "CLP"
+      },
+      {
+        "IdInterno": 2,
+        "IdCliente": 100,
+        "IdPortafolio": 500,
+        "TipoSolicitud": "APO",
+        "IdSerieFondo": "FM001A",
+        "CalculoPorMontoCuota": "M",
+        "EsPorMontoLiquido": "N",
+        "Monto": 200000,
+        "NumeroCuotas": 0,
+        "IdMoneda": "CLP",
+        "IdMedioDePago": "TRA",
+        "IdPreferenciaPagoPortafolio": 9002,
+        "Visado": "N",
+        "SolicitudBatch": "N",
+        "OrigenOperacion": "M",
+        "FechaOperacion": "0001-01-01",
+        "IdRegimenTributario": "GEN",
+        "Glosa": "",
+        "IndicadorMLT": "N",
+        "IdSerieFondoDestino": "",
+        "IdEmisorDestino": "",
+        "IdAutorizadoOrigen": 0,
+        "Porcentaje": 0,
+        "FolioContrato": 0,
+        "IdMonedaPago": "CLP"
+      }
+    ],
+    "p_FormaPagoSpot": []
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate",
+      "orden": "\"IdBloqueoSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.InterfazAgf",
+      "orden": "\"IdInterfazAgf\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.IngresoEgreso",
+      "orden": "\"IdIngresoEgreso\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::TES.IngresoEgresoFormaDePago",
+      "orden": "\"IdIngresoEgresoFormaDePago\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearIngresoEgreso_Proceso",
+      "orden": "\"NumeroReferencia\""
+    },
+    {
+      "nombre": "BSCL.Tesoreria.BD::GBL.CrearIngresoEgresoFormaDePago_Proceso",
+      "orden": "\"NumeroReferenciaFormaDePago\""
+    }
+  ],
+  "colaboradores": {
+    "CrearComprobante.procedimiento": {
+      "defecto": {
+        "p_out_InformacionContador": 0,
+        "p_out_AdvertenciasContador": 0,
+        "p_out_ErroresContador": 0
+      }
+    },
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 1,
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FM",
+            "IdInstrumento": 900,
+            "Nemotecnico": "FM001A",
+            "Precio": 1500.1234,
+            "CodigoFuente": "OTR",
+            "FechaFuente": "2026-03-02 00:00:00.000",
+            "IdMoneda": "CLP"
+          },
+          {
+            "IdRegistro": 2,
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FM",
+            "IdInstrumento": 900,
+            "Nemotecnico": "FM001A",
+            "Precio": 1500.1234,
+            "CodigoFuente": "OTR",
+            "FechaFuente": "2026-03-02 00:00:00.000",
+            "IdMoneda": "CLP"
+          }
+        ]
+      }
+    }
+  }
+}

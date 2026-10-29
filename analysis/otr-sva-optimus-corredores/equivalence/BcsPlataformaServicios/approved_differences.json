@@ -1,0 +1,16 @@
+{
+  "description": "Approved differences between the legacy goldens and the NEW ConsultarEstadoModulo. Goldens are never edited; compare_new.py applies these entries only to its own verdict.",
+  "approved": [
+    {
+      "case": "PLA-ESM-29",
+      "field": "excepcion",
+      "approval": "DEV-A3 (plan section 9, approved by the user); Q-ESM-6",
+      "reason": "The golden pins the legacy exception text '<driver message> Query: <SQL> Parameters: [{IdEmpresa=1}]' (cl.bcs.utils.SQL.rethrow). The new service must not leak SQL or parameters: the HTTP layer answers a generic 500 with a correlationId and the raw exception text never leaves the service. The driver text is also H2/HANA specific.",
+      "mask": "Only the value of 'excepcion' is masked. Everything else (decisionServlet = ROLLBACK_HTTP500, tablas, colaboradores, secuenciasSolicitadas, absence of 'salida') must still be identical to the golden.",
+      "mustHold": {
+        "newHasExcepcion": true,
+        "newExcepcionMustNotContain": [" Query: ", "Parameters: ["]
+      }
+    }
+  ]
+}

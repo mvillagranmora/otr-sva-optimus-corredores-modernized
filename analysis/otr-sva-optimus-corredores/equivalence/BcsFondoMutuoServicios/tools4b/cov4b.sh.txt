@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Branch coverage of the step-4B classes (JaCoCo core API over the exec of the jacoco agent of the VS Code Java Test extension; no pom change).
+# usage: cov4b.sh   (needs tools4b/sync4b.sh done into $S/bcsfm4b; runs the Manejador tests in that isolated copy)
+export JAVA_HOME="/c/Program Files/Eclipse Adoptium/jdk-25.0.4.101-hotspot"
+S=/c/Users/m.villagran.mora/AppData/Local/Temp/mvscratch
+T=/c/Users/m.villagran.mora/Downloads/develop/nuam-modernizado/analysis/otr-sva-optimus-corredores/equivalence/BcsFondoMutuoServicios/tools4b
+EXT=C:/Users/m.villagran.mora/.vscode/extensions/vscjava.vscode-java-test-0.47.0/server
+mkdir -p $S/cov4b
+rm -f $S/cov4b/fm4b.exec
+cd $S/bcsfm4b
+mvn -o -f pom.xml test -Dtest='cl.bcs.fondomutuo.manejador.*Test' -DfailIfNoTests=false -Dsurefire.failIfNoSpecifiedTests=false -Dfile.encoding=UTF-8 \
+  "-DargLine=-javaagent:$EXT/jacocoagent.jar=destfile=C:/Users/m.villagran.mora/AppData/Local/Temp/mvscratch/cov4b/fm4b.exec,includes=cl.bcs.fondomutuo.*" > $S/cov4b/mvn.log 2>&1
+M2=C:/Users/m.villagran.mora/.m2/repository
+CP="$EXT/org.jacoco.core_0.8.15.202606040825.jar;$EXT/org.objectweb.asm.commons_9.10.1.jar;$EXT/org.objectweb.asm.tree_9.10.1.jar;$M2/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar"
+SW=C:/Users/m.villagran.mora/AppData/Local/Temp/mvscratch
+"$JAVA_HOME/bin/javac" -cp "$CP" -d $SW/cov4b $T/CoverageReport.java > $S/cov4b/javac.log 2>&1
+"$JAVA_HOME/bin/java" -cp "$SW/cov4b;$CP" CoverageReport -v $SW/cov4b/fm4b.exec $SW/bcsfm4b/target/classes \
+  cl/bcs/fondomutuo/manejador/ManejadorSolicitudAporteRescateService cl/bcs/fondomutuo/manejador/ManejadorJavaCallHandler \
+  cl/bcs/fondomutuo/manejador/ManejadorConfiguracion cl/bcs/fondomutuo/manejador/TipoNoServido cl/bcs/fondomutuo/manejador/ManejadorContrato > $S/cov4b/report.txt 2>&1
+echo COVDONE >> $S/cov4b/report.txt

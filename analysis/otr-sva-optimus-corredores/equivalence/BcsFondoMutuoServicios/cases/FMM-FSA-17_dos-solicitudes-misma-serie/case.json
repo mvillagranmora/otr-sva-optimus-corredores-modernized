@@ -1,0 +1,43 @@
+{
+  "servicio": "ConsultarFechaSolicitudAporteRescate",
+  "ref": "FM-FSA-03/05: la misma serie repetida: el IN deduplica la lectura, la regla de lista de 2 se aplica igual",
+  "consultarFechaReal": true,
+  "esquemasExtra": [
+    "seed/base-fsa.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "S",
+    "p_SolicitudAporteRescate": [
+      {
+        "IdInterno": 1,
+        "FechaEmision": "2026-03-02",
+        "IdSerieFondo": "FSX01",
+        "TipoSolicitud": "RES"
+      },
+      {
+        "IdInterno": 2,
+        "FechaEmision": "2026-03-02",
+        "IdSerieFondo": "FSX01",
+        "TipoSolicitud": "RES"
+      }
+    ]
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorCuota",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::PLA.Configuracion",
+      "orden": "\"IdEmpresa\", \"CodigoParametro\""
+    }
+  ]
+}

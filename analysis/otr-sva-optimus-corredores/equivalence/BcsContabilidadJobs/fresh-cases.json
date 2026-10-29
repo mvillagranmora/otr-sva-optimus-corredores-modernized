@@ -1,0 +1,591 @@
+{
+  "system": "otr-sva-optimus-corredores",
+  "module": "BcsContabilidadJobs",
+  "legacy": {
+    "label": "unmodified legacy cl.bcs.contabilidad.jobs.InterfazContable + CallerWSJournalVoucher (BSCL/Contabilidad/JAVA/BcsContabilidadJobs) run by BcsContabilidadServicios/src/test/resources/envio/legacy-oracle/runner/OracleRunner (BcsJob shim, H2 MODE=LEGACY, fake SAP Service Layer), JDK 25",
+    "command": "make_fresh_jobs.py into a scratch copy of envio/cases; javac legacy classes + shims into scratch; java OracleRunner <scratch>/envio JF"
+  },
+  "new": {
+    "label": "BcsContabilidadJobs InterfazContable job through JobRunner, real GenerarJsonAsientoSapService/SapB1Gateway/InterfazContableService/InterfazContableJdbcRepository on the same H2 seed and SAP script, JDK 25",
+    "command": "mvn -o -f <scratch>/pom.xml -pl :bcs-contabilidad-jobs -am test -Dtest=FreshJobsDriverTest -Dfresh.out=<dir> (driver: fresh/FreshJobsDriverTest.java)"
+  },
+  "note": "verify1 2026-10-16: 10 fresh inputs nobody used (JF01-JF10). Outputs per input: outcome + explicit commits, run-log bytes, PreComprobante Estado, SAP request sequence (cookies excluded: approved B1SESSION deviation). RutaSalida not compared (timestamp). No masks. verify2 2026-10-16: both sides re-run for JF01-JF10 (legacy byte-identical to the previous recording), JF11-JF12 added, and two more outputs per input: every SAP request body canonicalised (Login password masked) and the state-procedure calls; new side uses the production factory servicioConBitacora.",
+  "cases": [
+    {
+      "id": "JF01-resultado",
+      "input": "JF01",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): three accepted",
+      "legacy": "fresh/legacy/JF01/resultado.txt",
+      "new": "fresh/new/JF01/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF01-log",
+      "input": "JF01",
+      "title": "InterfazContable job log: Fresh verify input (job shell): three accepted",
+      "legacy": "fresh/legacy/JF01/log.txt",
+      "new": "fresh/new/JF01/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF01-estados",
+      "input": "JF01",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): three accepted",
+      "legacy": "fresh/legacy/JF01/estados.txt",
+      "new": "fresh/new/JF01/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF01-sap",
+      "input": "JF01",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): three accepted",
+      "legacy": "fresh/legacy/JF01/sap.txt",
+      "new": "fresh/new/JF01/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF02-resultado",
+      "input": "JF02",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): first and last rejected",
+      "legacy": "fresh/legacy/JF02/resultado.txt",
+      "new": "fresh/new/JF02/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF02-log",
+      "input": "JF02",
+      "title": "InterfazContable job log: Fresh verify input (job shell): first and last rejected",
+      "legacy": "fresh/legacy/JF02/log.txt",
+      "new": "fresh/new/JF02/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF02-estados",
+      "input": "JF02",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): first and last rejected",
+      "legacy": "fresh/legacy/JF02/estados.txt",
+      "new": "fresh/new/JF02/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF02-sap",
+      "input": "JF02",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): first and last rejected",
+      "legacy": "fresh/legacy/JF02/sap.txt",
+      "new": "fresh/new/JF02/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF03-resultado",
+      "input": "JF03",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): login fails once then succeeds",
+      "legacy": "fresh/legacy/JF03/resultado.txt",
+      "new": "fresh/new/JF03/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF03-log",
+      "input": "JF03",
+      "title": "InterfazContable job log: Fresh verify input (job shell): login fails once then succeeds",
+      "legacy": "fresh/legacy/JF03/log.txt",
+      "new": "fresh/new/JF03/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF03-estados",
+      "input": "JF03",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): login fails once then succeeds",
+      "legacy": "fresh/legacy/JF03/estados.txt",
+      "new": "fresh/new/JF03/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF03-sap",
+      "input": "JF03",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): login fails once then succeeds",
+      "legacy": "fresh/legacy/JF03/sap.txt",
+      "new": "fresh/new/JF03/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF04-resultado",
+      "input": "JF04",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): unknown id between two valid ones",
+      "legacy": "fresh/legacy/JF04/resultado.txt",
+      "new": "fresh/new/JF04/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF04-log",
+      "input": "JF04",
+      "title": "InterfazContable job log: Fresh verify input (job shell): unknown id between two valid ones",
+      "legacy": "fresh/legacy/JF04/log.txt",
+      "new": "fresh/new/JF04/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF04-estados",
+      "input": "JF04",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): unknown id between two valid ones",
+      "legacy": "fresh/legacy/JF04/estados.txt",
+      "new": "fresh/new/JF04/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF04-sap",
+      "input": "JF04",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): unknown id between two valid ones",
+      "legacy": "fresh/legacy/JF04/sap.txt",
+      "new": "fresh/new/JF04/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF05-resultado",
+      "input": "JF05",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): partner created then voucher accepted",
+      "legacy": "fresh/legacy/JF05/resultado.txt",
+      "new": "fresh/new/JF05/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF05-log",
+      "input": "JF05",
+      "title": "InterfazContable job log: Fresh verify input (job shell): partner created then voucher accepted",
+      "legacy": "fresh/legacy/JF05/log.txt",
+      "new": "fresh/new/JF05/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF05-estados",
+      "input": "JF05",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): partner created then voucher accepted",
+      "legacy": "fresh/legacy/JF05/estados.txt",
+      "new": "fresh/new/JF05/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF05-sap",
+      "input": "JF05",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): partner created then voucher accepted",
+      "legacy": "fresh/legacy/JF05/sap.txt",
+      "new": "fresh/new/JF05/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF06-resultado",
+      "input": "JF06",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): partner creation rejected",
+      "legacy": "fresh/legacy/JF06/resultado.txt",
+      "new": "fresh/new/JF06/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF06-log",
+      "input": "JF06",
+      "title": "InterfazContable job log: Fresh verify input (job shell): partner creation rejected",
+      "legacy": "fresh/legacy/JF06/log.txt",
+      "new": "fresh/new/JF06/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF06-estados",
+      "input": "JF06",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): partner creation rejected",
+      "legacy": "fresh/legacy/JF06/estados.txt",
+      "new": "fresh/new/JF06/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF06-sap",
+      "input": "JF06",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): partner creation rejected",
+      "legacy": "fresh/legacy/JF06/sap.txt",
+      "new": "fresh/new/JF06/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF07-resultado",
+      "input": "JF07",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): same id twice",
+      "legacy": "fresh/legacy/JF07/resultado.txt",
+      "new": "fresh/new/JF07/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF07-log",
+      "input": "JF07",
+      "title": "InterfazContable job log: Fresh verify input (job shell): same id twice",
+      "legacy": "fresh/legacy/JF07/log.txt",
+      "new": "fresh/new/JF07/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF07-estados",
+      "input": "JF07",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): same id twice",
+      "legacy": "fresh/legacy/JF07/estados.txt",
+      "new": "fresh/new/JF07/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF07-sap",
+      "input": "JF07",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): same id twice",
+      "legacy": "fresh/legacy/JF07/sap.txt",
+      "new": "fresh/new/JF07/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF08-resultado",
+      "input": "JF08",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): two 5xx then accepted",
+      "legacy": "fresh/legacy/JF08/resultado.txt",
+      "new": "fresh/new/JF08/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF08-log",
+      "input": "JF08",
+      "title": "InterfazContable job log: Fresh verify input (job shell): two 5xx then accepted",
+      "legacy": "fresh/legacy/JF08/log.txt",
+      "new": "fresh/new/JF08/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF08-estados",
+      "input": "JF08",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): two 5xx then accepted",
+      "legacy": "fresh/legacy/JF08/estados.txt",
+      "new": "fresh/new/JF08/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF08-sap",
+      "input": "JF08",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): two 5xx then accepted",
+      "legacy": "fresh/legacy/JF08/sap.txt",
+      "new": "fresh/new/JF08/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF09-resultado",
+      "input": "JF09",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): second rejected for field length",
+      "legacy": "fresh/legacy/JF09/resultado.txt",
+      "new": "fresh/new/JF09/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF09-log",
+      "input": "JF09",
+      "title": "InterfazContable job log: Fresh verify input (job shell): second rejected for field length",
+      "legacy": "fresh/legacy/JF09/log.txt",
+      "new": "fresh/new/JF09/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF09-estados",
+      "input": "JF09",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): second rejected for field length",
+      "legacy": "fresh/legacy/JF09/estados.txt",
+      "new": "fresh/new/JF09/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF09-sap",
+      "input": "JF09",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): second rejected for field length",
+      "legacy": "fresh/legacy/JF09/sap.txt",
+      "new": "fresh/new/JF09/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF10-resultado",
+      "input": "JF10",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): reverse order, trailing semicolon",
+      "legacy": "fresh/legacy/JF10/resultado.txt",
+      "new": "fresh/new/JF10/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF10-log",
+      "input": "JF10",
+      "title": "InterfazContable job log: Fresh verify input (job shell): reverse order, trailing semicolon",
+      "legacy": "fresh/legacy/JF10/log.txt",
+      "new": "fresh/new/JF10/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF10-estados",
+      "input": "JF10",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): reverse order, trailing semicolon",
+      "legacy": "fresh/legacy/JF10/estados.txt",
+      "new": "fresh/new/JF10/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF10-sap",
+      "input": "JF10",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): reverse order, trailing semicolon",
+      "legacy": "fresh/legacy/JF10/sap.txt",
+      "new": "fresh/new/JF10/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF01-cuerpos",
+      "input": "JF01",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): three accepted",
+      "legacy": "fresh/legacy/JF01/cuerpos.txt",
+      "new": "fresh/new/JF01/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF01-procedimientos",
+      "input": "JF01",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): three accepted",
+      "legacy": "fresh/legacy/JF01/procedimientos.txt",
+      "new": "fresh/new/JF01/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF02-cuerpos",
+      "input": "JF02",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): first and last rejected",
+      "legacy": "fresh/legacy/JF02/cuerpos.txt",
+      "new": "fresh/new/JF02/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF02-procedimientos",
+      "input": "JF02",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): first and last rejected",
+      "legacy": "fresh/legacy/JF02/procedimientos.txt",
+      "new": "fresh/new/JF02/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF03-cuerpos",
+      "input": "JF03",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): login fails once then succeeds",
+      "legacy": "fresh/legacy/JF03/cuerpos.txt",
+      "new": "fresh/new/JF03/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF03-procedimientos",
+      "input": "JF03",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): login fails once then succeeds",
+      "legacy": "fresh/legacy/JF03/procedimientos.txt",
+      "new": "fresh/new/JF03/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF04-cuerpos",
+      "input": "JF04",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): unknown id between two valid ones",
+      "legacy": "fresh/legacy/JF04/cuerpos.txt",
+      "new": "fresh/new/JF04/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF04-procedimientos",
+      "input": "JF04",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): unknown id between two valid ones",
+      "legacy": "fresh/legacy/JF04/procedimientos.txt",
+      "new": "fresh/new/JF04/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF05-cuerpos",
+      "input": "JF05",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): partner created then voucher accepted",
+      "legacy": "fresh/legacy/JF05/cuerpos.txt",
+      "new": "fresh/new/JF05/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF05-procedimientos",
+      "input": "JF05",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): partner created then voucher accepted",
+      "legacy": "fresh/legacy/JF05/procedimientos.txt",
+      "new": "fresh/new/JF05/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF06-cuerpos",
+      "input": "JF06",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): partner creation rejected",
+      "legacy": "fresh/legacy/JF06/cuerpos.txt",
+      "new": "fresh/new/JF06/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF06-procedimientos",
+      "input": "JF06",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): partner creation rejected",
+      "legacy": "fresh/legacy/JF06/procedimientos.txt",
+      "new": "fresh/new/JF06/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF07-cuerpos",
+      "input": "JF07",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): same id twice",
+      "legacy": "fresh/legacy/JF07/cuerpos.txt",
+      "new": "fresh/new/JF07/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF07-procedimientos",
+      "input": "JF07",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): same id twice",
+      "legacy": "fresh/legacy/JF07/procedimientos.txt",
+      "new": "fresh/new/JF07/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF08-cuerpos",
+      "input": "JF08",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): two 5xx then accepted",
+      "legacy": "fresh/legacy/JF08/cuerpos.txt",
+      "new": "fresh/new/JF08/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF08-procedimientos",
+      "input": "JF08",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): two 5xx then accepted",
+      "legacy": "fresh/legacy/JF08/procedimientos.txt",
+      "new": "fresh/new/JF08/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF09-cuerpos",
+      "input": "JF09",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): second rejected for field length",
+      "legacy": "fresh/legacy/JF09/cuerpos.txt",
+      "new": "fresh/new/JF09/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF09-procedimientos",
+      "input": "JF09",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): second rejected for field length",
+      "legacy": "fresh/legacy/JF09/procedimientos.txt",
+      "new": "fresh/new/JF09/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF10-cuerpos",
+      "input": "JF10",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): reverse order, trailing semicolon",
+      "legacy": "fresh/legacy/JF10/cuerpos.txt",
+      "new": "fresh/new/JF10/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF10-procedimientos",
+      "input": "JF10",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): reverse order, trailing semicolon",
+      "legacy": "fresh/legacy/JF10/procedimientos.txt",
+      "new": "fresh/new/JF10/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF11-resultado",
+      "input": "JF11",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): login fails three times then succeeds",
+      "legacy": "fresh/legacy/JF11/resultado.txt",
+      "new": "fresh/new/JF11/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF11-log",
+      "input": "JF11",
+      "title": "InterfazContable job log: Fresh verify input (job shell): login fails three times then succeeds",
+      "legacy": "fresh/legacy/JF11/log.txt",
+      "new": "fresh/new/JF11/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF11-estados",
+      "input": "JF11",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): login fails three times then succeeds",
+      "legacy": "fresh/legacy/JF11/estados.txt",
+      "new": "fresh/new/JF11/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF11-sap",
+      "input": "JF11",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): login fails three times then succeeds",
+      "legacy": "fresh/legacy/JF11/sap.txt",
+      "new": "fresh/new/JF11/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF11-cuerpos",
+      "input": "JF11",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): login fails three times then succeeds",
+      "legacy": "fresh/legacy/JF11/cuerpos.txt",
+      "new": "fresh/new/JF11/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF11-procedimientos",
+      "input": "JF11",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): login fails three times then succeeds",
+      "legacy": "fresh/legacy/JF11/procedimientos.txt",
+      "new": "fresh/new/JF11/procedimientos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF12-resultado",
+      "input": "JF12",
+      "title": "InterfazContable job resultado: Fresh verify input (job shell): partner check answers 500 for the second voucher",
+      "legacy": "fresh/legacy/JF12/resultado.txt",
+      "new": "fresh/new/JF12/resultado.txt",
+      "mask": []
+    },
+    {
+      "id": "JF12-log",
+      "input": "JF12",
+      "title": "InterfazContable job log: Fresh verify input (job shell): partner check answers 500 for the second voucher",
+      "legacy": "fresh/legacy/JF12/log.txt",
+      "new": "fresh/new/JF12/log.txt",
+      "mask": []
+    },
+    {
+      "id": "JF12-estados",
+      "input": "JF12",
+      "title": "InterfazContable job estados: Fresh verify input (job shell): partner check answers 500 for the second voucher",
+      "legacy": "fresh/legacy/JF12/estados.txt",
+      "new": "fresh/new/JF12/estados.txt",
+      "mask": []
+    },
+    {
+      "id": "JF12-sap",
+      "input": "JF12",
+      "title": "InterfazContable job sap: Fresh verify input (job shell): partner check answers 500 for the second voucher",
+      "legacy": "fresh/legacy/JF12/sap.txt",
+      "new": "fresh/new/JF12/sap.txt",
+      "mask": []
+    },
+    {
+      "id": "JF12-cuerpos",
+      "input": "JF12",
+      "title": "InterfazContable job cuerpos: Fresh verify input (job shell): partner check answers 500 for the second voucher",
+      "legacy": "fresh/legacy/JF12/cuerpos.txt",
+      "new": "fresh/new/JF12/cuerpos.txt",
+      "mask": []
+    },
+    {
+      "id": "JF12-procedimientos",
+      "input": "JF12",
+      "title": "InterfazContable job procedimientos: Fresh verify input (job shell): partner check answers 500 for the second voucher",
+      "legacy": "fresh/legacy/JF12/procedimientos.txt",
+      "new": "fresh/new/JF12/procedimientos.txt",
+      "mask": []
+    }
+  ]
+}

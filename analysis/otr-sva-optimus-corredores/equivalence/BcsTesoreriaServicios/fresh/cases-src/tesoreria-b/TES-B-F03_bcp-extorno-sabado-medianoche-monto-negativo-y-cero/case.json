@@ -1,0 +1,59 @@
+{
+  "servicio": "RecaudacionBCP",
+  "metodo": "call",
+  "entrada": {
+    "IdSolicitudBcp": "RQ-F03",
+    "NumeroOperacionBcp": "123456",
+    "NumeroOperacionExtornoBcp": "0000654321",
+    "FechaOperacionBcp": "2025-04-05 00:00:00",
+    "TipoOperacionBCP": "EXTORNO",
+    "MensajeEntrada": "{\"mensaje\":\"entrada BCP de prueba\"}",
+    "OperacionesBcp": [
+      {
+        "IdClienteBcp": "20101031340",
+        "IdMoneda": "CLP",
+        "Monto": -1500.75
+      },
+      {
+        "IdClienteBcp": "00012345678",
+        "IdMoneda": "CLP",
+        "Monto": 0
+      }
+    ]
+  },
+  "colaboradores": {
+    "crearIngresoEgreso": {
+      "resultados": [
+        {
+          "Campo": "IdComprobante",
+          "Id": 4001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearIngresoEgreso",
+          "Resultado": "ING"
+        },
+        {
+          "Campo": "IdIngresoEgreso",
+          "Id": 9001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::CrearIngresoEgreso",
+          "Resultado": "ING"
+        }
+      ]
+    },
+    "liquidarComprobante": {
+      "resultados": [
+        {
+          "Campo": "IdComprobante",
+          "Id": 4001,
+          "Servicio": "BSCL.Tesoreria.BD.Servicios::LiquidarComprobantes",
+          "Resultado": "LIQ"
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.Tesoreria.BD::LOG.MensajeTransaccionBCP",
+      "orden": "\"IdMensajeTransaccion\""
+    }
+  ],
+  "ref": "FRESH input (independent verifier), derived from TES-B-66_extorno-en-horario-usa-concepto-egreso-y-operacion-de-origen"
+}

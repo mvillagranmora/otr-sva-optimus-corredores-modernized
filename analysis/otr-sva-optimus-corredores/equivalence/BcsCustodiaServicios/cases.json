@@ -1,0 +1,695 @@
+{
+  "system": "otr-sva-optimus-corredores",
+  "module": "BcsCustodiaServicios",
+  "legacy": {
+    "label": "expected.json recorded by legacy-oracle/record.sh from the UNMODIFIED legacy cl.bcs.custodia.ConsultarFlujoCustodia (real cl.bcs.utils.SQL and Plataforma kit) on in-memory H2 MODE=LEGACY, JVM zone UTC, locale en; ValorizarInstrumento = scripted double",
+    "command": "py -3 -I legacy-oracle/record.sh (see src/test/java/cl/bcs/custodia/flujo/README.md)"
+  },
+  "new": {
+    "label": "cl.bcs.custodia.flujo.ConsultarFlujoCustodiaFlujo on the same H2 seed, dialect bridge and scripted collaborators, JDK 25",
+    "command": "mvn -o -f <scratch copy>/BcsCustodiaServicios/pom.xml test -Dtest=DevCasesDriverTest -DargLine=-Ddev.out=<equivalence>/dev (scratch driver, not part of the module)"
+  },
+  "note": "The 85 golden cases of the ConsultarFlujoCustodia slice (CUS-FLU-01..36, D-CUS-01..10). Both sides are the comparable dump: raw output text, exception, MatrizUso written/deleted/left, sequences requested, ValorizarInstrumento requests with their answers. The only masked value is the random work id, replaced by a fixed marker by the harness on both sides (D-CUS-09). No other mask.",
+  "cases": [
+    {
+      "id": "CUS-FLU-02_uso-vacio",
+      "input": "CUS-FLU-02_uso-vacio",
+      "title": "p_Uso empty: one ERROR message SIN_INFORMAR_USO_FLUJO_CUSTODIA (dictionary text ignored: valores null), nothing read or written",
+      "legacy": "dev/legacy/CUS-FLU-02_uso-vacio.json",
+      "new": "dev/new/CUS-FLU-02_uso-vacio.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-04_pais-explicito-sin-feriados",
+      "input": "CUS-FLU-04_pais-explicito-sin-feriados",
+      "title": "p_IdPais 77 (no holiday, no weekend) instead of the company country: 03-02 +1 +2 = 03-03, 03-04",
+      "legacy": "dev/legacy/CUS-FLU-04_pais-explicito-sin-feriados.json",
+      "new": "dev/new/CUS-FLU-04_pais-explicito-sin-feriados.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-05_empresa-sin-configuracion",
+      "input": "CUS-FLU-05_empresa-sin-configuracion",
+      "title": "p_IdEmpresa 2 has no PLA.Configuracion row: NullPointerException in ConfiguracionSistema (registros.get(..) null)",
+      "legacy": "dev/legacy/CUS-FLU-05_empresa-sin-configuracion.json",
+      "new": "dev/new/CUS-FLU-05_empresa-sin-configuracion.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-05_modulo-custodia-sin-filas",
+      "input": "CUS-FLU-05_modulo-custodia-sin-filas",
+      "title": "CUS.Configuracion has no row at all for the company: NullPointerException in ConfiguracionSistema (not the 'no encontrado' Exception)",
+      "legacy": "dev/legacy/CUS-FLU-05_modulo-custodia-sin-filas.json",
+      "new": "dev/new/CUS-FLU-05_modulo-custodia-sin-filas.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-05_parametro-custodia-ausente",
+      "input": "CUS-FLU-05_parametro-custodia-ausente",
+      "title": "CUS.AgregarSimultaneasEventoCapitalCli not configured (the module has another parameter): plain Exception from ConfiguracionSistema",
+      "legacy": "dev/legacy/CUS-FLU-05_parametro-custodia-ausente.json",
+      "new": "dev/new/CUS-FLU-05_parametro-custodia-ausente.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-06_dia-habil-N-calendario",
+      "input": "CUS-FLU-06_dia-habil-N-calendario",
+      "title": "p_DiaHabil N: calendar days 03-03, 03-04 (holiday kept), 03-05",
+      "legacy": "dev/legacy/CUS-FLU-06_dia-habil-N-calendario.json",
+      "new": "dev/new/CUS-FLU-06_dia-habil-N-calendario.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-06_dia-habil-defecto-S",
+      "input": "CUS-FLU-06_dia-habil-defecto-S",
+      "title": "p_DiaHabil absent = S: business days of country 44 skip the 03-04 holiday and the weekend (03-03, 03-05, 03-06)",
+      "legacy": "dev/legacy/CUS-FLU-06_dia-habil-defecto-S.json",
+      "new": "dev/new/CUS-FLU-06_dia-habil-defecto-S.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-06_dias-proyeccion-nulo",
+      "input": "CUS-FLU-06_dias-proyeccion-nulo",
+      "title": "p_DiasProyeccion null: NPE after the FlujoCustodia key was drawn and before the usage matrix is written",
+      "legacy": "dev/legacy/CUS-FLU-06_dias-proyeccion-nulo.json",
+      "new": "dev/new/CUS-FLU-06_dias-proyeccion-nulo.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-07_cartera-fecha-maxima-igual-sistema",
+      "input": "CUS-FLU-07_cartera-fecha-maxima-igual-sistema",
+      "title": "max projected date = system date (03-02): CURRENT CUS.Cartera (a HIS.Cartera row with the same date is ignored)",
+      "legacy": "dev/legacy/CUS-FLU-07_cartera-fecha-maxima-igual-sistema.json",
+      "new": "dev/new/CUS-FLU-07_cartera-fecha-maxima-igual-sistema.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-07_cartera-fecha-maxima-posterior",
+      "input": "CUS-FLU-07_cartera-fecha-maxima-posterior",
+      "title": "max projected date 03-03 > system date: current table; the row is projected to 03-03",
+      "legacy": "dev/legacy/CUS-FLU-07_cartera-fecha-maxima-posterior.json",
+      "new": "dev/new/CUS-FLU-07_cartera-fecha-maxima-posterior.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-07_cartera-historica",
+      "input": "CUS-FLU-07_cartera-historica",
+      "title": "FechaSaldo 02-25 (max < system date): HIS.Cartera with FechaRespaldo = 02-25 (rows of other backup dates and CUS.Cartera ignored)",
+      "legacy": "dev/legacy/CUS-FLU-07_cartera-historica.json",
+      "new": "dev/new/CUS-FLU-07_cartera-historica.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-08_cruce-dos-usos-dos-filtros",
+      "input": "CUS-FLU-08_cruce-dos-usos-dos-filtros",
+      "title": "2 requested uses x 2 filters (RV, RF) = 4 winners written to the matrix; current CARTERA predicates from the first winner only",
+      "legacy": "dev/legacy/CUS-FLU-08_cruce-dos-usos-dos-filtros.json",
+      "new": "dev/new/CUS-FLU-08_cruce-dos-usos-dos-filtros.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-08_uso-y-filtro-duplicados",
+      "input": "CUS-FLU-08_uso-y-filtro-duplicados",
+      "title": "the same use and the same filter twice: distinct -> one usage-matrix row, one detail row",
+      "legacy": "dev/legacy/CUS-FLU-08_uso-y-filtro-duplicados.json",
+      "new": "dev/new/CUS-FLU-08_uso-y-filtro-duplicados.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-09_sin-uso-configurado",
+      "input": "CUS-FLU-09_sin-uso-configurado",
+      "title": "requested type has only an INACTIVE use and another type is active: no winner, nothing read, empty outputs, key still drawn",
+      "legacy": "dev/legacy/CUS-FLU-09_sin-uso-configurado.json",
+      "new": "dev/new/CUS-FLU-09_sin-uso-configurado.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-10_similitud-gana-mayor",
+      "input": "CUS-FLU-10_similitud-gana-mayor",
+      "title": "two uses of the type: generic (+) and RV-specific (-); filter RV: the RV use (higher score) wins -> negative quantity",
+      "legacy": "dev/legacy/CUS-FLU-10_similitud-gana-mayor.json",
+      "new": "dev/new/CUS-FLU-10_similitud-gana-mayor.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-10_similitud-instrumento-configurado",
+      "input": "CUS-FLU-10_similitud-instrumento-configurado",
+      "title": "uses with IdInstrumento 1002 (+) and 1001 (-), filter instrument 1001: the equal one scores +2 and wins",
+      "legacy": "dev/legacy/CUS-FLU-10_similitud-instrumento-configurado.json",
+      "new": "dev/new/CUS-FLU-10_similitud-instrumento-configurado.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-11_similitud-empate-primero",
+      "input": "CUS-FLU-11_similitud-empate-primero",
+      "title": "two equivalent uses (same score): the first one returned by FlujoCustodia_SelectUsoFlujoCustodia.sql wins (strict <)",
+      "legacy": "dev/legacy/CUS-FLU-11_similitud-empate-primero.json",
+      "new": "dev/new/CUS-FLU-11_similitud-empate-primero.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-13_item-fuera-del-mapa",
+      "input": "CUS-FLU-13_item-fuera-del-mapa",
+      "title": "an item outside the 42-item map reads nothing: one empty totalized line for it",
+      "legacy": "dev/legacy/CUS-FLU-13_item-fuera-del-mapa.json",
+      "new": "dev/new/CUS-FLU-13_item-fuera-del-mapa.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-14_valorizar-lanza-excepcion",
+      "input": "CUS-FLU-14_valorizar-lanza-excepcion",
+      "title": "the valuation collaborator throws: the call fails with that Exception and the usage matrix is deleted in finally",
+      "legacy": "dev/legacy/CUS-FLU-14_valorizar-lanza-excepcion.json",
+      "new": "dev/new/CUS-FLU-14_valorizar-lanza-excepcion.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-15_cartera-emisor-rtrim-actual",
+      "input": "CUS-FLU-15_cartera-emisor-rtrim-actual",
+      "title": "filter IdEmisor EMISOR1, row IdEmisor 'EMISOR1   ': the current query compares rtrim(CAR.IdEmisor): the row is read",
+      "legacy": "dev/legacy/CUS-FLU-15_cartera-emisor-rtrim-actual.json",
+      "new": "dev/new/CUS-FLU-15_cartera-emisor-rtrim-actual.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-15_cartera-emisor-sin-rtrim-historico",
+      "input": "CUS-FLU-15_cartera-emisor-sin-rtrim-historico",
+      "title": "same filter on the historic table: no rtrim there, the padded IdEmisor does not match",
+      "legacy": "dev/legacy/CUS-FLU-15_cartera-emisor-sin-rtrim-historico.json",
+      "new": "dev/new/CUS-FLU-15_cartera-emisor-sin-rtrim-historico.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-15_cartera-sin-predicados-1igual1",
+      "input": "CUS-FLU-15_cartera-sin-predicados-1igual1",
+      "title": "first winner without any dimension: the dynamic join becomes (1==1) (bridged to (1=1) on H2): every row x every matrix row",
+      "legacy": "dev/legacy/CUS-FLU-15_cartera-sin-predicados-1igual1.json",
+      "new": "dev/new/CUS-FLU-15_cartera-sin-predicados-1igual1.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-15_vencimiento-RF-instrumento",
+      "input": "CUS-FLU-15_vencimiento-RF-instrumento",
+      "title": "filter RF + FechaVencimiento 2031-06-01: the current query compares the INSTRUMENT maturity",
+      "legacy": "dev/legacy/CUS-FLU-15_vencimiento-RF-instrumento.json",
+      "new": "dev/new/CUS-FLU-15_vencimiento-RF-instrumento.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-15_vencimiento-RV-operacion",
+      "input": "CUS-FLU-15_vencimiento-RV-operacion",
+      "title": "filter RV + FechaVencimiento 2026-12-31: the current query compares the OPERATION maturity",
+      "legacy": "dev/legacy/CUS-FLU-15_vencimiento-RV-operacion.json",
+      "new": "dev/new/CUS-FLU-15_vencimiento-RV-operacion.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-16_cartera-transito-actual",
+      "input": "CUS-FLU-16_cartera-transito-actual",
+      "title": "CARTERA_TRANSITO current (liquidation after the max date 03-02): COMPRA row kept, VENTA row has no operator -> discarded",
+      "legacy": "dev/legacy/CUS-FLU-16_cartera-transito-actual.json",
+      "new": "dev/new/CUS-FLU-16_cartera-transito-actual.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-16_cartera-transito-historico",
+      "input": "CUS-FLU-16_cartera-transito-historico",
+      "title": "CARTERA_TRANSITO historic: HIS.Cartera rows of FechaRespaldo 02-25 liquidating after it",
+      "legacy": "dev/legacy/CUS-FLU-16_cartera-transito-historico.json",
+      "new": "dev/new/CUS-FLU-16_cartera-transito-historico.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-17_transito-actual",
+      "input": "CUS-FLU-17_transito-actual",
+      "title": "TRANSITO current: ingreso (+), retiro (-), retiro of an uncovered sale -> MOV_TRANSITO_RETIRO_VENTA_DESCUBIERTA",
+      "legacy": "dev/legacy/CUS-FLU-17_transito-actual.json",
+      "new": "dev/new/CUS-FLU-17_transito-actual.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-17_transito-historico",
+      "input": "CUS-FLU-17_transito-historico",
+      "title": "TRANSITO historic: HIS.MovimientoCarteraEnTransito joined to its current row (EsVentaDescubierta of the current one)",
+      "legacy": "dev/legacy/CUS-FLU-17_transito-historico.json",
+      "new": "dev/new/CUS-FLU-17_transito-historico.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-18_garantia-actual",
+      "input": "CUS-FLU-18_garantia-actual",
+      "title": "GARANTIA current: GTA.Garantia joined to its origin CUS.Cartera row",
+      "legacy": "dev/legacy/CUS-FLU-18_garantia-actual.json",
+      "new": "dev/new/CUS-FLU-18_garantia-actual.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-18_garantia-historica",
+      "input": "CUS-FLU-18_garantia-historica",
+      "title": "GARANTIA historic: HIS.Garantia + HIS.Cartera of the same backup date",
+      "legacy": "dev/legacy/CUS-FLU-18_garantia-historica.json",
+      "new": "dev/new/CUS-FLU-18_garantia-historica.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-19_subyacente-actual",
+      "input": "CUS-FLU-19_subyacente-actual",
+      "title": "SUBYACENTE current (CUS.AgregarSimultaneasEventoCapitalCli = S): VENPAC underlying -> VENTA_PACTO (liquidation = operation date)",
+      "legacy": "dev/legacy/CUS-FLU-19_subyacente-actual.json",
+      "new": "dev/new/CUS-FLU-19_subyacente-actual.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-19_subyacente-historico",
+      "input": "CUS-FLU-19_subyacente-historico",
+      "title": "SUBYACENTE historic: HIS.Subyacente + HIS.Cartera",
+      "legacy": "dev/legacy/CUS-FLU-19_subyacente-historico.json",
+      "new": "dev/new/CUS-FLU-19_subyacente-historico.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-20_cartera-reservada-actual",
+      "input": "CUS-FLU-20_cartera-reservada-actual",
+      "title": "CARTERA_RESERVADA current: COMPAC (liquidation = creation date, client of the operation) and VENTER (condition date, broker client)",
+      "legacy": "dev/legacy/CUS-FLU-20_cartera-reservada-actual.json",
+      "new": "dev/new/CUS-FLU-20_cartera-reservada-actual.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-20_cartera-reservada-historica",
+      "input": "CUS-FLU-20_cartera-reservada-historica",
+      "title": "CARTERA_RESERVADA historic: HIS.Reserva + HIS.Cartera; the client is always the operation's (no broker switch)",
+      "legacy": "dev/legacy/CUS-FLU-20_cartera-reservada-historica.json",
+      "new": "dev/new/CUS-FLU-20_cartera-reservada-historica.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_asignaciones-no-enviadas",
+      "input": "CUS-FLU-21_asignaciones-no-enviadas",
+      "title": "ASIGNACIONES_NO_ENVIAS_A_FACTURAR: VENTA assignment; a SIM assignment takes its underlying and maturity 0001-01-01",
+      "legacy": "dev/legacy/CUS-FLU-21_asignaciones-no-enviadas.json",
+      "new": "dev/new/CUS-FLU-21_asignaciones-no-enviadas.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_asignaciones-reporte",
+      "input": "CUS-FLU-21_asignaciones-reporte",
+      "title": "ASIGNACIONES_REPORTE_NO_ENVIAS_A_FACTURAR: RE/RRF assignment",
+      "legacy": "dev/legacy/CUS-FLU-21_asignaciones-reporte.json",
+      "new": "dev/new/CUS-FLU-21_asignaciones-reporte.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_fuentes-sin-historico-con-fecha-pasada",
+      "input": "CUS-FLU-21_fuentes-sin-historico-con-fecha-pasada",
+      "title": "max date 02-25 < system date: orders, assignments, movements, capital events and funds have no historic variant (current views)",
+      "legacy": "dev/legacy/CUS-FLU-21_fuentes-sin-historico-con-fecha-pasada.json",
+      "new": "dev/new/CUS-FLU-21_fuentes-sin-historico-con-fecha-pasada.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_movimientos-facturacion",
+      "input": "CUS-FLU-21_movimientos-facturacion",
+      "title": "MOVIMIENTOS_FACTURACION: COMPRA movement; a movement without action -> item MOVIMIENTOS__FACTURACION (no operator, discarded)",
+      "legacy": "dev/legacy/CUS-FLU-21_movimientos-facturacion.json",
+      "new": "dev/new/CUS-FLU-21_movimientos-facturacion.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_movimientos-reporte-facturacion",
+      "input": "CUS-FLU-21_movimientos-reporte-facturacion",
+      "title": "MOVIMIENTOS_REPORTE_FACTURACION: RE/RRV movement",
+      "legacy": "dev/legacy/CUS-FLU-21_movimientos-reporte-facturacion.json",
+      "new": "dev/new/CUS-FLU-21_movimientos-reporte-facturacion.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_ordenes-ingresadas",
+      "input": "CUS-FLU-21_ordenes-ingresadas",
+      "title": "ORDENES_INGRESADAS: available quantities; a VENTA liquidates at FechaMinima whatever its own date; CantidadDisponible 0 skipped",
+      "legacy": "dev/legacy/CUS-FLU-21_ordenes-ingresadas.json",
+      "new": "dev/new/CUS-FLU-21_ordenes-ingresadas.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_ordenes-por-autorizar",
+      "input": "CUS-FLU-21_ordenes-por-autorizar",
+      "title": "ORDENES_POR_AUTORIZAR: ORDENES_COMPRA_PENDIENTES; a later liquidation is not read",
+      "legacy": "dev/legacy/CUS-FLU-21_ordenes-por-autorizar.json",
+      "new": "dev/new/CUS-FLU-21_ordenes-por-autorizar.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_ordenes-reporte-ingresadas",
+      "input": "CUS-FLU-21_ordenes-reporte-ingresadas",
+      "title": "ORDENES_REPORTE_INGRESADAS: RE/RRF orders with availability",
+      "legacy": "dev/legacy/CUS-FLU-21_ordenes-reporte-ingresadas.json",
+      "new": "dev/new/CUS-FLU-21_ordenes-reporte-ingresadas.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-21_ordenes-reporte-por-autorizar",
+      "input": "CUS-FLU-21_ordenes-reporte-por-autorizar",
+      "title": "ORDENES_REPORTE_POR_AUTORIZAR: RE/RRV orders, instrument = underlying, currency of INS.Instrumento",
+      "legacy": "dev/legacy/CUS-FLU-21_ordenes-reporte-por-autorizar.json",
+      "new": "dev/new/CUS-FLU-21_ordenes-reporte-por-autorizar.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-22_eventos-de-capital",
+      "input": "CUS-FLU-22_eventos-de-capital",
+      "title": "EVENTOS_DE_CAPITAL SU/SL/PB: ItemOrigen forced to the item name; the SL item is configured with another origin -> its row is in the detail but never grouped (em",
+      "legacy": "dev/legacy/CUS-FLU-22_eventos-de-capital.json",
+      "new": "dev/new/CUS-FLU-22_eventos-de-capital.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-23_fondos-mutuos",
+      "input": "CUS-FLU-23_fondos-mutuos",
+      "title": "FONDOS_MUTUOS: APORFM (own liquidation) and RESCFM (liquidation = FechaMinima); ItemOrigen forced to FONDOSMUTUOS",
+      "legacy": "dev/legacy/CUS-FLU-23_fondos-mutuos.json",
+      "new": "dev/new/CUS-FLU-23_fondos-mutuos.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-24_portafolio-cuenta-propia",
+      "input": "CUS-FLU-24_portafolio-cuenta-propia",
+      "title": "own-account portfolio 9001: EsCuentaPropia = S is set on the row but no output field carries it (unobservable)",
+      "legacy": "dev/legacy/CUS-FLU-24_portafolio-cuenta-propia.json",
+      "new": "dev/new/CUS-FLU-24_portafolio-cuenta-propia.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-25_cartera-comprometida",
+      "input": "CUS-FLU-25_cartera-comprometida",
+      "title": "TipoCarteraCorredor CC -> SE_EXCLUYE_CARTERA_COMPROMETIDA (not in the detail)",
+      "legacy": "dev/legacy/CUS-FLU-25_cartera-comprometida.json",
+      "new": "dev/new/CUS-FLU-25_cartera-comprometida.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-25_solo-garantizable-INGGPR",
+      "input": "CUS-FLU-25_solo-garantizable-INGGPR",
+      "title": "same rows with UsoTipoOperacion INGGPR: the guarantee discard does not apply",
+      "legacy": "dev/legacy/CUS-FLU-25_solo-garantizable-INGGPR.json",
+      "new": "dev/new/CUS-FLU-25_solo-garantizable-INGGPR.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-25_solo-garantizable",
+      "input": "CUS-FLU-25_solo-garantizable",
+      "title": "SOLO_GARANTIZABLE, especifico SIM: ACC#SIM is a guarantee pair (kept); BON#SIM is not -> CONFIGURACION_GARANTIA_EXCLUYE_INSTRUMENTO",
+      "legacy": "dev/legacy/CUS-FLU-25_solo-garantizable.json",
+      "new": "dev/new/CUS-FLU-25_solo-garantizable.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-25_tipo-operacion-nulo-npe",
+      "input": "CUS-FLU-25_tipo-operacion-nulo-npe",
+      "title": "requested UsoTipoOperacion null matching a use with a null type: u.UsoTipoOperacion.equals(\"\") -> NPE; this is why the discard CONFIGURACION_TIPO_OPERACION_EXCL",
+      "legacy": "dev/legacy/CUS-FLU-25_tipo-operacion-nulo-npe.json",
+      "new": "dev/new/CUS-FLU-25_tipo-operacion-nulo-npe.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-26_solo-subyacente-sin-coincidencias",
+      "input": "CUS-FLU-26_solo-subyacente-sin-coincidencias",
+      "title": "SOLO_SUBYACENTE without especifico: no underlying found at all -> nothing is discarded",
+      "legacy": "dev/legacy/CUS-FLU-26_solo-subyacente-sin-coincidencias.json",
+      "new": "dev/new/CUS-FLU-26_solo-subyacente-sin-coincidencias.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-26_solo-subyacente",
+      "input": "CUS-FLU-26_solo-subyacente",
+      "title": "SOLO_SUBYACENTE, especifico SIM: SIM#ACC#1001 is an underlying (kept); 1002 is not -> INSTRUMENTO_NO_SUBYACENTE",
+      "legacy": "dev/legacy/CUS-FLU-26_solo-subyacente.json",
+      "new": "dev/new/CUS-FLU-26_solo-subyacente.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-28_proyeccion-1-dia-signo-menos",
+      "input": "CUS-FLU-28_proyeccion-1-dia-signo-menos",
+      "title": "1 projected day, operator '-': quantity and rescue value negated on the row and its projection",
+      "legacy": "dev/legacy/CUS-FLU-28_proyeccion-1-dia-signo-menos.json",
+      "new": "dev/new/CUS-FLU-28_proyeccion-1-dia-signo-menos.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-28_proyeccion-3-dias",
+      "input": "CUS-FLU-28_proyeccion-3-dias",
+      "title": "3 projected days: a row liquidated before FechaSaldo (all dates carry it) and a row liquidating 03-05 (zero before)",
+      "legacy": "dev/legacy/CUS-FLU-28_proyeccion-3-dias.json",
+      "new": "dev/new/CUS-FLU-28_proyeccion-3-dias.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-29_dimension-cliente-de-la-base",
+      "input": "CUS-FLU-29_dimension-cliente-de-la-base",
+      "title": "requested client 500 (use configured for client 500): only that client's rows group; IdCliente of the line from the base row",
+      "legacy": "dev/legacy/CUS-FLU-29_dimension-cliente-de-la-base.json",
+      "new": "dev/new/CUS-FLU-29_dimension-cliente-de-la-base.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-30_considerar-origen-N-sin-registros",
+      "input": "CUS-FLU-30_considerar-origen-N-sin-registros",
+      "title": "ItemOrigen N and no row at all (SREG = 0): the empty lines are kept (S)",
+      "legacy": "dev/legacy/CUS-FLU-30_considerar-origen-N-sin-registros.json",
+      "new": "dev/new/CUS-FLU-30_considerar-origen-N-sin-registros.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-30_considerar-origen-N-sreg",
+      "input": "CUS-FLU-30_considerar-origen-N-sreg",
+      "title": "ItemOrigen N, rows for one item, the other item (other origin) empty: SREG > 0 and SItemCalculo = 0 -> dropped (N)",
+      "legacy": "dev/legacy/CUS-FLU-30_considerar-origen-N-sreg.json",
+      "new": "dev/new/CUS-FLU-30_considerar-origen-N-sreg.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-30_considerar-origen-S-item-vacio",
+      "input": "CUS-FLU-30_considerar-origen-S-item-vacio",
+      "title": "ItemOrigen S, rows only for one of two items of the same origin: the empty item line is dropped (N)",
+      "legacy": "dev/legacy/CUS-FLU-30_considerar-origen-S-item-vacio.json",
+      "new": "dev/new/CUS-FLU-30_considerar-origen-S-item-vacio.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-30_considerar-origen-S-sin-registros",
+      "input": "CUS-FLU-30_considerar-origen-S-sin-registros",
+      "title": "ItemOrigen S, no row in the origin (SItemOrigen = 0): empty lines are considered (S)",
+      "legacy": "dev/legacy/CUS-FLU-30_considerar-origen-S-sin-registros.json",
+      "new": "dev/new/CUS-FLU-30_considerar-origen-S-sin-registros.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-31_agrupacion-duplicada-suma-doble",
+      "input": "CUS-FLU-31_agrupacion-duplicada-suma-doble",
+      "title": "the same p_EsAgrupadoPor entry twice: same key twice -> the same line object counted twice (quantity doubled)",
+      "legacy": "dev/legacy/CUS-FLU-31_agrupacion-duplicada-suma-doble.json",
+      "new": "dev/new/CUS-FLU-31_agrupacion-duplicada-suma-doble.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-31_agrupar-flags-nulos",
+      "input": "CUS-FLU-31_agrupar-flags-nulos",
+      "title": "null flags behave as N",
+      "legacy": "dev/legacy/CUS-FLU-31_agrupar-flags-nulos.json",
+      "new": "dev/new/CUS-FLU-31_agrupar-flags-nulos.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-31_agrupar-todo-N-suma",
+      "input": "CUS-FLU-31_agrupar-todo-N-suma",
+      "title": "every flag N: rows of two instruments summed in one line per date",
+      "legacy": "dev/legacy/CUS-FLU-31_agrupar-todo-N-suma.json",
+      "new": "dev/new/CUS-FLU-31_agrupar-todo-N-suma.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-31_agrupar-todo-S",
+      "input": "CUS-FLU-31_agrupar-todo-S",
+      "title": "every grouping flag S: one line per row (folio, mesa, bolsa, dates...)",
+      "legacy": "dev/legacy/CUS-FLU-31_agrupar-todo-S.json",
+      "new": "dev/new/CUS-FLU-31_agrupar-todo-S.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-31_dos-agrupaciones-instancia-compartida",
+      "input": "CUS-FLU-31_dos-agrupaciones-instancia-compartida",
+      "title": "two p_EsAgrupadoPor entries (instrument S / instrument N): the legacy reuses ONE line object per row across entries, so both keys show the values of the LAST en",
+      "legacy": "dev/legacy/CUS-FLU-31_dos-agrupaciones-instancia-compartida.json",
+      "new": "dev/new/CUS-FLU-31_dos-agrupaciones-instancia-compartida.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-32_agrupacion-nula",
+      "input": "CUS-FLU-32_agrupacion-nula",
+      "title": "p_EsAgrupadoPor null: same as empty",
+      "legacy": "dev/legacy/CUS-FLU-32_agrupacion-nula.json",
+      "new": "dev/new/CUS-FLU-32_agrupacion-nula.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-32_sin-agrupacion",
+      "input": "CUS-FLU-32_sin-agrupacion",
+      "title": "p_EsAgrupadoPor empty: totalized output empty, detail still filled",
+      "legacy": "dev/legacy/CUS-FLU-32_sin-agrupacion.json",
+      "new": "dev/new/CUS-FLU-32_sin-agrupacion.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-33_valorizar-ausente-npe",
+      "input": "CUS-FLU-33_valorizar-ausente-npe",
+      "title": "p_ValorizarFlujo absent (no default in the pojo): NPE at the very end; the usage matrix is still deleted in finally",
+      "legacy": "dev/legacy/CUS-FLU-33_valorizar-ausente-npe.json",
+      "new": "dev/new/CUS-FLU-33_valorizar-ausente-npe.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-33_valorizar-cantidad-cero-con-escala",
+      "input": "CUS-FLU-33_valorizar-cantidad-cero-con-escala",
+      "title": "+100 and -100 of the same instrument: the sum is 0E-8 (scale 8), BigDecimal.equals(ZERO) is false -> the line IS valued",
+      "legacy": "dev/legacy/CUS-FLU-33_valorizar-cantidad-cero-con-escala.json",
+      "new": "dev/new/CUS-FLU-33_valorizar-cantidad-cero-con-escala.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-33_valorizar-excluye-cero-e-IF-sin-rescate",
+      "input": "CUS-FLU-33_valorizar-excluye-cero-e-IF-sin-rescate",
+      "title": "not valued: the zero line before a future liquidation (Cantidad 0 scale 0) and an IF line with rescue value 0",
+      "legacy": "dev/legacy/CUS-FLU-33_valorizar-excluye-cero-e-IF-sin-rescate.json",
+      "new": "dev/new/CUS-FLU-33_valorizar-excluye-cero-e-IF-sin-rescate.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-33_valorizar-multiuso",
+      "input": "CUS-FLU-33_valorizar-multiuso",
+      "title": "two requested uses (UsoValorizacion VALCUS / VALGAR): each line takes the source table of its own use",
+      "legacy": "dev/legacy/CUS-FLU-33_valorizar-multiuso.json",
+      "new": "dev/new/CUS-FLU-33_valorizar-multiuso.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-33_valorizar-nada-que-valorizar",
+      "input": "CUS-FLU-33_valorizar-nada-que-valorizar",
+      "title": "valuation S but no line with quantity: ValorizarInstrumento is not called",
+      "legacy": "dev/legacy/CUS-FLU-33_valorizar-nada-que-valorizar.json",
+      "new": "dev/new/CUS-FLU-33_valorizar-nada-que-valorizar.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-33_valorizar-sin-instrumento-agrupado-npe",
+      "input": "CUS-FLU-33_valorizar-sin-instrumento-agrupado-npe",
+      "title": "valuation S with Instrumento N grouping: line IdInstrumento 0, instrumentos.get(0) is null -> NullPointerException",
+      "legacy": "dev/legacy/CUS-FLU-33_valorizar-sin-instrumento-agrupado-npe.json",
+      "new": "dev/new/CUS-FLU-33_valorizar-sin-instrumento-agrupado-npe.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-34_valorizar-merc-y-no-merc",
+      "input": "CUS-FLU-34_valorizar-merc-y-no-merc",
+      "title": "valuation S: the MERC result overwrites price/rate/amounts of its line; a COMP result is ignored",
+      "legacy": "dev/legacy/CUS-FLU-34_valorizar-merc-y-no-merc.json",
+      "new": "dev/new/CUS-FLU-34_valorizar-merc-y-no-merc.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-35_valorizar-con-errores",
+      "input": "CUS-FLU-35_valorizar-con-errores",
+      "title": "valuation with errors: messages REPLACED by the valuation's; call recomputes the counter (1 ERROR message -> 1)",
+      "legacy": "dev/legacy/CUS-FLU-35_valorizar-con-errores.json",
+      "new": "dev/new/CUS-FLU-35_valorizar-con-errores.json",
+      "mask": []
+    },
+    {
+      "id": "CUS-FLU-35_valorizar-errores-solo-advertencias",
+      "input": "CUS-FLU-35_valorizar-errores-solo-advertencias",
+      "title": "valuation counter 1 but only ADVERTENCIA messages: they replace the messages and call recomputes the counter to 0",
+      "legacy": "dev/legacy/CUS-FLU-35_valorizar-errores-solo-advertencias.json",
+      "new": "dev/new/CUS-FLU-35_valorizar-errores-solo-advertencias.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-01_uso-nulo",
+      "input": "D-CUS-01_uso-nulo",
+      "title": "p_Uso null: NullPointerException, nothing written",
+      "legacy": "dev/legacy/D-CUS-01_uso-nulo.json",
+      "new": "dev/new/D-CUS-01_uso-nulo.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-02_npe-cliente-configurado-nulo",
+      "input": "D-CUS-02_npe-cliente-configurado-nulo",
+      "title": "configured use with IdCliente null, requested client 500: ufc.IdCliente.equals -> NullPointerException",
+      "legacy": "dev/legacy/D-CUS-02_npe-cliente-configurado-nulo.json",
+      "new": "dev/new/D-CUS-02_npe-cliente-configurado-nulo.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-02_npe-instrumento-configurado-nulo",
+      "input": "D-CUS-02_npe-instrumento-configurado-nulo",
+      "title": "configured use with IdInstrumento null, filter instrument 1001: ufc.IdInstrumento.equals -> NullPointerException",
+      "legacy": "dev/legacy/D-CUS-02_npe-instrumento-configurado-nulo.json",
+      "new": "dev/new/D-CUS-02_npe-instrumento-configurado-nulo.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-03_reservada-leida-dos-veces",
+      "input": "D-CUS-03_reservada-leida-dos-veces",
+      "title": "parameter N with a SUBYACENTE item AND a reserve item: the reserved portfolio is read twice (fall-through + its own case)",
+      "legacy": "dev/legacy/D-CUS-03_reservada-leida-dos-veces.json",
+      "new": "dev/new/D-CUS-03_reservada-leida-dos-veces.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-03_subyacente-cae-en-reservada",
+      "input": "D-CUS-03_subyacente-cae-en-reservada",
+      "title": "CUS.AgregarSimultaneasEventoCapitalCli = N and only SUBYACENTE items: the switch falls through and reads the reserved portfolio (its rows have no operator -> di",
+      "legacy": "dev/legacy/D-CUS-03_subyacente-cae-en-reservada.json",
+      "new": "dev/new/D-CUS-03_subyacente-cae-en-reservada.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-04_cartera-predicados-primer-ganador",
+      "input": "D-CUS-04_cartera-predicados-primer-ganador",
+      "title": "two winners of the same use (filter instrument 1001 / filter classification RF): only matrizUso.get(0) shapes the current join",
+      "legacy": "dev/legacy/D-CUS-04_cartera-predicados-primer-ganador.json",
+      "new": "dev/new/D-CUS-04_cartera-predicados-primer-ganador.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-04_historico-todos-los-ganadores",
+      "input": "D-CUS-04_historico-todos-los-ganadores",
+      "title": "same two winners on the historic table: its fixed join takes every matrix row",
+      "legacy": "dev/legacy/D-CUS-04_historico-todos-los-ganadores.json",
+      "new": "dev/new/D-CUS-04_historico-todos-los-ganadores.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-04_subyacente-lista-evento-capital",
+      "input": "D-CUS-04_subyacente-lista-evento-capital",
+      "title": "first winner BusquedaEspecifica FLUJO_CLIENTES_DERECHO_CAPITAL: COMSIM is in the operation list -> SIMULTANEA_COMPRA read",
+      "legacy": "dev/legacy/D-CUS-04_subyacente-lista-evento-capital.json",
+      "new": "dev/new/D-CUS-04_subyacente-lista-evento-capital.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-04_subyacente-lista-normal",
+      "input": "D-CUS-04_subyacente-lista-normal",
+      "title": "other BusquedaEspecifica: COMSIM is NOT in the default list -> nothing read",
+      "legacy": "dev/legacy/D-CUS-04_subyacente-lista-normal.json",
+      "new": "dev/new/D-CUS-04_subyacente-lista-normal.json",
+      "mask": []
+    },
+    {
+      "id": "D-CUS-07_item-rpa-nunca-leido",
+      "input": "D-CUS-07_item-rpa-nunca-leido",
+      "title": "item CARTERA_TRANSITO_VENTA_RPA maps to CARTERA_VENTA_TRANSITO_RPA, which has no switch case: nothing is read",
+      "legacy": "dev/legacy/D-CUS-07_item-rpa-nunca-leido.json",
+      "new": "dev/new/D-CUS-07_item-rpa-nunca-leido.json",
+      "mask": []
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+CANARY 3-contador-de-la-simulacion-se-suma  [isolated scratch copy; the module sources are never touched]
+mutated: manejador/ManejadorSolicitudAporteRescateService.java
+---- replaced ----
+        out.P_OUT_MENSAJES.addAll(salida.P_OUT_MENSAJES);
+        HashMap<Long, ResultadoSolicitud> resultado = ListaHash.aHash(salida.P_OUT_RESULTADO, r -> r.IdInterno);
+        List<NormalContrato.InSolicitud>---- by ----
+        out.P_OUT_MENSAJES.addAll(salida.P_OUT_MENSAJES);
+        out.P_OUT_ERRORESCONTADOR += salida.P_OUT_ERRORESCONTADOR;
+        HashMap<Long, ResultadoSolicitud> resultado = ListaHash.aHash(salida.P_OUT_RESULTADO, r -> r.IdInterno);
+        List<NormalContrato.InSolicitud>---- expected: tests RED ----
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.744 s -- in cl.bcs.fondomutuo.manejador.ManejadorCableadoRealTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s -- in cl.bcs.fondomutuo.manejador.ManejadorJavaCallHandlerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.174 s -- in cl.bcs.fondomutuo.manejador.ManejadorOraculoTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in cl.bcs.fondomutuo.manejador.ManejadorServiceCompuertaTest
+[ERROR] Tests run: 6, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.036 s <<< FAILURE! -- in cl.bcs.fondomutuo.manejador.ManejadorServiceTest
+[ERROR] cl.bcs.fondomutuo.manejador.ManejadorServiceTest.fmMan05_losMensajesSonDeLaSimulacion_elContadorYLosResultadosSonDeLaPasadaReal_DMAN5 -- Time elapsed: 0.014 s <<< FAILURE!
+[ERROR] cl.bcs.fondomutuo.manejador.ManejadorServiceTest.fmMan02_simulaPrimero_filtraPorIdInterno_ejecutaConLasBuenas_yUnSoloObjetoDeEntradaEnAmbasPasadas -- Time elapsed: 0.003 s <<< FAILURE!
+[ERROR] cl.bcs.fondomutuo.manejador.ManejadorServiceTest.fmMan06_laSimulacionRechazaTodo_sinPasadaReal_contadorCero_DMAN1 -- Time elapsed: 0.002 s <<< FAILURE!
+[ERROR] Tests run: 29, Failures: 3, Errors: 0, Skipped: 0
+[ERROR] BUILD FAILURE
+RESULT mutated: RED (mutant killed)
+---- restored: expected GREEN ----
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.127 s -- in cl.bcs.fondomutuo.manejador.ManejadorCableadoRealTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in cl.bcs.fondomutuo.manejador.ManejadorJavaCallHandlerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.169 s -- in cl.bcs.fondomutuo.manejador.ManejadorOraculoTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in cl.bcs.fondomutuo.manejador.ManejadorServiceCompuertaTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in cl.bcs.fondomutuo.manejador.ManejadorServiceTest
+[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+RESULT restored: GREEN
+CANARYDONE

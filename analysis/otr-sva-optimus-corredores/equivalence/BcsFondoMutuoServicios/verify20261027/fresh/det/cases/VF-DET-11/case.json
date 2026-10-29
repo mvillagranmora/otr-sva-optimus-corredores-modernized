@@ -1,0 +1,77 @@
+{
+  "servicio": "ConsultarDetalleSolicitud",
+  "ref": "ING rescate APV-B con medio CIN: se valoriza y no retiene",
+  "esquemasExtra": [
+    "schema-det.sql",
+    "seed/base-det.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SolicitudesAporteRescate": 4547
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ValorCuota",
+      "orden": "\"IdSerieFondo\""
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::PLA.Configuracion",
+      "orden": "\"IdEmpresa\", \"CodigoParametro\""
+    }
+  ],
+  "colaboradores": {
+    "EntregarPreciosTasas": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 4547,
+            "IdClasificacionTipoInstrumento": "FM",
+            "Precio": 1644.2881,
+            "IdInstrumento": 900,
+            "FechaFuente": "2026-03-02 00:00:00.000"
+          }
+        ]
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdInterno": 18190,
+                "MontoDestino": 2.5
+              },
+              {
+                "IdInterno": 18191,
+                "FactorOrigenDestino": 39000,
+                "MontoDestino": 39000
+              }
+            ]
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    }
+  }
+}

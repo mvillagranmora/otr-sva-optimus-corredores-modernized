@@ -1,0 +1,50 @@
+== mutation 1: lock NOT released before the 503 (G-CUS / G5)
+diff -r /c/Users/m.villagran.mora/AppData/Local/Temp/mvscratch/rre-canary/pristine/BcsFondoMutuoServicios/src/main/java/cl/bcs/fondomutuo/rescatereinversion/CrearSolicitudRescateReinversionService.java /c/Users/m.villagran.mora/AppData/Local/Temp/mvscratch/rre-canary/root/BcsFondoMutuoServicios/src/main/java/cl/bcs/fondomutuo/rescatereinversion/CrearSolicitudRescateReinversionService.java
+116c116
+<             if (c.bloqueoCreado) eliminarBloqueo(c);   // plan 6.2: the lock is released BEFORE the 503 leaves (the router repeats in TomEE)
+---
+>             // plan 6.2 (mutated: no release): the lock is released BEFORE the 503 leaves (the router repeats in TomEE)
+Picked up JAVA_TOOL_OPTIONS: -Duser.timezone=UTC -Dfile.encoding=UTF-8
+Picked up JAVA_TOOL_OPTIONS: -Duser.timezone=UTC -Dfile.encoding=UTF-8
+[ERROR] Tests run: 9, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 2.087 s <<< FAILURE! -- in cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.g5_inscribirProcesoBatchResponde503_rollbackYBloqueoSoltado -- Time elapsed: 1.215 s <<< FAILURE!
+java.lang.AssertionError: 
+[BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion] 
+Expecting empty but was: [{"IdBloqueaReinversion":"500_GEN_FM002A_10_2026-03-02","IdPortafolio":500,"IdRegimenTributario":"GEN","IdSerieFondo":"FM002A","Monto":0,"NumeroCuotas":10,"RescateTotal":"N","FechaSistema":"2026-03-02","IdCliente":0,"IdGrupoRegimen":""}]
+	at cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.sinEfectos(RreCompuertasTest.java:35)
+	at cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.g5_inscribirProcesoBatchResponde503_rollbackYBloqueoSoltado(RreCompuertasTest.java:101)
+
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.g5_agregarLogResponde503_rollbackYBloqueoSoltado -- Time elapsed: 0.114 s <<< FAILURE!
+java.lang.AssertionError: 
+[BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion] 
+Expecting empty but was: [{"IdBloqueaReinversion":"500_GEN_FM002A_10_2026-03-02","IdPortafolio":500,"IdRegimenTributario":"GEN","IdSerieFondo":"FM002A","Monto":0,"NumeroCuotas":10,"RescateTotal":"N","FechaSistema":"2026-03-02","IdCliente":0,"IdGrupoRegimen":""}]
+	at cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.sinEfectos(RreCompuertasTest.java:35)
+	at cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.g5_agregarLogResponde503_rollbackYBloqueoSoltado(RreCompuertasTest.java:90)
+
+[ERROR] cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.gCustodiaCerrada_503_conElBloqueoSoltadoAntes -- Time elapsed: 0.073 s <<< FAILURE!
+java.lang.AssertionError: 
+[BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion] 
+Expecting empty but was: [{"IdBloqueaReinversion":"500_GEN_FM002A_10_2026-03-02","IdPortafolio":500,"IdRegimenTributario":"GEN","IdSerieFondo":"FM002A","Monto":0,"NumeroCuotas":10,"RescateTotal":"N","FechaSistema":"2026-03-02","IdCliente":0,"IdGrupoRegimen":""}]
+	at cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.sinEfectos(RreCompuertasTest.java:35)
+	at cl.bcs.fondomutuo.rescatereinversion.RreCompuertasTest.gCustodiaCerrada_503_conElBloqueoSoltadoAntes(RreCompuertasTest.java:79)
+
+[ERROR] Failures: 
+[ERROR]   RreCompuertasTest.g5_agregarLogResponde503_rollbackYBloqueoSoltado:90->sinEfectos:35 [BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion] 
+Expecting empty but was: [{"IdBloqueaReinversion":"500_GEN_FM002A_10_2026-03-02","IdPortafolio":500,"IdRegimenTributario":"GEN","IdSerieFondo":"FM002A","Monto":0,"NumeroCuotas":10,"RescateTotal":"N","FechaSistema":"2026-03-02","IdCliente":0,"IdGrupoRegimen":""}]
+[ERROR]   RreCompuertasTest.g5_inscribirProcesoBatchResponde503_rollbackYBloqueoSoltado:101->sinEfectos:35 [BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion] 
+Expecting empty but was: [{"IdBloqueaReinversion":"500_GEN_FM002A_10_2026-03-02","IdPortafolio":500,"IdRegimenTributario":"GEN","IdSerieFondo":"FM002A","Monto":0,"NumeroCuotas":10,"RescateTotal":"N","FechaSistema":"2026-03-02","IdCliente":0,"IdGrupoRegimen":""}]
+[ERROR]   RreCompuertasTest.gCustodiaCerrada_503_conElBloqueoSoltadoAntes:79->sinEfectos:35 [BSCL.FondoMutuo.BD::FMM.ProcesarReinversionRescate_BloqueoReinversion] 
+Expecting empty but was: [{"IdBloqueaReinversion":"500_GEN_FM002A_10_2026-03-02","IdPortafolio":500,"IdRegimenTributario":"GEN","IdSerieFondo":"FM002A","Monto":0,"NumeroCuotas":10,"RescateTotal":"N","FechaSistema":"2026-03-02","IdCliente":0,"IdGrupoRegimen":""}]
+[ERROR] Tests run: 130, Failures: 3, Errors: 0, Skipped: 0
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.6:test (default-test) on project bcs-fondo-mutuo-servicios: There are test failures.
+[ERROR] 
+[ERROR] See C:\Users\m.villagran.mora\AppData\Local\Temp\mvscratch\rre-canary\root\BcsFondoMutuoServicios\target\surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+exit 1

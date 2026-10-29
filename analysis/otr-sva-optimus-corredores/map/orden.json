@@ -1,0 +1,124 @@
+{
+  "domain": "Orden",
+  "modules": [
+    {
+      "id": "mod:BcsOrdenJobs",
+      "name": "BcsOrdenJobs",
+      "kind": "module",
+      "domain": "Orden",
+      "rel_dir": "Orden/JAVA/BcsOrdenJobs",
+      "loc": 11867,
+      "file": "BSCL/Orden/JAVA/BcsOrdenJobs",
+      "packages": [
+        "cl.bcs.ordenes.utils",
+        "cl.bcs.ordenes.jobs"
+      ]
+    },
+    {
+      "id": "mod:BcsOrdenServicios",
+      "name": "BcsOrdenServicios",
+      "kind": "module",
+      "domain": "Orden",
+      "rel_dir": "Orden/JAVA/BcsOrdenServicios",
+      "loc": 72127,
+      "file": "BSCL/Orden/JAVA/BcsOrdenServicios",
+      "packages": [
+        "cl.bcs.ordenes",
+        "cl.bcs.ordenes.pojo",
+        "cl.bcs.ordenes.jaxws2.client",
+        "cl.bcs.ordenes.utils"
+      ]
+    },
+    {
+      "id": "mod:BcsJobOrders",
+      "name": "BcsJobOrders",
+      "kind": "module",
+      "domain": "Orden",
+      "rel_dir": "Orden/JAVA/BcsJobOrders",
+      "loc": 2124,
+      "file": "BSCL/Orden/JAVA/BcsJobOrders",
+      "packages": [
+        "cl.bcs.scheduler.orders.bcsjob",
+        "cl.bcs.scheduler.orders.util.connectorsorders",
+        "cl.bcs.scheduler.orders.pojo"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "mod:BcsOrdenJobs",
+      "target": "mod:BcsOrdenServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenJobs",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsCuentaInversionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsCustodiaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsFacturacionServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsMesaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsOrdenJobs",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsPlataformaServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "mod:BcsSocioNegocioServicios",
+      "kind": "call"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:SQL_Server",
+      "kind": "read"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:DTE_SII",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenServicios",
+      "target": "ds:BECB_SOAP",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsOrdenJobs",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    },
+    {
+      "source": "mod:BcsJobOrders",
+      "target": "ds:HANA_BSCL",
+      "kind": "write"
+    }
+  ]
+}

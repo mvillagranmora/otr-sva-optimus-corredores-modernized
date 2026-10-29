@@ -1,0 +1,435 @@
+{
+  "_provenance": "Dump of subject cl.bcs.oracle.NormalSubject (not a golden)",
+  "excepcion": "JdbcSQLSyntaxErrorException: Column \"S.IdOmnibus\" not found; SQL statement:\nSELECT \ns.\"IdSolicitudAporteRescate\"\n,s.\"IdSolicitudAporteRescateRelacionado\"\n,s.\"FechaCertificacion\"\n,s.\"TipoSolicitud\"\n,s.\"IdSerieFondo\"\n,s.\"IdInstrumento\"\n,s.\"IdTipoInstrumento\"\n,s.\"IdTipoMovimientoFondoMutuo\"\n,s.\"IdEmisor\"\n,s.\"IdCliente\"\n,s.\"IdPortafolio\"\n,s.\"IdMoneda\"\n,s.\"IdMonedaPago\"\n,s.\"IdMonedaFondo\"\n,s.\"CostoMonedaLocal\"\n,s.\"Monto\"\n,s.\"ValorCuota\"\n,s.\"NumeroCuotas\"\n,s.\"ParidadFechaCertificacion\"\n,s.\"FechaLiquidacion\"\n,s.\"FechaAceptacion\"\n,s.\"IdUsuario\"\n,s.\"IdPersona\"\n,s.\"IdMedioDePago\"\n,s.\"MueveCta\"\n,s.\"CalculoPorMontoCuota\"\n,s.\"MontoComision\"\n,s.\"MontoPago\"\n,s.\"MontoComisionLocal\"\n,s.\"MontoPagoLocal\"\n,s.\"ValorUFFechaInversion\"\n,s.\"CostoUF\"\n,s.\"IndicadorMLT\"\n,s.\"Overnight\"\n,s.\"Glosa\"\n,s.\"IdSerieFondoDestino\"\n,s.\"IdEmisorDestino\"\n,s.\"SolicitudBatch\"\n,s.\"OrigenOperacion\"\n,s.\"ComisionInformada\"\n,s.\"PropositoPortafolio\"\n\n\n,s.\"IdRegimenTributario\"  \n\n,CASE s.\"PropositoPortafolio\"\n\tWHEN 'PROPOSITOAPV' THEN\n\t\tCASE s.\"IdRegimenTributario\"\n\t\t\tWHEN '' THEN s.\"CodigoPortafolio\"\n\t\t\tELSE s.\"IdRegimenTributario\"\n\t\tEND\n\tELSE ''\nEND AS \"IdRegimenTributarioAPV\"\n,s.\"TipoCarteraNormativa\"\n,s.\"IdRegimenTributarioDestino\"\n,s.\"TipoCarteraNormativaDestino\"\n,s.\"Spread\"\n,s.\"IdPreferenciaPagoPortafolio\"\n,s.\"IdTipoCanalIngreso\"\n,s.\"EstadoSolicitud\"\n,s.\"IdMonedaSistema\"\n,s.\"MontoMonedaSistema\"\n,s.\"EsPorMontoLiquido\"\n,s.\"MontoLiquido\"\n,s.\"MontoLiquidoLocal\"\n,s.\"EstadoLiquidacion\"\n,s.\"FolioCartaLiquidacion\"\n,s.\"EstadoSolicitud\" AS \"Estado\"\n,sr.\"Estado\" AS \"EstadoRelacionado\"\n,sr.\"EstadoLiquidacion\" AS \"EstadoLiquidacionRelacionado\"\n,s.\"IdEmpleadoEjecutivo\"\n,s.\"IdIngresoEgreso\"\n,s.\"IdOperacionSpot\"\n,CASE s.\"TipoSolicitud\" \n\tWHEN 'APO' THEN \n    \tCASE \n    \t\tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'APOREINV' \tTHEN 'APOREI'\n        \tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'APODIV'\t \tTHEN 'APODIV'\n         \tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'APOOVER'\t \tTHEN 'APOOVE'\n         \tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'APORESPRO' \tTHEN 'APOPRO'\n         \tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'APOTRASP'\tTHEN 'APOTRS'\n         \tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'APODIVCFI'\tTHEN 'APOCFI'\n\t\t \tELSE 'APORFM'\n    \tEND\n\tWHEN 'RES' THEN \n    \tCASE \n    \t\tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'RESREINV' THEN 'RESREI'\n        \tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'RESCOM'\tTHEN 'RESCOM'\n         \tWHEN s.\"IdTipoMovimientoFondoMutuo\" = 'RESTRASP' THEN 'RESTRS'\n         \tELSE 'RESCFM'\n        END\nEND AS \"IdConcepto\"\n,s.\"IdCartera\"\n,s.\"IdAgrupador\"\n,'N' as \"RelacionTraspaso\"\n,s.\"Switch\"\n,CASE \n\tWHEN t.\"RazonRetiro\" = 'TRA' THEN COALESCE (t.\"IdPersona\",0)\n\tELSE COALESCE (ed.\"IdPersona\",0) \nEND AS \"IdPersonaEmisorDestino\"\n,s.\"IdFamiliaFondo\"\n,s.\"FechaOriginalInversion\"\n,s.\"FechaValorCuota\"\n,s.\"IngresoAutomatico\"\n,COALESCE (t.\"RazonRetiro\",'') AS \"RazonRetiro\"\n,s.\"FolioContrato\"\n,s.\"IdOmnibus\"\n,reg.\"CertificaSinAsociado\"\n,se.\"EsAPV\"\n,s.\"DocumentoIdentidad\"\n,s.\"CodigoPortafolio\"\n,tp.\"GeneraOmnibus\"\n,c.\"TipoComision\"\n,CASE \n\tWHEN COALESCE(solRelNN.\"IdTipoMovimientoFondoMutuo\",'') = 'RESCNN' THEN 'S'\n\tELSE 'N'\nEND AS \"TieneComisionNNRelacionada\"\nFROM \"BSCL.FondoMutuo.BD.Vistas::FMM.ConsultarSolicitudAporteRescate\" AS s\nLEFT OUTER JOIN \"BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate\" sr ON (s.\"IdSolicitudAporteRescateRelacionado\" = sr.\"IdSolicitudAporteRescate\")\nLEFT OUTER JOIN \"BSCL.Plataforma.BD::MER.Emisor\"\tAS ed ON (ed.\"IdEmisor\"=s.\"IdEmisorDestino\" )\nLEFT OUTER JOIN \"BSCL.FondoMutuo.BD::FMM.SerieDeFondo\" AS se ON (se.\"IdSerieFondo\" = s.\"IdSerieFondo\")\nLEFT OUTER JOIN \"BSCL.APV.BD::TRA.OrdenTraspaso\" AS ot ON (ot.\"IdSolicitudAporteRescate\" = s.\"IdSolicitudAporteRescate\")\nLEFT OUTER JOIN \"BSCL.APV.BD::TRA.Traspaso\" AS t ON (ot.\"IdTraspaso\"= t.\"IdTraspaso\")\nLEFT OUTER JOIN \"BSCL.FondoMutuo.BD::FMM.RegimenFondoMutuo\" AS reg ON reg.\"IdRegimenFondoMutuo\" = s.\"IdRegimenTributario\"\nLEFT OUTER JOIN \"BSCL.FondoMutuo.BD::FMM.TipoMovimientoFondoMutuo\" AS tp ON tp.\"IdTipoMovimientoFondoMutuo\" = s.\"IdTipoMovimientoFondoMutuo\"\nLEFT JOIN \"BSCL.FondoMutuo.BD::FMM.Comision\" AS c ON s.\"IdSerieFondo\" = c.\"IdSerieFondo\" AND c.\"TipoComision\" = 'PER'\nLEFT OUTER JOIN \"BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate\" solRelNN ON (solRelNN.\"IdSolicitudAporteRescateRelacionado\" = s.\"IdSolicitudAporteRescate\" AND solRelNN.\"IdTipoMovimientoFondoMutuo\" = 'RESCNN')\nWHERE s.\"IdSolicitudAporteRescate\" IN (?) AND s.\"IdEmpresa\" = ?\nORDER BY s.\"TipoSolicitud\" ASC; [42122-240]",
+  "decisionServlet": "ROLLBACK_HTTP500",
+  "tablas": {
+    "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate": [],
+    "BSCL.FondoMutuo.BD::FMM.CrearSolicitudAporteRescateNormal_BloqueoSolicitudAporteRescate": [],
+    "BSCL.FondoMutuo.BD::FMM.InterfazAgf": []
+  },
+  "colaboradores": [
+    {
+      "colaborador": "ConsultarEmpresa",
+      "metodo": "logica",
+      "argumentos": [
+        1
+      ],
+      "respuesta": {
+        "IdEmpresa": 1,
+        "Codigo": "BCS",
+        "Nombre": "Corredora Ficticia",
+        "IdEstado": "ACT",
+        "IdPais": 56,
+        "IdSocioDeNegocio": 10,
+        "IdCliente": 99
+      }
+    },
+    {
+      "colaborador": "ConsultarEmpresa",
+      "metodo": "logica",
+      "argumentos": [
+        1
+      ],
+      "respuesta": {
+        "IdEmpresa": 1,
+        "Codigo": "BCS",
+        "Nombre": "Corredora Ficticia",
+        "IdEstado": "ACT",
+        "IdPais": 56,
+        "IdSocioDeNegocio": 10,
+        "IdCliente": 99
+      }
+    },
+    {
+      "colaborador": "EntregarPreciosTasas",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": 1,
+          "p_IdUsuario": null,
+          "p_IdModulo": null,
+          "p_IdPais": 56,
+          "p_DatosInstrumentos": [
+            {
+              "IdRegistro": 1,
+              "TipoCartera": "0",
+              "IdUso": "CARTERA",
+              "IdTipoCriterioTasa": "0",
+              "IdClasificacionTipoInstrumento": "FM",
+              "IdTipoInstrumento": "FM",
+              "IdInstrumento": 900,
+              "Nemotecnico": "FM001A",
+              "IdMoneda": "CLP",
+              "FechaConsulta": "2026-03-02 00:00:00.000",
+              "PlazoResidual": 0,
+              "NemoSVS": null
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 1,
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FM",
+            "IdInstrumento": 900,
+            "Nemotecnico": "FM001A",
+            "Precio": 1500.1234,
+            "CodigoFuente": "OTR",
+            "FechaFuente": "2026-03-02 00:00:00.000",
+            "IdMoneda": "CLP"
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "CalcularParidad",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": 1,
+          "p_IdTrabajo": 2,
+          "p_CalculosEntrada": [
+            {
+              "IdTrabajo": 2,
+              "IdInterno": 6,
+              "Fecha": "2026-03-02",
+              "IdMonedaOrigen": "CLP",
+              "IdMonedaDestino": "UF",
+              "ValorCambioLocalModificado": 0,
+              "MontoOrigen": 15001,
+              "IdUso": ""
+            },
+            {
+              "IdTrabajo": 2,
+              "IdInterno": 7,
+              "Fecha": "2026-03-02",
+              "IdMonedaOrigen": "UF",
+              "IdMonedaDestino": "CLP",
+              "ValorCambioLocalModificado": 0,
+              "MontoOrigen": 1,
+              "IdUso": ""
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "p_out_CalculosSalida": [
+          {
+            "IdTrabajo": 2,
+            "IdInterno": 6,
+            "MontoDestino": 38.5
+          },
+          {
+            "IdTrabajo": 2,
+            "IdInterno": 7,
+            "FactorOrigenDestino": 39000,
+            "MontoDestino": 39000
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "CalcularParidad",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": 1,
+          "p_IdTrabajo": 1,
+          "p_CalculosEntrada": [
+            {
+              "IdTrabajo": 1,
+              "IdInterno": 1,
+              "Fecha": "2026-03-02",
+              "IdMonedaOrigen": "CLP",
+              "IdMonedaDestino": "CLP",
+              "ValorCambioLocalModificado": 0,
+              "MontoOrigen": 15001,
+              "IdUso": ""
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "p_out_CalculosSalida": [
+          {
+            "IdTrabajo": 1,
+            "IdInterno": 1,
+            "FactorCambioLocal": 1,
+            "FactorOrigenDestino": 1,
+            "MontoDestino": 15001
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "ConsultarProductosPortafolio",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": 1,
+          "p_IdUsuario": 7,
+          "p_IdModulo": "FMM",
+          "p_portafolios": [
+            {
+              "IdPortafolio": 500
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "p_out_Mensajes": [],
+        "p_out_PortafolioProductos": [
+          {
+            "IdPortafolio": 500,
+            "IdPerfilProductos": "PERF1",
+            "IdEstadoPerfilProducto": "ACT",
+            "IdEstadoDetallePerfilProducto": "ACT",
+            "IdTipoProducto": "INFM",
+            "IdTipoOperacion": "0",
+            "IdTipoCanalIngreso": "OPT"
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "ConsultarFlujoCustodia",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": 1,
+          "p_IdUsuario": 7,
+          "p_IdModulo": "FMM",
+          "p_FechaSaldo": "2026-03-02",
+          "p_IdPais": 56,
+          "p_DiasProyeccion": 0,
+          "p_DiaHabil": "S",
+          "p_ValorizarFlujo": "N",
+          "p_BarraProgreso": null,
+          "p_Uso": [
+            {
+              "UsoTipoOperacion": "RESCFM",
+              "IdCliente": 100,
+              "IdPortafolio": 500,
+              "BusquedaEspecifica": "",
+              "IdTipoInstrumentoEspecifico": ""
+            }
+          ],
+          "p_FiltrosBusqueda": [
+            {
+              "IdClasificacionTipoInstrumento": "FM",
+              "IdTipoInstrumento": null,
+              "IdInstrumento": 900,
+              "IdEmisor": null,
+              "FechaVencimiento": null,
+              "IdTipoReajuste": null,
+              "EsFungible": null,
+              "IdBoveda": null,
+              "IdRegimenFondoMutuo": "GEN"
+            }
+          ],
+          "p_EsAgrupadoPor": [
+            {
+              "ClasificacionTipoInstrumento": "S",
+              "TipoInstrumento": "S",
+              "Instrumento": "S",
+              "Emisor": "N",
+              "Nemotecnico": "N",
+              "NemoSVS": "N",
+              "FechaEmisionInstrumento": "N",
+              "FechaVencimientoInstrumento": "N",
+              "FechaLiquidacionInstrumento": "N",
+              "TipoReajuste": "N",
+              "EsFungible": "N",
+              "CodigoIFRS": "N",
+              "Boveda": "N",
+              "Bolsa": "N",
+              "TipoOperacion": "N",
+              "Mesa": "N",
+              "FolioRegistro": "N",
+              "ItemOrigen": "N",
+              "IdRegimenFondoMutuo": "S",
+              "GrupoRegimen": null,
+              "MonedaInstrumento": null
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "p_out_FlujoTotalizado": [
+          {
+            "IdCliente": 100,
+            "IdPortafolio": 500,
+            "IdInstrumento": 900,
+            "IdRegimenFondoMutuo": "GEN",
+            "Cantidad": 1000,
+            "MontoAMercadoMonedaInstrumento": 1500123
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "EntregarPreciosTasas",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": 1,
+          "p_IdUsuario": null,
+          "p_IdModulo": null,
+          "p_IdPais": 56,
+          "p_DatosInstrumentos": [
+            {
+              "IdRegistro": 1,
+              "TipoCartera": "0",
+              "IdUso": "CARTERA",
+              "IdTipoCriterioTasa": "0",
+              "IdClasificacionTipoInstrumento": "FM",
+              "IdTipoInstrumento": "FM",
+              "IdInstrumento": 900,
+              "Nemotecnico": "FM001A",
+              "IdMoneda": "CLP",
+              "FechaConsulta": "2026-03-02 00:00:00.000",
+              "PlazoResidual": 0,
+              "NemoSVS": null
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_PRECIOSTASAS": [
+          {
+            "IdRegistro": 1,
+            "IdClasificacionTipoInstrumento": "FM",
+            "IdTipoInstrumento": "FM",
+            "IdInstrumento": 900,
+            "Nemotecnico": "FM001A",
+            "Precio": 1500.1234,
+            "CodigoFuente": "OTR",
+            "FechaFuente": "2026-03-02 00:00:00.000",
+            "IdMoneda": "CLP"
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "CalcularParidad",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": 1,
+          "p_IdTrabajo": 2,
+          "p_CalculosEntrada": [
+            {
+              "IdTrabajo": 2,
+              "IdInterno": 6,
+              "Fecha": "2026-03-02",
+              "IdMonedaOrigen": "CLP",
+              "IdMonedaDestino": "UF",
+              "ValorCambioLocalModificado": 0,
+              "MontoOrigen": 1500123,
+              "IdUso": ""
+            },
+            {
+              "IdTrabajo": 2,
+              "IdInterno": 7,
+              "Fecha": "2026-03-02",
+              "IdMonedaOrigen": "UF",
+              "IdMonedaDestino": "CLP",
+              "ValorCambioLocalModificado": 0,
+              "MontoOrigen": 1,
+              "IdUso": ""
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "p_out_CalculosSalida": [
+          {
+            "IdTrabajo": 2,
+            "IdInterno": 6,
+            "MontoDestino": 38.5
+          },
+          {
+            "IdTrabajo": 2,
+            "IdInterno": 7,
+            "FactorOrigenDestino": 39000,
+            "MontoDestino": 39000
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "AgregarLog",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": null,
+          "p_IdUsuario": null,
+          "p_IdModulo": null,
+          "p_UsaReglasNegocio": null,
+          "p_IdEstadoAutorizacion": null,
+          "p_IdTrabajo": 0,
+          "p_Log": [
+            {
+              "IdTrabajo": 0,
+              "IdCabeceraLog": 11413788,
+              "IdTipoLog": "INGRESO",
+              "IdModulo": "FMM",
+              "IdUsuario": 7,
+              "IdEmpresa": 1,
+              "FechaSistemaLog": "2026-03-02",
+              "IdUsuarioAtendido": 7,
+              "IdCliente": 100,
+              "EstadoCliente": "ACT",
+              "NombreCliente": "Cliente Ficticio Uno",
+              "IdTipoDocumentoIdentidad": "RUT",
+              "IdDocumentoIdentidad": "11111111-1",
+              "IdPortafolio": 500,
+              "EstadoPortafolio": "ACT",
+              "IdTipoRegistro": "SOLICITUD_APORTE_RESCATE",
+              "IdRegistro": "",
+              "EstadoRegistro": "ING",
+              "IdTipoOperacion": "RESNORM",
+              "Folio": 11413788,
+              "Cantidad": 10.0000,
+              "PrecioTasa": 1500.1234,
+              "Monto": 15001,
+              "IdMonedaOrigen": "CLP",
+              "IdMonedaLiquidacion": "CLP",
+              "TipoCambio": "1.0",
+              "Nemo": "FM001A",
+              "IdProceso": 0,
+              "EstadoProceso": "",
+              "NombreProceso": "",
+              "IdPersona": 0
+            }
+          ],
+          "p_LogDetalle": []
+        }
+      ],
+      "respuesta": {}
+    }
+  ],
+  "secuenciasSolicitadas": [
+    {
+      "secuencia": "BSCL.FondoMutuo.BD.Secuencias::SolicitudAporteRescate",
+      "cantidad": 1
+    },
+    {
+      "secuencia": "BSCL.FondoMutuo.BD.Secuencias::FolioContrato",
+      "cantidad": 1
+    }
+  ],
+  "sesion": {
+    "tablasLocalesSinDrop": [],
+    "commitsAutonomos": [
+      "INSERT 1 (committed on its own connection)",
+      "DELETE 1 (committed on its own connection)"
+    ]
+  }
+}

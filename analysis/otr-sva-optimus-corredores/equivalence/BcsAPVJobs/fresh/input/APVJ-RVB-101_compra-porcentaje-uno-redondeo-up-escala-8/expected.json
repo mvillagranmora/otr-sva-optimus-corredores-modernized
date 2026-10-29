@@ -1,0 +1,136 @@
+{
+  "_provenance": "Recorded by legacy-oracle/runner/OracleRunner.java executing the unmodified legacy IngresarOrdenRVBonificacionFiscal through the unmodified legacy BcsJob.run() on H2 MODE=LEGACY (JVM zone UTC). Do not edit by hand; re-record.",
+  "resultado": {
+    "desenlace": "COMMIT",
+    "eventos": [
+      "commit"
+    ],
+    "estados": [
+      {
+        "error": false
+      }
+    ],
+    "retorno": true
+  },
+  "tablas": {
+    "BSCL.Plataforma.BD::BAT.Programa": [
+      {
+        "IdPrograma": 777,
+        "RutaSalida": null
+      }
+    ],
+    "BSCL.Plataforma.BD::BAT.LogPrograma": [
+      {
+        "IdTipoPrograma": "INGRESAR_ORDEN_RV_BONIFICACION_FISCAL",
+        "IdPrograma": 777,
+        "Mensaje": "ADVERTENCIAS RV : Saldo Caja Insuficiente para realizar la Orden BF."
+      }
+    ]
+  },
+  "colaboradores": [
+    {
+      "servicio": "StoredProcedure",
+      "entrada": {
+        "procedimiento": "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa",
+        "entrada": {
+          "p_Instrumentos": [
+            {
+              "IdEmpresa": 1,
+              "IdInstrumento": 31,
+              "IdBolsa": "BCS",
+              "Fecha": "2025-04-01",
+              "IdCondicionDeLiquidacion": "T0"
+            }
+          ]
+        },
+        "tablaTemporal": [
+          {
+            "IdEmpresa": "1",
+            "IdInstrumento": "31",
+            "IdBolsa": "BCS",
+            "Fecha": "2025-04-01",
+            "IdCondicionDeLiquidacion": "T0"
+          }
+        ]
+      }
+    },
+    {
+      "servicio": "ConsultarFlujoCaja",
+      "entrada": {
+        "p_IdEmpresa": 1,
+        "p_IdUsuario": 21,
+        "p_IdModulo": "APV",
+        "p_UsaReglasNegocio": null,
+        "p_FechaDesde": "2025-04-01",
+        "p_FechaHasta": "2025-04-01",
+        "p_Uso": "ORDENES_DE_COMPRA",
+        "p_DesplegarEnUI": null,
+        "p_AgruparPorOrigen": null,
+        "p_PortafolioAConsultar": [
+          {
+            "IdPortafolio": 2000,
+            "IdMoneda": "CLP"
+          }
+        ],
+        "p_ClienteAConsultar": []
+      }
+    },
+    {
+      "servicio": "AgregarLog",
+      "entrada": {
+        "p_IdEmpresa": null,
+        "p_IdUsuario": null,
+        "p_IdModulo": null,
+        "p_UsaReglasNegocio": null,
+        "p_IdEstadoAutorizacion": null,
+        "p_IdTrabajo": 0,
+        "p_Log": [
+          {
+            "IdTrabajo": 0,
+            "IdCabeceraLog": 777,
+            "IdTipoLog": "INGRESO",
+            "IdModulo": "APV",
+            "IdUsuario": 21,
+            "IdEmpresa": 1,
+            "FechaSistemaLog": "2025-04-01",
+            "IdUsuarioAtendido": 21,
+            "IdCliente": 100,
+            "EstadoCliente": "",
+            "NombreCliente": "",
+            "IdTipoDocumentoIdentidad": "",
+            "IdDocumentoIdentidad": "",
+            "IdPortafolio": 2000,
+            "EstadoPortafolio": "",
+            "IdTipoRegistro": "ORDEN",
+            "IdRegistro": "",
+            "EstadoRegistro": "",
+            "IdTipoOperacion": "COMACN",
+            "Folio": 0,
+            "Cantidad": 100.00000000,
+            "PrecioTasa": 0,
+            "Monto": 0.01000000,
+            "IdMonedaOrigen": null,
+            "IdMonedaLiquidacion": "CLP",
+            "TipoCambio": "1.0",
+            "Nemo": "",
+            "IdProceso": 0,
+            "EstadoProceso": "",
+            "NombreProceso": "",
+            "IdPersona": 0
+          }
+        ],
+        "p_LogDetalle": [
+          {
+            "IdTrabajo": 0,
+            "IdCabeceraLog": 777,
+            "SubRegistro": "ADVERTENCIA ",
+            "CampoRegistro": "SALDO CAJA",
+            "ValorAntiguo": "",
+            "ValorNuevo": "ADVERTENCIAS RV : Saldo Caja Insuficiente para realizar la Orden BF."
+          }
+        ]
+      }
+    }
+  ],
+  "archivos": {}
+}

@@ -1,0 +1,174 @@
+graph TD
+    subgraph EXT["External Systems"]
+        E1["DTE / SII\n(e-invoicing API)"]
+        E2["BECB / Broker\n(AdditionalTradeInfo SOAP)"]
+        E3["DCV Settlement\n(SOAP stubs — Custodia)"]
+        E4["SSO Providers\n(Google / BOFA / Local)"]
+        E5["SAP HANA DB\n(156 calc views\nPLA.Servicio registry)"]
+        E6["SQL Server / PostgreSQL"]
+        E7["Tesoreria callers\n(Recaudacion SOAP)"]
+    end
+
+    subgraph WEB["Platform / Web Gateway"]
+        FILT["SesionFilter\nServiceFilter\n(session token + role ACL on /**)"]
+        CALL["CallServlet /call\nRoutes: P=proc Q=OData\nJ=JavaCall X=JavaView O=OData"]
+        SESION["CrearSesion /CrearSesion\nSHA-256 password (unsalted!)"]
+        BATCH["CallBatch /CallBatch\nasync JavaCall launcher"]
+        WS["CallWebsocket /CallWebsocket\nstatic HashMap sessions (race risk!)"]
+        SSO["SSO Servlets\n/SSOInit /SSOLogon\n/SSOLogonBofa /SSOLogonGoogle"]
+        ADMIN["⚠️ WebAdmin /admin\nUNAUTHENTICATED RCE\nRuntime.exec(exe+path)"]
+    end
+
+    subgraph REGISTRY["Service Registry (HANA table)"]
+        REG["PLA.Servicio\n1,817+ JavaCall class names\nstored as DB records\n→ loaded via reflection"]
+    end
+
+    subgraph SVC["Platform Services"]
+        PU["PlataformaUtils\n(shared DB + config)"]
+        LOG["AgregarLog\n(audit trail)"]
+        AUTH["BcsAutorizaciones\n(authorization workflows)"]
+    end
+
+    subgraph SN["SocioNegocio + SURA (571 Java)"]
+        CLI["CrearCliente\nEjecutarCambiosPersona"]
+        SNU["SocioNegocioUtils"]
+    end
+
+    subgraph PORT["Portafolio + Valuation (25+)"]
+        CP["CrearPortafolio\nValorizadorBonos (BcsValo2)\nIniciarReplica"]
+    end
+
+    subgraph CUS["Custodia (323 Java)"]
+        IC["IngresoCustodia\nRetiroCustodia\nConsultarFlujoCustodia"]
+        CE["ProcesarEventoCapital\nEjecutarVencimiento"]
+    end
+
+    subgraph ORD["Orden + BECB (224 Java)"]
+        CO["CrearOrdenes (5,779L!)\nConfirmarAutorizacion\nCargaArchivoIGK"]
+        BEC["BECB Reports\nGenerarInformeVencimientos"]
+    end
+
+    subgraph MES["Mesa (141 Java)"]
+        MRF["CrearOperacionMesa (RF)\nCrearOperacionSpot (SPT)\nCrearComprobantePago"]
+    end
+
+    subgraph CI["CuentaInversion (68 Java)"]
+        CA["CrearCargoAbono\nAnularCargoAbono\nSaldoCuenta"]
+    end
+
+    subgraph TES["Tesoreria (146 Java)"]
+        CIE["CrearIngresoEgreso\nLiquidarComprobante"]
+        SOAP["SvcRecaudaInqV1\nSvcRecaudaTrnV1 (inbound)"]
+    end
+
+    subgraph FM["FondoMutuo + APV (270 Java)"]
+        FFMM["FFMM Subscriptions\nRedemptions · Cuota valuation"]
+        APV["APV Contracts\nReplicaPortafolioAPV"]
+    end
+
+    subgraph FAC["Facturacion + Contabilidad (233 Java)"]
+        CMC["CrearMovimientoComprobante\nEmisionMasivaComprobante"]
+        PGC["ProcesarGananciaCapital\nJournal entries"]
+    end
+
+    subgraph NOR["Normativa (603 Java)"]
+        CAR["Cartola / Statements\nMovimientosTitulos"]
+        TAX["Tax Certificates\nBcsTributarioJobs"]
+        CMF["CMF Regulatory Reports\n600+ classes"]
+    end
+
+    subgraph AGE["CanalAgente (1 class)"]
+        AG["ConsultarHistorialMovimientos\nCuentaInversion"]
+    end
+
+    subgraph NOTBUILD["⚠️ NOT in Gradle build (orphaned source)"]
+        JOBS["BcsJobManager + BcsPlataformaJobs\n(153+ batch job classes built by separate ANT)"]
+        SERVLETS["BcsPlataformaServlets\n(valo2/*, cartolas/*, files/* paths\n— servlets missing from PLA.war!)"]
+        PORTAL["BcsPortalConfirmacionWeb\nBcsCanalCliente · BcsCargasPeru"]
+    end
+
+    %% Service dispatch via DB registry
+    CALL -->|"lookup by service ID 't'\n(type J/X = JavaCall)"| REG
+    REG -->|"Class.forName + newInstance\n(1,817+ classes)"| SN
+    REG -->|runtime dispatch| CUS
+    REG -->|runtime dispatch| ORD
+    REG -->|runtime dispatch| MES
+    REG -->|runtime dispatch| FM
+    REG -->|runtime dispatch| FAC
+    REG -->|runtime dispatch| NOR
+    REG -->|runtime dispatch| CI
+    REG -->|runtime dispatch| TES
+    REG --> E5
+
+    %% Gateway
+    FILT --> CALL
+    FILT --> SESION
+    SESION --> E4
+    CALL -->|"type P = stored proc"| E5
+    CALL -->|"type Q = OData"| E5
+
+    %% Platform shared services
+    SVC --> E5
+    SVC --> E6
+    PU --> LOG
+    PU --> AUTH
+
+    %% SocioNegocio
+    SN --> SVC
+    SN --> PORT
+    SN --> CUS
+
+    %% Portafolio
+    CP --> SVC
+    CP --> E5
+
+    %% Custodia
+    IC --> CI
+    IC --> TES
+    IC --> SVC
+    CUS --> E3
+
+    %% Orden
+    CO --> CUS
+    CO --> CI
+    CO --> FAC
+    CO --> SVC
+    CO --> E2
+
+    %% Mesa
+    MRF --> TES
+    MRF --> CI
+    MRF --> SVC
+
+    %% FondoMutuo
+    FM --> CI
+    FM --> CUS
+    FM --> MES
+    FM --> SVC
+
+    %% Facturacion
+    CMC --> CUS
+    CMC --> CI
+    CMC --> TES
+    CMC --> SVC
+    CMC --> E1
+
+    %% Normativa
+    NOR --> CUS
+    NOR --> CI
+    NOR --> SN
+    NOR --> PORT
+    NOR --> SVC
+
+    %% CanalAgente
+    AG --> CI
+
+    %% Treasury inbound SOAP
+    E7 --> SOAP
+
+    %% Orphaned modules
+    JOBS -.->|"was built by ANT\nnot Gradle"| SVC
+    SERVLETS -.->|"@WebServlet exists\nbut not compiled"| CALL
+
+    %% ADMIN RCE
+    ADMIN -.->|"NO authentication!"| E5

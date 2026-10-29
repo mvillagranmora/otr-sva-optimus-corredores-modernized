@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.Plataforma.BD::REG.DiaFeriado" ("IdFeriado", "Tipo", "Fecha", "Dia", "DescripcionDia", "AgnoCarga", "IdPais", "IdEstado") VALUES (5001, 'INHABIL', DATE '0001-01-01', 5, 'dia inhabil', 2026, 56, 'ACT');
+INSERT INTO "BSCL.Plataforma.BD::REG.DiaFeriado" ("IdFeriado", "Tipo", "Fecha", "Dia", "DescripcionDia", "AgnoCarga", "IdPais", "IdEstado") VALUES (5002, 'INHABIL', DATE '0001-01-01', 6, 'dia inhabil', 2026, 56, 'ACT');

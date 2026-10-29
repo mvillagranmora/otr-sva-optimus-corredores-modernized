@@ -1,0 +1,126 @@
+{
+  "system": "otr-sva-optimus-corredores",
+  "version": 1,
+  "reviews": {
+    "RULE-004": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:15:00Z",
+      "title": "ServiceFilter `ch != null` bypasses all role authorization",
+      "note": "This is a bug — only WS, CLI, and AGE should bypass role authorization. The condition should be noAuthChanels.contains(ch) without the ch != null guard."
+    },
+    "RULE-005": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:15:00Z",
+      "title": "ServiceFilter fail-open — exceptions grant access",
+      "note": "This should fail-closed: return HTTP 500 or HTTP 401 on exception, never grant access on error."
+    },
+    "RULE-011": {
+      "verdict": "confirmed",
+      "at": "2026-10-02T20:15:00Z",
+      "title": "Login — pending authorization (EsAutorizado=P) blocks login",
+      "note": "Correct — only 'P' blocks. Any other non-'S' value is allowed through; 'S' is confirmed and anything else is treated as authorized."
+    },
+    "RULE-018": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:15:00Z",
+      "title": "CLI entity with BLO status can log in",
+      "note": "This is a bug — BLO customers should not be able to log in. The condition should be !IdEstado.equals(\"ACT\") like the EMP and PER paths."
+    },
+    "RULE-025": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:25:00Z",
+      "title": "COR channel sessions never expire",
+      "note": "COR should also have a configurable idle timeout like the other channels. The exemption is a defect."
+    },
+    "RULE-030": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:25:00Z",
+      "title": "Password hash inconsistency — login vs change-password",
+      "note": "The server receives raw passwords. This is a real bug — users cannot log in after changing their password via the change-password path."
+    },
+    "RULE-032": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:25:00Z",
+      "title": "Password complexity — digit characters ignored by scanner",
+      "note": "Digits should count as special characters, or there should be a separate minimum-digit rule. The \\W regex is wrong for our policy."
+    },
+    "RULE-035": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:25:00Z",
+      "title": "Password history — cannot reuse any prior password",
+      "note": "Only the last N passwords should be checked. The 'last 10' comment is the intended limit and the SQL should enforce it."
+    },
+    "RULE-040": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:35:00Z",
+      "title": "Provisional password — off-by-one in max attempts check",
+      "note": "This is a bug — lockout should fire at exactly PLA.ClaveUsuarioIntentos attempts, not max+1."
+    },
+    "RULE-045": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:35:00Z",
+      "title": "SSO login does not check account expiry (FechaVigencia)",
+      "note": "This is an unfinished implementation — SSO should also check FechaVigencia. The --todo comment confirms it was planned but never done."
+    },
+    "RULE-046": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:35:00Z",
+      "title": "SSO OAuth2 CSRF state parameter is hardcoded",
+      "note": "This is a security defect — the state must be a per-request cryptographically random value. It should be generated at redirect time and validated in the callback."
+    },
+    "RULE-047": {
+      "verdict": "confirmed",
+      "at": "2026-10-02T20:35:00Z",
+      "title": "SSO session creation hardcoded to company ID 1",
+      "note": "Correct — the system is single-company in production; company ID 1 is always the right answer."
+    },
+    "RULE-051": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:45:00Z",
+      "title": "CallBatch fallback to hardcoded token \"CALLBATCH\"",
+      "note": "This is a security defect — if the token config can't be read, the request should be rejected (HTTP 503), not authenticated with a known-public default."
+    },
+    "RULE-052": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:45:00Z",
+      "title": "CallBatch job queue is LIFO (last-in, first-out)",
+      "note": "This is a defect — batch jobs should be processed in FIFO (submission) order. LIFO could cause financial sequencing issues."
+    },
+    "RULE-057": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:45:00Z",
+      "title": "Job lock race condition — FOR UPDATE removed",
+      "note": "This is a defect — the race condition must be fixed, either by restoring row-level locking or by implementing an optimistic locking strategy."
+    },
+    "RULE-059": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:45:00Z",
+      "title": "Job retry call commented out in poolDiary",
+      "note": "This is a defect — the retry call should be active. The comment-out was a temporary debug change that was accidentally left in."
+    },
+    "RULE-068": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:55:00Z",
+      "title": "SQL injection in TransactionManager.executionCount",
+      "note": "This must be fixed regardless of current callers — use a parameterized query. String-concatenated SQL is never acceptable, even with trusted input."
+    },
+    "RULE-076": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:55:00Z",
+      "title": "Hardcoded HANA credentials in Sesion.java dead code",
+      "note": "These credentials must be rotated immediately (treat as compromised) and the main() method must be removed from source."
+    },
+    "RULE-077": {
+      "verdict": "wrong",
+      "at": "2026-10-02T20:55:00Z",
+      "title": "Static3DES encryption uses publicly known key",
+      "note": "This is a security defect — production credentials must not be stored with Static3DES. Rotate and replace with proper encryption (e.g., AES-256 with a managed key)."
+    },
+    "RULE-078": {
+      "verdict": "confirmed",
+      "at": "2026-10-02T20:55:00Z",
+      "title": "SSO JWT id_token signature not verified",
+      "note": "Acceptable — the token comes directly from the provider's token endpoint over TLS. Not verifying the signature is standard practice in this server-to-server flow."
+    }
+  }
+}

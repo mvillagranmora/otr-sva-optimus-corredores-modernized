@@ -1,0 +1,65 @@
+{
+  "id": "APVJ-RVB-101",
+  "slug": "compra-porcentaje-uno-redondeo-up-escala-8",
+  "titulo": "COMPRA pct 1: 0.99999999 * 1 / 100 = 0.0099999999 rounds UP to 0.01000000 (scale 8)",
+  "pina": "fresh",
+  "job": "IngresarOrdenRVBonificacionFiscal",
+  "idPrograma": 777,
+  "parametros": {},
+  "carpetas": [],
+  "tablas": [
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.Programa",
+      "orden": "\"IdPrograma\"",
+      "columnas": [
+        "IdPrograma",
+        "RutaSalida"
+      ]
+    },
+    {
+      "nombre": "BSCL.Plataforma.BD::BAT.LogPrograma",
+      "orden": "\"IdPrograma\", \"Mensaje\"",
+      "columnas": [
+        "IdTipoPrograma",
+        "IdPrograma",
+        "Mensaje"
+      ]
+    }
+  ],
+  "config": {
+    "APV/APV.PorcentajeBonificacionFiscal": "1"
+  },
+  "colaboradores": {
+    "SalidaProcedimiento": {
+      "BSCL.Plataforma.BD.Servicios::INS.ConsultarInstrumentoPrecioBolsa": {
+        "p_out_Instrumento": [
+          {
+            "IdInstrumento": 31,
+            "PrecioCierre": "1000"
+          }
+        ]
+      }
+    },
+    "ConsultarFlujoCaja": {
+      "P_OUT_FLUJOCAJA": [
+        {
+          "FechaSaldo": "2025-04-01",
+          "IdPortafolio": 2000,
+          "IdMoneda": "CLP",
+          "Saldo": "0"
+        }
+      ]
+    },
+    "CalcularMontoYCobrosOrden": {
+      "p_out_Ordenes": [
+        {
+          "IdInterno": 1,
+          "CantidadOperacion": "1"
+        }
+      ]
+    },
+    "CrearOrdenes": {
+      "P_OUT_MENSAJES": []
+    }
+  }
+}
