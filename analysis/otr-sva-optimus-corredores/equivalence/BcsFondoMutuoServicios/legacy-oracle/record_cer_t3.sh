@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# F3 W3 T3 (F-E cuenta de inversion + F-F Tesoreria + F-H Spot): records the goldens of cases-cer-t3/ with the SAME oracle as T1 / T2 (record_cer.sh: the unmodified legacy
+# CertificarSolicitudAporteRescate and its real collaborators on H2, registered doubles for the rest, 20 runs per case; a case that is not stable gets NO golden, exit 4).
+# Only the directory of the cases and the stability report change. Same knobs as record_cer.sh (ORACLE_WORK, ORACLE_SKIP_COMPILE, ORACLE_REPEAT, JAVA_HOME ...).
+#   ./record_cer_t3.sh [caseNamePrefix]        e.g. ./record_cer_t3.sh FMM-CER   (all)   or   ./record_cer_t3.sh FMM-CER-39
+set -euo pipefail
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BASE="$(cd "$HERE/.." && pwd)"
+export ORACLE_CASES="${ORACLE_CASES:-$BASE/cases-cer-t3}"
+export ORACLE_REPORT="${ORACLE_REPORT:-$BASE/determinism-cer-t3.txt}"
+exec "$HERE/record_cer.sh" "${1:-FMM-CER}"

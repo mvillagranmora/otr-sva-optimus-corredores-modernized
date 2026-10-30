@@ -141,3 +141,61 @@ front="F-C"|"F-D")` en `cases_cer_t2_c.py` / `cases_cer_t2_d.py` (los ayudantes 
 * `parallelStream` del legacy sobre una misma conexion (D-F3B-06): el orden lo fija cada elemento y los 20 repeticiones salieron identicas; la carrera de la conexion compartida no es reproducible aqui.
 * Lo que el golden no muestra en ninguna llamada ni columna del UPDATE (p. ej. `TieneMontoRetencion` de un rescate que se paga a la cuenta de inversion, `RelacionTraspaso` de un rescate rechazado por custodia): `CerT2ReglasTest` lo fija con el
   valor de la regla y lo marca "(rule; the golden does not show it)".
+
+---
+
+# Tanda T3 (F3 W3, Step 1: rojo antes de codigo): frentes F-E (cuenta de inversion), F-F (Tesoreria) y F-H (Spot)
+
+Mismas reglas de la seccion 12 de `RULES_FONDOMUTUO_F3_B.md`: **F-E** = FM-CER-29, 30 (cargos y abonos de los aportes y sus errores) y FM-CER-42, 43 (los de los rescates); **F-F** = FM-CER-44..47 (seleccion de rescates y traspasos,
+retencion y pago al SII, bonificacion fiscal / TGR, lectura del resultado); **F-H** = FM-CER-59, 60 (pojo y formas de pago de Spot, lectura del resultado). Defectos D-F3B-01/03/07/08/09/14/17 y los nuevos D-F3B-41..44 (notas, "F3 W3 T3
+(pruebas)"). La API que suponen las pruebas esta en `API_ASSUMED_T3.md`; T1 y T2 no se tocaron. **No hay codigo de produccion de T3 en `src/main`**: las pruebas COMPILAN (las clases nuevas se alcanzan por reflexion en `ApiT3`) y FALLAN
+con `T3 not implemented: the production class ... does not exist yet`.
+
+## La costura de T3
+
+El gancho de T1 no cambia. El arnes (`CasoCerT3`) corre la fachada de T1 REAL y, en el gancho, ejecuta los NUEVE pasos de F-C..F-H sobre el `CertificarAporteRescateContexto`, en el orden del legacy: los cinco de T2 (YA implementados, REALES) mas
+`moverAportes` (entre el tercero y el cuarto de T2: despues de la custodia de ingreso), `moverRescates` (despues del retiro de custodia y los costos), `moverTesoreria` y `moverSpot` (al final del bloque de rescates, despues de Facturacion y
+reinversion, que NO corren aqui: los dobles benignos del oraculo las responden sin efecto) y despues lanza `ParadaT3`. `CrearCargoAbono` queda detras de un puerto nuevo (`CrearCargoAbonoPort`, JSON, sin implementacion de produccion);
+Tesoreria y Spot usan los puertos tipados que el modulo YA tiene (`ProcesosExternos.TesoreriaPort` / `SpotPort`), respondidos por el guion del caso como los dobles registrados.
+
+| Tipo de caso | Que grabo el legacy (sin modificar, sobre H2) | Que compara la prueba |
+|---|---|---|
+| `T3-costura:completo` | la corrida entera con colaboradores benignos despues de F-H | las llamadas a TODOS los colaboradores de F-C..F-H (nombre, argumentos COMPLETOS, respuesta, orden), la salida (estado, codigo, contador, mensajes) y las columnas del UPDATE a CRT, incluidas `IdIngresoEgreso` e `IdOperacionSpot` |
+| `T3-costura:excepcion` | el legacy LANZA dentro de F-C..F-H (NPE de un id que no existe, un colaborador que falla, un parametro ausente) | la misma clase de excepcion (el mensaje si es `Exception` simple) tras las mismas llamadas |
+
+## Archivos nuevos
+
+| Archivo | Papel |
+|---|---|
+| `ApiT3` | el UNICO sitio que conoce los nombres de las clases nuevas de produccion (reflexion); falla con "T3 not implemented" |
+| `CasoCerT3` | arma el H2 del caso (`fondomutuo-cer/cases-t3/`), corre T1 + los nueve pasos y devuelve contexto, llamadas y tablas |
+| `ParadaT3` | la parada conocida de la costura T3 |
+| `CerCosturaT3` | la comparacion de un caso contra su golden (una sola normalizacion: la llave `p_DatosOrigenInversion` vacia de la entrada de Spot, que el pojo tipado del modulo no declara) |
+| `CerT3EquivalenciaTest` | los casos contra su golden; imprime `equivalence cases executed: N of M` |
+| `CerT3DeterminismoTest` | N = 20 corridas (`-Dcer.corridas=N`) de los casos con varias solicitudes |
+| `CerT3ReglasTest` | cada tarjeta y defecto con valores LITERALES leidos del golden, proyectados igual para todos (lineas de la cuenta, entradas de Tesoreria, formas de Spot, estados, columnas del UPDATE) |
+| `CerT3CompuertaTest` | puerto de un solo metodo y sin implementacion de produccion, G1 / G2 cerradas por defecto, `CrearCargoAbono` inalcanzable desde el modulo, unidades sin escritura ni estado, integridad de la evidencia |
+| `API_ASSUMED_T3.md` | la API de produccion supuesta y la definicion de la costura |
+
+## Como correrlas y como re-grabar el oraculo (desde `analysis/otr-sva-optimus-corredores/equivalence/BcsFondoMutuoServicios/`)
+
+```
+mvn -o test -Dtest='CerT3*Test'                     # 4 clases; hoy en rojo por ausencia de implementacion
+py -3 -I make_cases_cer_t3.py                       # escribe cases-cer-t3/FMM-CER-378_slug/{case.json,seed.sql} y seed/base-cer-t3.sql (NUNCA los goldens)
+legacy-oracle/record_cer_t3.sh FMM-CER              # graba expected.json con el legacy sin modificar, 20 corridas por caso (determinism-cer-t3.txt); un caso inestable queda SIN golden (salida 4)
+py -3 -I legacy-oracle/check_cer_t3.py              # la etiqueta de cada caso concuerda con su golden; todos estables; ninguno sale en F-A
+py -3 -I legacy-oracle/sync_cer_t3.py               # copia casos, semilla y reporte a src/test/resources/fondomutuo-cer/
+py -3 -I canary_cer_t3.py <copia-del-modulo>        # mutaciones de una linea de la implementacion de referencia (COPIA fuera del repo)
+```
+Un caso nuevo = una llamada `caso("slug", ["FM-CER-nn", "D-F3B-nn", "matriz:Cnn"], entrada([3001, ...]), seed=[...], colaboradores=cuenta_script(...) | tesoreria(...) | spot(...), excepcion=False|True, front="F-E"|"F-F"|"F-H")`
+en `cases_cer_t3_e.py` / `_f.py` / `_h.py` (los ayudantes `msg`, `resp_cuenta`, `cuenta_script`, `resp_tesoreria`, `rech`, `gen`, `resp_spot`, `op`, `TRAS_APV`, `TRAS_FM` estan en `cases_cer_t3.py`; los de T2 se reusan). Los casos nuevos
+se agregan AL FINAL para no renumerar.
+
+## Lo que no se puede probar aqui (limites declarados, ademas de los de T1 y T2)
+
+* El comportamiento real de `CrearCargoAbono` (CuentaInversion), de `ProcesarIngresoEgresoTesoreria` (Tesoreria, G1) y de `ProcesarIngresoOperacionSpot` (Mesa, G2): solo dobles con respuestas guionadas por caso. Lo que SI se fija es todo lo que
+  Certificar les ENVIA y la lectura que hace de lo que responden.
+* `Switch` y `MontoComisionLocal` nulos (el matriz C18 / C26 los lista como NPE) no se construyeron: el catalogo de HANA QA declara `Switch` `NOT NULL` en la tabla (la vista lo deriva) y `MontoComisionLocal` `NOT NULL` en la tabla y en la vista; un dato real no puede traerlos nulos.
+* La rama `VENSPT` de `idTipoOperacionSpot` (aporte de reinversion en USD) es inalcanzable: `mueveSpot` solo recibe los rescates.
+* Un parametro `CONCEPTO_RETENCION_PAGO_SII` ausente se lee con `ConfiguracionSistemaPort.texto` y lanza como el legacy (`Parametro ... no encontrado`); en HANA real el parametro existe o la configuracion esta mal.
+* Las fechas de las lineas de la cuenta viajan como texto `yyyy-MM-dd`; las de Tesoreria / Spot como `yyyy-MM-dd HH:mm:ss.SSS` (el centinela `0001-01-01` se escribe tal cual, no pasa por la lectura de H2).
