@@ -49,7 +49,7 @@
         "adapter/out/http/",
         "BcsFondoMutuoApplication"
       ],
-      "nota": "AL 2026-10-30 EL PACK LO MARCA PARTLY PROVEN: el verify de BcsAPVApi reescribio VERIFICATION.md (firma en blanco) y su codigo es posterior a sus resultados por T1, T2 y T3 de Certificar (3947 pruebas en T1; 4265 tras T2; T3 en curso); repetir su verify y firmar al cerrar W3. Lo siguiente describe el estado firmado del 29-oct. PROVEN y firmado por el usuario (verify 2026-10-29; cubre lo firmado el 27 y el 28-oct): Manejador, Normal, libreria Tesoreria en proceso, RescateReinversion, 8 lecturas de la UI (FSA, VDO, FMR, IFM, SFM, WS, DET, CPF), CargarValorCuota, cableado EN PROCESO de la libreria de Custodia (proxy de conexion con plazo por sentencia, guardia de transaccion, interruptores separados: habilitada para RescateReinversion, normal-habilitada para Normal, comisiones-en-proceso para CalcularComisiones; sin valorizacion en proceso) y ConsultarCustodiaPortafolioFFMM bug a bug con la cadena CPF + FFMM probada contra el legacy real. 3483 pruebas, 0 fallos; 1579 casos de desarrollo y 273 entradas frescas sin diferencia no aprobada (31 diferencias aprobadas por el usuario en desarrollo y 3 en frescas). Todas las listas siguen cerradas por defecto (503): antes de abrir cualquiera falta la firma del experto de dominio. Pendientes: imagen Docker sin construir (CI), 14 personas con dos socios en QA (D-F3C-19) y 200 series con varios regimenes ACT (D-F3A-08), SFM/WS sin filtro de empresa ni tope (como el legacy), pruebas en HANA QA (readOnly, timeout, batch parcial, custodia: permisos, secuencias y tabla de trabajo; tipo de la UNION de FFMM), preguntas QD-F3A-09..12 y Q-F3A-7, W3 (Certificar). loc_migrado aprox. (lineas no vacias de las clases legacy portadas)."
+      "nota": "AL 2026-10-30: el pack lo muestra PROVEN solo porque juzga la evidencia presente (transitorio; firma en blanco desde que el verify de BcsAPVApi reescribio VERIFICATION.md). loc_migrado (14.345) cuenta SOLO lo verificado y firmado el 29-oct. NO cuenta todavia el avance de Certificar (CertificarSolicitudAporteRescate, 3.019 lineas no vacias, CCN 95): T1 F-A/F-B (pruebas en 9c54eb03), T2 F-C/F-D (7c5fb8b0, 12419d8e) y T3 F-E/F-F/F-H (a30c8ce4, f15a416b) estan construidos con 4595 pruebas en verde y 123 clases, unas 49 de las 70 tarjetas de Certificar (~70 %, estimacion de ~2.100 lineas legacy), pero sin verify independiente ni firma; entraran en loc_migrado al repetir el verify y firmar. Faltan T4 (CrearSolicitudAporteReinversion 1.480 lineas, F-G facturacion, F-I reinversion y switch), T5 (F-J cierre, fachada) y T6 (Liquidacion, Anulacion, CertificarPorFiltros). Lo siguiente describe el estado firmado del 29-oct. PROVEN y firmado por el usuario (verify 2026-10-29; cubre lo firmado el 27 y el 28-oct): Manejador, Normal, libreria Tesoreria en proceso, RescateReinversion, 8 lecturas de la UI (FSA, VDO, FMR, IFM, SFM, WS, DET, CPF), CargarValorCuota, cableado EN PROCESO de la libreria de Custodia (proxy de conexion con plazo por sentencia, guardia de transaccion, interruptores separados: habilitada para RescateReinversion, normal-habilitada para Normal, comisiones-en-proceso para CalcularComisiones; sin valorizacion en proceso) y ConsultarCustodiaPortafolioFFMM bug a bug con la cadena CPF + FFMM probada contra el legacy real. 3483 pruebas, 0 fallos; 1579 casos de desarrollo y 273 entradas frescas sin diferencia no aprobada (31 diferencias aprobadas por el usuario en desarrollo y 3 en frescas). Todas las listas siguen cerradas por defecto (503): antes de abrir cualquiera falta la firma del experto de dominio. Pendientes: imagen Docker sin construir (CI), 14 personas con dos socios en QA (D-F3C-19) y 200 series con varios regimenes ACT (D-F3A-08), SFM/WS sin filtro de empresa ni tope (como el legacy), pruebas en HANA QA (readOnly, timeout, batch parcial, custodia: permisos, secuencias y tabla de trabajo; tipo de la UNION de FFMM), preguntas QD-F3A-09..12 y Q-F3A-7, W3 (Certificar). loc_migrado aprox. (lineas no vacias de las clases legacy portadas)."
     },
     "BcsCustodiaServicios": {
       "estado": "parcial",
@@ -104,7 +104,11 @@
     },
     "BcsReplica": {
       "estado": "construido-sin-probar",
-      "nota": "Implementacion verde (35822781): EnviarTablaReplica, ReplicaUtils e IniciarReplica/Full/Delta con los 58 SQL verbatim; 469 pruebas, 264 casos grabados con el legacy ejecutado, 22 defectos D-REP replicados; canarios 43 de 44 (M02 es una laguna de las pruebas); compuertas G-TRG, G-SEB y G-OPT cerradas y colaboradores de Plataforma tras puertos. No portado: scripts de instalacion de BD y BD/Vistas. Pendiente verify independiente y firma; preguntas Q-REP-1..13 abiertas."
+      "nota": "Implementacion verde y commiteada (35822781, correccion de Parameters 886fc572): EnviarTablaReplica, ReplicaUtils e IniciarReplica/Full/Delta con los 58 SQL verbatim; 480 pruebas, 264 casos de desarrollo y 59 frescos iguales al legacy, 22 defectos D-REP replicados; prueba transversal RULE-076; canarios 9 de 10 en la correccion y 43 de 44 en la implementacion. El pack la muestra PROVEN con la evidencia presente (sin marca de completo, por eso no se afirma 100 %); el verify con entradas frescas y canario propios de esta corrida sigue en pausa y falta la firma. No portado (no es Java): scripts de instalacion de BD y BD/Vistas. Compuertas G-TRG, G-SEB y G-OPT cerradas y colaboradores de Plataforma tras puertos. Preguntas Q-REP-1..13 abiertas."
+    },
+    "BcsCanalAgenteServicios": {
+      "estado": "construido-sin-probar",
+      "nota": "Implementacion verde y commiteada (ed9bbe4f; prueba RULE-076 en 4a37570e): ConsultarHistorialMovimientosCuentaInversion con 7 SQL verbatim (4 de la clase y 3 de BD/Servicios); 139 pruebas, 88 casos grabados con el legacy, D-CAN-01..12 replicados; 50 de 53 canarios (3 equivalentes). Publicado como jar de libreria en proceso (sin aplicacion ni Dockerfile). El pack lo muestra PARTLY PROVEN: faltan cases.json y fresh-cases.json en formato del pack y el canario propio del verify (pausado). Cartola cerrada por defecto (Q-CAN-02); Q-CAN-01..07 abiertas."
     }
   },
   "historial": [
@@ -255,6 +259,22 @@
     {
       "fecha": "2026-10-30",
       "evento": "BcsReplica: pruebas aprobadas (8ad227ce) e implementacion verde (35822781): 469 pruebas, 264 casos, 22 defectos D-REP replicados; construido, pendiente verify. BcsCanalAgenteServicios: 88 casos y 136 pruebas aprobadas en rojo (31d7cb2b); implementacion en curso. FondoMutuo T3 (Certificar F-E cuenta de inversion, F-F tesoreria, F-H spot): 197 casos, 330 pruebas CerT3* aprobadas en rojo (a30c8ce4); implementacion en curso"
+    },
+    {
+      "fecha": "2026-10-30",
+      "evento": "FondoMutuo T3 (Certificar F-E cuenta de inversion, F-F tesoreria, F-H spot) implementado y commiteado (f15a416b): 330 pruebas CerT3*, suite completa 4595 pruebas, 123 clases; canarios 89 de 93 (2 equivalentes y 2 huecos de datos de las pruebas aprobadas). Quedan T4 (reinversion, facturacion), T5 (cierre, fachada) y T6 (liquidacion, anulacion, por filtros). Aun no cuenta en loc_migrado: pendiente verify y firma"
+    },
+    {
+      "fecha": "2026-10-30",
+      "evento": "BcsAPVApi: equivalencia dual real (128 casos por defecto y 384 frescos iguales), prueba RULE-076, override de ValidarContrato en el generador con guarda (a7f86898) y fix F-APV-01 en el adaptador. verify independiente: NOT PROVEN por VB-V09 (los 10 campos de Tesoreria que el contrato lleva como JsonObject opaco no reciben los valores por defecto que el legacy aplica al tiparlos); decision humana: aprobar como desviacion documentada o modelar las clases de Tesoreria. BcsApvJavaCallAdapter PARTLY PROVEN: necesita evidencia y prueba RULE-076 propias"
+    },
+    {
+      "fecha": "2026-10-30",
+      "evento": "Hallazgos del pack (proof_pack.py): solo lee 50 canarios y 20 entradas de leftOut; si ninguna regla P0 queda atada a un modulo (sus pruebas o notas no nombran RULE-nnn), exige todas las del sistema (60 P0): por eso BcsReplica y BcsCanalAgenteServicios necesitan una prueba transversal RULE-076; 26 modulos estan en ese fallback. Se podo test-runs.json a los 2 canarios mas recientes por modulo"
+    },
+    {
+      "fecha": "2026-10-30",
+      "evento": "BcsCanalAgenteServicios y BcsReplica commiteados con su implementacion y la prueba RULE-076 (ed9bbe4f, 4a37570e, 35822781, 886fc572). Verify de Replica y CanalAgente pausados a pedido del usuario"
     }
   ]
 }
