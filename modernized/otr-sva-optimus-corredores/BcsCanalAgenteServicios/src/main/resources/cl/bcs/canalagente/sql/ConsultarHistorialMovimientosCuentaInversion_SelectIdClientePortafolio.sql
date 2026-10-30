@@ -1,0 +1,1 @@
+SELECT TOP 1 "IdCliente" from "BSCL.Portafolio.BD::POR.Portafolio" where "IdPortafolio" = :IdPortafolio;

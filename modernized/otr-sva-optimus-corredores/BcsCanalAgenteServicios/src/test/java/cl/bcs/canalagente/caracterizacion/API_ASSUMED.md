@@ -1,6 +1,6 @@
 # API de produccion que asumen las pruebas de caracterizacion de BcsCanalAgenteServicios
 
-Las pruebas alcanzan las clases de produccion SOLO por reflexion desde `ApiCanalAgente.java`. Mientras no existan, cada prueba falla con `AssertionError: not implemented: the production class ... does not exist yet`. Si produccion necesita otro nombre o forma, se cambia en `ApiCanalAgente.java` (nunca en los goldens). El javadoc de `ApiCanalAgente` tiene la misma lista con las firmas completas.
+Las pruebas alcanzan las clases de produccion SOLO por reflexion desde `ApiCanalAgente.java`. Si no existieran (estado del paso 1, hoy ya implementadas), cada prueba fallaria con `AssertionError: not implemented: the production class ... does not exist yet`. Si produccion necesita otro nombre o forma, se cambia en `ApiCanalAgente.java` (nunca en los goldens). El javadoc de `ApiCanalAgente` tiene la misma lista con las firmas completas.
 
 ## Paquetes y clases (todas publicas; todo metodo declara `throws Exception`)
 | Paquete | Clase | Contrato |

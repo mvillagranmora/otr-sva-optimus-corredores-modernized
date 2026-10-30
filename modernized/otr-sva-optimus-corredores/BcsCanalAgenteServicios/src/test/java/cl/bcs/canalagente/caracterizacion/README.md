@@ -1,7 +1,7 @@
-# Pruebas de caracterizacion de BcsCanalAgenteServicios (modernize-transform, paso 1: rojo antes de codigo)
+# Pruebas de caracterizacion de BcsCanalAgenteServicios (modernize-transform: escritas en rojo en el paso 1; en verde tras la implementacion)
 
 Legacy: `legacy/otr-sva-optimus-corredores/BSCL/CanalAgente` (`ConsultarHistorialMovimientosCuentaInversion` 288 lineas, 4 SQL de recursos, 3 procedimientos de `BD/Servicios`). Oraculo, generadores y notas: `analysis/otr-sva-optimus-corredores/equivalence/BcsCanalAgenteServicios/` (`ORACLE_NOTES.md`).
-Estas pruebas COMPILAN y fallan solo con `not implemented: the production class ... does not exist yet` (o `SQL resources missing`): no hay codigo de produccion de la logica (el esqueleto previo de `src/main` se reemplaza en el paso 3; ver `TRANSFORMATION_NOTES.md`).
+Estado actual: las 136 pruebas pasan contra la implementacion de `src/main` (ver `TRANSFORMATION_NOTES.md`, seccion "CanalAgente: implementacion"). En el paso 1 se escribieron en rojo y fallaban solo con `not implemented: the production class ... does not exist yet` (o `SQL resources missing`); ese es el estado del commit 31d7cb2b.
 
 ## Que hay
 | Archivo | Que prueba |

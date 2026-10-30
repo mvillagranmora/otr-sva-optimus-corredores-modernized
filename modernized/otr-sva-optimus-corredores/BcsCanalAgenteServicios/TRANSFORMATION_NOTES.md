@@ -16,7 +16,7 @@ La nota previa daba por hecho cosas que el legacy no hace. Comparada con `Consul
 | Faltaba `p_IdModulo`, fechas, moneda, usuario | Van a la cartola sin cambios; `p_IdEstado` y `p_IdCuentaInversion` fijos en null (D-CAN-11) |
 | No mencionaba los 3 procedimientos de `BD/Servicios` ni los 3 scripts | Se portan como recursos SQL (7 textos pinados); los scripts de prueba llaman cosas que no existen y no se portan (D-CAN-16) |
 Se conservan los ids B-CA-01..05 del esqueleto con el contenido corregido; B-CA-06..13 y D-CAN-01..17 son nuevos.
-El estado real es: **paso 1 de modernize-transform (pruebas de caracterizacion y oraculo, en rojo)**. No hay codigo de produccion de la logica; el `src/main` previo se reemplaza en el paso 3.
+Estado actual: **pasos 2-3 de modernize-transform hechos: implementacion en verde (136 de 136)**; el paso 1 (pruebas y oraculo, en rojo) quedo registrado en la seccion "CanalAgente: pruebas" y la implementacion en "CanalAgente: implementacion" (al final). El `src/main` del esqueleto de 2026-10-05 fue reemplazado.
 
 ## CanalAgente: pruebas
 
@@ -30,7 +30,7 @@ El estado real es: **paso 1 de modernize-transform (pruebas de caracterizacion y
 | Oraculo y generadores | `analysis/.../equivalence/BcsCanalAgenteServicios/` (`legacy-oracle/record.sh`, `make_cases.py`, `make_schema.py`, `check_canal.py`, `sync_canal.py`, `make_sql_manifest.py`, `ORACLE_NOTES.md`) | — |
 | Catalogo REAL de HANA QA (solo SELECT sobre SYS) | `analysis/.../equivalence/BcsCanalAgenteServicios/catalog/` | 270 columnas de 6 tablas, 5 claves, 61 columnas de la vista de portafolio, 4 procedimientos |
 
-Todas las pruebas **compilan** y fallan solo con `not implemented: the production class ... does not exist yet` (`ApiCanalAgente.java` es el unico archivo que alcanza produccion, por reflexion). Estado medido (`mvn -o test`): 136 pruebas, **128 en rojo** (126 con `not implemented: the production class ...`, 1 con `SQL resources missing in src/main/resources/cl/bcs/canalagente/` y la de "equivalence cases executed: 0 => not proven", por diseno) y 8 en verde, que no necesitan produccion (4 del catalogo de la matriz, informe de determinismo, manifiesto de 7 SQL, "todos tienen golden" y la de documentacion D-CAN-16/17).
+(Estado del paso 1, antes de implementar.) Todas las pruebas **compilan** y fallan solo con `not implemented: the production class ... does not exist yet` (`ApiCanalAgente.java` es el unico archivo que alcanza produccion, por reflexion). Estado medido (`mvn -o test`): 136 pruebas, **128 en rojo** (126 con `not implemented: the production class ...`, 1 con `SQL resources missing in src/main/resources/cl/bcs/canalagente/` y la de "equivalence cases executed: 0 => not proven", por diseno) y 8 en verde, que no necesitan produccion (4 del catalogo de la matriz, informe de determinismo, manifiesto de 7 SQL, "todos tienen golden" y la de documentacion D-CAN-16/17).
 
 ### Prueba de que el arnes es satisfacible (no se entrega)
 Implementacion de referencia escrita FUERA del repo (`$CLAUDE_JOB_DIR/tmp/canalref`, ~330 lineas: compuerta, puertos, servicio con JDBC plano, adaptador de recursos y los 7 SQL copiados): con los mismos goldens pasan las **136 pruebas**.
@@ -99,5 +99,73 @@ Resumen (detalle en `ORACLE_NOTES.md`): (1) la tabla de trabajo es una tabla nor
 - **Q-CAN-06**: tipos de fecha del movimiento: el legacy usa `java.sql.Date` con la hora que traiga (los casos CAL de fechas con hora lo fijan). Si la cartola nueva entrega `LocalDate`, hay que decidir si se acepta esa diferencia.
 - **Q-CAN-07**: el orden del SELECT de comprobantes y los ids repetidos (D-CAN-06) dependen del motor; confirmar con HANA real (solo lectura) si en la practica puede haber ids repetidos.
 
-### Que falta para implementar (paso 3)
-`kit` (`Compuertas`, `ServicioNoServidoException`), puertos (`ConsultarCartolaDeMovimientoPort`, `ColaboradoresNoPortados`, `ProcedimientosBdPort`) y `ProcedimientosBdRecursos`, el servicio con sus clases `Entrada`/`Salida`/`Movimiento`, y los 7 SQL copiados a `src/main/resources/cl/bcs/canalagente/{sql,bd/servicios}/`; retirar el `src/main` del esqueleto. Las firmas estan en `src/test/java/cl/bcs/canalagente/caracterizacion/API_ASSUMED.md`.
+## CanalAgente: implementacion (pasos 2-3)
+
+### Resultado
+| Medida | Valor |
+|---|---|
+| `mvn -o clean test` | **136 pruebas, 0 fallos, 0 errores, 0 omitidas** (equivalencia 90, determinismo 2, reglas 29, compuerta 8, SQL 3, catalogo 4); 6 XML = 6 clases; sin OutOfMemoryError |
+| "equivalence cases executed" | **88 de 88** (el legacy lanza en 22) |
+| Log | `analysis/otr-sva-optimus-corredores/equivalence/BcsCanalAgenteServicios-implementacion-verde.test-output.txt` |
+| Canarios | 53 mutantes de una linea sobre el codigo real (copia fuera del repo): **50 muertos, 3 sobreviven (los 3 equivalentes), 0 invalidos**; log `...-implementacion-canario.test-output.txt` |
+| `legacy/` | `legacy_manifest.py verificar`: different 0, missing 0, new 0 |
+| Pruebas, goldens, casos, `ApiCanalAgente.java` | sin cambios (ni una linea) |
+
+### Tabla legacy a codigo nuevo
+Todo en `src/main/java/cl/bcs/canalagente/` salvo los recursos.
+| Legacy (`ConsultarHistorialMovimientosCuentaInversion.java`, salvo indicacion) | Nuevo |
+|---|---|
+| `:31-34` carga de los 4 SQL | `service/ConsultarHistorialMovimientosCuentaInversionServicio` (constantes estaticas) con `adapter/out/jdbc/SqlRecursos`; los 4 SQL en `src/main/resources/cl/bcs/canalagente/sql/` |
+| `BD/Servicios/*.sql` (3) | `src/main/resources/cl/bcs/canalagente/bd/servicios/`; `port/out/ProcedimientosBdPort` + `adapter/out/bd/ProcedimientosBdRecursos` |
+| `:36-75,123-140` `Entrada`, `Salida`, `AdvertenciasDetalle`, `ErroresDetalle` | clases anidadas publicas del servicio (mismos nombres y orden de campos; sin `toString`/`Utils.printJson`) |
+| `:77-108` `MovimientoCuentaInversion` | `Movimiento` anidado (26 campos, fechas `java.sql.Date`) |
+| `:110-121,142-148` `MovimientoCuentaInversionComprobante`, `IdClientePortafolio` | `MovimientoComprobante`, `IdClientePortafolio` anidados |
+| `:150-153` inicio | `Compuertas.gCartola()` (NUEVO, unico agregado), traza INFO |
+| `:157-162` busqueda del cliente | `SqlNombrado.consultar` (SQL.query + NamedParameterStatement de BcsUtils) |
+| `:163-170` cliente no encontrado | igual, incluido el `NullPointerException` (D-CAN-01) |
+| `:172-186` armado de la entrada de la cartola | `service/CartolaJson.Entrada` (POJO JSON con los mismos nombres y los valores por omision del constructor del legacy: `p_Validaciones` "S", `p_IncluyeSaldo` "N", `p_IncluyeAnulados` "S") |
+| `:188-193` llamada a la cartola | `port/out/ConsultarCartolaDeMovimientoPort.consultar(Connection, JsonObject)`; por defecto `ColaboradoresNoPortados` |
+| `:196` INSERT por lote | `SqlNombrado.lote` (SQL.batch) |
+| `:201-208` SELECT y hash por id | `SqlNombrado.consultar` y `HashMap.put` (el ultimo gana: D-CAN-06) |
+| `:210-241` armado de los movimientos | igual, campo a campo (B-CA-06/B-CA-10/B-CA-12) |
+| `:242-243` DELETE y contador 0 | `SqlNombrado.ejecutar` (SQL.exec), `P_OUT_ERRORESCONTADOR = 0L` |
+| `:244-247` catch con log y relanzar | igual (log ERROR y `throw e`; sin limpiar la tabla: D-CAN-05) |
+| `:254-263` `call` | `call(Connection, JsonObject)` con `kit/GsonPlataforma` (Gson de la plataforma: nulos explicitos, fechas `yyyy-MM-dd HH:mm:ss.SSS`, lectores indulgentes de fecha de `GsonDateDeserializer` / `GsonTimestampDeserializer`) |
+| `BcsUtils` `SQL.query/batch/exec`, `NamedParameterStatement` | `adapter/out/jdbc/SqlNombrado` (misma semantica: quita comentarios con la misma expresion, `:nombre` fuera de comillas, `setNull(VARCHAR)`, mapeo por campo publico sin conversion, `rethrow` con ` Query: ... Parameters: [...]`, `Map Object failed`, BigDecimal a 16 decimales HALF_DOWN en el lote) |
+| `PlataformaUtils.MensajeSalida.MENSAJE_ERROR` (`:165`) | constante local `"ERROR"` (valor del legacy; nunca sale: el NPE va antes) |
+
+### Desvios respecto del legacy (todos deliberados)
+1. **Compuerta G-CTA** (`canalagente.compuertas.cartola`, por defecto `false`): `logica` lanza `ServicioNoServidoException` antes del primer SQL. El legacy no tiene compuertas. `Compuertas` no lleva `@Component` ni nada que la abra; con la compuerta abierta y el puerto por defecto, `ColaboradoresNoPortados` lanza la misma excepcion tras buscar el cliente y antes de escribir.
+2. **Puerto JSON de la cartola** en lugar de la llamada directa a la clase de otro modulo (razones en la nota del paso 1: no se reutiliza `ConsultarCartolaDeMovimientoService`). El POJO de salida `CartolaJson.Movimiento` declara solo los 21 campos que CanalAgente lee; los demas se ignoran como Gson hace con campos desconocidos. Consecuencia: un campo NO usado con tipo invalido en la respuesta de la cartola (p. ej. `Monto` no numerico) fallaria en el legacy y aqui pasa. Los casos fijados (listas nulas, elementos nulos, salida nula) se comportan igual.
+3. **Sin traza de tiempos** (`Tiempo SQL_...`), sin `@Trace` de Datadog y sin `toString` con `Utils.printJson`: observabilidad, no comportamiento. Log con SLF4J.
+4. **SQL**: sin lista como parametro ni traduccion a PostgreSQL (`isPostgresConnection`): ningun SQL del modulo la usa y HANA es el unico destino.
+5. **Sin web**: se borraron `CanalAgenteController`, `GlobalExceptionHandler`, `InternalJavaCallController`, `CanalAgenteService`, `CanalAgenteDataPort`, `CanalAgenteRepositoryAdapter`, `ConsultarHistorialMovimientosUseCase` y los DTO de `domain/`: todo inventado (el legacy no tiene REST propio, devolvia error donde el legacy lanza, etc.). No hay handler `JavaCall` nuevo. Se conservan `BcsCanalAgenteServiciosApplication`, `application.yml`, `Dockerfile` y `pom.xml` sin cambios (ver "Abiertos de plataforma").
+
+### Defectos del legacy replicados (bug-for-bug)
+Los D-CAN-01 a D-CAN-12 estan replicados en codigo y fijados por goldens; el codigo marca con un comentario los D-CAN-01, 02-04 (en conjunto), 05, 06 y 07:
+D-CAN-01 (NPE de "Cliente no encontrado."; **no se corrige**, decision aprobada), D-CAN-02 (advertencias nulas), D-CAN-03 (saldos nulos), D-CAN-04 (errores de la cartola descartados), D-CAN-05 (fallo a mitad sin limpiar), D-CAN-06 (el ultimo gana), D-CAN-07 (reemplazo vacio muerto), D-CAN-08 (salida defectuosa de la cartola: lista nula = `SQLException` "Null parameters", elemento nulo = `SQLException` "Map Object failed", salida nula = NPE), D-CAN-09 (sin validacion), D-CAN-10 (Gson indulgente), D-CAN-11 (`p_IdEstado`/`p_IdCuentaInversion` nulos), D-CAN-12 (tabla de trabajo sin limpiar antes). D-CAN-13 a D-CAN-17 son de los procedimientos de BD y scripts: se portan solo como texto pinado (sin caso ni codigo).
+
+### Que NO se porta y por que
+- `main()` (`:265-286`): arnes manual con conexion real y credenciales de `connections.properties`; no es servicio.
+- `BD/Scripts/Prueba*.sql`: material manual con llamadas rotas (D-CAN-16).
+- Ejecucion de los 3 procedimientos HANA: el legacy Java no los llama; solo se porta su texto.
+- `ConsultarCartolaDeMovimiento`: de otro modulo, detras del puerto cerrado.
+- Endpoints REST, handler JavaCall y beans que abran la compuerta (ver desvio 5).
+- HANA: nunca se toco. La tabla de trabajo es GLOBAL TEMPORARY ON COMMIT DELETE ROWS en HANA y tabla normal en H2 (limite documentado arriba): el aislamiento por sesion y el borrado al commit NO estan probados.
+
+### Canarios (mutacion sobre el codigo real)
+Copia del modulo fuera del repo, una mutacion de una linea por corrida de `mvn -o test`, 53 mutantes: compuerta quitada, invertida y abierta por defecto; puerto no portado que devuelve null; cada argumento hacia la cartola (reglas S/N, saldo por fecha, cuenta, estado, cliente, portafolio, fechas cruzadas, moneda, matriz, EsADC, defaults de Validaciones/IncluyeSaldo/IncluyeAnulados); D-CAN-01 corregido; el primero gana; DELETE omitido, con WHERE, con commit y tras fallo; contadores y saldos asignados; campos del movimiento cruzados (fecha, folio, codigo, DTE, Cargo); comprobante vacio siempre; excepcion tragada; lista y elemento nulos tolerados; lote sin `addBatch` y sin ejecutar; `exec` sin ejecutar; comillas dobles sin proteger; Gson sin nulos, con otra fecha y con otro largo; 4 SQL y 1 procedimiento alterados; adaptador de procedimientos con nombre fijo. **50 muertos**. Sobreviven 3, equivalentes:
+- M51: el codigo del error ("ERR" por "ERROR") es inobservable, el NPE sale antes.
+- M52: la conexion nula hacia el puerto de la cartola; el doble de prueba la ignora. Equivalente solo para el arnes: cuando exista el adaptador real (Q-CAN-02) hace falta una prueba que verifique que recibe la conexion del llamador.
+- M53: reescala del `BigDecimal` del lote; el INSERT solo lleva `Long`, la rama no se ejerce aqui.
+Detalle por mutante: `equivalence/BcsCanalAgenteServicios-implementacion-canario.test-output.txt`.
+
+### Pruebas imposibles
+Ninguna. Las 136 pasaron sin cambiar pruebas, goldens ni `ApiCanalAgente.java`.
+
+### Abiertos de plataforma (nuevos, ademas de Q-CAN)
+- **P-CAN-01 (resuelto 2026-10-30, decision del usuario)**: el modulo es un jar de libreria en proceso. Se retiraron `BcsCanalAgenteServiciosApplication`, `application.yml` y el `Dockerfile`; el `pom.xml` perdio web, actuator, validacion y el plugin de Spring Boot; el servicio `bcs-canal-agente-servicios` y su `depends_on` salieron de `docker-compose.yml`. Quedan, sin cambios: la ruta del `BcsGateway` (con `enabled: false`) y el mapeo de `cl.bcs.canalagente` a `:8102` en `BcsPlataformaWeb` (README y variable `BCS_CANAL_AGENTE_SERVICIOS_URL`), que habra que retirar o reapuntar cuando se cablee el despacho; con la lista de clases habilitadas vacia todo va a TomEE.
+- **P-CAN-02 (resuelto)**: se corrigieron el `README.md` y `API_ASSUMED.md` de `src/test/java/.../caracterizacion/` (solo texto; ninguna prueba, golden ni aserciones).
+
+### Preguntas abiertas
+Q-CAN-01 a Q-CAN-07 siguen abiertas, para el experto (ver la lista de la seccion de pruebas): no se corrigio ningun defecto. Q-CAN-01 se resolvio como replicar (decision aprobada), las demas no cambian el codigo hoy.

@@ -623,22 +623,6 @@ services:
       HANA_PASSWORD: ${HANA_PASSWORD}
     restart: on-failure
 
-  bcs-canal-agente-servicios:
-    build:
-      context: .
-      dockerfile: BcsCanalAgenteServicios/Dockerfile
-    image: bcs-canal-agente-servicios:latest
-    # Internal service: reachable by service name on optimus-net only (not published on the host)
-    expose:
-      - "8102"
-    networks:
-      - optimus-net
-    environment:
-      HANA_URL: ${HANA_URL}
-      HANA_USER: ${HANA_USER}
-      HANA_PASSWORD: ${HANA_PASSWORD}
-    restart: on-failure
-
   bcs-portal-confirmacion-web:
     build:
       context: .
@@ -991,7 +975,6 @@ services:
       - bcs-cuenta-inversion-servicios
       - bcs-contabilidad-servicios
       - bcs-fondo-mutuo-servicios
-      - bcs-canal-agente-servicios
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:9090/actuator/health"]
       interval: 30s
