@@ -1,7 +1,7 @@
 {
   "v": 1,
   "system": "otr-sva-optimus-corredores",
-  "generated": "2026-10-30 01:00 UTC",
+  "generated": "2026-10-30 14:40 UTC",
   "asked": "BcsAPVApi",
   "rules": [
     "PROVEN needs every check to pass: the six below, and for an uplift three more (7 to 9). NOT PROVEN when any check fails. PARTLY PROVEN when nothing failed but a check could not pass.",
@@ -32,15 +32,15 @@
       "name": "BcsAPVApi",
       "track": "rewrite",
       "path": "modernized/otr-sva-optimus-corredores/BcsAPVApi",
-      "verdict": "PARTLY PROVEN",
+      "verdict": "NOT PROVEN",
       "reasons": [
-        "Rules traced: 1 of 1 P0 rule(s) are not named by any test: RULE-076.",
-        "Same behavior: EQUIVALENCE.json exists, but the cases behind it (equivalence/cases.json) were not found, so it could not be judged again.",
-        "Fresh inputs: The fresh-input check was not run: no equivalence/fresh-cases.json."
+        "Fresh inputs: 1 fresh comparison(s) differ and 0 are missing (of 399): VB-V09: The outputs first differ at line 1, byte 41."
       ],
       "passed": [
-        "Tests ran: 25 test(s) executed, 0 failed, 0 skipped. Note: From clean (target and __pycache__ removed), JDK 25, offline. Contract shape only: the tests read the legacy sources themselves; no behavior to compare.",
-        "Canary: 1 canary run(s) shown by a result file or log; the first (verify 2026-10-23: CasosUso.java:15 AnularTraspasoEgreso listed twice in TODOS (scratch copy); ran the module suite) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-verify20261023/apvapi-duplicado/surefire).",
+        "Tests ran: 32 test(s) executed, 0 failed, 0 skipped. Note: From clean (target removed), JDK 25, offline, one reactor run for BcsAPVApi and BcsApvJavaCallAdapter. 13 XML = 13 classes; no OutOfMemoryError. Contract shape; the use-case logic needs HANA and is not run.",
+        "Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.",
+        "Same behavior: 128 of 128 development case(s) executed: 128 same, 0 differ, 0 missing; comparator self-check passed.",
+        "Canary: 5 canary run(s) shown by a result file or log; the first (verify 2026-10-29 todos-duplicar-un-caso: CasosUso.TODOS: AsignarDepositoEmpleador.class replaced by a second AsignarContratoARecaudacion.class (copy outside the repo; module suite)) made 3 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/todos-duplicar-un-caso/surefire).",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -48,31 +48,31 @@
           "id": "tests",
           "label": "Tests ran",
           "state": "pass",
-          "detail": "25 test(s) executed, 0 failed, 0 skipped. Note: From clean (target and __pycache__ removed), JDK 25, offline. Contract shape only: the tests read the legacy sources themselves; no behavior to compare."
+          "detail": "32 test(s) executed, 0 failed, 0 skipped. Note: From clean (target removed), JDK 25, offline, one reactor run for BcsAPVApi and BcsApvJavaCallAdapter. 13 XML = 13 classes; no OutOfMemoryError. Contract shape; the use-case logic needs HANA and is not run."
         },
         {
           "id": "rules",
           "label": "Rules traced",
-          "state": "gap",
-          "detail": "1 of 1 P0 rule(s) are not named by any test: RULE-076."
+          "state": "pass",
+          "detail": "All 1 P0 rule(s) this module answers for are backed by a test that ran and passed."
         },
         {
           "id": "same",
           "label": "Same behavior",
-          "state": "gap",
-          "detail": "EQUIVALENCE.json exists, but the cases behind it (equivalence/cases.json) were not found, so it could not be judged again."
+          "state": "pass",
+          "detail": "128 of 128 development case(s) executed: 128 same, 0 differ, 0 missing; comparator self-check passed."
         },
         {
           "id": "fresh",
           "label": "Fresh inputs",
-          "state": "gap",
-          "detail": "The fresh-input check was not run: no equivalence/fresh-cases.json."
+          "state": "fail",
+          "detail": "1 fresh comparison(s) differ and 0 are missing (of 399): VB-V09: The outputs first differ at line 1, byte 41."
         },
         {
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "1 canary run(s) shown by a result file or log; the first (verify 2026-10-23: CasosUso.java:15 AnularTraspasoEgreso listed twice in TODOS (scratch copy); ran the module suite) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-verify20261023/apvapi-duplicado/surefire)."
+          "detail": "5 canary run(s) shown by a result file or log; the first (verify 2026-10-29 todos-duplicar-un-caso: CasosUso.TODOS: AsignarDepositoEmpleador.class replaced by a second AsignarContratoARecaudacion.class (copy outside the repo; module suite)) made 3 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/todos-duplicar-un-caso/surefire)."
         },
         {
           "id": "source",
@@ -83,21 +83,21 @@
       ],
       "evidence": {
         "tests": {
-          "executed": 25,
+          "executed": 32,
           "failed": 0,
           "skipped": 0,
           "skippedNoReason": 0,
           "stale": false,
           "suites": [
             {
-              "name": "unit + contract tests against the legacy sources (Maven Surefire), verify 2026-10-29",
-              "command": "mvn -o -f modernized/otr-sva-optimus-corredores/BcsAPVApi/pom.xml clean test -Dmaven.test.failure.ignore=true --batch-mode",
+              "name": "unit + contract + oracle-golden tests against the legacy sources (Maven Surefire, clean), verify 2026-10-30b",
+              "command": "mvn -o clean test -Dmaven.test.failure.ignore=true -pl BcsAPVApi,BcsApvJavaCallAdapter (from modernized/otr-sva-optimus-corredores)",
               "date": "",
-              "note": "From clean (target and __pycache__ removed), JDK 25, offline. Contract shape only: the tests read the legacy sources themselves; no behavior to compare.",
+              "note": "From clean (target removed), JDK 25, offline, one reactor run for BcsAPVApi and BcsApvJavaCallAdapter. 13 XML = 13 classes; no OutOfMemoryError. Contract shape; the use-case logic needs HANA and is not run.",
               "source": "result files",
-              "files": 7,
-              "written": "2026-10-30 01:00 UTC",
-              "executed": 25,
+              "files": 9,
+              "written": "2026-10-30 14:30 UTC",
+              "executed": 32,
               "failed": 0,
               "skipped": 0
             }
@@ -115,16 +115,14 @@
           "totals": {
             "P0": {
               "rules": 1,
-              "tested": 0,
+              "tested": 1,
               "named, not run": 0,
-              "code only": 1,
+              "code only": 0,
               "claimed only": 0,
               "none": 0
             }
           },
-          "p0NoTests": [
-            "RULE-076"
-          ],
+          "p0NoTests": [],
           "namedNotRun": [],
           "perTestResults": true,
           "p0": [
@@ -132,14 +130,27 @@
               "id": "RULE-076",
               "name": "\u26a0\ufe0f\ud83d\udd34 SECURITY \u2014 Hardcoded HANA Credentials in Dead Code",
               "confidence": "High",
-              "status": "code only",
+              "status": "tested",
               "main": 1,
-              "tests": 0,
+              "tests": 33,
               "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "by": "test name",
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             }
           ]
+        },
+        "equivalence": {
+          "cases": 128,
+          "executed": 128,
+          "same": 128,
+          "differs": 0,
+          "missing": 0,
+          "selfCheck": true,
+          "withinTolerance": 0,
+          "tolerances": [],
+          "approved": [],
+          "masks": [],
+          "differing": []
         },
         "leftOut": [
           "Fresh-input check: legacy cannot run in this environment (TomEE 8 / Java 8 required). Malformed records not attempted; there is no INTENT.md in this workspace, so the earlier claim of 'INTENT.md guid\u2026",
@@ -163,18 +174,99 @@
           "2026-10-19 verify1 BcsCuentaInversionServicios: not covered by fresh inputs: Anexo16, ClientesPorPagarYCobrar, InformeAttribution, GenerarReporteAcreedores, GuardarPatrimonioCaja, Eliminar*/Crear*Opc\u2026",
           "2026-10-19 verify1 BcsCuentaInversionServicios: HANA is not exercised. Everything runs on H2 with a modelled schema shared by oracle and modern code (DECIMAL(28,16), views as tables, PLA.Identidad 6x\u2026"
         ],
+        "fresh": {
+          "cases": 399,
+          "executed": 399,
+          "same": 398,
+          "differs": 1,
+          "missing": 0,
+          "selfCheck": true,
+          "withinTolerance": 0,
+          "tolerances": [],
+          "approved": [],
+          "masks": [],
+          "differing": [
+            {
+              "id": "VB-V09",
+              "reason": "The outputs first differ at line 1, byte 41."
+            }
+          ],
+          "reused": [
+            "VB-V12",
+            "VB-V13"
+          ],
+          "comparisons": 397,
+          "inputs": 397,
+          "needed": 10,
+          "leftOut": [
+            "Fresh-input check: legacy cannot run in this environment (TomEE 8 / Java 8 required). Malformed records not attempted; there is no INTENT.md in this workspace, so the earlier claim of 'INTENT.md guid\u2026",
+            "2026-10-10 BcsCustodiaServicios: QA legacy comparison attempted with the user's authorization (read-only). QA endpoints reachable; HANA QA reads succeeded. The legacy GWJAVA application refused the s\u2026",
+            "2026-10-10 BcsCustodiaServicios: the earlier fresh set at equivalence/fresh/BcsCustodiaServicios-verify2/ is placeholder-only \u2014 all 15 legacy/*.txt files are 0 bytes, so its 15-of-15 'differs' are ar\u2026",
+            "2026-10-10: a read-only diagnostic SELECT against ACC.Sesion (to explain the 401) was blocked by this environment's production-read guard and was not run.",
+            "cases.json: no development equivalence cases were generated; no legacy runner available to generate or re-run them.",
+            "HANA verify 2026-10-08: BSCL_VIRTUAL.CUSTODIA_OPTIMUS queried (5454 rows, 172 distinct NEMOs). No NEMOs with transitional markers found \u2014 determinarNuevoNemo identity path verified on 20 real codes. \u2026",
+            "2026-10-15 BcsContabilidadServicios: the legacy ran through shims for its runtime (SQL/JavaCall/config/OACT) on H2, not on TomEE/HANA; HANA-specific SQL behavior beyond H2 MODE=LEGACY is not covered.",
+            "2026-10-15 BcsContabilidadServicios: comparison is of salida + table dumps through the module's JsonCanon (null keys dropped, numbers by value, unordered SQL arrays sorted); secuenciasSolicitadas and\u2026",
+            "2026-10-15 verify5 BcsContabilidadServicios: fresh inputs F01-F16 cover only EnvioContabilidad and ReversaPreComprobante (the slice the legacy oracle can run); Centralizacion, devengo, interfaz, info\u2026",
+            "2026-10-15 verify5 BcsContabilidadServicios: one malformed record tried (F16, letters in SecuenciaComprobante): both sides throw JsonSyntaxException, only the class is compared; other malformed shape\u2026",
+            "2026-10-16 verify2 BcsContabilidadJobs: fresh inputs JF01-JF12 cover only the InterfazContable job shell (the only job the legacy oracle can run here); CentralizaMultiSeleccionJob, CreaInterfazDiaria\u2026",
+            "2026-10-16 verify2 BcsContabilidadJobs: malformed records (non-numeric SecCmbte ids, bad base64) were not compared against the legacy: the OracleRunner records an exception without the job-shell outp\u2026",
+            "2026-10-16 verify2 BcsContabilidadJobs: RutaSalida is not compared (legacy wall-clock timestamp vs fixed clock); CONT-J-68 pins its format.",
+            "2026-10-19 verify3 BcsUtils: fresh inputs F01-F14 cover the pure API only (RutUtil, StringUtils, Utils pure subset, DateUtil, Fecha, copyPojo/List2Hash/getColumn, FileUtils/ZipUtil, Gson deserializer\u2026",
+            "2026-10-19 verify3 BcsUtils: not compared against the legacy: Timer (API changed to createTimer(LongSupplier), SLF4J), clave/PoliticaClave, sesion/* and security/HybridPasswordEncoder (new or DB-boun\u2026",
+            "2026-10-19 verify3 BcsUtils: legacy gson 2.8.2 / commons 2.5 / JDK 11 stand in for the production pins (gson 2.6.2, commons-io 2.4, Java 8 JRE); BcsUtils/src/test/resources/golden/PROVENANCE.md recor\u2026",
+            "2026-10-19 verify1 BcsCuentaInversionServicios fresh inputs: 23 inputs (12 transaccional, 11 reportes), 40 output files. Left out: F03 (malformed empty date: both sides throw DateTimeParseException, \u2026",
+            "2026-10-19 verify2 BcsCuentaInversionServicios: the verify1 difference F24-pdfTextos came from the modern test double recording blank PDF cells that the legacy never draws (GenerarArchivoSaldoCuentas\u2026",
+            "2026-10-19 verify1 BcsCuentaInversionServicios: not covered by fresh inputs: Anexo16, ClientesPorPagarYCobrar, InformeAttribution, GenerarReporteAcreedores, GuardarPatrimonioCaja, Eliminar*/Crear*Opc\u2026",
+            "2026-10-19 verify1 BcsCuentaInversionServicios: HANA is not exercised. Everything runs on H2 with a modelled schema shared by oracle and modern code (DECIMAL(28,16), views as tables, PLA.Identidad 6x\u2026"
+          ]
+        },
         "canary": [
           {
-            "change": "verify 2026-10-23: CasosUso.java:15 AnularTraspasoEgreso listed twice in TODOS (scratch copy); ran the module suite",
+            "change": "verify 2026-10-29 todos-duplicar-un-caso: CasosUso.TODOS: AsignarDepositoEmpleador.class replaced by a second AsignarContratoARecaudacion.class (copy outside the repo; module suite)",
+            "testsFailed": 3,
+            "shown": true,
+            "where": [
+              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/todos-duplicar-un-caso/surefire"
+            ]
+          },
+          {
+            "change": "verify 2026-10-29 todos-quitar-un-caso: CasosUso.TODOS: line \"AnularTraspasoEgreso.class,\" deleted (63 cases) (copy outside the repo; module suite)",
+            "testsFailed": 4,
+            "shown": true,
+            "where": [
+              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/todos-quitar-un-caso/surefire"
+            ]
+          },
+          {
+            "change": "verify 2026-10-30 rule076-credencial-en-literal: fake JDBC URL literal with user and password added to a copy of Sabor.java (copy outside the repo; module suite)",
             "testsFailed": 1,
             "shown": true,
             "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-verify20261023/apvapi-duplicado/surefire"
+              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261030/rule076-credencial-en-literal/surefire"
+            ]
+          },
+          {
+            "change": "verify 2026-10-29 campo-renombrar: a record field renamed against the legacy POJO (copy outside the repo; module suite)",
+            "testsFailed": 4,
+            "shown": true,
+            "where": [
+              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/campo-renombrar/surefire"
+            ]
+          },
+          {
+            "change": "verify 2026-10-29 legacy-agrega-campo-sin-regenerar: a legacy field added without regenerating the contract (copy outside the repo; module suite)",
+            "testsFailed": 7,
+            "shown": true,
+            "where": [
+              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/legacy-agrega-campo-sin-regenerar/surefire"
             ]
           }
         ]
       },
-      "caveats": [],
+      "caveats": [
+        "EQUIVALENCE.json does not match a fresh comparison of the cases: run compare.py again so the report shows the current result."
+      ],
       "needsPerson": [],
       "brief": {
         "found": true,
@@ -322,7 +414,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsApvJavaCallAdapter",
@@ -335,8 +427,8 @@
         "Fresh inputs: The fresh-input check was not run: no equivalence/fresh-cases.json."
       ],
       "passed": [
-        "Tests ran: 12 test(s) executed, 0 failed, 0 skipped. Note: verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare.",
-        "Canary: 1 canary run(s) shown by a result file or log; the first (verify 2026-10-23: ApvJavaCallRegistro.java:149 PREFIJO \"cl.bcs.APV.\" changed to \"cl.bcs.apv.\" (scratch copy); ran the module suite) made 3 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsApvJavaCallAdapter-verify20261023/adapter-prefijo/surefire).",
+        "Tests ran: 15 test(s) executed, 0 failed, 0 skipped. Note: Same reactor run as BcsAPVApi (one log for both). The golden test pins the 128 default and 384 fresh cases recorded before the verifier added 15 own fresh inputs.",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (verify 2026-10-23: ApvJavaCallRegistro.java:149 PREFIJO \"cl.bcs.APV.\" changed to \"cl.bcs.apv.\" (scratch copy); ran the module suite) made 3 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsApvJavaCallAdapter-verify20261023/adapter-prefijo/surefire).",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -344,7 +436,7 @@
           "id": "tests",
           "label": "Tests ran",
           "state": "pass",
-          "detail": "12 test(s) executed, 0 failed, 0 skipped. Note: verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare."
+          "detail": "15 test(s) executed, 0 failed, 0 skipped. Note: Same reactor run as BcsAPVApi (one log for both). The golden test pins the 128 default and 384 fresh cases recorded before the verifier added 15 own fresh inputs."
         },
         {
           "id": "rules",
@@ -368,7 +460,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "1 canary run(s) shown by a result file or log; the first (verify 2026-10-23: ApvJavaCallRegistro.java:149 PREFIJO \"cl.bcs.APV.\" changed to \"cl.bcs.apv.\" (scratch copy); ran the module suite) made 3 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsApvJavaCallAdapter-verify20261023/adapter-prefijo/surefire)."
+          "detail": "2 canary run(s) shown by a result file or log; the first (verify 2026-10-23: ApvJavaCallRegistro.java:149 PREFIJO \"cl.bcs.APV.\" changed to \"cl.bcs.apv.\" (scratch copy); ran the module suite) made 3 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsApvJavaCallAdapter-verify20261023/adapter-prefijo/surefire)."
         },
         {
           "id": "source",
@@ -379,21 +471,21 @@
       ],
       "evidence": {
         "tests": {
-          "executed": 12,
+          "executed": 15,
           "failed": 0,
           "skipped": 0,
           "skippedNoReason": 0,
           "stale": false,
           "suites": [
             {
-              "name": "unit tests (Maven Surefire), built in the BcsAPVServicios reactor run, verify 2026-10-23",
-              "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-apv-api,:bcs-apv-javacall-adapter,:apv-service clean test -Dmaven.test.failure.ignore=true --batch-mode",
+              "name": "unit + golden tests (Maven Surefire, clean), verify 2026-10-30b",
+              "command": "mvn -o clean test -Dmaven.test.failure.ignore=true -pl BcsAPVApi,BcsApvJavaCallAdapter (from modernized/otr-sva-optimus-corredores)",
               "date": "",
-              "note": "verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare.",
+              "note": "Same reactor run as BcsAPVApi (one log for both). The golden test pins the 128 default and 384 fresh cases recorded before the verifier added 15 own fresh inputs.",
               "source": "result files",
-              "files": 3,
-              "written": "2026-10-23 18:56 UTC",
-              "executed": 12,
+              "files": 4,
+              "written": "2026-10-30 14:30 UTC",
+              "executed": 15,
               "failed": 0,
               "skipped": 0
             }
@@ -1135,7 +1227,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -1190,6 +1282,14 @@
             "shown": true,
             "where": [
               "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsApvJavaCallAdapter-verify20261023/adapter-prefijo/surefire"
+            ]
+          },
+          {
+            "change": "verifier own canary 2026-10-30b (scratch copy): MapeoJson.java:69 listaEscalar, a JSON null list returns the default instead of null (return null -> return defecto)",
+            "testsFailed": 2,
+            "shown": true,
+            "where": [
+              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261030d/listaescalar-nulo-a-defecto/surefire"
             ]
           }
         ]
@@ -1344,7 +1444,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsAPVJobs",
@@ -1357,7 +1457,7 @@
         "Rules traced: All 3 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 560 of 560 development case(s) executed: 560 same, 0 differ, 0 missing; comparator self-check passed.",
         "Fresh inputs: 22 new input(s), 31 comparison(s), ran on the legacy and the new code with no difference.",
-        "Canary: 3 canary run(s) shown by a result file or log; the first (job/IngresarOrdenFMBonificacionFiscal.java:189 Monto = apor.Monto*pct/100 exact division changed to divide(cien, 0, RoundingMode.UP) (scratch copy outside modernized/); ran IngresarOrdenFMBonificacionFiscalCasosTest) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/fm-division/surefire).",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (job/BcsJobCargaMasivaPrevired.java:42 log timestamp pattern yyyyMMddHHmmss changed to yyyyMMddHHmm (scratch copy); ran BcsJobCargaMasivaPreviredCasosTest) made 18 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/previred-marca-log/surefire).",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -1389,7 +1489,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "3 canary run(s) shown by a result file or log; the first (job/IngresarOrdenFMBonificacionFiscal.java:189 Monto = apor.Monto*pct/100 exact division changed to divide(cien, 0, RoundingMode.UP) (scratch copy outside modernized/); ran IngresarOrdenFMBonificacionFiscalCasosTest) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/fm-division/surefire)."
+          "detail": "2 canary run(s) shown by a result file or log; the first (job/BcsJobCargaMasivaPrevired.java:42 log timestamp pattern yyyyMMddHHmmss changed to yyyyMMddHHmm (scratch copy); ran BcsJobCargaMasivaPreviredCasosTest) made 18 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/previred-marca-log/surefire)."
         },
         {
           "id": "source",
@@ -1595,14 +1695,6 @@
         },
         "canary": [
           {
-            "change": "job/IngresarOrdenFMBonificacionFiscal.java:189 Monto = apor.Monto*pct/100 exact division changed to divide(cien, 0, RoundingMode.UP) (scratch copy outside modernized/); ran IngresarOrdenFMBonificacionFiscalCasosTest",
-            "testsFailed": 2,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVJobs-verify1/fm-division/surefire"
-            ]
-          },
-          {
             "change": "job/BcsJobCargaMasivaPrevired.java:42 log timestamp pattern yyyyMMddHHmmss changed to yyyyMMddHHmm (scratch copy); ran BcsJobCargaMasivaPreviredCasosTest",
             "testsFailed": 18,
             "shown": true,
@@ -1770,7 +1862,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsAPVServicios",
@@ -1783,7 +1875,7 @@
         "Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 4324 of 4324 development case(s) executed: 4324 same, 0 differ, 0 missing; comparator self-check passed.",
         "Fresh inputs: 20 new input(s), 37 comparison(s), ran on the legacy and the new code with no difference.",
-        "Canary: 3 canary run(s) shown by a result file or log; the first (application/recaudacion/EjecutarBonificacionServicio.java:358 RoundingMode.HALF_DOWN changed to UP (scratch copy outside modernized/); ran EjecutarBonificacionTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/bonificacion-redondeo/surefire).",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (application/traspasos/CalcularMontosDesinversionServicio.java:178 setScale RoundingMode.HALF_DOWN changed to UP (scratch copy); ran CalculoMontosDesinversionTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/desinversion-redondeo/surefire).",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -1815,7 +1907,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "3 canary run(s) shown by a result file or log; the first (application/recaudacion/EjecutarBonificacionServicio.java:358 RoundingMode.HALF_DOWN changed to UP (scratch copy outside modernized/); ran EjecutarBonificacionTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/bonificacion-redondeo/surefire)."
+          "detail": "2 canary run(s) shown by a result file or log; the first (application/traspasos/CalcularMontosDesinversionServicio.java:178 setScale RoundingMode.HALF_DOWN changed to UP (scratch copy); ran CalculoMontosDesinversionTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/desinversion-redondeo/surefire)."
         },
         {
           "id": "source",
@@ -1991,14 +2083,6 @@
         },
         "canary": [
           {
-            "change": "application/recaudacion/EjecutarBonificacionServicio.java:358 RoundingMode.HALF_DOWN changed to UP (scratch copy outside modernized/); ran EjecutarBonificacionTest",
-            "testsFailed": 1,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVServicios-verify1/bonificacion-redondeo/surefire"
-            ]
-          },
-          {
             "change": "application/traspasos/CalcularMontosDesinversionServicio.java:178 setScale RoundingMode.HALF_DOWN changed to UP (scratch copy); ran CalculoMontosDesinversionTest",
             "testsFailed": 1,
             "shown": true,
@@ -2166,7 +2250,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsBECB",
@@ -2979,7 +3063,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -3179,7 +3263,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCanalAgenteServicios",
@@ -3187,27 +3271,27 @@
       "path": "modernized/otr-sva-optimus-corredores/BcsCanalAgenteServicios",
       "verdict": "PARTLY PROVEN",
       "reasons": [
-        "Tests ran: 14 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again.",
-        "Rules traced: 60 of 60 P0 rule(s) are not named by any test: RULE-001, RULE-002, RULE-003, RULE-004, RULE-005, RULE-006, RULE-007, RULE-008, RULE-009, RULE-010, RULE-011, RULE-012.",
         "Same behavior: EQUIVALENCE.json exists, but the cases behind it (equivalence/cases.json) were not found, so it could not be judged again.",
         "Fresh inputs: The fresh-input check was not run: no equivalence/fresh-cases.json.",
         "Canary: No canary is recorded (a deliberate one-line break that makes tests fail), so the tests were never shown able to fail."
       ],
       "passed": [
+        "Tests ran: 139 test(s) executed, 0 failed, 0 skipped.",
+        "Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
         {
           "id": "tests",
           "label": "Tests ran",
-          "state": "gap",
-          "detail": "14 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again."
+          "state": "pass",
+          "detail": "139 test(s) executed, 0 failed, 0 skipped."
         },
         {
           "id": "rules",
           "label": "Rules traced",
-          "state": "gap",
-          "detail": "60 of 60 P0 rule(s) are not named by any test: RULE-001, RULE-002, RULE-003, RULE-004, RULE-005, RULE-006, RULE-007, RULE-008, RULE-009, RULE-010, RULE-011, RULE-012."
+          "state": "pass",
+          "detail": "All 1 P0 rule(s) this module answers for are backed by a test that ran and passed."
         },
         {
           "id": "same",
@@ -3236,11 +3320,11 @@
       ],
       "evidence": {
         "tests": {
-          "executed": 14,
+          "executed": 139,
           "failed": 0,
-          "skipped": 2,
+          "skipped": 0,
           "skippedNoReason": 0,
-          "stale": true,
+          "stale": false,
           "suites": [
             {
               "name": "unit + integration tests (Maven Surefire)",
@@ -3248,11 +3332,11 @@
               "date": "",
               "note": "",
               "source": "result files",
-              "files": 2,
-              "written": "2026-10-08 15:18 UTC",
-              "executed": 14,
+              "files": 7,
+              "written": "2026-10-30 14:12 UTC",
+              "executed": 139,
               "failed": 0,
-              "skipped": 2
+              "skipped": 0
             }
           ]
         },
@@ -3262,759 +3346,33 @@
           "why": "Modules without an oracle (the TomEE/Java 8 runtime is not available here; QA GWJAVA refused the session on 2026-10-10) have no legacy output: their fresh-input check is a gap, not a pass."
         },
         "rules": {
-          "tied": false,
-          "counted": 78,
-          "outOfScope": 0,
+          "tied": true,
+          "counted": 1,
+          "outOfScope": 77,
           "totals": {
             "P0": {
-              "rules": 60,
-              "tested": 0,
+              "rules": 1,
+              "tested": 1,
               "named, not run": 0,
               "code only": 0,
               "claimed only": 0,
-              "none": 60
-            },
-            "P1": {
-              "rules": 14,
-              "tested": 0,
-              "named, not run": 0,
-              "code only": 0,
-              "claimed only": 0,
-              "none": 14
-            },
-            "P2": {
-              "rules": 4,
-              "tested": 0,
-              "named, not run": 0,
-              "code only": 0,
-              "claimed only": 0,
-              "none": 4
+              "none": 0
             }
           },
-          "p0NoTests": [
-            "RULE-001",
-            "RULE-002",
-            "RULE-003",
-            "RULE-004",
-            "RULE-005",
-            "RULE-006",
-            "RULE-007",
-            "RULE-008",
-            "RULE-009",
-            "RULE-010",
-            "RULE-011",
-            "RULE-012",
-            "RULE-013",
-            "RULE-014",
-            "RULE-015",
-            "RULE-016",
-            "RULE-017",
-            "RULE-018",
-            "RULE-019",
-            "RULE-020",
-            "RULE-023",
-            "RULE-024",
-            "RULE-025",
-            "RULE-026",
-            "RULE-027",
-            "RULE-028",
-            "RULE-029",
-            "RULE-030",
-            "RULE-031",
-            "RULE-032",
-            "RULE-035",
-            "RULE-037",
-            "RULE-038",
-            "RULE-039",
-            "RULE-040",
-            "RULE-041",
-            "RULE-043",
-            "RULE-044",
-            "RULE-045",
-            "RULE-046",
-            "RULE-047",
-            "RULE-048",
-            "RULE-049",
-            "RULE-050",
-            "RULE-051",
-            "RULE-052",
-            "RULE-053",
-            "RULE-055",
-            "RULE-056",
-            "RULE-057",
-            "RULE-058",
-            "RULE-059",
-            "RULE-061",
-            "RULE-062",
-            "RULE-066",
-            "RULE-068",
-            "RULE-070",
-            "RULE-076",
-            "RULE-077",
-            "RULE-078"
-          ],
+          "p0NoTests": [],
           "namedNotRun": [],
           "perTestResults": true,
           "p0": [
             {
-              "id": "RULE-001",
-              "name": "Session Token Required for All Non-Exempt Requests",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-002",
-              "name": "Session Token Must Reference an Active Session",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-003",
-              "name": "ServiceFilter \u2014 URL / Service / Channel Bypass Whitelist",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-004",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 ServiceFilter `ch != null` Bypasses All Role Authorization",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:60"
-            },
-            {
-              "id": "RULE-005",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 ServiceFilter Fail-Open on Exception",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:107"
-            },
-            {
-              "id": "RULE-006",
-              "name": "ServiceFilter \u2014 Role-Based Service Access Control",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-007",
-              "name": "ServiceFilter \u2014 Validation Mode (NADIE / LISTA / TODOS)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-008",
-              "name": "Login \u2014 User Must Exist for Given Company",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-009",
-              "name": "Login \u2014 Temporary Lockout Blocks Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-010",
-              "name": "Login \u2014 Permanent Block (BLO) Blocks Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/BcsPlataformaWebApplicationTest.java:115"
-            },
-            {
-              "id": "RULE-011",
-              "name": "Login \u2014 Pending Authorization (EsAutorizado=P) Blocks Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:128"
-            },
-            {
-              "id": "RULE-012",
-              "name": "Login \u2014 Expired Account (FechaVigencia) Blocks Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:137"
-            },
-            {
-              "id": "RULE-013",
-              "name": "Login \u2014 Password Verified by SHA-256",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:91"
-            },
-            {
-              "id": "RULE-014",
-              "name": "Login \u2014 Failed-Attempt Counter Increments on Wrong Password",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:148"
-            },
-            {
-              "id": "RULE-015",
-              "name": "Login \u2014 Temporary Lockout After N Failed Attempts",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:157"
-            },
-            {
-              "id": "RULE-016",
-              "name": "Login \u2014 Failed-Attempt Counter Resets on Successful Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:170"
-            },
-            {
-              "id": "RULE-017",
-              "name": "Login \u2014 Channel / Entity-Type Authorization Matrix",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:180"
-            },
-            {
-              "id": "RULE-018",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 CLI Entity with BLO Status Can Log In",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:133"
-            },
-            {
-              "id": "RULE-019",
-              "name": "Login \u2014 Entity Enrollment Must Be ACT",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:211"
-            },
-            {
-              "id": "RULE-020",
-              "name": "Login \u2014 WS Channel Reuses Existing Valid Token",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:251"
-            },
-            {
-              "id": "RULE-023",
-              "name": "Service Call \u2014 Token Validity + Channel Match",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/AlcanceLibreriaTest.java:35"
-            },
-            {
-              "id": "RULE-024",
-              "name": "Service Call \u2014 Idle Session Timeout by Channel",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/sesion/PoliticaSesionTest.java:37"
-            },
-            {
-              "id": "RULE-025",
-              "name": "COR Channel Sessions Never Expire",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:168"
-            },
-            {
-              "id": "RULE-026",
-              "name": "Service Call \u2014 User Must Be Active and Unexpired",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/AlcanceLibreriaTest.java:35"
-            },
-            {
-              "id": "RULE-027",
-              "name": "Service Call \u2014 Service ID Must Exist in Catalog",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/AlcanceLibreriaTest.java:35"
-            },
-            {
-              "id": "RULE-028",
-              "name": "Service Call \u2014 Per-Service ACL Enforcement Flag",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-029",
-              "name": "Password Hash \u2014 Change-Password Path (Double SHA-256, UTF-8)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/BcsPlataformaWebApplicationTest.java:194"
-            },
-            {
-              "id": "RULE-030",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 Password Hash Inconsistency (Login vs Change-Password)",
-              "confidence": "Medium",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/security/HybridPasswordEncoderTest.java:12"
-            },
-            {
-              "id": "RULE-031",
-              "name": "Password Complexity Rules",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:154"
-            },
-            {
-              "id": "RULE-032",
-              "name": "\u26a0\ufe0f DEFECT \u2014 Digits Not Counted in Any Complexity Category",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:37"
-            },
-            {
-              "id": "RULE-035",
-              "name": "Password History \u2014 Cannot Reuse Any Prior Password",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-037",
-              "name": "Password Stored as SHA-256 Uppercase Hex (No Salt)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:124"
-            },
-            {
-              "id": "RULE-038",
-              "name": "Provisional Password \u2014 Valid Only on Day of Issue",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:207"
-            },
-            {
-              "id": "RULE-039",
-              "name": "Provisional Password \u2014 Maximum Attempts Lockout",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:234"
-            },
-            {
-              "id": "RULE-040",
-              "name": "\u26a0\ufe0f DEFECT \u2014 Provisional Password Off-By-One in Attempts Check",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:198"
-            },
-            {
-              "id": "RULE-041",
-              "name": "Password Recovery \u2014 Channel / Entity-Type Authorization",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:391"
-            },
-            {
-              "id": "RULE-043",
-              "name": "SSO \u2014 Email Must Resolve to Exactly One UsuarioCorredores User",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-044",
-              "name": "SSO \u2014 User Eligibility Checks",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-045",
-              "name": "\u26a0\ufe0f DEFECT \u2014 SSO Does Not Check Account Expiry (FechaVigencia)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:222"
-            },
-            {
-              "id": "RULE-046",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 SSO OAuth2 CSRF State Parameter Hardcoded",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:270"
-            },
-            {
-              "id": "RULE-047",
-              "name": "\u26a0\ufe0f DEFECT \u2014 SSO Company ID Hardcoded to 1",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-048",
-              "name": "SSO \u2014 JWT id_token Provides Identity (Signature Not Verified)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-049",
-              "name": "SSO \u2014 Entity Configuration Must Exist",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-050",
-              "name": "CallBatch \u2014 Shared-Secret Token Authentication",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-051",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 CallBatch Fallback to Hardcoded Token \"CALLBATCH\"",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-052",
-              "name": "CallBatch \u2014 LIFO Job Queue; Jobs Discarded on Shutdown",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-053",
-              "name": "WebSocket \u2014 Auth Required in First Message",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-055",
-              "name": "Job State Machine \u2014 PEN \u2192 ASI \u2192 TER / ERR",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaEstadoFinalTest.java:39"
-            },
-            {
-              "id": "RULE-056",
-              "name": "Job Lock (Bloqueo=S) Set Before Execution",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaRepositorioReclamoTest.java:37"
-            },
-            {
-              "id": "RULE-057",
-              "name": "\u26a0\ufe0f DEFECT \u2014 Job Lock Race Condition (FOR UPDATE Removed)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaJobCallTest.java:211"
-            },
-            {
-              "id": "RULE-058",
-              "name": "Job Retry \u2014 ERR \u2192 PEN After 60-Second Delay",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaReglasP0Test.java:86"
-            },
-            {
-              "id": "RULE-059",
-              "name": "\u26a0\ufe0f DEFECT \u2014 Job Retry Call Commented Out in poolDiary",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsJobManager/src/test/java/cl/bcs/jobmanager/RetryTest.java:16"
-            },
-            {
-              "id": "RULE-061",
-              "name": "Daemon Job \u2014 Continuous Loop with Configurable Cycle Interval",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/runtime/Rule061SinModoDemonioTest.java:0"
-            },
-            {
-              "id": "RULE-062",
-              "name": "Daemon Restart \u2014 Terminates All PEN/ASI Programs",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaReglasP0Test.java:103"
-            },
-            {
-              "id": "RULE-066",
-              "name": "Node Reboot-on-Demand via DB Flag",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaReglasP0Test.java:133"
-            },
-            {
-              "id": "RULE-068",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 SQL Injection in TransactionManager.executionCount",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPortafolioServicios/src/test/java/cl/bcs/portafolio/PortafolioServiceTest.java:31"
-            },
-            {
-              "id": "RULE-070",
-              "name": "Expiry Batch \u2014 Blocks All Users Past FechaVigencia",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
               "id": "RULE-076",
               "name": "\u26a0\ufe0f\ud83d\udd34 SECURITY \u2014 Hardcoded HANA Credentials in Dead Code",
               "confidence": "High",
-              "status": "none",
+              "status": "tested",
               "main": 0,
-              "tests": 0,
+              "tests": 29,
               "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
-            },
-            {
-              "id": "RULE-077",
-              "name": "\u26a0\ufe0f\ud83d\udd34 SECURITY \u2014 Static3DES with Publicly Known Key",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule077Sin3DesTest.java:0"
-            },
-            {
-              "id": "RULE-078",
-              "name": "\u26a0\ufe0f SSO \u2014 JWT Signature Not Verified",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
+              "by": "test name",
+              "where": "modernized/otr-sva-optimus-corredores/BcsCanalAgenteServicios/src/test/java/cl/bcs/canalagente/caracterizacion/Rule076CredencialesHardcodeadasTest.java:0"
             }
           ]
         },
@@ -4042,9 +3400,7 @@
         ],
         "canary": []
       },
-      "caveats": [
-        "Nothing ties a rule to this module by name, so every rule in BUSINESS_RULES.md was counted."
-      ],
+      "caveats": [],
       "needsPerson": [],
       "brief": {
         "found": true,
@@ -4192,7 +3548,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCartolas",
@@ -5005,7 +4361,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -5207,7 +4563,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCartolasJobs",
@@ -6020,7 +5376,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -6220,7 +5576,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCartolasMaster",
@@ -7033,7 +6389,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -7233,7 +6589,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsContabilidadJobs",
@@ -7629,7 +6985,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsContabilidadServicios",
@@ -8015,7 +7371,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCrystalReports",
@@ -8028,7 +7384,7 @@
         "Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 105 of 105 development case(s) executed: 105 same, 0 differ, 0 missing; comparator self-check passed.",
         "Fresh inputs: 15 new input(s), 75 comparison(s), ran on the legacy and the new code with no difference.",
-        "Canary: 3 canary run(s) shown by a result file or log; the first (rest/RenderOrchestrator.java:53 Excel reply extension \"XLS\" changed to \"XLSX\" (scratch copy outside modernized/); ran ReportRestRenderTest and EquivalenceRestTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/extension-xls/surefire).",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (rest/TemplateModes.java:44 reply {\"result\":\"OK\"} of ?update changed to \"DONE\" (scratch copy); ran ReportRestModesTest) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/result-ok/surefire).",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -8060,7 +7416,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "3 canary run(s) shown by a result file or log; the first (rest/RenderOrchestrator.java:53 Excel reply extension \"XLS\" changed to \"XLSX\" (scratch copy outside modernized/); ran ReportRestRenderTest and EquivalenceRestTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/extension-xls/surefire)."
+          "detail": "2 canary run(s) shown by a result file or log; the first (rest/TemplateModes.java:44 reply {\"result\":\"OK\"} of ?update changed to \"DONE\" (scratch copy); ran ReportRestModesTest) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/result-ok/surefire)."
         },
         {
           "id": "source",
@@ -8208,14 +7564,6 @@
           ]
         },
         "canary": [
-          {
-            "change": "rest/RenderOrchestrator.java:53 Excel reply extension \"XLS\" changed to \"XLSX\" (scratch copy outside modernized/); ran ReportRestRenderTest and EquivalenceRestTest",
-            "testsFailed": 1,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCrystalReports-verify1/extension-xls/surefire"
-            ]
-          },
           {
             "change": "rest/TemplateModes.java:44 reply {\"result\":\"OK\"} of ?update changed to \"DONE\" (scratch copy); ran ReportRestModesTest",
             "testsFailed": 2,
@@ -8384,7 +7732,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCuentaInversionJobs",
@@ -8397,7 +7745,7 @@
         "Rules traced: All 3 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 4565 of 4565 development case(s) executed: 4565 same, 0 differ, 0 missing; comparator self-check passed.",
         "Fresh inputs: 59 new input(s), 103 comparison(s), ran on the legacy and the new code with no difference.",
-        "Canary: 4 canary run(s) shown by a result file or log; the first (job/archivo/FormateadorCampo.java:113 DEC decimal-part left padding replace(' ', '0') changed to replace(' ', '9') (scratch copy outside modernized/); ran GenerarArchivoGoldenTest) made 21 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/dec-relleno-izquierda/surefire). 1 more are only claimed.",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (job/archivo/Archivo.java:60 file name timestamp yyyyMMdd_HHmmss changed to yyyyMMddHHmmss (scratch copy); ran GenerarArchivoGoldenTest and ArchivosServiciosGoldenTest) made 82 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/nombre-archivo-marca/surefire). 1 more are only claimed.",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -8429,7 +7777,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "4 canary run(s) shown by a result file or log; the first (job/archivo/FormateadorCampo.java:113 DEC decimal-part left padding replace(' ', '0') changed to replace(' ', '9') (scratch copy outside modernized/); ran GenerarArchivoGoldenTest) made 21 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/dec-relleno-izquierda/surefire). 1 more are only claimed."
+          "detail": "2 canary run(s) shown by a result file or log; the first (job/archivo/Archivo.java:60 file name timestamp yyyyMMdd_HHmmss changed to yyyyMMddHHmmss (scratch copy); ran GenerarArchivoGoldenTest and ArchivosServiciosGoldenTest) made 82 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/nombre-archivo-marca/surefire). 1 more are only claimed."
         },
         {
           "id": "source",
@@ -8635,22 +7983,6 @@
         },
         "canary": [
           {
-            "change": "job/archivo/FormateadorCampo.java:113 DEC decimal-part left padding replace(' ', '0') changed to replace(' ', '9') (scratch copy outside modernized/); ran GenerarArchivoGoldenTest",
-            "testsFailed": 21,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/dec-relleno-izquierda/surefire"
-            ]
-          },
-          {
-            "change": "job/archivo/FormateadorCampo.java:88 date parse pattern yyyy-MM-dd changed to yyyy-dd-MM (scratch copy); ran GenerarArchivoGoldenTest",
-            "testsFailed": 4,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCuentaInversionJobs-verify1/fecha-parseo/surefire"
-            ]
-          },
-          {
             "change": "job/archivo/Archivo.java:60 file name timestamp yyyyMMdd_HHmmss changed to yyyyMMddHHmmss (scratch copy); ran GenerarArchivoGoldenTest and ArchivosServiciosGoldenTest",
             "testsFailed": 82,
             "shown": true,
@@ -8824,7 +8156,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCuentaInversionServicios",
@@ -9179,7 +8511,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCustodiaJobs",
@@ -9992,7 +9324,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -10192,7 +9524,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsCustodiaServicios",
@@ -10205,7 +9537,7 @@
         "Rules traced: All 2 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 85 of 85 development case(s) executed: 85 same, 0 differ, 0 missing; comparator self-check passed.",
         "Fresh inputs: 14 new input(s), 14 comparison(s), ran on the legacy and the new code with no difference.",
-        "Canary: 5 canary run(s) shown by a result file or log; the first (2026-10-10 verify3 canary: calculoInteres() tasa.divide(100) -> divide(1000) in a scratch copy outside modernized/; 1 test failed that passed clean: bCus03_calculoInteres_terminatingDecimals (expected 0, got -1)) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios).",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (verify4 canary (scratch copy): calculoInteres tasa.divide(new BigDecimal(100)) -> (1000); 1 test failed that passed clean: bCus03_calculoInteres_terminatingDecimals) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify4).",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -10237,7 +9569,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "5 canary run(s) shown by a result file or log; the first (2026-10-10 verify3 canary: calculoInteres() tasa.divide(100) -> divide(1000) in a scratch copy outside modernized/; 1 test failed that passed clean: bCus03_calculoInteres_terminatingDecimals (expected 0, got -1)) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios)."
+          "detail": "2 canary run(s) shown by a result file or log; the first (verify4 canary (scratch copy): calculoInteres tasa.divide(new BigDecimal(100)) -> (1000); 1 test failed that passed clean: bCus03_calculoInteres_terminatingDecimals) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify4)."
         },
         {
           "id": "source",
@@ -10402,30 +9734,6 @@
           ]
         },
         "canary": [
-          {
-            "change": "2026-10-10 verify3 canary: calculoInteres() tasa.divide(100) -> divide(1000) in a scratch copy outside modernized/; 1 test failed that passed clean: bCus03_calculoInteres_terminatingDecimals (expected 0, got -1)",
-            "testsFailed": 1,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios"
-            ]
-          },
-          {
-            "change": "verify canary: changed obtenerRangoDeFechas() !isAfter\u2192isBefore (end date excluded); 2 tests failed: bCus07_obtenerRangoDeFechas_inclusiveRange, bCus08_obtenerRangoDeFechas_singleDay",
-            "testsFailed": 2,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify"
-            ]
-          },
-          {
-            "change": "verify2 canary (fresh scratch copy): changed obtenerRangoDeFechas() !inicio.isAfter(termino)\u2192inicio.isBefore(termino) (end date excluded); 2 tests failed: bCus07_obtenerRangoDeFechas_inclusiveRange, bCus08_obtenerRangoDeFechas_singleDay",
-            "testsFailed": 2,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsCustodiaServicios-verify2"
-            ]
-          },
           {
             "change": "verify4 canary (scratch copy): calculoInteres tasa.divide(new BigDecimal(100)) -> (1000); 1 test failed that passed clean: bCus03_calculoInteres_terminatingDecimals",
             "testsFailed": 1,
@@ -10594,7 +9902,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsFacturacionJobs",
@@ -11407,7 +10715,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -11607,7 +10915,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsFacturacionServicios",
@@ -11894,7 +11202,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsFilters",
@@ -12312,29 +11620,28 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsFondoMutuoServicios",
       "track": "rewrite",
       "path": "modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios",
-      "verdict": "PARTLY PROVEN",
-      "reasons": [
-        "Tests ran: 4260 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard)."
-      ],
+      "verdict": "PROVEN",
+      "reasons": [],
       "passed": [
+        "Tests ran: 4588 test(s) executed, 0 failed, 7 skipped. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard).",
         "Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 1579 of 1579 development case(s) executed: 1548 same, 0 differ, 0 missing; comparator self-check passed. 31 difference(s) a person approved are listed.",
         "Fresh inputs: 260 new input(s), 260 comparison(s), ran on the legacy and the new code with no difference (3 approved by a person).",
-        "Canary: 7 canary run(s) shown by a result file or log; the first (verify 2026-10-25: rescatereinversion/RreValidacion.java:124 sol.NumeroCuotas.compareTo(cantidad) == 1 changed to >= 0 (custody check: rescue equal to custody now rejected), scratch copy; ran Rre*Test + ManejadorRescateReinversionTest) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-verify20261025/rre-custodia-limite/surefire). 1 more are only claimed.",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (verify 2026-10-28 (scratch copy): custodia/FlujoCustodiaEnProceso.java:55 the valued flow check \"S\".equals(p_ValorizarFlujo) changed to \"N\".equals (a flow without valuation is rejected instead of the valued one); 13 of the 23 in-process Custody tests failed (5 failures, 8 errors)) made 13 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-custodia-en-proceso). 1 more are only claimed.",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
         {
           "id": "tests",
           "label": "Tests ran",
-          "state": "gap",
-          "detail": "4260 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard)."
+          "state": "pass",
+          "detail": "4588 test(s) executed, 0 failed, 7 skipped. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard)."
         },
         {
           "id": "rules",
@@ -12358,7 +11665,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "7 canary run(s) shown by a result file or log; the first (verify 2026-10-25: rescatereinversion/RreValidacion.java:124 sol.NumeroCuotas.compareTo(cantidad) == 1 changed to >= 0 (custody check: rescue equal to custody now rejected), scratch copy; ran Rre*Test + ManejadorRescateReinversionTest) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-verify20261025/rre-custodia-limite/surefire). 1 more are only claimed."
+          "detail": "2 canary run(s) shown by a result file or log; the first (verify 2026-10-28 (scratch copy): custodia/FlujoCustodiaEnProceso.java:55 the valued flow check \"S\".equals(p_ValorizarFlujo) changed to \"N\".equals (a flow without valuation is rejected instead of the valued one); 13 of the 23 in-process Custody tests failed (5 failures, 8 errors)) made 13 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-custodia-en-proceso). 1 more are only claimed."
         },
         {
           "id": "source",
@@ -12369,11 +11676,11 @@
       ],
       "evidence": {
         "tests": {
-          "executed": 4260,
+          "executed": 4588,
           "failed": 0,
-          "skipped": 5,
+          "skipped": 7,
           "skippedNoReason": 0,
-          "stale": true,
+          "stale": false,
           "suites": [
             {
               "name": "unit + golden tests (Maven Surefire), verify 2026-10-29 (F1 to F3, CargarValorCuota, in-process Custody, ConsultarCusto\u2026",
@@ -12381,11 +11688,11 @@
               "date": "",
               "note": "Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard).",
               "source": "result files",
-              "files": 119,
-              "written": "2026-10-29 23:07 UTC",
-              "executed": 4260,
+              "files": 123,
+              "written": "2026-10-30 12:53 UTC",
+              "executed": 4588,
               "failed": 0,
-              "skipped": 5
+              "skipped": 7
             }
           ]
         },
@@ -12418,7 +11725,7 @@
               "confidence": "High",
               "status": "tested",
               "main": 0,
-              "tests": 45,
+              "tests": 47,
               "claimed": true,
               "by": "test name",
               "where": "modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios/src/test/java/cl/bcs/fondomutuo/certificacion/CerCompuertaTest.java:43"
@@ -12653,46 +11960,6 @@
         },
         "canary": [
           {
-            "change": "verify 2026-10-25: rescatereinversion/RreValidacion.java:124 sol.NumeroCuotas.compareTo(cantidad) == 1 changed to >= 0 (custody check: rescue equal to custody now rejected), scratch copy; ran Rre*Test + ManejadorRescateReinversionTest",
-            "testsFailed": 2,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-verify20261025/rre-custodia-limite/surefire"
-            ]
-          },
-          {
-            "change": "verify 2026-10-26 (scratch copy): BloqueoReinversionJdbc.crear no longer drops the session-local lock table after a failed INSERT/CALL (DEV-6-H1 for RescateReinversion); Rre* tests run",
-            "testsFailed": 4,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-DEV6H1-RR"
-            ]
-          },
-          {
-            "change": "verify 2026-10-26 (scratch copy): ManejadorConfiguracion start-up guard condition inverted (!custodiaHabilitada -> custodiaHabilitada); Manejador* tests run",
-            "testsFailed": 1,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-G0-custodia"
-            ]
-          },
-          {
-            "change": "verify 2026-10-27 (scratch copy): consultas/fecha/ConsultarFechaService.java:113 boolean comercial = PERFIL_COMERCIAL.equals(perfil) negated (wrong liquidation state by profile); 10 of the 178 FSA tests failed",
-            "testsFailed": 10,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-F3"
-            ]
-          },
-          {
-            "change": "verify 2026-10-27 second run (scratch copy): valorcuota/CargarValorCuotaService.java:230 VALORCUOTA.compareTo(ZERO) == 0 changed to <= 0 (a negative value is rejected; the legacy lets it through); 4 of the 543 CVC tests failed",
-            "testsFailed": 4,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-F3W2"
-            ]
-          },
-          {
             "change": "verify 2026-10-28 (scratch copy): custodia/FlujoCustodiaEnProceso.java:55 the valued flow check \"S\".equals(p_ValorizarFlujo) changed to \"N\".equals (a flow without valuation is rejected instead of the valued one); 13 of the 23 in-process Custody tests failed (5 failures, 8 errors)",
             "testsFailed": 13,
             "shown": true,
@@ -12865,7 +12132,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsGateway",
@@ -13678,7 +12945,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -13893,7 +13160,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsJobManager",
@@ -14220,7 +13487,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsJobOrders",
@@ -15033,7 +14300,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -15233,7 +14500,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsJobsFondoMutuo",
@@ -15344,7 +14611,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             }
           ]
         },
@@ -15523,7 +14790,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsMesaJobs",
@@ -16336,7 +15603,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -16536,7 +15803,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsMesaServicios",
@@ -17349,7 +16616,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -17551,7 +16818,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsNormativaCore",
@@ -18364,7 +17631,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -18566,7 +17833,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsNormativaJobs",
@@ -19379,7 +18646,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -19581,7 +18848,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsNormativaServicios",
@@ -20394,7 +19661,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -20596,7 +19863,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsOrdenJobs",
@@ -21409,7 +20676,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -21609,7 +20876,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsOrdenServicios",
@@ -22422,7 +21689,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -22622,7 +21889,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsPlataformaJobs",
@@ -23435,7 +22702,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -23637,7 +22904,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsPlataformaReporteApi",
@@ -24450,7 +23717,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -24652,7 +23919,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsPlataformaServicios",
@@ -25024,7 +24291,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsPlataformaWeb",
@@ -25037,7 +24304,7 @@
         "Rules traced: All 19 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 44 of 44 development case(s) executed: 44 same, 0 differ, 0 missing; comparator self-check passed.",
         "Fresh inputs: 21 new input(s), 21 comparison(s), ran on the legacy and the new code with no difference (1 approved by a person).",
-        "Canary: 3 canary run(s) shown by a result file or log; the first (verify 2026-10-23: InternalJavaCallController.java:55 GATEWAY_TIMEOUT / BAD_GATEWAY swapped (scratch copy); ran InternalJavaCallControllerTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261023/web-timeout-swap/surefire). 2 more are only claimed.",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (verify 2026-10-26 third run (scratch copy): CrearSesionServicio.java:220 IntentosConexion + 1 >= max changed to > ; whole suite run) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261026c-a). 2 more are only claimed.",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -25069,7 +24336,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "3 canary run(s) shown by a result file or log; the first (verify 2026-10-23: InternalJavaCallController.java:55 GATEWAY_TIMEOUT / BAD_GATEWAY swapped (scratch copy); ran InternalJavaCallControllerTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261023/web-timeout-swap/surefire). 2 more are only claimed."
+          "detail": "2 canary run(s) shown by a result file or log; the first (verify 2026-10-26 third run (scratch copy): CrearSesionServicio.java:220 IntentosConexion + 1 >= max changed to > ; whole suite run) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261026c-a). 2 more are only claimed."
         },
         {
           "id": "source",
@@ -25457,14 +24724,6 @@
         },
         "canary": [
           {
-            "change": "verify 2026-10-23: InternalJavaCallController.java:55 GATEWAY_TIMEOUT / BAD_GATEWAY swapped (scratch copy); ran InternalJavaCallControllerTest",
-            "testsFailed": 1,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261023/web-timeout-swap/surefire"
-            ]
-          },
-          {
             "change": "verify 2026-10-26 third run (scratch copy): CrearSesionServicio.java:220 IntentosConexion + 1 >= max changed to > ; whole suite run",
             "testsFailed": 2,
             "shown": true,
@@ -25646,7 +24905,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsPortafolioServicios",
@@ -25766,7 +25025,7 @@
               "tests": 16,
               "claimed": false,
               "by": "test name",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             }
           ]
         },
@@ -25951,7 +25210,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsPortalConfirmacionWeb",
@@ -26764,7 +26023,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -26964,53 +26223,52 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsReplica",
       "track": "rewrite",
       "path": "modernized/otr-sva-optimus-corredores/BcsReplica",
-      "verdict": "PARTLY PROVEN",
-      "reasons": [
-        "Tests ran: 13 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again.",
-        "Rules traced: 60 of 60 P0 rule(s) are not named by any test: RULE-001, RULE-002, RULE-003, RULE-004, RULE-005, RULE-006, RULE-007, RULE-008, RULE-009, RULE-010, RULE-011, RULE-012.",
-        "Same behavior: EQUIVALENCE.json exists, but the cases behind it (equivalence/cases.json) were not found, so it could not be judged again.",
-        "Fresh inputs: The fresh-input check was not run: no equivalence/fresh-cases.json.",
-        "Canary: No canary is recorded (a deliberate one-line break that makes tests fail), so the tests were never shown able to fail."
-      ],
+      "verdict": "PROVEN",
+      "reasons": [],
       "passed": [
+        "Tests ran: 480 test(s) executed, 0 failed, 0 skipped. Note: Clean re-run by the verifier: target/ and __pycache__ deleted first; surefire XML kept; H2 in memory only (no HANA).",
+        "Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.",
+        "Same behavior: 264 of 264 development case(s) executed: 264 same, 0 differ, 0 missing; comparator self-check passed.",
+        "Fresh inputs: 58 new input(s), 58 comparison(s), ran on the legacy and the new code with no difference.",
+        "Canary: 1 canary run(s) shown by a result file or log; the first (ReplicaUtilsServicio.procesarRespaldoDiarioCarterasSebra: respaldar.equalsIgnoreCase(\"S\") -> respaldar.equals(\"S\") (second occurrence, daily Sebra backup); scratch copy outside modernized/ and analysis/) made 3 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsReplica-20261030).",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
         {
           "id": "tests",
           "label": "Tests ran",
-          "state": "gap",
-          "detail": "13 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again."
+          "state": "pass",
+          "detail": "480 test(s) executed, 0 failed, 0 skipped. Note: Clean re-run by the verifier: target/ and __pycache__ deleted first; surefire XML kept; H2 in memory only (no HANA)."
         },
         {
           "id": "rules",
           "label": "Rules traced",
-          "state": "gap",
-          "detail": "60 of 60 P0 rule(s) are not named by any test: RULE-001, RULE-002, RULE-003, RULE-004, RULE-005, RULE-006, RULE-007, RULE-008, RULE-009, RULE-010, RULE-011, RULE-012."
+          "state": "pass",
+          "detail": "All 1 P0 rule(s) this module answers for are backed by a test that ran and passed."
         },
         {
           "id": "same",
           "label": "Same behavior",
-          "state": "gap",
-          "detail": "EQUIVALENCE.json exists, but the cases behind it (equivalence/cases.json) were not found, so it could not be judged again."
+          "state": "pass",
+          "detail": "264 of 264 development case(s) executed: 264 same, 0 differ, 0 missing; comparator self-check passed."
         },
         {
           "id": "fresh",
           "label": "Fresh inputs",
-          "state": "gap",
-          "detail": "The fresh-input check was not run: no equivalence/fresh-cases.json."
+          "state": "pass",
+          "detail": "58 new input(s), 58 comparison(s), ran on the legacy and the new code with no difference."
         },
         {
           "id": "canary",
           "label": "Canary",
-          "state": "gap",
-          "detail": "No canary is recorded (a deliberate one-line break that makes tests fail), so the tests were never shown able to fail."
+          "state": "pass",
+          "detail": "1 canary run(s) shown by a result file or log; the first (ReplicaUtilsServicio.procesarRespaldoDiarioCarterasSebra: respaldar.equalsIgnoreCase(\"S\") -> respaldar.equals(\"S\") (second occurrence, daily Sebra backup); scratch copy outside modernized/ and analysis/) made 3 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsReplica-20261030)."
         },
         {
           "id": "source",
@@ -27021,23 +26279,23 @@
       ],
       "evidence": {
         "tests": {
-          "executed": 13,
+          "executed": 480,
           "failed": 0,
-          "skipped": 1,
+          "skipped": 0,
           "skippedNoReason": 0,
-          "stale": true,
+          "stale": false,
           "suites": [
             {
-              "name": "unit + integration tests (Maven Surefire)",
-              "command": "mvn -f modernized/otr-sva-optimus-corredores/pom.xml clean install -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8",
+              "name": "unit + characterization + equivalence tests (Maven Surefire, clean), verify 2026-10-30",
+              "command": "mvn -o clean test -Dmaven.test.failure.ignore=true (cwd modernized/otr-sva-optimus-corredores/BcsReplica; JDK 25.0.4)",
               "date": "",
-              "note": "",
+              "note": "Clean re-run by the verifier: target/ and __pycache__ deleted first; surefire XML kept; H2 in memory only (no HANA).",
               "source": "result files",
-              "files": 2,
-              "written": "2026-10-08 15:15 UTC",
-              "executed": 13,
+              "files": 8,
+              "written": "2026-10-30 14:11 UTC",
+              "executed": 480,
               "failed": 0,
-              "skipped": 1
+              "skipped": 0
             }
           ]
         },
@@ -27047,761 +26305,57 @@
           "why": "Modules without an oracle (the TomEE/Java 8 runtime is not available here; QA GWJAVA refused the session on 2026-10-10) have no legacy output: their fresh-input check is a gap, not a pass."
         },
         "rules": {
-          "tied": false,
-          "counted": 78,
-          "outOfScope": 0,
+          "tied": true,
+          "counted": 1,
+          "outOfScope": 77,
           "totals": {
             "P0": {
-              "rules": 60,
-              "tested": 0,
+              "rules": 1,
+              "tested": 1,
               "named, not run": 0,
               "code only": 0,
               "claimed only": 0,
-              "none": 60
-            },
-            "P1": {
-              "rules": 14,
-              "tested": 0,
-              "named, not run": 0,
-              "code only": 0,
-              "claimed only": 0,
-              "none": 14
-            },
-            "P2": {
-              "rules": 4,
-              "tested": 0,
-              "named, not run": 0,
-              "code only": 0,
-              "claimed only": 0,
-              "none": 4
+              "none": 0
             }
           },
-          "p0NoTests": [
-            "RULE-001",
-            "RULE-002",
-            "RULE-003",
-            "RULE-004",
-            "RULE-005",
-            "RULE-006",
-            "RULE-007",
-            "RULE-008",
-            "RULE-009",
-            "RULE-010",
-            "RULE-011",
-            "RULE-012",
-            "RULE-013",
-            "RULE-014",
-            "RULE-015",
-            "RULE-016",
-            "RULE-017",
-            "RULE-018",
-            "RULE-019",
-            "RULE-020",
-            "RULE-023",
-            "RULE-024",
-            "RULE-025",
-            "RULE-026",
-            "RULE-027",
-            "RULE-028",
-            "RULE-029",
-            "RULE-030",
-            "RULE-031",
-            "RULE-032",
-            "RULE-035",
-            "RULE-037",
-            "RULE-038",
-            "RULE-039",
-            "RULE-040",
-            "RULE-041",
-            "RULE-043",
-            "RULE-044",
-            "RULE-045",
-            "RULE-046",
-            "RULE-047",
-            "RULE-048",
-            "RULE-049",
-            "RULE-050",
-            "RULE-051",
-            "RULE-052",
-            "RULE-053",
-            "RULE-055",
-            "RULE-056",
-            "RULE-057",
-            "RULE-058",
-            "RULE-059",
-            "RULE-061",
-            "RULE-062",
-            "RULE-066",
-            "RULE-068",
-            "RULE-070",
-            "RULE-076",
-            "RULE-077",
-            "RULE-078"
-          ],
+          "p0NoTests": [],
           "namedNotRun": [],
           "perTestResults": true,
           "p0": [
             {
-              "id": "RULE-001",
-              "name": "Session Token Required for All Non-Exempt Requests",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-002",
-              "name": "Session Token Must Reference an Active Session",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-003",
-              "name": "ServiceFilter \u2014 URL / Service / Channel Bypass Whitelist",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-004",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 ServiceFilter `ch != null` Bypasses All Role Authorization",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:60"
-            },
-            {
-              "id": "RULE-005",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 ServiceFilter Fail-Open on Exception",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:107"
-            },
-            {
-              "id": "RULE-006",
-              "name": "ServiceFilter \u2014 Role-Based Service Access Control",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-007",
-              "name": "ServiceFilter \u2014 Validation Mode (NADIE / LISTA / TODOS)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-008",
-              "name": "Login \u2014 User Must Exist for Given Company",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-009",
-              "name": "Login \u2014 Temporary Lockout Blocks Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-010",
-              "name": "Login \u2014 Permanent Block (BLO) Blocks Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/BcsPlataformaWebApplicationTest.java:115"
-            },
-            {
-              "id": "RULE-011",
-              "name": "Login \u2014 Pending Authorization (EsAutorizado=P) Blocks Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:128"
-            },
-            {
-              "id": "RULE-012",
-              "name": "Login \u2014 Expired Account (FechaVigencia) Blocks Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:137"
-            },
-            {
-              "id": "RULE-013",
-              "name": "Login \u2014 Password Verified by SHA-256",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:91"
-            },
-            {
-              "id": "RULE-014",
-              "name": "Login \u2014 Failed-Attempt Counter Increments on Wrong Password",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:148"
-            },
-            {
-              "id": "RULE-015",
-              "name": "Login \u2014 Temporary Lockout After N Failed Attempts",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:157"
-            },
-            {
-              "id": "RULE-016",
-              "name": "Login \u2014 Failed-Attempt Counter Resets on Successful Login",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:170"
-            },
-            {
-              "id": "RULE-017",
-              "name": "Login \u2014 Channel / Entity-Type Authorization Matrix",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:180"
-            },
-            {
-              "id": "RULE-018",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 CLI Entity with BLO Status Can Log In",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:133"
-            },
-            {
-              "id": "RULE-019",
-              "name": "Login \u2014 Entity Enrollment Must Be ACT",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:211"
-            },
-            {
-              "id": "RULE-020",
-              "name": "Login \u2014 WS Channel Reuses Existing Valid Token",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/sesion/CrearSesionServicioTest.java:251"
-            },
-            {
-              "id": "RULE-023",
-              "name": "Service Call \u2014 Token Validity + Channel Match",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/AlcanceLibreriaTest.java:35"
-            },
-            {
-              "id": "RULE-024",
-              "name": "Service Call \u2014 Idle Session Timeout by Channel",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/sesion/PoliticaSesionTest.java:37"
-            },
-            {
-              "id": "RULE-025",
-              "name": "COR Channel Sessions Never Expire",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:168"
-            },
-            {
-              "id": "RULE-026",
-              "name": "Service Call \u2014 User Must Be Active and Unexpired",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/AlcanceLibreriaTest.java:35"
-            },
-            {
-              "id": "RULE-027",
-              "name": "Service Call \u2014 Service ID Must Exist in Catalog",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/AlcanceLibreriaTest.java:35"
-            },
-            {
-              "id": "RULE-028",
-              "name": "Service Call \u2014 Per-Service ACL Enforcement Flag",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-029",
-              "name": "Password Hash \u2014 Change-Password Path (Double SHA-256, UTF-8)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/BcsPlataformaWebApplicationTest.java:194"
-            },
-            {
-              "id": "RULE-030",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 Password Hash Inconsistency (Login vs Change-Password)",
-              "confidence": "Medium",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsUtils/src/test/java/cl/bcs/utils/security/HybridPasswordEncoderTest.java:12"
-            },
-            {
-              "id": "RULE-031",
-              "name": "Password Complexity Rules",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:154"
-            },
-            {
-              "id": "RULE-032",
-              "name": "\u26a0\ufe0f DEFECT \u2014 Digits Not Counted in Any Complexity Category",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:37"
-            },
-            {
-              "id": "RULE-035",
-              "name": "Password History \u2014 Cannot Reuse Any Prior Password",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-037",
-              "name": "Password Stored as SHA-256 Uppercase Hex (No Salt)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:124"
-            },
-            {
-              "id": "RULE-038",
-              "name": "Provisional Password \u2014 Valid Only on Day of Issue",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:207"
-            },
-            {
-              "id": "RULE-039",
-              "name": "Provisional Password \u2014 Maximum Attempts Lockout",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:234"
-            },
-            {
-              "id": "RULE-040",
-              "name": "\u26a0\ufe0f DEFECT \u2014 Provisional Password Off-By-One in Attempts Check",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:198"
-            },
-            {
-              "id": "RULE-041",
-              "name": "Password Recovery \u2014 Channel / Entity-Type Authorization",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/src/test/java/cl/bcs/plataforma/login/clave/GestionClaveServicioTest.java:391"
-            },
-            {
-              "id": "RULE-043",
-              "name": "SSO \u2014 Email Must Resolve to Exactly One UsuarioCorredores User",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-044",
-              "name": "SSO \u2014 User Eligibility Checks",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-045",
-              "name": "\u26a0\ufe0f DEFECT \u2014 SSO Does Not Check Account Expiry (FechaVigencia)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:222"
-            },
-            {
-              "id": "RULE-046",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 SSO OAuth2 CSRF State Parameter Hardcoded",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsFilters/src/test/java/cl/bcs/filters/SecurityFixesTest.java:270"
-            },
-            {
-              "id": "RULE-047",
-              "name": "\u26a0\ufe0f DEFECT \u2014 SSO Company ID Hardcoded to 1",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-048",
-              "name": "SSO \u2014 JWT id_token Provides Identity (Signature Not Verified)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-049",
-              "name": "SSO \u2014 Entity Configuration Must Exist",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-050",
-              "name": "CallBatch \u2014 Shared-Secret Token Authentication",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-051",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 CallBatch Fallback to Hardcoded Token \"CALLBATCH\"",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-052",
-              "name": "CallBatch \u2014 LIFO Job Queue; Jobs Discarded on Shutdown",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-053",
-              "name": "WebSocket \u2014 Auth Required in First Message",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
-              "id": "RULE-055",
-              "name": "Job State Machine \u2014 PEN \u2192 ASI \u2192 TER / ERR",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaEstadoFinalTest.java:39"
-            },
-            {
-              "id": "RULE-056",
-              "name": "Job Lock (Bloqueo=S) Set Before Execution",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaRepositorioReclamoTest.java:37"
-            },
-            {
-              "id": "RULE-057",
-              "name": "\u26a0\ufe0f DEFECT \u2014 Job Lock Race Condition (FOR UPDATE Removed)",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaJobCallTest.java:211"
-            },
-            {
-              "id": "RULE-058",
-              "name": "Job Retry \u2014 ERR \u2192 PEN After 60-Second Delay",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaReglasP0Test.java:86"
-            },
-            {
-              "id": "RULE-059",
-              "name": "\u26a0\ufe0f DEFECT \u2014 Job Retry Call Commented Out in poolDiary",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsJobManager/src/test/java/cl/bcs/jobmanager/RetryTest.java:16"
-            },
-            {
-              "id": "RULE-061",
-              "name": "Daemon Job \u2014 Continuous Loop with Configurable Cycle Interval",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/runtime/Rule061SinModoDemonioTest.java:0"
-            },
-            {
-              "id": "RULE-062",
-              "name": "Daemon Restart \u2014 Terminates All PEN/ASI Programs",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaReglasP0Test.java:103"
-            },
-            {
-              "id": "RULE-066",
-              "name": "Node Reboot-on-Demand via DB Flag",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs/src/test/java/cl/bcs/tesoreria/jobs/programa/ProgramaReglasP0Test.java:133"
-            },
-            {
-              "id": "RULE-068",
-              "name": "\u26a0\ufe0f\ud83d\udd34 DEFECT \u2014 SQL Injection in TransactionManager.executionCount",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsPortafolioServicios/src/test/java/cl/bcs/portafolio/PortafolioServiceTest.java:31"
-            },
-            {
-              "id": "RULE-070",
-              "name": "Expiry Batch \u2014 Blocks All Users Past FechaVigencia",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
-            },
-            {
               "id": "RULE-076",
               "name": "\u26a0\ufe0f\ud83d\udd34 SECURITY \u2014 Hardcoded HANA Credentials in Dead Code",
               "confidence": "High",
-              "status": "none",
+              "status": "tested",
               "main": 0,
-              "tests": 0,
+              "tests": 31,
               "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
-            },
-            {
-              "id": "RULE-077",
-              "name": "\u26a0\ufe0f\ud83d\udd34 SECURITY \u2014 Static3DES with Publicly Known Key",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule077Sin3DesTest.java:0"
-            },
-            {
-              "id": "RULE-078",
-              "name": "\u26a0\ufe0f SSO \u2014 JWT Signature Not Verified",
-              "confidence": "High",
-              "status": "none",
-              "main": 0,
-              "tests": 0,
-              "claimed": false,
-              "by": "",
-              "where": ""
+              "by": "test name",
+              "where": "modernized/otr-sva-optimus-corredores/BcsReplica/src/test/java/cl/bcs/replica/caracterizacion/Rule076CredencialesHardcodeadasTest.java:0"
             }
           ]
+        },
+        "equivalence": {
+          "cases": 264,
+          "executed": 264,
+          "same": 264,
+          "differs": 0,
+          "missing": 0,
+          "selfCheck": true,
+          "withinTolerance": 0,
+          "tolerances": [],
+          "approved": [],
+          "masks": [
+            {
+              "why": "el legacy compilado sin -g nombra la variable <local4>/<parameter2>",
+              "cases": 264
+            },
+            {
+              "why": "no reason given: regex \"_provenance\": \"[^ ]*\", (la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto)",
+              "cases": 264
+            }
+          ],
+          "differing": []
         },
         "leftOut": [
           "Fresh-input check: legacy cannot run in this environment (TomEE 8 / Java 8 required). Malformed records not attempted; there is no INTENT.md in this workspace, so the earlier claim of 'INTENT.md guid\u2026",
@@ -27825,10 +26379,69 @@
           "2026-10-19 verify1 BcsCuentaInversionServicios: not covered by fresh inputs: Anexo16, ClientesPorPagarYCobrar, InformeAttribution, GenerarReporteAcreedores, GuardarPatrimonioCaja, Eliminar*/Crear*Opc\u2026",
           "2026-10-19 verify1 BcsCuentaInversionServicios: HANA is not exercised. Everything runs on H2 with a modelled schema shared by oracle and modern code (DECIMAL(28,16), views as tables, PLA.Identidad 6x\u2026"
         ],
-        "canary": []
+        "fresh": {
+          "cases": 59,
+          "executed": 59,
+          "same": 59,
+          "differs": 0,
+          "missing": 0,
+          "selfCheck": true,
+          "withinTolerance": 0,
+          "tolerances": [],
+          "approved": [],
+          "masks": [
+            {
+              "why": "el legacy compilado sin -g nombra la variable <local4>/<parameter2>",
+              "cases": 59
+            },
+            {
+              "why": "no reason given: regex \"_provenance\": \"[^\\n]*\",\\n (la linea _provenance describe quien grabo el golden (el oraculo del legacy); la corrida nueva no la escribe. No es salid)",
+              "cases": 59
+            }
+          ],
+          "differing": [],
+          "reused": [
+            "REP-FRE-020_proceso-con-acento-no-coincide"
+          ],
+          "comparisons": 58,
+          "inputs": 58,
+          "needed": 10,
+          "leftOut": [
+            "Fresh-input check: legacy cannot run in this environment (TomEE 8 / Java 8 required). Malformed records not attempted; there is no INTENT.md in this workspace, so the earlier claim of 'INTENT.md guid\u2026",
+            "2026-10-10 BcsCustodiaServicios: QA legacy comparison attempted with the user's authorization (read-only). QA endpoints reachable; HANA QA reads succeeded. The legacy GWJAVA application refused the s\u2026",
+            "2026-10-10 BcsCustodiaServicios: the earlier fresh set at equivalence/fresh/BcsCustodiaServicios-verify2/ is placeholder-only \u2014 all 15 legacy/*.txt files are 0 bytes, so its 15-of-15 'differs' are ar\u2026",
+            "2026-10-10: a read-only diagnostic SELECT against ACC.Sesion (to explain the 401) was blocked by this environment's production-read guard and was not run.",
+            "cases.json: no development equivalence cases were generated; no legacy runner available to generate or re-run them.",
+            "HANA verify 2026-10-08: BSCL_VIRTUAL.CUSTODIA_OPTIMUS queried (5454 rows, 172 distinct NEMOs). No NEMOs with transitional markers found \u2014 determinarNuevoNemo identity path verified on 20 real codes. \u2026",
+            "2026-10-15 BcsContabilidadServicios: the legacy ran through shims for its runtime (SQL/JavaCall/config/OACT) on H2, not on TomEE/HANA; HANA-specific SQL behavior beyond H2 MODE=LEGACY is not covered.",
+            "2026-10-15 BcsContabilidadServicios: comparison is of salida + table dumps through the module's JsonCanon (null keys dropped, numbers by value, unordered SQL arrays sorted); secuenciasSolicitadas and\u2026",
+            "2026-10-15 verify5 BcsContabilidadServicios: fresh inputs F01-F16 cover only EnvioContabilidad and ReversaPreComprobante (the slice the legacy oracle can run); Centralizacion, devengo, interfaz, info\u2026",
+            "2026-10-15 verify5 BcsContabilidadServicios: one malformed record tried (F16, letters in SecuenciaComprobante): both sides throw JsonSyntaxException, only the class is compared; other malformed shape\u2026",
+            "2026-10-16 verify2 BcsContabilidadJobs: fresh inputs JF01-JF12 cover only the InterfazContable job shell (the only job the legacy oracle can run here); CentralizaMultiSeleccionJob, CreaInterfazDiaria\u2026",
+            "2026-10-16 verify2 BcsContabilidadJobs: malformed records (non-numeric SecCmbte ids, bad base64) were not compared against the legacy: the OracleRunner records an exception without the job-shell outp\u2026",
+            "2026-10-16 verify2 BcsContabilidadJobs: RutaSalida is not compared (legacy wall-clock timestamp vs fixed clock); CONT-J-68 pins its format.",
+            "2026-10-19 verify3 BcsUtils: fresh inputs F01-F14 cover the pure API only (RutUtil, StringUtils, Utils pure subset, DateUtil, Fecha, copyPojo/List2Hash/getColumn, FileUtils/ZipUtil, Gson deserializer\u2026",
+            "2026-10-19 verify3 BcsUtils: not compared against the legacy: Timer (API changed to createTimer(LongSupplier), SLF4J), clave/PoliticaClave, sesion/* and security/HybridPasswordEncoder (new or DB-boun\u2026",
+            "2026-10-19 verify3 BcsUtils: legacy gson 2.8.2 / commons 2.5 / JDK 11 stand in for the production pins (gson 2.6.2, commons-io 2.4, Java 8 JRE); BcsUtils/src/test/resources/golden/PROVENANCE.md recor\u2026",
+            "2026-10-19 verify1 BcsCuentaInversionServicios fresh inputs: 23 inputs (12 transaccional, 11 reportes), 40 output files. Left out: F03 (malformed empty date: both sides throw DateTimeParseException, \u2026",
+            "2026-10-19 verify2 BcsCuentaInversionServicios: the verify1 difference F24-pdfTextos came from the modern test double recording blank PDF cells that the legacy never draws (GenerarArchivoSaldoCuentas\u2026",
+            "2026-10-19 verify1 BcsCuentaInversionServicios: not covered by fresh inputs: Anexo16, ClientesPorPagarYCobrar, InformeAttribution, GenerarReporteAcreedores, GuardarPatrimonioCaja, Eliminar*/Crear*Opc\u2026",
+            "2026-10-19 verify1 BcsCuentaInversionServicios: HANA is not exercised. Everything runs on H2 with a modelled schema shared by oracle and modern code (DECIMAL(28,16), views as tables, PLA.Identidad 6x\u2026"
+          ]
+        },
+        "canary": [
+          {
+            "change": "ReplicaUtilsServicio.procesarRespaldoDiarioCarterasSebra: respaldar.equalsIgnoreCase(\"S\") -> respaldar.equals(\"S\") (second occurrence, daily Sebra backup); scratch copy outside modernized/ and analysis/",
+            "testsFailed": 3,
+            "shown": true,
+            "where": [
+              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsReplica-20261030"
+            ]
+          }
+        ]
       },
       "caveats": [
-        "Nothing ties a rule to this module by name, so every rule in BUSINESS_RULES.md was counted."
+        "EQUIVALENCE.json does not match a fresh comparison of the cases: run compare.py again so the report shows the current result."
       ],
       "needsPerson": [],
       "brief": {
@@ -27972,12 +26585,13 @@
       },
       "notProven": [
         "It does not prove behavior on inputs nobody tried: the equivalence cases and the fresh inputs are samples, not the whole input space.",
+        "Fields the comparison ignored could hide a difference there: el legacy compilado sin -g nombra la variable <local4>/<parameter2>; no reason given: regex \"_provenance\": \"[^ ]*\", (la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto).",
         "It does not cover speed, capacity, security, concurrency, or anything the tests and cases do not exercise.",
         "It traces only the rules that were extracted: behavior nobody wrote down as a rule has no rule to trace.",
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsSocioNegocioJobs",
@@ -28790,7 +27404,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -28990,7 +27604,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsSocioNegocioServicios",
@@ -29803,7 +28417,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -30003,7 +28617,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsSURA",
@@ -30816,7 +29430,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -31016,7 +29630,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsTesoreriaJobs",
@@ -31029,7 +29643,7 @@
         "Rules traced: All 11 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 3637 of 3637 development case(s) executed: 3637 same, 0 differ, 0 missing; comparator self-check passed.",
         "Fresh inputs: 46 new input(s), 85 comparison(s), ran on the legacy and the new code with no difference.",
-        "Canary: 6 canary run(s) shown by a result file or log; the first (job/archivo/FormatoCargos.java:78 RoundingMode.DOWN changed to HALF_UP (scratch copy outside modernized/); ran GenerarArchivoCargosGoldenTest) made 4 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/cargos-redondeo/surefire). 1 more are only claimed.",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (verify 2026-10-23 (b): Programa.java:18 reclamable() without the PEN check (scratch copy); ran cl.bcs.tesoreria.jobs.programa.*Test) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-reclamable-sin-estado/surefire). 1 more are only claimed.",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -31061,7 +29675,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "6 canary run(s) shown by a result file or log; the first (job/archivo/FormatoCargos.java:78 RoundingMode.DOWN changed to HALF_UP (scratch copy outside modernized/); ran GenerarArchivoCargosGoldenTest) made 4 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/cargos-redondeo/surefire). 1 more are only claimed."
+          "detail": "2 canary run(s) shown by a result file or log; the first (verify 2026-10-23 (b): Programa.java:18 reclamable() without the PEN check (scratch copy); ran cl.bcs.tesoreria.jobs.programa.*Test) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-reclamable-sin-estado/surefire). 1 more are only claimed."
         },
         {
           "id": "source",
@@ -31371,38 +29985,6 @@
         },
         "canary": [
           {
-            "change": "job/archivo/FormatoCargos.java:78 RoundingMode.DOWN changed to HALF_UP (scratch copy outside modernized/); ran GenerarArchivoCargosGoldenTest",
-            "testsFailed": 4,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/cargos-redondeo/surefire"
-            ]
-          },
-          {
-            "change": "job/BcsJobCargaMasivaIngresoEgresoDAPFFMM.java:145 window end bound isBefore(HoraFin) changed to !isAfter(HoraFin) (scratch copy); ran CargaMasivaGoldenTest",
-            "testsFailed": 1,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/ventana-fin/surefire"
-            ]
-          },
-          {
-            "change": "job/archivo/GeneradorPago.java:86 record type check compareTo(1) changed to compareTo(2) (scratch copy); ran GenerarArchivoPagoGoldenTest",
-            "testsFailed": 7,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify1/pago-tipo-registro/surefire"
-            ]
-          },
-          {
-            "change": "verify 2026-10-23: FormatoCargos.java:78 RoundingMode.DOWN changed to HALF_UP (scratch copy); ran GenerarArchivoCargosGoldenTest",
-            "testsFailed": 4,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsTesoreriaJobs-verify20261023/tesjobs-cargos-redondeo/surefire"
-            ]
-          },
-          {
             "change": "verify 2026-10-23 (b): Programa.java:18 reclamable() without the PEN check (scratch copy); ran cl.bcs.tesoreria.jobs.programa.*Test",
             "testsFailed": 1,
             "shown": true,
@@ -31576,7 +30158,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsTesoreriaServicios",
@@ -31931,7 +30513,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsTributarioJobs",
@@ -32744,7 +31326,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -32946,7 +31528,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsUtils",
@@ -32959,7 +31541,7 @@
         "Rules traced: All 10 P0 rule(s) this module answers for are backed by a test that ran and passed.",
         "Same behavior: 1840 of 1840 development case(s) executed: 1840 same, 0 differ, 0 missing; comparator self-check passed.",
         "Fresh inputs: 14 new input(s), 14 comparison(s), ran on the legacy and the new code with no difference.",
-        "Canary: 3 canary run(s) shown by a result file or log; the first (RutUtil.digitoVerificador: case 11 -> '0' changed to '1' (scratch copy outside modernized/); ran RutUtilTest + AlcanceLibreriaTest) made 6 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/rut). 1 more are only claimed.",
+        "Canary: 2 canary run(s) shown by a result file or log; the first (PoliticaInactividad.sesionExpirada: '>' changed to '>=' (RULE-024 strict idle boundary; scratch copy); ran PoliticaSesionTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/idle). 1 more are only claimed.",
         "Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run."
       ],
       "checks": [
@@ -32991,7 +31573,7 @@
           "id": "canary",
           "label": "Canary",
           "state": "pass",
-          "detail": "3 canary run(s) shown by a result file or log; the first (RutUtil.digitoVerificador: case 11 -> '0' changed to '1' (scratch copy outside modernized/); ran RutUtilTest + AlcanceLibreriaTest) made 6 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/rut). 1 more are only claimed."
+          "detail": "2 canary run(s) shown by a result file or log; the first (PoliticaInactividad.sesionExpirada: '>' changed to '>=' (RULE-024 strict idle boundary; scratch copy); ran PoliticaSesionTest) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/idle). 1 more are only claimed."
         },
         {
           "id": "source",
@@ -33249,14 +31831,6 @@
         },
         "canary": [
           {
-            "change": "RutUtil.digitoVerificador: case 11 -> '0' changed to '1' (scratch copy outside modernized/); ran RutUtilTest + AlcanceLibreriaTest",
-            "testsFailed": 6,
-            "shown": true,
-            "where": [
-              "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsUtils-verify5/rut"
-            ]
-          },
-          {
             "change": "PoliticaInactividad.sesionExpirada: '>' changed to '>=' (RULE-024 strict idle boundary; scratch copy); ran PoliticaSesionTest",
             "testsFailed": 1,
             "shown": true,
@@ -33430,7 +32004,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     },
     {
       "name": "BcsValo2",
@@ -34243,7 +32817,7 @@
               "tests": 0,
               "claimed": false,
               "by": "",
-              "where": "modernized/otr-sva-optimus-corredores/BcsAPVJobs/src/test/java/cl/bcs/apv/jobs/security/Rule076SinMainDebugNiCredencialesTest.java:0"
+              "where": "modernized/otr-sva-optimus-corredores/BcsAPVApi/src/test/java/cl/bcs/apv/api/Rule076CredencialesHardcodeadasTest.java:0"
             },
             {
               "id": "RULE-077",
@@ -34443,7 +33017,7 @@
         "A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.",
         "It does not replace the review and sign-off of the people who own the system."
       ],
-      "verifiedAt": "2026-10-30 01:00 UTC"
+      "verifiedAt": "2026-10-30 14:40 UTC"
     }
   ],
   "toolingOnly": [],
@@ -34454,11 +33028,11 @@
     "decision": ""
   },
   "overall": {
-    "verdict": "PARTLY PROVEN",
+    "verdict": "NOT PROVEN",
     "counts": {
-      "PROVEN": 13,
-      "PARTLY PROVEN": 33,
-      "NOT PROVEN": 0
+      "PROVEN": 15,
+      "PARTLY PROVEN": 30,
+      "NOT PROVEN": 1
     }
   }
 }

@@ -138,13 +138,13 @@ class ApvEquivalenciaGoldensTest {
     }
 
     @Test
-    void equiv_03_la_comparacion_registrada_de_entradas_frescas_dice_384_iguales_0_diferencias_0_faltantes() throws Exception {
+    void equiv_03_la_comparacion_registrada_de_entradas_frescas_dice_398_iguales_1_aprobada_0_diferencias_0_faltantes() throws Exception {
         Path eq = equivalencia();
         JsonObject tot = JsonParser.parseString(leer(eq.resolve("FRESH_EQUIVALENCE.json"))).getAsJsonObject().getAsJsonObject("totals");
-        assertEquals(384, tot.get("cases").getAsInt());
-        assertEquals(384, tot.get("same").getAsInt(), tot.toString());
+        assertEquals(399, tot.get("cases").getAsInt());
+        assertEquals(398, tot.get("same").getAsInt(), tot.toString());
         assertEquals(0, tot.get("differs").getAsInt(), tot.toString());
         assertEquals(0, tot.get("missing").getAsInt(), tot.toString());
-        assertEquals(0, tot.get("differsApproved").getAsInt(), tot.toString());
+        assertEquals(1, tot.get("differsApproved").getAsInt(), "VB-V09 (payload opaco de Tesoreria) approved by the user on 2026-10-30: " + tot);
     }
 }

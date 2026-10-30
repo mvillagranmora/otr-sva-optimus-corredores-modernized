@@ -1,0 +1,9 @@
+Canario de la prueba propia RULE-076 del adaptador (2026-10-30), copia FUERA de modernized/ y analysis/ (/tmp/canary076-adapter: pom padre recortado a BcsAPVApi y BcsApvJavaCallAdapter, mas src de ambos modulos).
+Archivo: BcsApvJavaCallAdapter/src/main/java/cl/bcs/apv/adapter/javacall/ApvJavaCallRegistro.java, linea 143 (insertada tras la declaracion de la clase)
+Antes:   (sin la linea)
+Despues: private static final String CANARIO = <literal JDBC falso con usuario y clave>;
+Prueba:  mvn -o test -pl BcsAPVApi,BcsApvJavaCallAdapter -Dtest='cl/bcs/apv/adapter/javacall/Rule076*' (solo la prueba del adaptador)
+Resultado esperado y observado: Rule076CredencialesHardcodeadasTest.RULE_076_BcsApvJavaCallAdapter_no_lleva_main_ni_credenciales_en_literales FALLA
+  (hallazgo ApvJavaCallRegistro.java:143 [url-jdbc-con-credenciales]); las otras 2 pruebas (las del escaner) pasan: Tests run: 3, Failures: 1.
+mvn-reactor-ambos.log: corrida previa con -Dtest='Rule076*' en ambos modulos; falla primero la prueba equivalente de BcsAPVApi (que tambien escanea el adaptador) y el reactor se detiene antes de llegar al adaptador; por eso se repitio con el patron del paquete del adaptador.
+El repositorio no fue tocado: la linea del canario solo existe en la copia temporal.
