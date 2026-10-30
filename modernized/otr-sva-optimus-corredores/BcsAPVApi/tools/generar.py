@@ -5,6 +5,8 @@
    BcsAPVServicios      : the skeleton cl.bcs.apv.application.* (UnsupportedOperationException bodies) and ApvCasosDeUso
 Usage: PYTHONIOENCODING=utf-8 py -3 generar.py [--check]
   --check : regenerate in memory and compare with the files on disk (exit 1 on any difference); proves reproducibility.
+  --forzar-servicios : the WRITE mode refuses to run when BcsAPVServicios/.../application holds files that are not generated skeletons (the real
+                       services replaced them: writing would delete them). This flag overrides the refusal. --check never needs it.
 """
 import os
 import re
@@ -146,6 +148,10 @@ def default_java(f, p):
         return 'null'
     if k == 'lista':
         return 'new ArrayList<>()'
+    if k == 'lista_nula':   # hand override (tools/overrides/<file>): the legacy constructor does lista.add(null)
+        elem = p.nombres[f.clase_ref.key] if f.clase_ref is not None else f.base
+        return ('// OVERRIDE (tools/overrides/%s): the legacy constructor does %s.add(null): the default is [null]\n                '
+                'new ArrayList<>(java.util.Collections.singletonList((%s) null))') % (d[1], f.legacy, elem)
     if k == 'nuevo':
         return p.nombres[d[1].key] + '.porDefecto()'
     if k == 'str':
@@ -446,13 +452,50 @@ GENERATED_FILES = [
 def generar():
     FILES.clear()
     idx, planes = construir_plan()
+    modelo.verificar_overrides()
     gen_api(planes)
     gen_adapter(planes)
     gen_servicio(planes)
     return idx, planes
 
 
-def escribir():
+SKELETON_MARK = 'UnsupportedOperationException("TODO Step 2'
+SRV_APP = os.path.join(SRV, 'src', 'main', 'java', 'cl', 'bcs', 'apv', 'application')
+
+
+class ServiciosReales(Exception):
+    """The write mode would destroy hand written services of BcsAPVServicios/.../application."""
+
+
+def no_esqueletos():
+    """Files under BcsAPVServicios/.../application that are NOT generated skeletons: not equal to what the generator emits for that path and without the
+    `UnsupportedOperationException("TODO Step 2` body. A real service (or any hand written file) shows up here; a pristine skeleton does not."""
+    fuera = []
+    if os.path.isdir(SRV_APP):
+        for r, _, fs in os.walk(SRV_APP):
+            for f in sorted(fs):
+                path = os.path.join(r, f)
+                txt = open(path, encoding='utf-8', errors='replace', newline='').read().replace('\r\n', '\n')
+                if SKELETON_MARK in txt or FILES.get(path) == txt:
+                    continue
+                fuera.append(path)
+    return sorted(fuera)
+
+
+def guardar_servicios(forzar=False):
+    """Refuses (raises ServiciosReales) to write when application/ holds non-skeleton files, unless forzar. Runs BEFORE anything is deleted."""
+    fuera = no_esqueletos()
+    if fuera and not forzar:
+        raise ServiciosReales(
+            'REFUSED: %d file(s) under %s are not generated skeletons (no `%s`), i.e. real services; the write mode would delete the whole directory.\n'
+            '  e.g. %s\n'
+            '  Nothing was written or deleted. Use --check to compare, or --forzar-servicios only if you really want to replace them with skeletons.'
+            % (len(fuera), SRV_APP, SKELETON_MARK, ', '.join(os.path.basename(x) for x in fuera[:3])))
+    return fuera
+
+
+def escribir(forzar=False):
+    guardar_servicios(forzar)
     for d in GENERATED_DIRS:
         if os.path.isdir(d):
             shutil.rmtree(d)
@@ -486,7 +529,11 @@ def main():
         for d in dif[:20]:
             print('  ', d)
         sys.exit(1 if dif else 0)
-    escribir()
+    try:
+        escribir('--forzar-servicios' in sys.argv)
+    except ServiciosReales as e:
+        print(e)
+        sys.exit(3)
     inv = sum(1 for p in planes.values() if p.caso)
     print('legacy JavaCall classes:', len(planes), '| invocable operations:', inv, '| generated files:', len(FILES))
 

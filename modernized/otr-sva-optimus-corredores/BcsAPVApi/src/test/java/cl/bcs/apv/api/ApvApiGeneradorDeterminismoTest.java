@@ -19,15 +19,17 @@ import org.junit.jupiter.api.Test;
 /**
  * Pins the STABILITY of the generator for what this module owns: the generated code of BcsAPVApi ({@code dto/}, {@code casouso/}), the adapter
  * mappers of BcsApvJavaCallAdapter and the contract documents are exactly what {@code tools/generar.py} / {@code generar_contrato.py} produce from the
- * legacy sources, except ONE documented hand override. The real generator is executed (nothing is written); a machine without Python makes the
+ * legacy sources. The real generator is executed (nothing is written); a machine without Python makes the
  * tests FAIL, never skip, because a skipped check would hide a hand edit of generated code.
  *
- * <p>Why not simply {@code generar_todo.py --check == 0}: that command also compares the skeleton {@code BcsAPVServicios/.../application}, which was
- * replaced by the real services (finding of the 2026-10-29 reinforcement: it reports 100+ differences and a plain {@code generar_todo.py} would DELETE
- * those services). That drift is outside this module and is reported in TRANSFORMATION_NOTES.md, not asserted here.
+ * <p>Since 2026-10-30 the generator itself applies the hand override of {@code ValidarContratoEntrada} ({@code tools/overrides/ValidarContrato.md}, default
+ * {@code [null]}), so BcsAPVApi and BcsApvJavaCallAdapter reproduce with ZERO differences (before: exactly one, the override).
  *
- * <p>Rule ids: B-APVAPI-13 (generator vs tree: only the documented override of {@code ValidarContratoEntrada} differs; adapter mappers: no
- * difference), B-APVAPI-14 (contract documents: {@code generar_contrato.py --check} = 0), B-APVAPI-24 ({@code generar_todo.py --check} is stable:
+ * <p>Why not simply {@code generar_todo.py --check == 0}: that command also compares the skeleton {@code BcsAPVServicios/.../application}, which was
+ * replaced by the real services (finding of the 2026-10-29 reinforcement: it reports 109 differences of drift and the write mode used to DELETE
+ * those services; it now refuses, see B-APVAPI-25). That drift is outside this module and is reported in TRANSFORMATION_NOTES.md, asserted here only as a number.
+ *
+ * <p>Rule ids: B-APVAPI-13 (generator vs tree: no difference in BcsAPVApi nor in the adapter mappers; the 109 of BcsAPVServicios are known drift), B-APVAPI-14 (contract documents: {@code generar_contrato.py --check} = 0), B-APVAPI-25 (the write mode refuses to delete real services), B-APVAPI-24 ({@code generar_todo.py --check} is stable:
  * two runs print the same), B-APVAPI-22 (the override is really in the code: legacy default {@code [null]}), B-APVAPI-23 (header, encoding and
  * line endings of the generated files; the hand written files are exactly the known ones).
  */
@@ -59,7 +61,7 @@ class ApvApiGeneradorDeterminismoTest {
 
     // B-APVAPI-13
     @Test
-    void b_apvapi_13_el_generador_reproduce_el_codigo_salvo_el_override_documentado() throws Exception {
+    void b_apvapi_13_el_generador_reproduce_el_codigo_sin_diferencias_incluido_el_override() throws Exception {
         Salida s = python("-c", SNIPPET);
         assertEquals(0, s.rc(), s.texto());
         assertTrue(s.texto().contains("api_files 299"), "the generator must emit 299 files for BcsAPVApi (234 records + 64 interfaces + CasosUso):\n" + s.texto());
@@ -72,14 +74,59 @@ class ApvApiGeneradorDeterminismoTest {
                 lineas.add(l.substring(5).trim());
             }
         }
-        assertEquals(List.of("ValidarContratoEntrada.java"), diffs,
-                "files of BcsAPVApi / BcsApvJavaCallAdapter that differ from the generator output (only the documented override may):\n" + s.texto());
-        assertEquals(3, lineas.size(), "the override changes exactly: comment line, singletonList default, and the generator's plain list\n" + s.texto());
-        assertTrue(lineas.stream().anyMatch(l -> l.startsWith("-") && l.contains("OVERRIDE (tools/overrides/ValidarContrato.md)")), s.texto());
-        assertTrue(lineas.stream().anyMatch(l -> l.startsWith("-") && l.contains("singletonList((ContratosSAAPV) null)")), s.texto());
-        assertTrue(lineas.stream().anyMatch(l -> l.startsWith("+") && l.contains("new ArrayList<>(),")), s.texto());
-        assertTrue(Files.isRegularFile(LegacyApv.modulo().resolve("tools/overrides/ValidarContrato.md")), "the override must stay documented");
+        // 2026-10-30: the generator applies tools/overrides/ValidarContrato.md, so no difference is left (before: exactly ValidarContratoEntrada.java)
+        assertEquals(List.of(), diffs,
+                "files of BcsAPVApi / BcsApvJavaCallAdapter that differ from the generator output (none may):\n" + s.texto());
+        assertEquals(List.of(), lineas, s.texto());
+        assertTrue(s.texto().contains("servicios_diffs 109"),
+                "known drift of BcsAPVServicios/.../application (real services instead of the generated skeleton): exactly 109 files, not this module's concern\n" + s.texto());
+        assertTrue(LegacyApv.leer(LegacyApv.modulo().resolve("tools/overrides/ValidarContrato.md"))
+                .contains("OVERRIDE-DEFAULT: ValidaContratoSAAPV.ValidaContratoSAAPV_Entrada p_ContratosSAAPV = [null]"),
+                "the override must stay documented in the machine-readable form the generator reads");
+        assertTrue(LegacyApv.leer(LegacyApv.modulo().resolve("CONTRATO_CAMPOS.md"))
+                .contains("| `p_ContratosSAAPV` | `List<ContratosSAAPV>` | 0..n | `[null]` | `contratosSAAPV` |"),
+                "the annex must show the [null] default of ValidarContrato (generated, not edited by hand)");
         System.out.println("[B-APVAPI-13] generator comparison:\n" + s.texto());
+    }
+
+    private static final String SNIPPET_GUARDA = """
+            import os, tempfile, inspect, generar
+            generar.generar()
+            fuente = inspect.getsource(generar.escribir)
+            print('guard_first', fuente.index('guardar_servicios(forzar)') < fuente.index('rmtree'))
+            d = tempfile.mkdtemp()
+            generar.SRV_APP = d
+            # 1) a pristine skeleton directory passes
+            esq = os.path.join(d, 'XServicio.java')
+            open(esq, 'w').write('class X { void f() { throw new UnsupportedOperationException(' + chr(34) + 'TODO Step 2: X' + chr(34) + '); } }')
+            print('skeleton_ok', generar.no_esqueletos() == [])
+            # 2) a real service refuses
+            real = os.path.join(d, 'YServicio.java')
+            open(real, 'w').write('class Y { int f() { return 1; } }')
+            try:
+                generar.guardar_servicios(False)
+                print('real_refused', False)
+            except generar.ServiciosReales as e:
+                print('real_refused', True, 'YServicio.java' in str(e) or '1 file' in str(e))
+            # 3) the explicit flag lets it through
+            print('forced_ok', generar.guardar_servicios(True) == [real])
+            print('files_untouched', os.path.isfile(esq) and os.path.isfile(real))
+            """;
+
+    // B-APVAPI-25
+    @Test
+    void b_apvapi_25_el_modo_escritura_se_niega_a_borrar_servicios_reales_salvo_flag_explicito() throws Exception {
+        Salida s = python("-c", SNIPPET_GUARDA);
+        assertEquals(0, s.rc(), s.texto());
+        assertTrue(s.texto().contains("guard_first True"), "escribir() must call the guard before it deletes anything\n" + s.texto());
+        assertTrue(s.texto().contains("skeleton_ok True"), s.texto());
+        assertTrue(s.texto().contains("real_refused True"), "a real service under application/ must make the write mode refuse\n" + s.texto());
+        assertTrue(s.texto().contains("forced_ok True"), s.texto());
+        assertTrue(s.texto().contains("files_untouched True"), s.texto());
+        // the real tree: the generator's write mode would refuse today (exactly the 109 real service files), nothing is written by this test
+        Salida real = python("-c", "import generar; generar.generar(); print('no_esqueletos', len(generar.no_esqueletos()))");
+        assertEquals(0, real.rc(), real.texto());
+        assertTrue(real.texto().contains("no_esqueletos 109"), real.texto());
     }
 
     // B-APVAPI-14

@@ -68,6 +68,14 @@ public final class MapeoJson {
         if (nulo(e)) {
             return null;
         }
+        if (tipo == JsonObject.class && e.isJsonArray()) {
+            // Gson reads a JSON null element of a List<JsonObject> as a JsonNull the record cannot hold: it is kept as a null element (written back as null)
+            List<T> r = new ArrayList<>();
+            for (JsonElement x : e.getAsJsonArray()) {
+                r.add(nulo(x) ? null : leer(s, x, tipo));
+            }
+            return r;
+        }
         Type t = TypeToken.getParameterized(List.class, tipo).getType();
         return leer(s, e, t);
     }

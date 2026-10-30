@@ -30,6 +30,8 @@ def default_txt(f, p):
     k = d[0]
     if k == 'lista':
         return 'empty list'
+    if k == 'lista_nula':
+        return '[null]'
     if k == 'nuevo':
         return 'new %s()' % d[1].nombre
     if k == 'long':

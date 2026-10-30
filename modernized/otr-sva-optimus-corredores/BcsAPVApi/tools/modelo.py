@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Resolves, for every legacy JavaCall operation, its Entrada/Salida class graph (all nested/inherited/imported POJOs)
 into a flat, ordered model that the generators consume.  Deterministic: every iteration is over sorted/insertion-ordered data."""
+import os
 import re
 import legacy_parser as lp
 
@@ -82,6 +83,34 @@ JAVA_KEYWORDS = {'abstract', 'assert', 'boolean', 'break', 'byte', 'case', 'catc
 TOKENS_UP = {
     'MENSAJES': 'mensajes', 'ERRORESCONTADOR': 'contadorErrores', 'ADVERTENCIASCONTADOR': 'contadorAdvertencias',
 }
+
+
+OVERRIDES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'overrides')
+OVERRIDE_RE = re.compile(r'^OVERRIDE-DEFAULT:\s*([\w.]+)\s+(\w+)\s*=\s*\[null\]\s*$')
+OVERRIDES = None       # (legacy class path, legacy field) -> ('lista_nula', file name)
+OVERRIDES_USADOS = set()
+
+
+def cargar_overrides():
+    """Hand overrides of defaults the static reading of the legacy cannot see (see tools/overrides/*.md). One machine-readable line per field:
+    `OVERRIDE-DEFAULT: <Outer.Inner legacy class> <legacy field> = [null]` (the legacy constructor does `lista.add(null)`: the default is a list with one null)."""
+    global OVERRIDES
+    if OVERRIDES is None:
+        OVERRIDES = {}
+        if os.path.isdir(OVERRIDES_DIR):
+            for fn in sorted(os.listdir(OVERRIDES_DIR)):
+                if fn.endswith('.md'):
+                    for linea in open(os.path.join(OVERRIDES_DIR, fn), encoding='utf-8').read().splitlines():
+                        m = OVERRIDE_RE.match(linea.strip())
+                        if m:
+                            OVERRIDES[(m.group(1), m.group(2))] = ('lista_nula', fn)
+    return OVERRIDES
+
+
+def verificar_overrides():
+    """Every override must have hit a field of the legacy model: a stale override (class renamed in the legacy) stops the generator."""
+    sin = sorted(set(cargar_overrides()) - OVERRIDES_USADOS)
+    assert not sin, 'tools/overrides: override(s) that match no legacy field: %s' % sin
 
 
 class Clase:
@@ -270,6 +299,11 @@ def _campos_de(idx, cl):
             d = ('nuevo', ref2) if ref2 is not None else ('desconocido', init)
         c = Campo(f['name'], f['type'], base, ti['lista'], ti['mapa'], ref, d, cl.fqn)
         c.prim = ti.get('prim')
+        ov = cargar_overrides().get((cl.fqn[len('cl.bcs.APV.'):], f['name']))
+        if ov is not None:
+            assert ti['lista'], 'override [null] on a field that is not a list: %s' % f['name']
+            c.default = (ov[0], ov[1])
+            OVERRIDES_USADOS.add((cl.fqn[len('cl.bcs.APV.'):], f['name']))
         c.fecha = None
         if base in ('Date', 'Timestamp'):
             tj = f['type']
