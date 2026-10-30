@@ -1,0 +1,1 @@
+DELETE FROM "BSCL.CuentaInversion.BD::CTA.SaldoFechaMovimiento" WHERE "FechaSaldo" <= ADD_DAYS(':FechaEjecucion',-10);

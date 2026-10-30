@@ -3,10 +3,23 @@
 Migracion del modulo legacy `legacy/otr-sva-optimus-corredores/BSCL/Replica/JAVA/BcsReplica` (Java EE 8 / TomEE) a Spring Boot 4.1.1 / Java 25.
 
 ## Estado
-**Paso 1 de modernize-transform: pruebas de caracterizacion en rojo, sin codigo de produccion de la logica.** Ver `TRANSFORMATION_NOTES.md` ("Replica: pruebas") y `src/test/java/cl/bcs/replica/caracterizacion/README.md`.
-El contenido de `src/main` es el esqueleto de una iteracion anterior: NO corresponde al legacy (tablas `WORKSTACK_T` y `CONFIGURACION_T` inexistentes, endpoints REST sin equivalente, `EnviarTablaReplica` marcada "no portable") y se reemplaza en el paso 3.
+**Pasos 1-3 de modernize-transform hechos: 469 pruebas de caracterizacion en verde (264 casos contra el golden del legacy) sobre una implementacion que replica el legacy bug a bug (D-REP-01..22).** Ver `TRANSFORMATION_NOTES.md` ("Replica: pruebas" y "Replica: implementacion") y `src/test/java/cl/bcs/replica/caracterizacion/README.md`. Falta el paso 4 (verificacion independiente) y la respuesta del experto a Q-REP-1..13.
 
-## Que hace el legacy (lo que se va a portar)
+## Estructura (`cl.bcs.replica`)
+| Paquete | Contenido |
+|---|---|
+| `kit` | `Compuertas` (G-TRG, G-SEB, G-OPT, cerradas por defecto), `ServicioNoServidoException`, `Sql` (SQL de recursos, `exec`, `batch` con parametros nombrados), `EntradaDiaSiguiente` |
+| `port.out` | 6 puertos de colaborador de Plataforma (`ConsultarEmpresaPort`, `ObtenerDiaSiguientePort`, `FeriadosPort`, `ConfiguracionSistemaPort`, `FechaSistemaPort`, `SecuenciaPort`), 3 puertos de escritura con compuerta (`TriggersReplicaPort`, `RespaldoSebraPort`, `RespaldoOptimusPort`) y `ColaboradoresNoPortados` (todo lanza `ServicioNoServidoException`) |
+| `adapter.out.jdbc` | `TriggersReplicaJdbc`, `RespaldoSebraJdbc`, `RespaldoOptimusJdbc`: envian por la `Connection` recibida los SQL de `src/main/resources/cl/bcs/replica/sql/` (58, byte a byte del legacy) |
+| `envio` | `EnviarTablaReplicaServicio` (`EnviarTablaReplica`) |
+| `respaldo` | `ReplicaUtilsServicio` (`ReplicaUtils`) |
+| `inicio` | `IniciarReplicaFull`, `IniciarReplicaDelta` |
+| `domain` | `Workstack` |
+| `config` | `ReplicaConfig`: cableado por defecto (compuertas cerradas, colaboradores no portados) |
+
+No hay controladores REST ni endpoint nuevo: el legacy no los tiene (se invoca por `JavaCall` desde otros modulos).
+
+## Que hace el legacy (y que se porto)
 - `EnviarTablaReplica.logica(proceso, FechaSistemaEjecucion)`: para cada proceso de la pauta (INICIO_PAUTA, VALORIZAR_FFMM, PAUTA_PATRIMONIO, COPIA_PATRIMONIO_PARA_INHABIL, PAUTA_RESPALDAR_CUSTODIA, CAMBIO_FECHA_SISTEMA, VALORIZAR_CARTERA_RV_PRECIO_MERCADO, FIN_PAUTA) encola filas en `PLA.Replica.WorkStack` (las consume el job externo de replica), limpia e inserta el historico de cuenta inversion y custodia, copia los dias inhabiles consecutivos y, en INICIO/FIN_PAUTA, apaga y reactiva los triggers de replica en linea; FIN_PAUTA registra `PLA.ResumenReplica`.
 - `ReplicaUtils`: respaldo mensual de 13 tablas TBC* desde las vistas Sebra, respaldo diario de 4 carteras, respaldo Optimus (cuenta inversion y custodia a los dias inhabiles) y `guardarEnvioPostPauta`.
 - `IniciarReplicaFull` / `IniciarReplicaDelta`: encolan la replica completa o diferencial de la pauta.

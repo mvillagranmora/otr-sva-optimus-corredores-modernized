@@ -1,7 +1,7 @@
-# Pruebas de caracterizacion de BcsReplica (modernize-transform, paso 1: rojo antes de codigo)
+# Pruebas de caracterizacion de BcsReplica (modernize-transform: pasos 1 a 3, hoy en verde)
 
 Legacy: `legacy/otr-sva-optimus-corredores/BSCL/Replica/JAVA/BcsReplica` (`EnviarTablaReplica` 546 lineas, `ReplicaUtils` 369, `IniciarReplica`/`IniciarReplicaFull`/`IniciarReplicaDelta`, 58 SQL). Oraculo, generadores y notas: `analysis/otr-sva-optimus-corredores/equivalence/BcsReplica/` (`ORACLE_NOTES.md`).
-Estas pruebas COMPILAN y fallan solo con `not implemented: the production class ... does not exist yet`: no hay codigo de produccion de la logica (el esqueleto previo de `src/main` se reemplaza en el paso 3; ver `TRANSFORMATION_NOTES.md`).
+Escritas primero en rojo (commit 8ad227ce, fallaban con `not implemented: the production class ... does not exist yet`); con la implementacion del paso 3 pasan las 469 (ver `TRANSFORMATION_NOTES.md`, "Replica: implementacion"). Si una clase de produccion cambia de nombre o forma, solo se toca `ApiReplica.java`.
 
 ## Que hay
 | Archivo | Que prueba |

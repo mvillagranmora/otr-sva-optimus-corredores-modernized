@@ -7,7 +7,7 @@ La nota previa de este modulo decia "completo" y que `EnviarTablaReplica.java` e
 - `EnviarTablaReplica.java` tiene **546 lineas de Java**: 8 procesos con logica de encolado, ciclo de dias inhabiles con colaboradores de Plataforma, triggers, resumen y limpieza. Sus SQL son **58 archivos** (44.615 bytes en total), una sentencia cada uno.
 - Lo que sumaba ~24.000 lineas eran los scripts de instalacion de BD (`BD/Scripts/*`, 14 archivos, 27.844 lineas), que no son codigo del servicio.
 - El esqueleto de `src/main` inventa tablas (`WORKSTACK_T`, `CONFIGURACION_T`), endpoints REST (`/api/replica/*`) y una clave `REPLICA_FULL` que el legacy no tiene; el legacy encola en `BSCL.Plataforma.BD::PLA.Replica.WorkStack` con `Key "-1"`. No se ejecuto contra el legacy ni se compara con el.
-El estado real es: **paso 1 de modernize-transform (pruebas de caracterizacion y oraculo, en rojo)**. No hay codigo de produccion de la logica.
+Estado al cerrar el paso 1: pruebas de caracterizacion y oraculo en rojo, sin codigo de produccion de la logica. **Hoy (pasos 2-3 hechos): implementacion completa y 469 pruebas en verde** (seccion "Replica: implementacion").
 
 ## Replica: pruebas
 
@@ -21,10 +21,10 @@ El estado real es: **paso 1 de modernize-transform (pruebas de caracterizacion y
 | Oraculo y generadores | `analysis/.../equivalence/BcsReplica/` (`legacy-oracle/record.sh`, `make_cases.py`, `make_schema.py`, `check_replica.py`, `sync_replica.py`, `ORACLE_NOTES.md`) | — |
 | Catalogo REAL de HANA QA (solo SELECT sobre SYS) | `analysis/.../equivalence/BcsReplica/catalog/` | 752 columnas, 63 claves |
 
-Todas las pruebas **compilan** y fallan solo con `not implemented: the production class ... does not exist yet` (`ApiReplica.java` es el unico archivo que alcanza produccion, por reflexion). Estado medido (`mvn -o test`): 469 pruebas, **461 en rojo** (460 con `not implemented: the production class ...` y la de "equivalence cases executed: 0 => not proven", por diseno) y 8 en verde, que no necesitan produccion (4 del catalogo de la matriz, informe de determinismo del oraculo, manifiesto de los 58 SQL, "todos tienen golden", recuento de casos sin compuerta).
+Estado del paso 1 (historico, commit 8ad227ce): todas las pruebas **compilan** y fallan solo con `not implemented: the production class ... does not exist yet` (`ApiReplica.java` es el unico archivo que alcanza produccion, por reflexion). Estado medido (`mvn -o test`): 469 pruebas, **461 en rojo** (460 con `not implemented: the production class ...` y la de "equivalence cases executed: 0 => not proven", por diseno) y 8 en verde, que no necesitan produccion (4 del catalogo de la matriz, informe de determinismo del oraculo, manifiesto de los 58 SQL, "todos tienen golden", recuento de casos sin compuerta).
 
-### Prueba de que el arnes es satisfacible (no se entrega)
-Implementacion de referencia escrita FUERA del repo (`%TEMP%/repref`, ~600 lineas: puertos, servicios, adaptadores JDBC con los 58 SQL): con los mismos goldens pasan las **469 pruebas**.
+### Prueba de que el arnes es satisfacible
+Implementacion de referencia escrita FUERA del repo (`%TEMP%/repref`, ~600 lineas: puertos, servicios, adaptadores JDBC con los 58 SQL): con los mismos goldens pasaron las **469 pruebas**. En el paso 3 esa referencia fue la base de la implementacion entregada (revisada contra el legacy, sin el helper de acceso que tenia, con `ReplicaConfig`).
 
 ### Mutacion
 40 mutantes de una linea sobre la implementacion de referencia (proceso exacto en vez de sin mayusculas, compuertas quitadas o invertidas, errores que se propagan en vez de tragarse y al reves, consultas y tablas del Workstack, espacio sobrante de CARTERARV, desfase horario restado, `substring(0,6)`, sufijo del dia, parametro Sebra por defecto, orden de tablas Sebra, periodo del INSERT, fechas del envio cruzadas, Action/Key/Stamp/secuencia de IniciarReplica, contador recontado, pais igual a idEmpresa, la copia leyendo del destino, esquema de la fecha, etc.): **39 muertos, 1 equivalente**. Todos los de comportamiento caen en al menos dos capas (equivalencia con el golden y reglas con el valor escrito); los de compuerta (M02, M28, M29, M37) los matan las pruebas de compuerta, que no tienen golden porque el legacy no tiene compuertas.
@@ -117,7 +117,61 @@ B-REP-01..04 son las del esqueleto anterior (formato de `Parameters`, Full/Delta
 ### Pruebas del esqueleto previo retiradas (y por que)
 - `ReplicaServiceTest` (9 pruebas, REP-SVC-01..09): probaba `ReplicaService.buildParametersString`, `extractCodPer`, `esRespaldoActivo`, tres funciones estaticas inventadas que no existen en el legacy. Su contenido de negocio (formato de `Parameters`, Full vs Delta, "S" sin distinguir mayusculas, `substring(0,7)`) vive ahora en B-REP-01..04, contra goldens del legacy.
 - `ReplicaIntegrationTest` (5 pruebas, REP-INT-01..05, una `@Disabled`): usaba las tablas inexistentes `WORKSTACK_T` y `CONFIGURACION_T` (el legacy escribe `PLA.Replica.WorkStack` con otra forma) y leia `PLA.FechaSistema` de una tabla que no es la que lee el legacy; ademas `Action "F"` y `PLA.RespaldoReplicaTablasSebra` coincidian pero `Key`, `Table` y `Stamp` no. Sus recursos (`application-test.yml`, `schema-replica.sql`, `data-replica.sql`) se retiraron con ellas.
-- `src/main` (controlador REST, servicio, puerto, adaptador y dominio del esqueleto) NO se toco: se reemplaza en el paso 3. Lo que coincide con el legacy y se conserva como intencion: puerto `Workstack` con Action "F" para Full/Delta, `QueryReplica` / `QueryReplicaDelta`, `substring(0,7)` y la regla "S".
+- `src/main` (controlador REST, servicio, puerto, adaptador y dominio del esqueleto) se reemplazo en el paso 3 (ver "Replica: implementacion"). Lo que coincidia con el legacy se conserva como intencion: Action "F" para Full/Delta, `QueryReplica` / `QueryReplicaDelta`, `substring(0,7)` y la regla "S".
+
+## Replica: implementacion
+
+Pasos 2-3 de modernize-transform: el `src/main` del esqueleto previo se reemplazo por una implementacion hexagonal que replica el legacy bug a bug. Resultado: **469 pruebas, 0 fallos, 0 omitidas; "equivalence cases executed: 264 of 264"; 6 XML de surefire = 6 clases de prueba; sin `OutOfMemoryError`** (log: `analysis/otr-sva-optimus-corredores/equivalence/BcsReplica-implementacion-verde.test-output.txt`). No se toco ninguna prueba, golden, caso ni asercion, ni `ApiReplica.java` (la forma asumida bastó tal cual).
+
+### Que se escribio (legacy file:lineas -> target)
+| Legacy (solo lectura) | Target (`src/main/java/cl/bcs/replica/`) |
+|---|---|
+| `EnviarTablaReplica.java:100-153` INICIO_PAUTA | `envio/EnviarTablaReplicaServicio.java:62-71` (+ `limpiarEInsertarHistorico` `:124-137`, que INICIO_PAUTA y FIN_PAUTA comparten: legacy `:125-144` y `:353-372`) |
+| `:154-182` VALORIZAR_FFMM, `:183-195` PAUTA_PATRIMONIO | `EnviarTablaReplicaServicio.java:72-77` |
+| `:196-257` COPIA_PATRIMONIO_PARA_INHABIL | `EnviarTablaReplicaServicio.java:78-87` |
+| `:258-315` PAUTA_RESPALDAR_CUSTODIA, CAMBIO_FECHA_SISTEMA, VALORIZAR_CARTERA_RV | `EnviarTablaReplicaServicio.java:88-95` |
+| `:316-374` FIN_PAUTA, `:418-445` `obtenerFechaHora` | `EnviarTablaReplicaServicio.java:96-115` (reloj inyectado, `LocalDateTime.now(reloj).plusSeconds(desfase)`) |
+| `:375-384` proceso desconocido (sin rama: solo log en el legacy) y lote de Workstack | `EnviarTablaReplicaServicio.java:117-122` |
+| `:447-530` `respaldarDataDiaInhabil` | `EnviarTablaReplicaServicio.java:147-172` |
+| `:86-90` `call` (stub, devuelve null) | `EnviarTablaReplicaServicio.java:53-55` |
+| `:405-416` `Workstack` | `domain/Workstack.java` (campos publicos `Key`, `Table`, ...) |
+| `ReplicaUtils.java:60-131` respaldo Sebra (13 tablas) | `respaldo/ReplicaUtilsServicio.java:45-51` + `adapter/out/jdbc/RespaldoSebraJdbc.java` (puerto `RespaldoSebraPort`, compuerta G-SEB) |
+| `:162-174` `guardarEnvioPostPauta` | `ReplicaUtilsServicio.java:70-74` (+ `guardarCuatro` `:76-81`) |
+| `:176-297` respaldo Optimus | `ReplicaUtilsServicio.java:83-98` + `adapter/out/jdbc/RespaldoOptimusJdbc.java` (puerto `RespaldoOptimusPort`, compuerta G-OPT) |
+| `:299-349` respaldo diario Sebra (4 carteras) | `ReplicaUtilsServicio.java:53-68` + `RespaldoSebraJdbc.respaldarDiario` |
+| `:351-355` `call` (stub) | `ReplicaUtilsServicio.java:41-43` |
+| `EnviarTablaReplica.java:104-111, 340-350` DROP/CREATE TRIGGER | `adapter/out/jdbc/TriggersReplicaJdbc.java` (puerto `TriggersReplicaPort`, compuerta G-TRG) |
+| `IniciarReplica.java`, `IniciarReplicaFull.java:29-60`, `IniciarReplicaDelta.java` | `inicio/IniciarReplicaBase.java` (Full y Delta solo difieren en la consulta: `inicio/IniciarReplicaFull.java`, `IniciarReplicaDelta.java`) |
+| `cl.bcs.utils.SQL` (`exec`, `batch` con parametros nombrados) | `kit/Sql.java` (copia del comportamiento que usa Replica: sin comentarios, `:nombre` -> `?`, mensaje `Query: ... Parameters: ...`, `null` como `VARCHAR`). BcsUtils modernizado no tiene `SQL` |
+| `InObtenerDiaSiguiente` armado en `:206-219`, `:461-474` | `kit/EntradaDiaSiguiente.java` |
+| 58 SQL `cl/bcs/replica/sql/*.sql` | `src/main/resources/cl/bcs/replica/sql/` (byte a byte; `diff -rq` contra el legacy sin diferencias; SHA-256 pinados por `ReplicaSqlRecursosTest`) |
+| (sin equivalente: el legacy no tiene compuertas) | `kit/Compuertas.java`, `kit/ServicioNoServidoException.java`, `port/out/*` (6 puertos de colaborador + 3 de escritura + `ColaboradoresNoPortados`), `config/ReplicaConfig.java` (cableado por defecto) |
+
+Borrado del esqueleto previo: `controller/ReplicaController`, `controller/GlobalExceptionHandler`, `service/ReplicaService`, `adapter/out/ReplicaRepositoryAdapter`, `port/out/ReplicaDataPort`, `domain/EntradaIniciarReplica`, `domain/SalidaIniciarReplica` (endpoints REST `/api/replica/*`, tablas `WORKSTACK_T`/`CONFIGURACION_T` y clave `REPLICA_FULL` inventados). `domain/Workstack` se rehizo con la forma del legacy; `BcsReplicaApplication`, `application.yml` y `Dockerfile` se conservan (sin cambios; no hay handler JavaCall nuevo ni endpoint).
+
+### Defectos replicados (bug a bug)
+Los 22 D-REP, sin corregir ninguno: D-REP-01 (`call` devuelve null), 02 (`pais = idEmpresa` en el respaldo Optimus, comentado en el codigo), 03 y 04 (el error del dia siguiente corta con y sin encolar lo acumulado), 05 (espacio sobrante de CARTERARV), 06 y 07 (los `try` que se tragan el segundo DROP / el UPSERT del resumen), 08 (parametros fijos de las vistas: viven en los SQL byte a byte), 09 y 10 (claves primarias del resumen y del envio post pauta: viven en el esquema/SQL), 11 (fecha sin validar: NPE, `ClassCastException`), 12 (Sebra propaga el parametro ausente, el diario lo traga), 13 (nada es atomico: la implementacion no abre transaccion, usa la `Connection` recibida), 14 (`COD_DIA` sin mes), 15 (`Parameters` largo falla al final), 16 (proceso nulo/desconocido), 17 y 18 (IniciarReplica sin validacion), 19 (`Fecha.toDate` de FIN_PAUTA), 20 (tabla desconocida encola sin copiar), 21 (Workstack al final), 22 (`while (true)` sin tope, como el legacy; sin caso, no puede terminar).
+
+### Desvios respecto del legacy (los unicos)
+1. **Compuertas** G-TRG, G-SEB, G-OPT: cerradas por defecto (`replica.compuertas.triggers|respaldo-sebra|respaldo-optimus` = `false`; `Compuertas` es un `@Component` que solo lee las propiedades y por defecto no abre nada). Una compuerta cerrada lanza `ServicioNoServidoException` antes de la primera escritura y de cualquier colaborador.
+2. **Colaboradores no portados** (ObtenerDiaSiguiente, ConsultarEmpresa, Feriados, ConfiguracionSistema, `Utils.getFechaSistema`, `Utils.getSecuencia`): puertos cuyo valor por defecto (`ColaboradoresNoPortados`) lanza `ServicioNoServidoException`.
+3. `procesarRespaldoDiarioCarterasSebra` deja pasar `ServicioNoServidoException` en vez de tragarla como el resto de errores del parametro (D-REP-12): desvio fijado por las pruebas y aprobado.
+4. Reloj inyectado (`Clock`), `Connection` recibida (sin pool ni transaccion propia), excepciones de JDBC sin envolver salvo las del lote (que replican el `Query: ...` del legacy).
+5. HANA nunca se toca: ningun codigo se ejecuta contra HANA desde las pruebas (solo H2); con las compuertas cerradas el DDL de triggers y los respaldos ni siquiera se envian.
+
+### Que NO se porta y por que
+Ver la tabla "Que no se porta y por que" de la seccion de pruebas (sigue vigente): `BD/Scripts/*` (14 scripts de instalacion de BD, 27.844 lineas), `BD/Vistas/*` (393 vistas `Replica*` que consume el job externo) y `BD/Servicios/*` (8 SQL: 4 funciones HANA y PG que el Java de Replica no referencia), `UI/ACC/*`, `BcsReplicaTests/MapeoTIPO_COMP_FACTest` y los `main()` de prueba manual. Son objetos de base de datos o arneses, no logica del servicio; Q-REP-1 y Q-REP-2 quedan para el experto.
+
+### Canarios (mutacion sobre el codigo real)
+44 mutantes de una linea sobre el codigo real (`src/main`), aplicados a una copia FUERA del repo (carpeta temporal) con `analysis/otr-sva-optimus-corredores/equivalence/BcsReplica/canary_replica.py` (cada mutante: `mvn -o test`, se detiene en el primer fallo; el archivo se restaura despues). Log: `analysis/otr-sva-optimus-corredores/equivalence/BcsReplica-implementacion-canario.test-output.txt`. **43 muertos, 1 sobreviviente, 0 equivalentes, 0 que no compilan.**
+- Cubren: proceso exacto en vez de sin mayusculas, compuertas G-TRG (inicio y fin de pauta) y G-OPT quitadas, compuertas cerradas por defecto abiertas, tablas y parametros del Workstack (`truncarDestino`, espacio de CARTERARV, Action, Key), desfase horario restado, lote vacio, dia habil invertido (tres ciclos), error del dia siguiente (`return` por `break`), `catch` de DROP y de CREATE/UPSERT que ya no se tragan, fecha de los borrados historicos, pais igual a idEmpresa, "S" exacto, `substring` del periodo y del dia, prefijo `90`, parametro diario por defecto, `ServicioNoServidoException` tragada, orden de fechas del respaldo Optimus y del envio post pauta, Key/Action/Table/Stamp/esquema/contador de IniciarReplica, consulta Full vs Delta, orden de tablas Sebra y del respaldo diario, `COD_PER` del respaldo, DELETE de custodia omitido, DROP TRIGGER omitido y puerto de colaborador abierto.
+- **Sobreviviente M02** (`VALORIZAR_FFMM`: `equalsIgnoreCase` -> `equals`): NO es equivalente; es una laguna de las pruebas aprobadas. Solo `INICIO_PAUTA` tiene un caso en minusculas (REP-ENV-030); los otros 7 procesos no tienen caso con otra capitalizacion, asi que quitar el `IgnoreCase` en ellos no rompe nada. El codigo es correcto (usa `equalsIgnoreCase` en los 8, como el legacy). No se agrego prueba (las pruebas estan congeladas): se recomienda un caso por proceso en minusculas en el paso 4.
+- No hay mutantes equivalentes detectados.
+
+### Estado y abiertos
+- Hecho: pasos 1 (pruebas), 2 (aprobacion) y 3 (implementacion). Falta el paso 4 (verificacion independiente con casos frescos contra el oraculo y, con autorizacion, lecturas de solo lectura en HANA QA).
+- Abiertos para el experto: Q-REP-1..13 (abajo). Ninguno bloquea las pruebas; todos los defectos se replican hasta que el experto decida.
+- No hay runtime acoplado: ningun otro modulo invoca estas clases todavia (el router sigue en TomEE; ver Q-REP-11).
 
 ### Preguntas abiertas para el experto de dominio
 - **Q-REP-1**: la decision pide portar "los 11 de `BD/Servicios` que usa el codigo". `BD/Servicios` tiene 8 archivos (4 funciones, HANA y PG) y el Java de Replica no referencia ninguno (son llamadas desde las 393 vistas de `BD/Vistas`). Si se refieren a otras 11 funciones (p. ej. `InsertWorkStack`, `InsertWorkStackCartera`, con 933 y 3 usos en el repo), indicar cuales y de que modulo.
@@ -134,8 +188,7 @@ B-REP-01..04 son las del esqueleto anterior (formato de `Parameters`, Full/Delta
 - **Q-REP-12**: `INSERT ... select` de custodia (`Insert*Historica`) depende del orden de columnas de las tablas `HIS.Custodia*` (sin lista de columnas): ¿hay un contrato de esquema que la prueba deba verificar contra HANA (solo lectura)?
 - **Q-REP-13**: ¿`SQL.exec` con un `;` final se acepta tal cual en HANA (el legacy lo hace en produccion) y se mantiene en el SQL portado?
 
-### Que falta para pasar a implementar (paso 2 y 3)
-1. Respuesta del usuario a Q-REP-1 y Q-REP-2 (alcance de `BD/*`) y decision sobre Q-REP-3..7 (replicar el defecto es lo vigente).
-2. Decidir entornos y duenos de las compuertas (Q-REP-8) y la forma de los puertos de colaborador (si Plataforma portara `ObtenerDiaSiguiente`/`Feriados`/`ConsultarEmpresa` antes, se reemplaza `ColaboradoresNoPortados`).
-3. Paso 3: escribir `cl.bcs.replica.{kit,port.out,adapter.out.jdbc,envio,respaldo,inicio,domain}` segun `API_ASSUMED.md`, copiar los 58 SQL a `src/main/resources/cl/bcs/replica/sql/`, reemplazar el esqueleto de `src/main` y dejar las 469 pruebas en verde con los goldens de siempre. La implementacion de referencia usada para validar el arnes no se entrega.
-4. Paso 4 (verificacion independiente): casos frescos contra el oraculo y, con autorizacion, lecturas de solo lectura en HANA QA (los respaldos y triggers NO se ejecutan nunca contra HANA desde las pruebas).
+### Que falta
+1. Respuesta del experto a Q-REP-1..13 (alcance de `BD/*`, defectos a conservar o corregir, entornos de las compuertas).
+2. Que Plataforma porte `ObtenerDiaSiguiente`, `Feriados`, `ConsultarEmpresa`, `ConfiguracionSistema`, `Utils.getFechaSistema/getSecuencia`: hasta entonces `ColaboradoresNoPortados` lanza `ServicioNoServidoException` y el modulo no corre extremo a extremo.
+3. Paso 4 (verificacion independiente): casos frescos contra el oraculo (incluidos los 7 procesos en minusculas, ver M02) y, con autorizacion, lecturas de solo lectura en HANA QA (los respaldos y triggers NO se ejecutan nunca contra HANA desde las pruebas).
