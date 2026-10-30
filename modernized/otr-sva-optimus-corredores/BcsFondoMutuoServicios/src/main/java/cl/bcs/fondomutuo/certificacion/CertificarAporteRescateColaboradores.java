@@ -174,6 +174,73 @@ public final class CertificarAporteRescateColaboradores {
         return JsonLegacy.conNulos().fromJson(puerto.procesar(json), CustodiaSalida.class);
     }
 
+    // ---- CrearCargoAbono (cuenta de inversion; F-E) --------------------------------------------------------------------------------------------------------------
+    /** Legacy {@code CrearCargoAbono.CrearCargoAbonoEntrada}. */
+    public static class CargoAbonoEntrada {
+        public Long p_IdEmpresa;
+        public Long p_IdUsuario;
+        public String p_IdModulo;
+        public String p_simularOperacion;
+        public String p_UsaReglasNegocio;
+        public String p_FechaSistema;
+        public String p_EsIngresoManual = "N";
+        public List<ObjCargoAbono> p_CargoAbonoAGenerar = new ArrayList<>();
+    }
+
+    /** Legacy {@code CrearCargoAbono.ObjCargoAbonoAGenerar} (the dates are text, as in the legacy pojo). */
+    public static class ObjCargoAbono {
+        public Long NumeroCargoAbono;
+        public Long IdPortafolio;
+        public String IdMoneda;
+        public String IdTipoMovimiento;
+        public String IdConcepto;
+        public String Descripcion;
+        public String IdCondicionDeLiquidacion;
+        public String FechaCondicionDeLiquidacion;
+        public BigDecimal Monto;
+        public Long IdEjecutivo;
+        public Long IdSucursal;
+        public String IdTipoProducto;
+        public String IdTipoOperacion;
+        public Long IdOperacion;
+        public String FechaOperacion;
+        public String FechaLiquidacionOperacion;
+        public String FechaVencimientoOperacion;
+        public String IdMonedaOperacion;
+        public BigDecimal MontoOperacion;
+        public BigDecimal TipoCambioOperacion;
+        public Long IdContraparte;
+        public String IdTipoComprobante;
+        public Long IdComprobante;
+        public String FolioComprobante;
+        public Long IdComprobanteDetalle;
+        public Long IdComprobanteFormaDePago;
+        public String IdTipoMovimientoAsociado;
+        public Long IdMovimientoAsociado;
+        public String FechaComprobante;
+        public Long IdPersonaPagoCobro;
+        public Long IdInstrumento;
+        public String IdTipoInstrumento;
+        public BigDecimal Cantidad;
+        public String Nemo;
+        public String EsIndicadorBilateral;
+        public String EsCargoAbonoPorTraspaso;
+        public Long IdPortafolioTraspaso;
+        public String GeneroContraparteEnTesoreria;
+        public String CertificadoAutomatico;
+    }
+
+    /** The part of {@code CrearCargoAbonoSalida} that F-E reads, with the defaults of the legacy {@code mueveCuentaInversion}. */
+    public static class CargoAbonoSalida {
+        public Long P_OUT_ERRORESCONTADOR = 0L;
+        public List<MensajeSalida> P_OUT_MENSAJES = new ArrayList<>();
+    }
+
+    static CargoAbonoSalida crearCargoAbono(CrearCargoAbonoPort puerto, CargoAbonoEntrada entrada) {
+        JsonObject json = JsonLegacy.conNulos().toJsonTree(entrada).getAsJsonObject();
+        return JsonLegacy.conNulos().fromJson(puerto.crear(json), CargoAbonoSalida.class);
+    }
+
     // ---- CalcularParidad (the part F-C and F-D read) -------------------------------------------------------------------------------------------------------------
     public static class ParidadSalida {
         public List<CalculoParidad> p_out_CalculosSalida = new ArrayList<>();

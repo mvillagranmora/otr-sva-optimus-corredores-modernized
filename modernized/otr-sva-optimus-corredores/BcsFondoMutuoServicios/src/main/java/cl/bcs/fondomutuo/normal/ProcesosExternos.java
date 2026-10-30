@@ -66,12 +66,15 @@ public final class ProcesosExternos {
         public String p_IdModulo;
         public String p_CalculaMargen;
         public String p_UsaReglasNegocio;
-        public String p_PermiteOperarProspectos;
+        /** The default of the legacy class; Normal always sets its own value before the call. */
+        public String p_PermiteOperarProspectos = "N";
         public List<SolicitudAporteRescate> p_DatosOperacion = new ArrayList<>();
         public List<FormaPagoSpot> p_DatosFormaPago = new ArrayList<>();
     }
 
     public static class SalidaSpot {
+        /** Null when the answer has none: the legacy reader only adds it {@code if != null}. */
+        public Long P_OUT_ERRORESCONTADOR;
         public List<OperacionSpot> P_OUT_IDOPERACIONSPOT = new ArrayList<>();
         public List<MensajeSalida> P_OUT_MENSAJES = new ArrayList<>();
     }

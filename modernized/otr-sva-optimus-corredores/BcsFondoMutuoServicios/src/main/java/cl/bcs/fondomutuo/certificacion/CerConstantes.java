@@ -39,6 +39,24 @@ final class CerConstantes {
     static final String BCS = "BCS";
     static final String COR = "COR";
 
+    // F-E, F-F and F-H (same literals as legacy ConstantesFondoMutuo)
+    static final String CARGO_CUENTA_INVERSION = "MOVCAR";
+    static final String ABONO_CUENTA_INVERSION = "MOVABN";
+    static final String TIPO_COMPROBANTE_CUENTA_INVERSION = "FFM";
+    static final String REINVERSION = "RESREINV";
+    static final String RESCATE_COMISION = "RESCOM";
+    static final String MEDIO_PAGO_TRANSFERENCIA = "TRA";
+    static final String ESTADO_RECHAZADO_TESORERIA = "RECH";
+    static final String NUMERO_REFERENCIA_TESORERIA = "NumeroReferencia";
+    static final String SPOT_COMPRA = "COMSPT";
+    static final String SPOT_VENTA = "VENSPT";
+    static final String SPOT_ESTADO_RECHAZADO = "RECH";
+    static final String SPOT_CALCULA_MARGEN = "S";
+    static final String SPOT_MOVIMIENTO_INGRESO = "MOVING";
+    static final String SPOT_MOVIMIENTO_EGRESO = "MOVEGR";
+    static final String SPOT_VALUTA_DEFECTO_FORMA_DE_PAGO = "0";
+    static final String TIPO_COMISION_TRIMESTRAL = "PER";
+
     private CerConstantes() {
     }
 }

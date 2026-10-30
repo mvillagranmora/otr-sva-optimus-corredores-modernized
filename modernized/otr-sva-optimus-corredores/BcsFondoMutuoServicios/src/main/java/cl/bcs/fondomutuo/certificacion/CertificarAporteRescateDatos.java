@@ -28,4 +28,7 @@ public interface CertificarAporteRescateDatos {
     List<IndicadorPortafolio> indicadoresPortafolio(List<Long> idPortafolios);
 
     List<ParametroOperaCSN> parametrosOperaConSaldoNegativo(List<Long> idPortafolios);
+
+    /** {@code GeneraCargoAbono} of a movement type ({@code "N"} when the type has no row). */
+    String generaCargoAbono(String idTipoMovimientoFondoMutuo);
 }

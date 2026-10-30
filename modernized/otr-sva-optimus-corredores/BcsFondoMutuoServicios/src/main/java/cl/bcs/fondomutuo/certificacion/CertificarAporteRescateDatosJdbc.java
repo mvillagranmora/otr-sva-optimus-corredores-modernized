@@ -27,6 +27,13 @@ public class CertificarAporteRescateDatosJdbc implements CertificarAporteRescate
     private static final String SQL_SELECT_INDICADORES_PORTAFOLIO_FFMM = SqlRecursos.modulo("ComunesSolicitudes_SelectIndicadoresPortafolioFFMM.sql");
     private static final String SQL_SELECT_PARAMETRO_OPERA_CON_SALDO_NEGATIVO = SqlRecursos.modulo("CrearSolicitudAporteRescateNormal_SelectParametroOperaConSaldoNegativo.sql");
 
+    private static final String SQL_SELECT_GENERA_CARGO_ABONO = SqlRecursos.modulo("CertificarSolicitudAporteRescate_SelectTipoMovimientoFondoMutuoGeneraCargoAbono.sql");
+
+    /** Legacy {@code GeneraCargoAbono}: a movement type without row reads as {@code "N"}. */
+    public static class GeneraCargoAbonoFila {
+        public String GeneraCargoAbono = "N";
+    }
+
     private final ConexionUnidadDeTrabajo conexion;
 
     public CertificarAporteRescateDatosJdbc(ConexionUnidadDeTrabajo conexion) {
@@ -89,5 +96,12 @@ public class CertificarAporteRescateDatosJdbc implements CertificarAporteRescate
         Map<String, Object> params = new HashMap<>();
         params.put("IdPortafolio", idPortafolios);
         return consultar(SQL_SELECT_PARAMETRO_OPERA_CON_SALDO_NEGATIVO, params, ParametroOperaCSN.class);
+    }
+
+    @Override
+    public String generaCargoAbono(String idTipoMovimientoFondoMutuo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("IdTipoMovimientoFondoMutuo", idTipoMovimientoFondoMutuo);
+        return consultar(SQL_SELECT_GENERA_CARGO_ABONO, params, GeneraCargoAbonoFila.class).stream().findFirst().orElse(new GeneraCargoAbonoFila()).GeneraCargoAbono;
     }
 }
