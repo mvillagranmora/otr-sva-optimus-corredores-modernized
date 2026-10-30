@@ -1,19 +1,19 @@
 # Avance de la migracion (se regenera con `tools/avance_migracion.py`)
 
-Generado: 2026-10-29. Metodo: lineas Java del legacy (`LOC_LEGACY.md`, 42 modulos del brief, 765.652 lineas) como aproximacion; el SQL embebido (188.823 lineas) viaja con cada modulo y no se cuenta aparte. **Probado** = veredicto PROVEN en `VERIFICATION.json`; un modulo solo se rotula `PROBADO` (100 %) si `avance_estado.json` lo marca `completo`, es decir, si todo su codigo legacy esta portado (los limites de prueba, como H2 frente a HANA, y las firmas de expertos no impiden la marca):  un PROVEN no completo se rotula `PROBADO PARCIAL (solo lo migrado)` o `PROBADO (100 % sin confirmar)`, nunca `PROBADO`. Las lineas son un proxy del tamano, no del esfuerzo.
+Generado: 2026-10-30. Metodo: lineas Java del legacy (`LOC_LEGACY.md`, 42 modulos del brief, 765.652 lineas) como aproximacion; el SQL embebido (188.823 lineas) viaja con cada modulo y no se cuenta aparte. **Probado** = veredicto PROVEN en `VERIFICATION.json`; un modulo solo se rotula `PROBADO` (100 %) si `avance_estado.json` lo marca `completo`, es decir, si todo su codigo legacy esta portado (los limites de prueba, como H2 frente a HANA, y las firmas de expertos no impiden la marca):  un PROVEN no completo se rotula `PROBADO PARCIAL (solo lo migrado)` o `PROBADO (100 % sin confirmar)`, nunca `PROBADO`. Las lineas son un proxy del tamano, no del esfuerzo.
 
 ## Resumen
 
 | Medida | Valor |
 |---|---:|
-| Modulos probados | 13 de 42 (31.0 %) |
-| Codigo migrado y probado | 109.598 de 765.652 lineas (**14.3 %**) |
-| Codigo construido (probado + sin probar + parcial) | 111.146 lineas (14.5 %) |
-| Meta de las pruebas de conjunto (80 %) | 612.521 lineas; faltan **502.923** |
-| **Codigo nuevo escrito** (Java activo en `src/main`, lineas no vacias, incluye los modulos fuera de los 42) | **155.730 lineas** |
+| Modulos probados | 12 de 42 (28.6 %) |
+| Codigo migrado y probado | 95.253 de 765.652 lineas (**12.4 %**) |
+| Codigo construido (probado + sin probar + parcial) | 112.050 lineas (14.6 %) |
+| Meta de las pruebas de conjunto (80 %) | 612.521 lineas; faltan **517.268** |
+| **Codigo nuevo escrito** (Java activo en `src/main`, lineas no vacias, incluye los modulos fuera de los 42) | **156.434 lineas** |
 | Probado (PROVEN) pero sin marca de modulo completo: no se afirma 100 % | 39.492 lineas en 2 modulos (BcsTesoreriaServicios, BcsCuentaInversionServicios) |
-| Codigo de pruebas escrito (`src/test`, Java) | 123.376 lineas |
-| Pruebas de la ultima corrida registrada en `target/surefire-reports` | 12.421 |
+| Codigo de pruebas escrito (`src/test`, Java) | 133.840 lineas |
+| Pruebas de la ultima corrida registrada en `target/surefire-reports` | 14.026 |
 
 La verificacion firmada es del 2026-10-29; los modulos marcados *desactualizada* cambiaron despues y hay que re-verificarlos y volver a firmar antes de contarlos como cerrados. Los modulos nuevos fuera de los 42 (BcsCrystalReports, BcsApvJavaCallAdapter, BcsAPVApi) se listan aparte. Nota: en `BcsPlataformaServicios` y `BcsFondoMutuoServicios` el codigo nuevo cuenta solo las carpetas activas (los stubs viejos siguen en el arbol pero fuera del contexto de Spring y no se cuentan). Las pruebas se leen de la ultima corrida que haya dejado resultados: un modulo sin `target/` muestra `-`.
 
@@ -34,7 +34,7 @@ La verificacion firmada es del 2026-10-29; los modulos marcados *desactualizada*
 | Custodia | BcsCustodiaJobs | 0.0 % | pendiente / esqueleto | 5.729 | 0 |  |
 | Facturacion | BcsFacturacionServicios | 0.0 % | pendiente / esqueleto | 34.597 | 0 |  |
 | Facturacion | BcsFacturacionJobs | 0.0 % | pendiente / esqueleto | 1.679 | 0 |  |
-| FondoMutuo | BcsFondoMutuoServicios | 24.5 % | PROBADO PARCIAL (solo lo migrado) | 58.637 | 14.345 | PROVEN y firmado por el usuario (verify 2026-10-29; cubre lo firmado el 27 y el 28-oct): Manejador, Normal, libreria Tesoreria en proceso, RescateReinversion, 8 lecturas de la UI (FSA, VDO, FMR, IFM, SFM, WS, DET, CPF), CargarValorCuota, cableado EN PROCESO de la libreria de Custodia (proxy de conexion con plazo por sentencia, guardia de transaccion, interruptores separados: habilitada para RescateReinversion, normal-habilitada para Normal, comisiones-en-proceso para CalcularComisiones; sin valorizacion en proceso) y ConsultarCustodiaPortafolioFFMM bug a bug con la cadena CPF + FFMM probada contra el legacy real. 3483 pruebas, 0 fallos; 1579 casos de desarrollo y 273 entradas frescas sin diferencia no aprobada (31 diferencias aprobadas por el usuario en desarrollo y 3 en frescas). Todas las listas siguen cerradas por defecto (503): antes de abrir cualquiera falta la firma del experto de dominio. Pendientes: imagen Docker sin construir (CI), 14 personas con dos socios en QA (D-F3C-19) y 200 series con varios regimenes ACT (D-F3A-08), SFM/WS sin filtro de empresa ni tope (como el legacy), pruebas en HANA QA (readOnly, timeout, batch parcial, custodia: permisos, secuencias y tabla de trabajo; tipo de la UNION de FFMM), preguntas QD-F3A-09..12 y Q-F3A-7, W3 (Certificar). loc_migrado aprox. (lineas no vacias de las clases legacy portadas). |
+| FondoMutuo | BcsFondoMutuoServicios | 24.5 % | en curso | 58.637 | 14.345 | AL 2026-10-30 EL PACK LO MARCA PARTLY PROVEN: el verify de BcsAPVApi reescribio VERIFICATION.md (firma en blanco) y su codigo es posterior a sus resultados por T1, T2 y T3 de Certificar (3947 pruebas en T1; 4265 tras T2; T3 en curso); repetir su verify y firmar al cerrar W3. Lo siguiente describe el estado firmado del 29-oct. PROVEN y firmado por el usuario (verify 2026-10-29; cubre lo firmado el 27 y el 28-oct): Manejador, Normal, libreria Tesoreria en proceso, RescateReinversion, 8 lecturas de la UI (FSA, VDO, FMR, IFM, SFM, WS, DET, CPF), CargarValorCuota, cableado EN PROCESO de la libreria de Custodia (proxy de conexion con plazo por sentencia, guardia de transaccion, interruptores separados: habilitada para RescateReinversion, normal-habilitada para Normal, comisiones-en-proceso para CalcularComisiones; sin valorizacion en proceso) y ConsultarCustodiaPortafolioFFMM bug a bug con la cadena CPF + FFMM probada contra el legacy real. 3483 pruebas, 0 fallos; 1579 casos de desarrollo y 273 entradas frescas sin diferencia no aprobada (31 diferencias aprobadas por el usuario en desarrollo y 3 en frescas). Todas las listas siguen cerradas por defecto (503): antes de abrir cualquiera falta la firma del experto de dominio. Pendientes: imagen Docker sin construir (CI), 14 personas con dos socios en QA (D-F3C-19) y 200 series con varios regimenes ACT (D-F3A-08), SFM/WS sin filtro de empresa ni tope (como el legacy), pruebas en HANA QA (readOnly, timeout, batch parcial, custodia: permisos, secuencias y tabla de trabajo; tipo de la UNION de FFMM), preguntas QD-F3A-09..12 y Q-F3A-7, W3 (Certificar). loc_migrado aprox. (lineas no vacias de las clases legacy portadas). |
 | FondoMutuo | BcsJobsFondoMutuo | 0.0 % | pendiente / esqueleto | 1.928 | 0 |  |
 | Mesa | BcsMesaServicios | 0.0 % | pendiente / esqueleto | 53.668 | 0 |  |
 | Mesa | BcsMesaJobs | 0.0 % | pendiente / esqueleto | 3.348 | 0 |  |
@@ -58,7 +58,7 @@ La verificacion firmada es del 2026-10-29; los modulos marcados *desactualizada*
 | Plataforma | BcsPortalConfirmacionWeb | 0.0 % | pendiente / esqueleto | 485 | 0 |  |
 | Plataforma | BcsFilters | 0.0 % | pendiente / esqueleto | 321 | 0 |  |
 | Portafolio | BcsPortafolioServicios | 0.0 % | pendiente / esqueleto | 7.071 | 0 |  |
-| Replica | BcsReplica | 0.0 % | pendiente / esqueleto | 904 | 0 |  |
+| Replica | BcsReplica | 100.0 % | construido, sin probar | 904 | 904 | Implementacion verde (35822781): EnviarTablaReplica, ReplicaUtils e IniciarReplica/Full/Delta con los 58 SQL verbatim; 469 pruebas, 264 casos grabados con el legacy ejecutado, 22 defectos D-REP replicados; canarios 43 de 44 (M02 es una laguna de las pruebas); compuertas G-TRG, G-SEB y G-OPT cerradas y colaboradores de Plataforma tras puertos. No portado: scripts de instalacion de BD y BD/Vistas. Pendiente verify independiente y firma; preguntas Q-REP-1..13 abiertas. |
 | SocioNegocio | BcsSocioNegocioServicios | 0.0 % | pendiente / esqueleto | 104.899 | 0 |  |
 | SocioNegocio | BcsSocioNegocioJobs | 0.0 % | pendiente / esqueleto | 1.280 | 0 |  |
 | Tesoreria | BcsTesoreriaServicios | 100.0 % | PROBADO (100 % sin confirmar) | 21.516 | 21.516 | PROVEN sin marcar completo por BRECHAS DE CODIGO: Cloper no tiene cliente de produccion (503 a TomEE); los servicios SOAP SvcRecaudaInqV1/TrnV1 estan solo como contrato estatico y sus endpoints modernos son esqueleto (sin PortType ni la construccion de respuestas MFX). Limites de prueba que NO bloquean: H2 frente a HANA y los procedimientos EdicionMultiple, CrearComprobante (USARCREARCOMPROBANTEJAVA=N) y LiquidacionMasiva (viven en HANA, no se migran; probados solo del lado Java). |
@@ -70,12 +70,16 @@ La verificacion firmada es del 2026-10-29; los modulos marcados *desactualizada*
 |---|---|---:|---:|---:|
 | BcsCrystalReports | PROVEN | 1.909 | 2.211 | 290 |
 | BcsApvJavaCallAdapter | PARTLY PROVEN | 8.721 | 219 | 12 |
-| BcsAPVApi | PARTLY PROVEN | 8.309 | 35 | 1 |
+| BcsAPVApi | PARTLY PROVEN | 8.309 | 1.762 | 25 |
 
 ## Historial
 
 | Fecha | Evento |
 |---|---|
+| 2026-10-30 | BcsReplica: pruebas aprobadas (8ad227ce) e implementacion verde (35822781): 469 pruebas, 264 casos, 22 defectos D-REP replicados; construido, pendiente verify. BcsCanalAgenteServicios: 88 casos y 136 pruebas aprobadas en rojo (31d7cb2b); implementacion en curso. FondoMutuo T3 (Certificar F-E cuenta de inversion, F-F tesoreria, F-H spot): 197 casos, 330 pruebas CerT3* aprobadas en rojo (a30c8ce4); implementacion en curso |
+| 2026-10-30 | Repositorio git unico en la raiz del proyecto (legacy congelado, analysis y modernized); .archify versionado (0a9d5b57). BcsAPVApi: contrato generado (no es un modulo del legacy); pruebas de 1 a 25 y 18 canarios (f6bc67e9); verify solo de este modulo: PARTLY PROVEN (RULE-076 sin prueba que la nombre, sin cases.json). Aviso: generar_todo.py sin --check borraria BcsAPVServicios/.../application. El pack reescribio VERIFICATION.md: firma de BcsFondoMutuoServicios en blanco y veredicto PARTLY PROVEN (codigo posterior a sus resultados); repetir su verify y firmar al cerrar W3 |
+| 2026-10-29 | FondoMutuo F3 W3 T2 (Certificar F-C aportes y F-D rescates): 179 casos grabados con el legacy, 318 pruebas CerT2*, defectos D-F3B-37..40; pruebas en rojo 7c5fb8b0 e implementacion 12419d8e (4265 pruebas, 18 de 18 canarios). Replica bug a bug; custodia y compuertas tras puertos cerrados |
+| 2026-10-29 | FondoMutuo F3 W3 T1 (Certificar F-A y F-B): 305 goldens, 464 pruebas Cer*; la suite completa dejaba sin ejecutar 537 pruebas Cvc* por falta de memoria (bases H2 de los arneses sin cerrar, Surefire no avisa): corregido con BdEfimeraH2 en 17 arneses, sin cambiar aserciones; 3947 pruebas, 115 clases. Commit del dia; conviene contar siempre los XML contra el numero de clases |
 | 2026-10-29 | Revision de arquitectura de FFMM y Custodia en proceso (ebf09f66): proxy de conexion con plazo por sentencia, guardia de transaccion, interruptores separados normal-habilitada y comisiones-en-proceso, Dockerfile con las librerias; 3483 pruebas. verify (cuarta corrida): PROVEN tras aprobar el usuario VF-NOR-11 (DEV-F4) y VF-NOR-36 (DEV-6-H1); lado nuevo de las 13 familias re-ejecutado sin diferencias nuevas; 42 entradas frescas de Normal; firma del usuario |
 | 2026-10-28 | verify BcsFondoMutuoServicios (tercera corrida): PROVEN tras aprobar el usuario 3 diferencias de ConsultarCustodiaPortafolioFFMM (DESVIO-KIT-1); se re-ejecuto el lado nuevo de las 10 familias anteriores sin diferencias nuevas (VF-CVC-29/30 ahora iguales al legacy); 1579 casos de desarrollo y 231 frescas; canario propio 13 pruebas rojas; firma del usuario; BcsCustodiaServicios queda PARTLY PROVEN (su evidencia de QA en vivo del 26-oct es anterior al cambio de su pom y su Dockerfile; repetir QA-2 y QA-3 con VPN) |
 | 2026-10-28 | ConsultarCustodiaPortafolioFFMM (aafe9da5): 22 tarjetas, 192 casos de la clase sola y 78 de la cadena CPF + FFMM reales frente al legacy; el adaptador real reemplaza a CustodiaCerrada (interruptor fondomutuo.custodia.ffmm.cerrada); consultas de solo lectura en HANA QA: 14 IdPersona con dos socios de negocio, IdRegimenFondoMutuo nulable, clase no registrada en PLA.Servicio; 3448 pruebas. Pendiente verify y firma |
