@@ -169,3 +169,5 @@ Ninguna. Las 136 pasaron sin cambiar pruebas, goldens ni `ApiCanalAgente.java`.
 
 ### Preguntas abiertas
 Q-CAN-01 a Q-CAN-07 siguen abiertas, para el experto (ver la lista de la seccion de pruebas): no se corrigio ningun defecto. Q-CAN-01 se resolvio como replicar (decision aprobada), las demas no cambian el codigo hoy.
+
+- RULE-076 (transversal): prueba `Rule076CredencialesHardcodeadasTest` (con `Rule076Escaner`); no cubre reglas de dominio (B-CA/D-CAN siguen siendo ids propios sin RULE-nnn). Canario en `equivalence/canary/BcsCanalAgenteServicios-20261030c/`.
