@@ -69,7 +69,7 @@ public class ReplicaUtilsServicio {
 
     public void guardarEnvioPostPauta(Connection conn, String tabla, String fechaSistema, String fechaEnvio) throws Exception {
         List<Map<String, Object>> datos = new ArrayList<>();
-        datos.add(Sql.fila("Fecha", fechaEnvio, "FechaSistema", fechaSistema, "Tabla", tabla));
+        datos.add(Sql.fila("FechaSistema", fechaSistema, "Tabla", tabla, "Fecha", fechaEnvio));
         Sql.batch(conn, Sql.recurso("EnviarTablaReplica_InsertEnvioPostPauta.sql"), datos);
     }
 

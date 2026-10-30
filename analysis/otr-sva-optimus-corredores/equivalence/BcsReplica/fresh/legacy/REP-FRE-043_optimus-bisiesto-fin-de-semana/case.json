@@ -1,0 +1,166 @@
+{
+  "servicio": "ReplicaUtils.procesarRespaldoOptimus",
+  "ref": [
+    "B-REP-19",
+    "D-REP-02"
+  ],
+  "entrada": {
+    "fechaSistemaEjecucion": "2028-02-25",
+    "idEmpresa": 5
+  },
+  "colaboradores": {
+    "ConsultarEmpresa.logica": {
+      "defecto": {
+        "IdPais": 56
+      }
+    },
+    "ObtenerDiaSiguiente.logica": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_fechas.0.fechaInicial": "2028-02-25"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "p_out_fechas": [
+              {
+                "fechaInicial": "2028-02-25",
+                "numeroDiasInicial": 1,
+                "numeroDias": 1,
+                "fechaCalculada": "2028-02-26",
+                "idPais": null,
+                "IdInterno": 0
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_fechas.0.fechaInicial": "2028-02-26"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "p_out_fechas": [
+              {
+                "fechaInicial": "2028-02-26",
+                "numeroDiasInicial": 1,
+                "numeroDias": 1,
+                "fechaCalculada": "2028-02-27",
+                "idPais": null,
+                "IdInterno": 0
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_fechas.0.fechaInicial": "2028-02-27"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "p_out_fechas": [
+              {
+                "fechaInicial": "2028-02-27",
+                "numeroDiasInicial": 1,
+                "numeroDias": 1,
+                "fechaCalculada": "2028-02-28",
+                "idPais": null,
+                "IdInterno": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Feriados.esDiaHabil": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0": "2028-02-26"
+          },
+          "respuesta": false
+        },
+        {
+          "cuando": {
+            "0": "2028-02-27"
+          },
+          "respuesta": false
+        },
+        {
+          "cuando": {
+            "0": "2028-02-28"
+          },
+          "respuesta": true
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.CuentaInversion.BD::CTA.SaldoFechaEfectiva",
+      "orden": "\"FechaSaldo\", \"IdCuentaInversion\"",
+      "columnas": [
+        "IdCuentaInversion",
+        "IdCliente",
+        "IdPortafolio",
+        "FechaSaldo",
+        "SaldoDisponible",
+        "SaldoEnGarantia",
+        "SaldoAPlazo",
+        "SaldoRetiro",
+        "SaldoRetenido",
+        "UltimaOperacion",
+        "IdMatrizAgrupador",
+        "Checksum"
+      ]
+    },
+    {
+      "nombre": "BSCL.CuentaInversion.BD::CTA.SaldoFechaMovimiento",
+      "orden": "\"FechaSaldo\", \"IdCuentaInversion\"",
+      "columnas": [
+        "IdCuentaInversion",
+        "IdCliente",
+        "IdPortafolio",
+        "FechaSaldo",
+        "SaldoDisponible",
+        "SaldoEnGarantia",
+        "SaldoAPlazo",
+        "SaldoRetiro",
+        "SaldoRetenido",
+        "UltimaOperacion",
+        "IdMatrizAgrupador",
+        "Checksum"
+      ]
+    },
+    {
+      "nombre": "BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion",
+      "orden": "\"FechaCustodia\", \"IdCliente\", \"IdInstrumento\"",
+      "columnas": [
+        "IdEmpresa",
+        "TipoFechaConsulta",
+        "FechaCustodia",
+        "IdCliente",
+        "IdPortafolio",
+        "IdInstrumento",
+        "CantidadCustodia"
+      ]
+    },
+    {
+      "nombre": "BSCL.Custodia.BD::HIS.CustodiaFechaOperacion",
+      "orden": "\"FechaCustodia\", \"IdCliente\", \"IdInstrumento\"",
+      "columnas": [
+        "IdEmpresa",
+        "TipoFechaConsulta",
+        "FechaCustodia",
+        "IdCliente",
+        "IdPortafolio",
+        "IdInstrumento",
+        "CantidadCustodia"
+      ]
+    },
+    {
+      "nombre": "BSCL.Replica.BD::EnvioPostPauta",
+      "orden": "\"FechaSistema\", \"Tabla\", \"Fecha\""
+    }
+  ]
+}

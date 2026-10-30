@@ -10,10 +10,12 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public final class Sql {
     private Sql() {
@@ -57,11 +59,22 @@ public final class Sql {
             } catch (SQLException cause) {
                 String m = cause.getMessage();
                 if (cause.getCause() != null) m = m + " " + cause.getCause().getMessage();
-                SQLException e = new SQLException(m + " Query: " + sql + " Parameters: " + Arrays.deepToString(filas.toArray()), cause.getSQLState(), cause.getErrorCode());
+                SQLException e = new SQLException(m + " Query: " + sql + " Parameters: " + Arrays.deepToString(filas.stream().map(Sql::json).toArray()), cause.getSQLState(), cause.getErrorCode());
                 e.setNextException(cause);
                 throw e;
             }
         }
+    }
+
+    // legacy: each parameter row is a POJO whose toString() is Utils.printJson(this,false): Gson with
+    // serializeSpecialFloatingPointValues, date format yyyy-MM-dd HH:mm:ss.SSS and serializeNulls
+    // (HTML escaping stays on, so = ' < > & come out as unicode escapes). The rows are insertion-ordered maps
+    // in the order of the legacy POJO fields, null for the fields the caller does not set.
+    private static final Gson GSON = new GsonBuilder().serializeSpecialFloatingPointValues()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").serializeNulls().create();
+
+    static String json(Map<String, Object> fila) {
+        return GSON.toJson(fila);
     }
 
     static String parsear(String query, Map<String, List<Integer>> indices) {
@@ -93,7 +106,7 @@ public final class Sql {
     }
 
     public static Map<String, Object> fila(Object... pares) {
-        Map<String, Object> m = new HashMap<>();
+        Map<String, Object> m = new LinkedHashMap<>();
         for (int i = 0; i < pares.length; i += 2) m.put((String) pares[i], pares[i + 1]);
         return m;
     }

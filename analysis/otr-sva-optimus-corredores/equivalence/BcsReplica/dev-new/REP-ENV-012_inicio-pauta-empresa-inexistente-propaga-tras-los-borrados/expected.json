@@ -1,0 +1,216 @@
+{
+  "_provenance": "Written by fresh/driver FrescoNuevo executing the modernized BcsReplica (src/main) through CasoReplica.ejecutar on H2 in memory; same sections as the legacy oracle.",
+  "tablasIniciales": {
+    "BSCL.Plataforma.BD::PLA.Replica.WorkStack": [],
+    "BSCL.CuentaInversion.BD::CTA.SaldoFechaEfectiva": [],
+    "BSCL.CuentaInversion.BD::CTA.SaldoFechaMovimiento": [],
+    "BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion": [],
+    "BSCL.Custodia.BD::HIS.CustodiaFechaOperacion": []
+  },
+  "excepcion": "Exception: Empresa no existe",
+  "sentencias": [
+    {
+      "tipo": "exec",
+      "sql": "DROP TRIGGER \"BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCartera\";",
+      "ejecucion": "NO_EJECUTABLE_H2"
+    },
+    {
+      "tipo": "exec",
+      "sql": "DROP TRIGGER \"BSCL.Plataforma.BD::PLA.Replica.TriggerReplicaUpdateTablaCuentaInversion_SaldoFechaMovimiento\";",
+      "ejecucion": "NO_EJECUTABLE_H2"
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM bscl.\"BSCL.CuentaInversion.BD::CTA.SaldoFechaEfectiva\" WHERE \"FechaSaldo\" <= ADD_DAYS('2026-03-06',-10);",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM \"BSCL.CuentaInversion.BD::CTA.SaldoFechaMovimiento\" WHERE \"FechaSaldo\" <= ADD_DAYS('2026-03-06',-10);",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM \"BSCL.CuentaInversion.BD::CTA.SaldoFechaEfectiva\" WHERE \"FechaSaldo\" = '2026-03-06'",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM \"BSCL.CuentaInversion.BD::CTA.SaldoFechaMovimiento\" WHERE \"FechaSaldo\" = '2026-03-06'",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "INSERT INTO \"BSCL.CuentaInversion.BD::CTA.SaldoFechaEfectiva\" (\"IdEjecutivo\",\"NombreEjecutivo\",\"CodigoSucursal\",\"NombreS ... INT) AS \"Checksum\" FROM \"BSCL.CuentaInversion.BD.Vistas::ConsultarSaldoCuentaInversionFechaEfectivaAnalitica\" ( PLACEHOLDER.\"$$p_idempresa$$\" => 1, PLACEHOLDER.\"$$p_fechaconsulta$$\" => '0001-01-01' );",
+      "sqlLargo": 1478,
+      "sqlSha256": "b09f2f1683e9a652b177a4f53caa6e611c458042ae5529720430877acc10fe1f",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        3
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "INSERT INTO \"BSCL.CuentaInversion.BD::CTA.SaldoFechaMovimiento\" (\"IdEjecutivo\",\"NombreEjecutivo\",\"CodigoSucursal\",\"Nombr ... T) AS \"Checksum\" FROM \"BSCL.CuentaInversion.BD.Vistas::ConsultarSaldoCuentaInversionFechaMovimientoAnalitica\" ( PLACEHOLDER.\"$$p_idempresa$$\" => 1, PLACEHOLDER.\"$$p_fechaconsulta$$\" => '0001-01-01' );",
+      "sqlLargo": 1482,
+      "sqlSha256": "6090ea6b37a0ff245c4e706a5abd5bbf7f66e914fe1d63f3ef81b841cb214757",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        2
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM \"BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion\" WHERE \"FechaCustodia\" <= ADD_DAYS('2026-03-06',-10);",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM \"BSCL.Custodia.BD::HIS.CustodiaFechaOperacion\" WHERE \"FechaCustodia\" <= ADD_DAYS('2026-03-06',-10);",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM \"BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion\" WHERE \"FechaCustodia\" = '2026-03-06'",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM \"BSCL.Custodia.BD::HIS.CustodiaFechaOperacion\" WHERE \"FechaCustodia\" = '2026-03-06'",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "INSERT INTO BSCL.\"BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion\" select \"IdEmpresa\" ,\"TipoFechaConsulta\" ,\"FechaCustodi ... \"DiferenciaMercadoPactosC\" ,\"IdMatrizAgrupador\" ,\"EsADC\" ,\"FechaFuentePrecioMercadoCustodia\" ,\"IdRegimenFondoMutuo\" from bscl.\"BSCL.Custodia.BD.Vistas::CUS.ConsultarCustodiaFechaLiquidacionAnalitica\";",
+      "sqlLargo": 1867,
+      "sqlSha256": "756e8e07f84c695aa7cda91a8b4e49b9e7952de376c3f42d0cd87997cb81720b",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    },
+    {
+      "tipo": "exec",
+      "sql": "INSERT INTO BSCL.\"BSCL.Custodia.BD::HIS.CustodiaFechaOperacion\" select \"IdEmpresa\" ,\"TipoFechaConsulta\" ,\"FechaCustodia\" ... tosC\" ,\"DiferenciaMercadoPactosC\" ,\"IdMatrizAgrupador\" ,\"EsADC\" ,\"FechaFuentePrecioMercadoCustodia\" ,\"IdRegimenFondoMutuo\" from \"BSCL.Custodia.BD.Vistas::CUS.ConsultarCustodiaFechaOperacionAnalitica\";",
+      "sqlLargo": 1858,
+      "sqlSha256": "8b2d3d29157b8939db565e0c6903e7f5e2f43dada4b9aafae12446e50ecddb55",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        0
+      ]
+    }
+  ],
+  "colaboradores": [
+    {
+      "colaborador": "ConsultarEmpresa",
+      "metodo": "logica",
+      "argumentos": [
+        1
+      ],
+      "respuesta": "error: Empresa no existe"
+    }
+  ],
+  "tablas": {
+    "BSCL.Plataforma.BD::PLA.Replica.WorkStack": [],
+    "BSCL.CuentaInversion.BD::CTA.SaldoFechaEfectiva": [
+      {
+        "IdCuentaInversion": 1,
+        "IdCliente": 10,
+        "IdPortafolio": 100,
+        "FechaSaldo": "2026-03-06",
+        "SaldoDisponible": 1000,
+        "SaldoEnGarantia": 5,
+        "SaldoAPlazo": 7,
+        "SaldoRetiro": 1,
+        "SaldoRetenido": 2,
+        "UltimaOperacion": 50,
+        "IdMatrizAgrupador": 3,
+        "Checksum": 1518
+      },
+      {
+        "IdCuentaInversion": 2,
+        "IdCliente": 11,
+        "IdPortafolio": 101,
+        "FechaSaldo": "2026-03-06",
+        "SaldoDisponible": 0,
+        "SaldoEnGarantia": 0,
+        "SaldoAPlazo": 0,
+        "SaldoRetiro": 0,
+        "SaldoRetenido": 0,
+        "UltimaOperacion": 51,
+        "IdMatrizAgrupador": 4,
+        "Checksum": -2
+      },
+      {
+        "IdCuentaInversion": 3,
+        "IdCliente": 12,
+        "IdPortafolio": 102,
+        "FechaSaldo": "2026-03-06",
+        "SaldoDisponible": -250,
+        "SaldoEnGarantia": 0,
+        "SaldoAPlazo": 0,
+        "SaldoRetiro": 0,
+        "SaldoRetenido": 0,
+        "UltimaOperacion": 52,
+        "IdMatrizAgrupador": null,
+        "Checksum": null
+      }
+    ],
+    "BSCL.CuentaInversion.BD::CTA.SaldoFechaMovimiento": [
+      {
+        "IdCuentaInversion": 1,
+        "IdCliente": 10,
+        "IdPortafolio": 100,
+        "FechaSaldo": "2026-03-06",
+        "SaldoDisponible": 1000,
+        "SaldoEnGarantia": 5,
+        "SaldoAPlazo": 7,
+        "SaldoRetiro": 1,
+        "SaldoRetenido": 2,
+        "UltimaOperacion": 50,
+        "IdMatrizAgrupador": 3,
+        "Checksum": 1518
+      },
+      {
+        "IdCuentaInversion": 2,
+        "IdCliente": 11,
+        "IdPortafolio": 101,
+        "FechaSaldo": "2026-03-06",
+        "SaldoDisponible": 0,
+        "SaldoEnGarantia": 0,
+        "SaldoAPlazo": 0,
+        "SaldoRetiro": 0,
+        "SaldoRetenido": 0,
+        "UltimaOperacion": 51,
+        "IdMatrizAgrupador": 4,
+        "Checksum": -2
+      }
+    ],
+    "BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion": [],
+    "BSCL.Custodia.BD::HIS.CustodiaFechaOperacion": []
+  }
+}

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,12 +97,12 @@ public class EnviarTablaReplicaServicio {
             compuertas.exigirTriggers();
             lista.add(Workstack.nuevo("CUSTODIA DIA SIGUIENTE", "tables:Custodia_CustodiaFechaLiquidacion,Custodia_CustodiaFechaOperacion;BCS_query:QueryReplicaDelta;Fecha:" + fecha + CIERRE));
             Long desfase = configuracion.parametroLong(conn, idEmpresa, "PLATAFORMA", "PLA.SegundosZonaHoraria");
-            Map<String, Object> r = new HashMap<>();
+            Map<String, Object> r = new LinkedHashMap<>();
             r.put("Tipo", "PAUTA");
-            r.put("Estado", "OK");
-            r.put("FechaSistema", fechaSql(fecha));
             r.put("Nombre", "FIN_PAUTA");
+            r.put("Estado", "OK");
             r.put("Detalle", "FIN_PAUTA");
+            r.put("FechaSistema", fechaSql(fecha));
             r.put("UltimaActualizacion", fechaHoraSql(LocalDateTime.now(reloj).plusSeconds(desfase).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             resumen.add(r);
             try {
@@ -116,7 +116,7 @@ public class EnviarTablaReplicaServicio {
 
         if (lista.size() > 0) {
             List<Map<String, Object>> filas = new ArrayList<>();
-            for (Workstack w : lista) filas.add(Sql.fila("Key", w.Key, "Table", w.Table, "Action", w.Action, "Status", w.Status, "Parameters", w.Parameters));
+            for (Workstack w : lista) filas.add(Sql.fila("Key", w.Key, "Table", w.Table, "Action", w.Action, "Status", w.Status, "Stamp", null, "Parameters", w.Parameters));
             Sql.batch(conn, Sql.recurso("EnviarTablaReplica_InsertWorkstack.sql"), filas);
         }
     }
