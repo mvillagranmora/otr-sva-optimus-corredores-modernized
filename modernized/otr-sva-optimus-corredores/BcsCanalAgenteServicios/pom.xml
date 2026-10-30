@@ -86,6 +86,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!-- The characterization goldens compare timestamps and dates as text: the zone and language of the JVM are fixed so the result does not depend on the machine -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Duser.timezone=UTC -Duser.language=en</argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

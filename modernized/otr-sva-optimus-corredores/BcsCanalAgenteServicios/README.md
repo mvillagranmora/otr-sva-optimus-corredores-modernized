@@ -1,108 +1,24 @@
 # BcsCanalAgenteServicios
 
-## Descripción
+Estado: **paso 1 de modernize-transform (pruebas de caracterizacion y oraculo, en rojo)**. No hay codigo de produccion de la logica: el `src/main` actual es el esqueleto del 2026-10-05 y se REEMPLAZA en el paso 3 (ver `TRANSFORMATION_NOTES.md`, seccion "CanalAgente: pruebas", para lo que el esqueleto daba por hecho y el legacy no hace).
 
-Microservicio del canal de agente/corredor de bolsa. Consulta el historial de movimientos de cuentas de inversion para un portafolio dado, enriqueciendo el resultado con datos de comprobantes (folio, codigo de portafolio, respuesta DTE, PDF DTE, documento de identidad) mediante un patron HANA de tabla temporal INSERT/SELECT/DELETE. Es consumido directamente por el API Gateway o el frontend del canal agente.
+## Que es el legacy
+`legacy/otr-sva-optimus-corredores/BSCL/CanalAgente` (Java EE 8 / TomEE) tiene UNA clase de servicio, `cl.bcs.canalagente.ConsultarHistorialMovimientosCuentaInversion` (288 lineas, `JavaCall`), con 4 SQL de recursos, mas 3 procedimientos HANA en `BD/Servicios` y 3 scripts de prueba en `BD/Scripts`. No tiene endpoints REST propios: se invoca por el despacho `JavaCall` de la plataforma.
 
-## Tecnología
+Flujo del servicio (`logica`):
+1. `SELECT TOP 1 "IdCliente"` de `POR.Portafolio` por `p_IdPortafolio`. Si no hay fila el legacy **lanza `NullPointerException`** (el mensaje "Cliente no encontrado." se arma pero `P_OUT_ERRORESCONTADOR++` falla sobre un `Long` nulo: D-CAN-01).
+2. Llama a `ConsultarCartolaDeMovimiento` (otro modulo) con `p_UsaReglasNegocio = "S"`, `p_SaldoPorFechaEfectiva = "N"`, `p_IdCuentaInversion = null`, `p_IdEstado = null`, el cliente encontrado y el resto de la entrada, incluidos `p_IdMatrizAgrupador` y `p_EsADC` (opcionales).
+3. Enriquece con folio, codigo de portafolio, DTE y documento de identidad: INSERT por lote en la tabla de trabajo `BSCL.CanalAgente.BD::ConsultarHistorialMovimientosCuentaInversion_Proceso` (GLOBAL TEMPORARY, filas por sesion, borrado al commit), SELECT con 5 LEFT JOIN y DELETE.
+4. Devuelve 26 campos por movimiento. Saldos inicial y final y contador de advertencias salen nulos; los errores de la cartola se descartan.
 
-- **Framework:** Spring Boot 4.1.1 / Java 25
-- **Puerto:** 8102
-- **Artifact:** `cl.bcs.canalagente:bcs-canal-agente-servicios`
-- **Arquitectura:** Hexagonal (domain / port/in / port/out / service / adapter/in / adapter/out)
+## Que hay en este modulo hoy
+- `src/test/java/cl/bcs/canalagente/caracterizacion/`: 8 clases de prueba (136 pruebas), `README.md` y `API_ASSUMED.md` (la API de produccion que asumen).
+- `src/test/resources/canal-caracterizacion/`: 88 casos con semilla H2 y golden grabado ejecutando el legacy, esquemas H2 generados del catalogo real de HANA QA, manifiesto SHA-256 de los 7 SQL y catalogo de reglas.
+- `analysis/otr-sva-optimus-corredores/equivalence/BcsCanalAgenteServicios/`: oraculo (`legacy-oracle/record.sh`), generadores de casos, catalogo HANA y `ORACLE_NOTES.md`.
+- `src/main` (esqueleto previo, sin tocar): controlador REST `/canal-agente/...`, `CanalAgenteService`, `CanalAgenteDataPort`... **no corresponden al legacy** (el legacy no tiene REST propio, devuelve un error donde el legacy lanza, exige `idEmpresa`/`idMoneda` no nulos mientras su README dice que solo `idPortafolio` es obligatorio y documenta `idMatrizAgrupador` como String, `5 tablas` donde el legacy usa 6...). No se usa como referencia.
 
-## Requisitos
+## Diseno previsto (paso 3)
+Hexagonal minimo: `service.ConsultarHistorialMovimientosCuentaInversionServicio` (misma logica y mismos SQL del legacy, con la `Connection` recibida), `port.out.ConsultarCartolaDeMovimientoPort` (colaborador no portado: por defecto `ColaboradoresNoPortados`, que lanza `ServicioNoServidoException`, tras la compuerta `canalagente.compuertas.cartola=false`), `port.out.ProcedimientosBdPort` con los 3 procedimientos como recursos SQL. Detalle y razones en `API_ASSUMED.md`.
 
-| Variable de entorno | Descripcion | Obligatoria |
-|---|---|---|
-| `HANA_URL` | URL JDBC de SAP HANA | Si |
-| `HANA_USER` | Usuario de HANA | Si |
-| `HANA_PASSWORD` | Contrasena de HANA | Si |
-
-## Endpoints
-
-| Metodo | Ruta | Descripcion |
-|---|---|---|
-| `POST` | `/canal-agente/historial-movimientos` | Consulta el historial de movimientos de cuenta de inversion para un portafolio |
-| `GET` | `/canal-agente/health` | Health check del servicio |
-
-### Parametros del request `POST /canal-agente/historial-movimientos` (body JSON)
-
-| Campo | Tipo | Descripcion | Requerido |
-|---|---|---|---|
-| `idPortafolio` | Long | Identificador del portafolio | Si |
-| `idMatrizAgrupador` | String | Matriz de agrupacion (opcional) | No |
-| `esADC` | String | Indicador ADC (opcional) | No |
-
-### Logica de negocio del endpoint
-
-1. Se busca `IdCliente` en `POR.Portafolio` a partir de `idPortafolio`. Si no se encuentra, retorna `"Cliente no encontrado."`.
-2. Se delega a `ConsultarCartolaDeMovimiento` (dominio de BcsCuentaInversionServicios) con `p_UsaReglasNegocio = "S"` y `p_SaldoPorFechaEfectiva = "N"`.
-3. Los movimientos se enriquecen con datos de comprobante. Si un `IdCargoAbonoMovimiento` no tiene comprobante, los campos de comprobante son `null` (no es error).
-
-## Dependencias de runtime
-
-| Servicio | Puerto | Rol |
-|---|---|---|
-| SAP HANA | 30015 | Consultas de portafolio, historial de movimientos (SP chain) y tabla temporal de comprobantes |
-
-## Diagrama
-
-```mermaid
-graph LR
-  GW["API Gateway / Frontend<br/>(canal agente/corredor)"]:::client
-
-  GW --> BcsCanalAgenteServicios
-
-  BcsCanalAgenteServicios["BcsCanalAgenteServicios<br/>:8102"]:::svc
-
-  HANA["SAP HANA<br/>:30015<br/>POR.Portafolio<br/>ConsultarCartolaDeMovimiento SP"]:::db
-
-  BcsCanalAgenteServicios --> HANA
-
-  classDef svc fill:#1a6ca8,stroke:#0d4f7c,color:#fff
-  classDef client fill:#7b5ea7,stroke:#5a3d87,color:#fff
-  classDef db fill:#c47200,stroke:#8a5000,color:#fff
-```
-
-## Notas de implementacion
-
-### Reglas de negocio
-
-| ID | Descripcion |
-|---|---|
-| **B-CA-01** | Dado `idPortafolio`, buscar `IdCliente` en `BSCL.Portafolio.BD::POR.Portafolio`. Si no se encuentra, retornar error `"Cliente no encontrado."`. |
-| **B-CA-02** | Delegar a `ConsultarCartolaDeMovimiento` con `p_UsaReglasNegocio = "S"` y `p_SaldoPorFechaEfectiva = "N"`. |
-| **B-CA-03** | Enriquecer resultados con `FolioComprobante`, `CodigoPortafolio`, `IdRespuestaDTE`, `RespuestaPdfDTE` y `DocumentoIdentidad` via patron de tabla temporal HANA (INSERT/SELECT/DELETE sobre 5 tablas). |
-| **B-CA-04** | Si un `IdCargoAbonoMovimiento` no tiene comprobante, todos los campos de comprobante son `null` (no es un error). |
-| **B-CA-05** | `idMatrizAgrupador` y `esADC` son opcionales (`null` por defecto); se propagan a `ConsultarCartolaDeMovimiento`. |
-
-### Split H2 vs HANA
-
-| Operacion | Testeable con H2 | Razon |
-|---|---|---|
-| `findIdClienteByPortafolio` | Si | `SELECT` simple sobre tabla `PORTAFOLIO_T` |
-| `consultarHistorialCompleto` | No (`@Disabled`) | Cadena de SPs HANA + patron de tabla temporal con 5 tablas HANA |
-
-### Arquitectura hexagonal
-
-```
-adapter/in/CanalAgenteController     <- POST /canal-agente/historial-movimientos
-service/CanalAgenteService           <- logica; helper estatico buildClienteNoEncontradoResponse()
-port/in/ConsultarHistorialMovimientosUseCase
-port/out/CanalAgenteDataPort         <- findIdClienteByPortafolio + consultarHistorialCompleto
-adapter/out/CanalAgenteRepositoryAdapter <- NamedParameterJdbcTemplate (H2-compatible para lookup)
-```
-
-### Manejo de errores
-
-| Excepcion | HTTP |
-|---|---|
-| `NullPointerException` | 400 |
-| `IllegalArgumentException` | 400 |
-| `NumberFormatException` | 400 |
-| `UnsupportedOperationException` | 503 |
-
-### Tests
-
-16 tests — 8 unitarios (`CanalAgenteServiceTest`, sin Spring), 8 de integracion H2-backed (6 activos + 2 deshabilitados que requieren HANA). BUILD SUCCESS.
+## Como correr
+`mvn -o test` desde este directorio (Java 25, `JAVA_HOME` de Temurin 25). Las pruebas fallan hasta el paso 3 con `not implemented`.
