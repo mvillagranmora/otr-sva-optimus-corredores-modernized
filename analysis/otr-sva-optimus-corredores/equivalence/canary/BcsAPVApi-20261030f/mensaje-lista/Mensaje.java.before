@@ -1,0 +1,19 @@
+package cl.bcs.apv.api.comun;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Message of an outcome (legacy {@code PlataformaUtils.MensajeSalida}): {@code tipo} is ERROR, AUTORIZACION, ADVERTENCIA, INFORMACION
+ * (or the module tag such as "APV"), {@code codigo} is a dictionary code (or "OK"/"ERROR"), {@code descripcion} the resolved text.
+ */
+public record Mensaje(Long id, String tipo, String codigo, String descripcion) {
+
+    public static Mensaje porDefecto() {
+        return new Mensaje(null, null, null, null);
+    }
+
+    public static List<Mensaje> lista() {
+        return new ArrayList<>();
+    }
+}

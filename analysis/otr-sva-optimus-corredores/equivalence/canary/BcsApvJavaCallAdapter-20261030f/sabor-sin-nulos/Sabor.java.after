@@ -1,0 +1,30 @@
+package cl.bcs.apv.adapter.javacall;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+/**
+ * The two Gson configurations the legacy {@code JavaCall.call()} methods use for BOTH directions:
+ * {@link #PLANO} is {@code new Gson()} (null fields omitted on output); {@link #CONSTRUCTOR} is {@code Utils.getGsonBuilder()}
+ * (serializeNulls, serializeSpecialFloatingPointValues, date format yyyy-MM-dd HH:mm:ss.SSS).
+ */
+public enum Sabor {
+    PLANO(new Gson(), false),
+    CONSTRUCTOR(new GsonBuilder().serializeSpecialFloatingPointValues().setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create(), true);
+
+    private final Gson gson;
+    private final boolean serializaNulos;
+
+    Sabor(Gson gson, boolean serializaNulos) {
+        this.gson = gson;
+        this.serializaNulos = serializaNulos;
+    }
+
+    public Gson gson() {
+        return gson;
+    }
+
+    public boolean serializaNulos() {
+        return serializaNulos;
+    }
+}
