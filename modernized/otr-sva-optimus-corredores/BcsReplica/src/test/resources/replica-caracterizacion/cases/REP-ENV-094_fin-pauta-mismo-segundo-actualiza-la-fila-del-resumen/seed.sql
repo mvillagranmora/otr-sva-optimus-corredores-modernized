@@ -1,0 +1,2 @@
+INSERT INTO "BSCL.Plataforma.BD::PLA.ResumenReplica" ("Tipo", "Nombre", "Estado", "Detalle", "FechaSistema", "UltimaActualizacion") VALUES ('PAUTA', 'FIN_PAUTA', 'ERROR', 'previo', '2026-03-06', '2026-03-02 14:30:00');
+INSERT INTO "BSCL.Plataforma.BD::PLA.ResumenReplica" ("Tipo", "Nombre", "Estado", "Detalle", "FechaSistema", "UltimaActualizacion") VALUES ('PAUTA', 'FIN_PAUTA', 'OK', 'FIN_PAUTA', '2026-03-05', '2026-03-02 14:30:00');

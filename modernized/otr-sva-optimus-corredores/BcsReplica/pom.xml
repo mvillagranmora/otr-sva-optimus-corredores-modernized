@@ -34,6 +34,12 @@
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
 
+    <!-- JSON of the legacy JavaCall contract (IniciarReplica call) and of the characterization harness -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+
     <!-- SAP HANA JDBC driver (runtime) -->
     <dependency>
       <groupId>com.sap.cloud.db.jdbc</groupId>
@@ -59,6 +65,14 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <!-- The characterization goldens compare timestamps and dates as text: the zone and language of the JVM are fixed so the result does not depend on the machine -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Duser.timezone=UTC -Duser.language=en</argLine>
+        </configuration>
       </plugin>
     </plugins>
   </build>

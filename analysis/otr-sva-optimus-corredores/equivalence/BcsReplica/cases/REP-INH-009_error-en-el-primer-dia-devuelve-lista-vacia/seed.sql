@@ -1,0 +1,4 @@
+INSERT INTO "BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion" ("IdEmpresa", "TipoFechaConsulta", "FechaCustodia", "IdCliente", "IdPortafolio", "IdInstrumento", "CantidadCustodia") VALUES (1, 'OPE', '2026-03-06', 10, 100, 500, 25);
+INSERT INTO "BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion" ("IdEmpresa", "TipoFechaConsulta", "FechaCustodia", "IdCliente", "IdPortafolio", "IdInstrumento", "CantidadCustodia") VALUES (1, 'OPE', '2026-03-06', 11, 100, 501, 30);
+INSERT INTO "BSCL.Custodia.BD::HIS.CustodiaFechaOperacion" ("IdEmpresa", "TipoFechaConsulta", "FechaCustodia", "IdCliente", "IdPortafolio", "IdInstrumento", "CantidadCustodia") VALUES (1, 'OPE', '2026-03-06', 10, 100, 500, 26);
+INSERT INTO "BSCL.Custodia.BD::HIS.CustodiaFechaOperacion" ("IdEmpresa", "TipoFechaConsulta", "FechaCustodia", "IdCliente", "IdPortafolio", "IdInstrumento", "CantidadCustodia") VALUES (1, 'OPE', '2026-03-06', 11, 100, 502, 31);

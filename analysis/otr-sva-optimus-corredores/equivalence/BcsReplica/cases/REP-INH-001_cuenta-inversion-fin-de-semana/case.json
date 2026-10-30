@@ -1,0 +1,165 @@
+{
+  "servicio": "EnviarTablaReplica.respaldarDataDiaInhabil",
+  "ref": [
+    "B-REP-14",
+    "B-REP-16",
+    "B-REP-22"
+  ],
+  "entrada": {
+    "idEmpresa": 1,
+    "fechaOrigen": "2026-03-06",
+    "tablaWorkstack": "CUENTA INVERSION DIA INHABIL",
+    "parametrosWorkstack": "tables:CuentaInversion_SaldoFechaEfectivaHist,CuentaInversion_SaldoFechaMovimientoHist;BCS_query:QueryReplicaDelta;Fecha:"
+  },
+  "colaboradores": {
+    "ConsultarEmpresa.logica": {
+      "defecto": {
+        "IdPais": 56
+      }
+    },
+    "ObtenerDiaSiguiente.logica": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_fechas.0.fechaInicial": "2026-03-06"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "p_out_fechas": [
+              {
+                "fechaInicial": "2026-03-06",
+                "numeroDiasInicial": 1,
+                "numeroDias": 1,
+                "fechaCalculada": "2026-03-07",
+                "idPais": null,
+                "IdInterno": 0
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_fechas.0.fechaInicial": "2026-03-07"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "p_out_fechas": [
+              {
+                "fechaInicial": "2026-03-07",
+                "numeroDiasInicial": 1,
+                "numeroDias": 1,
+                "fechaCalculada": "2026-03-08",
+                "idPais": null,
+                "IdInterno": 0
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_fechas.0.fechaInicial": "2026-03-08"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "p_out_fechas": [
+              {
+                "fechaInicial": "2026-03-08",
+                "numeroDiasInicial": 1,
+                "numeroDias": 1,
+                "fechaCalculada": "2026-03-09",
+                "idPais": null,
+                "IdInterno": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Feriados.esDiaHabil": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0": "2026-03-07"
+          },
+          "respuesta": false
+        },
+        {
+          "cuando": {
+            "0": "2026-03-08"
+          },
+          "respuesta": false
+        },
+        {
+          "cuando": {
+            "0": "2026-03-09"
+          },
+          "respuesta": true
+        }
+      ]
+    }
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.CuentaInversion.BD::CTA.SaldoFechaEfectiva",
+      "orden": "\"FechaSaldo\", \"IdCuentaInversion\"",
+      "columnas": [
+        "IdCuentaInversion",
+        "IdCliente",
+        "IdPortafolio",
+        "FechaSaldo",
+        "SaldoDisponible",
+        "SaldoEnGarantia",
+        "SaldoAPlazo",
+        "SaldoRetiro",
+        "SaldoRetenido",
+        "UltimaOperacion",
+        "IdMatrizAgrupador",
+        "Checksum"
+      ]
+    },
+    {
+      "nombre": "BSCL.CuentaInversion.BD::CTA.SaldoFechaMovimiento",
+      "orden": "\"FechaSaldo\", \"IdCuentaInversion\"",
+      "columnas": [
+        "IdCuentaInversion",
+        "IdCliente",
+        "IdPortafolio",
+        "FechaSaldo",
+        "SaldoDisponible",
+        "SaldoEnGarantia",
+        "SaldoAPlazo",
+        "SaldoRetiro",
+        "SaldoRetenido",
+        "UltimaOperacion",
+        "IdMatrizAgrupador",
+        "Checksum"
+      ]
+    },
+    {
+      "nombre": "BSCL.Custodia.BD::HIS.CustodiaFechaLiquidacion",
+      "orden": "\"FechaCustodia\", \"IdCliente\", \"IdInstrumento\"",
+      "columnas": [
+        "IdEmpresa",
+        "TipoFechaConsulta",
+        "FechaCustodia",
+        "IdCliente",
+        "IdPortafolio",
+        "IdInstrumento",
+        "CantidadCustodia"
+      ]
+    },
+    {
+      "nombre": "BSCL.Custodia.BD::HIS.CustodiaFechaOperacion",
+      "orden": "\"FechaCustodia\", \"IdCliente\", \"IdInstrumento\"",
+      "columnas": [
+        "IdEmpresa",
+        "TipoFechaConsulta",
+        "FechaCustodia",
+        "IdCliente",
+        "IdPortafolio",
+        "IdInstrumento",
+        "CantidadCustodia"
+      ]
+    }
+  ]
+}
