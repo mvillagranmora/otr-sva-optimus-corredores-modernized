@@ -19,6 +19,26 @@ final class CerConstantes {
     static final String UF = "UF";
     static final String OK = "OK";
 
+    // F-C and F-D (same literals as legacy ConstantesFondoMutuo)
+    static final String TIPO_SOLICITUD_RESCATE = "RES";
+    static final String ORIGEN_MANUAL = "M";
+    static final String CALCULO_POR_TOTAL = "T";
+    static final String RESCATE_COMISION_NN = "RESCNN";
+    static final String RESCATE_FONDO_MUTUO = "RESNORM";
+    static final String DOLAR = "USD";
+    static final String PESOS = "CLP";
+    static final String APV_AN = "APV-AN";
+    static final String CUENTA_INVERSION = "CIN";
+    static final String REGIMEN_18Q = "18Q";
+    static final String USO_FLUJO_CAJA_CERTIFICACION = "CERTIFICACION_APORTE_FMM";
+    static final String USO_FLUJO_CAJA_CERTIFICACION_PAC = "CERTIFICACION_APORTE_FMM_PAC";
+    static final String TIPO_PRODUCTO_CUSTODIA = "INFM";
+    static final String TIPO_OPERACION_APORTE_FONDO_MUTUO = "APORFM";
+    static final String TIPO_OPERACION_RESCATE_FONDO_MUTUO = "RESCFM";
+    static final String TIPO_COMPROBANTE_CUSTODIA = "FFMM";
+    static final String BCS = "BCS";
+    static final String COR = "COR";
+
     private CerConstantes() {
     }
 }
