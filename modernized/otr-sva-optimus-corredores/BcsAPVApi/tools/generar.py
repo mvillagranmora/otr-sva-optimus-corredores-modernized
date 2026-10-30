@@ -463,9 +463,10 @@ def escribir():
 
 
 def comprobar():
+    """Compares the in-memory output with the tree on disk; the line-ending style is ignored (git may check the tree out as CRLF), content is exact."""
     dif = []
     for path, content in sorted(FILES.items()):
-        if not os.path.isfile(path) or open(path, encoding='utf-8', newline='').read() != content:
+        if not os.path.isfile(path) or open(path, encoding='utf-8', newline='').read().replace('\r\n', '\n') != content:
             dif.append(path)
     en_disco = set()
     for d in GENERATED_DIRS:

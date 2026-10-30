@@ -301,7 +301,7 @@ def main():
         os.path.join(ANALYSIS, 'APV_CONTRACT_FIELDS.md'): campos,
     }
     if '--check' in sys.argv:
-        dif = [d for d, c in destinos.items() if not os.path.isfile(d) or open(d, encoding='utf-8', newline='').read() != c]
+        dif = [d for d, c in destinos.items() if not os.path.isfile(d) or open(d, encoding='utf-8', newline='').read().replace('\r\n', '\n') != c]
         print('contract docs differences:', len(dif))
         for d in dif:
             print('  ', d)

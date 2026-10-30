@@ -637,16 +637,16 @@
     },
     {
       "module": "BcsAPVApi",
-      "name": "unit tests (Maven Surefire), built in the BcsAPVServicios reactor run, verify 2026-10-23",
-      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-apv-api,:bcs-apv-javacall-adapter,:apv-service clean test -Dmaven.test.failure.ignore=true --batch-mode",
+      "name": "unit + contract tests against the legacy sources (Maven Surefire), verify 2026-10-29",
+      "command": "mvn -o -f modernized/otr-sva-optimus-corredores/BcsAPVApi/pom.xml clean test -Dmaven.test.failure.ignore=true --batch-mode",
       "junit": [
         "modernized/otr-sva-optimus-corredores/BcsAPVApi/target/surefire-reports"
       ],
       "log": [
-        "analysis/otr-sva-optimus-corredores/equivalence/BcsAPVServicios-verify-20261023.test-output.txt"
+        "analysis/otr-sva-optimus-corredores/equivalence/BcsAPVApi-verify-20261029.test-output.txt"
       ],
       "skippedReason": "",
-      "note": "verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare."
+      "note": "From clean (target and __pycache__ removed), JDK 25, offline. Contract shape only: the tests read the legacy sources themselves; no behavior to compare."
     },
     {
       "module": "BcsApvJavaCallAdapter",
@@ -1179,6 +1179,186 @@
         "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-proxy-conexion"
       ],
       "log": []
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 adaptador-pierde-prefijo: COPY of adapter mapper AsignarContratoARecaudacionMapeo: key \"p_IdEmpresa\" -> \"IdEmpresa\" in the reader (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/adaptador-pierde-prefijo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/adaptador-pierde-prefijo/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 anexo-editado-a-mano: CONTRATO_CAMPOS.md: typed name idEmpresa -> empresaId in the first row (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/anexo-editado-a-mano/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/anexo-editado-a-mano/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 campo-cambiar-tipo: AsignarContratoARecaudacionEntrada: \"Long idEmpresa\" -> \"String idEmpresa\" (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/campo-cambiar-tipo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/campo-cambiar-tipo/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 campo-orden-intercambiado: AsignarContratoARecaudacionEntrada: components idEmpresa and idUsuario swapped (same type, so it still compiles) (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/campo-orden-intercambiado/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/campo-orden-intercambiado/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 campo-renombrar: AsignarContratoARecaudacionEntrada: component idUsuario renamed usuarioId (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/campo-renombrar/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/campo-renombrar/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 casouso-metodo-extra: CasoUso: default method nombre() added (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/casouso-metodo-extra/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/casouso-metodo-extra/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 default-alterado-sin-regenerar: AsignarContratoARecaudacionEntrada.porDefecto: \"N\" -> \"S\" (hand edit of generated code) (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/default-alterado-sin-regenerar/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/default-alterado-sin-regenerar/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 dependencia-externa: AsignarContratoARecaudacionEntrada: import java.sql.Timestamp added (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/dependencia-externa/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/dependencia-externa/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 interfaz-con-default: casouso/AsociarPerfiles: ejecutar becomes a default method (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/interfaz-con-default/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/interfaz-con-default/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 interfaz-no-publica: casouso/AnularTraspasoEgreso: \"public interface\" -> \"interface\" (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/interfaz-no-publica/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/interfaz-no-publica/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 legacy-agrega-campo-sin-regenerar: COPY of legacy AsignarContratoARecaudacion: field \"public Long IdExtra;\" added to ParametrosAsignacionContratoRecaudacion (generator not re-run) (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/legacy-agrega-campo-sin-regenerar/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/legacy-agrega-campo-sin-regenerar/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 legacy-nueva-operacion-javacall: COPY of legacy: ValidarMandatosPAC.call() now deserializes an Entrada (becomes invocable) -> 65 invocables vs 64 (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/legacy-nueva-operacion-javacall/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/legacy-nueva-operacion-javacall/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 mensaje-default-no-nulo: Mensaje.porDefecto(): new Mensaje(null,...) -> new Mensaje(0L, null, null, null) (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/mensaje-default-no-nulo/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/mensaje-default-no-nulo/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 mensaje-lista-compartida: Mensaje.lista() returns one shared static list (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/mensaje-lista-compartida/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/mensaje-lista-compartida/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 record-quitar-clase-anidada: record ParametrosAsignacionContratoRecaudacion deleted and its use replaced by List<Object> (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/record-quitar-clase-anidada/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/record-quitar-clase-anidada/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 record-sobrante: orphan record dto/asignarcontratoarecaudacion/Sobrante.java added (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/record-sobrante/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/record-sobrante/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 todos-duplicar-un-caso: CasosUso.TODOS: AsignarDepositoEmpleador.class replaced by a second AsignarContratoARecaudacion.class (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/todos-duplicar-un-caso/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/todos-duplicar-un-caso/mvn.log"
+      ]
+    },
+    {
+      "module": "BcsAPVApi",
+      "change": "verify 2026-10-29 todos-quitar-un-caso: CasosUso.TODOS: line \"AnularTraspasoEgreso.class,\" deleted (63 cases) (copy outside the repo; module suite)",
+      "junit": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/todos-quitar-un-caso/surefire"
+      ],
+      "log": [
+        "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-20261029/todos-quitar-un-caso/mvn.log"
+      ]
     }
   ]
 }

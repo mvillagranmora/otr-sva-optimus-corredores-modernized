@@ -1,17 +1,17 @@
 # Verification: otr-sva-optimus-corredores
 
-Written by `scripts/proof_pack.py` on 2026-10-29 13:09 UTC. Each module's verdict is computed from the evidence files by the fixed rules at the end of this page. No model's opinion is part of it.
+Written by `scripts/proof_pack.py` on 2026-10-30 01:00 UTC. Each module's verdict is computed from the evidence files by the fixed rules at the end of this page. No model's opinion is part of it.
 
-**Overall: PARTLY PROVEN** (14 proven, 32 partly proven)
+**Overall: PARTLY PROVEN** (13 proven, 33 partly proven)
 
 
-You asked about `BcsFondoMutuoServicios`. Every built module is judged from its current evidence files on every run, so no verdict here depends on an earlier run.
+You asked about `BcsAPVApi`. Every built module is judged from its current evidence files on every run, so no verdict here depends on an earlier run.
 
 Legacy source: `legacy/otr-sva-optimus-corredores`. Could it run here: yes. The source was checked by modification time, and no version-control tool was run.
 
 | Module | Track | Verdict | Tests executed | Failed | P0 rules tested | Same behavior | Fresh inputs |
 |---|---|---|---|---|---|---|---|
-| BcsAPVApi | rewrite | **PARTLY PROVEN** | 1 | 0 | 0 of 1 | not proven | not proven |
+| BcsAPVApi | rewrite | **PARTLY PROVEN** | 25 | 0 | 0 of 1 | not proven | not proven |
 | BcsApvJavaCallAdapter | rewrite | **PARTLY PROVEN** | 12 | 0 | 0 of 60 | not proven | not proven |
 | BcsAPVJobs | rewrite | **PROVEN** | 297 | 0 | 3 of 3 | pass | pass |
 | BcsAPVServicios | rewrite | **PROVEN** | 1156 | 0 | 1 of 1 | pass | pass |
@@ -30,7 +30,7 @@ Legacy source: `legacy/otr-sva-optimus-corredores`. Could it run here: yes. The 
 | BcsFacturacionJobs | rewrite | **PARTLY PROVEN** | 22 | 0 | 0 of 60 | not proven | not proven |
 | BcsFacturacionServicios | rewrite | **PARTLY PROVEN** | 30 | 0 | 0 of 1 | not proven | not proven |
 | BcsFilters | rewrite | **PARTLY PROVEN** | 1761 | 0 | 0 of 11 | not proven | not proven |
-| BcsFondoMutuoServicios | rewrite | **PROVEN** | 3483 | 0 | 1 of 1 | pass | pass |
+| BcsFondoMutuoServicios | rewrite | **PARTLY PROVEN** | 4260 | 0 | 1 of 1 | pass | pass |
 | BcsGateway | rewrite | **PARTLY PROVEN** | 37 | 0 | 0 of 60 | not proven | not proven |
 | BcsJobManager | rewrite | **PARTLY PROVEN** | 108 | 0 | 1 of 3 | not proven | not proven |
 | BcsJobOrders | rewrite | **PARTLY PROVEN** | 44 | 0 | 0 of 60 | not proven | not proven |
@@ -60,7 +60,7 @@ Legacy source: `legacy/otr-sva-optimus-corredores`. Could it run here: yes. The 
 
 ## BcsAPVApi: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVApi`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVApi`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -70,22 +70,22 @@ Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVApi`. Check
 
 **What passed**
 
-- Tests ran: 1 test(s) executed, 0 failed, 0 skipped. Note: verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare.
+- Tests ran: 25 test(s) executed, 0 failed, 0 skipped. Note: From clean (target and __pycache__ removed), JDK 25, offline. Contract shape only: the tests read the legacy sources themselves; no behavior to compare.
 - Canary: 1 canary run(s) shown by a result file or log; the first (verify 2026-10-23: CasosUso.java:15 AnularTraspasoEgreso listed twice in TODOS (scratch copy); ran the module suite) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-verify20261023/apvapi-duplicado/surefire).
 - Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run.
 
 | Check | Result | Detail |
 |---|---|---|
-| Tests ran | pass | 1 test(s) executed, 0 failed, 0 skipped. Note: verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare. |
+| Tests ran | pass | 25 test(s) executed, 0 failed, 0 skipped. Note: From clean (target and __pycache__ removed), JDK 25, offline. Contract shape only: the tests read the legacy sources themselves; no behavior to compare. |
 | Rules traced | not proven | 1 of 1 P0 rule(s) are not named by any test: RULE-076. |
 | Same behavior | not proven | EQUIVALENCE.json exists, but the cases behind it (equivalence/cases.json) were not found, so it could not be judged again. |
 | Fresh inputs | not proven | The fresh-input check was not run: no equivalence/fresh-cases.json. |
 | Canary | pass | 1 canary run(s) shown by a result file or log; the first (verify 2026-10-23: CasosUso.java:15 AnularTraspasoEgreso listed twice in TODOS (scratch copy); ran the module suite) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsAPVApi-verify20261023/apvapi-duplicado/surefire). |
 | Source untouched | pass | legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run. |
 
-tests executed: 1, failed 0, skipped 0
+tests executed: 25, failed 0, skipped 0
 
-- unit tests (Maven Surefire), built in the BcsAPVServicios reactor run, verify 2026-10-23: `mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-apv-api,:bcs-apv-javacall-adapter,:apv-service clean test -Dmaven.test.failure.ignore=true --batch-mode` (from result files): 1 executed, 0 failed, 0 skipped, 1 result files written 2026-10-23 18:56 UTC. Note: verify 2026-10-23 from clean, JDK 25, offline; typed API / JavaCall registry library, no legacy counterpart to compare.
+- unit + contract tests against the legacy sources (Maven Surefire), verify 2026-10-29: `mvn -o -f modernized/otr-sva-optimus-corredores/BcsAPVApi/pom.xml clean test -Dmaven.test.failure.ignore=true --batch-mode` (from result files): 25 executed, 0 failed, 0 skipped, 7 result files written 2026-10-30 01:00 UTC. Note: From clean (target and __pycache__ removed), JDK 25, offline. Contract shape only: the tests read the legacy sources themselves; no behavior to compare.
 
 ### P0 business rules
 
@@ -143,7 +143,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsApvJavaCallAdapter: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsApvJavaCallAdapter`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsApvJavaCallAdapter`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -289,7 +289,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsAPVJobs: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -384,7 +384,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsAPVServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -477,7 +477,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsBECB: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsBECB`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsBECB`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -623,7 +623,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCanalAgenteServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCanalAgenteServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCanalAgenteServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -769,7 +769,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCartolas: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolas`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolas`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -917,7 +917,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCartolasJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolasJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolasJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -1063,7 +1063,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCartolasMaster: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolasMaster`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolasMaster`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -1209,7 +1209,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsContabilidadJobs: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsContabilidadJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsContabilidadJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -1304,7 +1304,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsContabilidadServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsContabilidadServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsContabilidadServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -1400,7 +1400,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCrystalReports: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCrystalReports`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCrystalReports`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -1493,7 +1493,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCuentaInversionJobs: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCuentaInversionJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCuentaInversionJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -1588,7 +1588,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCuentaInversionServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCuentaInversionServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCuentaInversionServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -1680,7 +1680,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCustodiaJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCustodiaJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCustodiaJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -1826,7 +1826,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCustodiaServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCustodiaServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCustodiaServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -1920,7 +1920,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsFacturacionJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFacturacionJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFacturacionJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -2066,7 +2066,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsFacturacionServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFacturacionServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFacturacionServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -2149,7 +2149,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsFilters: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFilters`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFilters`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -2245,13 +2245,16 @@ Claude never ticks these. A person decides them.
 - A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.
 - It does not replace the review and sign-off of the people who own the system.
 
-## BcsFondoMutuoServicios: PROVEN
+## BcsFondoMutuoServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios`. Checked 2026-10-30 01:00 UTC.
+
+**What is missing or wrong**
+
+- Tests ran: 4260 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard).
 
 **What passed**
 
-- Tests ran: 3483 test(s) executed, 0 failed, 0 skipped. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard).
 - Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.
 - Same behavior: 1579 of 1579 development case(s) executed: 1548 same, 0 differ, 0 missing; comparator self-check passed. 31 difference(s) a person approved are listed.
 - Fresh inputs: 260 new input(s), 260 comparison(s), ran on the legacy and the new code with no difference (3 approved by a person).
@@ -2260,22 +2263,22 @@ Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServ
 
 | Check | Result | Detail |
 |---|---|---|
-| Tests ran | pass | 3483 test(s) executed, 0 failed, 0 skipped. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard). |
+| Tests ran | not proven | 4260 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard). |
 | Rules traced | pass | All 1 P0 rule(s) this module answers for are backed by a test that ran and passed. |
 | Same behavior | pass | 1579 of 1579 development case(s) executed: 1548 same, 0 differ, 0 missing; comparator self-check passed. 31 difference(s) a person approved are listed. |
 | Fresh inputs | pass | 260 new input(s), 260 comparison(s), ran on the legacy and the new code with no difference (3 approved by a person). |
 | Canary | pass | 7 canary run(s) shown by a result file or log; the first (verify 2026-10-25: rescatereinversion/RreValidacion.java:124 sol.NumeroCuotas.compareTo(cantidad) == 1 changed to >= 0 (custody check: rescue equal to custody now rejected), scratch copy; ran Rre*Test + ManejadorRescateReinversionTest) made 2 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFo… |
 | Source untouched | pass | legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run. |
 
-tests executed: 3483, failed 0, skipped 0
+tests executed: 4260, failed 0, skipped 5
 
-- unit + golden tests (Maven Surefire), verify 2026-10-29 (F1 to F3, CargarValorCuota, in-process Custody, ConsultarCusto…: `mvn -o test -Dmaven.test.failure.ignore=true in BcsFondoMutuoServicios after deleting target/ (JDK 25.0.4; surefire argLine -Duser.timezone=UTC -Duser.language=en)` (from result files): 3483 executed, 0 failed, 0 skipped, 111 result files written 2026-10-29 12:42 UTC. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard).
+- unit + golden tests (Maven Surefire), verify 2026-10-29 (F1 to F3, CargarValorCuota, in-process Custody, ConsultarCusto…: `mvn -o test -Dmaven.test.failure.ignore=true in BcsFondoMutuoServicios after deleting target/ (JDK 25.0.4; surefire argLine -Duser.timezone=UTC -Duser.language=en)` (from result files): 4260 executed, 0 failed, 5 skipped, 119 result files written 2026-10-29 23:07 UTC. Note: Clean re-run: 3483 tests, 0 failures, 111 result files. Adds the 35 tests of the custody architecture-review fixes (ConexionAcotada proxy, switches, guard).
 
 ### P0 business rules
 
 | Rule | Name | Confidence | Result | Tests | Code | A test that names it |
 |---|---|---|---|---|---|---|
-| RULE-076 | ⚠️🔴 SECURITY — Hardcoded HANA Credentials in Dead Code | High | tested | 41 | 0 | `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios/src/test/java/cl/bcs/fondomutuo/consultas/custodia/CpfReglasTest.java:618` |
+| RULE-076 | ⚠️🔴 SECURITY — Hardcoded HANA Credentials in Dead Code | High | tested | 45 | 0 | `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios/src/test/java/cl/bcs/fondomutuo/certificacion/CerCompuertaTest.java:43` |
 
 ### Development cases, judged again
 
@@ -2368,7 +2371,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsGateway: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsGateway`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsGateway`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -2514,7 +2517,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsJobManager: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobManager`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobManager`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -2599,7 +2602,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsJobOrders: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobOrders`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobOrders`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -2745,7 +2748,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsJobsFondoMutuo: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobsFondoMutuo`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobsFondoMutuo`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -2833,7 +2836,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsMesaJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsMesaJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsMesaJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -2979,7 +2982,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsMesaServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsMesaServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsMesaServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -3127,7 +3130,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsNormativaCore: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaCore`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaCore`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -3275,7 +3278,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsNormativaJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -3423,7 +3426,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsNormativaServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -3571,7 +3574,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsOrdenJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsOrdenJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsOrdenJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -3717,7 +3720,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsOrdenServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsOrdenServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsOrdenServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -3863,7 +3866,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPlataformaJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -4011,7 +4014,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPlataformaReporteApi: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaReporteApi`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaReporteApi`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -4159,7 +4162,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPlataformaServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -4256,7 +4259,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPlataformaWeb: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaWeb`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaWeb`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -4370,7 +4373,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPortafolioServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPortafolioServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPortafolioServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -4454,7 +4457,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPortalConfirmacionWeb: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPortalConfirmacionWeb`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPortalConfirmacionWeb`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -4600,7 +4603,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsReplica: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsReplica`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsReplica`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -4746,7 +4749,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsSocioNegocioJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSocioNegocioJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSocioNegocioJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -4892,7 +4895,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsSocioNegocioServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSocioNegocioServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSocioNegocioServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -5038,7 +5041,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsSURA: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSURA`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSURA`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -5184,7 +5187,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsTesoreriaJobs: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -5287,7 +5290,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsTesoreriaServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTesoreriaServicios`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTesoreriaServicios`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -5379,7 +5382,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsTributarioJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTributarioJobs`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTributarioJobs`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -5527,7 +5530,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsUtils: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsUtils`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsUtils`. Checked 2026-10-30 01:00 UTC.
 
 **What passed**
 
@@ -5628,7 +5631,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsValo2: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsValo2`. Checked 2026-10-29 13:09 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsValo2`. Checked 2026-10-30 01:00 UTC.
 
 **What is missing or wrong**
 
@@ -5778,10 +5781,10 @@ A person fills this in. Claude leaves it blank.
 
 | | |
 |---|---|
-| Name | Mauricio Villagran Mora |
-| Role | Arquitecto |
-| Date | 29-Oct-2026 |
-| Decision | accept |
+| Name | ________________ |
+| Role | ________________ |
+| Date | __________ |
+| Decision | accept / accept with conditions / reject |
 
 ## How each verdict is computed
 
