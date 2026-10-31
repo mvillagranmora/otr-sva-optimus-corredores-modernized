@@ -1,0 +1,8 @@
+Canario PROPIO del verificador (2026-10-30g), BcsCanalAgenteServicios. Copia FUERA de modernized/ y analysis/ (carpeta temporal del trabajo; el modulo real no se toco).
+Archivo mutado: src/main/java/cl/bcs/canalagente/service/ConsultarHistorialMovimientosCuentaInversionServicio.java:197
+Mutacion: `movimiento.NombreTipoOperacion = mov.NombreTipoOperacion;` -> `movimiento.NombreTipoOperacion = mov.NombreTipoMovimiento;` (cruce de dos campos de la fila de la cartola). No es ninguno de M01..M53 del implementador.
+Esperado: algun test de la suite falla.
+OBSERVADO: la suite COMPLETA pasa (139 pruebas, 0 fallos): el canario SOBREVIVE. Causa: en TODOS los casos de desarrollo `mov()` entrega NombreTipoOperacion y NombreTipoMovimiento con el MISMO valor ("Abono"), asi que el cruce no cambia ningun byte (hueco de datos del desarrollo, no diferencia de comportamiento: el codigo real asigna igual que el legacy).
+La entrada fresca propia CAN-FRG-039 (todos los campos de texto con valores distintos) SI lo detecta: ejecutada con el driver contra las clases mutadas difiere del legacy. Contra el codigo real: 39 entradas frescas, 37 iguales y 2 con la diferencia de texto de `Parameters:` descrita en el informe (CAN-FRG-025/026), ninguna por este campo.
+Por eso este canario NO se lista en `canaries` de test-runs.json (un canario que sobrevive no prueba nada): queda en `leftOut` y en el informe como hallazgo de cobertura.
+Evidencia: surefire/ (XML de la corrida mutada) y mvn.log.

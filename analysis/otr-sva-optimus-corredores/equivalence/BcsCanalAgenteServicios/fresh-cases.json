@@ -1,0 +1,832 @@
+{
+  "system": "otr-sva-optimus-corredores / BcsCanalAgenteServicios (entradas frescas del verificador)",
+  "legacy": {
+    "label": "legacy cl.bcs.canalagente.ConsultarHistorialMovimientosCuentaInversion REAL (compilado desde legacy/, sin edicion) con BcsUtils SQL/NamedParameterStatement/JavaCall reales, sobre H2 en memoria MODE=LEGACY, JDK 25, UTC; colaborador ConsultarCartolaDeMovimiento = doble registrado",
+    "command": "legacy-oracle/record.sh CAN (goldens de desarrollo, 20 corridas por caso); entradas frescas: ORACLE_CASES=fresh/legacy legacy-oracle/record.sh CAN-FRG"
+  },
+  "new": {
+    "label": "BcsCanalAgenteServicios modernizado (src/main) sobre H2 en memoria, JDK 25, UTC, compuerta abierta, colaborador guionado",
+    "command": "java cl.bcs.canalagente.caracterizacion.FrescoNuevo <entradas> <salida> (fresh/driver/, usa CasoCanal.ejecutar de las pruebas); desarrollo: cases -> dev-new; frescas: fresh/inputs -> fresh/new"
+  },
+  "cases": [
+    {
+      "id": "CAN-FRG-001_portafolio-555-con-comprobante-grande",
+      "input": "CAN-FRG-001_portafolio-555-con-comprobante-grande",
+      "title": "ConsultarHistorial.logica portafolio-555-con-comprobante-grande (B-CA-03,B-CA-06,B-CA-10)",
+      "legacy": "fresh/legacy/CAN-FRG-001_portafolio-555-con-comprobante-grande/expected.json",
+      "new": "fresh/new/CAN-FRG-001_portafolio-555-con-comprobante-grande/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-002_portafolio-1-id-minimo",
+      "input": "CAN-FRG-002_portafolio-1-id-minimo",
+      "title": "ConsultarHistorial.logica portafolio-1-id-minimo (B-CA-03,B-CA-06,B-CA-10)",
+      "legacy": "fresh/legacy/CAN-FRG-002_portafolio-1-id-minimo/expected.json",
+      "new": "fresh/new/CAN-FRG-002_portafolio-1-id-minimo/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-003_portafolio-bigint-mayor-que-2-a-la-53",
+      "input": "CAN-FRG-003_portafolio-bigint-mayor-que-2-a-la-53",
+      "title": "ConsultarHistorial.logica portafolio-bigint-mayor-que-2-a-la-53 (B-CA-03,B-CA-06,B-CA-10)",
+      "legacy": "fresh/legacy/CAN-FRG-003_portafolio-bigint-mayor-que-2-a-la-53/expected.json",
+      "new": "fresh/new/CAN-FRG-003_portafolio-bigint-mayor-que-2-a-la-53/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-004_portafolio-negativo-no-existe",
+      "input": "CAN-FRG-004_portafolio-negativo-no-existe",
+      "title": "ConsultarHistorial.logica portafolio-negativo-no-existe (D-CAN-01)",
+      "legacy": "fresh/legacy/CAN-FRG-004_portafolio-negativo-no-existe/expected.json",
+      "new": "fresh/new/CAN-FRG-004_portafolio-negativo-no-existe/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-005_portafolio-existe-cliente-sin-persona",
+      "input": "CAN-FRG-005_portafolio-existe-cliente-sin-persona",
+      "title": "ConsultarHistorial.logica portafolio-existe-cliente-sin-persona (B-CA-04)",
+      "legacy": "fresh/legacy/CAN-FRG-005_portafolio-existe-cliente-sin-persona/expected.json",
+      "new": "fresh/new/CAN-FRG-005_portafolio-existe-cliente-sin-persona/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-006_fechas-limite-bisiesto-2024-02-29",
+      "input": "CAN-FRG-006_fechas-limite-bisiesto-2024-02-29",
+      "title": "ConsultarHistorial.logica fechas-limite-bisiesto-2024-02-29 (B-CA-02,D-CAN-09)",
+      "legacy": "fresh/legacy/CAN-FRG-006_fechas-limite-bisiesto-2024-02-29/expected.json",
+      "new": "fresh/new/CAN-FRG-006_fechas-limite-bisiesto-2024-02-29/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-007_fechas-limite-cambio-de-anio",
+      "input": "CAN-FRG-007_fechas-limite-cambio-de-anio",
+      "title": "ConsultarHistorial.logica fechas-limite-cambio-de-anio (B-CA-02,D-CAN-09)",
+      "legacy": "fresh/legacy/CAN-FRG-007_fechas-limite-cambio-de-anio/expected.json",
+      "new": "fresh/new/CAN-FRG-007_fechas-limite-cambio-de-anio/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-008_fechas-limite-centinela-0001-a-9999",
+      "input": "CAN-FRG-008_fechas-limite-centinela-0001-a-9999",
+      "title": "ConsultarHistorial.logica fechas-limite-centinela-0001-a-9999 (B-CA-02,D-CAN-09)",
+      "legacy": "fresh/legacy/CAN-FRG-008_fechas-limite-centinela-0001-a-9999/expected.json",
+      "new": "fresh/new/CAN-FRG-008_fechas-limite-centinela-0001-a-9999/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-009_fechas-limite-con-hora-y-zona",
+      "input": "CAN-FRG-009_fechas-limite-con-hora-y-zona",
+      "title": "ConsultarHistorial.logica fechas-limite-con-hora-y-zona (B-CA-02,D-CAN-09)",
+      "legacy": "fresh/legacy/CAN-FRG-009_fechas-limite-con-hora-y-zona/expected.json",
+      "new": "fresh/new/CAN-FRG-009_fechas-limite-con-hora-y-zona/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-010_fechas-limite-vacias",
+      "input": "CAN-FRG-010_fechas-limite-vacias",
+      "title": "ConsultarHistorial.logica fechas-limite-vacias (B-CA-02,D-CAN-09)",
+      "legacy": "fresh/legacy/CAN-FRG-010_fechas-limite-vacias/expected.json",
+      "new": "fresh/new/CAN-FRG-010_fechas-limite-vacias/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-011_ciento-cincuenta-movimientos-mezcla-de-comprobantes",
+      "input": "CAN-FRG-011_ciento-cincuenta-movimientos-mezcla-de-comprobantes",
+      "title": "ConsultarHistorial.logica ciento-cincuenta-movimientos-mezcla-de-comprobantes (B-CA-03,B-CA-07)",
+      "legacy": "fresh/legacy/CAN-FRG-011_ciento-cincuenta-movimientos-mezcla-de-comprobantes/expected.json",
+      "new": "fresh/new/CAN-FRG-011_ciento-cincuenta-movimientos-mezcla-de-comprobantes/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-012_mil-cinco-movimientos-un-lote-grande",
+      "input": "CAN-FRG-012_mil-cinco-movimientos-un-lote-grande",
+      "title": "ConsultarHistorial.logica mil-cinco-movimientos-un-lote-grande (B-CA-03,B-CA-07)",
+      "legacy": "fresh/legacy/CAN-FRG-012_mil-cinco-movimientos-un-lote-grande/expected.json",
+      "new": "fresh/new/CAN-FRG-012_mil-cinco-movimientos-un-lote-grande/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-013_comprobantes-parciales-la-mitad-no-existe",
+      "input": "CAN-FRG-013_comprobantes-parciales-la-mitad-no-existe",
+      "title": "ConsultarHistorial.logica comprobantes-parciales-la-mitad-no-existe (B-CA-04)",
+      "legacy": "fresh/legacy/CAN-FRG-013_comprobantes-parciales-la-mitad-no-existe/expected.json",
+      "new": "fresh/new/CAN-FRG-013_comprobantes-parciales-la-mitad-no-existe/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-014_diez-movimientos-sin-comprobante",
+      "input": "CAN-FRG-014_diez-movimientos-sin-comprobante",
+      "title": "ConsultarHistorial.logica diez-movimientos-sin-comprobante (B-CA-04,D-CAN-07)",
+      "legacy": "fresh/legacy/CAN-FRG-014_diez-movimientos-sin-comprobante/expected.json",
+      "new": "fresh/new/CAN-FRG-014_diez-movimientos-sin-comprobante/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-015_ids-repetidos-tres-veces-con-comprobantes-distintos",
+      "input": "CAN-FRG-015_ids-repetidos-tres-veces-con-comprobantes-distintos",
+      "title": "ConsultarHistorial.logica ids-repetidos-tres-veces-con-comprobantes-distintos (D-CAN-06,B-CA-12)",
+      "legacy": "fresh/legacy/CAN-FRG-015_ids-repetidos-tres-veces-con-comprobantes-distintos/expected.json",
+      "new": "fresh/new/CAN-FRG-015_ids-repetidos-tres-veces-con-comprobantes-distintos/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-016_ids-repetidos-entre-portafolios",
+      "input": "CAN-FRG-016_ids-repetidos-entre-portafolios",
+      "title": "ConsultarHistorial.logica ids-repetidos-entre-portafolios (D-CAN-06)",
+      "legacy": "fresh/legacy/CAN-FRG-016_ids-repetidos-entre-portafolios/expected.json",
+      "new": "fresh/new/CAN-FRG-016_ids-repetidos-entre-portafolios/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-017_filas-ajenas-con-ids-repetidos-y-comprobantes-nulos",
+      "input": "CAN-FRG-017_filas-ajenas-con-ids-repetidos-y-comprobantes-nulos",
+      "title": "ConsultarHistorial.logica filas-ajenas-con-ids-repetidos-y-comprobantes-nulos (D-CAN-12)",
+      "legacy": "fresh/legacy/CAN-FRG-017_filas-ajenas-con-ids-repetidos-y-comprobantes-nulos/expected.json",
+      "new": "fresh/new/CAN-FRG-017_filas-ajenas-con-ids-repetidos-y-comprobantes-nulos/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-018_montos-con-escalas-distintas",
+      "input": "CAN-FRG-018_montos-con-escalas-distintas",
+      "title": "ConsultarHistorial.logica montos-con-escalas-distintas (B-CA-06)",
+      "legacy": "fresh/legacy/CAN-FRG-018_montos-con-escalas-distintas/expected.json",
+      "new": "fresh/new/CAN-FRG-018_montos-con-escalas-distintas/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-019_montos-enteros-largos-como-long",
+      "input": "CAN-FRG-019_montos-enteros-largos-como-long",
+      "title": "ConsultarHistorial.logica montos-enteros-largos-como-long (B-CA-06)",
+      "legacy": "fresh/legacy/CAN-FRG-019_montos-enteros-largos-como-long/expected.json",
+      "new": "fresh/new/CAN-FRG-019_montos-enteros-largos-como-long/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-020_matriz-grande-y-adc-s",
+      "input": "CAN-FRG-020_matriz-grande-y-adc-s",
+      "title": "ConsultarHistorial.logica matriz-grande-y-adc-s (B-CA-05)",
+      "legacy": "fresh/legacy/CAN-FRG-020_matriz-grande-y-adc-s/expected.json",
+      "new": "fresh/new/CAN-FRG-020_matriz-grande-y-adc-s/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-021_matriz-negativa-y-adc-minuscula",
+      "input": "CAN-FRG-021_matriz-negativa-y-adc-minuscula",
+      "title": "ConsultarHistorial.logica matriz-negativa-y-adc-minuscula (B-CA-05)",
+      "legacy": "fresh/legacy/CAN-FRG-021_matriz-negativa-y-adc-minuscula/expected.json",
+      "new": "fresh/new/CAN-FRG-021_matriz-negativa-y-adc-minuscula/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-022_adc-vacio-y-con-espacio",
+      "input": "CAN-FRG-022_adc-vacio-y-con-espacio",
+      "title": "ConsultarHistorial.logica adc-vacio-y-con-espacio (B-CA-05)",
+      "legacy": "fresh/legacy/CAN-FRG-022_adc-vacio-y-con-espacio/expected.json",
+      "new": "fresh/new/CAN-FRG-022_adc-vacio-y-con-espacio/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-023_cartola-contador-tres-con-movimientos-y-mensajes",
+      "input": "CAN-FRG-023_cartola-contador-tres-con-movimientos-y-mensajes",
+      "title": "ConsultarHistorial.logica cartola-contador-tres-con-movimientos-y-mensajes (D-CAN-04)",
+      "legacy": "fresh/legacy/CAN-FRG-023_cartola-contador-tres-con-movimientos-y-mensajes/expected.json",
+      "new": "fresh/new/CAN-FRG-023_cartola-contador-tres-con-movimientos-y-mensajes/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-024_nombres-con-comillas-y-menor-mayor-en-la-salida-logica",
+      "input": "CAN-FRG-024_nombres-con-comillas-y-menor-mayor-en-la-salida-logica",
+      "title": "ConsultarHistorial.logica nombres-con-comillas-y-menor-mayor-en-la-salida-logica (B-CA-06)",
+      "legacy": "fresh/legacy/CAN-FRG-024_nombres-con-comillas-y-menor-mayor-en-la-salida-logica/expected.json",
+      "new": "fresh/new/CAN-FRG-024_nombres-con-comillas-y-menor-mayor-en-la-salida-logica/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-025_falla-insercion-con-nombres-especiales-y-tildes",
+      "input": "CAN-FRG-025_falla-insercion-con-nombres-especiales-y-tildes",
+      "title": "ConsultarHistorial.logica falla-insercion-con-nombres-especiales-y-tildes (D-CAN-05)",
+      "legacy": "fresh/legacy/CAN-FRG-025_falla-insercion-con-nombres-especiales-y-tildes/expected.json",
+      "new": "fresh/new/CAN-FRG-025_falla-insercion-con-nombres-especiales-y-tildes/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-026_falla-insercion-con-ids-repetidos-y-nulos",
+      "input": "CAN-FRG-026_falla-insercion-con-ids-repetidos-y-nulos",
+      "title": "ConsultarHistorial.logica falla-insercion-con-ids-repetidos-y-nulos (D-CAN-05,D-CAN-06)",
+      "legacy": "fresh/legacy/CAN-FRG-026_falla-insercion-con-ids-repetidos-y-nulos/expected.json",
+      "new": "fresh/new/CAN-FRG-026_falla-insercion-con-ids-repetidos-y-nulos/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-027_falla-select-de-comprobantes-con-muchas-filas",
+      "input": "CAN-FRG-027_falla-select-de-comprobantes-con-muchas-filas",
+      "title": "ConsultarHistorial.logica falla-select-de-comprobantes-con-muchas-filas (D-CAN-05)",
+      "legacy": "fresh/legacy/CAN-FRG-027_falla-select-de-comprobantes-con-muchas-filas/expected.json",
+      "new": "fresh/new/CAN-FRG-027_falla-select-de-comprobantes-con-muchas-filas/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-028_json-portafolio-con-ceros-a-la-izquierda",
+      "input": "CAN-FRG-028_json-portafolio-con-ceros-a-la-izquierda",
+      "title": "ConsultarHistorial.call json-portafolio-con-ceros-a-la-izquierda (D-CAN-10)",
+      "legacy": "fresh/legacy/CAN-FRG-028_json-portafolio-con-ceros-a-la-izquierda/expected.json",
+      "new": "fresh/new/CAN-FRG-028_json-portafolio-con-ceros-a-la-izquierda/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-029_json-portafolio-con-espacios-como-texto",
+      "input": "CAN-FRG-029_json-portafolio-con-espacios-como-texto",
+      "title": "ConsultarHistorial.call json-portafolio-con-espacios-como-texto (D-CAN-10)",
+      "legacy": "fresh/legacy/CAN-FRG-029_json-portafolio-con-espacios-como-texto/expected.json",
+      "new": "fresh/new/CAN-FRG-029_json-portafolio-con-espacios-como-texto/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-030_json-portafolio-en-notacion-cientifica",
+      "input": "CAN-FRG-030_json-portafolio-en-notacion-cientifica",
+      "title": "ConsultarHistorial.call json-portafolio-en-notacion-cientifica (D-CAN-10)",
+      "legacy": "fresh/legacy/CAN-FRG-030_json-portafolio-en-notacion-cientifica/expected.json",
+      "new": "fresh/new/CAN-FRG-030_json-portafolio-en-notacion-cientifica/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-031_json-portafolio-booleano",
+      "input": "CAN-FRG-031_json-portafolio-booleano",
+      "title": "ConsultarHistorial.call json-portafolio-booleano (D-CAN-10)",
+      "legacy": "fresh/legacy/CAN-FRG-031_json-portafolio-booleano/expected.json",
+      "new": "fresh/new/CAN-FRG-031_json-portafolio-booleano/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-032_json-portafolio-555-matriz-y-adc-como-texto",
+      "input": "CAN-FRG-032_json-portafolio-555-matriz-y-adc-como-texto",
+      "title": "ConsultarHistorial.call json-portafolio-555-matriz-y-adc-como-texto (D-CAN-10,B-CA-05)",
+      "legacy": "fresh/legacy/CAN-FRG-032_json-portafolio-555-matriz-y-adc-como-texto/expected.json",
+      "new": "fresh/new/CAN-FRG-032_json-portafolio-555-matriz-y-adc-como-texto/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-033_json-nombres-con-apostrofe-igual-y-menor-mayor",
+      "input": "CAN-FRG-033_json-nombres-con-apostrofe-igual-y-menor-mayor",
+      "title": "ConsultarHistorial.call json-nombres-con-apostrofe-igual-y-menor-mayor (B-CA-06,B-CA-11)",
+      "legacy": "fresh/legacy/CAN-FRG-033_json-nombres-con-apostrofe-igual-y-menor-mayor/expected.json",
+      "new": "fresh/new/CAN-FRG-033_json-nombres-con-apostrofe-igual-y-menor-mayor/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-034_json-fechas-de-la-cartola-con-cambio-de-anio-y-bisiesto",
+      "input": "CAN-FRG-034_json-fechas-de-la-cartola-con-cambio-de-anio-y-bisiesto",
+      "title": "ConsultarHistorial.call json-fechas-de-la-cartola-con-cambio-de-anio-y-bisiesto (B-CA-06,B-CA-11)",
+      "legacy": "fresh/legacy/CAN-FRG-034_json-fechas-de-la-cartola-con-cambio-de-anio-y-bisiesto/expected.json",
+      "new": "fresh/new/CAN-FRG-034_json-fechas-de-la-cartola-con-cambio-de-anio-y-bisiesto/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-035_json-ciento-veinte-movimientos",
+      "input": "CAN-FRG-035_json-ciento-veinte-movimientos",
+      "title": "ConsultarHistorial.call json-ciento-veinte-movimientos (B-CA-11,B-CA-03)",
+      "legacy": "fresh/legacy/CAN-FRG-035_json-ciento-veinte-movimientos/expected.json",
+      "new": "fresh/new/CAN-FRG-035_json-ciento-veinte-movimientos/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-036_historial-muchas-filas-con-portafolios-nuevos",
+      "input": "CAN-FRG-036_historial-muchas-filas-con-portafolios-nuevos",
+      "title": "Procedimiento.seleccionFinal historial-muchas-filas-con-portafolios-nuevos (D-CAN-13)",
+      "legacy": "fresh/legacy/CAN-FRG-036_historial-muchas-filas-con-portafolios-nuevos/expected.json",
+      "new": "fresh/new/CAN-FRG-036_historial-muchas-filas-con-portafolios-nuevos/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-037_historial-ids-repetidos-y-folio-grande",
+      "input": "CAN-FRG-037_historial-ids-repetidos-y-folio-grande",
+      "title": "Procedimiento.seleccionFinal historial-ids-repetidos-y-folio-grande (D-CAN-13,D-CAN-06)",
+      "legacy": "fresh/legacy/CAN-FRG-037_historial-ids-repetidos-y-folio-grande/expected.json",
+      "new": "fresh/new/CAN-FRG-037_historial-ids-repetidos-y-folio-grande/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-038_clientes-con-bloqueos-y-saldos-distintos",
+      "input": "CAN-FRG-038_clientes-con-bloqueos-y-saldos-distintos",
+      "title": "Procedimiento.seleccionFinal clientes-con-bloqueos-y-saldos-distintos (D-CAN-15)",
+      "legacy": "fresh/legacy/CAN-FRG-038_clientes-con-bloqueos-y-saldos-distintos/expected.json",
+      "new": "fresh/new/CAN-FRG-038_clientes-con-bloqueos-y-saldos-distintos/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    },
+    {
+      "id": "CAN-FRG-039_todos-los-campos-de-texto-con-valores-distintos",
+      "input": "CAN-FRG-039_todos-los-campos-de-texto-con-valores-distintos",
+      "title": "ConsultarHistorial.logica todos-los-campos-de-texto-con-valores-distintos (B-CA-06)",
+      "legacy": "fresh/legacy/CAN-FRG-039_todos-los-campos-de-texto-con-valores-distintos/expected.json",
+      "new": "fresh/new/CAN-FRG-039_todos-los-campos-de-texto-con-valores-distintos/expected.json",
+      "mask": [
+        {
+          "regex": "  \"_provenance\": \"[^\\n]*\",\\n",
+          "why": "la linea _provenance dice quien grabo la salida (oraculo del legacy o el driver nuevo); no es salida del producto"
+        },
+        {
+          "regex": "(?<=\"excepcion\": \"NullPointerException: )[^\n]*",
+          "why": "mensaje de NullPointerException generado por la JVM (el legacy compilado nombra la variable/metodo de la JVM de su compilacion; la clase y el resto de la salida SI se comparan): texto del runtime, no salida del producto"
+        },
+        {
+          "regex": "(?<= because \\\\\")[^\"\\\\\\n]*(?=\\\\\" is null)",
+          "why": "nombre de la variable en el mensaje helpful-NPE de la JVM incrustado en 'Map Object failed' (el legacy compilado sin -g dice <local12>, el codigo nuevo dice obj): texto del runtime, no salida del producto. La parte 'Parameters:' que sigue NO se enmascara"
+        }
+      ]
+    }
+  ]
+}

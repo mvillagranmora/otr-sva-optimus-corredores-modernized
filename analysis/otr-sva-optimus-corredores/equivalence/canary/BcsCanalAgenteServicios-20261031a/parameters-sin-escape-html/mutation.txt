@@ -1,0 +1,6 @@
+Canario del verificador (2026-10-31a), BcsCanalAgenteServicios. Copia FUERA de modernized/ y analysis/ (carpeta temporal del trabajo; el modulo real no se toco).
+Archivo mutado: src/main/java/cl/bcs/canalagente/service/CartolaJson.java (Gson IMPRESION)
+Mutacion: `.serializeNulls().create();` -> `.serializeNulls().disableHtmlEscaping().create();` (el JSON del POJO sin el escape HTML del Gson de printJson del legacy).
+Esperado: fallan las pruebas del texto de Parameters con ' < > & = " (CAN-FRG-025).
+OBSERVADO: 152 pruebas, 2 fallos en CanalMensajeParametersTest (CAN-FRG-025 texto completo y escapeHtmlYAcentos): el canario MUERE. Las 139 pruebas anteriores no lo habrian notado (ningun golden de desarrollo lleva esos caracteres en un Parameters).
+Evidencia: surefire/ y mvn.log.

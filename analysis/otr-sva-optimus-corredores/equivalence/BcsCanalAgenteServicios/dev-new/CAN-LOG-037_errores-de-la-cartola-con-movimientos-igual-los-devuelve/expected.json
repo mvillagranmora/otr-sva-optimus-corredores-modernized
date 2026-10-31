@@ -1,0 +1,154 @@
+{
+  "_provenance": "Written by fresh/driver FrescoNuevo executing the modernized BcsCanalAgenteServicios (src/main) through CasoCanal.ejecutar on H2 in memory; same sections as the legacy oracle.",
+  "tablasIniciales": {
+    "BSCL.CanalAgente.BD::ConsultarHistorialMovimientosCuentaInversion_Proceso": []
+  },
+  "salida": {
+    "P_SALDOEFECTIVOINICIAL": null,
+    "P_SALDOEFECTIVOFINAL": null,
+    "P_OUT_RESULTADO": [
+      {
+        "IdCargoAbonoMovimiento": 1,
+        "NombreCliente": "Cliente 100",
+        "IdCliente": 10,
+        "IdPortafolio": 100,
+        "FechaMovimiento": "2026-02-10 00:00:00.000",
+        "FechaLiquidacion": "2026-02-12 00:00:00.000",
+        "IdMoneda": "CLP",
+        "IdConcepto": "ABN",
+        "NombreConcepto": "Abono 1",
+        "Cargo": 0,
+        "Abono": 1500.5,
+        "FolioComprobante": "7001",
+        "IdEstado": "VIG",
+        "NombreEstado": "Vigente",
+        "NombreTipoComprobante": "Comprobante de abono",
+        "NombreTipoProducto": "Cuenta de inversion",
+        "NombreTipoOperacion": "Abono",
+        "NombreTipoMovimiento": "Abono",
+        "SaldoSimulado": 10000,
+        "CodigoPortafolio": "PF-100",
+        "IdComprobante": 5001,
+        "IdRespuestaDTE": 77,
+        "RespuestaPdfDTE": "https://dte.example/77.pdf",
+        "DocumentoIdentidad": "11.111.111-1",
+        "IdMatrizAgrupador": 0,
+        "EsADC": "N"
+      }
+    ],
+    "P_OUT_ADVERTENCIASCONTADOR": null,
+    "P_OUT_ADVERTENCIASDETALLE": [],
+    "P_OUT_ERRORESCONTADOR": 0,
+    "P_OUT_ERRORESDETALLE": []
+  },
+  "sentencias": [
+    {
+      "tipo": "query",
+      "sql": "SELECT TOP 1 \"IdCliente\" from \"BSCL.Portafolio.BD::POR.Portafolio\" where \"IdPortafolio\" = ?;",
+      "filas": [
+        [
+          100
+        ]
+      ],
+      "ejecucion": "H2"
+    },
+    {
+      "tipo": "batch",
+      "sql": "INSERT INTO \"BSCL.CanalAgente.BD::ConsultarHistorialMovimientosCuentaInversion_Proceso\" (\"IdCargoAbonoMovimiento\",\"IdPortafolio\", \"IdComprobante\") VALUES (?, ?, ?);",
+      "filas": [
+        [
+          1,
+          100,
+          5001
+        ]
+      ],
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        1
+      ]
+    },
+    {
+      "tipo": "query",
+      "sql": "SELECT chm.\"IdCargoAbonoMovimiento\", TO_VARCHAR(fac.\"FolioComprobante\") AS \"FolioComprobante\", por.\"CodigoPortafolio\", f ... .BD::PER.DocumentoIdentidad\" as ident ON per.\"IdDocumentoIdentidad\" = ident.\"IdDocumentoIdentidad\" LEFT JOIN \"BSCL.Facturacion.BD::FAC.Comprobante\" AS fac ON fac.\"IdComprobante\" = chm.\"IdComprobante\";",
+      "sqlLargo": 775,
+      "sqlSha256": "af3722d1fe03d7ea276d813885a2f3df5b319ab8bef09d0bded27ead7a58198d",
+      "filas": [
+        []
+      ],
+      "ejecucion": "H2"
+    },
+    {
+      "tipo": "exec",
+      "sql": "DELETE FROM \"BSCL.CanalAgente.BD::ConsultarHistorialMovimientosCuentaInversion_Proceso\";",
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        1
+      ]
+    }
+  ],
+  "colaboradores": [
+    {
+      "colaborador": "ConsultarCartolaDeMovimiento",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_IdEmpresa": 1,
+          "p_IdUsuario": 1646,
+          "p_IdModulo": "CTA",
+          "p_UsaReglasNegocio": "S",
+          "p_IdCliente": 10,
+          "p_IdPortafolio": 100,
+          "p_IdMoneda": "CLP",
+          "p_FechaDesde": "2026-02-01",
+          "p_FechaHasta": "2026-02-28",
+          "p_Validaciones": "S",
+          "p_SaldoPorFechaEfectiva": "N",
+          "p_IncluyeSaldo": "N",
+          "p_IncluyeAnulados": "S"
+        }
+      ],
+      "respuesta": {
+        "P_OUT_CARTOLADEMOVIMIENTO": [
+          {
+            "IdCargoAbonoMovimiento": 1,
+            "FechaSistema": "2026-02-10",
+            "IdCuentaInversion": 21151,
+            "NombreCliente": "Cliente 100",
+            "IdCliente": 10,
+            "IdPortafolio": 100,
+            "IdMoneda": "CLP",
+            "IdConcepto": "ABN",
+            "NombreConcepto": "Abono 1",
+            "FechaLiquidacionOperacion": "2026-02-12",
+            "Cargo": 0,
+            "Abono": 1500.5,
+            "IdEstado": "VIG",
+            "NombreEstado": "Vigente",
+            "NombreTipoComprobante": "Comprobante de abono",
+            "NombreTipoProducto": "Cuenta de inversion",
+            "NombreTipoOperacion": "Abono",
+            "NombreTipoMovimiento": "Abono",
+            "SaldoSimulado": 10000,
+            "IdComprobante": 5001,
+            "IdMatrizAgrupador": 0,
+            "EsADC": "N",
+            "Monto": 1500.5,
+            "FolioComprobante": "NO-USAR",
+            "IdRespuestaDTE": 999
+          }
+        ],
+        "P_OUT_ERRORESCONTADOR": 1,
+        "P_OUT_ERRORESDETALLE": [
+          {
+            "Codigo": "ERR01",
+            "Descripcion": "Fallo parcial"
+          }
+        ],
+        "P_OUT_MENSAJES": []
+      }
+    }
+  ],
+  "tablas": {
+    "BSCL.CanalAgente.BD::ConsultarHistorialMovimientosCuentaInversion_Proceso": []
+  }
+}
