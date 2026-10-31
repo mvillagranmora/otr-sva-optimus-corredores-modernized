@@ -1,0 +1,6 @@
+Canario del verificador (2026-10-31a), BcsReplica. Copia FUERA de modernized/ y analysis/ (carpeta temporal del trabajo; el modulo real no se toco).
+Archivo mutado: src/main/java/cl/bcs/replica/kit/Sql.java (GSON de Sql.json)
+Mutacion: `.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").serializeNulls().create();` -> `.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").serializeNulls().disableHtmlEscaping().create();` (el canario `disableHtmlEscaping()` que SOBREVIVIO el 2026-10-30g con 480 pruebas en verde, evidencia canary/BcsReplica-20261030g).
+Esperado: cae la prueba nueva ReplicaEscapeHtmlParametersTest (texto literal de Parameters con ' < > & = " de REP-FRG-001, 002, 010, 041 y 043, grabados con el legacy real).
+OBSERVADO: 485 pruebas, 5 fallos, los 5 en ReplicaEscapeHtmlParametersTest: el canario MUERE. Las 480 anteriores siguen en verde con la mutacion.
+Evidencia: surefire/ y mvn.log.

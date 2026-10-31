@@ -1,0 +1,134 @@
+{
+  "_provenance": "Written by fresh/driver FrescoNuevo executing the modernized BcsReplica (src/main) through CasoReplica.ejecutar on H2 in memory; same sections as the legacy oracle.",
+  "tablasIniciales": {
+    "BSCL.Plataforma.BD::PLA.Replica.WorkStack": []
+  },
+  "salida": {},
+  "sentencias": [
+    {
+      "tipo": "batch",
+      "sql": "INSERT INTO \"BSCL.Plataforma.BD::PLA.Replica.WorkStack\" (\"Key\",\"Table\",\"Action\",\"Status\",\"Stamp\",\"Parameters\") VALUES(?,?,?,?,CURRENT_TIMESTAMP,?)",
+      "filas": [
+        [
+          "",
+          "PATRIMONIO DIA 2026-01-01",
+          "M",
+          0,
+          "tables:CuentaInversion_PatrimonioCajaFechaLiquidacion,CuentaInversion_PatrimonioCajaFechaOperacion,Custodia_PatrimonioConsolidadoFechaLiquidacion,Custodia_PatrimonioConsolidadoFechaOperacion,Custodia_PatrimonioCustodiaFechaLiquidacion,Custodia_PatrimonioCustodiaFechaOperacion;BCS_query:QueryReplicaDelta;Fecha:2026-01-01;serialDelete:false;truncarDestino:false;serialLaunch:false"
+        ]
+      ],
+      "ejecucion": "H2",
+      "filasAfectadas": [
+        1
+      ]
+    }
+  ],
+  "colaboradores": [
+    {
+      "colaborador": "ConsultarEmpresa",
+      "metodo": "logica",
+      "argumentos": [
+        9
+      ],
+      "respuesta": {
+        "IdPais": 392
+      }
+    },
+    {
+      "colaborador": "ObtenerDiaSiguiente",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_idPais": 392,
+          "p_diaHabil": "N",
+          "p_soloCaeDiaHabil": "N",
+          "p_consideraHabilAnterior": "N",
+          "p_fechas": [
+            {
+              "fechaInicial": "2025-12-31",
+              "numeroDias": 1,
+              "pais": 392,
+              "IdInterno": 0
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "p_out_fechas": [
+          {
+            "fechaInicial": "2025-12-31",
+            "numeroDiasInicial": 1,
+            "numeroDias": 1,
+            "fechaCalculada": "2026-01-01",
+            "IdInterno": 0
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "Feriados",
+      "metodo": "esDiaHabil",
+      "argumentos": [
+        "2026-01-01",
+        392
+      ],
+      "respuesta": false
+    },
+    {
+      "colaborador": "ObtenerDiaSiguiente",
+      "metodo": "logica",
+      "argumentos": [
+        {
+          "p_idPais": 392,
+          "p_diaHabil": "N",
+          "p_soloCaeDiaHabil": "N",
+          "p_consideraHabilAnterior": "N",
+          "p_fechas": [
+            {
+              "fechaInicial": "2026-01-01",
+              "numeroDias": 1,
+              "pais": 392,
+              "IdInterno": 0
+            }
+          ]
+        }
+      ],
+      "respuesta": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "p_out_fechas": [
+          {
+            "fechaInicial": "2026-01-01",
+            "numeroDiasInicial": 1,
+            "numeroDias": 1,
+            "fechaCalculada": "2026-01-02",
+            "IdInterno": 0
+          }
+        ]
+      }
+    },
+    {
+      "colaborador": "Feriados",
+      "metodo": "esDiaHabil",
+      "argumentos": [
+        "2026-01-02",
+        392
+      ],
+      "respuesta": true
+    }
+  ],
+  "tablas": {
+    "BSCL.Plataforma.BD::PLA.Replica.WorkStack": [
+      {
+        "IdStack": 1,
+        "Key": "",
+        "Table": "PATRIMONIO DIA 2026-01-01",
+        "Action": "M",
+        "Status": 0,
+        "Stamp": "2026-03-02 14:30:00",
+        "Parameters": "tables:CuentaInversion_PatrimonioCajaFechaLiquidacion,CuentaInversion_PatrimonioCajaFechaOperacion,Custodia_PatrimonioConsolidadoFechaLiquidacion,Custodia_PatrimonioConsolidadoFechaOperacion,Custodia_PatrimonioCustodiaFechaLiquidacion,Custodia_PatrimonioCustodiaFechaOperacion;BCS_query:QueryReplicaDelta;Fecha:2026-01-01;serialDelete:false;truncarDestino:false;serialLaunch:false",
+        "Job": 0
+      }
+    ]
+  }
+}

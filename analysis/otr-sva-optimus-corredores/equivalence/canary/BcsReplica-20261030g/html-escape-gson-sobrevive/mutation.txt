@@ -1,0 +1,8 @@
+Canario PROPIO del verificador (2026-10-30g), BcsReplica. Copia FUERA de modernized/ y analysis/ (carpeta temporal del trabajo; el modulo real no se toco).
+Archivo mutado: src/main/java/cl/bcs/replica/kit/Sql.java:74
+Mutacion: Gson de Sql.json: `.serializeNulls().create()` -> `.serializeNulls().disableHtmlEscaping().create()` (el legacy cl.bcs.utils.Utils.printJson NO desactiva el escape HTML: = ' < > & salen como = ' < > & en el texto "Parameters:" de la SQLException).
+Esperado: algun test de la suite falla.
+OBSERVADO: la suite COMPLETA pasa (480 pruebas, 0 fallos): el canario SOBREVIVE. Ningun golden de desarrollo ni prueba de la suite fija el escape HTML (hueco de pruebas, no diferencia de comportamiento: el codigo real escapa igual que el legacy).
+Las entradas frescas propias REP-FRG-001, 002, 010, 041 y 043 (caracteres = ' < > & en Parameters y en la fila de EnvioPostPauta con INSERT fallido) SI lo detectan: ejecutadas con el driver contra las clases mutadas difieren del legacy (driver-contra-el-mutante/ guarda 2 de las 5 salidas). Contra el codigo real: 104/104 iguales.
+Por eso este canario NO se lista en `canaries` de test-runs.json (el pack compara fallos con la corrida limpia; un canario que sobrevive no prueba nada): queda en `leftOut` y en el informe como hallazgo de cobertura.
+Evidencia: surefire/ (XML de la corrida mutada) y mvn.log.
