@@ -57,6 +57,20 @@ final class CerConstantes {
     static final String SPOT_VALUTA_DEFECTO_FORMA_DE_PAGO = "0";
     static final String TIPO_COMISION_TRIMESTRAL = "PER";
 
+    // F-G (invoicing of the commission) and F-I (reinversion), same literals as legacy ConstantesFondoMutuo
+    static final String RESCATE_TRASPASO_PORTAFOLIO = "RESTRAPOR";
+    static final String APV = "APV";
+    static final String CONCEPTO_COMISION_APV = "COSAPV";
+    static final String CONCEPTO_COMISION_FM = "COSAFM";
+    static final String CONCEPTO_COBRO_APV = "COCAPV";
+    static final String CONCEPTO_COBRO_FM = "COAFFM";
+    static final String TIPO_COMPROBANTE_COMISION = "FOE";
+    static final String CONDICION_LIQUIDACION_T0 = "T0";
+    static final String TIPO_CONVENIO_SCV = "SCV";
+    static final String FORMA_CUSTODIA_CUS = "CUS";
+    static final String CANAL_AGENTE = "AGE";
+    static final String SWITCH = "S";
+
     private CerConstantes() {
     }
 }

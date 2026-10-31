@@ -199,3 +199,34 @@ se agregan AL FINAL para no renumerar.
 * La rama `VENSPT` de `idTipoOperacionSpot` (aporte de reinversion en USD) es inalcanzable: `mueveSpot` solo recibe los rescates.
 * Un parametro `CONCEPTO_RETENCION_PAGO_SII` ausente se lee con `ConfiguracionSistemaPort.texto` y lanza como el legacy (`Parametro ... no encontrado`); en HANA real el parametro existe o la configuracion esta mal.
 * Las fechas de las lineas de la cuenta viajan como texto `yyyy-MM-dd`; las de Tesoreria / Spot como `yyyy-MM-dd HH:mm:ss.SSS` (el centinela `0001-01-01` se escribe tal cual, no pasa por la lectura de H2).
+
+---
+
+# T4-B (F3 W3, Step 1: rojo antes de codigo): Certificar F-G (Facturacion) y F-I (reinversion y switch)
+
+Frentes **F-G** (FM-CER-48..51: movimiento de facturacion de la comision, IVA, comprobante automatico; compuerta G6) y **F-I** (FM-CER-52..58, 63, 64: aportes de la reinversion, llamada a AR, aportes de switch,
+recursion, monto en moneda de sistema). Casos `FMM-CER-575..754` (180: 75 F-G, 105 F-I; 165 `completo`, 15 `excepcion`) en `src/test/resources/fondomutuo-cer/cases-t4/`, grabados con el legacy ejecutado,
+20 corridas por caso, 0 inestables. API supuesta: `API_ASSUMED_T4.md`. Las clases nuevas de produccion se alcanzan por reflexion SOLO desde `ApiT4`: las pruebas compilan sin ellas y fallan con
+`T4 not implemented`. T1..T3 no se tocaron.
+
+| Archivo | Que es |
+|---|---|
+| `ApiT4` | el unico archivo que conoce los nombres de las clases nuevas (`FacturacionPort`, `CrearAporteReinversionPort`, `CertificacionHijaPort`, `CertificarAporteRescateFacturacion`, `...Reinversion`, `...Switch`, `...EscrituraMonto`) y el orden de los pasos de F-C..F-I |
+| `CasoCerT4` | arnes: la fachada de T1 real y, en la costura, los pasos de F-C..F-I; AR y la certificacion hija se REPITEN desde el golden (la respuesta que el legacy obtuvo, llamada por llamada); "J-lite" escribe solo `MontoMonedaSistema` entre Spot y la recursion |
+| `CerCosturaT4` | la comparacion contra el golden: llamadas con argumentos completos (movimientos de ~107 llaves, aportes de AR, entrada del hijo), salida (los resultados del hijo van primero), columnas del UPDATE y la unica escritura de F-C..F-I (FM-CER-64) |
+| `CerT4EquivalenciaTest`, `CerT4DeterminismoTest` | 180 casos; 20 corridas (`-Dcer.corridas=N`) de los 34 con varias solicitudes |
+| `CerT4ReglasTest` | GENERADO por `gen_reglas_cer_t4.py` desde los goldens: una prueba por tarjeta y por defecto, valores LITERALES |
+| `CerT4CompuertaTest` | forma de los puertos, G6 cerrada por defecto, unidades sin estado, integridad de la evidencia |
+
+```
+mvn -o test -Dtest='CerT4*Test'                      # hoy en rojo por ausencia de implementacion
+py -3 -I make_cases_cer_t4.py                        # escribe cases-cer-t4/ y seed/base-cer-t4.sql (NUNCA los goldens; borra los directorios anteriores)
+legacy-oracle/record_cer_t4.sh FMM-CER               # graba expected.json, 20 corridas por caso (determinism-cer-t4.txt)
+py -3 -I legacy-oracle/check_cer_t4.py               # etiquetas vs goldens, estabilidad
+py -3 -I legacy-oracle/sync_cer_t4.py                # copia a src/test/resources/fondomutuo-cer/
+py -3 -I gen_reglas_cer_t4.py                        # regenera CerT4ReglasTest.java
+py -3 -I canary_cer_t4.py <copia-del-modulo>         # mutaciones de la implementacion de referencia (COPIA fuera del repo)
+```
+IMPORTANTE: tras re-grabar con otra numeracion hay que correr `mvn clean` (Maven no borra de `target/test-classes` los directorios de casos que ya no existen y la guarda de conteo fallaria).
+Limites declarados: AR corre como doble guionado (la clase real esta preparada en el oraculo, `"arReal": true`, pero sin semilla suficiente en esta tanda: ver `TRANSFORMATION_NOTES.md`, Q-T4B-1); la certificacion
+hija se prueba por su ENTRADA y por la respuesta repetida, no corriendo el hijo; FM-CER-64 no se combina con la recursion en el mismo caso (el hijo escribe filas que el arnes nuevo no escribe).

@@ -297,6 +297,8 @@ public final class CertificarAporteRescateRescates {
             carterasRetiradas.addAll(salidaConRegimen.P_OUT_MOVIMIENTOS);
             carterasRetiradas.addAll(salidaSinRegimen.P_OUT_MOVIMIENTOS);
 
+            ctx.carterasRetiradas = carterasRetiradas;   // the reinversion (F-I) reads them
+
             validarRetiroCarteras(rescates, carterasRetiradas);
             calcularCostoUFRentabilidadRescates(rescates, carterasRetiradas, ctx.entrada.p_IdEmpresa);
         }

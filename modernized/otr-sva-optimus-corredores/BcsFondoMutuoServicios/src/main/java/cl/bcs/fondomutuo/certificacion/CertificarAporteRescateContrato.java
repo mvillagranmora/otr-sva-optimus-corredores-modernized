@@ -187,6 +187,41 @@ public final class CertificarAporteRescateContrato {
         public String CodigoTipoIndicador = "";
     }
 
+    /** Legacy {@code Cobro} (COM.Cobro): the IVA of the invoicing of the commission (F-G). */
+    public static class Cobro {
+        public String IdCobro;
+        public BigDecimal ValorCobro;
+    }
+
+    /** Legacy {@code ReinversionSerieFondoDestino}: one destination of a rescate of reinversion (the defaults of the legacy constructor). */
+    public static class ReinversionDestino {
+        public Long IdReinversionSerieFondo;
+        public Long IdSolicitudAporteRescate;
+        public String IdSerieFondoDestino;
+        public BigDecimal Porcentaje;
+        public String IdRegimenTributario;
+        public String IdFamiliaFondo;
+        public String Switch = "N";
+        public String IdMoneda;
+    }
+
+    /** Legacy {@code SolicitudOrigenReinversionSerieFondo}: the dollar flags of the origin and destination series of a rescate (the defaults of the legacy constructor). */
+    public static class OrigenReinversion {
+        public Long IdSolicitudAporteRescate = 0L;
+        public String IdSerieFondoOrigen = "";
+        public String FondoOrigenNacionalDolar = "N";
+        public String FondoDestinoNacionalDolar = "N";
+        public String IdSerieFondoDestino = "";
+        public String FondoOrigenInternacionalDolar = "N";
+        public String FondoDestinoInternacionalDolar = "N";
+    }
+
+    /** Legacy {@code SolicitudReinversion}: the sum of {@code MontoMonedaSistema} of the rows related to a rescate (the id column carries the id of the RESCATE); also the row of its UPDATE. */
+    public static class SolicitudReinversion {
+        public Long IdSolicitudAporteRescate;
+        public BigDecimal MontoMonedaSistema;
+    }
+
     /** One row of the log of certification: the id from the sequence port plus the legacy {@code InLog}. */
     public static class LogFila {
         public Long IdLogCertificacionAporteRescate;

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * Gates G0..G5 of the F1 closure as CONFIGURATION (skeleton: no service uses them yet; steps 3-4 call them). FAIL CLOSED: a property that is missing or
+ * Gates G0..G6 of the F1 closure as CONFIGURATION (skeleton: no service uses them yet; steps 3-4 call them). FAIL CLOSED: a property that is missing or
  * false keeps the gate shut. A gate opens with any value that the {@code @Value} boolean conversion of Spring reads as true: {@code true}, {@code yes}, {@code on} or
  * {@code 1} (case-insensitive); a value that is none of the boolean spellings makes the start-up fail. Always configure exactly {@code true} or {@code false}. A
  * shut gate raises {@link ServicioNoServidoException} (503) so the router repeats the whole request in
@@ -31,6 +31,7 @@ public class Compuertas {
     private final boolean custodia;
     private final boolean custodiaNormal;
     private final boolean comisionesEnProceso;
+    private final boolean facturacion;
 
     /** Whether G-CUS is open (the custody movements are enabled by configuration): the in-process custody for RescateReinversion and the in-process adapter. */
     public boolean custodiaHabilitada() {
@@ -55,6 +56,12 @@ public class Compuertas {
         this(listasServidas, tesoreria, spot, flujoCaja, owp, custodia, custodia, false);
     }
 
+    /** Compatibility constructor (8 arguments): G6 (Facturacion) stays CLOSED; only the Spring constructor can open it by property. */
+    public Compuertas(String listasServidas, boolean tesoreria, boolean spot, boolean flujoCaja, boolean owp, boolean custodia, boolean custodiaNormal,
+            boolean comisionesEnProceso) {
+        this(listasServidas, tesoreria, spot, flujoCaja, owp, custodia, custodiaNormal, comisionesEnProceso, false);
+    }
+
     @Autowired
     public Compuertas(@Value("${fondomutuo.solicitud.listas-servidas:}") String listasServidas,
             @Value("${fondomutuo.tesoreria.habilitada:false}") boolean tesoreria,
@@ -63,7 +70,8 @@ public class Compuertas {
             @Value("${fondomutuo.owp.habilitado:false}") boolean owp,
             @Value("${fondomutuo.custodia.habilitada:false}") boolean custodia,
             @Value("${fondomutuo.custodia.normal-habilitada:false}") boolean custodiaNormal,
-            @Value("${fondomutuo.custodia.comisiones-en-proceso:false}") boolean comisionesEnProceso) {
+            @Value("${fondomutuo.custodia.comisiones-en-proceso:false}") boolean comisionesEnProceso,
+            @Value("${fondomutuo.facturacion.habilitada:false}") boolean facturacion) {
         this.listasServidas = Arrays.stream(listasServidas.split(",")).map(s -> s.trim().toUpperCase(Locale.ROOT)).filter(s -> !s.isEmpty())
                 .collect(Collectors.toUnmodifiableSet());
         this.tesoreria = tesoreria;
@@ -73,6 +81,7 @@ public class Compuertas {
         this.custodia = custodia;
         this.custodiaNormal = custodiaNormal;
         this.comisionesEnProceso = comisionesEnProceso;
+        this.facturacion = facturacion;
     }
 
     public Set<String> listasServidas() {
@@ -106,6 +115,11 @@ public class Compuertas {
     /** G4: channel OWP with PLA.NotificarEstadoOrdenOWP=S. */
     public void g4Owp() {
         cerrada(owp, "G4", "needs NotificarEstadoOrdenesOWP");
+    }
+
+    /** G6 (FM-CER-48..51): Facturacion (CrearMovimientoComprobante / CrearComprobante) is not served in process; property {@code fondomutuo.facturacion.habilitada}, default false. */
+    public void g6Facturacion() {
+        cerrada(facturacion, "G6", "invoicing of the commission needs Facturacion (CrearMovimientoComprobante)");
     }
 
     /** G-CUS (F2): custody through HTTP breaks atomicity; open (property true) only with the in-process adapter, see {@code custodia.CustodiaEnProcesoArranque}. */

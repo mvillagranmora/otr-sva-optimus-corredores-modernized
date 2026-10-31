@@ -7,12 +7,16 @@ import java.util.Map;
 import cl.bcs.fondomutuo.adapter.out.jdbc.ConexionUnidadDeTrabajo;
 import cl.bcs.fondomutuo.adapter.out.jdbc.SqlNombrado;
 import cl.bcs.fondomutuo.adapter.out.jdbc.SqlRecursos;
+import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Cobro;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.ComprobanteNoLiquidado;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Estado;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.IndicadorPortafolio;
+import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.OrigenReinversion;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.ParametroOperaCSN;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Persona;
+import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.ReinversionDestino;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.SolicitudProceso;
+import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.SolicitudReinversion;
 import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateContrato.Traspaso;
 
 /** {@link CertificarAporteRescateDatos} (no bean until T5) over the legacy SQL, verbatim (no ORDER BY added: the row order is the engine's). */
@@ -28,6 +32,10 @@ public class CertificarAporteRescateDatosJdbc implements CertificarAporteRescate
     private static final String SQL_SELECT_PARAMETRO_OPERA_CON_SALDO_NEGATIVO = SqlRecursos.modulo("CrearSolicitudAporteRescateNormal_SelectParametroOperaConSaldoNegativo.sql");
 
     private static final String SQL_SELECT_GENERA_CARGO_ABONO = SqlRecursos.modulo("CertificarSolicitudAporteRescate_SelectTipoMovimientoFondoMutuoGeneraCargoAbono.sql");
+    private static final String SQL_SELECT_COBRO_IVA = SqlRecursos.modulo("CertificarSolicitudAporteRescate_SelectCobroIva.sql");
+    private static final String SQL_SELECT_REINVERSION_DESTINO = SqlRecursos.modulo("ComunesSolicitudes_SelectReinversionSerieFondoDestino.sql");
+    private static final String SQL_SELECT_REINVERSION_SERIE_FONDO = SqlRecursos.modulo("ComunesSolicitudes_SelectReinversionSerieFondosSolicitudRescateReinversion.sql");
+    private static final String SQL_SELECT_MONTO_MONEDA_SISTEMA = SqlRecursos.modulo("CertificarSolicitudAporteRescate_SelectMontoMonedaSistemaSolicitudesReinversion.sql");
 
     /** Legacy {@code GeneraCargoAbono}: a movement type without row reads as {@code "N"}. */
     public static class GeneraCargoAbonoFila {
@@ -103,5 +111,29 @@ public class CertificarAporteRescateDatosJdbc implements CertificarAporteRescate
         Map<String, Object> params = new HashMap<>();
         params.put("IdTipoMovimientoFondoMutuo", idTipoMovimientoFondoMutuo);
         return consultar(SQL_SELECT_GENERA_CARGO_ABONO, params, GeneraCargoAbonoFila.class).stream().findFirst().orElse(new GeneraCargoAbonoFila()).GeneraCargoAbono;
+    }
+
+    @Override
+    public List<Cobro> cobrosIva() {
+        return consultar(SQL_SELECT_COBRO_IVA, new HashMap<>(), Cobro.class);
+    }
+
+    @Override
+    public List<ReinversionDestino> destinosReinversion(List<Long> idSolicitudes) {
+        return consultar(SQL_SELECT_REINVERSION_DESTINO, porIdSolicitudes(idSolicitudes), ReinversionDestino.class);
+    }
+
+    @Override
+    public List<OrigenReinversion> seriesOrigenReinversion(Long idEmpresa, List<Long> idSolicitudes) {
+        Map<String, Object> params = porIdSolicitudes(idSolicitudes);
+        params.put("IdEmpresa", idEmpresa);
+        return consultar(SQL_SELECT_REINVERSION_SERIE_FONDO, params, OrigenReinversion.class);
+    }
+
+    @Override
+    public List<SolicitudReinversion> sumaMontoMonedaSistema(List<Long> idRescatesRelacionados) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("IdSolicitudAporteRescateRelacionado", idRescatesRelacionados);
+        return consultar(SQL_SELECT_MONTO_MONEDA_SISTEMA, params, SolicitudReinversion.class);
     }
 }

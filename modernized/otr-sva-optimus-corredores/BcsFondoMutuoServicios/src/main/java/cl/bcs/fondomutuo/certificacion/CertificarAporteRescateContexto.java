@@ -31,6 +31,8 @@ public final class CertificarAporteRescateContexto {
     public List<SolicitudProceso> aportes = new ArrayList<>();
     public List<SolicitudProceso> rescates = new ArrayList<>();
     public List<InSolicitudes> aportesSwitch = new ArrayList<>();
+    /** The movements of custody that the retirement of the rescates left (filled by {@code retirarCustodiaYCostear}; the reinversion reads them: FM-CER-53). */
+    public List<CertificarAporteRescateColaboradores.MovimientoSalida> carterasRetiradas = new ArrayList<>();
     public Map<String, Estado> estados;
     public Map<Long, Traspaso> traspasos;
     public Persona personaTGR;
