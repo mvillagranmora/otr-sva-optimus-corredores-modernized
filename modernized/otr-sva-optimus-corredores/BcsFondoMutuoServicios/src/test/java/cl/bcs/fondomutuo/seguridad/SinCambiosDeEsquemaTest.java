@@ -159,6 +159,8 @@ class SinCambiosDeEsquemaTest {
             Map.entry("ValidaPatrimonioEmisor_DeleteTablaPaso.sql", "DELETE \"BSCL.Orden.BD::GBL.ValidaPatrimonioEmisor_Proceso_Paso\""),
             Map.entry("ValidaPatrimonioEmisor_InsertTablaPaso.sql", "INSERT \"BSCL.Orden.BD::GBL.ValidaPatrimonioEmisor_Proceso_Paso\""),
             Map.entry("CrearSolicitudAporteReinversion_UpdateFechaFinalReinversion.sql", "UPDATE \"BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino\""),
+            // F3 W3 T4-B (FM-CER-64, the only write of fronts F-C..F-I of Certificar): UPDATE of MontoMonedaSistema, legacy SQL, no commit
+            Map.entry("CertificarSolicitudAporteRescate_UpdateMontoMonedaSistemaSolicitudesReinversion.sql", "UPDATE \"BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate\""),
             // F3 W2 CVC (CargarValorCuota, the only UI class that writes; list CARGAR_VALOR_CUOTA closed by default): the four writes of the class
             Map.entry("CargarValorCuota_UpdateValorCuotaUltimaCarga.sql", "UPDATE \"BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico\""),
             Map.entry("CargarValorCuota_InsertValorCuotaHistorico.sql", "INSERT \"BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico\""),
