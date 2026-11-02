@@ -226,3 +226,13 @@ preflight once more.
 
 The discovery artifacts already exist. For the current work, the useful step is to re-run only the proof pack
 (`python ".../proof_pack.py" otr-sva-optimus-corredores`): the 2026-10-23 evidence is current and the baseline is now this file.
+
+## Nota de 2026-11-02: fechas de archivo de `legacy/` (Omar Guillen Perez)
+
+`legacy/otr-sva-optimus-corredores` no ha cambiado desde que se congeló. Evidencia:
+
+- Un solo commit toca `legacy/`: `eba658624` (2026-10-29 14:10, Mauricio Ariel Villagran Mora, "Legacy congelado: copia de la rama feat/acn-update-cicd").
+- Hoy hay 27.764 archivos en disco y 27.764 en git, y `git status -- legacy` no muestra cambios.
+- Las fechas de archivo de `legacy/` (2026-10-30 09:53-09:54) son las de la descarga (clon) del repositorio en este equipo, que escribió `analysis/` (09:51) antes que `legacy/`. No son ediciones.
+
+Esta nota se agregó para que la comprobación "Source untouched" de `proof_pack.py`, que compara fechas de archivo con la de este documento, no confunda la descarga con un cambio. Lo que sigue sin comprobarse aquí es que la copia congelada sea idéntica al repositorio origen `nuamx/otr-sva-optimus-corredores`: eso solo lo puede confirmar quien hizo el commit `eba658624`.
