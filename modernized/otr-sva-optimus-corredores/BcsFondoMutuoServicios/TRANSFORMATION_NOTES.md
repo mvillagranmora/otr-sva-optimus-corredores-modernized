@@ -1329,3 +1329,31 @@ Tanda T4 de `CertificarSolicitudAporteRescate`, parte B, Step 1 (rojo antes de c
 - LOW: entrada nula en el handler, `Objects.requireNonNull` en las fábricas, nombre del puerto en el 503/log de los reemplazos, prueba de que Certificar recibe la custodia en proceso.
 
 **Brechas que siguen.** Sin adaptadores reales de los seis puertos; pruebas en H2, no HANA; nueva firma requerida tras `modernize-verify` (T5 y T4-C son posteriores a la firma del 02-Nov).
+
+## F3 W3 T6-A (pruebas): CertificarPorFiltrosSolicitudAporteRescate, solo en proceso (2026-11-02)
+
+Paso 1 (solo pruebas, sin código de producción). Decisión aprobada por el usuario: la clase la llama un job de otro módulo, así que es EN PROCESO: sin handler JavaCall, sin FQN en `JavaCallDispatcher.LISTA_BLANCA` (sigue en 13), sin lista en `listas-servidas`, sin exposición HTTP. Solo hace falta un puerto, un adaptador de lectura y el cableado Spring.
+
+**Archivos.**
+- Pruebas: `src/test/java/cl/bcs/fondomutuo/certificacionporfiltros/` (`ApiT6a`, `API_ASSUMED_T6A.md`, `README.md`, `CerPfEquivalenciaTest`, `CerPfDeterminismoTest`, `CerPfReglasTest`, `CerPfPuertoTest`, `CerPfEstructuraTest`, `CerPfCableadoTest`) y el arnés `certificacion/CasoCerPf.java` y `CerCosturaPf.java` (copias propias de `CasoCerT5` / `CerCosturaT5`, en el paquete `certificacion` solo porque lo que reutilizan es privado de paquete).
+- Fixtures: `src/test/resources/fondomutuo-cerpf/` (`cases/` 86 casos con `case.json`, `seed.sql`, `expected.json`; `schema-cerpf.sql`; `determinism-cerpf.txt`).
+- Oráculo (en `analysis/.../equivalence/BcsFondoMutuoServicios/`): `legacy-oracle/record_cerpf.sh`, `legacy-oracle/runner-cerpf/` (`OracleRunnerCerPf`, espía `PfSpy`), `cases_cerpf.py`, `make_cases_cerpf.py`, `cases-cerpf/`, `schema-cerpf.sql`, `determinism-cerpf.txt`, `legacy-oracle/check_cerpf.py`, `legacy-oracle/sync_cerpf.py`, `canary_cerpf.py` y `golden-mutation-cerpf/`. No se editó ningún archivo existente ni nada bajo `legacy/`.
+
+**Oráculo.** La clase legacy real llamando a la `CertificarSolicitudAporteRescate` real (mismos dobles registrados, H2 en memoria, sin HANA). Una sola línea observada en una copia temporal (`PfSpy.certificar`) registra la entrada completa que la clase arma para Certificar (cabecera, ids en el orden de los filtros, duplicados) y su respuesta; todo lo que hace Certificar queda en `internas`. 86 casos grabados, 20 corridas cada uno, 0 inestables (1.720 corridas). Fichas FM-CXF-01..06 y matriz C01..C05 (C06 es el job). Casos: cada campo del filtro solo (`IdEmisor`, `IdMoneda`, `IdSerieFondo`, `Nacional` N/S/X/vacío/minúscula/nulo, `TipoSolicitud`, `IdTipoMovimientoFondoMutuo`, `MoneyMarket`, `IdCarga` 0 / cargas con detalle PEN, ERR, PRO / inexistente / nula), 0/1/varias coincidencias, filtros solapados (duplicados), `p_Filtros` vacío/ausente/nulo, estados ING/ACP vs otros, fecha y empresa distintas, simular S/N/vacío/ausente, campos nulos, y 25 casos derivados de T5 (Certificar limpio, salida temprana, errores en mensajes, contador >1, hijo del switch, excepciones).
+
+**Pruebas: 208** (equivalencia 88 = 86 casos + 2 de control; determinismo 32; reglas con literales 59; unitarias con fakes 17; estructura 8; cableado 4).
+
+**Qué está en rojo y por qué.** Con `mvn -o test -Dtest='CerPf*Test'`: 208 ejecutadas, 205 en rojo, 3 verdes (golden presente, informe de determinismo, RULE-076). 204 fallan con `T6-A not implemented: the production class ... does not exist yet`; 1 con `equivalence cases executed: 0 => not proven`. Salida: `analysis/.../equivalence/BcsFondoMutuoServicios-F3-W3-T6A-rojo.test-output.txt`. Autocomprobación (`-Dcer.autocomprobacion=true`, reglas contra los goldens): 59/59 verdes (`...-T6A-autocomprobacion.test-output.txt`).
+
+**Validación fuera del repo.** En una copia del módulo (carpeta temporal, NO en el repo) se escribió una implementación desechable mínima del puerto: las 208 pruebas pasan, y 5 de 6 mutaciones de ese código la ponen en rojo (deduplicar, no copiar el canal, no pasar la empresa, no llamar a Certificar con lista vacía, no copiar el contador); la sexta (`Nacional` nulo pasado como `N`) es un mutante equivalente (el COALESCE del SQL ya lo hace). Esa implementación no se entrega.
+
+**API que producción debe cumplir:** `API_ASSUMED_T6A.md` (paquete `cl.bcs.fondomutuo.certificacionporfiltros`: `CertificarPorFiltrosContrato`, `...Port`, `...Datos`, `...DatosJdbc`, `...Fachada`, `...Configuracion`). El SQL ya existe en `src/main/resources` y es idéntico al legacy (SHA-256 verificado). Las clases `service.javacall.CertificarPorFiltrosSolicitudAporteRescateService` y `InternalJavaCallController` son andamios excluidos del contexto; no se tocan.
+
+**Mutación de los goldens:** ver `golden-mutation-cerpf/GOLDEN_MUTATION_T6A.json` (resultado al final de esta sección).
+
+**Preguntas abiertas.**
+1. DESVIO-KIT-1 reaparece: con empresa nula o sin configuración (casos 56, 63, 64) el legacy lanza `NullPointerException` y el kit `Exception: Parametro ... no encontrado`. Se aceptan ambas solo en esos tres casos, como en T1; el resto de la corrida sí se compara.
+2. Q-T6A-1 a Q-T6A-5 de `API_ASSUMED_T6A.md` (puerto tipado para el job, tipo de `P_OUT_RESULTADO`, excepción comprobada del puerto de lectura, orden de filas sin ORDER BY en HANA, `Nacional`/`MoneyMarket` vacíos que no filtran y devuelven nada).
+3. No hay `RULE-nnn` para esta clase en `BUSINESS_RULES.md` ni veredictos en `RULE_REVIEWS.json`; las pruebas nombran las fichas FM-CXF.
+
+**Resultado de la mutación de los goldens (`canary_cerpf.py`, copia del legacy por `LEGACY_OVERLAY`, `legacy/` intacto).** Controles: C1 el legacy sin tocar regrabado difiere en 0 casos; C2 la línea de observación `PfSpy` es neutra (86 casos, 0 difieren). 40 mutantes (16 del SQL del select y 24 de la clase Java: parámetros no pasados, cabecera no copiada, deduplicar, orden de filtros, solo el primer filtro, salida no copiada, cláusulas del WHERE): 40 matados, 0 sobrevivientes. Detalle en `golden-mutation-cerpf/GOLDEN_MUTATION_T6A.json` y `golden-mutation-cerpf-run.log`.
