@@ -118,11 +118,10 @@ class CerT2CompuertaTest {
     }
 
     @Test
-    @DisplayName("the class is still NOT served in T2: not on the allow-list, no JavaCall handler class, no gate flag of Certificar")
+    @DisplayName("T4-C: the class is on the allow-list but NOT served by default (not a read class, no list of the Manejador, no list open in the default configuration)")
     void claseNoServida() {
-        assertFalse(JavaCallDispatcher.LISTA_BLANCA.contains(FQN_LEGACY));
+        assertTrue(JavaCallDispatcher.LISTA_BLANCA.contains(FQN_LEGACY), "T4-C: the class is on the allow-list (its list stays closed by default)");
         assertFalse(JavaCallDispatcher.CLASES_LECTURA.contains(FQN_LEGACY));
-        assertThrows(ClassNotFoundException.class, () -> Class.forName("cl.bcs.fondomutuo.certificacion.CertificarAporteRescateJavaCallHandler"));
         assertFalse(new Compuertas("", false, false, false, false, false).listasServidas().stream().anyMatch(l -> l.contains("CERTIFICAR")));
     }
 
@@ -141,13 +140,7 @@ class CerT2CompuertaTest {
     }
 
     @Test
-    @Disabled("pending T5: the facade evaluates Compuertas.g3SaldoFlujoCaja() when an aporte reaches the cash flow (FM-CER-21/22) and Compuertas.gCustodia() when custody is called (FM-CER-27, 31, 39), AFTER all the validations and BEFORE the first write; with them closed the request answers 503 and nothing is written")
-    @DisplayName("T5 / G3 and G-CUS: the gates are evaluated by the facade before the first write of F-C / F-D (503 with everything closed)")
-    void evaluacionDeLasCompuertasPendienteT5() {
-    }
-
-    @Test
-    @Disabled("pending the custody line (T5): in-process adapters of ProcesarCustodiaFondoMutuoPort / CalculaCustodiaRescatePort (custody library of the module) that join the ambient transaction and never commit")
+    @Disabled("pending the custody line (NOT T5: the facade evaluates G-CUS, the in-process adapters are another step): in-process adapters of ProcesarCustodiaFondoMutuoPort / CalculaCustodiaRescatePort (custody library of the module) that join the ambient transaction and never commit")
     @DisplayName("T5 / G-CUS: the custody ports have an in-process adapter only when the gate is open")
     void adaptadoresDeCustodiaPendientesT5() {
     }

@@ -32,6 +32,7 @@ public class Compuertas {
     private final boolean custodiaNormal;
     private final boolean comisionesEnProceso;
     private final boolean facturacion;
+    private final boolean notificaciones;
 
     /** Whether G-CUS is open (the custody movements are enabled by configuration): the in-process custody for RescateReinversion and the in-process adapter. */
     public boolean custodiaHabilitada() {
@@ -56,10 +57,16 @@ public class Compuertas {
         this(listasServidas, tesoreria, spot, flujoCaja, owp, custodia, custodia, false);
     }
 
-    /** Compatibility constructor (8 arguments): G6 (Facturacion) stays CLOSED; only the Spring constructor can open it by property. */
+    /** Compatibility constructor (8 arguments): G6 (Facturacion) and G8 (notifications) stay CLOSED; only the Spring constructor can open them by property. */
     public Compuertas(String listasServidas, boolean tesoreria, boolean spot, boolean flujoCaja, boolean owp, boolean custodia, boolean custodiaNormal,
             boolean comisionesEnProceso) {
-        this(listasServidas, tesoreria, spot, flujoCaja, owp, custodia, custodiaNormal, comisionesEnProceso, false);
+        this(listasServidas, tesoreria, spot, flujoCaja, owp, custodia, custodiaNormal, comisionesEnProceso, false, false);
+    }
+
+    /** Compatibility constructor (9 arguments): G8 (notifications) stays CLOSED; only the Spring constructor can open it by property. */
+    public Compuertas(String listasServidas, boolean tesoreria, boolean spot, boolean flujoCaja, boolean owp, boolean custodia, boolean custodiaNormal,
+            boolean comisionesEnProceso, boolean facturacion) {
+        this(listasServidas, tesoreria, spot, flujoCaja, owp, custodia, custodiaNormal, comisionesEnProceso, facturacion, false);
     }
 
     @Autowired
@@ -71,7 +78,8 @@ public class Compuertas {
             @Value("${fondomutuo.custodia.habilitada:false}") boolean custodia,
             @Value("${fondomutuo.custodia.normal-habilitada:false}") boolean custodiaNormal,
             @Value("${fondomutuo.custodia.comisiones-en-proceso:false}") boolean comisionesEnProceso,
-            @Value("${fondomutuo.facturacion.habilitada:false}") boolean facturacion) {
+            @Value("${fondomutuo.facturacion.habilitada:false}") boolean facturacion,
+            @Value("${fondomutuo.notificaciones.habilitadas:false}") boolean notificaciones) {
         this.listasServidas = Arrays.stream(listasServidas.split(",")).map(s -> s.trim().toUpperCase(Locale.ROOT)).filter(s -> !s.isEmpty())
                 .collect(Collectors.toUnmodifiableSet());
         this.tesoreria = tesoreria;
@@ -82,6 +90,7 @@ public class Compuertas {
         this.custodiaNormal = custodiaNormal;
         this.comisionesEnProceso = comisionesEnProceso;
         this.facturacion = facturacion;
+        this.notificaciones = notificaciones;
     }
 
     public Set<String> listasServidas() {
@@ -120,6 +129,11 @@ public class Compuertas {
     /** G6 (FM-CER-48..51): Facturacion (CrearMovimientoComprobante / CrearComprobante) is not served in process; property {@code fondomutuo.facturacion.habilitada}, default false. */
     public void g6Facturacion() {
         cerrada(facturacion, "G6", "invoicing of the commission needs Facturacion (CrearMovimientoComprobante)");
+    }
+
+    /** G8 (FM-CER-62, 65): the notifications of the certification (batch server and OpenWorkPlace) leave over HTTP outside the transaction; property {@code fondomutuo.notificaciones.habilitadas}, default false. */
+    public void g8Notificaciones() {
+        cerrada(notificaciones, "G8", "the notifications of the certification need the batch server and OpenWorkPlace");
     }
 
     /** G-CUS (F2): custody through HTTP breaks atomicity; open (property true) only with the in-process adapter, see {@code custodia.CustodiaEnProcesoArranque}. */

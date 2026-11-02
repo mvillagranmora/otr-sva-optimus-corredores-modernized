@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * The allow-list of the JavaCall classes this module may serve (D-4 / DEV-F1): EXACTLY twelve legacy FQN (the Manejador, Normal, RescateReinversion, the eight F3 W1 UI reads and the F3 W2 CargarValorCuota), taken from the router registry
+ * The allow-list of the JavaCall classes this module may serve (D-4 / DEV-F1): EXACTLY thirteen legacy FQN (the Manejador, Normal, RescateReinversion, the eight F3 W1 UI reads and the F3 W2 CargarValorCuota), taken from the router registry
  * (ids 601190 and 357; F2 W1 adds 1436 CrearSolicitudRescateReinversion, disabled by configuration) and the legacy package. Everything else (the ~130 legacy stubs included, which are no longer in the Spring context) is "not
  * served" and the controller answers 503 so the router falls back to TomEE. A whitelisted class with no handler registered yet is ALSO not served: in
  * this step (kit) both are unserved; the handlers arrive in steps 3-4. A {@link JavaCallHandler} for any other FQN stops the start-up: the list cannot
@@ -37,6 +37,8 @@ public class JavaCallDispatcher {
     public static final String CONSULTAR_CUSTODIA_PORTAFOLIO_FONDO_MUTUO = "cl.bcs.fondomutuo.ConsultarCustodiaPortafolioFondoMutuo";
     /** F3 W2: the only UI class that WRITES (registry id 3035); in {@link #LISTA_BLANCA} and NOT in {@link #CLASES_LECTURA} (its unit of work is read-write); served only when its list is open. */
     public static final String CARGAR_VALOR_CUOTA = "cl.bcs.fondomutuo.CargarValorCuota";
+    /** F3 W3 T4-C: Certificar, a write entry served only when its list is open (closed by default); in {@link #LISTA_BLANCA}, NOT in {@link #CLASES_LECTURA}. */
+    public static final String CERTIFICAR_SOLICITUD_APORTE_RESCATE = "cl.bcs.fondomutuo.CertificarSolicitudAporteRescate";
 
     /**
      * The eight UI reads (architecture review F3 W1, H2): {@link JavaCallUnitOfWorkFilter} opens their transaction READ ONLY. Writes and the Manejador are never in it.
@@ -48,7 +50,8 @@ public class JavaCallDispatcher {
     /** The whole allow-list. Adding a class here is a decision of the plan (F2 waves), never a side effect of adding a bean. */
     public static final Set<String> LISTA_BLANCA = Set.of(MANEJADOR, CREAR_SOLICITUD_NORMAL, CREAR_SOLICITUD_RESCATE_REINVERSION,
             CONSULTAR_FECHA_SOLICITUD_APORTE_RESCATE, CONSULTAR_FONDO_MUTUO_REINVERSION, CONSULTAR_INSTRUMENTOS_FONDOS_MUTUOS, CONSULTAR_VALOR_DOLAR_FONDO_MUTUO,
-            CONSULTAR_SOLICITUDES_FFMM, CONSULTAR_SOLICITUDES_FFMM_WS, CONSULTAR_DETALLE_SOLICITUD, CONSULTAR_CUSTODIA_PORTAFOLIO_FONDO_MUTUO, CARGAR_VALOR_CUOTA);
+            CONSULTAR_SOLICITUDES_FFMM, CONSULTAR_SOLICITUDES_FFMM_WS, CONSULTAR_DETALLE_SOLICITUD, CONSULTAR_CUSTODIA_PORTAFOLIO_FONDO_MUTUO, CARGAR_VALOR_CUOTA,
+            CERTIFICAR_SOLICITUD_APORTE_RESCATE);
 
     private final Map<String, JavaCallHandler> porFqn;
 

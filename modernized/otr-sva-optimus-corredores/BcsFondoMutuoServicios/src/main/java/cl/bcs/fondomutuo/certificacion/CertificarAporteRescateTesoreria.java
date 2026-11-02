@@ -66,6 +66,22 @@ public final class CertificarAporteRescateTesoreria {
         }
     }
 
+    /**
+     * Whether {@link #moverTesoreria} will send Tesoreria an entry (the facade evaluates gate G1 with this, before the first write): the same selection as {@code mueveTesoreria} (path a: not paid
+     * from the account, not a reinversion, no MLT, no traspaso; path b: a traspaso with a row), over the rescates that are not rejected and do not generate Spot.
+     */
+    public boolean enviaATesoreria(CertificarAporteRescateContexto ctx) {
+        for (SolicitudProceso sol : ctx.rescates) {
+            if (ESTADO_RECHAZADO.equals(sol.EstadoProceso) || SI.equals(sol.GeneraSpot)) continue;
+            if (!CUENTA_INVERSION.equals(sol.IdMedioDePago) && !REINVERSION.equals(sol.IdTipoMovimientoFondoMutuo) && NO.equals(sol.IndicadorMLT) && !SI.equals(sol.RelacionTraspaso)) {
+                return true;
+            } else if (SI.equals(sol.RelacionTraspaso) && traspaso(sol, ctx) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private SalidaTesoreria mueveTesoreria(CertificarAporteRescateContexto ctx) throws Exception {
         SalidaTesoreria salida = new SalidaTesoreria();
         EntradaTesoreria entrada = new EntradaTesoreria();

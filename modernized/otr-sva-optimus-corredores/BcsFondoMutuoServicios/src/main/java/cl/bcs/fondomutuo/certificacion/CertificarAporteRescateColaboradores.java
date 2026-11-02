@@ -545,7 +545,7 @@ public final class CertificarAporteRescateColaboradores {
         public String IdTipoCanalIngreso;
     }
 
-    static AporteReinversionSalida crearAporteReinversion(CrearAporteReinversionPort puerto, AporteReinversionEntrada entrada) {
+    static AporteReinversionSalida crearAporteReinversion(CrearAporteReinversionPort puerto, AporteReinversionEntrada entrada) throws Exception {
         JsonObject json = JsonLegacy.conNulos().toJsonTree(entrada).getAsJsonObject();
         return JsonLegacy.conNulos().fromJson(puerto.crear(json), AporteReinversionSalida.class);
     }

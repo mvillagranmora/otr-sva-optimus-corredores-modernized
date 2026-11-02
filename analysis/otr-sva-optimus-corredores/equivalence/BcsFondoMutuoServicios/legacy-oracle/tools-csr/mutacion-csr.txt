@@ -1,0 +1,86 @@
+# Mutations of ONE line of the reference implementation of CrearSolicitudAporteReinversion (T4-A, outside the repo; copy of the module in the session temp dir): each must turn a Csr test red.
+# List: tools-csr/mutantes_csr.py. Result against the 353 Csr tests (equivalence, rules, gates, contract; the determinism test is not run per mutant).
+# MUERTO = at least one test fails; SOBREVIVE = every test passes. M13, M24, M44 and M80 survived the first pass: cases FMM-CSR-222..224 (and the input date of the case
+# fechavalorcuota-de-la-entrada) were added/strengthened and they were killed in the second pass. M69 is an EQUIVALENT mutant (p_EsManual of CrearSolicitudAgf is never read by the legacy).
+
+# TOTAL: 80 mutations, 79 killed, 1 equivalent survivors
+M01	MUERTO	FM-REI-42	basic requirements: error threshold > 0 -> > 1
+M02	MUERTO	FM-REI-42	empty list is not an error
+M03	MUERTO	FM-REI-42	IdInterno 0 accepted
+M04	MUERTO	FM-REI-42	a repeated IdInterno is accepted
+M05	MUERTO	FM-REI-42/48	RespetaValutasCargaMasiva default S instead of N
+M06	MUERTO	FM-REI-44	profile: all-batch exemption lost
+M07	MUERTO	FM-REI-44/D-F2-19	profile: FechaEmision condition dropped
+M08	MUERTO	FM-REI-44	profile rejection counter 1 -> 2
+M09	MUERTO	FM-REI-48	batch dates when RespetaValutas is S instead of N
+M10	MUERTO	FM-REI-48	SWITCH retention 2 -> 3
+M11	MUERTO	FM-REI-48	INTERNACIONAL retention 4 -> 5
+M12	MUERTO	FM-REI-48	SWITCH/INTERNACIONAL certification valuta 2 -> 3
+M13	MUERTO	FM-REI-48	VALUTASNACUSD curse valuta lost
+M14	MUERTO	FM-REI-48	SWITCH/INTERNACIONAL valuta cuota 1 -> 0
+M15	MUERTO	FM-REI-47	third VALUTASNACUSD rule inverted
+M16	MUERTO	FM-REI-47	SWITCH needs the SAME issuer: inverted
+M17	MUERTO	FM-REI-47	national origin rule wrong
+M18	MUERTO	FM-REI-50	BF does not inherit
+M19	MUERTO	FM-REI-50	DC-R does not inherit
+M20	MUERTO	FM-REI-50	APV-A is case sensitive
+M21	MUERTO	FM-REI-50	18Q of the lot regimes ignored
+M22	MUERTO	FM-REI-50	18Q of the related rescues ignored
+M23	MUERTO	FM-REI-50	MLT is case sensitive
+M24	MUERTO	FM-REI-51	Spot decision: parameter compared ignoring case
+M25	MUERTO	FM-REI-51	Spot cost uses MontoDestino
+M26	MUERTO	FM-REI-51	payment currency of Spot lost
+M27	MUERTO	FM-REI-52	Visado with CIN is not forced to N
+M28	MUERTO	FM-REI-52	informed folio threshold >= 0
+M29	MUERTO	FM-REI-52	empty Canal falls back to the request channel
+M30	MUERTO	FM-REI-52	Switch compared exactly
+M31	MUERTO	FM-REI-52	tributacion APV mapped to the default
+M32	MUERTO	FM-REI-53	Overnight N to the validator (D-F2-21)
+M33	MUERTO	FM-REI-53/D-F2-18	maximum: MontoTotalInversion condition inverted
+M34	MUERTO	FM-REI-53/D-F2-18	minimum: MontoTotalInversion condition inverted
+M35	MUERTO	FM-REI-53	BF not exempt from the minimum
+M36	MUERTO	FM-REI-53	missing regime is valid
+M37	MUERTO	FM-REI-53	deferred rule: Diferido compared to S
+M38	MUERTO	FM-REI-53	CIN indicator N not checked
+M39	MUERTO	FM-REI-55	an error of the requirements does not reject the request
+M40	MUERTO	FM-REI-56	ValidaMontoInversion amount always 0
+M41	MUERTO	FM-REI-57	maximum certification date picks the minimum
+M42	MUERTO	FM-REI-57	patrimony does not add the accumulated amount of the lot
+M43	MUERTO	FM-REI-58/D-NOR-16	balance pairs: AND instead of OR
+M44	MUERTO	FM-REI-58	balance accumulates the Monto instead of the cost
+M45	MUERTO	FM-REI-58	balance asked in simulation only for... always until the maximum date of the system
+M46	MUERTO	FM-REI-59	custody read also without PatrimonioMinimo
+M47	MUERTO	FM-REI-59	custody value ignores the quota value
+M48	MUERTO	FM-REI-59	minimum equity comparison inverted
+M49	MUERTO	FM-REI-60	overdraft absent means S
+M50	MUERTO	FM-REI-60	balance checked also with a related rescue
+M51	MUERTO	FM-REI-60	balance equal to the cost rejects
+M52	MUERTO	FM-REI-60	balance row of FechaAceptacion instead of FechaCertificacion
+M53	MUERTO	FM-REI-61	CIN requests go to Tesoreria
+M54	MUERTO	FM-REI-61	p_EsIngresoAutomatico S
+M55	MUERTO	FM-REI-61/D-F2-11	any RECH rejects, not only NumeroReferencia
+M56	MUERTO	FM-REI-61	only OK rejects
+M57	MUERTO	FM-REI-62	AGF for batch requests instead of non batch
+M58	MUERTO	FM-REI-63	Spot form id CLP
+M59	MUERTO	FM-REI-63	Spot form movement type
+M60	MUERTO	FM-REI-63	Spot form amount of the sale
+M61	MUERTO	FM-REI-63	Spot liquidation date from the rescue ignored
+M62	MUERTO	FM-REI-63	copy with the certification date of the rescue ignored
+M63	MUERTO	FM-REI-63	p_CalculaMargen N
+M64	MUERTO	FM-REI-63	Spot RECH state
+M65	MUERTO	FM-REI-63	Spot error type is case sensitive
+M66	MUERTO	FM-REI-63	Spot message prefix
+M67	MUERTO	FM-REI-63/D-F2-19	an error of Spot does not cut the lots
+M68	MUERTO	FM-REI-64	FechaFinalReinversion not updated
+M69	SOBREVIVE (equivalente)	FM-REI-65	AGF manual flag
+M70	MUERTO	FM-REI-65	log record type
+M71	MUERTO	FM-REI-65	log exchange rate text
+M72	MUERTO	FM-REI-43	lot size 1999
+M73	MUERTO	FM-REI-43	the lots are all processed even after an error cut
+M74	MUERTO	G1	gate G1 not evaluated
+M75	MUERTO	G2	gate G2 not evaluated
+M76	MUERTO	G3	gate G3 not evaluated
+M77	MUERTO	FM-REI-66	simulation writes
+M78	MUERTO	FM-REI-52	ParidadFechaCertificacion lost
+M79	MUERTO	FM-REI-46	parity of Monto instead of MontoTotalInversion
+M80	MUERTO	FM-REI-49	quota date: input FechaValorCuota ignored

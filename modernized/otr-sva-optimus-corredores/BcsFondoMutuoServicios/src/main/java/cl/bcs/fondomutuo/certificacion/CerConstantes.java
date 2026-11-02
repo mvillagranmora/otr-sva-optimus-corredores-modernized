@@ -71,6 +71,11 @@ final class CerConstantes {
     static final String CANAL_AGENTE = "AGE";
     static final String SWITCH = "S";
 
+    // F-J (closing)
+    static final String ESTADO_APROBADO = "APD";
+    static final String CANAL_OWP = "OWP";
+    static final String MODULO_FONDO_MUTUO = "FMM";
+
     private CerConstantes() {
     }
 }

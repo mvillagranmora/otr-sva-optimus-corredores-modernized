@@ -147,7 +147,7 @@ class SinCambiosDeEsquemaTest {
      * F2 W1 (plan 7, "SinCambiosDeEsquemaTest con la lista blanca ampliada"): the writes (INSERT / UPDATE / DELETE) of the SQL files loaded by active code
      * are EXACTLY the accepted ones, each on its table: F1 (requests, AGF, Normal lock rows, the issuer-equity step table) plus F2 W1 RescateReinversion
      * (INSERT ReinversionSerieFondoDestino, INSERT of the reinversion lock rows into its session-local table). The UPDATE of FechaFinalReinversion of
-     * AporteReinversion (W2) is accepted by the plan but NOT loaded by any active class yet (RescateReinversion does not run it: C-W0A-1).
+     * AporteReinversion (W2): the UPDATE of FechaFinalReinversion is accepted by the plan and, since F3 W3 T4-A, loaded by AporteReinversionJdbc.
      */
     private static final Map<String, String> ESCRITURA_ACEPTADA = Map.ofEntries(
             Map.entry("ComunesSolicitudes_InsertSolicitud.sql", "INSERT \"BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate\""),
@@ -161,6 +161,8 @@ class SinCambiosDeEsquemaTest {
             Map.entry("CrearSolicitudAporteReinversion_UpdateFechaFinalReinversion.sql", "UPDATE \"BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino\""),
             // F3 W3 T4-B (FM-CER-64, the only write of fronts F-C..F-I of Certificar): UPDATE of MontoMonedaSistema, legacy SQL, no commit
             Map.entry("CertificarSolicitudAporteRescate_UpdateMontoMonedaSistemaSolicitudesReinversion.sql", "UPDATE \"BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate\""),
+            // F3 W3 T5 (FM-CER-61, front J): the mass UPDATE of the pending and warned solicitudes to certified (legacy SQL byte for byte, no guard of state: D-F3B-16), no commit
+            Map.entry("CertificarSolicitudAporteRescate_UpdateSolicitudes.sql", "UPDATE \"BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate\""),
             // F3 W2 CVC (CargarValorCuota, the only UI class that writes; list CARGAR_VALOR_CUOTA closed by default): the four writes of the class
             Map.entry("CargarValorCuota_UpdateValorCuotaUltimaCarga.sql", "UPDATE \"BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico\""),
             Map.entry("CargarValorCuota_InsertValorCuotaHistorico.sql", "INSERT \"BSCL.FondoMutuo.BD::FMM.ValorCuotaHistorico\""),
@@ -189,7 +191,7 @@ class SinCambiosDeEsquemaTest {
             while (m.find()) escrituras.put(archivo, m.group(1).split("\\s+")[0].toUpperCase() + " " + m.group(2));
         }
         Map<String, String> esperado = new TreeMap<>(ESCRITURA_ACEPTADA);
-        esperado.remove("CrearSolicitudAporteReinversion_UpdateFechaFinalReinversion.sql");   // accepted, not loaded yet (W2)
+        // F3 W3 T4-A: CrearSolicitudAporteReinversion (AporteReinversionJdbc) loads the accepted UPDATE of FechaFinalReinversion (no longer "not loaded yet")
         assertThat(escrituras).isEqualTo(esperado);
         assertThat(sqls.get("CrearSolicitudAporteReinversion_UpdateFechaFinalReinversion.sql")).as("the accepted UPDATE exists verbatim").contains("FechaFinalReinversion");
         // the reinversion lock DDL / CALL are now loaded by active code (BloqueoReinversionJdbc), and only from the accepted files

@@ -79,7 +79,7 @@ class FondoMutuoCableadoRealTest {
 
     @Test
     void fmKit121_laListaBlancaSonLos2Fqn_yEnEstePasoNingunoTieneHandler() {
-        assertThat(JavaCallDispatcher.LISTA_BLANCA).hasSize(12);   // F3 W2: + CargarValorCuota (writes, list closed); F2 W1 front 2: + CrearSolicitudRescateReinversion; F3 W1 front 1: + ConsultarFechaSolicitudAporteRescate; F3 W1 VDO, FMR, IFM, SFM, WS, DET, CPF (all closed by configuration)
+        assertThat(JavaCallDispatcher.LISTA_BLANCA).hasSize(13);   // F3 W3 T4-C: + CertificarSolicitudAporteRescate (writes, list closed); F3 W2: + CargarValorCuota (writes, list closed); F2 W1 front 2: + CrearSolicitudRescateReinversion; F3 W1 front 1: + ConsultarFechaSolicitudAporteRescate; F3 W1 VDO, FMR, IFM, SFM, WS, DET, CPF (all closed by configuration)
         // step 4B: the Manejador handler (real) is registered; step 4A registers Normal's. Nothing outside the allow-list is ever served.
         assertThat(dispatcher.servidas()).contains(JavaCallDispatcher.MANEJADOR).isSubsetOf(JavaCallDispatcher.LISTA_BLANCA);
     }
@@ -109,6 +109,8 @@ class FondoMutuoCableadoRealTest {
         clases.add(JavaCallDispatcher.CONSULTAR_CUSTODIA_PORTAFOLIO_FONDO_MUTUO);
         // F3 W2 CVC: handler present, list closed by the shipped configuration (G0 503 before anything is read or written)
         clases.add(JavaCallDispatcher.CARGAR_VALOR_CUOTA);
+        // F3 W3 T4-C CER: handler present, list closed by the shipped configuration (G0 503 before anything is read or written)
+        clases.add(JavaCallDispatcher.CERTIFICAR_SOLICITUD_APORTE_RESCATE);
         assertThat(clases).hasSizeGreaterThanOrEqualTo(132);   // 130 stubs + CalcularParidad + x.Y at least
         for (String c : clases) {
             mvc.perform(post("/internal/java-call").header("X-Internal-Token", TOKEN).contentType("application/json").content(cuerpo(c)))

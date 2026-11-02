@@ -222,6 +222,33 @@ public final class CertificarAporteRescateContrato {
         public BigDecimal MontoMonedaSistema;
     }
 
+    /** Legacy {@code EntradaNotificarEstadoOrdenFondoMutuo}: the asynchronous notification of the certification (FM-CER-62). */
+    public static class NotificarEstadoOrdenEntrada {
+        public Long p_IdEmpresa;
+        public Long p_IdUsuario;
+        public String p_IdModulo;
+        public List<Long> p_Solicitudes;
+    }
+
+    /** Legacy {@code NotificarEstadoOrdenes_Entrada}: one order of the OWP notification (FM-CER-65). */
+    public static class OrdenOwp {
+        public Long IdEmpresa;
+        public Long IdUsuario;
+        public Long Solsec;
+        public BigDecimal NTitulos;
+        public BigDecimal Precio;
+        public String Fecha;
+        public String Estado;
+        public BigDecimal Comision;
+        public BigDecimal Gastos;
+        public String Mercado;
+        public String Divisa;
+        public BigDecimal TipoCambio;
+        public String SolsecAsoc;
+        public String Nemo;
+        public String IdClasificacionTipoInstrumento;
+    }
+
     /** One row of the log of certification: the id from the sequence port plus the legacy {@code InLog}. */
     public static class LogFila {
         public Long IdLogCertificacionAporteRescate;

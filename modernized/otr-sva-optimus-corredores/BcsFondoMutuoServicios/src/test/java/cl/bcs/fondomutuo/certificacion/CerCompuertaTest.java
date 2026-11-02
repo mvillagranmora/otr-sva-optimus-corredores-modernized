@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -55,29 +54,9 @@ class CerCompuertaTest {
     @Test
     @DisplayName("FM-CER-01 / decision 5: the legacy class is NOT on the allow-list nor in the read classes, and there is no handler class yet (it cannot be served until T5)")
     void claseNoServida() {
-        assertFalse(JavaCallDispatcher.LISTA_BLANCA.contains(FQN_LEGACY), "the class must not be on the allow-list in T1");
+        assertTrue(JavaCallDispatcher.LISTA_BLANCA.contains(FQN_LEGACY), "T4-C: the class is on the allow-list (its list stays closed by default)");
         assertFalse(JavaCallDispatcher.CLASES_LECTURA.contains(FQN_LEGACY));
-        assertThrows(ClassNotFoundException.class, () -> Class.forName("cl.bcs.fondomutuo.certificacion.CertificarAporteRescateJavaCallHandler"));
-        assertThrows(ClassNotFoundException.class, () -> Class.forName("cl.bcs.fondomutuo.certificacion.CertificarAporteRescateConfiguracion"));
         assertFalse(new Compuertas("", false, false, false, false, false).listasServidas().stream().anyMatch(l -> l.contains("CERTIFICAR")), "no list of the Manejador for Certificar");
-    }
-
-    @Test
-    @Disabled("pending T5 (FM-CER-01..73 all fronts): JavaCall handler CertificarAporteRescateJavaCallHandler, allow-list entry FQN_LEGACY and the list CERTIFICAR_SOLICITUD_APORTE_RESCATE, closed by default")
-    @DisplayName("T5: the handler and its list exist, closed by default (503 G0 before anything is read or written)")
-    void handlerYListaPendientesT5() {
-    }
-
-    @Test
-    @Disabled("pending T4 (FM-CER-48..51, gate G6): Compuertas.facturacionHabilitada() closed by default for CrearMovimientoComprobante / CrearComprobante")
-    @DisplayName("T4 / G6: Facturacion (CrearMovimientoComprobante, CrearComprobante) behind a closed gate")
-    void compuertaG6PendienteT4() {
-    }
-
-    @Test
-    @Disabled("pending T5 (FM-CER-62, 65, gate G8): Compuertas.notificacionesHabilitadas() closed by default for CallBatchAsync (NotificarEstadoOrdenFondoMutuo) and OWP")
-    @DisplayName("T5 / G8: the asynchronous notification and OWP behind a closed gate")
-    void compuertaG8PendienteT5() {
     }
 
     @Test

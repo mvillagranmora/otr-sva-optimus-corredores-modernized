@@ -8,6 +8,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import cl.bcs.fondomutuo.certificacion.CertificarAporteRescateConfiguracion;
 import cl.bcs.fondomutuo.consultas.custodia.ConsultarCustodiaPortafolioConfiguracion;
 import cl.bcs.fondomutuo.consultas.detalle.ConsultarDetalleConfiguracion;
 import cl.bcs.fondomutuo.consultas.dolar.ConsultarDolarConfiguracion;
@@ -44,7 +45,7 @@ public class ManejadorConfiguracion {
      * F3 W2: the name of the one UI class that WRITES. Like the reads it is NOT a list of the Manejador (its own handler and gate), but it is deliberately NOT in {@link #LISTAS_LECTURA}
      * (it writes and is not a read-only unit of work). It is accepted by the validator, also next to NORMAL and RESCATE_REINVERSION (custody closed): it is another request, not another list of the Manejador.
      */
-    public static final Set<String> LISTAS_ESCRITURA_UI = Set.of(CargarValorCuotaConfiguracion.LISTA);
+    public static final Set<String> LISTAS_ESCRITURA_UI = Set.of(CargarValorCuotaConfiguracion.LISTA, CertificarAporteRescateConfiguracion.LISTA);
 
     @Bean
     public ManejadorSolicitudAporteRescateService manejadorSolicitudAporteRescateService(ObjectProvider<NormalPort> normal,

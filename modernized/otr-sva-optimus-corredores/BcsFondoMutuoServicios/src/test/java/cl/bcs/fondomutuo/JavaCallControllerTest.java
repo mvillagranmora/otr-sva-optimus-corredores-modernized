@@ -110,7 +110,8 @@ class JavaCallControllerTest {
                 JavaCallDispatcher.CONSULTAR_VALOR_DOLAR_FONDO_MUTUO, JavaCallDispatcher.CONSULTAR_FONDO_MUTUO_REINVERSION, JavaCallDispatcher.CONSULTAR_INSTRUMENTOS_FONDOS_MUTUOS,   // F3 W1 VDO, FMR, IFM
                 JavaCallDispatcher.CONSULTAR_SOLICITUDES_FFMM, JavaCallDispatcher.CONSULTAR_SOLICITUDES_FFMM_WS, JavaCallDispatcher.CONSULTAR_DETALLE_SOLICITUD,
                 JavaCallDispatcher.CONSULTAR_CUSTODIA_PORTAFOLIO_FONDO_MUTUO,   // F3 W1 SFM, WS, DET, CPF
-                JavaCallDispatcher.CARGAR_VALOR_CUOTA);   // F3 W2 CVC: handler present (writes), list closed
+                JavaCallDispatcher.CARGAR_VALOR_CUOTA,   // F3 W2 CVC: handler present (writes), list closed
+                JavaCallDispatcher.CERTIFICAR_SOLICITUD_APORTE_RESCATE);   // F3 W3 T4-C CER: handler present (writes), list closed
         assertThat(mvc.perform(post("/internal/java-call").header("X-Internal-Token", "test-secret").contentType("application/json")
                 .content("{\"class\":\"cl.bcs.fondomutuo.CrearSolicitudRescateReinversion\"}")).andReturn().getResponse().getStatus()).isEqualTo(503);
         assertThat(mvc.perform(post("/internal/java-call").header("X-Internal-Token", "test-secret").contentType("application/json")

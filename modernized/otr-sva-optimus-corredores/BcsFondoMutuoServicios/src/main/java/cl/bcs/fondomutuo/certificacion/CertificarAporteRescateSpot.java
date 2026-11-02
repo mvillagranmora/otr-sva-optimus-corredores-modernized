@@ -80,6 +80,11 @@ public final class CertificarAporteRescateSpot {
         }
     }
 
+    /** Whether {@link #moverSpot} will call Spot (the facade evaluates gate G2 with this, before the first write): some rescate that is not rejected generates Spot. */
+    public boolean enviaASpot(CertificarAporteRescateContexto ctx) {
+        return ctx.rescates.stream().anyMatch(sol -> !ESTADO_RECHAZADO.equals(sol.EstadoProceso) && SI.equals(sol.GeneraSpot));
+    }
+
     private SalidaSpot mueveSpot(CertificarAporteRescateContexto ctx) throws Exception {
         SalidaSpot salida = new SalidaSpot();
         EntradaSpot entrada = new EntradaSpot();

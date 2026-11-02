@@ -123,11 +123,10 @@ class CerT3CompuertaTest {
     }
 
     @Test
-    @DisplayName("the class is still NOT served in T3: not on the allow-list, no JavaCall handler class, no gate flag of Certificar")
+    @DisplayName("T4-C: the class is on the allow-list but NOT served by default (not a read class, no list of the Manejador, no list open in the default configuration)")
     void claseNoServida() {
-        assertFalse(JavaCallDispatcher.LISTA_BLANCA.contains(FQN_LEGACY));
+        assertTrue(JavaCallDispatcher.LISTA_BLANCA.contains(FQN_LEGACY), "T4-C: the class is on the allow-list (its list stays closed by default)");
         assertFalse(JavaCallDispatcher.CLASES_LECTURA.contains(FQN_LEGACY));
-        assertThrows(ClassNotFoundException.class, () -> Class.forName("cl.bcs.fondomutuo.certificacion.CertificarAporteRescateJavaCallHandler"));
         assertFalse(new Compuertas("", false, false, false, false, false).listasServidas().stream().anyMatch(l -> l.contains("CERTIFICAR")));
     }
 
@@ -156,13 +155,7 @@ class CerT3CompuertaTest {
     }
 
     @Test
-    @Disabled("pending T5: the facade evaluates Compuertas.g1MedioDistintoDeCin() when Tesoreria receives an entry (a payment medium other than CIN, a traspaso, the SII payment) and Compuertas.g2Spot() when a rescate GeneraSpot S reaches Spot, AFTER all the validations and BEFORE the first write; with them closed the request answers 503 and nothing is written")
-    @DisplayName("T5 / G1 and G2: the gates are evaluated by the facade before the first write of F-F / F-H (503 with everything closed)")
-    void evaluacionDeLasCompuertasPendienteT5() {
-    }
-
-    @Test
-    @Disabled("pending the CuentaInversion library (T5): a gate for the cuenta de inversion does not exist in Compuertas (the legacy runs CrearCargoAbono on the same connection, it is not a gate of the plan); Q-T3-1 asks whether a new gate and an in-process adapter are wanted")
+    @Disabled("pending the CuentaInversion library (NOT T5): a gate for the cuenta de inversion does not exist in Compuertas (the legacy runs CrearCargoAbono on the same connection, it is not a gate of the plan); Q-T3-1 asks whether a new gate and an in-process adapter are wanted")
     @DisplayName("T5 / CrearCargoAbono: the port has an in-process adapter (CuentaInversion library of the module, joining the ambient transaction and never committing) only when its gate is open")
     void adaptadorDeCuentaInversionPendienteT5() {
     }

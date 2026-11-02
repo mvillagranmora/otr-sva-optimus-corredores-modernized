@@ -70,6 +70,8 @@ public final class ProcesosExternos {
         public String p_PermiteOperarProspectos = "N";
         public List<SolicitudAporteRescate> p_DatosOperacion = new ArrayList<>();
         public List<FormaPagoSpot> p_DatosFormaPago = new ArrayList<>();
+        /** The INPUT contributions of a reinversion (legacy {@code EntradaProcesarIngresoOperacionSpot.p_DatosOrigenInversion}); only {@code CrearSolicitudAporteReinversion} fills it. */
+        public List<Object> p_DatosOrigenInversion = new ArrayList<>();
     }
 
     public static class SalidaSpot {

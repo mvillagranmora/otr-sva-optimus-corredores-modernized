@@ -38,7 +38,8 @@ class JavaCallDispatcherTest {
                 "cl.bcs.fondomutuo.ConsultarSolicitudesFFMM", "cl.bcs.fondomutuo.ConsultarSolicitudesFFMMWS",
                 "cl.bcs.fondomutuo.ConsultarDetalleSolicitud",
                 "cl.bcs.fondomutuo.ConsultarCustodiaPortafolioFondoMutuo",   // F3 W1 SFM, WS, DET, CPF (read only)
-                "cl.bcs.fondomutuo.CargarValorCuota");   // F3 W2 CVC (registry id 3035, WRITES; not a read class)
+                "cl.bcs.fondomutuo.CargarValorCuota",   // F3 W2 CVC (registry id 3035, WRITES; not a read class)
+                "cl.bcs.fondomutuo.CertificarSolicitudAporteRescate");   // F3 W3 T4-C CER (WRITES; not a read class; list closed by default)
     }
 
     @Test

@@ -109,6 +109,11 @@ public final class CertificarAporteRescateFacturacion {
         return salida;
     }
 
+    /** Whether {@link #facturar} will call Facturacion: some rescate is invoiced (the facade evaluates gate G6 with this, before the first write; the state only goes from pending to rejected afterwards). */
+    public boolean facturaAlgunRescate(CertificarAporteRescateContexto ctx) {
+        return ctx.rescates.stream().anyMatch(CertificarAporteRescateFacturacion::seFactura);
+    }
+
     /** Not rejected, no Spot, commission type, commission (after the format of F-D) {@code > 0} and no traspaso (the short circuits are the legacy's). */
     private static boolean seFactura(SolicitudProceso sol) {
         return NO.equalsIgnoreCase(sol.GeneraSpot) && !ESTADO_RECHAZADO.equals(sol.EstadoProceso)

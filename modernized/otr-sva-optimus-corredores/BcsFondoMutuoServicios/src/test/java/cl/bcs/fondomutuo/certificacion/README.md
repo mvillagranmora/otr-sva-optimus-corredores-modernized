@@ -230,3 +230,34 @@ py -3 -I canary_cer_t4.py <copia-del-modulo>         # mutaciones de la implemen
 IMPORTANTE: tras re-grabar con otra numeracion hay que correr `mvn clean` (Maven no borra de `target/test-classes` los directorios de casos que ya no existen y la guarda de conteo fallaria).
 Limites declarados: AR corre como doble guionado (la clase real esta preparada en el oraculo, `"arReal": true`, pero sin semilla suficiente en esta tanda: ver `TRANSFORMATION_NOTES.md`, Q-T4B-1); la certificacion
 hija se prueba por su ENTRADA y por la respuesta repetida, no corriendo el hijo; FM-CER-64 no se combina con la recursion en el mismo caso (el hijo escribe filas que el arnes nuevo no escribe).
+
+---
+
+# T5 (F3 W3, Step 1: rojo antes de codigo): Certificar frente J (cierre) y fachada de la recursion
+
+Frente **F-J** (FM-CER-61, 62, 65..71: UPDATE a CRT, notificacion asincrona, OWP, logs, salida, simulacion) y la **fachada** (FM-CER-63: la recursion del switch). A diferencia de T1..T4 NO hay costura: cada caso es una
+corrida COMPLETA A..J del legacy y se compara entera (salida, tablas antes y despues de la decision del anfitrion, TODAS las llamadas a colaboradores con argumentos completos y en orden, el hijo dentro de su registro,
+secuencias, sesion, clase de excepcion). Casos `FMM-CER-759+` en `src/test/resources/fondomutuo-cer/cases-t5/`, grabados con el legacy ejecutado, 20 corridas por caso, 0 inestables. API supuesta: `API_ASSUMED_T5.md`.
+Las clases nuevas de produccion se alcanzan por reflexion SOLO desde `ApiT5`; las pruebas compilan sin ellas y fallan con `T5 not implemented`.
+
+| Archivo | Que es |
+|---|---|
+| `ApiT5` | el unico archivo que conoce los nombres nuevos (fachada, puertos tipados de notificacion, puerto de escritura del UPDATE, campos nuevos de `Dependencias`, `Compuertas` de 10 argumentos) |
+| `CasoCerT5` | arnes: arma el H2, construye la fachada sin costura y puertos tipados respondidos por el guion; observa al hijo con `envolverHija`; repite AR desde el golden; `-Dcer.autocomprobacion=true` devuelve el golden en vez de correr produccion |
+| `CerCosturaT5` | comparacion total contra el golden (y la comparacion de la guarda de profundidad) |
+| `CerT5EquivalenciaTest`, `CerT5DeterminismoTest` | todos los casos; 20 corridas (`-Dcer.corridas=N`) de los de varias solicitudes |
+| `CerT5ReglasTest` | GENERADO por `gen_reglas_cer_t5.py` desde los goldens: una prueba por tarjeta FM-CER-14, 61..71, por defecto y por camino M3 |
+| `CerT5CompuertaTest` | forma de la fachada y los puertos, G8, G6 (M1), G1/G2/G3/G-CUS, G5, guarda de profundidad (M2), integridad de la evidencia |
+
+```
+mvn -o test -Dtest='CerT5*Test'                       # hoy en rojo por ausencia de implementacion
+mvn -o test -Dtest='CerT5ReglasTest' -Dcer.autocomprobacion=true   # las pruebas de reglas leen el golden: deben pasar
+python -X utf8 make_cases_cer_t5.py                   # escribe cases-cer-t5/ (NUNCA los goldens; borra los directorios anteriores)
+legacy-oracle/record_cer_t5.sh FMM-CER                # graba expected.json, 20 corridas por caso (determinism-cer-t5.txt); correr en segundo plano y con timeout
+python -X utf8 -I legacy-oracle/check_cer_t5.py       # etiquetas vs goldens, cobertura de tarjetas, estabilidad
+python -X utf8 -I legacy-oracle/sync_cer_t5.py        # copia a src/test/resources/fondomutuo-cer/
+python -X utf8 -I gen_reglas_cer_t5.py                # regenera CerT5ReglasTest.java
+python -X utf8 -I canary_cer_t5.py                    # mutantes del fuente del legacy (overlay en temp) -> golden-mutation-cer-t5/
+```
+Un caso nuevo = una llamada `caso("slug", ["FM-CER-nn", "D-F3B-nn", "matriz:Cnn"], entrada([...]), seed=[...], colaboradores=..., excepcion=False|True, tags=[...])` en `cases_cer_t5_a..d.py` (agregar AL FINAL).
+Tras re-grabar con otra numeracion correr `mvn clean`.

@@ -1,0 +1,141 @@
+{
+  "servicio": "CertificarSolicitudAporteRescate",
+  "ref": [
+    "FM-CER-71",
+    "FM-CER-02",
+    "matriz:C01",
+    "front:F-J",
+    "T5-modo:excepcion"
+  ],
+  "esquemasExtra": [
+    "schema-cer.sql",
+    "seed/base-cer.sql",
+    "seed/base-cer-t2.sql",
+    "seed/base-cer-t3.sql",
+    "seed/base-cer-t4.sql"
+  ],
+  "entrada": {
+    "p_IdEmpresa": 1,
+    "p_IdUsuario": 7,
+    "p_IdModulo": "FMM",
+    "p_SimularOperacion": "N",
+    "p_UsaReglasNegocio": "N",
+    "p_FechaCertificacion": "2026-03-02",
+    "p_Solicitudes": null
+  },
+  "tablas": [
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.SolicitudAporteRescate",
+      "orden": "\"IdSolicitudAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.LogCertificacionAporteRescate",
+      "orden": "\"IdLogCertificacionAporteRescate\""
+    },
+    {
+      "nombre": "BSCL.FondoMutuo.BD::FMM.ReinversionSerieFondoDestino",
+      "orden": "\"IdReinversionSerieFondo\""
+    }
+  ],
+  "colaboradores": {
+    "ProcesarCustodiaFondoMutuo": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_Movimientos.0.IdTipoOperacion": "APORFM"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_MOVIMIENTOS": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_Movimientos.0.IdRegimenTributario": ""
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_MOVIMIENTOS": []
+          }
+        },
+        {
+          "cuando": {
+            "0.p_Movimientos.0.IdTipoOperacion": "RESCFM"
+          },
+          "respuesta": {
+            "P_OUT_ERRORESCONTADOR": 0,
+            "P_OUT_MENSAJES": [],
+            "P_OUT_MOVIMIENTOS": []
+          }
+        }
+      ],
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_MOVIMIENTOS": []
+      }
+    },
+    "CalculaCustodiaRescate": {
+      "defecto": {
+        "P_OUT_ERRORESCONTADOR": 0,
+        "P_OUT_MENSAJES": [],
+        "P_OUT_RESULTADO": []
+      }
+    },
+    "CalcularParidad": {
+      "respuestas": [
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 1
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": [
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 1,
+                "MontoDestino": 66000,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 2,
+                "MontoDestino": 66000,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 3,
+                "MontoDestino": 66000,
+                "Resultado": "OK"
+              },
+              {
+                "IdTrabajo": 1,
+                "IdInterno": 4,
+                "MontoDestino": 66000,
+                "Resultado": "OK"
+              }
+            ]
+          }
+        },
+        {
+          "cuando": {
+            "0.p_IdTrabajo": 2
+          },
+          "respuesta": {
+            "p_out_CalculosSalida": []
+          }
+        }
+      ],
+      "defecto": {
+        "p_out_CalculosSalida": []
+      }
+    },
+    "SaldoFlujoCaja": {
+      "defecto": {
+        "P_OUT_FLUJOCAJA": []
+      }
+    }
+  }
+}

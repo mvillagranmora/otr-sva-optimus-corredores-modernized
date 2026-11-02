@@ -134,6 +134,14 @@ public final class CertificarAporteRescateAportes {
         }
     }
 
+    /**
+     * Whether {@link #validarSaldo} will ask the cash flow (the facade evaluates gate G3 BEFORE it does, so a shut gate never lets the port be called): some aporte that is not rejected moves the
+     * account without an overdraft line (the same test that adds a portfolio and currency pair to the request; either channel, PAC or not).
+     */
+    public boolean consultaElFlujoDeCaja(CertificarAporteRescateContexto ctx) {
+        return ctx.aportes.stream().anyMatch(sol -> !ESTADO_RECHAZADO.equals(sol.EstadoProceso) && mueveCuentaSinSobregiro(ctx, sol));
+    }
+
     private static boolean mueveCuentaSinSobregiro(CertificarAporteRescateContexto ctx, SolicitudProceso sol) {
         IndicadorPortafolio ind = ctx.indicadoresPortafolio.get(sol.IdPortafolio);
         String sobregiro = ind != null ? ind.OperaLineaSobregiro : NO;

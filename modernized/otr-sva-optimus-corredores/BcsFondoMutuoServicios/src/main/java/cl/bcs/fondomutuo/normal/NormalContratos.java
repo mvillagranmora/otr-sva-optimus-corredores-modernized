@@ -14,14 +14,14 @@ import cl.bcs.fondomutuo.port.out.http.NotificacionOwpPort;
 
 /**
  * JSON contracts (legacy class and field names, null keys written as the legacy did: the oracle's doubles record exactly this) of the collaborators of
- * Plataforma that Normal calls over the router (port H): {@code SaldoFlujoCaja}, {@code InscribirProcesoBatch}, {@code NotificarEstadoOrdenesOWP}.
+ * Plataforma that Normal calls over the router (port H); the cash-flow contract is also used by {@code aportereinversion}: {@code SaldoFlujoCaja}, {@code InscribirProcesoBatch}, {@code NotificarEstadoOrdenesOWP}.
  */
-final class NormalContratos {
+public final class NormalContratos {
 
     private NormalContratos() {
     }
 
-    static class FlujoCajaEntrada {
+    public static class FlujoCajaEntrada {
         public Long P_IDEMPRESA;
         public String P_FECHADESDE;
         public String P_FECHAHASTA;
@@ -32,17 +32,17 @@ final class NormalContratos {
         public List<PortafolioAConsultar> P_PORTAFOLIOACONSULTAR = new ArrayList<>();
     }
 
-    static class PortafolioAConsultar {
+    public static class PortafolioAConsultar {
         public Long IdPortafolio;
         public String IdMoneda;
     }
 
-    static class FlujoCajaSalida {
+    public static class FlujoCajaSalida {
         public List<FlujoCaja> P_OUT_FLUJOCAJA = new ArrayList<>();
         public Long P_OUT_ERRORESCONTADOR = 0L;
     }
 
-    static class FlujoCaja {
+    public static class FlujoCaja {
         public String NombreUso;
         public String FechaSaldo;
         public Long IdPortafolio;
@@ -97,7 +97,7 @@ final class NormalContratos {
         public String IdClasificacionTipoInstrumento;
     }
 
-    static FlujoCajaSalida saldo(FlujoCajaPort puerto, FlujoCajaEntrada entrada) {
+    public static FlujoCajaSalida saldo(FlujoCajaPort puerto, FlujoCajaEntrada entrada) {
         JsonObject json = JsonLegacy.conNulos().toJsonTree(entrada).getAsJsonObject();
         return JsonLegacy.conNulos().fromJson(puerto.saldo(json), FlujoCajaSalida.class);
     }

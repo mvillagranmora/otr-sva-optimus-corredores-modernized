@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -92,16 +91,24 @@ class CerT4CompuertaTest {
     }
 
     @Test
-    @DisplayName("Facturacion / AR / recursion: NO production class implements the ports yet (an accidental bean would fail at start-up; the adapters come with T5 and with the port of AR)")
+    @DisplayName("Facturacion / AR / recursion: NO production class implements the ports yet (an accidental bean would fail at start-up; only the facade of T5 implements the recursion port, and it is not a bean)")
     void sinImplementacionDeProduccionDeLosPuertos() {
         List<String> implementadores = new ArrayList<>();
         for (String puerto : new String[] { ApiT4.PUERTO_FACTURACION, ApiT4.PUERTO_REINVERSION, ApiT4.PUERTO_HIJO }) {
             Class<?> p = ApiT4.cargar(puerto);
             ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
             scanner.addIncludeFilter(new AssignableTypeFilter(p));
-            scanner.findCandidateComponents("cl.bcs.fondomutuo").forEach(bd -> implementadores.add(p.getSimpleName() + " <- " + bd.getBeanClassName()));
+            scanner.findCandidateComponents("cl.bcs.fondomutuo").forEach(bd -> {
+                // T5 (Q-T5-8): the facade IS the implementation of the recursion port (and the only one); it is not a bean
+                // T4-C: the JSON adapter of AR is the implementation of the AR port (and the only one; it is wired in AporteReinversionConfiguracion)
+                boolean fachada = ApiT4.PUERTO_HIJO.equals(puerto) && bd.getBeanClassName().endsWith(".CertificarAporteRescateFachada");
+                boolean adaptadorAr = ApiT4.PUERTO_REINVERSION.equals(puerto) && bd.getBeanClassName().endsWith(".AporteReinversionJsonAdapter");
+                if (!fachada && !adaptadorAr) {
+                    implementadores.add(p.getSimpleName() + " <- " + bd.getBeanClassName());
+                }
+            });
         }
-        assertTrue(implementadores.isEmpty(), "no production implementation of the ports until T5: " + implementadores);
+        assertTrue(implementadores.isEmpty(), "no production implementation of the ports of Facturacion and AR (the facade of T5 is the only implementation of the recursion): " + implementadores);
     }
 
     @Test
@@ -174,11 +181,10 @@ class CerT4CompuertaTest {
     }
 
     @Test
-    @DisplayName("the class is still NOT served in T4: not on the allow-list, no JavaCall handler class, no gate flag of Certificar")
+    @DisplayName("T4-C: the class is on the allow-list but NOT served by default (not a read class, no list of the Manejador, no list open in the default configuration)")
     void claseNoServida() {
-        assertFalse(JavaCallDispatcher.LISTA_BLANCA.contains(FQN_LEGACY));
+        assertTrue(JavaCallDispatcher.LISTA_BLANCA.contains(FQN_LEGACY), "T4-C: the class is on the allow-list (its list stays closed by default)");
         assertFalse(JavaCallDispatcher.CLASES_LECTURA.contains(FQN_LEGACY));
-        assertThrows(ClassNotFoundException.class, () -> Class.forName("cl.bcs.fondomutuo.certificacion.CertificarAporteRescateJavaCallHandler"));
         assertFalse(new Compuertas("", false, false, false, false, false).listasServidas().stream().anyMatch(l -> l.contains("CERTIFICAR")));
     }
 
@@ -230,18 +236,6 @@ class CerT4CompuertaTest {
         } catch (java.lang.reflect.InvocationTargetException e) {
             throw e.getCause();
         }
-    }
-
-    @Test
-    @Disabled("pending T5: the facade evaluates Compuertas.g6Facturacion() when Facturacion would receive a movement (a rescate with commission), Compuertas.g1MedioDistintoDeCin() / g2Spot() as in T3, and the gate of the port of AR, AFTER all the validations and BEFORE the first write; with them closed the request answers 503 and nothing is written")
-    @DisplayName("T5 / G6: the gate is evaluated by the facade before the first write of F-G (503 with everything closed)")
-    void evaluacionDeLasCompuertasPendienteT5() {
-    }
-
-    @Test
-    @Disabled("pending T5 (Q-T4B-2): the facade is the implementation of CertificacionHijaPort and must BOUND the recursion: the legacy has no guard (a switch aporte that is a rescate whose AR answers switch again recurses until StackOverflowError); the tests pin one call per level")
-    @DisplayName("T5 / recursion: the host guards the depth of the recursion of the switch")
-    void guardaDeProfundidadPendienteT5() {
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------
