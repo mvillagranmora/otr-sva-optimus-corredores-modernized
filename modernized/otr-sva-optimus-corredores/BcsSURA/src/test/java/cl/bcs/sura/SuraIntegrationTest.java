@@ -2,7 +2,6 @@ package cl.bcs.sura;
 
 import cl.bcs.sura.adapter.out.SuraRepositoryAdapter;
 import cl.bcs.sura.domain.IdsEntidadYPerfiles;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -151,17 +150,6 @@ class SuraIntegrationTest {
             Map.of("id", seedId), String.class);
         assertThat(valor).isEqualTo(originalValor);
     }
-
-    // ─── SOAP sandbox (@Disabled) ────────────────────────────────────────────
-
-    @Disabled("requires SOAP sandbox: CrearClienteFullWS — servicio externo SURA no disponible en CI")
-    @Test
-    void soap_crearClienteFullWS() { }
-
-    @Disabled("requires SOAP sandbox: ModificarClienteWS — servicio externo SURA no disponible en CI")
-    @Test
-    void soap_modificarClienteWS() { }
-
     // ─── helpers ─────────────────────────────────────────────────────────────
 
     private long contarIndicadores(long idEntidad) {

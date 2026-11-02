@@ -1,5 +1,6 @@
 package cl.bcs.sura.controller;
 
+import cl.bcs.sura.service.CrearClienteFullWSModificarPerfilesPortafolioService;
 import cl.bcs.sura.service.CrearSocioNegocioModificarPerfilesPortafolioService;
 import cl.bcs.sura.service.ModificarClienteModificarPerfilesPortafolioWSService;
 import cl.bcs.sura.service.ModificarSocioNegocioModificarPerfilesPortafolioService;
@@ -20,10 +21,11 @@ import org.springframework.web.server.ResponseStatusException;
  *   POST /internal/java-call
  *   Body: {"class": "fully.qualified.ClassName", "params": {...}, "skip": N, "take": M}
  *
- * Migrated classes (3/3):
+ * Migrated classes (4/4):
  *   - cl.bcs.sura.socionegocio.CrearSocioNegocioModificarPerfilesPortafolio
  *   - cl.bcs.sura.socionegocio.ModificarSocioNegocioModificarPerfilesPortafolio
  *   - cl.bcs.sura.socionegocio.ModificarClienteModificarPerfilesPortafolioWS
+ *   - cl.bcs.sura.socionegocio.CrearClienteFullWSModificarPerfilesPortafolio   (B-SURA-23)
  *
  * Unknown classes return 503 → BcsGateway falls back to TomEE.
  */
@@ -35,14 +37,17 @@ public class InternalJavaCallController {
     private final CrearSocioNegocioModificarPerfilesPortafolioService crearSocioNegocio;
     private final ModificarSocioNegocioModificarPerfilesPortafolioService modificarSocioNegocio;
     private final ModificarClienteModificarPerfilesPortafolioWSService modificarClienteWS;
+    private final CrearClienteFullWSModificarPerfilesPortafolioService crearClienteFull;
 
     public InternalJavaCallController(
             CrearSocioNegocioModificarPerfilesPortafolioService crearSocioNegocio,
             ModificarSocioNegocioModificarPerfilesPortafolioService modificarSocioNegocio,
-            ModificarClienteModificarPerfilesPortafolioWSService modificarClienteWS) {
+            ModificarClienteModificarPerfilesPortafolioWSService modificarClienteWS,
+            CrearClienteFullWSModificarPerfilesPortafolioService crearClienteFull) {
         this.crearSocioNegocio     = crearSocioNegocio;
         this.modificarSocioNegocio = modificarSocioNegocio;
         this.modificarClienteWS    = modificarClienteWS;
+        this.crearClienteFull      = crearClienteFull;
     }
 
     @PostMapping(path = "/internal/java-call",
@@ -76,6 +81,8 @@ public class InternalJavaCallController {
                 modificarSocioNegocio.execute(params);
             case "cl.bcs.sura.socionegocio.ModificarClienteModificarPerfilesPortafolioWS" ->
                 modificarClienteWS.execute(params);
+            case "cl.bcs.sura.socionegocio.CrearClienteFullWSModificarPerfilesPortafolio" ->
+                crearClienteFull.execute(params);
             default -> throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
                 "JavaCall class '" + fqn + "' not yet migrated; TomEE fallback active");
         };

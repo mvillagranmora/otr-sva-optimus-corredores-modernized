@@ -2,7 +2,6 @@ package cl.bcs.sura;
 
 import cl.bcs.sura.domain.IdsEntidadYPerfiles;
 import cl.bcs.sura.service.PerfilesPortafolioService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -178,23 +177,6 @@ class PerfilesPortafolioTest {
                 PerfilesPortafolioService.aplicarFormaCobro(new ArrayList<>(), "TRANSFERENCIA"))
                 .doesNotThrowAnyException();
     }
-
-    // ── @Disabled: HANA / SOAP sandbox required ─────────────────────────────
-
-    @Disabled("requires HANA: BSCL.PERFILES_COMERCIALES_T (ModificarPerfilesPortafolioUtils_ConsultarPerfilesComercialesPorDocumentosIdentidad.sql)")
-    @Test void hana_consultarPerfilesComerciales() { }
-
-    @Disabled("requires HANA: BSCL.PORTAFOLIOS_T (ModificarPerfilesPortafolioUtils_ConsultarIdsPortafolioIdClientePorDocumentoIdentidad.sql)")
-    @Test void hana_consultarIdsPortafolioIdCliente() { }
-
-    @Disabled("requires SURA SOAP sandbox: CrearClienteFullWSModificarPerfilesPortafolio")
-    @Test void soap_crearClienteFullWS() { }
-
-    @Disabled("requires SURA SOAP sandbox: ModificarClienteModificarPerfilesPortafolioWS")
-    @Test void soap_modificarClienteWS() { }
-
-    @Disabled("requires HANA + SURA SOAP sandbox: complete profile modification flow")
-    @Test void integracion_flujoCompletoModificarPerfiles() { }
 
     // ── helpers ──────────────────────────────────────────────────────────────
 

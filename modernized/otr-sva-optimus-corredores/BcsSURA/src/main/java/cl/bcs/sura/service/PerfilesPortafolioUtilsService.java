@@ -1,278 +1,209 @@
 package cl.bcs.sura.service;
 
+import cl.bcs.sura.adapter.out.LegacyHanaSuraPort;
 import cl.bcs.sura.domain.IdsEntidadYPerfiles;
+import cl.bcs.sura.port.out.SuraDataPort;
+import cl.bcs.sura.port.out.SuraDataPort.Variante;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
+import static cl.bcs.sura.service.JsonCampos.lista;
+import static cl.bcs.sura.service.JsonCampos.texto;
 
 /**
- * Spring replacement for legacy ModificarPerfilesPortafolioUtils.
- * Uses NamedParameterJdbcTemplate with real HANA SQL from classpath resources.
- * The temp-table approach from the legacy code is replaced with an inline
- * VALUES constructor so no session-scoped temp tables are needed.
+ * Replacement for legacy ModificarPerfilesPortafolioUtils. Behaviors B-SURA-07 (documents), B-SURA-08 (profile
+ * writes), B-SURA-09/10 (missing-profile entries), B-SURA-11 (temp-table seed), B-SURA-12 (COBROCUST),
+ * B-SURA-18 (merge of IdFormaCobro). All persistence goes through {@link SuraDataPort}.
  */
 @Component
 public class PerfilesPortafolioUtilsService {
 
-    private static final Logger log = LoggerFactory.getLogger(PerfilesPortafolioUtilsService.class);
+    public static final String CODIGO_PERFILES_NO_ENCONTRADOS = "UI_ERROR_CONFIGURACION_PERFILES_PORTAFOLIO_NO_ENCONTRADOS";
+    private static final String COBROCUST = "COBROCUST";
 
-    private static final String BASE = "cl/bcs/sura/socionegocio/sql/";
-
-    private final NamedParameterJdbcTemplate jdbc;
-    private final JdbcTemplate jdbcTemplate;
-
-    private final String SQL_CONSULTAR_IDS;
-    private final String SQL_CONSULTAR_PERFILES;
-    private final String SQL_UPDATE_PERFILES;
-    private final String SQL_INSERT_INDICADOR;
-    private final String SQL_UPDATE_INDICADOR;
-
-    public PerfilesPortafolioUtilsService(NamedParameterJdbcTemplate jdbc) {
-        this.jdbc = jdbc;
-        this.jdbcTemplate = jdbc.getJdbcTemplate();
-        SQL_CONSULTAR_IDS      = load("ModificarPerfilesPortafolioUtils_ConsultarIdsPortafolioIdClientePorDocumentoIdentidad.sql");
-        SQL_CONSULTAR_PERFILES = load("ModificarPerfilesPortafolioUtils_ConsultarPerfilesComercialesPorDocumentosIdentidad.sql");
-        SQL_UPDATE_PERFILES    = load("ModificarPerfilesPortafolioUtils_ModificarPerfilesPortafolio.sql");
-        SQL_INSERT_INDICADOR   = load("ModificarPerfilesPortafolioUtils_InsertIndicadorCobroCustodia.sql");
-        SQL_UPDATE_INDICADOR   = load("ModificarPerfilesPortafolioUtils_UpdateIndicadorCobroCustodia.sql");
+    /** The four shapes legacy uses for the "profile not found" entity (agregarMensajeError*), B-SURA-10. */
+    public enum FormaEntidad {
+        /** CrearSocioNegocio.EntidadCreada: Estado/Nuevo empty, messages Codigo/Mensaje/TipoMensaje. */
+        CREADA,
+        /** ModificarSocioNegocio.EntidadModificada: no Estado/Nuevo. */
+        MODIFICADA,
+        /** WebServiceUtils.EntidadManipulada: messages are raw MensajeSalida (codigo/descripcion/tipo). */
+        MANIPULADA,
+        /** CrearClienteFullWS.EntidadCreada: like CREADA plus IdInterno, without Estado/Nuevo. */
+        CREADA_WS
     }
 
-    // ─── Public API (mirrors legacy ModificarPerfilesPortafolioUtils) ─────────
+    private final SuraDataPort port;
 
-    public List<IdsEntidadYPerfiles> consultarIdsPortafolioIdClientePorDocumentoIdentidad(
-            List<String> documentosIdentidad) {
-        if (documentosIdentidad.isEmpty()) return List.of();
-        return jdbc.query(SQL_CONSULTAR_IDS,
-                new MapSqlParameterSource("DocumentoIdentidad", documentosIdentidad),
-                IDS_MAPPER);
+    @Autowired
+    public PerfilesPortafolioUtilsService(SuraDataPort port) {
+        this.port = port;
+    }
+
+    // ------------------------------------------------------------------ queries
+
+    public List<IdsEntidadYPerfiles> consultarIdsPortafolioIdClientePorDocumentoIdentidad(List<String> documentosIdentidad) {
+        return port.consultarIdsPortafolioIdCliente(documentosIdentidad);
     }
 
     /**
-     * Replaces the legacy temp-table flow used by Crear/Modificar SocioNegocio.
-     * Builds an inline VALUES clause instead of INSERT+SELECT+DELETE on a HANA
-     * local temporary table, so this is safe under connection-pool reuse.
-     *
-     * @param sociosNegocio  parsed from jin.p_SocioNegocio (each has DocumentoIdentidad
-     *                       and IndicadorPortafolio[{CodigoTipoIndicador,ValorIndicador}])
-     * @param ids            result of consultarIdsPortafolioIdClientePorDocumentoIdentidad
+     * Seeds the COBROCUST value on the portfolios of each socio (in input order, duplicates kept), asks the catalogue
+     * join and drops rows that still have no IdFormaCobro (B-SURA-11).
      */
     public List<IdsEntidadYPerfiles> obtenerEntidadesParaInsertarYModificarEnWSSociosNegocio(
             List<JsonObject> sociosNegocio, List<IdsEntidadYPerfiles> ids) {
-
-        List<IdsEntidadYPerfiles> listaPerfiles = new ArrayList<>();
-
+        List<IdsEntidadYPerfiles> semilla = new ArrayList<>();
         for (JsonObject socio : sociosNegocio) {
-            String docId = strOf(socio, "DocumentoIdentidad");
-            List<IdsEntidadYPerfiles> perfiles = ids.stream()
-                    .filter(id -> docId.equals(id.documentoIdentidad))
-                    .collect(Collectors.toList());
-
-            Optional<String> valorIndicador = cobrocustValor(socio, "IndicadorPortafolio");
-            if (valorIndicador.isPresent() && !perfiles.isEmpty()) {
-                String valor = valorIndicador.get();
-                perfiles.forEach(p -> p.idFormaCobro = valor);
-            }
-            listaPerfiles.addAll(perfiles);
+            List<IdsEntidadYPerfiles> perfiles = perfilesDe(texto(socio, "DocumentoIdentidad"), ids);
+            valorCobrocust(lista(socio, "IndicadorPortafolio")).ifPresent(valor -> {
+                if (!perfiles.isEmpty()) perfiles.forEach(p -> p.idFormaCobro = valor);
+            });
+            semilla.addAll(perfiles);
         }
-
-        if (listaPerfiles.isEmpty()) return List.of();
-
-        // Build inline VALUES query — replaces temp table INSERT + SELECT + DELETE
-        return consultarPerfilesPorListaPortafoliosValores(listaPerfiles).stream()
+        return port.consultarPerfilesFiltrados(semilla).stream()
                 .filter(p -> !p.idFormaCobro.isEmpty())
                 .collect(Collectors.toList());
     }
 
     /**
-     * Used by ModificarClienteWS after indicators are already written.
-     * Queries profiles by DocumentoIdentidad and merges IdFormaCobro from the in-memory list.
+     * One document per id (duplicates kept); every returned row must have its in-memory counterpart, otherwise
+     * NoSuchElementException (legacy findFirst().get()), and an empty IdFormaCobro is filled from it (B-SURA-18).
      */
-    public List<IdsEntidadYPerfiles> obtenerEntidadesYPerfilesCompletas(
-            List<IdsEntidadYPerfiles> ids) {
-        List<String> docs = ids.stream().map(id -> id.documentoIdentidad).collect(Collectors.toList());
-        if (docs.isEmpty()) return List.of();
-        List<IdsEntidadYPerfiles> result = jdbc.query(SQL_CONSULTAR_PERFILES,
-                new MapSqlParameterSource("DocumentoIdentidad", docs),
-                PERFILES_MAPPER);
-        result.forEach(entidad -> {
-            ids.stream()
+    public List<IdsEntidadYPerfiles> obtenerEntidadesYPerfilesCompletas(List<IdsEntidadYPerfiles> ids) {
+        List<String> documentos = ids.stream().map(id -> id.documentoIdentidad).collect(Collectors.toList());
+        List<IdsEntidadYPerfiles> entidades = port.consultarPerfilesComerciales(documentos);
+        for (IdsEntidadYPerfiles entidad : entidades) {
+            String formaEnMemoria = ids.stream()
                     .filter(id -> id.idPortafolio.equals(entidad.idPortafolio))
                     .findFirst()
-                    .ifPresent(match -> {
-                        if (entidad.idFormaCobro.isEmpty()) entidad.idFormaCobro = match.idFormaCobro;
-                    });
-        });
-        return result;
+                    .orElseThrow()
+                    .idFormaCobro;
+            if (entidad.idFormaCobro.isEmpty()) entidad.idFormaCobro = formaEnMemoria;
+        }
+        return entidades;
     }
 
+    // ------------------------------------------------------------------ writes
+
     public void modificarPerfilesPortafolio(List<IdsEntidadYPerfiles> perfiles) {
-        if (perfiles.isEmpty()) return;
-        SqlParameterSource[] batch = perfiles.stream()
-                .map(p -> new MapSqlParameterSource()
-                        .addValue("IdPerfilComercial", p.idPerfilComercial)
-                        .addValue("IdPerfilProductos", p.idPerfilProductos)
-                        .addValue("IdPerfilCobros",    p.idPerfilCobros)
-                        .addValue("IdPortafolio",      p.idPortafolio))
-                .toArray(SqlParameterSource[]::new);
-        jdbc.batchUpdate(SQL_UPDATE_PERFILES, batch);
+        port.modificarPerfilesPortafolio(perfiles);
     }
 
     public void ingresarIndicadoresCobroCustodia(List<IdsEntidadYPerfiles> ids, String valorIndicador) {
-        SqlParameterSource[] batch = ids.stream()
-                .filter(id -> id.idIndicador == 0)
-                .map(id -> new MapSqlParameterSource()
-                        .addValue("IdEntidad",      id.idPortafolio)
-                        .addValue("ValorIndicador", valorIndicador))
-                .toArray(SqlParameterSource[]::new);
-        if (batch.length == 0) return;
-        jdbc.batchUpdate(SQL_INSERT_INDICADOR, batch);
+        port.ingresarIndicadoresCobroCustodia(ids, valorIndicador);
+    }
+
+    public void ingresarIndicadoresCobroCustodia(List<IdsEntidadYPerfiles> ids, String valorIndicador, Variante variante) {
+        port.ingresarIndicadoresCobroCustodia(ids, valorIndicador, variante);
     }
 
     public void modificarIndicadoresCobroCustodia(List<IdsEntidadYPerfiles> ids) {
-        SqlParameterSource[] batch = ids.stream()
-                .filter(id -> id.idIndicador != 0 && "S".equals(id.actualizarFormaCobro))
-                .map(id -> new MapSqlParameterSource()
-                        .addValue("ValorIndicador", id.idFormaCobro)
-                        .addValue("IdEntidad",      id.idIndicador))
-                .toArray(SqlParameterSource[]::new);
-        if (batch.length == 0) return;
-        jdbc.batchUpdate(SQL_UPDATE_INDICADOR, batch);
+        port.modificarIndicadoresCobroCustodia(ids);
     }
 
-    public List<IdsEntidadYPerfiles> validarIndicadorFormaCobroPortafolioApv(
-            List<IdsEntidadYPerfiles> ids) {
-        ids.forEach(id -> {
-            if ("PROPOSITOAPV".equals(id.proposito)) id.actualizarFormaCobro = "N";
-        });
-        return ids;
+    public void modificarIndicadoresCobroCustodia(List<IdsEntidadYPerfiles> ids, Variante variante) {
+        port.modificarIndicadoresCobroCustodia(ids, variante);
     }
 
-    // ─── Internal: VALUES-based replacement for temp table query ─────────────
+    public List<IdsEntidadYPerfiles> validarIndicadorFormaCobroPortafolioApv(List<IdsEntidadYPerfiles> ids) {
+        return PerfilesPortafolioService.validarIndicadorFormaCobroPortafolioApv(ids);
+    }
 
-    private static final String VALUES_QUERY_BASE =
-        "SELECT\n" +
-        "  POR.\"IdPortafolio\"\n" +
-        ", POR.\"IdCliente\"\n" +
-        ", DOCI.\"DocumentoIdentidad\"\n" +
-        ", COALESCE(IND.\"IdIndicador\", 0) AS \"IdIndicador\"\n" +
-        ", COALESCE(PERF.\"IdFormaCobro\", TEMP.\"IdFormaCobro\", '') AS \"IdFormaCobro\"\n" +
-        ", CLI.\"IdCategoriaInversionista\"\n" +
-        ", COALESCE(PERF.\"IdPerfilComercialBase\", '') AS \"IdPerfilComercial\"\n" +
-        ", COALESCE(PERF.\"IdPerfilCobros\", '') AS \"IdPerfilCobros\"\n" +
-        ", COALESCE(PERF.\"IdPerfilProductos\", '') AS \"IdPerfilProductos\"\n" +
-        ", POR.\"Proposito\"\n" +
-        "FROM (%s) AS TEMP(\"IdCliente\",\"IdFormaCobro\",\"DocumentoIdentidad\",\"IdPortafolio\")\n" +
-        "INNER JOIN \"BSCL.Portafolio.BD.Vistas.UI::ConsultarPortafolio\" AS POR\n" +
-        "    ON POR.\"IdPortafolio\" = TEMP.\"IdPortafolio\"\n" +
-        "INNER JOIN \"BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente\" CLI\n" +
-        "    ON CLI.\"IdCliente\" = TEMP.\"IdCliente\"\n" +
-        "INNER JOIN \"BSCL.SocioNegocio.BD.Vistas::PER.ConsultarDocumentoIdentidadPersona\" AS DOCI\n" +
-        "    ON DOCI.\"IdPersona\" = POR.\"IdPersona\"\n" +
-        "LEFT JOIN \"BSCL.Plataforma.BD.Vistas::IND.ConsultarIndicadoresPortafolio\" AS IND\n" +
-        "    ON IND.\"IdPortafolio\" = POR.\"IdPortafolio\"\n" +
-        "   AND IND.\"CodigoTipoIndicador\" = 'COBROCUST'\n" +
-        "LEFT JOIN \"BSCL.Plataforma.BD::COM.PerfilComercialAdicional\" AS PERF\n" +
-        "    ON PERF.\"IdCategoriaInversionista\" = CLI.\"IdCategoriaInversionista\"\n" +
-        "   AND UPPER(PERF.\"IdFormaCobro\") = UPPER(TEMP.\"IdFormaCobro\")\n" +
-        "   AND PERF.\"CodigoPortafolio\" = (CASE WHEN POR.\"Proposito\" = 'PROPOSITOAPV' THEN 'APV'\n" +
-        "                                         ELSE POR.\"CodigoPortafolio\" END)";
-
-    private List<IdsEntidadYPerfiles> consultarPerfilesPorListaPortafoliosValores(
-            List<IdsEntidadYPerfiles> listaPerfiles) {
-
-        StringBuilder values = new StringBuilder("VALUES ");
-        List<Object> args = new ArrayList<>();
-        for (int i = 0; i < listaPerfiles.size(); i++) {
-            if (i > 0) values.append(',');
-            values.append("(?,?,?,?)");
-            IdsEntidadYPerfiles p = listaPerfiles.get(i);
-            args.add(p.idCliente);
-            args.add(p.idFormaCobro);
-            args.add(p.documentoIdentidad);
-            args.add(p.idPortafolio);
+    /**
+     * Shared by CrearSocioNegocio and ModificarSocioNegocio (legacy: the latter calls the former). For each socio, the
+     * first COBROCUST of IndicadorPortafolio (even if empty) becomes the IdFormaCobro of its portfolios and is inserted
+     * for those without indicator; the returned list is the concatenation of the per-socio matches (B-SURA-12).
+     */
+    public List<IdsEntidadYPerfiles> ingresarIndicadoresDeSociosNegocio(
+            List<JsonObject> sociosNegocio, List<IdsEntidadYPerfiles> ids) {
+        List<IdsEntidadYPerfiles> resultado = new ArrayList<>();
+        for (JsonObject socio : sociosNegocio) {
+            List<IdsEntidadYPerfiles> perfiles = perfilesDe(texto(socio, "DocumentoIdentidad"), ids);
+            Optional<String> valor = valorCobrocust(lista(socio, "IndicadorPortafolio"));
+            if (valor.isPresent() && !perfiles.isEmpty()) {
+                perfiles.forEach(p -> p.idFormaCobro = valor.get());
+                ingresarIndicadoresCobroCustodia(perfiles, valor.get());
+            }
+            resultado.addAll(perfiles);
         }
-        String sql = String.format(VALUES_QUERY_BASE, values);
-        return jdbcTemplate.query(sql, PERFILES_MAPPER, args.toArray());
+        return resultado;
     }
 
-    // ─── Row mappers ──────────────────────────────────────────────────────────
+    // ------------------------------------------------------------------ missing-profile entries (B-SURA-09/10)
 
-    private static final RowMapper<IdsEntidadYPerfiles> IDS_MAPPER = (rs, row) -> {
-        IdsEntidadYPerfiles p = new IdsEntidadYPerfiles();
-        p.idPortafolio       = rs.getLong("IdPortafolio");
-        p.idCliente          = rs.getLong("IdCliente");
-        p.documentoIdentidad = rs.getString("DocumentoIdentidad");
-        p.idIndicador        = rs.getLong("IdIndicador");
-        p.proposito          = nullToEmpty(rs.getString("Proposito"));
-        return p;
-    };
+    /**
+     * Appends one entry to {@code destino} for every row lacking IdPerfilComercial, IdPerfilProductos or IdPerfilCobros
+     * and returns how many were appended (the caller adds them to its error counter).
+     */
+    public int registrarPerfilesIncompletos(List<IdsEntidadYPerfiles> ids, Long idEmpresa, FormaEntidad forma, JsonArray destino) {
+        int errores = 0;
+        for (IdsEntidadYPerfiles id : ids) {
+            if (id.idPerfilComercial.isEmpty() || id.idPerfilProductos.isEmpty() || id.idPerfilCobros.isEmpty()) {
+                destino.add(entidadConError(id, idEmpresa, forma));
+                errores++;
+            }
+        }
+        return errores;
+    }
 
-    private static final RowMapper<IdsEntidadYPerfiles> PERFILES_MAPPER = (rs, row) -> {
-        IdsEntidadYPerfiles p = new IdsEntidadYPerfiles();
-        p.idPortafolio             = rs.getLong("IdPortafolio");
-        p.idCliente                = rs.getLong("IdCliente");
-        p.documentoIdentidad       = nullToEmpty(rs.getString("DocumentoIdentidad"));
-        p.idIndicador              = rs.getLong("IdIndicador");
-        p.idFormaCobro             = nullToEmpty(rs.getString("IdFormaCobro"));
-        p.idCategoriaInversionista = nullToEmpty(rs.getString("IdCategoriaInversionista"));
-        p.idPerfilComercial        = nullToEmpty(rs.getString("IdPerfilComercial"));
-        p.idPerfilCobros           = nullToEmpty(rs.getString("IdPerfilCobros"));
-        p.idPerfilProductos        = nullToEmpty(rs.getString("IdPerfilProductos"));
-        try { p.proposito = nullToEmpty(rs.getString("Proposito")); } catch (SQLException ignored) {}
-        return p;
-    };
+    private JsonObject entidadConError(IdsEntidadYPerfiles id, Long idEmpresa, FormaEntidad forma) {
+        Map<String, String> parametros = new HashMap<>();
+        parametros.put("IdFormaCobro", id.idFormaCobro);
+        parametros.put("TipoEntidad", "PORTAFOLIO");
+        parametros.put("IdEntidad", id.idPortafolio.toString());
+        Map<String, String> ms = port.resolverMensajeError(id.idCliente, idEmpresa, CODIGO_PERFILES_NO_ENCONTRADOS, parametros);
 
-    // ─── Helpers ──────────────────────────────────────────────────────────────
+        JsonObject mensaje = new JsonObject();
+        if (forma == FormaEntidad.MANIPULADA) {
+            mensaje.addProperty("codigo", ms.get("codigo"));
+            mensaje.addProperty("descripcion", ms.get("descripcion"));
+            mensaje.addProperty("tipo", ms.get("tipo"));
+        } else {
+            mensaje.addProperty("IdInterno", 0L);
+            mensaje.addProperty("Codigo", ms.get("codigo"));
+            mensaje.addProperty("Mensaje", ms.get("descripcion"));
+            mensaje.addProperty("TipoMensaje", ms.get("tipo"));
+        }
+        JsonArray mensajes = new JsonArray();
+        mensajes.add(mensaje);
 
-    private static Optional<String> cobrocustValor(JsonObject socio, String field) {
-        if (!socio.has(field)) return Optional.empty();
-        JsonArray arr = socio.get(field).getAsJsonArray();
-        for (JsonElement el : arr) {
-            JsonObject ind = el.getAsJsonObject();
-            if ("COBROCUST".equals(strOf(ind, "CodigoTipoIndicador"))) {
-                String v = strOf(ind, "ValorIndicador");
-                if (!v.isEmpty()) return Optional.of(v);
+        JsonObject entidad = new JsonObject();
+        entidad.addProperty("TipoEntidad", parametros.get("TipoEntidad"));
+        entidad.addProperty("IdEntidad", id.idPortafolio);
+        if (forma == FormaEntidad.CREADA) {
+            entidad.addProperty("Estado", "");
+            entidad.addProperty("Nuevo", "");
+        }
+        entidad.add("Mensajes", mensajes);
+        if (forma == FormaEntidad.CREADA_WS) entidad.addProperty("IdInterno", 0L);
+        return entidad;
+    }
+
+    // ------------------------------------------------------------------ helpers shared by the four flows
+
+    /** Portfolios whose document equals {@code documento}; a fresh list over the same (mutable) row objects. */
+    static List<IdsEntidadYPerfiles> perfilesDe(String documento, List<IdsEntidadYPerfiles> ids) {
+        return ids.stream().filter(id -> documento.equals(id.documentoIdentidad)).collect(Collectors.toList());
+    }
+
+    /** Value of the FIRST COBROCUST indicator, even when empty (legacy findFirst() without emptiness check). */
+    static Optional<String> valorCobrocust(JsonArray indicadores) {
+        for (JsonElement e : indicadores) {
+            JsonObject indicador = e.getAsJsonObject();
+            if (COBROCUST.equals(texto(indicador, "CodigoTipoIndicador"))) {
+                return Optional.of(texto(indicador, "ValorIndicador"));
             }
         }
         return Optional.empty();
-    }
-
-    private static String strOf(JsonObject o, String key) {
-        JsonElement e = o.get(key);
-        return (e == null || e.isJsonNull()) ? "" : e.getAsString();
-    }
-
-    private static String nullToEmpty(String s) {
-        return s == null ? "" : s;
-    }
-
-    private static String load(String name) {
-        String path = BASE + name;
-        try (InputStream is = PerfilesPortafolioUtilsService.class.getClassLoader()
-                .getResourceAsStream(path)) {
-            if (is == null) throw new IllegalStateException("SQL resource not found: " + path);
-            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed to load SQL: " + path, e);
-        }
     }
 }

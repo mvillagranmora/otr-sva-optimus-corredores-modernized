@@ -1,0 +1,123 @@
+{
+  "system": "otr-sva-optimus-corredores",
+  "module": "BcsSURA",
+  "legacy": {
+    "label": "unmodified legacy cl.bcs.utils.SQL + NamedParameterStatement + IdsEntidadYPerfiles compiled from legacy/ (read-only) and the legacy .sql files, run on HANA QA through a read-only JDBC connection (SELECT only), JDK 25",
+    "command": "modernized/otr-sva-optimus-corredores/hana-jdbc/oracle/oracle.sh legacy <inputs.tsv> <outDir>"
+  },
+  "new": {
+    "label": "modernized BcsSURA LegacyHanaSuraPort (src/main) on the same HANA QA, via SuraHanaEquivalenciaTest (tag hana)",
+    "command": "modernized/otr-sva-optimus-corredores/hana-jdbc/oracle/oracle.sh new <inputs.tsv> <outDir>"
+  },
+  "note": "Read queries only (ids, perfiles, filtrados). Rows are sorted on both sides (SQL has no ORDER BY); same column order; nulls would print as <null> on the legacy side (none occurred). Deviation on the legacy side: the temp table of the filtered query is an inline derived table (SELECT CAST(..) FROM DUMMY UNION ALL ..), as in the new code, because a temp table is DDL. Not covered: INSERT/UPDATE statements (SELECT-only rule), the message dictionary lookup, flow logic above the port. QA data can change between runs.",
+  "cases": [
+    {
+      "id": "D01-apv-op1-moderado-ids",
+      "title": "IDs de portafolio/cliente por documento; documentos: 10005725-5",
+      "legacy": "out/legacy/D01-apv-op1-moderado/ids.txt",
+      "new": "out/new/D01-apv-op1-moderado/ids.txt"
+    },
+    {
+      "id": "D01-apv-op1-moderado-perfiles",
+      "title": "perfiles comerciales por documento; documentos: 10005725-5",
+      "legacy": "out/legacy/D01-apv-op1-moderado/perfiles.txt",
+      "new": "out/new/D01-apv-op1-moderado/perfiles.txt"
+    },
+    {
+      "id": "D01-apv-op1-moderado-filtrados",
+      "title": "perfiles filtrados por semilla (formas de cobro Opción 2 / opción 4 / Opción 9); documentos: 10005725-5",
+      "legacy": "out/legacy/D01-apv-op1-moderado/filtrados.txt",
+      "new": "out/new/D01-apv-op1-moderado/filtrados.txt"
+    },
+    {
+      "id": "D02-ffmm-intermediacion-ids",
+      "title": "IDs de portafolio/cliente por documento; documentos: 10003029-2",
+      "legacy": "out/legacy/D02-ffmm-intermediacion/ids.txt",
+      "new": "out/new/D02-ffmm-intermediacion/ids.txt"
+    },
+    {
+      "id": "D02-ffmm-intermediacion-perfiles",
+      "title": "perfiles comerciales por documento; documentos: 10003029-2",
+      "legacy": "out/legacy/D02-ffmm-intermediacion/perfiles.txt",
+      "new": "out/new/D02-ffmm-intermediacion/perfiles.txt"
+    },
+    {
+      "id": "D02-ffmm-intermediacion-filtrados",
+      "title": "perfiles filtrados por semilla (formas de cobro Opción 2 / opción 4 / Opción 9); documentos: 10003029-2",
+      "legacy": "out/legacy/D02-ffmm-intermediacion/filtrados.txt",
+      "new": "out/new/D02-ffmm-intermediacion/filtrados.txt"
+    },
+    {
+      "id": "D03-diez-portafolios-ids",
+      "title": "IDs de portafolio/cliente por documento; documentos: 10860837-4",
+      "legacy": "out/legacy/D03-diez-portafolios/ids.txt",
+      "new": "out/new/D03-diez-portafolios/ids.txt"
+    },
+    {
+      "id": "D03-diez-portafolios-perfiles",
+      "title": "perfiles comerciales por documento; documentos: 10860837-4",
+      "legacy": "out/legacy/D03-diez-portafolios/perfiles.txt",
+      "new": "out/new/D03-diez-portafolios/perfiles.txt"
+    },
+    {
+      "id": "D03-diez-portafolios-filtrados",
+      "title": "perfiles filtrados por semilla (formas de cobro Opción 2 / opción 4 / Opción 9); documentos: 10860837-4",
+      "legacy": "out/legacy/D03-diez-portafolios/filtrados.txt",
+      "new": "out/new/D03-diez-portafolios/filtrados.txt"
+    },
+    {
+      "id": "D04-tres-documentos-ids",
+      "title": "IDs de portafolio/cliente por documento; documentos: 10000562-K|10000794-0|10004344-0",
+      "legacy": "out/legacy/D04-tres-documentos/ids.txt",
+      "new": "out/new/D04-tres-documentos/ids.txt"
+    },
+    {
+      "id": "D04-tres-documentos-perfiles",
+      "title": "perfiles comerciales por documento; documentos: 10000562-K|10000794-0|10004344-0",
+      "legacy": "out/legacy/D04-tres-documentos/perfiles.txt",
+      "new": "out/new/D04-tres-documentos/perfiles.txt"
+    },
+    {
+      "id": "D04-tres-documentos-filtrados",
+      "title": "perfiles filtrados por semilla (formas de cobro Opción 2 / opción 4 / Opción 9); documentos: 10000562-K|10000794-0|10004344-0",
+      "legacy": "out/legacy/D04-tres-documentos/filtrados.txt",
+      "new": "out/new/D04-tres-documentos/filtrados.txt"
+    },
+    {
+      "id": "D05-forma-sin-perfil-ids",
+      "title": "IDs de portafolio/cliente por documento; documentos: 10000257-4",
+      "legacy": "out/legacy/D05-forma-sin-perfil/ids.txt",
+      "new": "out/new/D05-forma-sin-perfil/ids.txt"
+    },
+    {
+      "id": "D05-forma-sin-perfil-perfiles",
+      "title": "perfiles comerciales por documento; documentos: 10000257-4",
+      "legacy": "out/legacy/D05-forma-sin-perfil/perfiles.txt",
+      "new": "out/new/D05-forma-sin-perfil/perfiles.txt"
+    },
+    {
+      "id": "D05-forma-sin-perfil-filtrados",
+      "title": "perfiles filtrados por semilla (formas de cobro Opción 2 / opción 4 / Opción 9); documentos: 10000257-4",
+      "legacy": "out/legacy/D05-forma-sin-perfil/filtrados.txt",
+      "new": "out/new/D05-forma-sin-perfil/filtrados.txt"
+    },
+    {
+      "id": "D06-no-existe-ids",
+      "title": "IDs de portafolio/cliente por documento; documentos: NO-EXISTE-000",
+      "legacy": "out/legacy/D06-no-existe/ids.txt",
+      "new": "out/new/D06-no-existe/ids.txt"
+    },
+    {
+      "id": "D06-no-existe-perfiles",
+      "title": "perfiles comerciales por documento; documentos: NO-EXISTE-000",
+      "legacy": "out/legacy/D06-no-existe/perfiles.txt",
+      "new": "out/new/D06-no-existe/perfiles.txt"
+    },
+    {
+      "id": "D06-no-existe-filtrados",
+      "title": "perfiles filtrados por semilla (formas de cobro Opción 2 / opción 4 / Opción 9); documentos: NO-EXISTE-000",
+      "legacy": "out/legacy/D06-no-existe/filtrados.txt",
+      "new": "out/new/D06-no-existe/filtrados.txt"
+    }
+  ]
+}

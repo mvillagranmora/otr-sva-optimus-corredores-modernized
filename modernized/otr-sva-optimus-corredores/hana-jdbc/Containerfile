@@ -1,0 +1,8 @@
+# JDBC runner for HANA QA: JDK 25 + Maven + the SAP ngdbc driver (jar copied from ~/.m2 by run.sh build). No credentials inside.
+FROM eclipse-temurin:25-alpine
+RUN apk add --no-cache maven
+WORKDIR /opt/hana
+COPY lib/ngdbc.jar lib/ngdbc.jar
+COPY HanaSmoke.java entrypoint.sh ./
+ENTRYPOINT ["/opt/hana/entrypoint.sh"]
+CMD ["smoke"]

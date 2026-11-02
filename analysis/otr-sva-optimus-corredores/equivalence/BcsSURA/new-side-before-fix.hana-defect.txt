@@ -1,0 +1,104 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< cl.bcs:sura-service >-------------------------
+[INFO] Building BcsSURA — SURA Portfolio Profile Service (Spring Boot 4.1.1) 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ sura-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 12 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ sura-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 15 source files with javac [debug parameters release 25] to target/classes
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ sura-service ---
+[INFO] Copying 3 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ sura-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 16 source files with javac [debug parameters release 25] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ sura-service ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running cl.bcs.sura.SuraHanaEquivalenciaTest
+[ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 2.546 s <<< FAILURE! -- in cl.bcs.sura.SuraHanaEquivalenciaTest
+[ERROR] cl.bcs.sura.SuraHanaEquivalenciaTest.escribeSalidasCanonicasDeLasLecturas -- Time elapsed: 2.526 s <<< ERROR!
+org.springframework.jdbc.BadSqlGrammarException: 
+PreparedStatementCallback; bad SQL grammar [SELECT 
+	  POR."IdPortafolio"
+	, POR."IdCliente"
+	, DOCI."DocumentoIdentidad"
+	, COALESCE(IND."IdIndicador", 0) AS "IdIndicador"
+	, COALESCE(PERF."IdFormaCobro", '') AS "IdFormaCobro"
+	, CLI."IdCategoriaInversionista"
+	, COALESCE(PERF."IdPerfilComercialBase", '') AS "IdPerfilComercial"
+	, COALESCE(PERF."IdPerfilCobros", '') AS "IdPerfilCobros"
+	, COALESCE(PERF."IdPerfilProductos", '') AS "IdPerfilProductos"
+FROM "BSCL.Portafolio.BD.Vistas.UI::ConsultarPortafolio" AS POR
+INNER JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" CLI ON CLI."IdCliente" = POR."IdCliente"
+INNER JOIN "BSCL.SocioNegocio.BD.Vistas::PER.ConsultarDocumentoIdentidadPersona" AS DOCI ON DOCI."IdPersona" = POR."IdPersona"
+INNER JOIN "BSCL.Plataforma.BD.Vistas::IND.ConsultarIndicadoresPortafolio" AS IND ON IND."IdPortafolio" = POR."IdPortafolio" AND IND."CodigoTipoIndicador" = 'COBROCUST'
+INNER JOIN "BSCL.Plataforma.BD::COM.PerfilComercialAdicional" AS PERF ON UPPER(PERF."IdFormaCobro") = UPPER(IND."NombreValorIndicador") AND PERF."IdCategoriaInversionista" = CLI."IdCategoriaInversionista" AND PERF."CodigoPortafolio" = ( CASE WHEN POR."Proposito" = 'PROPOSITOAPV' THEN 'APV' ELSE POR."CodigoPortafolio" END )
+WHERE DOCI."DocumentoIdentidad" IN (?);]
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:134)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:102)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:111)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1549)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:752)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:804)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.query(NamedParameterJdbcTemplate.java:224)
+	at cl.bcs.sura.adapter.out.LegacyHanaSuraPort.consultarPerfilesComerciales(LegacyHanaSuraPort.java:89)
+	at cl.bcs.sura.SuraHanaEquivalenciaTest.escribeSalidasCanonicasDeLasLecturas(SuraHanaEquivalenciaTest.java:45)
+Caused by: com.sap.db.jdbc.exceptions.JDBCDriverException: SAP DBTech JDBC: Invalid column name: Proposito
+	at com.sap.db.jdbc.exceptions.SQLExceptionSapDB._newInstance(SQLExceptionSapDB.java:215)
+	at com.sap.db.jdbc.exceptions.SQLExceptionSapDB.newInstance(SQLExceptionSapDB.java:26)
+	at com.sap.db.jdbc.ResultSetSapDB._getConverter(ResultSetSapDB.java:5396)
+	at com.sap.db.jdbc.ResultSetSapDB.getString(ResultSetSapDB.java:1056)
+	at cl.bcs.sura.adapter.out.LegacyHanaSuraPort.lambda$static$1(LegacyHanaSuraPort.java:198)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:110)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:62)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$query$0(JdbcTemplate.java:739)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:670)
+	... 6 more
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Errors: 
+[ERROR]   SuraHanaEquivalenciaTest.escribeSalidasCanonicasDeLasLecturas:45 » BadSqlGrammar PreparedStatementCallback; bad SQL grammar [SELECT 
+	  POR."IdPortafolio"
+	, POR."IdCliente"
+	, DOCI."DocumentoIdentidad"
+	, COALESCE(IND."IdIndicador", 0) AS "IdIndicador"
+	, COALESCE(PERF."IdFormaCobro", '') AS "IdFormaCobro"
+	, CLI."IdCategoriaInversionista"
+	, COALESCE(PERF."IdPerfilComercialBase", '') AS "IdPerfilComercial"
+	, COALESCE(PERF."IdPerfilCobros", '') AS "IdPerfilCobros"
+	, COALESCE(PERF."IdPerfilProductos", '') AS "IdPerfilProductos"
+FROM "BSCL.Portafolio.BD.Vistas.UI::ConsultarPortafolio" AS POR
+INNER JOIN "BSCL.SocioNegocio.BD.Vistas::CLI.ConsultarCliente" CLI ON CLI."IdCliente" = POR."IdCliente"
+INNER JOIN "BSCL.SocioNegocio.BD.Vistas::PER.ConsultarDocumentoIdentidadPersona" AS DOCI ON DOCI."IdPersona" = POR."IdPersona"
+INNER JOIN "BSCL.Plataforma.BD.Vistas::IND.ConsultarIndicadoresPortafolio" AS IND ON IND."IdPortafolio" = POR."IdPortafolio" AND IND."CodigoTipoIndicador" = 'COBROCUST'
+INNER JOIN "BSCL.Plataforma.BD::COM.PerfilComercialAdicional" AS PERF ON UPPER(PERF."IdFormaCobro") = UPPER(IND."NombreValorIndicador") AND PERF."IdCategoriaInversionista" = CLI."IdCategoriaInversionista" AND PERF."CodigoPortafolio" = ( CASE WHEN POR."Proposito" = 'PROPOSITOAPV' THEN 'APV' ELSE POR."CodigoPortafolio" END )
+WHERE DOCI."DocumentoIdentidad" IN (?);]
+[INFO] 
+[ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0
+[INFO] 
+[ERROR] 
+
+See /tmp/w/BcsSURA/target/surefire-reports for the individual test results.
+See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.844 s
+[INFO] Finished at: 2026-10-30T20:56:09Z
+[INFO] ------------------------------------------------------------------------
