@@ -5584,14 +5584,14 @@ Claude never ticks these. A person decides them.
 
 ## Sign-off
 
-A person fills this in. Claude leaves it blank.
+Filled in at the signer's request on 2026-11-03 (Claude only wrote what the signer dictated).
 
 | | |
 |---|---|
-| Name | ________________ |
-| Role | ________________ |
-| Date | __________ |
-| Decision | accept / accept with conditions / reject |
+| Name | Mauricio Villagran Mora |
+| Role | Arquitecto |
+| Date | 03-Nov-2026 |
+| Decision | accept (scope: BcsSURA only) |
 
 ## How each verdict is computed
 
