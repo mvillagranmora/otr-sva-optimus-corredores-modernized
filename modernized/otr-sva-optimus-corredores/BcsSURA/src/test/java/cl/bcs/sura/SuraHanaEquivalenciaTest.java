@@ -16,8 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * New side of the SURA read-equivalence check (B-SURA-20/21 against HANA QA, SELECT only). Reads ORACLE_IN (id TAB doc1|doc2),
- * runs LegacyHanaSuraPort and writes ORACLE_OUT/&lt;id&gt;/{ids,perfiles,filtrados}.txt in the same canonical text as hana-jdbc/oracle/LegacyOracle.java.
- * Tagged "hana": excluded by default; FAILS (never skips) without HANA_URL or ORACLE_IN. Run: hana-jdbc/oracle/oracle.sh new ...
+ * runs LegacyHanaSuraPort and writes ORACLE_OUT/&lt;id&gt;/{ids,perfiles,filtrados}.txt in the canonical text of the recorded legacy outputs (equivalence/BcsSURA/out/legacy).
+ * Tagged "hana": excluded by default; FAILS (never skips) without HANA_URL or ORACLE_IN. Run: mvn -o test -DexcludedGroups= -Dtest=SuraHanaEquivalenciaTest,
+ * with HANA_URL, HANA_USER, HANA_PASSWORD, ORACLE_IN and ORACLE_OUT set in the environment (direct connection). The legacy-side runner that wrote those outputs
+ * (the retired hana-jdbc/oracle) is no longer in the repo; it stays in git history.
  */
 @Tag("hana")
 class SuraHanaEquivalenciaTest {

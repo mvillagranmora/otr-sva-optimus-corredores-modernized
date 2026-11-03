@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * B-SURA-10 against HANA QA, SELECT only (the dictionary query). Tagged "hana": excluded from the default run, and it FAILS
- * (never skips) when HANA_URL / HANA_USER / HANA_PASSWORD are missing. Run: hana-jdbc/run.sh test -DexcludedGroups= -Dtest=SuraMensajeHanaTest
+ * (never skips) when HANA_URL / HANA_USER / HANA_PASSWORD are missing. Run: mvn -o test -DexcludedGroups= -Dtest=SuraMensajeHanaTest, with the three variables set in the environment (direct connection)
  */
 @Tag("hana")
 class SuraMensajeHanaTest {
@@ -20,7 +20,7 @@ class SuraMensajeHanaTest {
     @Test
     void bSura10_diccionarioRealDeQa() {
         String url = System.getenv("HANA_URL");
-        assertThat(url).as("HANA_URL (fill .env and use hana-jdbc/run.sh)").isNotBlank();
+        assertThat(url).as("HANA_URL (set HANA_URL, HANA_USER and HANA_PASSWORD in the environment)").isNotBlank();
         DriverManagerDataSource ds = new DriverManagerDataSource(url, System.getenv("HANA_USER"), System.getenv("HANA_PASSWORD"));
         ds.setDriverClassName("com.sap.db.jdbc.Driver");
         LegacyHanaSuraPort port = new LegacyHanaSuraPort(new NamedParameterJdbcTemplate(ds));

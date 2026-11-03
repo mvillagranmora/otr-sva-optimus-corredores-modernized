@@ -1,9 +1,11 @@
 # Verification: otr-sva-optimus-corredores
 
-Written by `scripts/proof_pack.py` on 2026-11-02 16:40 UTC. Each module's verdict is computed from the evidence files by the fixed rules at the end of this page. No model's opinion is part of it.
+Written by `scripts/proof_pack.py` on 2026-11-03 13:35 UTC. Each module's verdict is computed from the evidence files by the fixed rules at the end of this page. No model's opinion is part of it.
 
-**Overall: NOT PROVEN** (18 proven, 28 partly proven, 1 not proven)
+**Overall: NOT PROVEN** (18 proven, 27 partly proven, 1 not proven)
 
+
+You asked about `BcsSURA`. Every built module is judged from its current evidence files on every run, so no verdict here depends on an earlier run.
 
 Legacy source: `legacy/otr-sva-optimus-corredores`. Could it run here: yes. The source was checked by modification time, and no version-control tool was run.
 
@@ -28,7 +30,7 @@ Legacy source: `legacy/otr-sva-optimus-corredores`. Could it run here: yes. The 
 | BcsFacturacionJobs | rewrite | **PARTLY PROVEN** | 22 | 0 | 0 of 60 | not proven | not proven |
 | BcsFacturacionServicios | rewrite | **PARTLY PROVEN** | 30 | 0 | 0 of 1 | not proven | not proven |
 | BcsFilters | rewrite | **PARTLY PROVEN** | 1761 | 0 | 0 of 11 | not proven | not proven |
-| BcsFondoMutuoServicios | rewrite | **PROVEN** | 6232 | 0 | 1 of 1 | pass | pass |
+| BcsFondoMutuoServicios | rewrite | **NOT PROVEN** | 6780 | 336 | 1 of 1 | pass | pass |
 | BcsGateway | rewrite | **PARTLY PROVEN** | 37 | 0 | 0 of 60 | not proven | not proven |
 | BcsJobManager | rewrite | **PARTLY PROVEN** | 108 | 0 | 1 of 3 | not proven | not proven |
 | BcsJobOrders | rewrite | **PARTLY PROVEN** | 44 | 0 | 0 of 60 | not proven | not proven |
@@ -49,17 +51,16 @@ Legacy source: `legacy/otr-sva-optimus-corredores`. Could it run here: yes. The 
 | BcsReplica | rewrite | **PROVEN** | 485 | 0 | 1 of 1 | pass | pass |
 | BcsSocioNegocioJobs | rewrite | **PARTLY PROVEN** | 18 | 0 | 0 of 60 | not proven | not proven |
 | BcsSocioNegocioServicios | rewrite | **PARTLY PROVEN** | 24 | 0 | 0 of 60 | not proven | not proven |
-| BcsSURA | rewrite | **PARTLY PROVEN** | 32 | 0 | 0 of 1 | pass | pass |
+| BcsSURA | rewrite | **PROVEN** | 140 | 0 | 1 of 1 | pass | pass |
 | BcsTesoreriaJobs | rewrite | **PROVEN** | 574 | 0 | 11 of 11 | pass | pass |
 | BcsTesoreriaServicios | rewrite | **PROVEN** | 955 | 0 | 1 of 1 | pass | pass |
 | BcsTributarioJobs | rewrite | **PARTLY PROVEN** | 1761 | 0 | 0 of 60 | not proven | not proven |
 | BcsUtils | rewrite | **PROVEN** | 2199 | 0 | 10 of 10 | pass | pass |
 | BcsValo2 | rewrite | **PARTLY PROVEN** | 89 | 0 | 0 of 60 | not proven | not proven |
-| hana-jdbc | rewrite | **NOT PROVEN** | 0 | 0 | 0 of 60 | not proven | not proven |
 
 ## BcsAPVApi: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVApi`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVApi`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -153,7 +154,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsApvJavaCallAdapter: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsApvJavaCallAdapter`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsApvJavaCallAdapter`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -247,7 +248,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsAPVJobs: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -342,7 +343,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsAPVServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsAPVServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -435,7 +436,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsBECB: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsBECB`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsBECB`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -581,7 +582,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCanalAgenteServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCanalAgenteServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCanalAgenteServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -678,7 +679,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCartolas: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolas`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolas`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -826,7 +827,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCartolasJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolasJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolasJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -972,7 +973,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCartolasMaster: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolasMaster`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCartolasMaster`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -1118,7 +1119,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsContabilidadJobs: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsContabilidadJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsContabilidadJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -1213,7 +1214,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsContabilidadServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsContabilidadServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsContabilidadServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -1309,7 +1310,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCrystalReports: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCrystalReports`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCrystalReports`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -1402,7 +1403,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCuentaInversionJobs: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCuentaInversionJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCuentaInversionJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -1497,7 +1498,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCuentaInversionServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCuentaInversionServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCuentaInversionServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -1589,7 +1590,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCustodiaJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCustodiaJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCustodiaJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -1735,7 +1736,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsCustodiaServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCustodiaServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsCustodiaServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -1829,7 +1830,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsFacturacionJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFacturacionJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFacturacionJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -1975,7 +1976,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsFacturacionServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFacturacionServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFacturacionServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -2058,7 +2059,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsFilters: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFilters`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFilters`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -2154,13 +2155,16 @@ Claude never ticks these. A person decides them.
 - A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.
 - It does not replace the review and sign-off of the people who own the system.
 
-## BcsFondoMutuoServicios: PROVEN
+## BcsFondoMutuoServicios: NOT PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios`. Checked 2026-11-03 13:35 UTC.
+
+**What is missing or wrong**
+
+- Tests ran: 336 of 6780 executed test(s) failed. Note: 6234 tests, 0 failures, 2 skipped (custody adapters and CuentaInversion adapter pending). Includes the 467 CerT4c*Test of the handler, the Spring wiring and the AR adapter.
 
 **What passed**
 
-- Tests ran: 6232 test(s) executed, 0 failed, 2 skipped. Note: 6234 tests, 0 failures, 2 skipped (custody adapters and CuentaInversion adapter pending). Includes the 467 CerT4c*Test of the handler, the Spring wiring and the AR adapter.
 - Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.
 - Same behavior: 1579 of 1579 development case(s) executed: 1548 same, 0 differ, 0 missing; comparator self-check passed. 31 difference(s) a person approved are listed.
 - Fresh inputs: 300 new input(s), 340 comparison(s), ran on the legacy and the new code with no difference (3 approved by a person).
@@ -2169,22 +2173,22 @@ Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServ
 
 | Check | Result | Detail |
 |---|---|---|
-| Tests ran | pass | 6232 test(s) executed, 0 failed, 2 skipped. Note: 6234 tests, 0 failures, 2 skipped (custody adapters and CuentaInversion adapter pending). Includes the 467 CerT4c*Test of the handler, the Spring wiring and the AR adapter. |
+| Tests ran | FAIL | 336 of 6780 executed test(s) failed. Note: 6234 tests, 0 failures, 2 skipped (custody adapters and CuentaInversion adapter pending). Includes the 467 CerT4c*Test of the handler, the Spring wiring and the AR adapter. |
 | Rules traced | pass | All 1 P0 rule(s) this module answers for are backed by a test that ran and passed. |
 | Same behavior | pass | 1579 of 1579 development case(s) executed: 1548 same, 0 differ, 0 missing; comparator self-check passed. 31 difference(s) a person approved are listed. |
 | Fresh inputs | pass | 300 new input(s), 340 comparison(s), ran on the legacy and the new code with no difference (3 approved by a person). |
 | Canary | pass | 4 canary run(s) shown by a result file or log; the first (verify 2026-10-28 (scratch copy): custodia/FlujoCustodiaEnProceso.java:55 the valued flow check "S".equals(p_ValorizarFlujo) changed to "N".equals (a flow without valuation is rejected instead of the valued one); 13 of the 23 in-process Custody tests failed (5 failures, 8 errors)) made 13 more test(s) fail than the clean run (analysis/otr-… |
 | Source untouched | pass | legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run. |
 
-tests executed: 6232, failed 0, skipped 2
+tests executed: 6780, failed 336, skipped 2
 
-- unit + golden tests (Maven Surefire), verify 2026-11-02 from clean after T4-C (includes CSR T4-A, Certificar T5 and the…: `mvn -o test -Dmaven.test.failure.ignore=true in BcsFondoMutuoServicios after deleting target/ (JDK 25.0.4; surefire argLine -Duser.timezone=UTC -Duser.language=en)` (from result files): 6232 executed, 0 failed, 2 skipped, 143 result files written 2026-11-02 16:39 UTC. Note: 6234 tests, 0 failures, 2 skipped (custody adapters and CuentaInversion adapter pending). Includes the 467 CerT4c*Test of the handler, the Spring wiring and the AR adapter.
+- unit + golden tests (Maven Surefire), verify 2026-11-02 from clean after T4-C (includes CSR T4-A, Certificar T5 and the…: `mvn -o test -Dmaven.test.failure.ignore=true in BcsFondoMutuoServicios after deleting target/ (JDK 25.0.4; surefire argLine -Duser.timezone=UTC -Duser.language=en)` (from result files): 6780 executed, 336 failed, 2 skipped, 156 result files written 2026-11-02 23:48 UTC. Note: 6234 tests, 0 failures, 2 skipped (custody adapters and CuentaInversion adapter pending). Includes the 467 CerT4c*Test of the handler, the Spring wiring and the AR adapter.
 
 ### P0 business rules
 
 | Rule | Name | Confidence | Result | Tests | Code | A test that names it |
 |---|---|---|---|---|---|---|
-| RULE-076 | ⚠️🔴 SECURITY — Hardcoded HANA Credentials in Dead Code | High | tested | 62 | 0 | `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios/src/test/java/cl/bcs/fondomutuo/certificacion/CerCompuertaTest.java:42` |
+| RULE-076 | ⚠️🔴 SECURITY — Hardcoded HANA Credentials in Dead Code | High | tested | 77 | 0 | `modernized/otr-sva-optimus-corredores/BcsFondoMutuoServicios/src/test/java/cl/bcs/fondomutuo/certificacion/CerCompuertaTest.java:42` |
 
 ### Development cases, judged again
 
@@ -2277,7 +2281,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsGateway: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsGateway`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsGateway`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -2423,7 +2427,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsJobManager: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobManager`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobManager`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -2508,7 +2512,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsJobOrders: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobOrders`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobOrders`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -2654,7 +2658,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsJobsFondoMutuo: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobsFondoMutuo`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsJobsFondoMutuo`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -2742,7 +2746,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsMesaJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsMesaJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsMesaJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -2888,7 +2892,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsMesaServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsMesaServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsMesaServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -3036,7 +3040,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsNormativaCore: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaCore`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaCore`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -3184,7 +3188,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsNormativaJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -3332,7 +3336,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsNormativaServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsNormativaServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -3480,7 +3484,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsOrdenJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsOrdenJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsOrdenJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -3626,7 +3630,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsOrdenServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsOrdenServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsOrdenServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -3772,7 +3776,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPlataformaJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -3920,7 +3924,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPlataformaReporteApi: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaReporteApi`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaReporteApi`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -4068,7 +4072,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPlataformaServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -4165,7 +4169,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPlataformaWeb: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaWeb`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPlataformaWeb`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -4279,7 +4283,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPortafolioServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPortafolioServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPortafolioServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -4363,7 +4367,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsPortalConfirmacionWeb: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPortalConfirmacionWeb`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsPortalConfirmacionWeb`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -4509,7 +4513,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsReplica: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsReplica`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsReplica`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -4605,7 +4609,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsSocioNegocioJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSocioNegocioJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSocioNegocioJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -4751,7 +4755,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsSocioNegocioServicios: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSocioNegocioServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSocioNegocioServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -4895,40 +4899,37 @@ Claude never ticks these. A person decides them.
 - A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.
 - It does not replace the review and sign-off of the people who own the system.
 
-## BcsSURA: PARTLY PROVEN
+## BcsSURA: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSURA`. Checked 2026-11-02 16:40 UTC.
-
-**What is missing or wrong**
-
-- Tests ran: 32 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again. Note: Clean run of the modernize-verify command (2026-11-02) on the tree after the pull. HANA-tagged tests excluded by default.
-- Rules traced: P0 rules named only by tests that did not run: RULE-068 (skipped, pending, failing or missing from the results).
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsSURA`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
+- Tests ran: 140 test(s) executed, 0 failed, 0 skipped. Note: Clean run of modernize-verify (2026-11-03), H2 in memory. HANA-tagged tests excluded by default. Equivalence against HANA QA NOT re-run today (see leftOut).
+- Rules traced: All 1 P0 rule(s) this module answers for are backed by a test that ran and passed.
 - Same behavior: 18 of 18 development case(s) executed: 18 same, 0 differ, 0 missing; comparator self-check passed.
 - Fresh inputs: 12 new input(s), 36 comparison(s), ran on the legacy and the new code with no difference.
-- Canary: 1 canary run(s) shown by a result file or log; the first (ModificarSocioNegocio default of p_ActualizarIndicadorFormaCobro changed from N to S (scratch copy, current code)) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsSURA).
+- Canary: 1 canary run(s) shown by a result file or log; the first (ModificarSocioNegocio default of p_ActualizarIndicadorFormaCobro changed from N to S (scratch copy, current code, 2026-11-03): 13 of 140 tests fail) made 13 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsSURA).
 - Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run.
 
 | Check | Result | Detail |
 |---|---|---|
-| Tests ran | not proven | 32 test(s) executed, but some result files are older than the code, so this was not a clean run of the current code: delete the build output and run the tests again. Note: Clean run of the modernize-verify command (2026-11-02) on the tree after the pull. HANA-tagged tests excluded by default. |
-| Rules traced | not proven | P0 rules named only by tests that did not run: RULE-068 (skipped, pending, failing or missing from the results). |
+| Tests ran | pass | 140 test(s) executed, 0 failed, 0 skipped. Note: Clean run of modernize-verify (2026-11-03), H2 in memory. HANA-tagged tests excluded by default. Equivalence against HANA QA NOT re-run today (see leftOut). |
+| Rules traced | pass | All 1 P0 rule(s) this module answers for are backed by a test that ran and passed. |
 | Same behavior | pass | 18 of 18 development case(s) executed: 18 same, 0 differ, 0 missing; comparator self-check passed. |
 | Fresh inputs | pass | 12 new input(s), 36 comparison(s), ran on the legacy and the new code with no difference. |
-| Canary | pass | 1 canary run(s) shown by a result file or log; the first (ModificarSocioNegocio default of p_ActualizarIndicadorFormaCobro changed from N to S (scratch copy, current code)) made 1 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsSURA). |
+| Canary | pass | 1 canary run(s) shown by a result file or log; the first (ModificarSocioNegocio default of p_ActualizarIndicadorFormaCobro changed from N to S (scratch copy, current code, 2026-11-03): 13 of 140 tests fail) made 13 more test(s) fail than the clean run (analysis/otr-sva-optimus-corredores/equivalence/canary/BcsSURA). |
 | Source untouched | pass | legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run. |
 
-tests executed: 32, failed 0, skipped 7
+tests executed: 140, failed 0, skipped 0
 
-- unit tests: `cd modernized/otr-sva-optimus-corredores/BcsSURA && rm -rf target && mvn -o -Dmaven.test.failure.ignore=true test` (from result files): 32 executed, 0 failed, 7 skipped, 2 result files written 2026-10-08 15:15 UTC. Note: Clean run of the modernize-verify command (2026-11-02) on the tree after the pull. HANA-tagged tests excluded by default.
+- unit tests: `cd modernized/otr-sva-optimus-corredores/BcsSURA && rm -rf target && mvn -o -Dmaven.test.failure.ignore=true test` (from result files): 140 executed, 0 failed, 0 skipped, 12 result files written 2026-11-03 13:35 UTC. Note: Clean run of modernize-verify (2026-11-03), H2 in memory. HANA-tagged tests excluded by default. Equivalence against HANA QA NOT re-run today (see leftOut).
 
 ### P0 business rules
 
 | Rule | Name | Confidence | Result | Tests | Code | A test that names it |
 |---|---|---|---|---|---|---|
-| RULE-068 | ⚠️🔴 DEFECT — SQL Injection in TransactionManager.executionCount | High | named, not run | 3 | 1 | `modernized/otr-sva-optimus-corredores/BcsPortafolioServicios/src/test/java/cl/bcs/portafolio/PortafolioServiceTest.java:31` |
+| RULE-068 | ⚠️🔴 DEFECT — SQL Injection in TransactionManager.executionCount | High | tested | 3 | 1 | `modernized/otr-sva-optimus-corredores/BcsSURA/src/test/java/cl/bcs/sura/PerfilesPortafolioUtilsJdbcTest.java:25` |
 
 ### Development cases, judged again
 
@@ -4993,7 +4994,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsTesoreriaJobs: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTesoreriaJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -5096,7 +5097,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsTesoreriaServicios: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTesoreriaServicios`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTesoreriaServicios`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -5188,7 +5189,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsTributarioJobs: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTributarioJobs`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsTributarioJobs`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -5336,7 +5337,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsUtils: PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsUtils`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsUtils`. Checked 2026-11-03 13:35 UTC.
 
 **What passed**
 
@@ -5437,7 +5438,7 @@ Claude never ticks these. A person decides them.
 
 ## BcsValo2: PARTLY PROVEN
 
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsValo2`. Checked 2026-11-02 16:40 UTC.
+Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/BcsValo2`. Checked 2026-11-03 13:35 UTC.
 
 **What is missing or wrong**
 
@@ -5581,161 +5582,16 @@ Claude never ticks these. A person decides them.
 - A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.
 - It does not replace the review and sign-off of the people who own the system.
 
-## hana-jdbc: NOT PROVEN
-
-Track: rewrite. Folder: `modernized/otr-sva-optimus-corredores/hana-jdbc`. Checked 2026-11-02 16:40 UTC.
-
-**What is missing or wrong**
-
-- Tests ran: No test run is recorded for this module, so nothing executed. Run its tests again and record them in equivalence/test-runs.json.
-- Rules traced: 60 of 60 P0 rule(s) are not named by any test: RULE-001, RULE-002, RULE-003, RULE-004, RULE-005, RULE-006, RULE-007, RULE-008, RULE-009, RULE-010, RULE-011, RULE-012.
-- Same behavior: EQUIVALENCE.json exists, but the cases behind it (equivalence/cases.json) were not found, so it could not be judged again.
-- Fresh inputs: The fresh-input check was not run: no equivalence/fresh-cases.json.
-- Canary: No canary is recorded (a deliberate one-line break that makes tests fail), so the tests were never shown able to fail.
-
-**What passed**
-
-- Source untouched: legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run.
-
-| Check | Result | Detail |
-|---|---|---|
-| Tests ran | FAIL | No test run is recorded for this module, so nothing executed. Run its tests again and record them in equivalence/test-runs.json. |
-| Rules traced | not proven | 60 of 60 P0 rule(s) are not named by any test: RULE-001, RULE-002, RULE-003, RULE-004, RULE-005, RULE-006, RULE-007, RULE-008, RULE-009, RULE-010, RULE-011, RULE-012. |
-| Same behavior | not proven | EQUIVALENCE.json exists, but the cases behind it (equivalence/cases.json) were not found, so it could not be judged again. |
-| Fresh inputs | not proven | The fresh-input check was not run: no equivalence/fresh-cases.json. |
-| Canary | not proven | No canary is recorded (a deliberate one-line break that makes tests fail), so the tests were never shown able to fail. |
-| Source untouched | pass | legacy/otr-sva-optimus-corredores is untouched: no file changed after the analysis started (40470 files compared). Checked by modification time, and no version-control tool was run. |
-
-tests executed: 0, failed 0, skipped 0
-
-
-### P0 business rules
-
-| Rule | Name | Confidence | Result | Tests | Code | A test that names it |
-|---|---|---|---|---|---|---|
-| RULE-001 | Session Token Required for All Non-Exempt Requests | High | none | 0 | 0 |  |
-| RULE-002 | Session Token Must Reference an Active Session | High | none | 0 | 0 |  |
-| RULE-003 | ServiceFilter — URL / Service / Channel Bypass Whitelist | High | none | 0 | 0 |  |
-| RULE-004 | ⚠️🔴 DEFECT — ServiceFilter `ch != null` Bypasses All Role Authorization | High | none | 0 | 0 |  |
-| RULE-005 | ⚠️🔴 DEFECT — ServiceFilter Fail-Open on Exception | High | none | 0 | 0 |  |
-| RULE-006 | ServiceFilter — Role-Based Service Access Control | High | none | 0 | 0 |  |
-| RULE-007 | ServiceFilter — Validation Mode (NADIE / LISTA / TODOS) | High | none | 0 | 0 |  |
-| RULE-008 | Login — User Must Exist for Given Company | High | none | 0 | 0 |  |
-| RULE-009 | Login — Temporary Lockout Blocks Login | High | none | 0 | 0 |  |
-| RULE-010 | Login — Permanent Block (BLO) Blocks Login | High | none | 0 | 0 |  |
-| RULE-011 | Login — Pending Authorization (EsAutorizado=P) Blocks Login | High | none | 0 | 0 |  |
-| RULE-012 | Login — Expired Account (FechaVigencia) Blocks Login | High | none | 0 | 0 |  |
-| RULE-013 | Login — Password Verified by SHA-256 | High | none | 0 | 0 |  |
-| RULE-014 | Login — Failed-Attempt Counter Increments on Wrong Password | High | none | 0 | 0 |  |
-| RULE-015 | Login — Temporary Lockout After N Failed Attempts | High | none | 0 | 0 |  |
-| RULE-016 | Login — Failed-Attempt Counter Resets on Successful Login | High | none | 0 | 0 |  |
-| RULE-017 | Login — Channel / Entity-Type Authorization Matrix | High | none | 0 | 0 |  |
-| RULE-018 | ⚠️🔴 DEFECT — CLI Entity with BLO Status Can Log In | High | none | 0 | 0 |  |
-| RULE-019 | Login — Entity Enrollment Must Be ACT | High | none | 0 | 0 |  |
-| RULE-020 | Login — WS Channel Reuses Existing Valid Token | High | none | 0 | 0 |  |
-| RULE-023 | Service Call — Token Validity + Channel Match | High | none | 0 | 0 |  |
-| RULE-024 | Service Call — Idle Session Timeout by Channel | High | none | 0 | 0 |  |
-| RULE-025 | COR Channel Sessions Never Expire | High | none | 0 | 0 |  |
-| RULE-026 | Service Call — User Must Be Active and Unexpired | High | none | 0 | 0 |  |
-| RULE-027 | Service Call — Service ID Must Exist in Catalog | High | none | 0 | 0 |  |
-| RULE-028 | Service Call — Per-Service ACL Enforcement Flag | High | none | 0 | 0 |  |
-| RULE-029 | Password Hash — Change-Password Path (Double SHA-256, UTF-8) | High | none | 0 | 0 |  |
-| RULE-030 | ⚠️🔴 DEFECT — Password Hash Inconsistency (Login vs Change-Password) | Medium | none | 0 | 0 |  |
-| RULE-031 | Password Complexity Rules | High | none | 0 | 0 |  |
-| RULE-032 | ⚠️ DEFECT — Digits Not Counted in Any Complexity Category | High | none | 0 | 0 |  |
-| RULE-035 | Password History — Cannot Reuse Any Prior Password | High | none | 0 | 0 |  |
-| RULE-037 | Password Stored as SHA-256 Uppercase Hex (No Salt) | High | none | 0 | 0 |  |
-| RULE-038 | Provisional Password — Valid Only on Day of Issue | High | none | 0 | 0 |  |
-| RULE-039 | Provisional Password — Maximum Attempts Lockout | High | none | 0 | 0 |  |
-| RULE-040 | ⚠️ DEFECT — Provisional Password Off-By-One in Attempts Check | High | none | 0 | 0 |  |
-| RULE-041 | Password Recovery — Channel / Entity-Type Authorization | High | none | 0 | 0 |  |
-| RULE-043 | SSO — Email Must Resolve to Exactly One UsuarioCorredores User | High | none | 0 | 0 |  |
-| RULE-044 | SSO — User Eligibility Checks | High | none | 0 | 0 |  |
-| RULE-045 | ⚠️ DEFECT — SSO Does Not Check Account Expiry (FechaVigencia) | High | none | 0 | 0 |  |
-| RULE-046 | ⚠️🔴 DEFECT — SSO OAuth2 CSRF State Parameter Hardcoded | High | none | 0 | 0 |  |
-| RULE-047 | ⚠️ DEFECT — SSO Company ID Hardcoded to 1 | High | none | 0 | 0 |  |
-| RULE-048 | SSO — JWT id_token Provides Identity (Signature Not Verified) | High | none | 0 | 0 |  |
-| RULE-049 | SSO — Entity Configuration Must Exist | High | none | 0 | 0 |  |
-| RULE-050 | CallBatch — Shared-Secret Token Authentication | High | none | 0 | 0 |  |
-| RULE-051 | ⚠️🔴 DEFECT — CallBatch Fallback to Hardcoded Token "CALLBATCH" | High | none | 0 | 0 |  |
-| RULE-052 | CallBatch — LIFO Job Queue; Jobs Discarded on Shutdown | High | none | 0 | 0 |  |
-| RULE-053 | WebSocket — Auth Required in First Message | High | none | 0 | 0 |  |
-| RULE-055 | Job State Machine — PEN → ASI → TER / ERR | High | none | 0 | 0 |  |
-| RULE-056 | Job Lock (Bloqueo=S) Set Before Execution | High | none | 0 | 0 |  |
-| RULE-057 | ⚠️ DEFECT — Job Lock Race Condition (FOR UPDATE Removed) | High | none | 0 | 0 |  |
-| RULE-058 | Job Retry — ERR → PEN After 60-Second Delay | High | none | 0 | 0 |  |
-| RULE-059 | ⚠️ DEFECT — Job Retry Call Commented Out in poolDiary | High | none | 0 | 0 |  |
-| RULE-061 | Daemon Job — Continuous Loop with Configurable Cycle Interval | High | none | 0 | 0 |  |
-| RULE-062 | Daemon Restart — Terminates All PEN/ASI Programs | High | none | 0 | 0 |  |
-| RULE-066 | Node Reboot-on-Demand via DB Flag | High | none | 0 | 0 |  |
-| RULE-068 | ⚠️🔴 DEFECT — SQL Injection in TransactionManager.executionCount | High | none | 0 | 0 |  |
-| RULE-070 | Expiry Batch — Blocks All Users Past FechaVigencia | High | none | 0 | 0 |  |
-| RULE-076 | ⚠️🔴 SECURITY — Hardcoded HANA Credentials in Dead Code | High | none | 0 | 0 |  |
-| RULE-077 | ⚠️🔴 SECURITY — Static3DES with Publicly Known Key | High | none | 0 | 0 |  |
-| RULE-078 | ⚠️ SSO — JWT Signature Not Verified | High | none | 0 | 0 |  |
-
-Inputs left out of the fresh check: BcsCanalAgenteServicios 20261031a: Parameters text fixed; 88/88 dev, 39/39 fresh same. Not covered: HANA, real GLOBAL TEMP table, row order w/o ORDER BY. Detail: LEFTOUT_COMPLETO.md; BcsReplica 20261031a: 104 fresh inputs (45 own), none refused; malformed tried. Not covered: HANA triggers/views/DDL commit, endless day loops. HTML-escape gap now pinned. LEFTOUT_COMPLETO.md; BcsAPVApi, BcsApvJavaCallAdapter: no INTENT.md; wrong-type inputs tried (VC-C04..C07); broken JSON not tried; logica needs HANA; no legacy oracle for typed-API libs. Detail: LEFTOUT_COMPLETO.md; BcsCustodiaServicios: legacy QA refused (401), early fresh set 15 empty files proves nothing, HANA NEMO check, verify4 no fresh, verify5 F06 unstable (D-CUS-06), 14 same. LEFTOUT_COMPLETO.md; BcsContabilidadServicios: legacy via shims on H2 (not TomEE/HANA); fresh F01-F16 only EnvioContabilidad/ReversaPreComprobante; 1 malformed (F16); secuencias/log not compared. LEFTOUT_COMPLETO.md; BcsContabilidadJobs: fresh JF01-JF12 only the InterfazContable shell; other jobs need TomEE/HANA/SFTP; malformed not compared (CONT-J-62/63/64); RutaSalida not compared. LEFTOUT_COMPLETO.md; BcsUtils: fresh F01-F14 pure API only; Timer, clave, sesion, HybridPasswordEncoder, Crystal client and approved deviations not compared; legacy gson 2.8.2/JDK 11 stand-ins. LEFTOUT_COMPLETO.md; BcsCuentaInversionServicios: 23 fresh inputs, F03/F16/F20/F26 left out; many services not covered; H2 only (no HANA), PDF text only; 1 canary survived (dead code). LEFTOUT_COMPLETO.md; BcsTesoreriaServicios: H2 only, schema inferred; Cloper, DistribucionPac, SOAP only static, collaborators scripted; 2 canaries survived (libreta:254, deposit branch). LEFTOUT_COMPLETO.md; BcsAPVServicios: H2 only; collaborators scripted; REST by wiring tests; 20 fresh cover 11 of 64 operations; defects kept bug-for-bug; SME sign-off external; malformed not tried. LEFTOUT_COMPLETO.md; BcsTesoreriaJobs: H2 only; opencsv 3.7 shim not the real jar; collaborators scripted; Quartz/files not proven; H2-H4 findings open; PG-BX01 replaced; 19 defects kept. LEFTOUT_COMPLETO.md; BcsAPVJobs: H2 only; collaborators scripted; Quartz not proven; canary rv-tope-custodia (<= 0) survived; OBF-006/CMP-025/RVB-039 mask tablas (user a); OBF-101/102 marginal. LEFTOUT_COMPLETO.md; BcsCuentaInversionJobs: H2 only; opencsv shim; Servicio-name validation deviation (user A, GA-29 test-only ctor); Step 1 support changes accepted; PLA config read assumed. LEFTOUT_COMPLETO.md; BcsCrystalReports: 21 of 153 templates + 16 fresh rendered; fake inputs; JDK 11 not production runtime; masks documented; REST changes; open review findings; xls canary weak. LEFTOUT_COMPLETO.md; BcsFondoMutuoServicios: H2 only, scripted collaborators; F3 W1/W2/FFMM/Normal verifies; deviations NOT approved: DESVIO-KIT-1, VDO-05/06, VF-NOR-11/36 (a person decides). LEFTOUT_COMPLETO.md; BcsGateway: no legacy counterpart (nginx), own tests only. BcsPlataformaWeb login MVP: legacy QA over HTTP; ActualizarClave success, other channels, SSO, /call, menus not compared. LEFTOUT_COMPLETO.md; General: legacy cannot run for some modules (TomEE 8/Java 8), no INTENT.md, trace-based; no dev cases generated (cases.json empty); pack reads 20 leftOut, 50 canaries. LEFTOUT_COMPLETO.md; BcsSURA: INSERT/UPDATE statements (modificarPerfilesPortafolio, indicator insert/update) were not compared with the legacy: SELECT-only rule on HANA QA; they are covered by unit tests on recording do…; BcsSURA: malformed records were not tried: there is no INTENT.md, but the input is a list of identity-document strings and the legacy SQL binds them as parameters; F05 (02516252Y), F06 (1-9), F11 (lo…; BcsSURA: the message dictionary lookup and the service flows above the data port were not compared with the legacy (no executable legacy flow here); the dictionary SQL was checked on HANA QA by SuraM…
-
-### Caveats
-
-- Nothing ties a rule to this module by name, so every rule in BUSINESS_RULES.md was counted.
-
-### Waiting for a person
-
-Claude never ticks these. A person decides them.
-
-- [ ] Dual-execution diff passes: ≥ 1,000 sampled Contabilidad calls in staging, new service response == TomEE response — **deferred to staging deployment gate** [Phase 1 exit criterion]
-- [ ] BcsTesoreriaServicios, BcsAPVServicios, BcsCuentaInversionServicios rewritten on Spring Boot 4.1.1 [Phase 2 exit criterion]
-- [ ] All *Jobs modules for this phase replaced with Spring Batch or Spring Scheduler equivalents [Phase 2 exit criterion]
-- [ ] SOAP contract equivalence verified: generated WSDL identical; SvcRecaudaInqV1 and SvcRecaudaTrnV1 response schemas pass contract tests [Phase 2 exit criterion]
-- [ ] Characterization tests cover all P0 rules in this cluster [Phase 2 exit criterion]
-- [ ] APV Chilean-regulation correctness signed off by SME (written sign-off in `PILOT_NOTES.md`) [Phase 2 exit criterion]
-- [ ] API Gateway routes for Tesorería, APV, CuentaInversion switched from TomEE [Phase 2 exit criterion]
-- [ ] All 9 modules rewritten on Spring Boot 4.1.1 [Phase 3 exit criterion]
-- [ ] CMF-compliant order confirmation produced in staging end-to-end: Broker authenticates → Order placed → BECB receives → Custody updated (via TomEE, pre-Phase 4) → Confirmation report generated [Phase 3 exit criterion]
-- [ ] Dual-execution diff passes for BcsOrdenServicios and BcsMesaServicios (≥ 1,000 sampled calls in staging) [Phase 3 exit criterion]
-- [ ] BECB and SURA integration tests pass in staging against sandbox endpoints [Phase 3 exit criterion]
-- [ ] SQL injection fixes in place: `PreparedStatement` throughout ConnectorsOrders and TransactionManager [Phase 3 exit criterion]
-- [ ] API Gateway routes for Orden, Mesa, Portafolio switched from TomEE [Phase 3 exit criterion]
-- [ ] All 7 modules rewritten on Spring Boot 4.1.1; god-objects decomposed [Phase 4 exit criterion]
-- [ ] DCV Settlement integration test passes: custody settlement golden path validated in staging [Phase 4 exit criterion]
-- [ ] DTE / SII integration test passes in SII test environment [Phase 4 exit criterion]
-- [ ] Dual-execution diff passes for BcsCustodiaServicios and BcsSocioNegocioServicios [Phase 4 exit criterion]
-- [ ] API Gateway routes for Custodia, SocioNegocio, Facturacion switched from TomEE [Phase 4 exit criterion]
-- [ ] All 17 modules rewritten on Spring Boot 4.1.1 [Phase 5 exit criterion]
-- [ ] CMF regulatory report generated correctly in staging; compliance SME sign-off on output (written) [Phase 5 exit criterion]
-- [ ] TomEE deployment removed from EKS; API Gateway routes 100% to Spring Boot services [Phase 5 exit criterion]
-- [ ] `PLA.Servicio` registry decommissioned (or migrated to service configuration) [Phase 5 exit criterion]
-- [ ] All P0 confirmed rules proven equivalent across the full system (full regression green) [Phase 5 exit criterion]
-- [ ] `/code-modernization:modernize-harden otr-sva-optimus-corredores` re-run on modernized codebase; no Critical or High findings unresolved [Phase 5 exit criterion]
-- [ ] Password hash migration for existing users completed per chosen strategy (§7b) [Phase 5 exit criterion]
-- [ ] API consumer transition strategy. External runtime consumers call this system's REST/SOAP endpoints and must not break (PREFLIGHT §Check 6). Choose: (a) versioned API paths (`/v1/`) maintained in API Gateway alongside new routes; (b) URL-rewriting compatibility shim in API Gateway; or (c) parallel-… [open question, section 7]
-- [ ] Password hash migration for existing users (RULE-030 fix). Moving from unsalted SHA-256 to BCrypt requires handling existing hashes. Options: (a) forced password reset for all users at Phase 5 cutover; (b) dual-hash period — accept old hash OR new hash at login, re-hash to BCrypt on successful old-… [open question, section 7]
-- [ ] SAP HANA calculation views (156 views). They implement significant business logic (portfolio valuations, position aggregations). Per-view options: (a) retain in HANA, call via JDBC from new Spring service — lowest risk; (b) reimplement in service layer — higher risk, gains testability; (c) migrate … [open question, section 7]
-- [ ] PLA.Servicio registry export. 1,817+ `JavaCall` entries must be exported from production HANA and mapped to new API Gateway routes before Phase 5 begins. Confirm who owns this export and confirm it will be complete before Phase 5 entry criteria are checked. Resolution: _______ [open question, section 7]
-- [ ] BcsCargasPeru scope. 13,489 LOC Perú-market file-ingestion framework; not referenced in the active Gradle build. Options: include in Phase 5 transform, treat as a separate effort, or decommission. Resolution: _______ [open question, section 7]
-- [ ] BcsPlataformaServlets status. Servlets for `/valo2/*`, `/cartolas/*`, `/files/*`, `/mail/*` exist in source but are absent from the current PLA.war — these paths return 404 in production. Confirm: intentionally disabled features, or an ANT→Gradle migration bug. If a bug, fix must be included in Pha… [open question, section 7]
-- [ ] BcsDeploy decommission. `BcsDeploy/Tools.java:642` contains production credentials and the original deployment `main()`. Assessment marks this as dead code. Confirm deletion is safe and remove before Phase 1. Resolution: _______ [open question, section 7]
-- [ ] RULE-046 and RULE-068 immediate patch. Both are security defects that should be patched in the running TomEE system now — not waited on until Phase 5 (SSO CSRF) and Phase 3 (SQL injection). Confirm `modernize-harden` patch covers both. Resolution: _______ [open question, section 7]
-
-### What this does not prove
-
-- It does not prove behavior on inputs nobody tried: the equivalence cases and the fresh inputs are samples, not the whole input space.
-- It does not cover speed, capacity, security, concurrency, or anything the tests and cases do not exercise.
-- It traces only the rules that were extracted: behavior nobody wrote down as a rule has no rule to trace.
-- A test that names a rule shows the rule is mentioned, not that the test is a good one. The canary shows only that some test can fail.
-- It does not replace the review and sign-off of the people who own the system.
-
 ## Sign-off
 
-Filled in at the signer's request on 2026-11-02 (Claude only wrote what the signer dictated).
+A person fills this in. Claude leaves it blank.
 
 | | |
 |---|---|
-| Name | Mauricio Villagran Mora |
-| Role | Arquitecto |
-| Date | 02-Nov-2026 |
-| Decision | accept (scope: BcsFondoMutuoServicios only) |
+| Name | ________________ |
+| Role | ________________ |
+| Date | __________ |
+| Decision | accept / accept with conditions / reject |
 
 ## How each verdict is computed
 

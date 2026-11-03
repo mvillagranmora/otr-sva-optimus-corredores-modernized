@@ -46,7 +46,7 @@ Behavior ids are pinned in test names; `src/test/README.md` has the table of wha
 
 ## Equivalence against the legacy on HANA QA (read queries, SELECT only)
 
-The unmodified legacy `cl.bcs.utils.SQL` + `IdsEntidadYPerfiles` and the legacy `.sql` files ran on HANA QA (`hana-jdbc/oracle/oracle.sh legacy`) next to `LegacyHanaSuraPort` (`SuraHanaEquivalenciaTest`, tag `hana`, `oracle.sh new`). 6 development inputs (`equivalence/BcsSURA/cases.json`) and 15 fresh inputs (`fresh-cases.json`), 3 queries each: 18/18 and 45/45 outputs identical (`compare.py`). Inputs were chosen from QA by purpose (APV/FFMM/INTERMEDIACION/PROPGENERALES, options 1-5, three risk categories, a client with 10 portfolios, odd document formats, unknown and empty).
+The unmodified legacy `cl.bcs.utils.SQL` + `IdsEntidadYPerfiles` and the legacy `.sql` files ran on HANA QA (recorded with the `hana-jdbc/oracle` runner, retired on 2026-11-03 and kept in git history) next to `LegacyHanaSuraPort` (`SuraHanaEquivalenciaTest`, tag `hana`, direct connection by environment variables). The commands written in `equivalence/BcsSURA/cases.json` and `fresh-cases.json` refer to that retired runner: they are the record of how the outputs were produced, not a way to re-run them today. 6 development inputs (`equivalence/BcsSURA/cases.json`) and 15 fresh inputs (`fresh-cases.json`), 3 queries each: 18/18 and 45/45 outputs identical (`compare.py`). Inputs were chosen from QA by purpose (APV/FFMM/INTERMEDIACION/PROPGENERALES, options 1-5, three risk categories, a client with 10 portfolios, odd document formats, unknown and empty).
 **Two defects of the first implementation were found only here** (H2 and the unit doubles hid them), evidence in `equivalence/BcsSURA/new-side-before-fix.hana-defect.txt`: (1) `(VALUES ..)` in FROM is a syntax error on HANA; (2) the profile-by-document mapper read a `Proposito` column that query does not have. Both fixed; `bSura20_perfilesFiltrados_semilla…` pins (1).
 Not compared with the legacy: INSERT/UPDATE statements (SELECT-only rule), the message dictionary, the flows above the port.
 
@@ -67,6 +67,6 @@ Applied (HIGH): one production `SuraDataPort` implementation (`LegacyHanaSuraPor
 
 ## Follow-ups
 
-- Real equivalence needs more read-only `hana`-tagged tests against HANA QA (the container is `hana-jdbc/`); the legacy classes call no external SURA SOAP service.
+- Real equivalence needs more read-only `hana`-tagged tests against HANA QA (the module connects directly with `HANA_URL`, `HANA_USER` and `HANA_PASSWORD` from the environment; the temporary `hana-jdbc` container was retired on 2026-11-03); the legacy classes call no external SURA SOAP service.
 - Settle the authentication of the internal endpoints before any cutover.
 - APV regulation sign-off by the domain expert is still pending in the brief.
