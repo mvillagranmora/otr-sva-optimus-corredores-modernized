@@ -539,20 +539,6 @@
    "note": "verify 2026-10-23 from clean, JDK 25, offline, H2 only, UTC; only ConsultarEstadoModulo (600017) migrated, 326 stubs; 29 dev oracle cases re-run with the module's compare_new.py: 28 same + 1 approved (DEV-A3). Dev cases.json now carries compare.py fields (compare_cases.py; new side out/new from NewSubject on the 16:03 clean build): 28 same + 1 approved (DEV-A3)."
   },
   {
-   "module": "BcsPlataformaWeb",
-   "name": "unit + H2 login MVP + live QA read-only (Maven Surefire), verify 2026-10-26 (third run)",
-   "command": "mvn -o test -Dmaven.test.failure.ignore=true after deleting target/ (JDK 25.0.4); then, in the same folder, mvn -o test -Dtest=HomeQaComparacionTest,LoginBootstrapQaTest,ConfiguracionesQaTest,RecuperacionQaTest with the QA_HANA_* variables",
-   "junit": [
-    "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/target/surefire-reports"
-   ],
-   "log": [
-    "analysis/otr-sva-optimus-corredores/equivalence/BcsPlataformaWeb-verify-20261026c.test-output.txt",
-    "analysis/otr-sva-optimus-corredores/equivalence/BcsPlataformaWeb-live-qa-20261026c.test-output.txt"
-   ],
-   "skippedReason": "2 tests skipped by @Disabled: they need a live HANA and the services registry (/call)",
-   "note": "163 tests: 161 pass, 2 disabled (/call). First log: clean run (4 live QA tests skipped without the HANA variables); second log: those 4 run read-only on HANA QA and pass. The XML folder holds the latest result of every class."
-  },
-  {
    "module": "BcsJobManager",
    "name": "unit + golden tests (Maven Surefire), verify 2026-10-23",
    "command": "mvn -o -f modernized/otr-sva-optimus-corredores/pom.xml -pl :bcs-job-manager clean test -Dmaven.test.failure.ignore=true --batch-mode -Dfile.encoding=UTF-8 (JAVA_HOME JDK 25.0.4, JAVA_TOOL_OPTIONS -Duser.timezone=UTC)",
@@ -642,6 +628,19 @@
    ],
    "skippedReason": "",
    "note": "6234 tests, 0 failures, 2 skipped (custody adapters and CuentaInversion adapter pending). Includes the 467 CerT4c*Test of the handler, the Spring wiring and the AR adapter."
+  },
+  {
+   "module": "BcsPlataformaWeb",
+   "name": "verify 2026-11-03b independent re-check: full suite from clean (H2 only; QA tests skipped, no QA_* variables set)",
+   "command": "mvn -o test -Dmaven.test.failure.ignore=true after deleting target/ (JDK 25.0.4)",
+   "junit": [
+    "modernized/otr-sva-optimus-corredores/BcsPlataformaWeb/target/surefire-reports"
+   ],
+   "log": [
+    "analysis/otr-sva-optimus-corredores/equivalence/BcsPlataformaWeb-verify-20261103b.test-output.txt"
+   ],
+   "skippedReason": "6 skipped: QA tests (assumeTrue without QA_HANA_* variables) and @Disabled /call tests; nothing was run against QA",
+   "note": "Clean run; no QA variables set so no non-local connection was opened. Real-QA recordings are developer-recorded evidence, not repeated here."
   }
  ],
  "canaries": [
@@ -1160,6 +1159,16 @@
     "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsFondoMutuoServicios-20261102-verify-t4c/a"
    ],
    "log": []
+  },
+  {
+   "module": "BcsPlataformaWeb",
+   "change": "verify 2026-11-03b (scratch copy): CrearSesionServicio.java:206 lockout threshold IntentosConexion + 1 >= max changed to > ; whole suite run",
+   "junit": [
+    "analysis/otr-sva-optimus-corredores/equivalence/canary/BcsPlataformaWeb-verify20261103b"
+   ],
+   "log": [
+    "analysis/otr-sva-optimus-corredores/equivalence/BcsPlataformaWeb-verify-20261103b-canary.test-output.txt"
+   ]
   }
  ]
 }

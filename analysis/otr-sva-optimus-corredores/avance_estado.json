@@ -3,7 +3,7 @@
  "modulos": {
   "BcsPlataformaWeb": {
    "estado": "parcial",
-   "nota": "AL 2026-11-03 (dialecto HANA/Postgres del login, T-30..T-32, SIN verify ni firma, no cambia loc_migrado): el login corre contra HANA (por defecto) o Postgres (plataforma.db.dialect), un solo codigo y JDBC; 55 sentencias en recursos por dialecto, catalogo de equivalencias desde resumen_exportacion.xlsx, objeto no disponible = 503; 943 pruebas en el modulo (775 nuevas), 0 fallos; las 39 sentencias de tablas validadas contra Postgres QA solo con Parse/Describe. Pendiente: 6 sentencias sobre vistas, 8 procedimientos (T-33), ejecucion real de lecturas (T-36) y login real contra HANA QA y Postgres QA. MVP del login: router /internal/java-call y login (CrearSesion, gestion de clave, bootstrap JSON, filtro de sesion cerrado por defecto, ActualizarClave con sesion); 163 pruebas (H2 + 4 de HANA QA solo lectura), 2 omitidas; 44 casos de desarrollo iguales al legacy y 21 frescas sin diferencia no aprobada; escrituras probadas contra el legacy con usuario de prueba; verify 26-oct sin firma. loc_migrado ES UNA ESTIMACION (~36 %) de las lineas legacy del login; NO migrado: CallServlet (stub 503), CallBatch (stub 503), CallReportServlet, CallWebsocket, Contratos/Documentos/Boletines/ImageManager/FileDownload, SSO, TemplateServlet, filemanager, menus y HTML de la pagina; falta medirlo clase por clase.",
+   "nota": "AL 2026-11-03 (dialecto HANA/Postgres del login, VERIFICADO y FIRMADO el 03-nov: PROVEN, 1434 casos, 0 fallos, 6 omitidas; firma de Mauricio Villagran Mora, alcance solo BcsPlataformaWeb, brechas en SIGNOFF.md): el login corre contra HANA (por defecto) o Postgres (plataforma.db.dialect), un solo codigo y JDBC; 55 sentencias en recursos por dialecto, sin catalogo ni CSV en produccion (la tabla de equivalencias es solo de desarrollo); secuencias y 8 procedimientos como Java; 503 solo con NoDisponibleException. Login real, cambio de clave real y bootstrap login/home comparados contra HANA QA y Postgres QA (estructura identica, diferencias solo de datos); 45 sentencias de Postgres validadas con Parse/Describe. La URL de Postgres exige escapeSyntaxCallMode=callIfNoReturn y stringtype=unspecified. Pendiente: los 3 procedimientos que escriben o notifican y los cursores OUT nunca se ejecutaron contra QA; hallazgos M1-M8/L1-L9 de la revision abiertos. MVP del login: router /internal/java-call y login (CrearSesion, gestion de clave, bootstrap JSON, filtro de sesion cerrado por defecto, ActualizarClave con sesion); 163 pruebas (H2 + 4 de HANA QA solo lectura), 2 omitidas; 44 casos de desarrollo iguales al legacy y 21 frescas sin diferencia no aprobada; escrituras probadas contra el legacy con usuario de prueba; verify 26-oct sin firma (luego verify y firma del 03-nov). loc_migrado ES UNA ESTIMACION (~36 %) de las lineas legacy del login; NO migrado: CallServlet (stub 503), CallBatch (stub 503), CallReportServlet, CallWebsocket, Contratos/Documentos/Boletines/ImageManager/FileDownload, SSO, TemplateServlet, filemanager, menus y HTML de la pagina; falta medirlo clase por clase.",
    "loc_migrado": 2200
   },
   "BcsJobManager": {
@@ -353,6 +353,14 @@
   {
    "fecha": "2026-11-03",
    "evento": "BcsPlataformaWeb: login y cambio de clave reales (CrearSesion, ActualizarClave, CrearSesion con la clave nueva) correctos en HANA QA y Postgres QA con el usuario acordado; hallazgo: Postgres exige escapeSyntaxCallMode=callIfNoReturn en la URL (procedimientos PROCEDURE), documentado y con aviso al arrancar."
+  },
+  {
+   "fecha": "2026-11-03",
+   "evento": "BcsPlataformaWeb T-36: bootstrap login y home contra HANA QA y Postgres QA, estructura identica y diferencias solo de datos (mas un SELECT sin ORDER BY); 4 procedimientos de lectura ejercidos en Postgres; cursores y los 3 procedimientos que escriben sin ejercer."
+  },
+  {
+   "fecha": "2026-11-03",
+   "evento": "BcsPlataformaWeb: verify independiente PROVEN (1434 casos, 0 fallos, 6 omitidas, canary 2 rojas) y firma de Mauricio Villagran Mora (accept, alcance solo BcsPlataformaWeb; brechas en SIGNOFF.md). Estructura de las respuestas T-36 versionada sin datos reales."
   }
  ]
 }

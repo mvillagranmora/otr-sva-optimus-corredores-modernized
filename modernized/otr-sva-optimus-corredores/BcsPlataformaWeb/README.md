@@ -229,3 +229,18 @@ Los 14 colaboradores del grupo M del inventario resuelven a destino o a marcador
 ### Alcance: solo tipo J (export de `PLA.Servicio`, HANA QA)
 
 El export tiene 3.163 filas: Q=1.347 (consultas SQL), J=981 (clases Java; 980 con `JAR.jar@clase`), P=826 (procedimientos almacenados), X=6, O=2, A=1. J por paquete: plataforma 180, socionegocio 163, custodia 129, ordenes 90, mesa 84, normativa 81, fondomutuo 67, APV 56, tesoreria 35, facturacion 30, cuentaInversion 27, contabilidad 21, portafolio 13, sura 3, canalagente 1. Este endpoint sirve JavaCall tipo J unicamente: los Q y P los ejecuta la propia plataforma contra HANA (`QueryDispatcherService`, `ProcedureDispatcherService`, hoy detras del stub de `/call`, que responde 503) y X/O/A no tienen despachador; `/internal/java-call` los rechaza con 422 `type not routable by this endpoint` (el codigo de `/call` NO los ejecuta hoy, asi que no hay nada que reutilizar). Fixture reducido del export: `src/test/resources/javacall/pla_servicio_trim.csv`. Con el export, de las 139 clases J de duenos migrados: 56 APV con ruta tipada, 80 con ruta del dueno, 3 con el dueno respondiendo 503 (a TomEE), 0 sin ruta tipada de APV. El mapa completo hacia los demas servicios (plataforma, socionegocio, custodia, ...) sigue siendo configuracion explicita por prefijo en `destinos` + `clases-habilitadas`.
+
+## Base de datos del login: HANA o Postgres (despliegue)
+
+Una sola base por despliegue, elegida con `PLATAFORMA_DB_DIALECT` (`hana`, por defecto, o `postgres`; otro valor detiene el arranque). La imagen no lleva credenciales; las variables se entregan al ejecutar el contenedor (lista completa y comentada en el `Dockerfile`).
+
+| | SAP HANA | Postgres |
+|---|---|---|
+| `PLATAFORMA_DB_DIALECT` | `hana` | `postgres` |
+| Conexion | `HANA_URL`, `HANA_USER`, `HANA_PASSWORD` | `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD` |
+| Driver | por defecto (`com.sap.db.jdbc.Driver`) | `SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver` (obligatoria) |
+| Variables de HANA | las de arriba | ninguna |
+
+URL de Postgres: `jdbc:postgresql://<host>:<puerto>/<base>?currentSchema=<esquema>&stringtype=unspecified&escapeSyntaxCallMode=callIfNoReturn`. `currentSchema` porque las sentencias usan tablas sin esquema; `stringtype=unspecified` para que los textos y nulos se infieran contra bigint, date y timestamp; `escapeSyntaxCallMode=callIfNoReturn` porque los procedimientos son `PROCEDURE`. La aplicacion avisa al arrancar si faltan las dos ultimas.
+
+No se conecta a la base al arrancar: con la base caida sube y las peticiones responden 500. En Postgres, `/call` y los despachadores genericos responden 503 (fuera del MVP del login). Procedimientos que escriben (recuperar y confirmar clave, agregar evento) y cursores OUT aun no se ejecutaron contra QA. La imagen no se construyo en esta maquina (no hay Docker); el jar si se probo con `java -jar`.
