@@ -1,0 +1,1 @@
+SELECT valor AS "Valor" FROM t_pla_pla_configuracion WHERE codigo_parametro = 'PLA.LargoMaximoToken' AND id_empresa = :IdEmpresa

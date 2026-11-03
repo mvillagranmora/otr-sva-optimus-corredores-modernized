@@ -1,0 +1,1 @@
+SELECT * FROM "BSCL.Plataforma.BD.Vistas::ACC.ConsultarUsuarioAcceso" WHERE "IdEmpresa" = :IdEmpresa AND "IdUsuario" = :IdUsuario AND "MostrarAcceso" = 'S' ORDER BY "Padre", "Orden"

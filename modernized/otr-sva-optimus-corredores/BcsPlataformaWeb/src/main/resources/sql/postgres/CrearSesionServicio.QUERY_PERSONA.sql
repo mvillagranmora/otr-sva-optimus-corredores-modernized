@@ -1,0 +1,1 @@
+SELECT id_persona AS "IdPersona",CASE "PER".id_estado WHEN 'ACT' THEN CASE "PER".es_enrolado WHEN 'N' THEN 'PEN' WHEN 'N' THEN 'PEN' ELSE 'ACT' END ELSE 'BLO' END AS "IdEstado" FROM t_socneg_per_persona "PER" WHERE id_persona = :IdEntidad

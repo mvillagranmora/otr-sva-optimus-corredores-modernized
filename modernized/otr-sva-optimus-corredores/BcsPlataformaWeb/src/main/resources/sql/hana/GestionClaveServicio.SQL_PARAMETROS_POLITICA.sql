@@ -1,0 +1,1 @@
+SELECT "CodigoParametro", "Valor" FROM "BSCL.Plataforma.BD::PLA.Configuracion" WHERE "IdEmpresa" = :p_IdEmpresa AND "CodigoParametro" IN ('ACC.numLongitud','ACC.numMayusculas','ACC.numMinuscula','ACC.numCaracteres','ACC.numDigitos')

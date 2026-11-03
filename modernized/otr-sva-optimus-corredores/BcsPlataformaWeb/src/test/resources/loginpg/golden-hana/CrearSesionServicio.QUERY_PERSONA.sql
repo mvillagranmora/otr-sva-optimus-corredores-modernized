@@ -1,0 +1,1 @@
+SELECT "IdPersona",CASE "PER"."IdEstado" WHEN 'ACT' THEN CASE "PER"."EsEnrolado" WHEN 'N' THEN 'PEN' WHEN 'N' THEN 'PEN' ELSE 'ACT' END ELSE 'BLO' END AS "IdEstado" FROM "BSCL.SocioNegocio.BD::PER.Persona" "PER" WHERE "IdPersona" = :IdEntidad

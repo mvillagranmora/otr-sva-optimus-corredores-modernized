@@ -1,0 +1,1 @@
+SELECT "IdUsuario", "FechaUltimoUso" FROM "BSCL.Plataforma.BD::ACC.Sesion" WHERE "IdTokenSesion" = :p_Token AND "TokenValido" = 'S'

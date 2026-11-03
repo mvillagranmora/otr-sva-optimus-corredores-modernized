@@ -73,6 +73,9 @@ public class PasswordController {
         try {
             Respuesta r = unidad.ejecutar(trabajo);
             return ResponseEntity.status(r.estado()).body(r.cuerpo());
+        } catch (UnsupportedOperationException e) {
+            // an object not available in this dialect is a 503 for GlobalExceptionHandler, not a refusal or a failure of the call
+            throw e;
         } catch (Exception e) {
             log.error("Fallo de {}: {}", nombreServicio, e.getClass().getSimpleName());
             return ResponseEntity.status(500).build();

@@ -1,0 +1,1 @@
+SELECT id_valor_defecto_sistema AS "IdValorDefectoSistema",nombre AS "Nombre",valor AS "Valor",id_empresa AS "IdEmpresa",id_estado AS "IdEstado" FROM t_pla_pla_valor_defecto_sistema WHERE id_empresa = :IdEmpresa AND id_estado = 'ACT'

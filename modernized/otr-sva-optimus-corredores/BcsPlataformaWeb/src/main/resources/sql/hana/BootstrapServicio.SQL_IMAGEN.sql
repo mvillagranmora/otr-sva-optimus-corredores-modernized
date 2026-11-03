@@ -1,0 +1,1 @@
+select "NombreImagen","Binario" from "BSCL.Plataforma.BD.Vistas::PLA.ConsultarImagen" where "NombreImagen" = 'LOGO_CORREDOR_LOGIN'

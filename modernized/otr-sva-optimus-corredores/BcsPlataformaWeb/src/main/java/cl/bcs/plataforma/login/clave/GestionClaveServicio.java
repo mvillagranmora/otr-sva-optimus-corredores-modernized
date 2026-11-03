@@ -12,6 +12,7 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonArray;
@@ -19,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import cl.bcs.plataforma.login.dialecto.SentenciasSql;
 import cl.bcs.plataforma.login.ProcedimientoAlmacenado;
 import cl.bcs.plataforma.login.jdbc.SqlNombrado;
 import cl.bcs.utils.clave.EstadoCriterio;
@@ -94,43 +96,39 @@ public class GestionClaveServicio {
         public String RutaPublica;
     }
 
-    static final String SP_FECHA_HORA = "BSCL.Plataforma.BD.Utilitarios::ObtenerFechaHoraSistema";
-    static final String SP_RECUPERAR = "BSCL.Plataforma.BD.Servicios::ACC.RecuperarClaveUsuario";
-    static final String SP_CONFIRMAR = "BSCL.Plataforma.BD.Servicios::ACC.ConfirmarCambioClaveUsuario";
-    static final String SP_AGREGAR_EVENTO = "BSCL.Plataforma.BD.Servicios::EVT.AgregarEvento";
+    static final String SP_FECHA_HORA = SentenciasSql.hana("GestionClaveServicio.SP_FECHA_HORA");
+    static final String SP_RECUPERAR = SentenciasSql.hana("GestionClaveServicio.SP_RECUPERAR");
+    static final String SP_CONFIRMAR = SentenciasSql.hana("GestionClaveServicio.SP_CONFIRMAR");
+    static final String SP_AGREGAR_EVENTO = SentenciasSql.hana("GestionClaveServicio.SP_AGREGAR_EVENTO");
 
-    static final String SQL_DICCIONARIO = "SELECT \"CodDiccionario\", \"Descripcion\" FROM \"BSCL.Plataforma.BD::PLA.Diccionario\" WHERE \"CodLenguaje\" = 'CL' AND \"CodDiccionario\" IN (:Codigos)";
-    static final String SQL_EMPRESA_USUARIO = "SELECT \"IdEmpresa\" FROM \"BSCL.Plataforma.BD::ACC.Usuario\" WHERE \"CodigoUsuario\" = :CodigoUsuario";
-    static final String SQL_PARAMETROS_POLITICA = "SELECT \"CodigoParametro\", \"Valor\" FROM \"BSCL.Plataforma.BD::PLA.Configuracion\" WHERE \"IdEmpresa\" = :p_IdEmpresa AND \"CodigoParametro\" IN "
-            + "('ACC.numLongitud','ACC.numMayusculas','ACC.numMinuscula','ACC.numCaracteres','ACC.numDigitos')";
-    static final String SQL_PALABRA_PROHIBIDA = "SELECT COUNT(1) AS \"Cantidad\" FROM \"BSCL.Plataforma.BD::ACC.PasswordProhibidas\" WHERE \"Palabra\" = :p_ClaveNueva";
-    static final String SQL_ACTUALIZAR_CLAVE = "UPDATE \"BSCL.Plataforma.BD::ACC.Usuario\" SET \"Clave\" = :Clave, \"FechaIngreso\" = :FechaIngreso, \"IdEstado\" = 'ACT', "
-            + "\"DebeCambiarClave\" = 'N', \"UltimoCambioClave\" = :UltimoCambioClave WHERE \"CodigoUsuario\" = :CodigoUsuario";
-    static final String SQL_CLAVE_PROVISORIA = "SELECT TOP 1 USU.\"IdUsuario\",USU.\"IdEmpresa\",USU.\"ClaveProvisoria\", USU.\"FechaClaveProvisoria\", USU.\"IntentosConexionClaveProvisoria\", "
-            + "CON.\"Valor\" AS \"CantidadIntentosMaximo\" FROM \"BSCL.Plataforma.BD::ACC.Usuario\" AS USU "
-            + "LEFT JOIN \"BSCL.Plataforma.BD::PLA.Configuracion\" AS CON ON CON.\"CodigoParametro\" = 'PLA.ClaveUsuarioIntentos' AND CON.\"IdEmpresa\" = USU.\"IdEmpresa\" "
-            + "WHERE USU.\"CodigoUsuario\" = :CodigoUsuario";
-    static final String SQL_LIMPIAR_PROVISORIA = "UPDATE \"BSCL.Plataforma.BD::ACC.Usuario\" SET \"ClaveProvisoria\" = '', \"FechaClaveProvisoria\" = '0001-01-01 00:00:00', "
-            + "\"IntentosConexionClaveProvisoria\" = 0 WHERE \"CodigoUsuario\" = :CodigoUsuario";
-    static final String SQL_INTENTO_PROVISORIA = "UPDATE \"BSCL.Plataforma.BD::ACC.Usuario\" SET \"IntentosConexionClaveProvisoria\" = :Intentos WHERE \"CodigoUsuario\" = :CodigoUsuario";
-    static final String SQL_DATOS_RECUPERACION = "SELECT TOP 1 CLI.\"IdPersona\" AS \"IdPersona\", PER.\"IdDireccionElectronicaPrincipal\", PER.\"NombreCompleto\", DTOS.\"RazonSocial\" AS \"corredora\", "
-            + "CLI.\"IdEmpresa\", USU.\"IdUsuario\", USU.\"TipoEntidad\" from \"BSCL.Plataforma.BD::ACC.Usuario\" USU "
-            + "LEFT JOIN \"BSCL.SocioNegocio.BD::SOC.SocioDeNegocio\" CLI ON (USU.\"TipoEntidad\" = 'CLI' AND USU.\"IdEntidad\" = CLI.\"IdCliente\") "
-            + "OR (USU.\"TipoEntidad\" = 'EMP' AND USU.\"IdEntidad\" = CLI.\"IdEmpleado\") OR (USU.\"TipoEntidad\" = 'PER' AND USU.\"IdEntidad\" = CLI.\"IdPersona\") "
-            + "LEFT JOIN \"BSCL.SocioNegocio.BD.Vistas::PER.ConsultarPersona\" PER ON PER.\"IdPersona\" = CLI.\"IdPersona\" "
-            + "LEFT JOIN \"BSCL.Plataforma.BD.Vistas::CTT.ConsultarContratoDatosGenerales\" DTOS ON DTOS.\"IdEmpresa\" = CLI.\"IdEmpresa\" WHERE USU.\"CodigoUsuario\" = :CodigoUsuario";
-    static final String SQL_LARGO_TOKEN = "SELECT \"Valor\" FROM \"BSCL.Plataforma.BD::PLA.Configuracion\" WHERE \"CodigoParametro\" = 'PLA.LargoMaximoToken' AND \"IdEmpresa\" = :IdEmpresa";
-    static final String SQL_LOGO = "SELECT \"RutaPublica\" FROM \"BSCL.Plataforma.BD::PLA.Imagenes\" WHERE \"NombreImagen\" = 'LOGO_CORREDOR' AND \"IdEmpresa\" = :IdEmpresa";
-    static final String SQL_GUARDAR_PROVISORIA = "UPDATE \"BSCL.Plataforma.BD::ACC.Usuario\" SET \"ClaveProvisoria\" = :ClaveProvisoria, \"FechaClaveProvisoria\" = :FechaClaveProvisoria, "
-            + "\"IntentosConexionClaveProvisoria\" = 0 WHERE \"CodigoUsuario\" = :CodigoUsuario";
+    static final String SQL_DICCIONARIO = SentenciasSql.hana("GestionClaveServicio.SQL_DICCIONARIO");
+    static final String SQL_EMPRESA_USUARIO = SentenciasSql.hana("GestionClaveServicio.SQL_EMPRESA_USUARIO");
+    static final String SQL_PARAMETROS_POLITICA = SentenciasSql.hana("GestionClaveServicio.SQL_PARAMETROS_POLITICA");
+    static final String SQL_PALABRA_PROHIBIDA = SentenciasSql.hana("GestionClaveServicio.SQL_PALABRA_PROHIBIDA");
+    static final String SQL_ACTUALIZAR_CLAVE = SentenciasSql.hana("GestionClaveServicio.SQL_ACTUALIZAR_CLAVE");
+    static final String SQL_CLAVE_PROVISORIA = SentenciasSql.hana("GestionClaveServicio.SQL_CLAVE_PROVISORIA");
+    static final String SQL_LIMPIAR_PROVISORIA = SentenciasSql.hana("GestionClaveServicio.SQL_LIMPIAR_PROVISORIA");
+    static final String SQL_INTENTO_PROVISORIA = SentenciasSql.hana("GestionClaveServicio.SQL_INTENTO_PROVISORIA");
+    static final String SQL_DATOS_RECUPERACION = SentenciasSql.hana("GestionClaveServicio.SQL_DATOS_RECUPERACION");
+    static final String SQL_LARGO_TOKEN = SentenciasSql.hana("GestionClaveServicio.SQL_LARGO_TOKEN");
+    static final String SQL_LOGO = SentenciasSql.hana("GestionClaveServicio.SQL_LOGO");
+    static final String SQL_GUARDAR_PROVISORIA = SentenciasSql.hana("GestionClaveServicio.SQL_GUARDAR_PROVISORIA");
 
     private static final String ALFABETO_TOKEN = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz1234567890!#$%&=?@";
     private static final SecureRandom ALEATORIO = new SecureRandom();
 
     private final ProcedimientoAlmacenado procedimientos;
+    private final SentenciasSql sentencias;
 
+    /** HANA statements: what the module has always sent. */
     public GestionClaveServicio(ProcedimientoAlmacenado procedimientos) {
+        this(procedimientos, SentenciasSql.predeterminadas());
+    }
+
+    @Autowired
+    public GestionClaveServicio(ProcedimientoAlmacenado procedimientos, SentenciasSql sentencias) {
         this.procedimientos = procedimientos;
+        this.sentencias = sentencias;
     }
 
     // ------------------------------------------------------------------------------------------------ ActualizarClave (T-12)
@@ -161,7 +159,7 @@ public class GestionClaveServicio {
         long idEmpresa = 0L;
         Map<String, Object> pu = new HashMap<>();
         pu.put("CodigoUsuario", codigoUsuario);
-        for (IdEmpresaUsuario e : SqlNombrado.consultar(con, SQL_EMPRESA_USUARIO, pu, IdEmpresaUsuario.class)) {
+        for (IdEmpresaUsuario e : SqlNombrado.consultar(con, sentencias.de(SQL_EMPRESA_USUARIO), pu, IdEmpresaUsuario.class)) {
             idEmpresa = e.IdEmpresa;
         }
         String fechaSistema = fechaSistema(con, idEmpresa);
@@ -178,7 +176,7 @@ public class GestionClaveServicio {
             p.put("FechaIngreso", fechaSistema);
             p.put("UltimoCambioClave", fechaSistema);
             p.put("CodigoUsuario", codigoUsuario);
-            SqlNombrado.actualizar(con, SQL_ACTUALIZAR_CLAVE, p);
+            SqlNombrado.actualizar(con, sentencias.de(SQL_ACTUALIZAR_CLAVE), p);
             return respuesta(diccionario, "OK", "CONTRASENA_ACTUALIZADA");
         }
         // the clave does not meet the policy (or it could not be checked): Estado NOK and the list of criteria (all of them, as the legacy)
@@ -200,8 +198,7 @@ public class GestionClaveServicio {
         public String Codigo;
     }
 
-    static final String SQL_USUARIO_DE_SESION = "SELECT UPPER(U.\"CodigoUsuario\") AS \"Codigo\" FROM \"BSCL.Plataforma.BD::ACC.Sesion\" S "
-            + "JOIN \"BSCL.Plataforma.BD::ACC.Usuario\" U ON U.\"IdUsuario\" = S.\"IdUsuario\" WHERE S.\"IdTokenSesion\" = :Token AND S.\"TokenValido\" = 'S'";
+    static final String SQL_USUARIO_DE_SESION = SentenciasSql.hana("GestionClaveServicio.SQL_USUARIO_DE_SESION");
 
     private boolean sesionEsDelUsuario(Connection con, String token, String codigoUsuario) throws Exception {
         if (token == null || token.isEmpty() || codigoUsuario.isEmpty()) {
@@ -209,7 +206,7 @@ public class GestionClaveServicio {
         }
         Map<String, Object> p = new HashMap<>();
         p.put("Token", token);
-        for (UsuarioDeSesion u : SqlNombrado.consultar(con, SQL_USUARIO_DE_SESION, p, UsuarioDeSesion.class)) {
+        for (UsuarioDeSesion u : SqlNombrado.consultar(con, sentencias.de(SQL_USUARIO_DE_SESION), p, UsuarioDeSesion.class)) {
             return codigoUsuario.equals(u.Codigo);
         }
         return false;
@@ -220,7 +217,7 @@ public class GestionClaveServicio {
         Map<String, Object> params = new HashMap<>();
         params.put("p_IdEmpresa", 1L);
         Map<String, String> valores = new HashMap<>();
-        for (ParametroPolitica p : SqlNombrado.consultar(con, SQL_PARAMETROS_POLITICA, params, ParametroPolitica.class)) {
+        for (ParametroPolitica p : SqlNombrado.consultar(con, sentencias.de(SQL_PARAMETROS_POLITICA), params, ParametroPolitica.class)) {
             valores.put(p.CodigoParametro, p.Valor);
         }
         PoliticaClave politica = PoliticaClave.desdeConfiguracion(valores);
@@ -228,7 +225,7 @@ public class GestionClaveServicio {
             try {
                 Map<String, Object> q = new HashMap<>();
                 q.put("p_ClaveNueva", c);
-                return SqlNombrado.consultar(con, SQL_PALABRA_PROHIBIDA, q, Cuenta.class).get(0).Cantidad > 0;
+                return SqlNombrado.consultar(con, sentencias.de(SQL_PALABRA_PROHIBIDA), q, Cuenta.class).get(0).Cantidad > 0;
             } catch (java.sql.SQLException e) {
                 throw new IllegalStateException(e);
             }
@@ -249,7 +246,7 @@ public class GestionClaveServicio {
 
         Map<String, Object> p = new HashMap<>();
         p.put("CodigoUsuario", codigoUsuario);
-        List<ClaveProvisoria> filas = SqlNombrado.consultar(con, SQL_CLAVE_PROVISORIA, p, ClaveProvisoria.class);
+        List<ClaveProvisoria> filas = SqlNombrado.consultar(con, sentencias.de(SQL_CLAVE_PROVISORIA), p, ClaveProvisoria.class);
         if (filas.isEmpty() || filas.get(0).IdUsuario == null || filas.get(0).IdEmpresa == null) {
             return new Respuesta(200, "");   // the legacy answers nothing for an unknown user
         }
@@ -277,14 +274,14 @@ public class GestionClaveServicio {
         Map<String, Object> q = new HashMap<>();
         q.put("Intentos", intentos + 1);
         q.put("CodigoUsuario", codigoUsuario);
-        SqlNombrado.actualizar(con, SQL_INTENTO_PROVISORIA, q);
+        SqlNombrado.actualizar(con, sentencias.de(SQL_INTENTO_PROVISORIA), q);
         return respuesta(diccionario, "NOK", "CLAVE_PROVISORIA_INVALIDA");
     }
 
     private void limpiarProvisoria(Connection con, String codigoUsuario) throws Exception {
         Map<String, Object> p = new HashMap<>();
         p.put("CodigoUsuario", codigoUsuario);
-        SqlNombrado.actualizar(con, SQL_LIMPIAR_PROVISORIA, p);
+        SqlNombrado.actualizar(con, sentencias.de(SQL_LIMPIAR_PROVISORIA), p);
     }
 
     // ------------------------------------------------------------------------------------------------ SolicitudRecuperacionClave (T-25)
@@ -363,7 +360,7 @@ public class GestionClaveServicio {
 
             Map<String, Object> p = new HashMap<>();
             p.put("CodigoUsuario", codigoUsuario);
-            List<DatosRecuperacion> filas = SqlNombrado.consultar(con, SQL_DATOS_RECUPERACION, p, DatosRecuperacion.class);
+            List<DatosRecuperacion> filas = SqlNombrado.consultar(con, sentencias.de(SQL_DATOS_RECUPERACION), p, DatosRecuperacion.class);
             DatosRecuperacion d = filas.isEmpty() ? new DatosRecuperacion() : filas.get(0);
             if (!filas.isEmpty() && (d.IdPersona == null || d.IdDireccionElectronicaPrincipal == null || d.IdEmpresa == null || d.IdUsuario == null)) {
                 return errorRecuperacionClave();   // the legacy read these four with Long.parseLong(getString(..)): a NULL was a NumberFormatException, i.e. the error answer
@@ -382,13 +379,13 @@ public class GestionClaveServicio {
             Map<String, Object> pe = new HashMap<>();
             pe.put("IdEmpresa", d.IdEmpresa);
             int largoToken = 0;
-            for (Valor v : SqlNombrado.consultar(con, SQL_LARGO_TOKEN, pe, Valor.class)) {
+            for (Valor v : SqlNombrado.consultar(con, sentencias.de(SQL_LARGO_TOKEN), pe, Valor.class)) {
                 largoToken = Integer.parseInt(v.Valor);
             }
             String claveProvisoria = generateToken(largoToken);
             String claveProvisoriaNueva = encryptPassword(claveProvisoria);
             String logo = "";
-            for (Valor v : SqlNombrado.consultar(con, SQL_LOGO, pe, Valor.class)) {
+            for (Valor v : SqlNombrado.consultar(con, sentencias.de(SQL_LOGO), pe, Valor.class)) {
                 logo = v.RutaPublica;
             }
 
@@ -398,7 +395,7 @@ public class GestionClaveServicio {
             g.put("ClaveProvisoria", claveProvisoriaNueva);
             g.put("FechaClaveProvisoria", fechaSistema);
             g.put("CodigoUsuario", codigoUsuario);
-            SqlNombrado.actualizar(con, SQL_GUARDAR_PROVISORIA, g);
+            SqlNombrado.actualizar(con, sentencias.de(SQL_GUARDAR_PROVISORIA), g);
 
             JsonObject ok = new JsonObject();
             ok.addProperty("Estado", "OK");
@@ -466,7 +463,7 @@ public class GestionClaveServicio {
         Map<String, Object> p = new HashMap<>();
         p.put("Codigos", List.of((Object[]) codigos));
         Map<String, String> m = new HashMap<>();
-        for (Dic d : SqlNombrado.consultar(con, SQL_DICCIONARIO, p, Dic.class)) {
+        for (Dic d : SqlNombrado.consultar(con, sentencias.de(SQL_DICCIONARIO), p, Dic.class)) {
             m.put(d.CodDiccionario, d.Descripcion);
         }
         return m;

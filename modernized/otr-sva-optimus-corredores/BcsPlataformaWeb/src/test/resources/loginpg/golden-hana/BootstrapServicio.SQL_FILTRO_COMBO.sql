@@ -1,0 +1,1 @@
+select "IdConfiguracionFiltroInterfaz","Controlador","TipoObjeto","NombreObjeto","IdEstado","Filtros" FROM "BSCL.Plataforma.BD::PLA.ConfiguracionFiltroInterfaz" WHERE "IdEstado" = 'ACT'

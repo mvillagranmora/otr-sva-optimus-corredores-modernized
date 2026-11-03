@@ -1,0 +1,1 @@
+UPDATE t_pla_acc_usuario SET fecha_bloqueo_temporal = ((now() AT TIME ZONE 'UTC') + (CAST(:Param_ClaveUsuarioTiempoBloqueo AS integer)*60) * INTERVAL '1' SECOND),intentos_conexion = 0 WHERE id_usuario = :IdUsuario

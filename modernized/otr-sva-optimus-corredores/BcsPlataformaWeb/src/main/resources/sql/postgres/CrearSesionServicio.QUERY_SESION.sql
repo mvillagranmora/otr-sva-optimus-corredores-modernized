@@ -1,0 +1,1 @@
+SELECT id_usuario AS "IdUsuario", fecha_ultimo_uso AS "FechaUltimoUso" FROM t_pla_acc_sesion WHERE id_token_sesion = :p_Token AND token_valido = 'S'

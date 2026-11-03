@@ -1,0 +1,1 @@
+SELECT "Llave", "Valor" FROM "BSCL.Plataforma.BD.Vistas::PLA.ConsultarConfiguracionGrilla" WHERE "IdEmpresa" = :IdEmpresa

@@ -1,0 +1,1 @@
+select id_configuracion_filtro_interfaz AS "IdConfiguracionFiltroInterfaz",controlador AS "Controlador",tipo_objeto AS "TipoObjeto",nombre_objeto AS "NombreObjeto",id_estado AS "IdEstado",filtros AS "Filtros" FROM t_pla_pla_configuracion_filtro_interfaz WHERE id_estado = 'ACT'

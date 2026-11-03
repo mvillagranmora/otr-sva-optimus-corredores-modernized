@@ -1,0 +1,1 @@
+select "IdFeriado","Tipo",TO_VARCHAR ("Fecha",'YYYY-MM-DD') as "Fecha","Dia","DescripcionDia","AgnoCarga","IdPais" FROM "BSCL.Plataforma.BD::REG.DiaFeriado" where "IdEstado" = 'ACT'

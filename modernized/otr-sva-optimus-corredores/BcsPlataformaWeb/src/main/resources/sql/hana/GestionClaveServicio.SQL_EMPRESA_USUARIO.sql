@@ -1,0 +1,1 @@
+SELECT "IdEmpresa" FROM "BSCL.Plataforma.BD::ACC.Usuario" WHERE "CodigoUsuario" = :CodigoUsuario

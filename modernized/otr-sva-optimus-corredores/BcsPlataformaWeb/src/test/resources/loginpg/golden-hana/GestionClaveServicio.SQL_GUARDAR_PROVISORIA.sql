@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::ACC.Usuario" SET "ClaveProvisoria" = :ClaveProvisoria, "FechaClaveProvisoria" = :FechaClaveProvisoria, "IntentosConexionClaveProvisoria" = 0 WHERE "CodigoUsuario" = :CodigoUsuario

@@ -1,0 +1,1 @@
+SELECT "Valor" FROM "BSCL.Plataforma.BD::PLA.Configuracion" WHERE "CodigoParametro" = 'PLA.LargoMaximoToken' AND "IdEmpresa" = :IdEmpresa

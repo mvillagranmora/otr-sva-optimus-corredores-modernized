@@ -1,0 +1,1 @@
+INSERT INTO t_pla_acc_sesion (id_token_sesion,id_usuario,token_valido,fecha_ultimo_uso,fecha_ingreso,id_canal,id_entidad_sso) VALUES (:IdTokenSesion,:IdUsuario,'S',(now() AT TIME ZONE 'UTC'),(now() AT TIME ZONE 'UTC'),:IdCanal,:IdEntidadSSO)

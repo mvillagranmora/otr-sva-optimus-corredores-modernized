@@ -1,0 +1,1 @@
+SELECT id_cliente AS "IdCliente",CASE "CLI".id_estado WHEN 'ACT' THEN CASE "CLI".es_enrolado WHEN 'N' THEN 'PEN' WHEN 'N' THEN 'PEN' ELSE 'ACT' END ELSE 'BLO' END AS "IdEstado" FROM t_socneg_cli_cliente "CLI" WHERE id_cliente = :IdEntidad

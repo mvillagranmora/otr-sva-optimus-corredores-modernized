@@ -1,0 +1,1 @@
+UPDATE t_pla_acc_usuario SET clave = :Clave, fecha_ingreso = :FechaIngreso, id_estado = 'ACT', debe_cambiar_clave = 'N', ultimo_cambio_clave = :UltimoCambioClave WHERE codigo_usuario = :CodigoUsuario

@@ -1,0 +1,1 @@
+SELECT "CodDiccionario", "Descripcion" FROM "BSCL.Plataforma.BD::PLA.Diccionario" WHERE "CodLenguaje" = 'CL' AND "CodDiccionario" IN (:Codigos)

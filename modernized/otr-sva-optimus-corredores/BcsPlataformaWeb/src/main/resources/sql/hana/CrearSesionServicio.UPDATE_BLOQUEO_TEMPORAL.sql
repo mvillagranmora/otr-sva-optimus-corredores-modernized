@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::ACC.Usuario" SET "FechaBloqueoTemporal" = ADD_SECONDS (CURRENT_UTCTIMESTAMP, to_int(:Param_ClaveUsuarioTiempoBloqueo)*60),"IntentosConexion" = 0 WHERE "IdUsuario" = :IdUsuario

@@ -1,0 +1,1 @@
+select "IdEmpresa","Nombre" from "BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa" where "IdEstado" = 'ACT'

@@ -1,0 +1,1 @@
+UPDATE t_pla_acc_usuario SET intentos_conexion = :IntentosConexion WHERE id_usuario = :IdUsuario

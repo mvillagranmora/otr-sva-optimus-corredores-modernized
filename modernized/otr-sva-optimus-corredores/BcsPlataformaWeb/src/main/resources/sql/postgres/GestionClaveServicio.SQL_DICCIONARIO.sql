@@ -1,0 +1,1 @@
+SELECT cod_diccionario AS "CodDiccionario", descripcion AS "Descripcion" FROM t_pla_pla_diccionario WHERE cod_lenguaje = 'CL' AND cod_diccionario IN (:Codigos)

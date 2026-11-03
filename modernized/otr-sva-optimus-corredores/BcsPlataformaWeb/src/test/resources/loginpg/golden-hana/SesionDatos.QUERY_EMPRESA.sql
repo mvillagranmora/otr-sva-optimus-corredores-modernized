@@ -1,0 +1,1 @@
+SELECT e."IdPais",e."Nombre",e."IdSocioDeNegocio",soc."IdPersona",c."IdCorredora" FROM "BSCL.Plataforma.BD::PLA.Empresa" e LEFT JOIN "BSCL.SocioNegocio.BD::SOC.SocioDeNegocio" soc on e."IdSocioDeNegocio" = soc."IdSocioDeNegocio" LEFT JOIN "BSCL.Plataforma.BD::INS.Corredora" c ON c."IdPersona" = soc."IdPersona" WHERE e."IdEmpresa" = :IdEmpresa

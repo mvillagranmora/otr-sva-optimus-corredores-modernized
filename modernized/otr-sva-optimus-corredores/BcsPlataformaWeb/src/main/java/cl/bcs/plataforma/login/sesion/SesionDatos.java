@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cl.bcs.plataforma.login.dialecto.SentenciasSql;
 import cl.bcs.plataforma.login.jdbc.SqlNombrado;
 
 /**
@@ -21,6 +23,18 @@ import cl.bcs.plataforma.login.jdbc.SqlNombrado;
  */
 @Component
 public class SesionDatos {
+
+    private final SentenciasSql sentencias;
+
+    /** HANA statements: what the module has always sent. */
+    public SesionDatos() {
+        this(SentenciasSql.predeterminadas());
+    }
+
+    @Autowired
+    public SesionDatos(SentenciasSql sentencias) {
+        this.sentencias = sentencias;
+    }
 
     /** The session as the home page reads it ({@code BCS_SESION}); field order and names are the legacy JSON. */
     public static class SesionData {
@@ -94,36 +108,24 @@ public class SesionDatos {
     }
 
     /** Update of the token and the user (the legacy batch with the {@code InformacionUsuario} row). */
-    static final String QUERY_USUARIO = "SELECT U.\"IdUsuario\",U.\"IdEmpresa\",\"FechaVigencia\",S.\"IdEntidadSSO\",SSO.\"RedirectURL\",U.\"IdEstado\",U.\"CodigoUsuario\","
-            + "U.\"IdEntidad\",U.\"CodigoMenu\",EMP.\"IdEmpleado\",CLI.\"IdCliente\" FROM \"BSCL.Plataforma.BD::ACC.Sesion\" S "
-            + "INNER JOIN \"BSCL.Plataforma.BD::ACC.Usuario\" U on U.\"IdUsuario\" = S.\"IdUsuario\" "
-            + "LEFT JOIN \"BSCL.Plataforma.BD::ACC.ConfiguracionSSO\" SSO on SSO.\"IdEntidad\" = S.\"IdEntidadSSO\" "
-            + "LEFT JOIN \"BSCL.SocioNegocio.BD::EMP.Empleado\" EMP ON U.\"TipoEntidad\" = 'EMP' AND U.\"IdEntidad\" = EMP.\"IdEmpleado\" "
-            + "LEFT JOIN \"BSCL.SocioNegocio.BD::CLI.Cliente\" CLI ON U.\"TipoEntidad\" = 'CLI' AND U.\"IdEntidad\" = CLI.\"IdCliente\" "
-            + "WHERE \"IdTokenSesion\" = :IdTokenSesion AND \"TokenValido\" = 'S'";
+    static final String QUERY_USUARIO = SentenciasSql.hana("SesionDatos.QUERY_USUARIO");
 
-    static final String QUERY_PARAMETROS = "SELECT \"CodigoParametro\",\"Valor\" FROM \"BSCL.Plataforma.BD::PLA.Configuracion\" p "
-            + "WHERE \"IdEmpresa\" = :IdEmpresa AND \"CodigoParametro\" IN (:Parametros)";
+    static final String QUERY_PARAMETROS = SentenciasSql.hana("SesionDatos.QUERY_PARAMETROS");
 
-    static final String QUERY_EMPRESA = "SELECT e.\"IdPais\",e.\"Nombre\",e.\"IdSocioDeNegocio\",soc.\"IdPersona\",c.\"IdCorredora\" FROM \"BSCL.Plataforma.BD::PLA.Empresa\" e "
-            + "LEFT JOIN \"BSCL.SocioNegocio.BD::SOC.SocioDeNegocio\" soc on e.\"IdSocioDeNegocio\" = soc.\"IdSocioDeNegocio\" "
-            + "LEFT JOIN \"BSCL.Plataforma.BD::INS.Corredora\" c ON c.\"IdPersona\" = soc.\"IdPersona\" WHERE e.\"IdEmpresa\" = :IdEmpresa";
+    static final String QUERY_EMPRESA = SentenciasSql.hana("SesionDatos.QUERY_EMPRESA");
 
-    static final String QUERY_VALORES_DEFECTO = "SELECT \"IdValorDefectoSistema\",\"Nombre\",\"Valor\",\"IdEmpresa\",\"IdEstado\" FROM \"BSCL.Plataforma.BD::PLA.ValorDefectoSistema\" "
-            + "WHERE \"IdEmpresa\" = :IdEmpresa AND \"IdEstado\" = 'ACT'";
+    static final String QUERY_VALORES_DEFECTO = SentenciasSql.hana("SesionDatos.QUERY_VALORES_DEFECTO");
 
-    static final String UPDATE_SESION = "UPDATE \"BSCL.Plataforma.BD::ACC.Sesion\" SET \"FechaUltimoUso\" = CURRENT_UTCTIMESTAMP,\"UsoToken\" = \"UsoToken\" + 1 "
-            + "WHERE \"IdTokenSesion\" = :IdTokenUsuario";
+    static final String UPDATE_SESION = SentenciasSql.hana("SesionDatos.UPDATE_SESION");
 
-    static final String UPDATE_USUARIO = "UPDATE \"BSCL.Plataforma.BD::ACC.Usuario\" SET \"FechaUltimaConexion\" = CURRENT_UTCTIMESTAMP,\"Conectado\" = 'S',\"Hora\" = CURRENT_UTCTIMESTAMP "
-            + "WHERE \"IdEmpresa\" = :IdEmpresa AND \"IdUsuario\" = :IdUsuario";
+    static final String UPDATE_USUARIO = SentenciasSql.hana("SesionDatos.UPDATE_USUARIO");
 
     public SesionData getSesionData(Connection conn, String token) throws Exception {
         SesionData s = new SesionData();
 
         Map<String, Object> params = new HashMap<>();
         params.put("IdTokenSesion", token);
-        List<InformacionUsuario> informacion = SqlNombrado.consultar(conn, QUERY_USUARIO, params, InformacionUsuario.class);
+        List<InformacionUsuario> informacion = SqlNombrado.consultar(conn, sentencias.de(QUERY_USUARIO), params, InformacionUsuario.class);
         if (informacion.size() == 0) {
             return error(s, "SESION_INVALIDA", "Sesion invalida");
         }
@@ -141,7 +143,7 @@ public class SesionDatos {
             params.clear();
             params.put("IdEmpresa", u.IdEmpresa);
             params.put("Parametros", lectura);
-            for (Configuracion c : SqlNombrado.consultar(conn, QUERY_PARAMETROS, params, Configuracion.class)) {
+            for (Configuracion c : SqlNombrado.consultar(conn, sentencias.de(QUERY_PARAMETROS), params, Configuracion.class)) {
                 if (parametros.containsKey(c.CodigoParametro)) {
                     throw new Exception("key field is not unique");   // legacy Utils.List2Hash
                 }
@@ -162,14 +164,14 @@ public class SesionDatos {
 
         params.clear();
         params.put("IdEmpresa", u.IdEmpresa);
-        List<Empresa> empresa = SqlNombrado.consultar(conn, QUERY_EMPRESA, params, Empresa.class);
+        List<Empresa> empresa = SqlNombrado.consultar(conn, sentencias.de(QUERY_EMPRESA), params, Empresa.class);
         if (empresa.size() != 1) {
             return error(s, "EMPRESA_MAL_CONFIGURADA", "La empresa no se encuentra configurada correctamente.");
         }
 
         params.clear();
         params.put("IdEmpresa", u.IdEmpresa);
-        List<ValorDefectoSistema> valoresDefecto = SqlNombrado.consultar(conn, QUERY_VALORES_DEFECTO, params, ValorDefectoSistema.class);
+        List<ValorDefectoSistema> valoresDefecto = SqlNombrado.consultar(conn, sentencias.de(QUERY_VALORES_DEFECTO), params, ValorDefectoSistema.class);
 
         s.BolsaDefectoSistema = parametros.get("PLA.BolsaDefectoSistema").Valor;
         s.CodigoMenuUsuario = u.CodigoMenu;
@@ -192,11 +194,11 @@ public class SesionDatos {
         // use of the token and connected flag
         Map<String, Object> pt = new HashMap<>();
         pt.put("IdTokenUsuario", token);
-        SqlNombrado.actualizar(conn, UPDATE_SESION, pt);
+        SqlNombrado.actualizar(conn, sentencias.de(UPDATE_SESION), pt);
         Map<String, Object> pu = new HashMap<>();
         pu.put("IdEmpresa", u.IdEmpresa);
         pu.put("IdUsuario", u.IdUsuario);
-        SqlNombrado.actualizar(conn, UPDATE_USUARIO, pu);
+        SqlNombrado.actualizar(conn, sentencias.de(UPDATE_USUARIO), pu);
         return s;
     }
 

@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::ACC.Usuario" SET "Clave" = :Clave, "FechaIngreso" = :FechaIngreso, "IdEstado" = 'ACT', "DebeCambiarClave" = 'N', "UltimoCambioClave" = :UltimoCambioClave WHERE "CodigoUsuario" = :CodigoUsuario

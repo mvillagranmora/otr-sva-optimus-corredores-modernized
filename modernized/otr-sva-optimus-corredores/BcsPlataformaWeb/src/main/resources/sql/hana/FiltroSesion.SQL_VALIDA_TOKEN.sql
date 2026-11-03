@@ -1,0 +1,1 @@
+SELECT COUNT(1) AS OK FROM "BSCL.Plataforma.BD::ACC.Sesion" WHERE "IdTokenSesion" = ? and "TokenValido" = 'S'

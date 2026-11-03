@@ -1,0 +1,21 @@
+Login real (CrearSesion de punta a punta) con la aplicacion modernizada contra QA, 2026-11-03.
+Usuario MAURICIO.VILLAGRAN (empresa 1, canal COR), clave correcta (verificada antes por hash, sin intento de login). Solo se escribio lo que el login escribe; no se borro nada.
+No se registran claves, hashes, tokens ni credenciales. La aplicacion se levanto con java -jar en el puerto 18117 y se detuvo al terminar.
+
+HANA QA  (plataforma.db.dialect por defecto = hana)
+  ANTES   intentos=0 sesiones_totales=5 sesiones_validas=1 logs_del_usuario=7
+  POST /PLA/CrearSesion -> HTTP 200, token recibido (108 caracteres), P_OUT_ERRORESCONTADOR=0
+  DESPUES intentos=0 sesiones_totales=6 sesiones_validas=1 logs_del_usuario=8
+  Lectura: una sesion nueva (+1) y la anterior invalidada por la sesion unica (validas 1 -> 1); un registro de auditoria nuevo (+1); intentos sin cambio.
+
+Postgres QA  (plataforma.db.dialect=postgres, driver org.postgresql.Driver)
+  ANTES   intentos=0 sesiones_totales=0 sesiones_validas=0 logs_del_usuario=0
+  POST /PLA/CrearSesion -> HTTP 200, token recibido (112 caracteres), P_OUT_ERRORESCONTADOR=0
+  DESPUES intentos=0 sesiones_totales=1 sesiones_validas=1 logs_del_usuario=1
+  Lectura: una sesion nueva y un registro de auditoria; el usuario no tenia sesiones ni logs en Postgres antes (la replica no los trae).
+
+Observaciones
+  - El largo del token difiere (108 frente a 112): el token lleva la hora de la base y el texto de la marca de tiempo tiene distinta precision de fracciones de segundo en cada motor. Es un dato a comparar en T-36, no un fallo.
+  - Los logs de la aplicacion no registraron ERROR, WARN ni excepciones en ninguna de las dos ejecuciones.
+  - No se probo bootstrap/home en Postgres: 6 sentencias sobre vistas y 8 procedimientos siguen pendientes (T-33).
+  - No se probo clave erronea ni cambio de clave en QA (acordado: solo en H2).

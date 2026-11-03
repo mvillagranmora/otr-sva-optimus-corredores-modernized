@@ -44,6 +44,9 @@ public class BootstrapController {
         try {
             JsonObject datos = unidad.ejecutar(servicio::login);
             return ResponseEntity.ok(datos.toString());
+        } catch (UnsupportedOperationException e) {
+            // an object not available in this dialect is a 503 for GlobalExceptionHandler, not a refusal or a failure of the call
+            throw e;
         } catch (Exception e) {
             log.error("Fallo del bootstrap de login: {}", e.getClass().getSimpleName());
             return ResponseEntity.status(500).build();
@@ -61,6 +64,9 @@ public class BootstrapController {
                 return ResponseEntity.ok(home.datos().toString());
             }
             return ResponseEntity.status(401).body(home.datos().toString());
+        } catch (UnsupportedOperationException e) {
+            // an object not available in this dialect is a 503 for GlobalExceptionHandler, not a refusal or a failure of the call
+            throw e;
         } catch (Exception e) {
             log.error("Fallo del bootstrap de home", e);
             return ResponseEntity.status(500).build();

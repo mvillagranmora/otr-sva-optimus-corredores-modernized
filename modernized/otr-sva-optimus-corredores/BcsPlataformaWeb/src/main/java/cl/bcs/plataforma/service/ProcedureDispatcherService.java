@@ -6,9 +6,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import cl.bcs.plataforma.login.dialecto.SentenciasSql;
+import cl.bcs.plataforma.login.dialecto.SqlDialecto;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -41,11 +45,19 @@ public class ProcedureDispatcherService implements cl.bcs.plataforma.login.Proce
 
     private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbc;
+    private final SqlDialecto dialecto;
     private final ConcurrentHashMap<String, List<SpParam>> paramCache = new ConcurrentHashMap<>();
 
+    /** HANA: what the module has always done. */
     public ProcedureDispatcherService(DataSource dataSource, NamedParameterJdbcTemplate jdbc) {
+        this(dataSource, jdbc, SentenciasSql.predeterminadas().dialecto());
+    }
+
+    @Autowired
+    public ProcedureDispatcherService(DataSource dataSource, NamedParameterJdbcTemplate jdbc, SqlDialecto dialecto) {
         this.dataSource = dataSource;
         this.jdbc = jdbc;
+        this.dialecto = dialecto;
     }
 
     /**
@@ -59,6 +71,7 @@ public class ProcedureDispatcherService implements cl.bcs.plataforma.login.Proce
      */
     public JsonObject dispatch(String rutaServicio, JsonObject params,
                                long idEmpresa, long idUsuario) throws Exception {
+        dialecto.exigirHana("Stored procedure " + rutaServicio + " (Postgres procedures are pending, T-33)");
         try (Connection conn = dataSource.getConnection()) {
             return llamar(conn, rutaServicio, params);
         }
@@ -70,6 +83,7 @@ public class ProcedureDispatcherService implements cl.bcs.plataforma.login.Proce
      */
     @Override
     public JsonObject llamar(Connection conn, String rutaServicio, JsonObject params) throws Exception {
+        dialecto.exigirHana("Stored procedure " + rutaServicio + " (Postgres procedures are pending, T-33)");
         List<SpParam> spParams = paramCache.computeIfAbsent(rutaServicio, this::introspect);
 
         // A TABLE IN parameter reaches HANA as a local temporary table filled with the rows (what the legacy helper did): the call names the table in

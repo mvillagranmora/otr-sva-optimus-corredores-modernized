@@ -1,0 +1,1 @@
+UPDATE t_pla_acc_usuario SET fecha_ultima_conexion = (now() AT TIME ZONE 'UTC'),conectado = 'S',hora = (now() AT TIME ZONE 'UTC') WHERE id_empresa = :IdEmpresa AND id_usuario = :IdUsuario

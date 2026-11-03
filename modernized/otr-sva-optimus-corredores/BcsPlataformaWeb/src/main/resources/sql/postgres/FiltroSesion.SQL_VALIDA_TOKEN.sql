@@ -1,0 +1,1 @@
+SELECT COUNT(1) AS "OK" FROM t_pla_acc_sesion WHERE id_token_sesion = ? and token_valido = 'S'

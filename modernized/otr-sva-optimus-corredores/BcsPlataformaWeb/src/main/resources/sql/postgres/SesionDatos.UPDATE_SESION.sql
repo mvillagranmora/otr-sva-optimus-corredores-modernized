@@ -1,0 +1,1 @@
+UPDATE t_pla_acc_sesion SET fecha_ultimo_uso = (now() AT TIME ZONE 'UTC'),uso_token = uso_token + 1 WHERE id_token_sesion = :IdTokenUsuario

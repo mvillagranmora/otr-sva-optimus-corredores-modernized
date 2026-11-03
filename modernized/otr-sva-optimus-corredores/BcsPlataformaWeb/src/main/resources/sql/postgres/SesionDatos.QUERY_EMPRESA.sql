@@ -1,0 +1,1 @@
+SELECT e.id_pais AS "IdPais",e.nombre AS "Nombre",e.id_socio_de_negocio AS "IdSocioDeNegocio",soc.id_persona AS "IdPersona",c.id_corredora AS "IdCorredora" FROM t_pla_pla_empresa e LEFT JOIN t_socneg_soc_socio_de_negocio soc on e.id_socio_de_negocio = soc.id_socio_de_negocio LEFT JOIN t_pla_ins_corredora c ON c.id_persona = soc.id_persona WHERE e.id_empresa = :IdEmpresa

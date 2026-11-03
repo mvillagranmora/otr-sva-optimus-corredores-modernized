@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::ACC.Usuario" SET "IntentosConexion" = :IntentosConexion WHERE "IdUsuario" = :IdUsuario

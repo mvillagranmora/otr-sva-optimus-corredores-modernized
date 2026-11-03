@@ -1,0 +1,1 @@
+SELECT id_empleado AS "IdEmpleado",CASE "EMP".id_estado WHEN 'ACT' THEN CASE "EMP".es_enrolado WHEN 'N' THEN 'PEN' WHEN 'N' THEN 'PEN' ELSE 'ACT' END ELSE 'BLO' END AS "IdEstado" FROM t_socneg_emp_empleado "EMP" WHERE id_empleado = :IdEntidad

@@ -1,0 +1,1 @@
+BSCL.Plataforma.BD.Secuencias::DetalleLog

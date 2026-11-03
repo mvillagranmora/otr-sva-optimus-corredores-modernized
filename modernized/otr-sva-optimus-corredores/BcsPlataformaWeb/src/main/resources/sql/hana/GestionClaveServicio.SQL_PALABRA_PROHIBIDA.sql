@@ -1,0 +1,1 @@
+SELECT COUNT(1) AS "Cantidad" FROM "BSCL.Plataforma.BD::ACC.PasswordProhibidas" WHERE "Palabra" = :p_ClaveNueva

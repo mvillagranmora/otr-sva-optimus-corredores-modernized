@@ -1,0 +1,1 @@
+SELECT id_empresa AS "IdEmpresa" FROM t_pla_acc_usuario WHERE codigo_usuario = :CodigoUsuario

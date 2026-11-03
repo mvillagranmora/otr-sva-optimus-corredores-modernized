@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -16,6 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import cl.bcs.plataforma.login.dialecto.SentenciasSql;
 import cl.bcs.plataforma.login.ProcedimientoAlmacenado;
 import cl.bcs.plataforma.login.jdbc.SqlNombrado;
 import cl.bcs.plataforma.login.sesion.SesionDatos;
@@ -116,49 +118,49 @@ public class BootstrapServicio {
         public Long IdServicio;
     }
 
-    static final String SQL_DICCIONARIO = "select \"CodDiccionario\" as \"Codigo\", rtrim(ltrim(\"Descripcion\")) as \"Descripcion\" , rtrim(ltrim(\"Abreviado\")) as \"Abreviado\" "
-            + "FROM \"BSCL.Plataforma.BD::PLA.Diccionario\" where \"CodLenguaje\" = :CodLenguaje order by \"CodDiccionario\"";
-    static final String SQL_EMPRESAS = "select \"IdEmpresa\",\"Nombre\" from \"BSCL.Plataforma.BD.Vistas::PLA.ConsultarEmpresa\" where \"IdEstado\" = 'ACT'";
-    static final String SQL_IMAGEN = "select \"NombreImagen\",\"Binario\" from \"BSCL.Plataforma.BD.Vistas::PLA.ConsultarImagen\" where \"NombreImagen\" = 'LOGO_CORREDOR_LOGIN'";
-    static final String SQL_FERIADOS = "select \"IdFeriado\",\"Tipo\",TO_VARCHAR (\"Fecha\",'YYYY-MM-DD') as \"Fecha\",\"Dia\",\"DescripcionDia\",\"AgnoCarga\",\"IdPais\" "
-            + "FROM \"BSCL.Plataforma.BD::REG.DiaFeriado\" where \"IdEstado\" = 'ACT'";
-    static final String SQL_TIPO_OPERACION = "select TI.\"IdTipoInstrumento\",TTO.\"IdTipoOperacion\",TTO.\"AccionOrden\",TTO.\"IdTipoProducto\",TTO.\"EsVentaCorta\",TTO.\"EsPutEsCall\" "
-            + "from \"BSCL.Plataforma.BD::INS.TipoOperacionTipoInstrumento\" TI INNER join \"BSCL.Plataforma.BD::INS.TipoOperacion\" tto ON TI.\"IdTipoOperacion\" = TTO.\"IdTipoOperacion\" "
-            + "WHERE TTO.\"AccionOrden\" IS NOT NULL AND TTO.\"EsOrden\" = 'S'";
-    static final String SQL_PREFERENCIAS = "SELECT \"Llave\", \"Valor\" FROM \"BSCL.Plataforma.BD.Vistas::PLA.ConsultarConfiguracionUsuario\" "
-            + "WHERE \"IdEmpresa\" = :IdEmpresa AND \"IdUsuario\" = :IdUsuario";
-    static final String SQL_PREFERENCIAS_GRILLA = "SELECT \"Llave\", \"Valor\" FROM \"BSCL.Plataforma.BD.Vistas::PLA.ConsultarConfiguracionGrilla\" WHERE \"IdEmpresa\" = :IdEmpresa";
-    static final String SQL_FILTRO_COMBO = "select \"IdConfiguracionFiltroInterfaz\",\"Controlador\",\"TipoObjeto\",\"NombreObjeto\",\"IdEstado\",\"Filtros\" "
-            + "FROM \"BSCL.Plataforma.BD::PLA.ConfiguracionFiltroInterfaz\" WHERE \"IdEstado\" = 'ACT'";
-    static final String SQL_ACCESOS = "SELECT * FROM \"BSCL.Plataforma.BD.Vistas::ACC.ConsultarUsuarioAcceso\" WHERE \"IdEmpresa\" = :IdEmpresa AND \"IdUsuario\" = :IdUsuario "
-            + "AND \"MostrarAcceso\" = 'S' ORDER BY \"Padre\", \"Orden\"";
+    static final String SQL_DICCIONARIO = SentenciasSql.hana("BootstrapServicio.SQL_DICCIONARIO");
+    static final String SQL_EMPRESAS = SentenciasSql.hana("BootstrapServicio.SQL_EMPRESAS");
+    static final String SQL_IMAGEN = SentenciasSql.hana("BootstrapServicio.SQL_IMAGEN");
+    static final String SQL_FERIADOS = SentenciasSql.hana("BootstrapServicio.SQL_FERIADOS");
+    static final String SQL_TIPO_OPERACION = SentenciasSql.hana("BootstrapServicio.SQL_TIPO_OPERACION");
+    static final String SQL_PREFERENCIAS = SentenciasSql.hana("BootstrapServicio.SQL_PREFERENCIAS");
+    static final String SQL_PREFERENCIAS_GRILLA = SentenciasSql.hana("BootstrapServicio.SQL_PREFERENCIAS_GRILLA");
+    static final String SQL_FILTRO_COMBO = SentenciasSql.hana("BootstrapServicio.SQL_FILTRO_COMBO");
+    static final String SQL_ACCESOS = SentenciasSql.hana("BootstrapServicio.SQL_ACCESOS");
 
     /** Legacy {@code Utils.getConfiguraciones}: the configuration tables of the 12 modules for one company (UNION: duplicate rows collapse). */
-    static final String SQL_CONFIGURACIONES = "SELECT \"IdEmpresa\",\"Modulo\",\"CodigoParametro\",\"Valor\" FROM ("
-            + "SELECT \"IdEmpresa\",'PLATAFORMA' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.Plataforma.BD::PLA.Configuracion\" UNION "
-            + "SELECT \"IdEmpresa\",'CONTABILIDAD' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.Contabilidad.BD::CON.ConfiguracionContabilidad\" UNION "
-            + "SELECT \"IdEmpresa\",'ORDENES' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.Orden.BD::ORD.ConfiguracionOrdenes\" UNION "
-            + "SELECT \"IdEmpresa\",'CUENTAINVERSION' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.CuentaInversion.BD::CTA.ConfiguracionCuentaInversion\" UNION "
-            + "SELECT \"IdEmpresa\",'TESORERIA' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.Tesoreria.BD::TES.ConfiguracionTesoreria\" UNION "
-            + "SELECT \"IdEmpresa\",'FACTURACION' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.Facturacion.BD::FAC.ConfiguracionFacturacion\" UNION "
-            + "SELECT \"IdEmpresa\",'SOCIODENEGOCIO' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.SocioDeNegocio.BD::SOC.ConfiguracionSocioNegocio\" UNION "
-            + "SELECT \"IdEmpresa\",'CUSTODIA' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.Custodia.BD::CUS.Configuracion\" UNION "
-            + "SELECT \"IdEmpresa\",'FONDOMUTUO' AS \"Modulo\",\"NombreTipoParametro\" AS \"CodigoParametro\",\"ValorParametro\" AS \"Valor\" FROM \"BSCL.FondoMutuo.BD::FMM.Parametro\" UNION "
-            + "SELECT \"IdEmpresa\",'APV' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.APV.BD::PLA.ConfiguracionAPV\" UNION "
-            + "SELECT \"IdEmpresa\",'MESA' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.Mesa.BD::MES.ConfiguracionMesa\" UNION "
-            + "SELECT \"IdEmpresa\",'PRODUCTO' AS \"Modulo\",\"CodigoParametro\",\"Valor\" FROM \"BSCL.Plataforma.BD::PRO.Configuracion\") WHERE \"IdEmpresa\" = :IdEmpresa";
+    static final String SQL_CONFIGURACIONES = SentenciasSql.hana("BootstrapServicio.SQL_CONFIGURACIONES");
 
-    static final String SP_FORMATOS = "BSCL.Plataforma.BD.Servicios::ConsultarFormatos";
-    static final String SP_USUARIO_ADMIN = "BSCL.Plataforma.BD.Servicios::ACC.ConsultarUsuarioAdmin";
-    static final String SP_OBTENER_CONFIGURACION = "BSCL.Plataforma.BD.Utilitarios::ObtenerConfiguracion";
-    static final String SP_FECHAS = "BSCL.Plataforma.BD.Utilitarios::ObtenerFechas";
+    static final String SP_FORMATOS = SentenciasSql.hana("BootstrapServicio.SP_FORMATOS");
+    static final String SP_USUARIO_ADMIN = SentenciasSql.hana("BootstrapServicio.SP_USUARIO_ADMIN");
+    static final String SP_OBTENER_CONFIGURACION = SentenciasSql.hana("BootstrapServicio.SP_OBTENER_CONFIGURACION");
+    static final String SP_FECHAS = SentenciasSql.hana("BootstrapServicio.SP_FECHAS");
+
+    /** The statements the login page reads: all their objects are checked before the first one runs. */
+    /** The statements the home page needs, the session ones included: checked before the first one runs, so a 503 never follows a write. */
+    private static final List<String> SENTENCIAS_DEL_HOME = List.of("SesionDatos.QUERY_USUARIO", "SesionDatos.QUERY_PARAMETROS",
+            "SesionDatos.QUERY_EMPRESA", "SesionDatos.QUERY_VALORES_DEFECTO", "SesionDatos.UPDATE_SESION", "SesionDatos.UPDATE_USUARIO",
+            "BootstrapServicio.SQL_PREFERENCIAS", "BootstrapServicio.SQL_PREFERENCIAS_GRILLA", "BootstrapServicio.SQL_DICCIONARIO",
+            "BootstrapServicio.SQL_FERIADOS", "BootstrapServicio.SQL_TIPO_OPERACION", "BootstrapServicio.SQL_FILTRO_COMBO",
+            "BootstrapServicio.SQL_ACCESOS", "BootstrapServicio.SQL_CONFIGURACIONES");
+
+    private static final List<String> SENTENCIAS_DEL_LOGIN = List.of("BootstrapServicio.SQL_CONFIGURACIONES", "BootstrapServicio.SQL_DICCIONARIO",
+            "BootstrapServicio.SQL_EMPRESAS", "BootstrapServicio.SQL_IMAGEN");
 
     private final SesionDatos sesionDatos;
     private final ProcedimientoAlmacenado procedimientos;
+    private final SentenciasSql sentencias;
 
+    /** HANA statements: what the module has always sent. */
     public BootstrapServicio(SesionDatos sesionDatos, ProcedimientoAlmacenado procedimientos) {
+        this(sesionDatos, procedimientos, SentenciasSql.predeterminadas());
+    }
+
+    @Autowired
+    public BootstrapServicio(SesionDatos sesionDatos, ProcedimientoAlmacenado procedimientos, SentenciasSql sentencias) {
         this.sesionDatos = sesionDatos;
         this.procedimientos = procedimientos;
+        this.sentencias = sentencias;
     }
 
     /** The result of the home bootstrap: the data, or a refusal that carries only the codes of the legacy messages. */
@@ -169,6 +171,7 @@ public class BootstrapServicio {
 
     /** What the login page needs; no session. The company-1 configuration decides environment, offset and SSO button, as the legacy. */
     public JsonObject login(Connection con) throws Exception {
+        sentencias.exigirDisponibles(SENTENCIAS_DEL_LOGIN);
         Map<String, Map<String, String>> configuracion = configuraciones(con, 1);
         Map<String, String> pla = configuracion.get("PLATAFORMA");
         JsonObject out = base();
@@ -201,6 +204,7 @@ public class BootstrapServicio {
      * is badly configured) is refused; a valid one is used (one more use of the token, user connected): the caller commits it.
      */
     public Home home(Connection con, String token) throws Exception {
+        sentencias.exigirDisponibles(SENTENCIAS_DEL_HOME);
         SesionData sesion = sesionDatos.getSesionData(con, token);
         if (sesion.P_OUT_ERRORESCONTADOR > 0L) {
             con.rollback();
@@ -227,8 +231,8 @@ public class BootstrapServicio {
         out.add("BCS_OFFSET", numeroOTexto(pla.get("PLA.SegundosZonaHoraria")));
         out.add("BCS_VERSION", numeroOTexto(pla.get("PLA.Version")));
         out.add("BCS_ACCESOS", accesos(con, sesion.IdEmpresa, sesion.IdUsuario));
-        out.add("BCS_PREFERENCIAS", clavesValor(con, SQL_PREFERENCIAS, parametros("IdEmpresa", sesion.IdEmpresa, "IdUsuario", sesion.IdUsuario)));
-        out.add("BCS_PREFERENCIAS_GRILLA", clavesValor(con, SQL_PREFERENCIAS_GRILLA, parametros("IdEmpresa", sesion.IdEmpresa)));
+        out.add("BCS_PREFERENCIAS", clavesValor(con, sentencias.de(SQL_PREFERENCIAS), parametros("IdEmpresa", sesion.IdEmpresa, "IdUsuario", sesion.IdUsuario)));
+        out.add("BCS_PREFERENCIAS_GRILLA", clavesValor(con, sentencias.de(SQL_PREFERENCIAS_GRILLA), parametros("IdEmpresa", sesion.IdEmpresa)));
         out.addProperty("BCS_AMBIENTE", pla.get("PLA.Ambiente"));
         out.addProperty("BCS_TIMESTAMP_LOCAL", fechaHoraLocal(con, sesion.IdEmpresa));
         out.addProperty("BCS_MUESTRA_SSO_GOOGLE", textoComoLegacy(null));
@@ -268,7 +272,7 @@ public class BootstrapServicio {
 
     /** Legacy {@code getDiccionario}: {@code Codigo} to text and {@code Codigo_ABR} to the abbreviation, for the language. */
     JsonObject diccionario(Connection con, String lenguaje) throws Exception {
-        List<Diccionario> filas = SqlNombrado.consultar(con, SQL_DICCIONARIO, parametros("CodLenguaje", lenguaje == null ? "CL" : lenguaje), Diccionario.class);
+        List<Diccionario> filas = SqlNombrado.consultar(con, sentencias.de(SQL_DICCIONARIO), parametros("CodLenguaje", lenguaje == null ? "CL" : lenguaje), Diccionario.class);
         JsonObject out = new JsonObject();
         for (Diccionario d : filas) {
             out.addProperty(d.Codigo, d.Descripcion);
@@ -278,13 +282,13 @@ public class BootstrapServicio {
     }
 
     List<Empresa> empresas(Connection con) throws Exception {
-        return SqlNombrado.consultar(con, SQL_EMPRESAS, new HashMap<>(), Empresa.class);
+        return SqlNombrado.consultar(con, sentencias.de(SQL_EMPRESAS), new HashMap<>(), Empresa.class);
     }
 
     /** Legacy {@code getImagen}: the login logo as {@code [{NombreImagen, Binario (base64)}]}. */
     JsonArray logo(Connection con) throws Exception {
         JsonArray out = new JsonArray();
-        for (Imagen img : SqlNombrado.consultar(con, SQL_IMAGEN, new HashMap<>(), Imagen.class)) {
+        for (Imagen img : SqlNombrado.consultar(con, sentencias.de(SQL_IMAGEN), new HashMap<>(), Imagen.class)) {
             JsonObject o = new JsonObject();
             o.addProperty("NombreImagen", img.NombreImagen);
             o.addProperty("Binario", img.Binario != null ? Base64.getEncoder().encodeToString(img.Binario) : "");
@@ -296,7 +300,7 @@ public class BootstrapServicio {
     /** Legacy {@code getFeriados}: {@code IdPais -> Fecha -> {Tipo, Dia, DescripcionDia, AgnoCarga}}. */
     JsonObject feriados(Connection con) throws Exception {
         JsonObject out = new JsonObject();
-        for (DiaFeriado f : SqlNombrado.consultar(con, SQL_FERIADOS, new HashMap<>(), DiaFeriado.class)) {
+        for (DiaFeriado f : SqlNombrado.consultar(con, sentencias.de(SQL_FERIADOS), new HashMap<>(), DiaFeriado.class)) {
             if (out.get(f.IdPais + "") == null) out.add(f.IdPais + "", new JsonObject());
             JsonObject pais = out.get(f.IdPais + "").getAsJsonObject();
             JsonObject fecha = new JsonObject();
@@ -311,7 +315,7 @@ public class BootstrapServicio {
 
     JsonArray tiposOperacion(Connection con) throws Exception {
         JsonArray out = new JsonArray();
-        for (TipoOperacionInstrumento r : SqlNombrado.consultar(con, SQL_TIPO_OPERACION, new HashMap<>(), TipoOperacionInstrumento.class)) {
+        for (TipoOperacionInstrumento r : SqlNombrado.consultar(con, sentencias.de(SQL_TIPO_OPERACION), new HashMap<>(), TipoOperacionInstrumento.class)) {
             JsonObject linea = new JsonObject();
             linea.addProperty("AccionOrden", r.AccionOrden);
             linea.addProperty("IdTipoInstrumento", r.IdTipoInstrumento);
@@ -336,7 +340,7 @@ public class BootstrapServicio {
     /** Legacy {@code getFiltroComboBase}: {@code Controlador -> TipoObjeto -> NombreObjeto -> Filtros} (tabs and line breaks removed). */
     JsonObject filtroComboBase(Connection con) throws Exception {
         JsonObject out = new JsonObject();
-        for (ConfiguracionFiltro f : SqlNombrado.consultar(con, SQL_FILTRO_COMBO, new HashMap<>(), ConfiguracionFiltro.class)) {
+        for (ConfiguracionFiltro f : SqlNombrado.consultar(con, sentencias.de(SQL_FILTRO_COMBO), new HashMap<>(), ConfiguracionFiltro.class)) {
             String filtros = f.Filtros != null ? f.Filtros : "";
             filtros = filtros.replace("\t", "").replace("\r", "").replace("\n", "");
             if (out.get(f.Controlador) == null) out.add(f.Controlador, new JsonObject());
@@ -361,7 +365,7 @@ public class BootstrapServicio {
         cfg.addProperty("p_CodigoParametro", "PLA.ConflictoAccesoDefecto");
         String existePorDefecto = procedimientos.llamar(con, SP_OBTENER_CONFIGURACION, cfg).get("P_OUT_VALOR").getAsString();
 
-        for (UsuarioAcceso acc : SqlNombrado.consultar(con, SQL_ACCESOS, parametros("IdEmpresa", idEmpresa, "IdUsuario", idUsuario), UsuarioAcceso.class)) {
+        for (UsuarioAcceso acc : SqlNombrado.consultar(con, sentencias.de(SQL_ACCESOS), parametros("IdEmpresa", idEmpresa, "IdUsuario", idUsuario), UsuarioAcceso.class)) {
             String idHtml = acc.IdElementoHtml;
             String existeDB = acc.Existe;
             String valorFinalExiste = esAdmin ? "S" : existeDB;
@@ -415,7 +419,7 @@ public class BootstrapServicio {
     /** Legacy {@code Utils.getConfiguraciones}: {@code Modulo -> CodigoParametro -> Valor} for the company. */
     Map<String, Map<String, String>> configuraciones(Connection con, long idEmpresa) throws Exception {
         Map<String, Map<String, String>> mapa = new HashMap<>();
-        for (Parametro p : SqlNombrado.consultar(con, SQL_CONFIGURACIONES, parametros("IdEmpresa", idEmpresa), Parametro.class)) {
+        for (Parametro p : SqlNombrado.consultar(con, sentencias.de(SQL_CONFIGURACIONES), parametros("IdEmpresa", idEmpresa), Parametro.class)) {
             mapa.computeIfAbsent(p.Modulo, k -> new HashMap<>()).put(p.CodigoParametro, p.Valor);
         }
         return mapa;

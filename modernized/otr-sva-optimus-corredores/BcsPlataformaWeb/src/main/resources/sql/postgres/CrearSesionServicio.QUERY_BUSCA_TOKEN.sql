@@ -1,0 +1,1 @@
+SELECT id_token_sesion AS "IdTokenSesion" FROM t_pla_acc_sesion WHERE token_valido = 'S' AND id_usuario = :IdUsuario AND id_canal = :IdCanal LIMIT 1

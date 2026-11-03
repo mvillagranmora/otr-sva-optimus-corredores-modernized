@@ -1,0 +1,1 @@
+UPDATE t_pla_acc_usuario SET intentos_conexion_clave_provisoria = :Intentos WHERE codigo_usuario = :CodigoUsuario

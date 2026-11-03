@@ -57,6 +57,9 @@ public class CrearSesionController {
                 return ResponseEntity.ok(exito(r));
             }
             return ResponseEntity.status(401).body(errorPorDefecto());
+        } catch (UnsupportedOperationException e) {
+            // an object not available in this dialect is a 503 for GlobalExceptionHandler, not a refusal or a failure of the call
+            throw e;
         } catch (Exception e) {
             log.warn("Error al iniciar sesion usuario {}: {}", nombreUsuario, e.getClass().getSimpleName());
             return ResponseEntity.status(401).body(errorPorDefecto());

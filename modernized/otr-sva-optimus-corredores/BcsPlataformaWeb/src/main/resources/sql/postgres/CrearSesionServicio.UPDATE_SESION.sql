@@ -1,0 +1,1 @@
+UPDATE t_pla_acc_sesion SET fecha_ultimo_uso= :p_FechaUso, uso_token= uso_token + 1, token_valido = :p_TokenValido WHERE id_token_sesion = :p_Token

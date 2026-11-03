@@ -1,0 +1,1 @@
+SELECT UPPER(U."CodigoUsuario") AS "Codigo" FROM "BSCL.Plataforma.BD::ACC.Sesion" S JOIN "BSCL.Plataforma.BD::ACC.Usuario" U ON U."IdUsuario" = S."IdUsuario" WHERE S."IdTokenSesion" = :Token AND S."TokenValido" = 'S'

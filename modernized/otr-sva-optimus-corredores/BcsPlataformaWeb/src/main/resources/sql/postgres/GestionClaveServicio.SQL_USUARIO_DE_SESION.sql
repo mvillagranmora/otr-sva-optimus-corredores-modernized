@@ -1,0 +1,1 @@
+SELECT UPPER(U.codigo_usuario) AS "Codigo" FROM t_pla_acc_sesion S JOIN t_pla_acc_usuario U ON U.id_usuario = S.id_usuario WHERE S.id_token_sesion = :Token AND S.token_valido = 'S'

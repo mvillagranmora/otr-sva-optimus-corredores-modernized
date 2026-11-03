@@ -1,0 +1,1 @@
+select cod_diccionario as "Codigo", rtrim(ltrim(descripcion)) as "Descripcion" , rtrim(ltrim(abreviado)) as "Abreviado" FROM t_pla_pla_diccionario where cod_lenguaje = :CodLenguaje order by cod_diccionario

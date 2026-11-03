@@ -1,0 +1,1 @@
+SELECT COUNT(1) AS "Cantidad" FROM t_pla_acc_password_prohibidas WHERE palabra = :p_ClaveNueva

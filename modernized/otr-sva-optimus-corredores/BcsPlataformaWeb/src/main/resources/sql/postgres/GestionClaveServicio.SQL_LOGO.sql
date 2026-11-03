@@ -1,0 +1,1 @@
+SELECT ruta_publica AS "RutaPublica" FROM t_pla_pla_imagenes WHERE nombre_imagen = 'LOGO_CORREDOR' AND id_empresa = :IdEmpresa

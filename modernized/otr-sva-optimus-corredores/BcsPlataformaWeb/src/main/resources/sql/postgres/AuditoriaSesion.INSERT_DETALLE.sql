@@ -1,0 +1,1 @@
+insert into t_pla_pla_detalle_log(id_detalle_log,id_log,sub_registro,campo_registro,valor_antiguo,valor_nuevo,codigo_autenticacion) values(:IdDetalleLog,:IdLog,:SubRegistro,:CampoRegistro,:ValorAntiguo,:ValorNuevo,:CodigoAutenticacion)

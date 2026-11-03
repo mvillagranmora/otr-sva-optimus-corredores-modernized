@@ -1,0 +1,1 @@
+SELECT TOP 1 "IdTokenSesion" FROM "BSCL.Plataforma.BD::ACC.Sesion" WHERE "TokenValido" = 'S' AND "IdUsuario" = :IdUsuario AND "IdCanal" = :IdCanal

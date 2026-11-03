@@ -1,0 +1,1 @@
+SELECT "RutaPublica" FROM "BSCL.Plataforma.BD::PLA.Imagenes" WHERE "NombreImagen" = 'LOGO_CORREDOR' AND "IdEmpresa" = :IdEmpresa

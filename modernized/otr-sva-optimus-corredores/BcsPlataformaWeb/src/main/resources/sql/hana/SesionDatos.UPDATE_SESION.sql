@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::ACC.Sesion" SET "FechaUltimoUso" = CURRENT_UTCTIMESTAMP,"UsoToken" = "UsoToken" + 1 WHERE "IdTokenSesion" = :IdTokenUsuario

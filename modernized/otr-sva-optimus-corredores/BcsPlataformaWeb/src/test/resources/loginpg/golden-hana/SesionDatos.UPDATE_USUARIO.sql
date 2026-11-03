@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::ACC.Usuario" SET "FechaUltimaConexion" = CURRENT_UTCTIMESTAMP,"Conectado" = 'S',"Hora" = CURRENT_UTCTIMESTAMP WHERE "IdEmpresa" = :IdEmpresa AND "IdUsuario" = :IdUsuario

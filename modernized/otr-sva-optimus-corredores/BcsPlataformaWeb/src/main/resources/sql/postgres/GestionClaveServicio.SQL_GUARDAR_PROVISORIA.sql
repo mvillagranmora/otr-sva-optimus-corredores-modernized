@@ -1,0 +1,1 @@
+UPDATE t_pla_acc_usuario SET clave_provisoria = :ClaveProvisoria, fecha_clave_provisoria = :FechaClaveProvisoria, intentos_conexion_clave_provisoria = 0 WHERE codigo_usuario = :CodigoUsuario

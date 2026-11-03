@@ -3,7 +3,7 @@
  "modulos": {
   "BcsPlataformaWeb": {
    "estado": "parcial",
-   "nota": "MVP del login: router /internal/java-call y login (CrearSesion, gestion de clave, bootstrap JSON, filtro de sesion cerrado por defecto, ActualizarClave con sesion); 163 pruebas (H2 + 4 de HANA QA solo lectura), 2 omitidas; 44 casos de desarrollo iguales al legacy y 21 frescas sin diferencia no aprobada; escrituras probadas contra el legacy con usuario de prueba; verify 26-oct sin firma. loc_migrado ES UNA ESTIMACION (~36 %) de las lineas legacy del login; NO migrado: CallServlet (stub 503), CallBatch (stub 503), CallReportServlet, CallWebsocket, Contratos/Documentos/Boletines/ImageManager/FileDownload, SSO, TemplateServlet, filemanager, menus y HTML de la pagina; falta medirlo clase por clase.",
+   "nota": "AL 2026-11-03 (dialecto HANA/Postgres del login, T-30..T-32, SIN verify ni firma, no cambia loc_migrado): el login corre contra HANA (por defecto) o Postgres (plataforma.db.dialect), un solo codigo y JDBC; 55 sentencias en recursos por dialecto, catalogo de equivalencias desde resumen_exportacion.xlsx, objeto no disponible = 503; 943 pruebas en el modulo (775 nuevas), 0 fallos; las 39 sentencias de tablas validadas contra Postgres QA solo con Parse/Describe. Pendiente: 6 sentencias sobre vistas, 8 procedimientos (T-33), ejecucion real de lecturas (T-36) y login real contra HANA QA y Postgres QA. MVP del login: router /internal/java-call y login (CrearSesion, gestion de clave, bootstrap JSON, filtro de sesion cerrado por defecto, ActualizarClave con sesion); 163 pruebas (H2 + 4 de HANA QA solo lectura), 2 omitidas; 44 casos de desarrollo iguales al legacy y 21 frescas sin diferencia no aprobada; escrituras probadas contra el legacy con usuario de prueba; verify 26-oct sin firma. loc_migrado ES UNA ESTIMACION (~36 %) de las lineas legacy del login; NO migrado: CallServlet (stub 503), CallBatch (stub 503), CallReportServlet, CallWebsocket, Contratos/Documentos/Boletines/ImageManager/FileDownload, SSO, TemplateServlet, filemanager, menus y HTML de la pagina; falta medirlo clase por clase.",
    "loc_migrado": 2200
   },
   "BcsJobManager": {
@@ -325,6 +325,14 @@
   {
    "fecha": "2026-11-03",
    "evento": "Verify de BcsSURA: PROVEN (140 pruebas, 0 fallos, canario 13 rojas, 18 casos de desarrollo y 45 comparaciones frescas sin diferencia, estas ultimas NO repetidas hoy contra HANA QA); sin firma. Se retira la carpeta hana-jdbc (herramienta temporal de conectividad, decision del usuario): BcsSURA se conecta directo a HANA por HANA_URL, HANA_USER y HANA_PASSWORD; sale del resumen global del pack, que queda NOT PROVEN solo por BcsFondoMutuoServicios (336 pruebas en rojo de T6-B, pendientes de implementar)."
+  },
+  {
+   "fecha": "2026-11-03",
+   "evento": "BcsPlataformaWeb: dialecto HANA/Postgres del login (T-30, T-31, T-32) implementado tras aprobar las pruebas en rojo: 943 pruebas del modulo en verde (775 LoginPg*), canario 3 rojas, 39 sentencias analizadas contra Postgres QA (sin ejecutar), revision de arquitectura con 1 HIGH corregido (despachadores atados al dialecto); sin verify ni firma. Pendiente T-33 (procedimientos), vistas, T-36 y login real en QA."
+  },
+  {
+   "fecha": "2026-11-03",
+   "evento": "BcsPlataformaWeb: login real (CrearSesion de punta a punta, java -jar) correcto contra HANA QA y contra Postgres QA con el usuario acordado: HTTP 200, token, 0 errores, +1 sesion y +1 log en cada motor, sin borrados ni errores en logs; bootstrap/home en Postgres sigue pendiente (6 sentencias sobre vistas y 8 procedimientos)."
   }
  ]
 }

@@ -1,0 +1,1 @@
+SELECT "IdValorDefectoSistema","Nombre","Valor","IdEmpresa","IdEstado" FROM "BSCL.Plataforma.BD::PLA.ValorDefectoSistema" WHERE "IdEmpresa" = :IdEmpresa AND "IdEstado" = 'ACT'

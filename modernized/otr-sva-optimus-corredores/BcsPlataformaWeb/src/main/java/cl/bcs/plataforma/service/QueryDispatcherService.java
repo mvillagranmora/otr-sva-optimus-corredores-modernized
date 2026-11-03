@@ -2,7 +2,11 @@ package cl.bcs.plataforma.service;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import cl.bcs.plataforma.login.dialecto.SentenciasSql;
+import cl.bcs.plataforma.login.dialecto.SqlDialecto;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -21,9 +25,17 @@ import java.util.regex.Pattern;
 public class QueryDispatcherService {
 
     private final DataSource dataSource;
+    private final SqlDialecto dialecto;
 
+    /** HANA: what the module has always done. */
     public QueryDispatcherService(DataSource dataSource) {
+        this(dataSource, SentenciasSql.predeterminadas().dialecto());
+    }
+
+    @Autowired
+    public QueryDispatcherService(DataSource dataSource, SqlDialecto dialecto) {
         this.dataSource = dataSource;
+        this.dialecto = dialecto;
     }
 
     public record QueryResult(JsonArray rows, long totalCount) {}
@@ -42,6 +54,7 @@ public class QueryDispatcherService {
     public QueryResult dispatch(String rutaServicio,
                                 String select, String filter, String orderby,
                                 long top, long skip, boolean inlineCount) throws Exception {
+        dialecto.exigirHana("Query service " + rutaServicio + " (it names a HANA view)");
         String viewRef = "BSCL.\"" + rutaServicio + "\"";
 
         String whereSql = filter != null && !filter.isBlank() ? translateFilter(filter) : null;

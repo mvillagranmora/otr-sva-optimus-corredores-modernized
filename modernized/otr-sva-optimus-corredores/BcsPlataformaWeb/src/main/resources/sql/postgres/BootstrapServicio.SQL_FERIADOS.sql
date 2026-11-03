@@ -1,0 +1,1 @@
+select id_feriado AS "IdFeriado",tipo AS "Tipo",to_char(fecha,'YYYY-MM-DD') as "Fecha",dia AS "Dia",descripcion_dia AS "DescripcionDia",agno_carga AS "AgnoCarga",id_pais AS "IdPais" FROM t_pla_reg_dia_feriado where id_estado = 'ACT'

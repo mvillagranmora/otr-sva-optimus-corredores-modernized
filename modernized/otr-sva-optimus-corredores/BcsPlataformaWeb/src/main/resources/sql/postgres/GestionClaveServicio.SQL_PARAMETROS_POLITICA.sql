@@ -1,0 +1,1 @@
+SELECT codigo_parametro AS "CodigoParametro", valor AS "Valor" FROM t_pla_pla_configuracion WHERE id_empresa = :p_IdEmpresa AND codigo_parametro IN ('ACC.numLongitud','ACC.numMayusculas','ACC.numMinuscula','ACC.numCaracteres','ACC.numDigitos')

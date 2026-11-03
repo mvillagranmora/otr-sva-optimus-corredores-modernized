@@ -12,8 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cl.bcs.plataforma.login.dialecto.SentenciasSql;
 import cl.bcs.plataforma.login.jdbc.SqlNombrado;
 
 /**
@@ -105,61 +107,45 @@ public class CrearSesionServicio {
     }
 
     static final String QUERY_USUARIOS =
-            "SELECT \"IdUsuario\",\"Clave\",\"FechaVigencia\",\"IdEstado\",\"IntentosConexion\",\"FechaBloqueoTemporal\",\"EsAutorizado\", \"TipoEntidad\", \"IdEntidad\","
-            + "\"UsuarioClientes\", \"UsuarioNegocios\", \"UsuarioServicios\", \"UsuarioCorredores\",c1.\"Valor\" as \"Param_FechaSistema\",c2.\"Valor\" as \"Param_IntentosMaximo\","
-            + "CURRENT_UTCTIMESTAMP as \"CurrentTimestamp\",c3.\"Valor\" AS \"Param_ClaveUsuarioTiempoBloqueo\" "
-            + "FROM \"BSCL.Plataforma.BD::ACC.Usuario\" u "
-            + "LEFT JOIN \"BSCL.Plataforma.BD::PLA.Configuracion\" c1 ON u.\"IdEmpresa\" = c1.\"IdEmpresa\" AND c1.\"CodigoParametro\" = 'PLA.FechaSistema' "
-            + "LEFT JOIN \"BSCL.Plataforma.BD::PLA.Configuracion\" c2 ON u.\"IdEmpresa\" = c2.\"IdEmpresa\" AND c2.\"CodigoParametro\" = 'PLA.ClaveUsuarioIntentos' "
-            + "LEFT JOIN \"BSCL.Plataforma.BD::PLA.Configuracion\" c3 ON u.\"IdEmpresa\" = c3.\"IdEmpresa\" AND c3.\"CodigoParametro\" = 'PLA.ClaveUsuarioTiempoBloqueo' "
-            + "WHERE u.\"IdEmpresa\" = :p_IdEmpresa AND \"CodigoUsuario\" = :p_NombreUsuario";
+            SentenciasSql.hana("CrearSesionServicio.QUERY_USUARIOS");
 
-    static final String UPDATE_INTENTOS = "UPDATE \"BSCL.Plataforma.BD::ACC.Usuario\" SET \"IntentosConexion\" = :IntentosConexion WHERE \"IdUsuario\" = :IdUsuario";
+    static final String UPDATE_INTENTOS = SentenciasSql.hana("CrearSesionServicio.UPDATE_INTENTOS");
 
-    static final String UPDATE_BLOQUEO_TEMPORAL = "UPDATE \"BSCL.Plataforma.BD::ACC.Usuario\" "
-            + "SET \"FechaBloqueoTemporal\" = ADD_SECONDS (CURRENT_UTCTIMESTAMP, to_int(:Param_ClaveUsuarioTiempoBloqueo)*60),\"IntentosConexion\" = 0 "
-            + "WHERE \"IdUsuario\" = :IdUsuario";
+    static final String UPDATE_BLOQUEO_TEMPORAL = SentenciasSql.hana("CrearSesionServicio.UPDATE_BLOQUEO_TEMPORAL");
 
-    static final String QUERY_EMPLEADO = "SELECT \"IdEmpleado\","
-            + "CASE \"EMP\".\"IdEstado\" WHEN 'ACT' THEN CASE \"EMP\".\"EsEnrolado\" WHEN 'N' THEN 'PEN' WHEN 'N' THEN 'PEN' ELSE 'ACT' END ELSE 'BLO' END AS \"IdEstado\""
-            + " FROM \"BSCL.SocioNegocio.BD::EMP.Empleado\" \"EMP\" WHERE \"IdEmpleado\" = :IdEntidad";
+    static final String QUERY_EMPLEADO = SentenciasSql.hana("CrearSesionServicio.QUERY_EMPLEADO");
 
-    static final String QUERY_PERSONA = "SELECT \"IdPersona\","
-            + "CASE \"PER\".\"IdEstado\" WHEN 'ACT' THEN CASE \"PER\".\"EsEnrolado\" WHEN 'N' THEN 'PEN' WHEN 'N' THEN 'PEN' ELSE 'ACT' END ELSE 'BLO' END AS \"IdEstado\""
-            + " FROM \"BSCL.SocioNegocio.BD::PER.Persona\" \"PER\" WHERE \"IdPersona\" = :IdEntidad";
+    static final String QUERY_PERSONA = SentenciasSql.hana("CrearSesionServicio.QUERY_PERSONA");
 
-    static final String QUERY_CLIENTE = "SELECT \"IdCliente\","
-            + "CASE \"CLI\".\"IdEstado\" WHEN 'ACT' THEN CASE \"CLI\".\"EsEnrolado\" WHEN 'N' THEN 'PEN' WHEN 'N' THEN 'PEN' ELSE 'ACT' END ELSE 'BLO' END AS \"IdEstado\""
-            + " FROM \"BSCL.SocioNegocio.BD::CLI.Cliente\" \"CLI\" WHERE \"IdCliente\" = :IdEntidad";
+    static final String QUERY_CLIENTE = SentenciasSql.hana("CrearSesionServicio.QUERY_CLIENTE");
 
-    static final String QUERY_BUSCA_TOKEN = "SELECT TOP 1 \"IdTokenSesion\" FROM \"BSCL.Plataforma.BD::ACC.Sesion\" "
-            + "WHERE \"TokenValido\" = 'S' AND \"IdUsuario\" = :IdUsuario AND \"IdCanal\" = :IdCanal";
+    static final String QUERY_BUSCA_TOKEN = SentenciasSql.hana("CrearSesionServicio.QUERY_BUSCA_TOKEN");
 
-    static final String QUERY_SESION = "SELECT \"IdUsuario\", \"FechaUltimoUso\" FROM \"BSCL.Plataforma.BD::ACC.Sesion\" "
-            + "WHERE \"IdTokenSesion\" = :p_Token AND \"TokenValido\" = 'S'";
+    static final String QUERY_SESION = SentenciasSql.hana("CrearSesionServicio.QUERY_SESION");
 
-    static final String UPDATE_SESION = "UPDATE \"BSCL.Plataforma.BD::ACC.Sesion\" "
-            + "SET \"FechaUltimoUso\"= :p_FechaUso, \"UsoToken\"= \"UsoToken\" + 1, \"TokenValido\" = :p_TokenValido WHERE \"IdTokenSesion\" = :p_Token";
+    static final String UPDATE_SESION = SentenciasSql.hana("CrearSesionServicio.UPDATE_SESION");
 
-    static final String INSERT_SESION = "INSERT INTO \"BSCL.Plataforma.BD::ACC.Sesion\" "
-            + "(\"IdTokenSesion\",\"IdUsuario\",\"TokenValido\",\"FechaUltimoUso\",\"FechaIngreso\",\"IdCanal\",\"IdEntidadSSO\") "
-            + "VALUES (:IdTokenSesion,:IdUsuario,'S',CURRENT_UTCTIMESTAMP,CURRENT_UTCTIMESTAMP,:IdCanal,:IdEntidadSSO)";
+    static final String INSERT_SESION = SentenciasSql.hana("CrearSesionServicio.INSERT_SESION");
 
     /** T-04: closes the open sessions of the user and channel when {@code PLA.SesionUnicaUsuario} is "S" and the channel is in {@code PLA.CanalesSesionUnica}. */
-    static final String CLOSE_SESION = "UPDATE \"BSCL.Plataforma.BD::ACC.Sesion\" SET \"TokenValido\" = 'N' "
-            + "WHERE \"IdUsuario\" = :IdUsuario AND \"IdCanal\" = :IdCanal AND \"TokenValido\" = 'S' "
-            + "AND ( SELECT \"Valor\" FROM \"BSCL.Plataforma.BD::PLA.Configuracion\" WHERE \"CodigoParametro\" = 'PLA.SesionUnicaUsuario' ) = 'S' "
-            + "AND EXISTS ( SELECT 1 FROM \"BSCL.Plataforma.BD::PLA.Configuracion\" c "
-            + "WHERE c.\"CodigoParametro\" = 'PLA.CanalesSesionUnica' AND ';' || c.\"Valor\" || ';' LIKE '%;' || \"IdCanal\" || ';%' )";
+    static final String CLOSE_SESION = SentenciasSql.hana("CrearSesionServicio.CLOSE_SESION");
 
-    static final String QUERY_PARAMETRO = "SELECT \"Valor\" FROM \"BSCL.Plataforma.BD::PLA.Configuracion\" WHERE \"CodigoParametro\" = :p_Parametro";
+    static final String QUERY_PARAMETRO = SentenciasSql.hana("CrearSesionServicio.QUERY_PARAMETRO");
 
-    static final String QUERY_RELOJ_UTC = "SELECT CURRENT_UTCTIMESTAMP as \"UTC\" FROM DUMMY";
+    static final String QUERY_RELOJ_UTC = SentenciasSql.hana("CrearSesionServicio.QUERY_RELOJ_UTC");
 
     private final AuditoriaSesion auditoria;
+    private final SentenciasSql sentencias;
 
+    /** HANA statements: what the module has always sent. */
     public CrearSesionServicio(AuditoriaSesion auditoria) {
+        this(auditoria, SentenciasSql.predeterminadas());
+    }
+
+    @Autowired
+    public CrearSesionServicio(AuditoriaSesion auditoria, SentenciasSql sentencias) {
         this.auditoria = auditoria;
+        this.sentencias = sentencias;
     }
 
     /** {@code SHA-256(texto)} in hex, upper case, as {@code DigestUtils.sha256Hex(texto.getBytes()).toUpperCase()}. */
@@ -185,7 +171,7 @@ public class CrearSesionServicio {
         Map<String, Object> p1 = new HashMap<>();
         p1.put("p_IdEmpresa", idEmpresa);
         p1.put("p_NombreUsuario", nombreUsuario.toUpperCase());
-        List<UsuarioProceso> u = SqlNombrado.consultar(conn, QUERY_USUARIOS, p1, UsuarioProceso.class);
+        List<UsuarioProceso> u = SqlNombrado.consultar(conn, sentencias.de(QUERY_USUARIOS), p1, UsuarioProceso.class);
 
         // the user exists?
         if (u.isEmpty() || (u.size() == 1 && u.get(0).IdUsuario == null)) {
@@ -216,12 +202,12 @@ public class CrearSesionServicio {
             Map<String, Object> intento = new HashMap<>();
             intento.put("IntentosConexion", usuario.IntentosConexion + 1);
             intento.put("IdUsuario", usuario.IdUsuario);
-            SqlNombrado.actualizar(conn, UPDATE_INTENTOS, intento);
+            SqlNombrado.actualizar(conn, sentencias.de(UPDATE_INTENTOS), intento);
             if (usuario.Param_IntentosMaximo != null && usuario.IntentosConexion + 1 >= Integer.parseInt(usuario.Param_IntentosMaximo)) {
                 Map<String, Object> bloqueo = new HashMap<>();
                 bloqueo.put("IdUsuario", usuario.IdUsuario);
                 bloqueo.put("Param_ClaveUsuarioTiempoBloqueo", usuario.Param_ClaveUsuarioTiempoBloqueo);
-                SqlNombrado.actualizar(conn, UPDATE_BLOQUEO_TEMPORAL, bloqueo);
+                SqlNombrado.actualizar(conn, sentencias.de(UPDATE_BLOQUEO_TEMPORAL), bloqueo);
             }
             return c;
         }
@@ -230,20 +216,20 @@ public class CrearSesionServicio {
         if (usuario.TipoEntidad.equals("EMP") && ((idCanal.equals(CANAL_CORREDORES) && usuario.UsuarioCorredores.equals("S"))
                 || (idCanal.equals(CANAL_NEGOCIOS) && usuario.UsuarioNegocios.equals("S"))
                 || (idCanal.equals(CANAL_WEB_SERVICES) && usuario.UsuarioServicios.equals("S")))) {
-            List<SocioNegocio> lst = SqlNombrado.consultar(conn, QUERY_EMPLEADO, entidad(usuario), SocioNegocio.class);
+            List<SocioNegocio> lst = SqlNombrado.consultar(conn, sentencias.de(QUERY_EMPLEADO), entidad(usuario), SocioNegocio.class);
             if (lst.isEmpty() || lst.get(0).IdEmpleado == null || !lst.get(0).IdEstado.equals("ACT")) {
                 return c;
             }
             c.entidad = "EMP";
         } else if (usuario.TipoEntidad.equals("PER") && usuario.UsuarioClientes.equals("S") && idCanal.equals(CANAL_CLIENTES)) {
-            List<SocioNegocio> lst = SqlNombrado.consultar(conn, QUERY_PERSONA, entidad(usuario), SocioNegocio.class);
+            List<SocioNegocio> lst = SqlNombrado.consultar(conn, sentencias.de(QUERY_PERSONA), entidad(usuario), SocioNegocio.class);
             if (lst.isEmpty() || lst.get(0).IdPersona == null || !lst.get(0).IdEstado.equals("ACT")) {
                 return c;
             }
             c.entidad = "PER";
         } else if (usuario.TipoEntidad.equals("CLI") && ((usuario.UsuarioServicios.equals("S") && idCanal.equals(CANAL_WEB_SERVICES))
                 || (usuario.UsuarioClientes.equals("S") && idCanal.equals(CANAL_CLIENTES)))) {
-            List<SocioNegocio> lst = SqlNombrado.consultar(conn, QUERY_CLIENTE, entidad(usuario), SocioNegocio.class);
+            List<SocioNegocio> lst = SqlNombrado.consultar(conn, sentencias.de(QUERY_CLIENTE), entidad(usuario), SocioNegocio.class);
             // RULE-018 (reviewed "wrong" on 2026-10-02): the legacy let a BLOCKED client in (ACT or BLO); the reviewer's decision is that only ACT may,
             // as for employees and persons
             if (lst.isEmpty() || lst.get(0).IdCliente == null || !lst.get(0).IdEstado.equals("ACT")) {
@@ -264,17 +250,17 @@ public class CrearSesionServicio {
             Map<String, Object> hash1 = new HashMap<>();
             hash1.put("IdUsuario", usuario.IdUsuario);
             hash1.put("IdCanal", idCanal);
-            List<UsuarioProceso> lst = SqlNombrado.consultar(conn, QUERY_BUSCA_TOKEN, hash1, UsuarioProceso.class);
+            List<UsuarioProceso> lst = SqlNombrado.consultar(conn, sentencias.de(QUERY_BUSCA_TOKEN), hash1, UsuarioProceso.class);
             if (lst.size() == 1 && lst.get(0).IdTokenSesion != null && !lst.get(0).IdTokenSesion.isEmpty()) {
                 Map<String, Object> params = new HashMap<>();
                 params.put("p_Token", lst.get(0).IdTokenSesion);
-                List<Ses> ses = SqlNombrado.consultar(conn, QUERY_SESION, params, Ses.class);
+                List<Ses> ses = SqlNombrado.consultar(conn, sentencias.de(QUERY_SESION), params, Ses.class);
                 if (ses.size() > 0 && (fechaActual - ses.get(0).FechaUltimoUso.getTime()) > Long.parseLong(idleMaxTime)) {
                     SesionUpd upd = new SesionUpd();
                     upd.p_FechaUso = new Timestamp(fechaActual);
                     upd.p_Token = lst.get(0).IdTokenSesion;
                     upd.p_TokenValido = "N";
-                    SqlNombrado.lote(conn, UPDATE_SESION, List.of(upd), SesionUpd.class);
+                    SqlNombrado.lote(conn, sentencias.de(UPDATE_SESION), List.of(upd), SesionUpd.class);
                     conn.commit();
                 } else {
                     token = lst.get(0).IdTokenSesion;
@@ -293,7 +279,7 @@ public class CrearSesionServicio {
             Map<String, Object> reset = new HashMap<>();
             reset.put("IntentosConexion", 0);
             reset.put("IdUsuario", usuario.IdUsuario);
-            SqlNombrado.actualizar(conn, UPDATE_INTENTOS, reset);
+            SqlNombrado.actualizar(conn, sentencias.de(UPDATE_INTENTOS), reset);
         }
         return c;
     }
@@ -302,7 +288,7 @@ public class CrearSesionServicio {
      * Legacy {@code Sesion.insertarSesion}: the token is {@code Base64(idEmpresa:usuario:timestamp + UUID)} (T-07); the open sessions of the user and
      * channel are closed first when the single-session switch applies (T-04) and the new one is written with its SSO entity.
      */
-    public static String insertarSesion(Connection conn, Long idEmpresa, String nombreUsuario, Long idUsuario, Timestamp currentTimestamp,
+    public String insertarSesion(Connection conn, Long idEmpresa, String nombreUsuario, Long idUsuario, Timestamp currentTimestamp,
             String idCanal, String idEntidadSSO) throws SQLException {
         String datatoken = idEmpresa + ":" + nombreUsuario + ":" + currentTimestamp + UUID.randomUUID().toString();
         String token = new String(Base64.getEncoder().encode(datatoken.getBytes()));
@@ -314,13 +300,13 @@ public class CrearSesionServicio {
         p.IdEntidadSSO = idEntidadSSO;
         List<SesionNueva> ins = new ArrayList<>();
         ins.add(p);
-        SqlNombrado.lote(conn, CLOSE_SESION, ins, SesionNueva.class);
-        SqlNombrado.lote(conn, INSERT_SESION, ins, SesionNueva.class);
+        SqlNombrado.lote(conn, sentencias.de(CLOSE_SESION), ins, SesionNueva.class);
+        SqlNombrado.lote(conn, sentencias.de(INSERT_SESION), ins, SesionNueva.class);
         return token;
     }
 
     /** Idle time of a channel in milliseconds (legacy {@code SesionUtils.GetParametro}; no cache: the value is read each time). */
-    static String idleMaxTime(Connection conn, String canal) throws SQLException {
+    String idleMaxTime(Connection conn, String canal) throws SQLException {
         String codigo = switch (canal) {
             case "WS" -> "PLA.IdleMaxTimeWS";
             case "CLI" -> "PLA.IdleMaxTimeCLI";
@@ -332,12 +318,12 @@ public class CrearSesionServicio {
         }
         Map<String, Object> params = new HashMap<>();
         params.put("p_Parametro", codigo);
-        return SqlNombrado.consultar(conn, QUERY_PARAMETRO, params, Parametro.class).get(0).Valor;
+        return SqlNombrado.consultar(conn, sentencias.de(QUERY_PARAMETRO), params, Parametro.class).get(0).Valor;
     }
 
     /** Database UTC clock. */
-    static Timestamp relojUtc(Connection conn) throws SQLException {
-        List<RelojUtc> rows = SqlNombrado.consultar(conn, QUERY_RELOJ_UTC, new HashMap<>(), RelojUtc.class);
+    Timestamp relojUtc(Connection conn) throws SQLException {
+        List<RelojUtc> rows = SqlNombrado.consultar(conn, sentencias.de(QUERY_RELOJ_UTC), new HashMap<>(), RelojUtc.class);
         if (rows.isEmpty() || rows.get(0).UTC == null) {
             throw new IllegalStateException("No se puede obtener cache UTC");
         }

@@ -1,0 +1,1 @@
+UPDATE "BSCL.Plataforma.BD::ACC.Sesion" SET "FechaUltimoUso"= :p_FechaUso, "UsoToken"= "UsoToken" + 1, "TokenValido" = :p_TokenValido WHERE "IdTokenSesion" = :p_Token

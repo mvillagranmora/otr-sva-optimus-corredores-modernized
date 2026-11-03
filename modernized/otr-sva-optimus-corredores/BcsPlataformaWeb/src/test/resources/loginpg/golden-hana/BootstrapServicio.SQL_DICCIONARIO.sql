@@ -1,0 +1,1 @@
+select "CodDiccionario" as "Codigo", rtrim(ltrim("Descripcion")) as "Descripcion" , rtrim(ltrim("Abreviado")) as "Abreviado" FROM "BSCL.Plataforma.BD::PLA.Diccionario" where "CodLenguaje" = :CodLenguaje order by "CodDiccionario"

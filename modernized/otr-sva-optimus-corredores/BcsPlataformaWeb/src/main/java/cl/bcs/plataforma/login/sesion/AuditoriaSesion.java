@@ -10,8 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cl.bcs.plataforma.login.dialecto.SentenciasSql;
+import cl.bcs.plataforma.login.dialecto.SqlDialecto;
 import cl.bcs.plataforma.login.jdbc.SqlNombrado;
 
 /**
@@ -23,20 +26,24 @@ import cl.bcs.plataforma.login.jdbc.SqlNombrado;
 @Component
 public class AuditoriaSesion {
 
-    static final String SECUENCIA_LOG = "BSCL.Plataforma.BD.Secuencias::Log";
-    static final String SECUENCIA_DETALLE = "BSCL.Plataforma.BD.Secuencias::DetalleLog";
+    private final SentenciasSql sentencias;
 
-    static final String INSERT_LOG = "insert into \"BSCL.Plataforma.BD::PLA.Log\" (\"IdLog\",\"IdTipoLog\",\"IdModulo\",\"IdUsuario\",\"IdEmpresa\",\"FechaLog\",\"PeriodoLog\","
-            + "\"IdUsuarioAtendido\",\"IdCliente\",\"EstadoCliente\",\"NombreCliente\",\"IdTipoDocumentoIdentidad\",\"IdDocumentoIdentidad\",\"IdPortafolio\","
-            + "\"EstadoPortafolio\",\"IdRegistro\",\"EstadoRegistro\",\"IdTipoRegistro\",\"IdTipoOperacion\",\"Folio\",\"Cantidad\",\"PrecioTasa\",\"Monto\","
-            + "\"IdMonedaOrigen\",\"IdMonedaLiquidacion\",\"TipoCambio\",\"Nemo\",\"IdProceso\",\"EstadoProceso\",\"NombreProceso\",\"FechaRegistro\",\"IdPersona\","
-            + "\"CodigoAutenticacion\") values(:IdLog,:IdTipoLog,:IdModulo,:IdUsuario,:IdEmpresa,:FechaLog,:PeriodoLog,:IdUsuarioAtendido,:IdCliente,:EstadoCliente,"
-            + ":NombreCliente,:IdTipoDocumentoIdentidad,:IdDocumentoIdentidad,:IdPortafolio,:EstadoPortafolio,:IdRegistro,:EstadoRegistro,:IdTipoRegistro,"
-            + ":IdTipoOperacion,:Folio,:Cantidad,:PrecioTasa,:Monto,:IdMonedaOrigen,:IdMonedaLiquidacion,:TipoCambio,:Nemo,:IdProceso,:EstadoProceso,"
-            + ":NombreProceso,CURRENT_UTCTIMESTAMP,:IdPersona,:CodigoAutenticacion)";
+    /** HANA statements: what the module has always sent. */
+    public AuditoriaSesion() {
+        this(SentenciasSql.predeterminadas());
+    }
 
-    static final String INSERT_DETALLE = "insert into \"BSCL.Plataforma.BD::PLA.DetalleLog\"(\"IdDetalleLog\",\"IdLog\",\"SubRegistro\",\"CampoRegistro\","
-            + "\"ValorAntiguo\",\"ValorNuevo\",\"CodigoAutenticacion\") values(:IdDetalleLog,:IdLog,:SubRegistro,:CampoRegistro,:ValorAntiguo,:ValorNuevo,:CodigoAutenticacion)";
+    @Autowired
+    public AuditoriaSesion(SentenciasSql sentencias) {
+        this.sentencias = sentencias;
+    }
+
+    static final String SECUENCIA_LOG = SentenciasSql.hana("AuditoriaSesion.SECUENCIA_LOG");
+    static final String SECUENCIA_DETALLE = SentenciasSql.hana("AuditoriaSesion.SECUENCIA_DETALLE");
+
+    static final String INSERT_LOG = SentenciasSql.hana("AuditoriaSesion.INSERT_LOG");
+
+    static final String INSERT_DETALLE = SentenciasSql.hana("AuditoriaSesion.INSERT_DETALLE");
 
     /** Row of {@code PLA.Log} (legacy {@code AgregarLog.Log_Proceso}). */
     public static class LogProceso {
@@ -145,16 +152,18 @@ public class AuditoriaSesion {
             det.CodigoAutenticacion = sha256Hex((det.IdDetalleLog + det.IdLog) + det.SubRegistro + det.ValorNuevo + det.ValorNuevo + det.CampoRegistro).toUpperCase();
             filas.add(det);
         }
-        SqlNombrado.lote(conn, INSERT_LOG, List.of(l), LogProceso.class);
-        SqlNombrado.lote(conn, INSERT_DETALLE, filas, DetalleLogProceso.class);
+        SqlNombrado.lote(conn, sentencias.de(INSERT_LOG), List.of(l), LogProceso.class);
+        SqlNombrado.lote(conn, sentencias.de(INSERT_DETALLE), filas, DetalleLogProceso.class);
     }
 
     /** {@code cantidad} next values of a sequence (legacy {@code Utils.getSecuencia}, one statement per value). */
-    static List<Long> siguiente(Connection conn, String secuencia, int cantidad) throws SQLException {
+    List<Long> siguiente(Connection conn, String secuencia, int cantidad) throws SQLException {
         List<Long> ids = new ArrayList<>();
         Map<String, Object> sinParametros = new HashMap<>();
+        SqlDialecto dialecto = sentencias.dialecto();
+        String siguiente = dialecto.seleccionarSinTabla(dialecto.siguienteValor(secuencia) + " AS \"Id\"");
         for (int i = 0; i < cantidad; i++) {
-            List<SecuenciaId> r = SqlNombrado.consultar(conn, "SELECT \"" + secuencia + "\".NEXTVAL AS \"Id\" FROM DUMMY", sinParametros, SecuenciaId.class);
+            List<SecuenciaId> r = SqlNombrado.consultar(conn, siguiente, sinParametros, SecuenciaId.class);
             ids.add(r.get(0).Id);
         }
         return ids;

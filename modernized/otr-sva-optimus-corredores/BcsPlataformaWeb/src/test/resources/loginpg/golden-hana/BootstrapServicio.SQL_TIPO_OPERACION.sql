@@ -1,0 +1,1 @@
+select TI."IdTipoInstrumento",TTO."IdTipoOperacion",TTO."AccionOrden",TTO."IdTipoProducto",TTO."EsVentaCorta",TTO."EsPutEsCall" from "BSCL.Plataforma.BD::INS.TipoOperacionTipoInstrumento" TI INNER join "BSCL.Plataforma.BD::INS.TipoOperacion" tto ON TI."IdTipoOperacion" = TTO."IdTipoOperacion" WHERE TTO."AccionOrden" IS NOT NULL AND TTO."EsOrden" = 'S'

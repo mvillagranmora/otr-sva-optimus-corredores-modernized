@@ -11,11 +11,13 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import cl.bcs.plataforma.login.dialecto.SentenciasSql;
 import cl.bcs.plataforma.login.PrefijoPlaFilter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -50,12 +52,20 @@ public class FiltroSesion extends OncePerRequestFilter {
             "/PLA/CallWebsocket", "/PLA/AuditoriaWS", "/PLA/Configuraciones", "/PLA/Ping", "/PLA/SSOInit", "/PLA/SSOLogon", "/PLA/SSOLogonBofa",
             "/PLA/SSOLogonGoogle", "/PLA/SSOLogonLocalGoogle", "/PLA/SSOLogout");
 
-    static final String SQL_VALIDA_TOKEN = "SELECT COUNT(1) AS OK FROM \"BSCL.Plataforma.BD::ACC.Sesion\" WHERE \"IdTokenSesion\" = ? and \"TokenValido\" = 'S'";
+    static final String SQL_VALIDA_TOKEN = SentenciasSql.hana("FiltroSesion.SQL_VALIDA_TOKEN");
 
     private final DataSource dataSource;
+    private final SentenciasSql sentencias;
 
+    /** HANA statements: what the module has always sent. */
     public FiltroSesion(DataSource dataSource) {
+        this(dataSource, SentenciasSql.predeterminadas());
+    }
+
+    @Autowired
+    public FiltroSesion(DataSource dataSource, SentenciasSql sentencias) {
         this.dataSource = dataSource;
+        this.sentencias = sentencias;
     }
 
     /** Paths that never carry a user session: the service-to-service endpoint (its own token filter), the health endpoints and the error page. */
@@ -89,7 +99,7 @@ public class FiltroSesion extends OncePerRequestFilter {
         }
         boolean valido;
         try (Connection con = dataSource.getConnection()) {
-            try (PreparedStatement st = con.prepareStatement(SQL_VALIDA_TOKEN)) {
+            try (PreparedStatement st = con.prepareStatement(sentencias.de(SQL_VALIDA_TOKEN))) {
                 st.setString(1, token);
                 try (ResultSet rs = st.executeQuery()) {
                     valido = rs.next() && rs.getInt("OK") != 0;
