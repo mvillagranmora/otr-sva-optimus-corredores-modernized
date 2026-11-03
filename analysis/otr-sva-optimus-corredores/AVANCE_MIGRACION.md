@@ -10,7 +10,7 @@ Generado: 2026-11-03. Metodo: lineas Java del legacy (`LOC_LEGACY.md`, 42 modulo
 | Codigo migrado y probado | 97.588 de 765.652 lineas (**12.7 %**) |
 | Codigo construido (probado + sin probar + parcial) | 118.145 lineas (15.4 %) |
 | Meta de las pruebas de conjunto (80 %) | 612.521 lineas; faltan **514.933** |
-| **Codigo nuevo escrito** (Java activo en `src/main`, lineas no vacias, incluye los modulos fuera de los 42) | **164.916 lineas** |
+| **Codigo nuevo escrito** (Java activo en `src/main`, lineas no vacias, incluye los modulos fuera de los 42) | **164.920 lineas** |
 | Probado (PROVEN) pero sin marca de modulo completo: no se afirma 100 % | 41.827 lineas en 5 modulos (BcsTesoreriaServicios, BcsCuentaInversionServicios, SURA, BcsReplica, BcsCanalAgenteServicios) |
 | Codigo de pruebas escrito (`src/test`, Java) | 162.271 lineas |
 | Pruebas de la ultima corrida registrada en `target/surefire-reports` | 17.811 |
@@ -76,6 +76,8 @@ La ultima verificacion del pack es del 2026-11-03 (la firma del usuario queda en
 
 | Fecha | Evento |
 |---|---|
+| 2026-11-03 | BcsPlataformaWeb: login y cambio de clave reales (CrearSesion, ActualizarClave, CrearSesion con la clave nueva) correctos en HANA QA y Postgres QA con el usuario acordado; hallazgo: Postgres exige escapeSyntaxCallMode=callIfNoReturn en la URL (procedimientos PROCEDURE), documentado y con aviso al arrancar. |
+| 2026-11-03 | BcsPlataformaWeb: validacion Parse/Describe (solo lectura) de las 45 sentencias de sql/postgres contra Postgres QA: 45 OK, 0 errores. |
 | 2026-11-03 | BcsPlataformaWeb: los flujos de clave hacen rollback tras un fallo no-503 (cierra lo abierto de H2); modulo 1440 casos, 0 fallas. |
 | 2026-11-03 | BcsPlataformaWeb: aplicados H1 (NoDisponibleException como unico 503), H2 (flujos de clave relanzan el 503) y H3 (stringtype=unspecified documentado y aviso al arrancar); modulo 1438 casos, 0 fallas; canary H2 1/4 rojo. |
 | 2026-11-03 | BcsPlataformaWeb: rediseno sin catalogo ni CSV en produccion implementado (secuencias y 8 procedimientos como Java, 6 sentencias de vistas, 55 textos por dialecto); modulo 1434 casos, 0 fallas; canary 4/54 en rojo; revision de arquitectura con 3 HIGH pendientes de decision; sin verify ni firma. |

@@ -19,6 +19,10 @@ public class DialectoConfiguracion {
         return switch (valor) {
             case "hana" -> new HanaDialecto();
             case "postgres" -> {
+                if (urlJdbc.startsWith("jdbc:postgresql:") && !urlJdbc.contains("escapeSyntaxCallMode=callIfNoReturn")) {
+                    LoggerFactory.getLogger(DialectoConfiguracion.class).warn(
+                            "plataforma.db.dialect=postgres but the JDBC URL has no escapeSyntaxCallMode=callIfNoReturn: pgjdbc turns {call p(...)} into a SELECT and the Postgres procedures (PROCEDURE) fail with 42809");
+                }
                 if (urlJdbc.startsWith("jdbc:postgresql:") && !urlJdbc.contains("stringtype=unspecified")) {
                     LoggerFactory.getLogger(DialectoConfiguracion.class).warn(
                             "plataforma.db.dialect=postgres but the JDBC URL has no stringtype=unspecified: text and null binds are sent as varchar and writes to bigint, date or timestamp columns can fail");
