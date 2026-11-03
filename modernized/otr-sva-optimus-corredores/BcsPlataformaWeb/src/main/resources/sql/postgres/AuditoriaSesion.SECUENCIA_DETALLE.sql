@@ -1,0 +1,1 @@
+sq_pla_detalle_log

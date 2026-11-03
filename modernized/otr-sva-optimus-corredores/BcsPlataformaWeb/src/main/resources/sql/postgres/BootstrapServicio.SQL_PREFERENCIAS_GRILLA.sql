@@ -1,0 +1,1 @@
+SELECT llave AS "Llave", valor AS "Valor" FROM v_pla_pla_consultar_configuracion_grilla WHERE id_empresa = :IdEmpresa

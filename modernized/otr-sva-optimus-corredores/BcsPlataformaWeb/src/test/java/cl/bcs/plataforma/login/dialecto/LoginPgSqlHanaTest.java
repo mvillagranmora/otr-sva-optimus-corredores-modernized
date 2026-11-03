@@ -129,36 +129,33 @@ class LoginPgSqlHanaTest {
     @ParameterizedTest(name = "T-31 hana dialect: texto({0}) is byte-identical to the golden")
     @MethodSource("ids")
     void hana_envia_texto_identico(String id) {
-        Object catalogo = ApiLoginPg.catalogoDeRecursos();
-        Object sentencias = ApiLoginPg.sentencias(ApiLoginPg.hana(catalogo));
-        assertEquals(LoginPgRecursos.goldenSql().get(id), ApiLoginPg.texto(sentencias, id), "HANA text of " + id);
+        assertEquals(LoginPgRecursos.goldenSql().get(id), ApiLoginPg3.sentenciasHana().texto(id), "HANA text of " + id);
     }
 
     @Test
     @DisplayName("T-31 the statement catalog holds exactly the golden ids (every statement of the six classes lives in a resource) in both dialects")
     void ids_de_sentencias_son_los_del_golden() {
-        Object catalogo = ApiLoginPg.catalogoDeRecursos();
         Set<String> golden = LoginPgRecursos.goldenSql().keySet();
-        assertThat(ApiLoginPg.ids(ApiLoginPg.sentencias(ApiLoginPg.hana(catalogo)))).containsExactlyInAnyOrderElementsOf(golden);
-        assertThat(ApiLoginPg.ids(ApiLoginPg.sentencias(ApiLoginPg.postgres(catalogo)))).containsExactlyInAnyOrderElementsOf(golden);
+        assertThat(ApiLoginPg3.sentenciasHana().ids()).containsExactlyInAnyOrderElementsOf(golden);
+        assertThat(ApiLoginPg3.sentenciasPostgres().ids()).containsExactlyInAnyOrderElementsOf(golden);
     }
 
-    @ParameterizedTest(name = "T-31 {0} lives in a statement resource (sql/comun or sql/hana)")
+    @ParameterizedTest(name = "T-31 {0} lives in its own statement resource /sql/hana/<id>.sql and in /sql/postgres/<id>.sql (no sql/comun: A3-1)")
     @MethodSource("idsSentencias")
     void cada_sentencia_esta_en_un_recurso(String id) {
-        boolean comun = LoginPgRecursos.hay("/sql/comun/" + id + ".sql");
-        boolean hana = LoginPgRecursos.hay("/sql/hana/" + id + ".sql");
-        if (!comun && !hana) {
-            throw new AssertionError("LOGIN-PG not implemented: no statement resource /sql/comun/" + id + ".sql or /sql/hana/" + id + ".sql yet");
+        for (String dialecto : new String[] { "hana", "postgres" }) {
+            if (!LoginPgRecursos.hay("/sql/" + dialecto + "/" + id + ".sql")) {
+                throw ApiLoginPg3.pendiente("no statement resource /sql/" + dialecto + "/" + id + ".sql yet");
+            }
         }
-        assertTrue(comun ^ hana || (comun && hana), "resource present");
+        assertTrue(!LoginPgRecursos.hay("/sql/comun/" + id + ".sql"), "no shared copy in sql/comun");
     }
 
     @Test
     @DisplayName("T-31 the inline NEXTVAL statement of AuditoriaSesion.siguiente is the HANA golden when composed with the dialect functions")
     void select_de_secuencia_compuesto_con_el_dialecto_hana() {
-        Object d = ApiLoginPg.hana(ApiLoginPg.catalogoDeRecursos());
-        String compuesto = ApiLoginPg.f(d, "seleccionarSinTabla", ApiLoginPg.f(d, "siguienteValor", "BSCL.Plataforma.BD.Secuencias::Log") + " AS \"Id\"");
+        SqlDialecto d = ApiLoginPg3.hana();
+        String compuesto = d.seleccionarSinTabla(d.siguienteValor("BSCL.Plataforma.BD.Secuencias::Log") + " AS \"Id\"");
         assertNotNull(flujos.get("login-exito-dos-veces-y-filtro"));
         String enviado = "SELECT \"BSCL.Plataforma.BD.Secuencias::Log\".NEXTVAL AS \"Id\" FROM DUMMY";
         assertTrue(LoginPgRecursos.goldenFlujos().get("login-exito-dos-veces-y-filtro").contains(enviado), "the golden flow contains the inline statement");
@@ -166,11 +163,26 @@ class LoginPgSqlHanaTest {
     }
 
     @Test
-    @DisplayName("T-31 QUERY_RELOJ_UTC composed with the dialect functions is the golden text in HANA")
+    @DisplayName("A3-2 QUERY_RELOJ_UTC: the golden text in HANA is the no-FROM select of CURRENT_UTCTIMESTAMP (ahoraUtc is gone: the clock is plain text of the statement now)")
     void reloj_utc_compuesto() {
-        Object d = ApiLoginPg.hana(ApiLoginPg.catalogoDeRecursos());
-        String compuesto = ApiLoginPg.f(d, "seleccionarSinTabla", ApiLoginPg.f(d, "ahoraUtc") + " as \"UTC\"");
+        String compuesto = ApiLoginPg3.hana().seleccionarSinTabla("CURRENT_UTCTIMESTAMP as \"UTC\"");
         assertEquals(LoginPgRecursos.goldenSql().get("CrearSesionServicio.QUERY_RELOJ_UTC"), compuesto);
+    }
+
+    @ParameterizedTest(name = "A3-3 static SentenciasSql.hana({0}) is the golden text, byte for byte (the constants of the six classes load it)")
+    @MethodSource("ids")
+    void hana_estatico_es_el_golden(String id) {
+        assertEquals(LoginPgRecursos.goldenSql().get(id), SentenciasSql.hana(id), "static hana(" + id + ")");
+    }
+
+    @Test
+    @DisplayName("A3-3 SentenciasSql.predeterminadas() is the HANA statements: dialect hana, the golden text for a statement and for an object name")
+    void predeterminadas_son_hana() {
+        SentenciasSql p = SentenciasSql.predeterminadas();
+        assertEquals("hana", p.dialecto().nombre());
+        assertEquals(LoginPgRecursos.goldenSql().get("CrearSesionServicio.QUERY_RELOJ_UTC"), p.texto("CrearSesionServicio.QUERY_RELOJ_UTC"));
+        assertEquals(LoginPgRecursos.goldenSql().get("BootstrapServicio.SP_FECHAS"), p.texto("BootstrapServicio.SP_FECHAS"));
+        assertThat(p.ids()).containsExactlyInAnyOrderElementsOf(LoginPgRecursos.goldenSql().keySet());
     }
 
     @Test

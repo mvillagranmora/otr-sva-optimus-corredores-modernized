@@ -25,11 +25,11 @@ import cl.bcs.plataforma.service.QueryDispatcherService;
 class LoginPgDespachadoresTest {
 
     private static SqlDialecto postgres() {
-        return new PostgresDialecto(CatalogoEquivalencias.desdeRecursos());
+        return ApiLoginPg3.postgres();
     }
 
     private static SqlDialecto hana() {
-        return new HanaDialecto(CatalogoEquivalencias.desdeRecursos());
+        return ApiLoginPg3.hana();
     }
 
     /** a connection / data source that records every call and would break the test if used */
@@ -92,12 +92,17 @@ class LoginPgDespachadoresTest {
     }
 
     @Test
-    @DisplayName("two statements never share the same HANA text (de(text) keys on it), and the pre-flight rejects a statement with no text in the dialect")
+    @DisplayName("two statements never share the same HANA text (de(text) keys on it), and the pre-flight rejects an id that is not a statement")
     void sentencias_unicas_y_preflight_real() {
-        SentenciasSql pg = new SentenciasSql(postgres());
+        SentenciasSql pg = ApiLoginPg3.sentenciasPostgres();
         assertThat(pg.ids()).hasSize(55);
-        assertThatThrownBy(() -> pg.exigirDisponibles(List.of("BootstrapServicio.SQL_EMPRESAS"))).isInstanceOf(UnsupportedOperationException.class);
-        pg.exigirDisponibles(List.of("CrearSesionServicio.QUERY_USUARIOS", "FiltroSesion.SQL_VALIDA_TOKEN"));
-        new SentenciasSql(hana()).exigirDisponibles(pg.ids());
+        // every statement has a Postgres text file: the pre-flight accepts all of them, and the text of each is readable
+        for (String id : pg.ids()) assertThat(pg.texto(id)).as(id).isNotBlank();
+        pg.exigirDisponibles(pg.ids());
+        pg.exigirDisponibles(List.of("CrearSesionServicio.QUERY_USUARIOS", "FiltroSesion.SQL_VALIDA_TOKEN", "BootstrapServicio.SQL_EMPRESAS"));
+        pg.exigirDisponibles(List.of());
+        assertThatThrownBy(() -> pg.exigirDisponibles(List.of("Clase.NoExiste"))).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> pg.exigirDisponibles(List.of("CrearSesionServicio.QUERY_USUARIOS", "Clase.NoExiste"))).isInstanceOf(IllegalArgumentException.class);
+        ApiLoginPg3.sentenciasHana().exigirDisponibles(pg.ids());
     }
 }

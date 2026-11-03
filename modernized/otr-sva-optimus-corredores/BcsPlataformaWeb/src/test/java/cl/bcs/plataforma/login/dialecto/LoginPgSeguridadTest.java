@@ -24,7 +24,7 @@ class LoginPgSeguridadTest {
         List<Path> r = new ArrayList<>();
         for (String d : List.of("src/test/resources/loginpg", "src/test/java/cl/bcs/plataforma/login/dialecto")) {
             try (Stream<Path> s = Files.walk(Path.of(d))) {
-                s.filter(Files::isRegularFile).filter(p -> !p.getFileName().toString().equals("LoginPgSeguridadTest.java") && !p.toString().endsWith(".md")).forEach(r::add);
+                s.filter(Files::isRegularFile).filter(p -> !p.getFileName().toString().equals("LoginPgSeguridadTest.java") && !p.getFileName().toString().equals("LoginPg2SeguridadTest.java") && !p.toString().endsWith(".md")).forEach(r::add);
             }
         }
         assertThat(r).as("files scanned").hasSizeGreaterThan(60);

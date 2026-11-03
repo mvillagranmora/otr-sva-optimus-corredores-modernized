@@ -1,0 +1,1 @@
+SELECT id_empresa AS "IdEmpresa", nombre AS "Nombre" FROM v_pla_pla_consultar_empresa WHERE id_estado = 'ACT'

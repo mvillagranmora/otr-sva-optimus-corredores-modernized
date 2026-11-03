@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
+import cl.bcs.plataforma.config.NoDisponibleException;
+
 /**
  * Background-job dispatcher stub.
  * Source: CallBatch — @WebServlet("/CallBatch") + @WebListener
@@ -33,7 +35,7 @@ public class CallBatchController {
     @PostMapping("/CallBatch")
     public ResponseEntity<String> callBatch(HttpServletRequest request,
                                              @RequestBody(required = false) String body) {
-        throw new UnsupportedOperationException(
+        throw new NoDisponibleException(
                 "requires PLUGIN_OPTIMUS.jar or replacement task queue");
     }
 }

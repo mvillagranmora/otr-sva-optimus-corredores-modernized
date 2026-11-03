@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -19,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -31,23 +35,27 @@ import cl.bcs.plataforma.BcsPlataformaWebApplication;
 class LoginPgSeleccionTest {
 
     static void produccionExiste() {
-        ApiLoginPg.clase("SqlDialecto");
-        ApiLoginPg.clase("HanaDialecto");
-        ApiLoginPg.clase("PostgresDialecto");
+        ApiLoginPg3.clase("SqlDialecto");
+        ApiLoginPg3.clase("HanaDialecto");
+        ApiLoginPg3.clase("PostgresDialecto");
+        if (ApiLoginPg3.existe("CatalogoEquivalencias")) throw ApiLoginPg3.catalogoEnProduccion("class CatalogoEquivalencias is still on the classpath of main");
     }
 
     private static void comprobar(org.springframework.context.ApplicationContext ctx, String esperado, String clase) {
-        Class<?> tipo = ApiLoginPg.clase("SqlDialecto");
-        assertThat(ctx.getBeansOfType(tipo)).as("exactly one SqlDialecto bean").hasSize(1);
-        Object d = ctx.getBean(tipo);
+        assertThat(ctx.getBeansOfType(SqlDialecto.class)).as("exactly one SqlDialecto bean").hasSize(1);
+        SqlDialecto d = ctx.getBean(SqlDialecto.class);
         assertEquals(clase, d.getClass().getSimpleName());
-        assertEquals(esperado, ApiLoginPg.f(d, "nombre"));
+        assertEquals(esperado, d.nombre());
         assertThat(ctx.getBeansOfType(DataSource.class)).as("no second DataSource").hasSize(1);
-        assertThat(ctx.getBeansOfType(ApiLoginPg.clase("SentenciasSql"))).as("one statement catalog").hasSize(1);
+        assertThat(ctx.getBeansOfType(SentenciasSql.class)).as("one statement catalog").hasSize(1);
         for (String n : ctx.getBeanDefinitionNames()) {
             Object def = ctx.getType(n);
             String cn = def == null ? "" : def.toString();
             assertThat(cn).as("bean " + n + " must not be a JPA/Hibernate bean").doesNotContain("jakarta.persistence").doesNotContain("org.hibernate");
+            // A3-4: the equivalence catalog is not a bean (it is not in production at all)
+            if (cn.contains("CatalogoEquivalencias") || cn.contains("equivalencias")) {
+                throw ApiLoginPg3.catalogoEnProduccion("bean " + n + " has the type " + cn);
+            }
         }
     }
 
@@ -66,7 +74,7 @@ class LoginPgSeleccionTest {
         @Test
         @DisplayName("T-30 property absent: the context starts and the dialect bean is HanaDialecto (default hana)")
         void defecto_es_hana() {
-            assertThat(ctx.getEnvironment().containsProperty(ApiLoginPg.PROPIEDAD) && !"hana".equals(ctx.getEnvironment().getProperty(ApiLoginPg.PROPIEDAD))).isFalse();
+            assertThat(ctx.getEnvironment().containsProperty(ApiLoginPg3.PROPIEDAD) && !"hana".equals(ctx.getEnvironment().getProperty(ApiLoginPg3.PROPIEDAD))).isFalse();
             comprobar(ctx, "hana", "HanaDialecto");
         }
     }
@@ -127,6 +135,20 @@ class LoginPgSeleccionTest {
         if (mensajes.isEmpty()) fail("the context started with plataforma.db.dialect=oracle");
         String todo = String.join(" | ", mensajes);
         assertThat(todo).contains("plataforma.db.dialect").contains("oracle").contains("hana").contains("postgres");
+    }
+
+    @Test
+    @DisplayName("A3-4 DialectoConfiguracion declares exactly two beans: SqlDialecto and SentenciasSql (no CatalogoEquivalencias bean); its property rules are those of T-30 above")
+    void la_configuracion_solo_declara_dos_beans() {
+        Class<?> c = ApiLoginPg3.clase("DialectoConfiguracion");
+        Set<Class<?>> tipos = new HashSet<>();
+        for (Method m : c.getDeclaredMethods()) {
+            if (m.isAnnotationPresent(Bean.class)) tipos.add(m.getReturnType());
+        }
+        if (!tipos.equals(Set.of(SqlDialecto.class, SentenciasSql.class))) {
+            throw ApiLoginPg3.catalogoEnProduccion("DialectoConfiguracion declares beans " + tipos + " (only SqlDialecto and SentenciasSql may remain)");
+        }
+        assertEquals("plataforma.db.dialect", ApiLoginPg3.PROPIEDAD);
     }
 
     @Test

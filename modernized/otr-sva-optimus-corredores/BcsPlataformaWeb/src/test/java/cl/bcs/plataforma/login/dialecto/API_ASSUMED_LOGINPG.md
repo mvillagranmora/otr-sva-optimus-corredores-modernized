@@ -1,3 +1,5 @@
+> **PARTLY SUPERSEDED by `API_ASSUMED_LOGINPG3.md` (2026-11-03).** The equivalence catalog is no longer a run-time resource: A-1, A-2, A-4 to A-8, A-10 to A-12 (second half), A-14 to A-18 and the NO_DISPONIBLE parts of A-21 and A-23 are VOID (list in section "Assumptions of the earlier rounds that are VOID" of that file). The tests no longer use `ApiLoginPg` (replaced by `ApiLoginPg3`).
+
 # API assumed by the LOGIN-PG tests (dialect layer, T-30 / T-31 / T-32 / T-35)
 
 The tests reach the production code ONLY through `ApiLoginPg.java` (reflection). Until the production classes exist every test that needs them fails with

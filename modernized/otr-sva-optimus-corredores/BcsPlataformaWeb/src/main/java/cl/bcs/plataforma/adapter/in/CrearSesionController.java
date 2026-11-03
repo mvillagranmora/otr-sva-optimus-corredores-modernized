@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import cl.bcs.plataforma.config.NoDisponibleException;
 import cl.bcs.plataforma.login.UnidadDeTrabajo;
 import cl.bcs.plataforma.login.sesion.CrearSesionServicio;
 
@@ -57,7 +58,7 @@ public class CrearSesionController {
                 return ResponseEntity.ok(exito(r));
             }
             return ResponseEntity.status(401).body(errorPorDefecto());
-        } catch (UnsupportedOperationException e) {
+        } catch (NoDisponibleException e) {
             // an object not available in this dialect is a 503 for GlobalExceptionHandler, not a refusal or a failure of the call
             throw e;
         } catch (Exception e) {

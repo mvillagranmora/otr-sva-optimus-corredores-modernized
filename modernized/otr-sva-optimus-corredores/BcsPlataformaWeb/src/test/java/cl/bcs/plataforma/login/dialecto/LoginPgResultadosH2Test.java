@@ -378,8 +378,7 @@ class LoginPgResultadosH2Test {
         Salida h = enHana(id);
         String sqlH = LoginPgRecursos.goldenSentencias().get(id);
         boolean consulta = sqlH.stripLeading().toLowerCase().startsWith("select");
-        Object cat = ApiLoginPg.catalogoDeRecursos();
-        String sqlP = ApiLoginPg.texto(ApiLoginPg.sentencias(ApiLoginPg.postgres(cat)), id);
+        String sqlP = ApiLoginPg3.textoPg(id);
         Salida p = ejecutar(pgCon, sqlP, parametros(id, sqlH), posicionales(id), consulta, volcados(id), true);
         EJECUTADOS.incrementAndGet();
         if (consulta) assertEquals(h.etiquetas(), p.etiquetas(), "column labels of " + id + " (must be the HANA names)");
@@ -417,40 +416,29 @@ class LoginPgResultadosH2Test {
     }
 
     @Test
-    @DisplayName("T-35 each dialect function gives the same VALUE on H2 in both dialects: to integer, date to text, trim, add seconds, no-FROM select, next sequence value")
-    void funciones_dan_el_mismo_valor() throws Exception {
-        Object cat = ApiLoginPg.catalogoDeRecursos();
-        Object h = ApiLoginPg.hana(cat);
-        Object p = ApiLoginPg.postgres(cat);
-        record Caso(String funcion, Object[] args, String esperado) {
+    @DisplayName("A3-2 the no-FROM select gives the same VALUE on H2 in both dialects (the only function of the dialect left that builds a statement: SELECT x FROM DUMMY / SELECT x)")
+    void select_sin_tabla_da_el_mismo_valor() throws Exception {
+        SqlDialecto h = ApiLoginPg3.hana();
+        SqlDialecto p = ApiLoginPg3.postgres();
+        for (String expresion : List.of("'15'", "DATE '2026-03-02'", "rtrim(ltrim('  hola  '))")) {
+            String vh = escalar(hanaCon, h.seleccionarSinTabla(expresion + " AS \"v\""));
+            String vp = escalar(pgCon, p.seleccionarSinTabla(expresion + " AS \"v\""));
+            assertEquals(vh, vp, "value of " + expresion + " in both dialects");
         }
-        List<Caso> casos = List.of(
-                new Caso("aEntero", new Object[] { "'15'" }, "15"),
-                new Caso("fechaATexto", new Object[] { "DATE '2026-03-02'", "YYYY-MM-DD" }, "2026-03-02"),
-                new Caso("recortar", new Object[] { "'  hola  '" }, "hola"),
-                new Caso("sumarSegundos", new Object[] { "TIMESTAMP '2026-03-01 10:00:00'", "900" }, "2026-03-01 10:15:00"));
-        for (Caso c : casos) {
-            String eh = ApiLoginPg.f(h, c.funcion(), c.args());
-            String ep = ApiLoginPg.f(p, c.funcion(), c.args());
-            String vh = escalar(hanaCon, ApiLoginPg.f(h, "seleccionarSinTabla", eh + " AS \"v\""));
-            String vp = escalar(pgCon, ApiLoginPg.f(p, "seleccionarSinTabla", ep + " AS \"v\""));
-            assertTrue(vh.startsWith(c.esperado()), c.funcion() + " in HANA gave " + vh);
-            assertTrue(vp.startsWith(c.esperado()), c.funcion() + " in Postgres gave " + vp);
-        }
+        assertEquals("hola", escalar(pgCon, p.seleccionarSinTabla("rtrim(ltrim('  hola  ')) AS \"v\"")));
     }
 
     @Test
-    @DisplayName("T-35 next sequence value on H2: Log and DetalleLog advance by one per call in both dialects, from the start value of the schema (1000 / 5000)")
+    @DisplayName("A3-2 next sequence value on H2: Log and DetalleLog advance by one per call in both dialects, from the start value of the schema (1000 / 5000)")
     void siguiente_valor_avanza_de_a_uno() throws Exception {
-        Object cat = ApiLoginPg.catalogoDeRecursos();
-        Object h = ApiLoginPg.hana(cat);
-        Object p = ApiLoginPg.postgres(cat);
+        SqlDialecto h = ApiLoginPg3.hana();
+        SqlDialecto p = ApiLoginPg3.postgres();
         for (String seq : List.of("BSCL.Plataforma.BD.Secuencias::Log", "BSCL.Plataforma.BD.Secuencias::DetalleLog")) {
             long minimo = seq.endsWith("::Log") ? 1000L : 5000L;
             long[] ant = new long[2];
             for (int i = 0; i < 2; i++) {
-                long vh = Long.parseLong(escalar(hanaCon, ApiLoginPg.f(h, "seleccionarSinTabla", ApiLoginPg.f(h, "siguienteValor", seq) + " AS \"Id\"")));
-                long vp = Long.parseLong(escalar(pgCon, ApiLoginPg.f(p, "seleccionarSinTabla", ApiLoginPg.f(p, "siguienteValor", seq) + " AS \"Id\"")));
+                long vh = Long.parseLong(escalar(hanaCon, h.seleccionarSinTabla(h.siguienteValor(seq) + " AS \"Id\"")));
+                long vp = Long.parseLong(escalar(pgCon, p.seleccionarSinTabla(p.siguienteValor(seq) + " AS \"Id\"")));
                 assertThat(vh).as("HANA " + seq).isGreaterThanOrEqualTo(minimo);
                 assertThat(vp).as("Postgres " + seq).isGreaterThanOrEqualTo(minimo);
                 if (i == 1) {
@@ -461,17 +449,5 @@ class LoginPgResultadosH2Test {
                 ant[1] = vp;
             }
         }
-    }
-
-    @Test
-    @DisplayName("T-35 first-N on H2: the first row of an ordered query is the same in both dialects")
-    void primeros_da_la_misma_fila() throws Exception {
-        Object cat = ApiLoginPg.catalogoDeRecursos();
-        Object h = ApiLoginPg.hana(cat);
-        Object p = ApiLoginPg.postgres(cat);
-        String qh = ApiLoginPg.f(h, "primeros", "SELECT \"IdUsuario\" FROM \"BSCL.Plataforma.BD::ACC.Usuario\" ORDER BY \"IdUsuario\" DESC", 1);
-        String qp = ApiLoginPg.f(p, "primeros", "SELECT id_usuario AS \"IdUsuario\" FROM t_pla_acc_usuario ORDER BY id_usuario DESC", 1);
-        assertEquals("2", escalar(hanaCon, qh));
-        assertEquals("2", escalar(pgCon, qp));
     }
 }

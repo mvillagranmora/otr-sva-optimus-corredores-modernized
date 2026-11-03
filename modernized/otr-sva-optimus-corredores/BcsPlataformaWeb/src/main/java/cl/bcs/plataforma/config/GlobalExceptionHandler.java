@@ -17,7 +17,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
  * Mapping rules:
  *   IllegalArgumentException → 400 Bad Request
  *   NumberFormatException    → 400 Bad Request
- *   UnsupportedOperationException → 503 Service Unavailable
+ *   NoDisponibleException → 503 Service Unavailable
  *   ResponseStatusException  → passes through its own status code
  *   Exception (fallback)     → 500 Internal Server Error (NPE falls here — it is a server bug)
  */
@@ -49,9 +49,9 @@ public class GlobalExceptionHandler {
                 .body(body.toString());
     }
 
-    @ExceptionHandler(UnsupportedOperationException.class)
-    public ResponseEntity<String> handleUoe(UnsupportedOperationException ex) {
-        log.warn("UnsupportedOperationException: {}", ex.getMessage());
+    @ExceptionHandler(NoDisponibleException.class)
+    public ResponseEntity<String> handleUoe(NoDisponibleException ex) {
+        log.warn("NoDisponibleException: {}", ex.getMessage());
         return json(HttpStatus.SERVICE_UNAVAILABLE, "NOT_IMPLEMENTED", ex.getMessage());
     }
 

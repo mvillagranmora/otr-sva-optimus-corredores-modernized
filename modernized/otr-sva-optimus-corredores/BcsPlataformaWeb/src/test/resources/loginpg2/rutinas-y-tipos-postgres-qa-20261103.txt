@@ -1,0 +1,30 @@
+RUTINA sp_pla_acc_consultar_usuario_admin | p | args: IN p_id_empresa bigint, IN p_id_usuario bigint, OUT p_out_es_admin character varying | retorna: 
+RUTINA fn_pla_consultar_formatos | f | args:  | retorna: TABLE(id_uso_moneda_formato character varying, id_moneda character varying, id_tipo_instrumento character varying, id_tipo_operacion character varying, precio_decimales integer, precio_truca_redondea character varying, tasa_decimales integer, tasa_truca_redondea character varying, cantidad_decimales integer, cantidad_truca_redondea character varying, monto_decimales integer, monto_truca_redondea character varying, tipo_cambio_decimales integer, tipo_cambio_truca_redondea character varying, paridad_decimales integer, paridad_truca_redondea character varying, puntos_decimales integer, puntos_truca_redondea character varying)
+RUTINA sp_pla_obtener_configuracion | p | args: IN p_id_empresa bigint, IN p_codigo_parametro character varying, OUT p_out_valor character varying | retorna: 
+RUTINA sp_pla_obtener_fechas | p | args: IN p_id_empresa bigint, OUT p_out_fecha_sistema_utc character varying, OUT p_out_fecha_sistema_local character varying, OUT p_out_fecha_hora_sistema_utc character varying, OUT p_out_fecha_hora_sistema_local character varying, OUT p_out_fecha_hora_utc character varying, OUT p_out_fecha_hora_local character varying | retorna: 
+RUTINA sp_pla_acc_recuperar_clave_usuario | p | args: IN p_id_empresa bigint, IN p_username character varying, IN p_token character varying, OUT p_out_mail character varying, OUT p_out_advertencias_contador integer, INOUT p_out_advertencias_detalle refcursor, OUT p_out_errores_contador integer, INOUT p_out_errores_detalle refcursor | retorna: 
+RUTINA sp_pla_acc_confirmar_cambio_clave_usuario | p | args: IN p_id_empresa bigint, IN p_username character varying, IN p_password character varying, IN p_token character varying, OUT p_status_code integer, OUT p_out_advertencias_contador integer, INOUT p_out_advertencias_detalle refcursor, OUT p_out_errores_contador integer, INOUT p_out_errores_detalle refcursor | retorna: 
+RUTINA sp_pla_evt_agregar_evento | p | args: IN p_id_empresa bigint, IN p_id_usuario bigint, IN p_id_modulo character varying, IN p_eventos ty_pla_evt_agregar_evento_eventos[], IN p_valores ty_pla_evt_agregar_evento_valores[], IN p_archivos_adjuntos ty_pla_evt_agregar_evento_archivos_adjuntos[], IN p_id_direcciones ty_pla_evt_agregar_evento_id_direcciones[], IN p_aplica_origen_evento character varying DEFAULT ''::character varying, INOUT p_out_id_evento refcursor DEFAULT NULL::refcursor | retorna: 
+RUTINA sp_pla_obtener_fecha_hora_sistema | p | args: IN p_id_empresa bigint, OUT p_out_fecha_hora_sistema character varying | retorna: 
+TIPO ty_pla_agregar_log_detalle_log | 1 sub_registro character varying(100)
+TIPO ty_pla_agregar_log_detalle_log | 2 campo_registro character varying(500)
+TIPO ty_pla_agregar_log_detalle_log | 3 valor_antiguo character varying(5000)
+TIPO ty_pla_agregar_log_detalle_log | 4 valor_nuevo character varying(5000)
+TIPO ty_pla_consultar_mensaje_diccionario_valores | 1 codigo character varying(100)
+TIPO ty_pla_consultar_mensaje_diccionario_valores | 2 valor character varying(520)
+TIPO ty_pla_evt_agregar_evento_archivos_adjuntos | 1 id_secuencia bigint
+TIPO ty_pla_evt_agregar_evento_archivos_adjuntos | 2 archivo_adjunto bytea
+TIPO ty_pla_evt_agregar_evento_archivos_adjuntos | 3 nombre character varying(520)
+TIPO ty_pla_evt_agregar_evento_archivos_adjuntos | 4 contrasenia character varying(520)
+TIPO ty_pla_evt_agregar_evento_eventos | 1 codigo_tipo_evento character varying(40)
+TIPO ty_pla_evt_agregar_evento_eventos | 2 id_secuencia bigint
+TIPO ty_pla_evt_agregar_evento_eventos | 3 fecha_creacion_sistema timestamp(0) without time zone
+TIPO ty_pla_evt_agregar_evento_eventos | 4 id_persona_remitente bigint
+TIPO ty_pla_evt_agregar_evento_eventos | 5 id_persona_destinatario bigint
+TIPO ty_pla_evt_agregar_evento_eventos | 6 id_portafolio bigint
+TIPO ty_pla_evt_agregar_evento_id_direcciones | 1 id_secuencia bigint
+TIPO ty_pla_evt_agregar_evento_id_direcciones | 2 id_direccion bigint
+TIPO ty_pla_evt_agregar_evento_id_direcciones | 3 tipo_destinatario character varying(6)
+TIPO ty_pla_evt_agregar_evento_valores | 1 id_secuencia bigint
+TIPO ty_pla_evt_agregar_evento_valores | 2 llave character varying(40)
+TIPO ty_pla_evt_agregar_evento_valores | 3 valor character varying(5000)

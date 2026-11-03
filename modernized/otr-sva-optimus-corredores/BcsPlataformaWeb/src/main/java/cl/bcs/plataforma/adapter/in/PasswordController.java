@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import cl.bcs.plataforma.config.NoDisponibleException;
 import cl.bcs.plataforma.login.UnidadDeTrabajo;
 import cl.bcs.plataforma.login.clave.GestionClaveServicio;
 import cl.bcs.plataforma.login.clave.GestionClaveServicio.Respuesta;
@@ -73,7 +74,7 @@ public class PasswordController {
         try {
             Respuesta r = unidad.ejecutar(trabajo);
             return ResponseEntity.status(r.estado()).body(r.cuerpo());
-        } catch (UnsupportedOperationException e) {
+        } catch (NoDisponibleException e) {
             // an object not available in this dialect is a 503 for GlobalExceptionHandler, not a refusal or a failure of the call
             throw e;
         } catch (Exception e) {

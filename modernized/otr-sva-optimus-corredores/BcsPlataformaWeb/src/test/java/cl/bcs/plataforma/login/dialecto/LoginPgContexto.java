@@ -1,18 +1,20 @@
 package cl.bcs.plataforma.login.dialecto;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 
-/** Spring test plumbing shared by the wiring and 503 tests: a recording DataSource (counts the SQL handed to JDBC) and a replacement catalog bean. */
+/**
+ * Spring test plumbing shared by the wiring and 503 tests: a recording DataSource (counts the SQL handed to JDBC) and a test double of
+ * {@link SentenciasSql} in which some statements have NO Postgres text (the NO_DISPONIBLE catalog mark of the earlier rounds is gone: a statement without
+ * text is the whole 503 mechanism, A3-3).
+ */
 final class LoginPgContexto {
 
     /** every SQL text handed to a connection of the application DataSource since the last {@link #limpiar()} */
@@ -33,39 +35,31 @@ final class LoginPgContexto {
         }
     }
 
-    /** registers a primary CatalogoEquivalencias in which one HANA object is NO_DISPONIBLE (the rest equals the oracle) */
-    static final class CatalogoMarcado implements BeanDefinitionRegistryPostProcessor {
-        private final String marcado;
+    /**
+     * The test double of {@link SentenciasSql}: it behaves as the production class for every statement, except that the given ids have no text when the
+     * dialect is Postgres (it answers what production answers for a missing resource: {@link cl.bcs.plataforma.config.NoDisponibleException} naming the id and the dialect).
+     * Both {@code texto} and {@code exigirDisponibles} are overridden (A3-3 makes them public and non-final for this purpose), so the double cuts the
+     * pre-flight and the statement itself whatever way the services reach them.
+     */
+    static class SinTextoPostgres extends SentenciasSql {
+        private final Set<String> sinTexto;
 
-        CatalogoMarcado(String marcado) {
-            this.marcado = marcado;
+        SinTextoPostgres(SqlDialecto dialecto, String... ids) {
+            super(dialecto);
+            this.sinTexto = Set.of(ids);
         }
 
         @Override
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-            Class<Object> clase = (Class<Object>) ApiLoginPg.clase("CatalogoEquivalencias");
-            String objetos = LoginPgRecursos.texto("/loginpg/oraculo-objetos.csv");
-            StringBuilder sb = new StringBuilder();
-            boolean encontrado = false;
-            for (String linea : objetos.split("\n")) {
-                String[] p = linea.split(",", -1);
-                if (p.length >= 3 && p[1].equals(marcado)) {
-                    p[2] = "NO_DISPONIBLE";
-                    linea = String.join(",", p);
-                    encontrado = true;
-                }
-                sb.append(linea).append('\n');
+        public String texto(String id) {
+            if (sinTexto.contains(id) && "postgres".equals(dialecto().nombre())) {
+                throw new cl.bcs.plataforma.config.NoDisponibleException("Statement " + id + " has no postgres text (test double)");
             }
-            if (!encontrado) throw new IllegalStateException("object to mark not in the oracle: " + marcado);
-            Object catalogo = ApiLoginPg.catalogoDeCsv(sb.toString(), LoginPgRecursos.texto("/loginpg/oraculo-columnas.csv"));
-            RootBeanDefinition def = new RootBeanDefinition(clase, () -> catalogo);
-            def.setPrimary(true);
-            registry.registerBeanDefinition("catalogoMarcadoDePrueba", def);
+            return super.texto(id);
         }
 
         @Override
-        public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        public void exigirDisponibles(Collection<String> ids) {
+            for (String id : ids) texto(id);
         }
     }
 }

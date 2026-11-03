@@ -1,0 +1,1 @@
+sp_pla_acc_consultar_usuario_admin

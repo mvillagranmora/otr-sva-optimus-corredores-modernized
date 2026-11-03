@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.JsonObject;
 
+import cl.bcs.plataforma.config.NoDisponibleException;
 import cl.bcs.plataforma.login.UnidadDeTrabajo;
 import cl.bcs.plataforma.login.bootstrap.BootstrapServicio;
 
@@ -44,7 +45,7 @@ public class BootstrapController {
         try {
             JsonObject datos = unidad.ejecutar(servicio::login);
             return ResponseEntity.ok(datos.toString());
-        } catch (UnsupportedOperationException e) {
+        } catch (NoDisponibleException e) {
             // an object not available in this dialect is a 503 for GlobalExceptionHandler, not a refusal or a failure of the call
             throw e;
         } catch (Exception e) {
@@ -64,7 +65,7 @@ public class BootstrapController {
                 return ResponseEntity.ok(home.datos().toString());
             }
             return ResponseEntity.status(401).body(home.datos().toString());
-        } catch (UnsupportedOperationException e) {
+        } catch (NoDisponibleException e) {
             // an object not available in this dialect is a 503 for GlobalExceptionHandler, not a refusal or a failure of the call
             throw e;
         } catch (Exception e) {

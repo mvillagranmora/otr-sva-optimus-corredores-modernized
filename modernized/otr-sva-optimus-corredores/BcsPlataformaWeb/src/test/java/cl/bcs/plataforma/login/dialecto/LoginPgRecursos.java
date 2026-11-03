@@ -60,7 +60,7 @@ public final class LoginPgRecursos {
     public static String textoProduccion(String ruta) {
         try (InputStream in = LoginPgRecursos.class.getResourceAsStream(ruta)) {
             if (in == null) {
-                throw new AssertionError("LOGIN-PG not implemented: the production resource " + ruta + " does not exist yet");
+                throw new AssertionError("LOGIN-PG3 not implemented: the production resource " + ruta + " does not exist yet");
             }
             return new String(in.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {

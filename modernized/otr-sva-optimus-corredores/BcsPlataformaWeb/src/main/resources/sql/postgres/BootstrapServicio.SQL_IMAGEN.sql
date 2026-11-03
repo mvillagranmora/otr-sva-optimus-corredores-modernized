@@ -1,0 +1,1 @@
+SELECT nombre_imagen AS "NombreImagen", binario AS "Binario" FROM v_pla_pla_consultar_imagen WHERE nombre_imagen = 'LOGO_CORREDOR_LOGIN'

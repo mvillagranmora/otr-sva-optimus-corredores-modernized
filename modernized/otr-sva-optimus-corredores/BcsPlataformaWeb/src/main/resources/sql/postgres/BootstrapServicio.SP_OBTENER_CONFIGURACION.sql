@@ -1,0 +1,1 @@
+sp_pla_obtener_configuracion

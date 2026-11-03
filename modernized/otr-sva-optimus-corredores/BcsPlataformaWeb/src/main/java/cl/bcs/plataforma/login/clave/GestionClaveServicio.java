@@ -20,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import cl.bcs.plataforma.config.NoDisponibleException;
 import cl.bcs.plataforma.login.dialecto.SentenciasSql;
 import cl.bcs.plataforma.login.ProcedimientoAlmacenado;
 import cl.bcs.plataforma.login.jdbc.SqlNombrado;
@@ -305,8 +306,11 @@ public class GestionClaveServicio {
                 return new Respuesta(200, ok.toString());
             }
             return errorRecuperacion("ERROR_RECUPERAR_CLAVE", contador(out));
+        } catch (NoDisponibleException e) {
+            throw e;
         } catch (Exception e) {
             log.warn("Error al solicitar la recuperacion de clave: {}", causa(e));
+            deshacer(con);
             return errorRecuperacion("ERROR_RECUPERAR_CLAVE", 3);
         }
     }
@@ -331,8 +335,11 @@ public class GestionClaveServicio {
             }
             con.rollback();
             return errorRecuperacion("ERROR_CONFIRMAR_CLAVE", contador(out));
+        } catch (NoDisponibleException e) {
+            throw e;
         } catch (Exception e) {
             log.warn("Error al confirmar el cambio de clave: {}", causa(e));
+            deshacer(con);
             return errorRecuperacion("ERROR_CONFIRMAR_CLAVE", 3);
         }
     }
@@ -401,9 +408,24 @@ public class GestionClaveServicio {
             ok.addProperty("Estado", "OK");
             ok.addProperty("status", "CLAVE ENVIADA");
             return new Respuesta(200, ok.toString());
+        } catch (NoDisponibleException e) {
+            throw e;
         } catch (Exception e) {
             log.warn("Error en la recuperacion de clave: {}", causa(e));
+            deshacer(con);
             return errorRecuperacionClave();
+        }
+    }
+
+    /** After a failure the request must not keep what it already wrote (an event, a provisional password): roll back before answering the error. */
+    private static void deshacer(Connection con) {
+        if (con == null) {
+            return;
+        }
+        try {
+            con.rollback();
+        } catch (java.sql.SQLException e) {
+            log.warn("No se pudo deshacer la transaccion: {}", e.getClass().getSimpleName());
         }
     }
 

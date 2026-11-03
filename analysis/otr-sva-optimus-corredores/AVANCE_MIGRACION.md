@@ -10,10 +10,10 @@ Generado: 2026-11-03. Metodo: lineas Java del legacy (`LOC_LEGACY.md`, 42 modulo
 | Codigo migrado y probado | 97.588 de 765.652 lineas (**12.7 %**) |
 | Codigo construido (probado + sin probar + parcial) | 118.145 lineas (15.4 %) |
 | Meta de las pruebas de conjunto (80 %) | 612.521 lineas; faltan **514.933** |
-| **Codigo nuevo escrito** (Java activo en `src/main`, lineas no vacias, incluye los modulos fuera de los 42) | **164.889 lineas** |
+| **Codigo nuevo escrito** (Java activo en `src/main`, lineas no vacias, incluye los modulos fuera de los 42) | **164.916 lineas** |
 | Probado (PROVEN) pero sin marca de modulo completo: no se afirma 100 % | 41.827 lineas en 5 modulos (BcsTesoreriaServicios, BcsCuentaInversionServicios, SURA, BcsReplica, BcsCanalAgenteServicios) |
-| Codigo de pruebas escrito (`src/test`, Java) | 159.061 lineas |
-| Pruebas de la ultima corrida registrada en `target/surefire-reports` | 17.314 |
+| Codigo de pruebas escrito (`src/test`, Java) | 162.271 lineas |
+| Pruebas de la ultima corrida registrada en `target/surefire-reports` | 17.811 |
 
 La ultima verificacion del pack es del 2026-11-03 (la firma del usuario queda en blanco cada vez que el pack reescribe VERIFICATION.md hasta que se firme de nuevo); los modulos marcados *desactualizada* cambiaron despues y hay que re-verificarlos y volver a firmar antes de contarlos como cerrados. Los modulos nuevos fuera de los 42 (BcsCrystalReports, BcsApvJavaCallAdapter, BcsAPVApi) se listan aparte. Nota: en `BcsPlataformaServicios` y `BcsFondoMutuoServicios` el codigo nuevo cuenta solo las carpetas activas (los stubs viejos siguen en el arbol pero fuera del contexto de Spring y no se cuentan). Las pruebas se leen de la ultima corrida que haya dejado resultados: un modulo sin `target/` muestra `-`.
 
@@ -76,6 +76,9 @@ La ultima verificacion del pack es del 2026-11-03 (la firma del usuario queda en
 
 | Fecha | Evento |
 |---|---|
+| 2026-11-03 | BcsPlataformaWeb: los flujos de clave hacen rollback tras un fallo no-503 (cierra lo abierto de H2); modulo 1440 casos, 0 fallas. |
+| 2026-11-03 | BcsPlataformaWeb: aplicados H1 (NoDisponibleException como unico 503), H2 (flujos de clave relanzan el 503) y H3 (stringtype=unspecified documentado y aviso al arrancar); modulo 1438 casos, 0 fallas; canary H2 1/4 rojo. |
+| 2026-11-03 | BcsPlataformaWeb: rediseno sin catalogo ni CSV en produccion implementado (secuencias y 8 procedimientos como Java, 6 sentencias de vistas, 55 textos por dialecto); modulo 1434 casos, 0 fallas; canary 4/54 en rojo; revision de arquitectura con 3 HIGH pendientes de decision; sin verify ni firma. |
 | 2026-11-03 | BcsPlataformaWeb: login real (CrearSesion de punta a punta, java -jar) correcto contra HANA QA y contra Postgres QA con el usuario acordado: HTTP 200, token, 0 errores, +1 sesion y +1 log en cada motor, sin borrados ni errores en logs; bootstrap/home en Postgres sigue pendiente (6 sentencias sobre vistas y 8 procedimientos). |
 | 2026-11-03 | BcsPlataformaWeb: dialecto HANA/Postgres del login (T-30, T-31, T-32) implementado tras aprobar las pruebas en rojo: 943 pruebas del modulo en verde (775 LoginPg*), canario 3 rojas, 39 sentencias analizadas contra Postgres QA (sin ejecutar), revision de arquitectura con 1 HIGH corregido (despachadores atados al dialecto); sin verify ni firma. Pendiente T-33 (procedimientos), vistas, T-36 y login real en QA. |
 | 2026-11-03 | Verify de BcsSURA: PROVEN (140 pruebas, 0 fallos, canario 13 rojas, 18 casos de desarrollo y 45 comparaciones frescas sin diferencia, estas ultimas NO repetidas hoy contra HANA QA); sin firma. Se retira la carpeta hana-jdbc (herramienta temporal de conectividad, decision del usuario): BcsSURA se conecta directo a HANA por HANA_URL, HANA_USER y HANA_PASSWORD; sale del resumen global del pack, que queda NOT PROVEN solo por BcsFondoMutuoServicios (336 pruebas en rojo de T6-B, pendientes de implementar). |

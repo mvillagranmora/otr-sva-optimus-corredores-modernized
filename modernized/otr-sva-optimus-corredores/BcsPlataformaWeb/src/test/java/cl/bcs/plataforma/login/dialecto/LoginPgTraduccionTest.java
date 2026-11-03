@@ -42,8 +42,7 @@ class LoginPgTraduccionTest {
     }
 
     private static String pg(String id) {
-        Object cat = ApiLoginPg.catalogoDeRecursos();
-        return ApiLoginPg.texto(ApiLoginPg.sentencias(ApiLoginPg.postgres(cat)), id);
+        return ApiLoginPg3.textoPg(id);
     }
 
     // ------------------------------------------------------------------------------------------------ scope (green)
@@ -218,15 +217,11 @@ class LoginPgTraduccionTest {
     }
 
     @Test
-    @DisplayName("T-31 the six statements over views have a Postgres text decision pending: texto() must say so with a clear message, not return HANA text (Q-LOGINPG-1)")
+    @DisplayName("T-31 / A3-3 the six statements over views have a Postgres text file: texto() must NOT raise and must carry no HANA token")
     void sentencias_con_vistas_no_devuelven_hana() {
         for (String id : CON_VISTAS) {
-            try {
-                String t = pg(id);
-                assertThat(t).as(id).doesNotContain("BSCL").doesNotContain("::");
-            } catch (RuntimeException e) {
-                assertThat(e.getMessage()).as(id).isNotBlank();
-            }
+            String t = ApiLoginPg3.textoPg(id);
+            assertThat(t).as(id).isNotBlank().doesNotContain("BSCL").doesNotContain("::");
         }
     }
 }
